@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Github, Star } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { MailHero } from "@/components/mail-hero";
@@ -12,16 +11,6 @@ import { DeploySection } from "@/components/deploy-section";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
-  const phrases = ["the modern web", "Stalwart", "privacy first", "self-hosters", "JMAP protocol"];
-  const [phraseIndex, setPhraseIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % phrases.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [phrases.length]);
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -49,7 +38,7 @@ export default function Home() {
             className="flex justify-center mb-8"
           >
             <a
-              href="https://github.com/root-fr/jmap-webmail"
+              href="https://github.com/nicholasgasior/bulwark"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-card border border-border hover:border-primary/30 transition-colors group"
@@ -76,19 +65,8 @@ export default function Home() {
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground tracking-tight leading-[1.1]" style={{ fontFamily: 'var(--font-exo2)' }}>
               Webmail built for
               <br />
-              <span className="inline-block relative h-[1.2em] overflow-hidden align-bottom">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={phrases[phraseIndex]}
-                    initial={{ y: "100%", opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: "-100%", opacity: 0 }}
-                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="inline-block bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent"
-                  >
-                    {phrases[phraseIndex]}
-                  </motion.span>
-                </AnimatePresence>
+              <span className="bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
+                Stalwart
               </span>
             </h1>
           </motion.div>
@@ -119,7 +97,7 @@ export default function Home() {
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
-              href="https://github.com/root-fr/jmap-webmail"
+              href="https://github.com/nicholasgasior/bulwark"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-card border border-border text-foreground font-medium text-sm hover:bg-muted/50 transition-all duration-200"
@@ -170,7 +148,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
-                href="https://github.com/root-fr/jmap-webmail"
+                href="https://github.com/nicholasgasior/bulwark"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:bg-primary/90 transition-all duration-200"

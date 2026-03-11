@@ -29,7 +29,7 @@ const codeBlocks: Record<TabId, { lines: { text: string; comment?: boolean; empt
   source: {
     lines: [
       { text: "# Clone and install", comment: true },
-      { text: "git clone https://github.com/root-fr/jmap-webmail.git", },
+      { text: "git clone https://github.com/nicholasgasior/bulwark.git", },
       { text: "cd bulwark", },
       { text: "npm install", },
       { text: "", empty: true },

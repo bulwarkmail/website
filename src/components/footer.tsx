@@ -16,7 +16,7 @@ export function Footer() {
 
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <a
-              href="https://github.com/root-fr/jmap-webmail"
+              href="https://github.com/nicholasgasior/bulwark"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-foreground transition-colors"

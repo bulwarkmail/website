@@ -3,7 +3,7 @@
 :root {
   --background: #fafafa;
   --foreground: #0f172a;
-  --primary: #DB2D54;
+  --primary: #db2d54;
   --primary-foreground: #ffffff;
   --secondary: #f1f5f9;
   --secondary-foreground: #0f172a;
@@ -12,7 +12,7 @@
   --accent: #fde8ed;
   --accent-foreground: #a11d3d;
   --border: #e2e8f0;
-  --ring: #DB2D54;
+  --ring: #db2d54;
   --card: #ffffff;
   --card-foreground: #0f172a;
 }
@@ -20,7 +20,7 @@
 .dark {
   --background: #0a0a0a;
   --foreground: #fafafa;
-  --primary: #DB2D54;
+  --primary: #db2d54;
   --primary-foreground: #ffffff;
   --secondary: #171717;
   --secondary-foreground: #fafafa;
@@ -29,7 +29,7 @@
   --accent: #2a1018;
   --accent-foreground: #f9a8ba;
   --border: #262626;
-  --ring: #DB2D54;
+  --ring: #db2d54;
   --card: #111111;
   --card-foreground: #fafafa;
 }
@@ -60,8 +60,14 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1;
 }
 
 /* Minimalist scrollbar matching JMAP webmail */
@@ -90,18 +96,28 @@ html {
 
 /* Selection color */
 ::selection {
-  background-color: #DB2D5433;
+  background-color: #db2d5433;
   color: var(--foreground);
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px #DB2D5420; }
-  50% { box-shadow: 0 0 40px #DB2D5440; }
+  0%,
+  100% {
+    box-shadow: 0 0 20px #db2d5420;
+  }
+  50% {
+    box-shadow: 0 0 40px #db2d5440;
+  }
 }
 
 .animate-float {
