@@ -8,33 +8,39 @@ import { cn } from "@/lib/utils";
 const screenshots = [
   {
     title: "Login",
-    description: "Clean, minimal authentication with OAuth2/OIDC support",
+    description: "Clean, minimal authentication with OAuth2/OIDC and TOTP 2FA support",
     gradient: "from-primary/5 via-transparent to-blue-500/5",
+    image: "/screenshots/01-login.png",
   },
   {
     title: "Inbox",
-    description: "Three-pane layout with virtual scrolling and threaded conversations",
+    description: "Three-pane layout with virtual scrolling, threaded conversations, and color tags",
     gradient: "from-blue-500/5 via-transparent to-purple-500/5",
+    image: "/screenshots/02-inbox.png",
   },
   {
     title: "Email Viewer",
-    description: "Rich HTML rendering with SPF/DKIM/DMARC badges and inline attachments",
+    description: "Rich HTML rendering with SPF/DKIM/DMARC badges, inline attachments, and identity badges",
     gradient: "from-purple-500/5 via-transparent to-emerald-500/5",
+    image: "/screenshots/03-email-viewer.png",
   },
   {
     title: "Compose",
-    description: "Full-featured composer with identity switching and template support",
+    description: "Full-featured composer with identity switching, templates, and sub-addressing",
     gradient: "from-emerald-500/5 via-transparent to-amber-500/5",
+    image: "/screenshots/04-compose.png",
   },
   {
     title: "Dark Mode",
-    description: "System-aware theming with smooth transitions",
+    description: "System-aware theming with smooth transitions across all views",
     gradient: "from-amber-500/5 via-transparent to-primary/5",
+    image: "/screenshots/05-dark-mode.png",
   },
   {
     title: "Settings",
-    description: "Comprehensive settings with identities, filters, templates, and vacation responder",
+    description: "Comprehensive settings with identities, filters, templates, vacation responder, and more",
     gradient: "from-cyan-500/5 via-transparent to-pink-500/5",
+    image: "/screenshots/06-settings.png",
   },
 ];
 
@@ -92,16 +98,13 @@ export function ScreenshotsSection() {
                         </div>
                       </div>
                     </div>
-                    {/* Content placeholder */}
-                    <div className="aspect-[16/9] bg-gradient-to-br from-muted/50 to-muted/20 flex items-center justify-center">
-                      <div className="text-center">
-                        <p className="text-4xl font-bold text-foreground/10 mb-2">
-                          {screenshots[active].title}
-                        </p>
-                        <p className="text-sm text-muted-foreground/50">
-                          Screenshot Preview
-                        </p>
-                      </div>
+                    {/* Content — real screenshot */}
+                    <div className="aspect-[16/9] bg-gradient-to-br from-muted/50 to-muted/20 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={screenshots[active].image}
+                        alt={screenshots[active].title}
+                        className="w-full h-full object-cover object-top"
+                      />
                     </div>
                   </div>
                 </motion.div>

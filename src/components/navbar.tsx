@@ -9,8 +9,11 @@ import { useTheme } from "@/components/theme-provider";
 const navLinks = [
   { label: "Features", href: "#features" },
   { label: "Screenshots", href: "#screenshots" },
+  { label: "Compare", href: "#compare" },
   { label: "Tech Stack", href: "#tech" },
   { label: "Deploy", href: "#deploy" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Docs", href: "/docs" },
 ];
 
 export function Navbar() {
@@ -66,7 +69,7 @@ export function Navbar() {
             )}
           </button>
           <a
-            href="https://github.com/nicholasgasior/bulwark"
+            href="https://github.com/root-fr/jmap-webmail"
             target="_blank"
             rel="noopener noreferrer"
             className="ml-1 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30"
@@ -116,7 +119,7 @@ export function Navbar() {
                 )}
               </button>
               <a
-                href="https://github.com/nicholasgasior/bulwark"
+                href="https://github.com/root-fr/jmap-webmail"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-primary"

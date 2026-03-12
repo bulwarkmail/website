@@ -17,10 +17,10 @@ const codeBlocks: Record<TabId, { lines: { text: string; comment?: boolean; empt
     lines: [
       { text: "# Pull and run with Docker", comment: true },
       { text: "docker run -d \\", },
-      { text: "  --name bulwark \\", },
+      { text: "  --name jmap-webmail \\", },
       { text: '  -e JMAP_SERVER_URL="https://mail.example.com" \\', },
       { text: "  -p 3000:3000 \\", },
-      { text: "  rootfr/bulwark:latest", },
+      { text: "  ghcr.io/root-fr/jmap-webmail:latest", },
       { text: "", empty: true },
       { text: "# Or use docker-compose", comment: true },
       { text: "docker compose up -d", },
@@ -29,8 +29,8 @@ const codeBlocks: Record<TabId, { lines: { text: string; comment?: boolean; empt
   source: {
     lines: [
       { text: "# Clone and install", comment: true },
-      { text: "git clone https://github.com/nicholasgasior/bulwark.git", },
-      { text: "cd bulwark", },
+      { text: "git clone https://github.com/root-fr/jmap-webmail.git", },
+      { text: "cd jmap-webmail", },
       { text: "npm install", },
       { text: "", empty: true },
       { text: "# Configure", comment: true },
@@ -74,7 +74,7 @@ export function DeploySection() {
             Deploy in seconds
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            Pre-built Docker images on Docker Hub and GHCR. Or build from source.
+            Pre-built Docker images on GHCR (amd64/arm64). Or build from source.
           </p>
         </motion.div>
 
