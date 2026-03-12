@@ -12,7 +12,7 @@ Bulwark's composer provides a rich editing experience for crafting emails.
 
 The editor supports full formatting:
 
-- **Bold**, *italic*, ~~strikethrough~~, and underline
+- **Bold**, _italic_, ~~strikethrough~~, and underline
 - Ordered and unordered lists
 - Inline hyperlinks
 - Block quotes
@@ -39,9 +39,9 @@ Emails are auto-saved as drafts every 30 seconds. You can also manually save wit
 
 ## Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl+Enter` | Send email |
-| `Ctrl+S` | Save as draft |
-| `Ctrl+Shift+A` | Add attachment |
-| `Escape` | Discard / close |
+| Shortcut       | Action          |
+| -------------- | --------------- |
+| `Ctrl+Enter`   | Send email      |
+| `Ctrl+S`       | Save as draft   |
+| `Ctrl+Shift+A` | Add attachment  |
+| `Escape`       | Discard / close |
