@@ -1,36 +1,58 @@
 <h1 id="installation"><a href="#installation">Installation</a></h1>
-<p>This guide walks you through setting up Bulwark for local development or production deployment.</p>
+<p>
+  This guide walks you through setting up Bulwark for local development or
+  production deployment.
+</p>
 <h2 id="prerequisites"><a href="#prerequisites">Prerequisites</a></h2>
 <ul>
-<li><strong>Node.js</strong> 20 or later</li>
-<li><strong>npm</strong>, <strong>yarn</strong>, or <strong>pnpm</strong></li>
-<li>A running <strong>Stalwart Mail Server</strong> instance with JMAP enabled</li>
+  <li><strong>Node.js</strong> 20 or later</li>
+  <li><strong>npm</strong>, <strong>yarn</strong>, or <strong>pnpm</strong></li>
+  <li>
+    A running <strong>Stalwart Mail Server</strong> instance with JMAP enabled
+  </li>
 </ul>
 <h2 id="quick-start"><a href="#quick-start">Quick Start</a></h2>
-<h3 id="1-clone-the-repository"><a href="#1-clone-the-repository">1. Clone the Repository</a></h3>
+<h3 id="1-clone-the-repository">
+  <a href="#1-clone-the-repository">1. Clone the Repository</a>
+</h3>
 <pre><code class="language-bash">git clone https://github.com/bulwarkmail/webmail.git
 cd jmap-webmail
 </code></pre>
-<h3 id="2-install-dependencies"><a href="#2-install-dependencies">2. Install Dependencies</a></h3>
+<h3 id="2-install-dependencies">
+  <a href="#2-install-dependencies">2. Install Dependencies</a>
+</h3>
 <pre><code class="language-bash">npm install
 </code></pre>
-<h3 id="3-configure-environment"><a href="#3-configure-environment">3. Configure Environment</a></h3>
-<p>Copy the example environment file and update it with your Stalwart server details:</p>
+<h3 id="3-configure-environment">
+  <a href="#3-configure-environment">3. Configure Environment</a>
+</h3>
+<p>
+  Copy the example environment file and update it with your Stalwart server
+  details:
+</p>
 <pre><code class="language-bash">cp .env.example .env.local
 </code></pre>
 <p>Edit <code>.env.local</code>:</p>
 <pre><code class="language-env">NEXT_PUBLIC_JMAP_URL=https://your-stalwart-server.com/jmap
 NEXT_PUBLIC_APP_NAME=Bulwark
 </code></pre>
-<h3 id="4-start-development-server"><a href="#4-start-development-server">4. Start Development Server</a></h3>
+<h3 id="4-start-development-server">
+  <a href="#4-start-development-server">4. Start Development Server</a>
+</h3>
 <pre><code class="language-bash">npm run dev
 </code></pre>
-<p>Open <a href="http://localhost:3000">http://localhost:3000</a> in your browser.</p>
+<p>
+  Open <a href="http://localhost:3000">http://localhost:3000</a> in your
+  browser.
+</p>
 <h2 id="production-build"><a href="#production-build">Production Build</a></h2>
 <pre><code class="language-bash">npm run build
 npm start
 </code></pre>
-<p>The production server starts on port 3000 by default. Use the <code>PORT</code> environment variable to change it:</p>
+<p>
+  The production server starts on port 3000 by default. Use the
+  <code>PORT</code> environment variable to change it:
+</p>
 <pre><code class="language-bash">PORT=8080 npm start
 </code></pre>
 <h2 id="updating"><a href="#updating">Updating</a></h2>
