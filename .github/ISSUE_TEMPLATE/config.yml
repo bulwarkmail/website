@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: Bulwark Webmail Repository
-    url: https://github.com/bulwarkmail/webmail
-    about: Report bugs or request features for the Bulwark webmail application itself.
-  - name: Discussions
-    url: https://github.com/bulwarkmail/website/discussions
-    about: Ask questions or start a conversation with the community.
