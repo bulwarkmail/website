@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
 
   bulwark:
-    image: ghcr.io/root-fr/jmap-webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:latest
     container_name: bulwark
     ports:
       - "3000:3000"
@@ -63,7 +63,7 @@ For more complex configurations (OAuth, session secret, branding, etc.), use an 
 ```yaml
 services:
   bulwark:
-    image: ghcr.io/root-fr/jmap-webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:latest
     container_name: bulwark
     ports:
       - "3000:3000"
@@ -113,7 +113,7 @@ If you want to build Bulwark from source instead of using the prebuilt image:
 ```yaml
 bulwark:
   build:
-    context: ./jmap-webmail
+    context: ./webmail
     dockerfile: Dockerfile
   container_name: bulwark
   ports:

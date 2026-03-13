@@ -36,7 +36,7 @@ bash setup.sh --dry-run
 
 ```bash
 git clone https://github.com/bulwarkmail/webmail.git
-cd jmap-webmail
+cd webmail
 ```
 
 ### 2. Install Dependencies

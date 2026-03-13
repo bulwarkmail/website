@@ -307,7 +307,7 @@ function MiniSecurityBadges() {
         whileTap={{ scale: 0.97 }}
         className="text-[10px] text-[#DB2D54] font-medium hover:underline cursor-pointer"
       >
-        {revealed ? "Hide details" : "Show all checks →"}
+        {revealed ? "Hide details" : "Show all checks â†’"}
       </motion.button>
       <AnimatePresence>
         {revealed && (
@@ -317,9 +317,9 @@ function MiniSecurityBadges() {
             exit={{ opacity: 0, height: 0 }}
             className="text-[10px] text-muted-foreground space-y-0.5 overflow-hidden"
           >
-            <p>• OAuth2/OIDC with PKCE</p>
-            <p>• AES-256-GCM encrypted cookies</p>
-            <p>• CSP, X-Frame-Options headers</p>
+            <p>â€¢ OAuth2/OIDC with PKCE</p>
+            <p>â€¢ AES-256-GCM encrypted cookies</p>
+            <p>â€¢ CSP, X-Frame-Options headers</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -511,8 +511,8 @@ function MiniNotifications() {
 
 function MiniFilterBuilder() {
   const [rules, setRules] = useState([
-    { id: 1, condition: "From contains", value: "newsletter", action: "Move to → Promos" },
-    { id: 2, condition: "Subject starts", value: "[JIRA]", action: "Label → Work" },
+    { id: 1, condition: "From contains", value: "newsletter", action: "Move to â†’ Promos" },
+    { id: 2, condition: "Subject starts", value: "[JIRA]", action: "Label â†’ Work" },
     { id: 3, condition: "Has attachment", value: "> 5MB", action: "Star" },
   ]);
   const [activeRule, setActiveRule] = useState<number | null>(null);
@@ -593,7 +593,7 @@ function MiniVacationToggle() {
             </div>
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
               <Calendar className="w-3 h-3 text-sky-500" />
-              <span>Dec 23 – Jan 6</span>
+              <span>Dec 23 â€“ Jan 6</span>
             </div>
           </motion.div>
         )}
@@ -649,9 +649,9 @@ function MiniThemePreview() {
 function MiniLanguagePicker() {
   const languages = [
     { code: "EN", label: "English", greeting: "Hello!" },
-    { code: "FR", label: "Français", greeting: "Bonjour !" },
-    { code: "JA", label: "日本語", greeting: "こんにちは！" },
-    { code: "ES", label: "Español", greeting: "¡Hola!" },
+    { code: "FR", label: "FranÃ§ais", greeting: "Bonjour !" },
+    { code: "JA", label: "æ—¥æœ¬èªž", greeting: "ã“ã‚“ã«ã¡ã¯ï¼" },
+    { code: "ES", label: "EspaÃ±ol", greeting: "Â¡Hola!" },
     { code: "DE", label: "Deutsch", greeting: "Hallo!" },
   ];
   const [selected, setSelected] = useState(0);
@@ -685,7 +685,7 @@ function MiniLanguagePicker() {
           className="text-[11px] text-foreground font-medium"
         >
           {languages[selected].greeting}{" "}
-          <span className="text-muted-foreground font-normal">— {languages[selected].label}</span>
+          <span className="text-muted-foreground font-normal">â€” {languages[selected].label}</span>
         </motion.div>
       </AnimatePresence>
     </div>
@@ -695,11 +695,11 @@ function MiniLanguagePicker() {
 function MiniDockerTerminal() {
   const [running, setRunning] = useState(false);
   const lines = [
-    "$ docker pull ghcr.io/nicx/jmap-webmail",
-    "latest: Pulling from nicx/jmap-webmail",
-    "Status: Downloaded ✓",
-    "$ docker run -p 8080:80 jmap-webmail",
-    "▸ Server ready on :8080",
+    "$ docker pull ghcr.io/bulwarkmail/webmail",
+    "latest: Pulling from bulwarkmail/webmail",
+    "Status: Downloaded âœ“",
+    "$ docker run -p 8080:80 ghcr.io/bulwarkmail/webmail",
+    "â–¸ Server ready on :8080",
   ];
   const [visibleLines, setVisibleLines] = useState(0);
 
@@ -722,7 +722,7 @@ function MiniDockerTerminal() {
               animate={{ opacity: 1 }}
               className={cn(
                 "text-[10px] leading-relaxed",
-                line.startsWith("$") ? "text-[#3fb950]" : line.includes("✓") || line.includes("ready") ? "text-[#58a6ff]" : "text-[#8b949e]"
+                line.startsWith("$") ? "text-[#3fb950]" : line.includes("âœ“") || line.includes("ready") ? "text-[#58a6ff]" : "text-[#8b949e]"
               )}
             >
               {line}
@@ -730,7 +730,7 @@ function MiniDockerTerminal() {
           ))}
           {visibleLines === 0 && (
             <p className="text-[10px] text-[#8b949e]">
-              <span className="animate-pulse">▊</span>
+              <span className="animate-pulse">â–Š</span>
             </p>
           )}
         </div>
@@ -748,7 +748,7 @@ function MiniDockerTerminal() {
           }}
           className="mt-2 text-[10px] text-yellow-600 font-medium hover:underline cursor-pointer"
         >
-          {visibleLines === 0 ? "Run deploy →" : "Continue →"}
+          {visibleLines === 0 ? "Run deploy â†’" : "Continue â†’"}
         </motion.button>
       )}
       {visibleLines >= lines.length && (

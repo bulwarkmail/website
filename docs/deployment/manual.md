@@ -20,7 +20,7 @@ Deploy Bulwark directly on a Linux server without Docker.
 
 ```bash
 git clone https://github.com/bulwarkmail/webmail.git
-cd jmap-webmail
+cd webmail
 npm install
 npm run build
 ```

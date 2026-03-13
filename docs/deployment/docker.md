@@ -18,23 +18,23 @@ docker run -d \
   --name bulwark \
   -p 3000:3000 \
   -e JMAP_SERVER_URL=https://mail.example.com \
-  rootfr/jmap-webmail:latest
+  ghcr.io/bulwarkmail/webmail:latest
 
 # From GHCR
 docker run -d \
   --name bulwark \
   -p 3000:3000 \
   -e JMAP_SERVER_URL=https://mail.example.com \
-  ghcr.io/root-fr/jmap-webmail:latest
+  ghcr.io/bulwarkmail/webmail:latest
 ```
 
-Environment variables are read at runtime — no rebuild is needed when changing configuration.
+Environment variables are read at runtime Ã¢â‚¬â€ no rebuild is needed when changing configuration.
 
 ### Build from Source
 
 ```bash
 git clone https://github.com/bulwarkmail/webmail.git
-cd jmap-webmail
+cd webmail
 docker build -t bulwark .
 docker run -d --name bulwark -p 3000:3000 -e JMAP_SERVER_URL=https://mail.example.com bulwark
 ```
@@ -59,7 +59,7 @@ services:
     restart: unless-stopped
 
   bulwark:
-    image: ghcr.io/root-fr/jmap-webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:latest
     container_name: bulwark
     ports:
       - "3000:3000"
@@ -92,7 +92,7 @@ Alternatively, use an `env_file` to load settings from `.env.local`:
 ```yaml
 services:
   bulwark:
-    image: ghcr.io/root-fr/jmap-webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:latest
     ports:
       - "3000:3000"
     env_file:

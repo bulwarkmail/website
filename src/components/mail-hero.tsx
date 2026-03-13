@@ -147,7 +147,7 @@ const EMAILS: EmailData[] = [
     senderEmail: "noreply@github.com",
     avatar: "GH",
     avatarColor: "bg-gray-700",
-    subject: "[jmap-webmail] New pull request #142",
+    subject: "[webmail] New pull request #142",
     preview: "feat: Add calendar drag-and-drop rescheduling with snap to 15-minute intervals...",
     time: "9:15 AM",
     date: "Wed, Mar 11, 2026, 09:15 AM",
@@ -162,7 +162,7 @@ const EMAILS: EmailData[] = [
           <p className="font-semibold">feat: Add calendar drag-and-drop rescheduling</p>
           <p>Adds the ability to reschedule calendar events via drag-and-drop with snap to 15-minute intervals. Includes undo support and optimistic UI updates.</p>
         </div>
-        <p className="mt-1"><span className="font-semibold">Changes:</span> 12 files changed, +847 −203</p>
+        <p className="mt-1"><span className="font-semibold">Changes:</span> 12 files changed, +847 âˆ’203</p>
         <p><span className="font-semibold">Reviews:</span> 1 approval, 0 changes requested</p>
         <hr className="border-border/50 my-2" />
         <p className="text-[10px] text-muted-foreground">You are receiving this because you are subscribed to this repository.</p>
@@ -193,7 +193,7 @@ const EMAILS: EmailData[] = [
           <li>API versioning strategy</li>
           <li>Rollback procedures</li>
         </ul>
-        <p className="text-muted-foreground">— Alex</p>
+        <p className="text-muted-foreground">â€” Alex</p>
       </>
     ),
   },
@@ -217,7 +217,7 @@ const EMAILS: EmailData[] = [
         <p>Your invoice <span className="font-semibold">#2026-0312</span> for <span className="font-semibold">$49.00</span> has been generated.</p>
         <div className="rounded-md bg-muted/40 p-3 space-y-1.5 mt-1">
           <div className="flex justify-between"><span className="text-muted-foreground">Plan</span><span className="font-medium">Pro</span></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">Period</span><span className="font-medium">Mar 1 – Mar 31, 2026</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">Period</span><span className="font-medium">Mar 1 â€“ Mar 31, 2026</span></div>
           <div className="flex justify-between"><span className="text-muted-foreground">Amount</span><span className="font-medium">$49.00</span></div>
           <div className="flex justify-between"><span className="text-muted-foreground">Status</span><span className="font-medium text-emerald-500">Paid</span></div>
         </div>
@@ -326,7 +326,7 @@ const CAL_EVENTS: Record<number, { label: string; dot: string; bar?: string }[]>
 
 const DAYS_WITH_EVENTS = new Set(Object.keys(CAL_EVENTS).map(Number));
 
-// Grid for March 2026 (Mon–Sun, first day = Sunday)
+// Grid for March 2026 (Monâ€“Sun, first day = Sunday)
 const CAL_GRID: { d: number; cur: boolean }[][] = [
   [{ d: 23, cur: false }, { d: 24, cur: false }, { d: 25, cur: false }, { d: 26, cur: false }, { d: 27, cur: false }, { d: 28, cur: false }, { d: 1, cur: true }],
   [{ d: 2, cur: true }, { d: 3, cur: true }, { d: 4, cur: true }, { d: 5, cur: true }, { d: 6, cur: true }, { d: 7, cur: true }, { d: 8, cur: true }],
@@ -784,7 +784,7 @@ export function MailHero() {
           </button>
         </div>
 
-        {/* Email content — animated on switch */}
+        {/* Email content â€” animated on switch */}
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedEmailId}
@@ -1393,7 +1393,7 @@ export function MailHero() {
                       Phone Numbers
                     </div>
                     <p className="text-xs text-foreground">
-                      {selectedContact.phone || "—"}
+                      {selectedContact.phone || "â€”"}
                     </p>
                   </div>
 
@@ -1404,7 +1404,7 @@ export function MailHero() {
                       Organizations
                     </div>
                     <p className="text-xs text-foreground">
-                      {selectedContact.organization || "—"}
+                      {selectedContact.organization || "â€”"}
                     </p>
                   </div>
                 </div>
@@ -1836,7 +1836,7 @@ export function MailHero() {
             <div>
               <p className="text-xs font-medium text-foreground">New email</p>
               <p className="text-[10px] text-muted-foreground">
-                Re: David Park — Design system updates
+                Re: David Park â€” Design system updates
               </p>
             </div>
           </div>

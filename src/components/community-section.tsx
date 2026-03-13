@@ -72,8 +72,8 @@ export function CommunitySection() {
           <Github className="w-8 h-8 text-foreground shrink-0" />
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-sm font-mono text-muted-foreground">root-fr /</span>
-              <span className="text-sm font-mono font-semibold text-foreground">jmap-webmail</span>
+              <span className="text-sm font-mono text-muted-foreground">bulwarkmail /</span>
+              <span className="text-sm font-mono font-semibold text-foreground">webmail</span>
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
               A modern webmail client built on the JMAP protocol

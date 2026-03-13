@@ -75,7 +75,7 @@ export default function Home() {
               </span>
               <span className="w-px h-4 bg-border" />
               <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                v1.1.2 — MIT License
+                v1.1.2 â€” MIT License
               </span>
               <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
             </a>
@@ -115,7 +115,7 @@ export default function Home() {
             style={{ textShadow: '0 0 24px hsl(var(--background)), 0 0 48px hsl(var(--background)), 0 2px 4px rgba(0,0,0,0.8)' }}
           >
             A modern, self-hosted email client powered by the JMAP protocol.
-            Email, calendar, contacts — fast, private, and open source.
+            Email, calendar, contacts â€” fast, private, and open source.
           </motion.p>
 
           {/* CTAs */}
@@ -201,7 +201,7 @@ export default function Home() {
                 Star on GitHub
               </a>
               <a
-                href="https://ghcr.io/root-fr/jmap-webmail"
+                href="https://ghcr.io/bulwarkmail/webmail"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-card border border-border text-foreground font-medium text-sm hover:bg-muted/50 transition-all duration-200"

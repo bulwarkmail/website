@@ -78,7 +78,7 @@ body {
     "calt" 1;
 }
 
-/* Minimalist scrollbar matching JMAP webmail */
+/* Minimalist scrollbar matching Bulwark */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -310,7 +310,7 @@ html {
   color: #22c55e;
 }
 
-/* Syntax highlighting — Light theme */
+/* Syntax highlighting â€” Light theme */
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-built_in,
@@ -372,7 +372,7 @@ html {
   background-color: #ffeef0;
 }
 
-/* Syntax highlighting — Dark theme */
+/* Syntax highlighting â€” Dark theme */
 .dark .hljs-keyword,
 .dark .hljs-selector-tag,
 .dark .hljs-built_in,

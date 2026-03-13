@@ -24,10 +24,10 @@ const codeBlocks: Record<TabId, { lines: { text: string; comment?: boolean; empt
     lines: [
       { text: "# Pull and run with Docker", comment: true },
       { text: "docker run -d \\", },
-      { text: "  --name jmap-webmail \\", },
+      { text: "  --name bulwark \\", },
       { text: '  -e JMAP_SERVER_URL="https://mail.example.com" \\', },
       { text: "  -p 3000:3000 \\", },
-      { text: "  ghcr.io/root-fr/jmap-webmail:latest", },
+      { text: "  ghcr.io/bulwarkmail/webmail:latest", },
       { text: "", empty: true },
       { text: "# Or use docker-compose", comment: true },
       { text: "docker compose up -d", },
@@ -37,7 +37,7 @@ const codeBlocks: Record<TabId, { lines: { text: string; comment?: boolean; empt
     lines: [
       { text: "# Clone and install", comment: true },
       { text: "git clone https://github.com/bulwarkmail/webmail.git", },
-      { text: "cd jmap-webmail", },
+      { text: "cd webmail", },
       { text: "npm install", },
       { text: "", empty: true },
       { text: "# Configure", comment: true },

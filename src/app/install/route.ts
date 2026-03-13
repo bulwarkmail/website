@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const SCRIPT_URL =
-  "https://raw.githubusercontent.com/rathlinus/jmap-webmail/main/setup.sh";
+  "https://raw.githubusercontent.com/bulwarkmail/webmail/main/setup.sh";
 
 export async function GET(request: NextRequest) {
   const ua = request.headers.get("user-agent")?.toLowerCase() ?? "";
