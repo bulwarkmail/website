@@ -24,27 +24,6 @@ This repository contains the source code for the Bulwark project website, includ
 - **Landing page** — Product showcase with features, screenshots, tech stack, deployment guides, and FAQ
 - **Documentation** — Full docs covering installation, configuration, features, development, and deployment
 
-## Screenshots
-
-<table>
-  <tr>
-    <td width="50%">
-      <img src="public/screenshots/02-inbox.png" width="100%" alt="Inbox — three-pane layout with sidebar, email list, and viewer">
-    </td>
-    <td width="50%">
-      <img src="public/screenshots/05-dark-mode.png" width="100%" alt="Dark mode">
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <img src="public/screenshots/04-compose.png" width="100%" alt="Compose with templates and autocomplete">
-    </td>
-    <td width="50%">
-      <img src="public/screenshots/06-settings.png" width="100%" alt="Settings">
-    </td>
-  </tr>
-</table>
-
 ## Quick Start
 
 ### Development
@@ -95,7 +74,7 @@ public/                   # Static assets
 |               |                                                   |
 | ------------- | ------------------------------------------------- |
 | **Framework** | [Next.js 16](https://nextjs.org/) with App Router |
-| **Language**  | TypeScript                                         |
+| **Language**  | TypeScript                                        |
 | **Styling**   | [Tailwind CSS v4](https://tailwindcss.com/)       |
 | **Markdown**  | unified / remark / rehype pipeline                |
 | **Icons**     | [Lucide React](https://lucide.dev/)               |
@@ -116,6 +95,7 @@ order: 1
 ```
 
 The documentation system supports:
+
 - GitHub Flavored Markdown
 - Syntax-highlighted code blocks with copy button
 - Auto-generated sidebar navigation
