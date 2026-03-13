@@ -291,7 +291,10 @@ html {
   color: var(--muted-foreground);
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.15s, color 0.15s, background-color 0.15s;
+  transition:
+    opacity 0.15s,
+    color 0.15s,
+    background-color 0.15s;
 }
 
 .prose-docs pre:hover .copy-btn {

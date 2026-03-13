@@ -56,9 +56,10 @@ These checks run automatically on commit via Husky pre-commit hooks.
 This project uses **next-intl** for internationalization with 8 supported languages. Key rules:
 
 1. **Never hardcode user-facing text** — Always use translations:
+
    ```tsx
-   const t = useTranslations('namespace');
-   return <div>{t('key')}</div>;
+   const t = useTranslations("namespace");
+   return <div>{t("key")}</div>;
    ```
 
 2. **Translation files** are in `/locales/{lang}/common.json`

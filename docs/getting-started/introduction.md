@@ -36,16 +36,16 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 
 ## Tech Stack
 
-| Technology   | Purpose                |
-| ------------ | ---------------------- |
-| Next.js 16   | React framework        |
-| TypeScript   | Type safety            |
-| Tailwind CSS v4 | Styling             |
-| Zustand      | State management       |
-| JMAP         | Mail protocol (RFC 8620) |
-| next-intl    | Internationalization   |
-| Lucide React | Icon library           |
-| Stalwart     | Mail server            |
+| Technology      | Purpose                  |
+| --------------- | ------------------------ |
+| Next.js 16      | React framework          |
+| TypeScript      | Type safety              |
+| Tailwind CSS v4 | Styling                  |
+| Zustand         | State management         |
+| JMAP            | Mail protocol (RFC 8620) |
+| next-intl       | Internationalization     |
+| Lucide React    | Icon library             |
+| Stalwart        | Mail server              |
 
 ## Getting Help
 
