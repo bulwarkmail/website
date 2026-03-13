@@ -28,7 +28,7 @@ export function DocsNavbar() {
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2 group">
-            <img src="/branding/logo/Bulwark%20Logo%20Color.svg" alt="Bulwark" className="w-7 h-7" />
+            <img src="/branding/logo/Bulwark%20Logo%20Color.svg" alt="Bulwark" className="w-7 h-7" onContextMenu={(e) => { e.preventDefault(); window.location.href = '/docs/branding/guidelines'; }} />
             <span
               className="font-bold text-foreground tracking-tight text-[15px]"
               style={{ fontFamily: "var(--font-exo2)" }}

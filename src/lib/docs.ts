@@ -9,6 +9,7 @@ import rehypeStringify from "rehype-stringify";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 import GithubSlugger from "github-slugger";
 
 const docsDirectory = path.join(process.cwd(), "docs");
@@ -67,6 +68,7 @@ const SECTION_LABELS: Record<string, { label: string; order: number }> = {
   deployment: { label: "Deployment", order: 3 },
   guides: { label: "Guides", order: 4 },
   development: { label: "Development", order: 5 },
+  branding: { label: "Branding", order: 6 },
 };
 
 function getSectionMeta(sectionSlug: string) {
@@ -165,7 +167,8 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
   const result = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkRehype)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, { behavior: "wrap" })
     .use(rehypeHighlight, { detect: true })

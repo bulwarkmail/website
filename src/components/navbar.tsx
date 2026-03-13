@@ -39,7 +39,7 @@ export function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group">
-          <img src="/branding/logo/Bulwark%20Logo%20Color.svg" alt="Bulwark" className="w-9 h-9" />
+          <img src="/branding/logo/Bulwark%20Logo%20Color.svg" alt="Bulwark" className="w-9 h-9" onContextMenu={(e) => { e.preventDefault(); window.location.href = '/docs/branding/guidelines'; }} />
           <span className="font-bold text-foreground tracking-tight text-[17px]" style={{ fontFamily: 'var(--font-exo2)' }}>
             Bulwark
           </span>
