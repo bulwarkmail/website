@@ -14,22 +14,22 @@ const links = [
   {
     icon: Bug,
     label: "Report a bug",
-    href: "https://github.com/root-fr/jmap-webmail/issues",
+    href: "https://github.com/bulwarkmail/webmail/issues",
   },
   {
     icon: GitPullRequest,
     label: "Submit a PR",
-    href: "https://github.com/root-fr/jmap-webmail/pulls",
+    href: "https://github.com/bulwarkmail/webmail/pulls",
   },
   {
     icon: MessageSquare,
     label: "Discussions",
-    href: "https://github.com/root-fr/jmap-webmail/discussions",
+    href: "https://github.com/bulwarkmail/webmail/discussions",
   },
   {
     icon: Languages,
     label: "Help translate (8 languages so far)",
-    href: "https://github.com/root-fr/jmap-webmail/tree/main/messages",
+    href: "https://github.com/bulwarkmail/webmail/tree/main/messages",
   },
 ];
 
@@ -60,7 +60,7 @@ export function CommunitySection() {
 
         {/* GitHub repo card */}
         <motion.a
-          href="https://github.com/root-fr/jmap-webmail"
+          href="https://github.com/bulwarkmail/webmail"
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, y: 16 }}

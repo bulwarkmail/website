@@ -33,7 +33,7 @@ Environment variables are read at runtime — no rebuild is needed when changing
 ### Build from Source
 
 ```bash
-git clone https://github.com/root-fr/jmap-webmail.git
+git clone https://github.com/bulwarkmail/webmail.git
 cd jmap-webmail
 docker build -t bulwark .
 docker run -d --name bulwark -p 3000:3000 -e JMAP_SERVER_URL=https://mail.example.com bulwark

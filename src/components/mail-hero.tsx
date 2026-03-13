@@ -1836,26 +1836,9 @@ export function MailHero() {
             <div>
               <p className="text-xs font-medium text-foreground">New email</p>
               <p className="text-[10px] text-muted-foreground">
-                David Park — Design system updates
+                Re: David Park — Design system updates
               </p>
             </div>
-          </div>
-        </motion.div>
-
-        {/* Floating badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.5, duration: 0.4 }}
-          className="absolute -top-3 -left-3 z-10"
-        >
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-primary text-primary-foreground text-xs font-medium shadow-lg shadow-primary/30 animate-pulse-glow">
-            <img
-              src="/Bulwark-Icon.svg"
-              alt=""
-              className="w-3 h-3 brightness-0 invert"
-            />
-            Bulwark Push
           </div>
         </motion.div>
       </div>

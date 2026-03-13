@@ -35,7 +35,7 @@ bash setup.sh --dry-run
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/root-fr/jmap-webmail.git
+git clone https://github.com/bulwarkmail/webmail.git
 cd jmap-webmail
 ```
 

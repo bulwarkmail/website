@@ -49,6 +49,6 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 
 ## Getting Help
 
-- [GitHub Repository](https://github.com/root-fr/jmap-webmail) — Source code and issue tracker
+- [GitHub Repository](https://github.com/bulwarkmail/webmail) — Source code and issue tracker
 - [Stalwart Documentation](https://stalw.art/docs) — Mail server setup and configuration
 - [JMAP Specification](https://jmap.io) — Protocol documentation

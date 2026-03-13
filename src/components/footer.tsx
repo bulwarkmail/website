@@ -8,7 +8,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2.5">
-            <img src="/Bulwark-Icon.svg" alt="Bulwark" className="w-9 h-9" />
+            <img src="/branding/logo/Bulwark%20Logo%20Color.svg" alt="Bulwark" className="w-9 h-9" />
             <span className="font-bold text-foreground tracking-tight text-[17px]" style={{ fontFamily: 'var(--font-exo2)' }}>
               Bulwark
             </span>
@@ -16,7 +16,7 @@ export function Footer() {
 
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <a
-              href="https://github.com/root-fr/jmap-webmail"
+              href="https://github.com/bulwarkmail/webmail"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-foreground transition-colors"

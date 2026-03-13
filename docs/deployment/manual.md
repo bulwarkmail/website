@@ -19,7 +19,7 @@ Deploy Bulwark directly on a Linux server without Docker.
 ### 1. Clone and Build
 
 ```bash
-git clone https://github.com/root-fr/jmap-webmail.git
+git clone https://github.com/bulwarkmail/webmail.git
 cd jmap-webmail
 npm install
 npm run build

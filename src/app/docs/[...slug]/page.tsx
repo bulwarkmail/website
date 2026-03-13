@@ -5,7 +5,7 @@ import { CopyableCode } from "@/components/docs/copyable-code";
 import { ChevronRight, Pencil } from "lucide-react";
 import type { Metadata } from "next";
 
-const GITHUB_EDIT_URL = "https://github.com/root-fr/jmap-webmail/edit/main/docs";
+const GITHUB_EDIT_URL = "https://github.com/bulwarkmail/website/edit/main/docs";
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;

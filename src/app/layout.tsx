@@ -33,6 +33,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/branding/favicon/Bulwark%20Favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/branding/favicon/Bulwark%20Favicon.png" type="image/png" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}})()`

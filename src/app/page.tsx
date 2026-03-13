@@ -64,7 +64,7 @@ export default function Home() {
             className="flex justify-center mb-8"
           >
             <a
-              href="https://github.com/root-fr/jmap-webmail"
+              href="https://github.com/bulwarkmail/webmail"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-card border border-border hover:border-primary/30 transition-colors group"
@@ -133,7 +133,7 @@ export default function Home() {
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
-              href="https://github.com/root-fr/jmap-webmail"
+              href="https://github.com/bulwarkmail/webmail"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-card border border-border text-foreground font-medium text-sm hover:bg-muted/50 transition-all duration-200"
@@ -155,7 +155,7 @@ export default function Home() {
       </section>
 
       {/* Divider */}
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-3xl mx-auto px-6">
         <div className="border-t border-border/50" />
       </div>
 
@@ -192,7 +192,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
-                href="https://github.com/root-fr/jmap-webmail"
+                href="https://github.com/bulwarkmail/webmail"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium text-sm shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:bg-primary/90 transition-all duration-200"
