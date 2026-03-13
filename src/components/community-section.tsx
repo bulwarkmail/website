@@ -4,84 +4,45 @@ import { motion } from "framer-motion";
 import {
   Github,
   MessageSquare,
-  BookOpen,
   Languages,
   Bug,
   GitPullRequest,
-  type LucideIcon,
+  ExternalLink,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
-interface CommunityCard {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  href: string;
-  linkLabel: string;
-  accent: string;
-}
-
-const cards: CommunityCard[] = [
-  {
-    icon: Github,
-    title: "Star & Fork",
-    description: "Browse the source, star the repo, and fork it to start contributing.",
-    href: "https://github.com/root-fr/jmap-webmail",
-    linkLabel: "View on GitHub",
-    accent: "from-gray-500 to-gray-700",
-  },
+const links = [
   {
     icon: Bug,
-    title: "Report Issues",
-    description: "Found a bug or have a feature request? Open an issue and help us improve.",
+    label: "Report a bug",
     href: "https://github.com/root-fr/jmap-webmail/issues",
-    linkLabel: "Open an issue",
-    accent: "from-red-500 to-rose-600",
   },
   {
     icon: GitPullRequest,
-    title: "Pull Requests",
-    description: "Submit PRs for bug fixes, features, or improvements. All contributions welcome.",
+    label: "Submit a PR",
     href: "https://github.com/root-fr/jmap-webmail/pulls",
-    linkLabel: "Submit a PR",
-    accent: "from-emerald-500 to-green-600",
   },
   {
     icon: MessageSquare,
-    title: "Discussions",
-    description: "Ask questions, share ideas, and connect with other self-hosters.",
+    label: "Discussions",
     href: "https://github.com/root-fr/jmap-webmail/discussions",
-    linkLabel: "Join discussions",
-    accent: "from-blue-500 to-indigo-600",
   },
   {
     icon: Languages,
-    title: "Translate",
-    description: "Help bring Bulwark to more languages. We currently support 8 — help us add more.",
+    label: "Help translate (8 languages so far)",
     href: "https://github.com/root-fr/jmap-webmail/tree/main/messages",
-    linkLabel: "Help translate",
-    accent: "from-violet-500 to-purple-600",
-  },
-  {
-    icon: BookOpen,
-    title: "Documentation",
-    description: "Read the docs, learn about JMAP, and understand the architecture.",
-    href: "https://github.com/root-fr/jmap-webmail#readme",
-    linkLabel: "Read the docs",
-    accent: "from-amber-500 to-orange-600",
   },
 ];
 
 export function CommunitySection() {
   return (
     <section id="community" className="py-24 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="mb-10"
         >
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-primary/10 text-primary text-xs font-medium mb-4">
             Community
@@ -90,49 +51,62 @@ export function CommunitySection() {
             className="text-3xl md:text-4xl font-bold text-foreground tracking-tight"
             style={{ fontFamily: "var(--font-exo2)" }}
           >
-            Built by the community
+            Get involved
           </h2>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            Bulwark is open source and thrives on contributions. Here&apos;s how you can get involved.
+          <p className="mt-3 text-muted-foreground text-lg">
+            Bulwark is MIT-licensed and developed in the open. Bug reports, translations, and code contributions all happen on GitHub.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {cards.map((card, i) => {
-            const Icon = card.icon;
+        {/* GitHub repo card */}
+        <motion.a
+          href="https://github.com/root-fr/jmap-webmail"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="group flex items-center gap-4 rounded-xl border border-border bg-card p-5 hover:border-primary/30 transition-colors mb-6"
+        >
+          <Github className="w-8 h-8 text-foreground shrink-0" />
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-sm font-mono text-muted-foreground">root-fr /</span>
+              <span className="text-sm font-mono font-semibold text-foreground">jmap-webmail</span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              A modern webmail client built on the JMAP protocol
+            </p>
+          </div>
+          <ExternalLink className="w-4 h-4 text-muted-foreground ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </motion.a>
+
+        {/* Contribution links */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="rounded-xl border border-border bg-card divide-y divide-border"
+        >
+          {links.map((link) => {
+            const Icon = link.icon;
             return (
-              <motion.a
-                key={card.title}
-                href={card.href}
+              <a
+                key={link.label}
+                href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
-                className="group rounded-xl border border-border bg-card p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
+                className="group flex items-center gap-3 px-5 py-3.5 hover:bg-muted/50 transition-colors first:rounded-t-xl last:rounded-b-xl"
               >
-                <div
-                  className={cn(
-                    "w-10 h-10 rounded-lg bg-gradient-to-br flex items-center justify-center mb-4",
-                    card.accent
-                  )}
-                >
-                  <Icon className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-sm font-semibold text-foreground mb-1">
-                  {card.title}
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-                  {card.description}
-                </p>
-                <span className="text-xs font-medium text-primary group-hover:underline">
-                  {card.linkLabel} &rarr;
-                </span>
-              </motion.a>
+                <Icon className="w-4 h-4 text-muted-foreground shrink-0" />
+                <span className="text-sm text-foreground">{link.label}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-muted-foreground ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

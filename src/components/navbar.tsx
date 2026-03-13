@@ -9,8 +9,6 @@ import { useTheme } from "@/components/theme-provider";
 const navLinks = [
   { label: "Features", href: "#features" },
   { label: "Screenshots", href: "#screenshots" },
-  { label: "Compare", href: "#compare" },
-  { label: "Tech Stack", href: "#tech" },
   { label: "Deploy", href: "#deploy" },
   { label: "FAQ", href: "#faq" },
   { label: "Docs", href: "/docs" },
@@ -52,11 +50,12 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted/50"
+              className="px-3 py-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted/50"
             >
               {link.label}
             </a>
           ))}
+          <div className="w-px h-5 bg-border/60 mx-2" />
           <button
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
             className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
@@ -72,9 +71,9 @@ export function Navbar() {
             href="https://github.com/root-fr/jmap-webmail"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-1 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-[13px] font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
           >
-            <Github className="w-4 h-4" />
+            <Github className="w-3.5 h-3.5" />
             GitHub
           </a>
         </nav>
@@ -96,37 +95,40 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border overflow-hidden"
           >
-            <div className="px-6 py-4 space-y-1">
+            <div className="px-6 py-3 flex flex-col gap-0.5">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-md hover:bg-muted/50 transition-colors"
+                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-md hover:bg-muted/50 transition-colors"
                 >
                   {link.label}
                 </a>
               ))}
-              <button
-                onClick={() => { setTheme(resolvedTheme === "dark" ? "light" : "dark"); setMobileOpen(false); }}
-                className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-                aria-label="Toggle theme"
-              >
-                {resolvedTheme === "dark" ? (
-                  <Sun className="w-4 h-4" />
-                ) : (
-                  <Moon className="w-4 h-4" />
-                )}
-              </button>
-              <a
-                href="https://github.com/root-fr/jmap-webmail"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-primary"
-              >
-                <Github className="w-4 h-4" />
-                View on GitHub
-              </a>
+              <div className="h-px bg-border/60 my-1.5" />
+              <div className="flex items-center gap-2 px-3 py-1.5">
+                <button
+                  onClick={() => { setTheme(resolvedTheme === "dark" ? "light" : "dark"); setMobileOpen(false); }}
+                  className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  aria-label="Toggle theme"
+                >
+                  {resolvedTheme === "dark" ? (
+                    <Sun className="w-4 h-4" />
+                  ) : (
+                    <Moon className="w-4 h-4" />
+                  )}
+                </button>
+                <a
+                  href="https://github.com/root-fr/jmap-webmail"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                  GitHub
+                </a>
+              </div>
             </div>
           </motion.div>
         )}

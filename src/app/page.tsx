@@ -11,7 +11,6 @@ import { TechSection } from "@/components/tech-section";
 import { DeploySection } from "@/components/deploy-section";
 import { ComparisonSection } from "@/components/comparison-section";
 import { FaqSection } from "@/components/faq-section";
-import { RoadmapSection } from "@/components/roadmap-section";
 import { CommunitySection } from "@/components/community-section";
 import { ArchitectureSection } from "@/components/architecture-section";
 import { Footer } from "@/components/footer";
@@ -171,8 +170,6 @@ export default function Home() {
       <ArchitectureSection />
 
       <DeploySection />
-
-      <RoadmapSection />
 
       <CommunitySection />
 
