@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="public/branding/logo-with-lettering/Bulwark%20Logo%20with%20Lettering%20White%20and%20Color.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="public/branding/logo-with-lettering/Bulwark%20Logo%20with%20Lettering%20Dark%20Color.svg" />
+  <img src="public/branding/logo-with-lettering/Bulwark%20Logo%20with%20Lettering%20Dark%20Color.svg" alt="Bulwark" width="280" />
+</picture>
 
-First, run the development server:
+# Bulwark Website
+
+The official website and documentation for [Bulwark Webmail](https://github.com/bulwarkmail/webmail).<br/>
+Built with Next.js and Tailwind CSS.
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+</div>
+
+---
+
+## Overview
+
+This repository contains the source code for the Bulwark project website, including:
+
+- **Landing page** — Product showcase with features, screenshots, tech stack, deployment guides, and FAQ
+- **Documentation** — Full docs covering installation, configuration, features, development, and deployment
+
+## Screenshots
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="public/screenshots/02-inbox.png" width="100%" alt="Inbox — three-pane layout with sidebar, email list, and viewer">
+    </td>
+    <td width="50%">
+      <img src="public/screenshots/05-dark-mode.png" width="100%" alt="Dark mode">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="public/screenshots/04-compose.png" width="100%" alt="Compose with templates and autocomplete">
+    </td>
+    <td width="50%">
+      <img src="public/screenshots/06-settings.png" width="100%" alt="Settings">
+    </td>
+  </tr>
+</table>
+
+## Quick Start
+
+### Development
 
 ```bash
+git clone https://github.com/bulwarkmail/website.git
+cd website
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                  # Next.js App Router pages
+│   ├── page.tsx          # Landing page
+│   ├── docs/             # Documentation pages
+│   ├── install/          # Install redirect
+│   └── api/              # API routes (docs search)
+├── components/           # React components
+│   ├── docs/             # Documentation components
+│   └── *.tsx             # Landing page sections
+└── lib/                  # Utilities (markdown processing, etc.)
+docs/                     # Documentation content (Markdown)
+├── getting-started/      # Installation, configuration, intro
+├── features/             # Email, calendar, contacts docs
+├── development/          # Architecture, contributing
+├── deployment/           # Docker, manual, reverse proxy
+├── guides/               # Customization, keyboard shortcuts
+└── branding/             # Brand guidelines
+public/                   # Static assets
+├── branding/             # Logos, favicons
+└── screenshots/          # Product screenshots
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+|               |                                                   |
+| ------------- | ------------------------------------------------- |
+| **Framework** | [Next.js 16](https://nextjs.org/) with App Router |
+| **Language**  | TypeScript                                         |
+| **Styling**   | [Tailwind CSS v4](https://tailwindcss.com/)       |
+| **Markdown**  | unified / remark / rehype pipeline                |
+| **Icons**     | [Lucide React](https://lucide.dev/)               |
+| **Animation** | [Framer Motion](https://motion.dev/)              |
 
-## Deploy on Vercel
+## Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Documentation is written in Markdown under the `docs/` directory. Files use gray-matter frontmatter for metadata:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```md
+---
+title: Page Title
+description: A brief description.
+order: 1
+---
+
+# Content here
+```
+
+The documentation system supports:
+- GitHub Flavored Markdown
+- Syntax-highlighted code blocks with copy button
+- Auto-generated sidebar navigation
+- Full-text search
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-change`)
+3. Commit your changes (`git commit -m 'Add my change'`)
+4. Push to the branch (`git push origin feature/my-change`)
+5. Open a Pull Request
+
+## Related
+
+- [Bulwark Webmail](https://github.com/bulwarkmail/webmail) — The webmail client
+- [Stalwart Mail Server](https://github.com/stalwartlabs/mail-server) — The mail server Bulwark is built for
+
+## License
+
+[MIT](LICENSE)
