@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Copy, Check, Container, Terminal } from "lucide-react";
+import { Copy, Check, Container, Terminal, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const tabs = [
+  { id: "script", label: "Quick Install", icon: Zap },
   { id: "docker", label: "Docker", icon: Container },
   { id: "source", label: "From Source", icon: Terminal },
 ] as const;
@@ -13,6 +14,12 @@ const tabs = [
 type TabId = (typeof tabs)[number]["id"];
 
 const codeBlocks: Record<TabId, { lines: { text: string; comment?: boolean; empty?: boolean }[] }> = {
+  script: {
+    lines: [
+      { text: "# One-line install", comment: true },
+      { text: "curl -fsSL https://bulwarkmail.org/install | bash" },
+    ],
+  },
   docker: {
     lines: [
       { text: "# Pull and run with Docker", comment: true },
@@ -44,17 +51,51 @@ const codeBlocks: Record<TabId, { lines: { text: string; comment?: boolean; empt
 };
 
 export function DeploySection() {
-  const [activeTab, setActiveTab] = useState<TabId>("docker");
+  const [activeTab, setActiveTab] = useState<TabId>("script");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
     const text = codeBlocks[activeTab].lines
-      .filter((l) => !l.empty)
+      .filter((l) => !l.empty && !l.comment)
       .map((l) => l.text)
       .join("\n");
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const colorize = (text: string) => {
+    const parts: { value: string; className: string }[] = [];
+    const regex = /("[^"]*"|'[^']*')|(https?:\/\/[^\s"']+)|(\\)|(\$\(\w+\))|(#[^\s]*)|(\b(?:docker|git|npm|curl|cd|cp|bash|run|compose|clone|install)\b)|(-[a-zA-Z-]+)|([a-zA-Z_][a-zA-Z0-9_.\-]*\/[a-zA-Z0-9_.\-:\/]*)/g;
+    let last = 0;
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > last) {
+        parts.push({ value: text.slice(last, match.index), className: "text-foreground" });
+      }
+      if (match[1]) {
+        parts.push({ value: match[1], className: "text-emerald-400" });
+      } else if (match[2]) {
+        parts.push({ value: match[2], className: "text-emerald-400" });
+      } else if (match[3]) {
+        parts.push({ value: match[3], className: "text-muted-foreground" });
+      } else if (match[4]) {
+        parts.push({ value: match[4], className: "text-amber-400" });
+      } else if (match[5]) {
+        parts.push({ value: match[5], className: "text-muted-foreground" });
+      } else if (match[6]) {
+        parts.push({ value: match[6], className: "text-sky-400" });
+      } else if (match[7]) {
+        parts.push({ value: match[7], className: "text-amber-400" });
+      } else if (match[8]) {
+        parts.push({ value: match[8], className: "text-purple-400" });
+      }
+      last = match.index + match[0].length;
+    }
+    if (last < text.length) {
+      parts.push({ value: text.slice(last), className: "text-foreground" });
+    }
+    return parts;
   };
 
   return (
@@ -74,7 +115,7 @@ export function DeploySection() {
             Deploy in seconds
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            Pre-built Docker images on GHCR (amd64/arm64). Or build from source.
+            One command to install. Or use Docker / build from source.
           </p>
         </motion.div>
 
@@ -131,9 +172,13 @@ export function DeploySection() {
                 {line.empty ? (
                   <span>&nbsp;</span>
                 ) : line.comment ? (
-                  <span className="text-muted-foreground">{line.text}</span>
+                  <span className="text-muted-foreground/50 italic">{line.text}</span>
                 ) : (
-                  <span className="text-foreground">{line.text}</span>
+                  <span>
+                    {colorize(line.text).map((part, j) => (
+                      <span key={j} className={part.className}>{part.value}</span>
+                    ))}
+                  </span>
                 )}
               </div>
             ))}

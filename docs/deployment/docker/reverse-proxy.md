@@ -56,10 +56,20 @@ bulwark:
     - "traefik.http.services.bulwark.loadbalancer.server.port=3000"
 ```
 
-## Important Headers
+## Important Notes
+
+### Required Headers
 
 Whatever reverse proxy you use, make sure to forward these headers:
 
 - `X-Forwarded-For` — Client IP address
 - `X-Forwarded-Proto` — Original protocol (http/https)
 - `Host` — Original hostname
+
+### EventSource Support
+
+Bulwark uses JMAP EventSource for real-time push notifications. Ensure your reverse proxy supports long-lived HTTP connections and does not buffer server-sent events. For Nginx, the `proxy_set_header Connection 'upgrade'` and `proxy_http_version 1.1` directives handle this.
+
+### Session URL Rewriting
+
+Bulwark automatically rewrites JMAP session URLs returned by the server to match the origin the client connects to. This fixes deployments where Stalwart returns an internal hostname (e.g., `http://stalwart:8080`) that isn't reachable from the browser.

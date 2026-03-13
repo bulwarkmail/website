@@ -13,8 +13,6 @@ Run Bulwark alongside Stalwart Mail Server using Docker Compose for a complete, 
 Create a `docker-compose.yml`:
 
 ```yaml
-version: "3.8"
-
 services:
   stalwart:
     image: stalwartlabs/mail-server:latest
@@ -35,13 +33,41 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NEXT_PUBLIC_JMAP_URL: http://stalwart:8080/jmap
+      JMAP_SERVER_URL: http://stalwart:8080
     depends_on:
       - stalwart
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     restart: unless-stopped
 
 volumes:
   stalwart-data:
+```
+
+## Using env_file
+
+For more complex configurations (OAuth, session secret, branding, etc.), use an environment file:
+
+```yaml
+services:
+  bulwark:
+    image: ghcr.io/root-fr/jmap-webmail:latest
+    container_name: bulwark
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
 ```
 
 ## Start the Stack
@@ -77,7 +103,7 @@ bulwark:
   ports:
     - "3000:3000"
   environment:
-    NEXT_PUBLIC_JMAP_URL: http://stalwart:8080/jmap
+    JMAP_SERVER_URL: http://stalwart:8080
   depends_on:
     - stalwart
   restart: unless-stopped

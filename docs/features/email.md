@@ -10,10 +10,11 @@ Bulwark provides a full-featured email experience powered by the JMAP protocol.
 
 ## Inbox & Folders
 
-- Unified inbox view with smart sorting
-- Custom folder creation and management
-- Drag-and-drop email organization
-- Folder-level unread counts
+- Three-pane layout (sidebar, email list, viewer)
+- Hierarchical mailbox display with unread counts
+- Drag-and-drop email organization between folders
+- Virtual scrolling for large email lists
+- Infinite scroll pagination
 
 ## Composing
 
@@ -22,9 +23,12 @@ The rich text editor supports:
 - **Formatting** — Bold, italic, underline, strikethrough
 - **Lists** — Ordered and unordered lists
 - **Links** — Inline hyperlinks
+- **Block quotes** and **code blocks**
 - **Attachments** — Drag-and-drop file attachments
 - **Inline images** — Paste or drag images directly
-- **Signatures** — Multiple signature support
+- **Signatures** — Multiple per-identity signatures
+- **Templates** — Reusable email templates with placeholder variables
+- **Identity selection** — Choose sender identity from dropdown
 
 ### Keyboard Shortcut
 
@@ -32,31 +36,55 @@ Press `C` anywhere in the app to open the compose window.
 
 ## Reading
 
-- Threaded conversation view
-- Inline image rendering
-- HTML and plain-text toggle
+- Threaded conversation view with inline expansion
+- HTML rendering with DOMPurify sanitization
+- External content blocked by default with per-sender trust
+- SPF/DKIM/DMARC status indicators
 - Download or preview attachments
 - Reply, reply-all, and forward actions
+- Quick reply form
+- Expandable email headers
+- Newsletter unsubscribe support (RFC 2369)
 
 ## Search
 
-Bulwark leverages JMAP's server-side search for fast, full-text email search:
+Bulwark provides a visual search panel with search chips for precise filtering:
 
-```
-from:alice@example.com has:attachment after:2024-01-01
-```
+- **Text search** — Full-text search across email content
+- **From** — Filter by sender
+- **To** — Filter by recipient
+- **Subject** — Search in subject line
+- **Body** — Search in email body
+- **Has attachment** — Filter emails with/without attachments
+- **Date range** — Filter by before/after dates
+- **Read status** — Filter read or unread emails
+- **Starred** — Filter starred or unstarred emails
 
-### Search Operators
+Active filters display as removable search chips above the email list. The search supports cross-mailbox queries.
 
-| Operator         | Example                  | Description         |
-| ---------------- | ------------------------ | ------------------- |
-| `from:`          | `from:alice@example.com` | Filter by sender    |
-| `to:`            | `to:bob@example.com`     | Filter by recipient |
-| `subject:`       | `subject:meeting`        | Search in subject   |
-| `has:attachment` | `has:attachment`         | Has attachments     |
-| `before:`        | `before:2024-06-01`      | Before a date       |
-| `after:`         | `after:2024-01-01`       | After a date        |
+Press `/` to focus the search bar.
 
 ## Labels & Tags
 
-Organize emails with colored labels. Labels are synced with JMAP keywords so they persist across clients.
+Organize emails with colored labels. Labels are synced with JMAP keywords so they persist across clients. Customize label names and colors from settings.
+
+## Batch Operations
+
+Select multiple emails for bulk actions: archive, delete, mark read/unread, star/unstar, and move to folder.
+
+## Email Filters
+
+Server-side email filtering via JMAP Sieve Scripts (RFC 9661):
+
+- Visual rule builder with conditions (From, To, Subject, Size, Body, etc.) and actions (Move, Forward, Mark read, Star, Discard, Reject, etc.)
+- Raw Sieve editor with syntax validation
+- Drag-and-drop rule reordering
+- Auto-save with rollback on failure
+- Only shown when the server supports Sieve
+
+## Email Templates
+
+- Reusable templates organized by category (General, Business, Personal, Support, Follow-up, custom)
+- Placeholder variables (`{{recipientName}}`, `{{date}}`, etc.) with auto-fill from composer context
+- Template picker in compose toolbar with search and category filter
+- Template manager in settings

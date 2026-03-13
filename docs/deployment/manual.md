@@ -10,7 +10,7 @@ Deploy Bulwark directly on a Linux server without Docker.
 
 ## Prerequisites
 
-- Node.js 20+ installed
+- Node.js 18+ installed
 - A process manager like **PM2** or **systemd**
 - A reverse proxy (Nginx, Caddy, etc.)
 
@@ -25,13 +25,20 @@ npm install
 npm run build
 ```
 
+The build produces a standalone output in `.next/standalone` that includes all dependencies.
+
 ### 2. Configure Environment
 
 ```bash
 cp .env.example .env.local
 ```
 
-Set your JMAP endpoint and any other configuration.
+Set your JMAP endpoint and any other configuration:
+
+```env
+JMAP_SERVER_URL=https://mail.example.com
+APP_NAME=Bulwark
+```
 
 ### 3. Run with PM2
 
@@ -55,10 +62,12 @@ After=network.target
 Type=simple
 User=www-data
 WorkingDirectory=/opt/bulwark
-ExecStart=/usr/bin/node node_modules/.bin/next start
+ExecStart=/usr/bin/node .next/standalone/server.js
 Restart=on-failure
 Environment=NODE_ENV=production
 Environment=PORT=3000
+Environment=HOSTNAME=0.0.0.0
+EnvironmentFile=/opt/bulwark/.env.local
 
 [Install]
 WantedBy=multi-user.target

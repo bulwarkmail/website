@@ -10,38 +10,32 @@ Bulwark leverages JMAP's server-side search for fast, full-text email search acr
 
 ## Basic Search
 
-Type in the search bar or press `/` to focus it. Results appear instantly as you type.
+Type in the search bar or press `/` to focus it. Results appear as you type with debounced queries.
 
-## Search Operators
+## Advanced Search Panel
 
-Combine operators for precise results:
+Click the filter icon next to the search bar to open the advanced search panel. Use the following fields to build precise queries:
 
-| Operator         | Example                  | Description                  |
-| ---------------- | ------------------------ | ---------------------------- |
-| `from:`          | `from:alice@example.com` | Filter by sender             |
-| `to:`            | `to:bob@example.com`     | Filter by recipient          |
-| `subject:`       | `subject:meeting`        | Search in subject line       |
-| `has:attachment` | `has:attachment`         | Only emails with attachments |
-| `before:`        | `before:2024-06-01`      | Emails before a date         |
-| `after:`         | `after:2024-01-01`       | Emails after a date          |
-| `in:`            | `in:sent`                | Search in specific folder    |
-| `is:`            | `is:unread`              | Filter by status             |
+| Filter           | Description                        |
+| ---------------- | ---------------------------------- |
+| **From**         | Filter by sender email or name     |
+| **To**           | Filter by recipient                |
+| **Subject**      | Search in subject line             |
+| **Body**         | Search in email body text          |
+| **Has attachment**| Toggle: with, without, or any     |
+| **Date after**   | Emails after a specific date       |
+| **Date before**  | Emails before a specific date      |
+| **Read status**  | Filter read or unread emails       |
+| **Starred**      | Filter starred or unstarred emails |
 
-## Combining Operators
+## Search Chips
 
-```
-from:alice@example.com has:attachment after:2024-01-01 subject:report
-```
+Active filters are displayed as removable chips above the email list. Each chip shows the filter type and value. Click the `×` on any chip to remove that filter, or use "Clear all" to reset.
 
-## Saved Searches
+## Cross-Mailbox Search
 
-Save frequently used searches for quick access. Click the star icon next to the search bar after entering a query.
+Search operates across all mailboxes by default, not just the currently selected folder. Results include emails from any folder.
 
-## Filters
+## Combining Filters
 
-Use the filter panel to narrow results by:
-
-- **Date range** — Custom start and end dates
-- **Attachments** — With or without
-- **Read status** — Read, unread, or all
-- **Folder** — Specific mailbox
+Multiple filters are combined with AND logic — all conditions must match. Use a combination of text search and structured filters for the most precise results.

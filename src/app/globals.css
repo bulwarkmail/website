@@ -157,6 +157,7 @@ html {
   letter-spacing: -0.02em;
   font-family: var(--font-exo2);
   color: var(--foreground);
+  scroll-margin-top: 5rem;
 }
 
 .prose-docs h2 {
@@ -169,6 +170,7 @@ html {
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: var(--foreground);
+  scroll-margin-top: 5rem;
 }
 
 .prose-docs h3 {
@@ -178,6 +180,7 @@ html {
   margin-bottom: 0.75rem;
   line-height: 1.4;
   color: var(--foreground);
+  scroll-margin-top: 6rem;
 }
 
 .prose-docs h4 {
@@ -186,6 +189,7 @@ html {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   color: var(--foreground);
+  scroll-margin-top: 6rem;
 }
 
 .prose-docs p {
@@ -250,6 +254,7 @@ html {
 }
 
 .prose-docs pre {
+  position: relative;
   background-color: var(--pre-bg);
   border: 1px solid var(--border);
   border-radius: 0.625rem;
@@ -268,6 +273,162 @@ html {
   border: none;
   color: inherit;
   font-size: inherit;
+}
+
+/* Copy button */
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  background-color: var(--pre-bg);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.prose-docs pre:hover .copy-btn {
+  opacity: 1;
+}
+
+.copy-btn:hover {
+  color: var(--foreground);
+  background-color: var(--code-bg);
+}
+
+.copy-btn.copied {
+  color: #22c55e;
+}
+
+/* Syntax highlighting — Light theme */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name {
+  color: #d63384;
+}
+
+.hljs-string,
+.hljs-attr,
+.hljs-template-variable {
+  color: #0a7e3a;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-tag {
+  color: #0550ae;
+}
+
+.hljs-comment,
+.hljs-doctag {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #6f42c1;
+  font-weight: 600;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #953800;
+}
+
+.hljs-attribute,
+.hljs-symbol,
+.hljs-bullet {
+  color: #0550ae;
+}
+
+.hljs-meta,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #6f42c1;
+}
+
+.hljs-addition {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.hljs-deletion {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+/* Syntax highlighting — Dark theme */
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-built_in,
+.dark .hljs-name {
+  color: #ff7b93;
+}
+
+.dark .hljs-string,
+.dark .hljs-attr,
+.dark .hljs-template-variable {
+  color: #7ee787;
+}
+
+.dark .hljs-number,
+.dark .hljs-literal,
+.dark .hljs-variable,
+.dark .hljs-template-tag {
+  color: #79c0ff;
+}
+
+.dark .hljs-comment,
+.dark .hljs-doctag {
+  color: #8b949e;
+  font-style: italic;
+}
+
+.dark .hljs-title,
+.dark .hljs-section,
+.dark .hljs-selector-id {
+  color: #d2a8ff;
+  font-weight: 600;
+}
+
+.dark .hljs-type,
+.dark .hljs-class .hljs-title {
+  color: #ffa657;
+}
+
+.dark .hljs-attribute,
+.dark .hljs-symbol,
+.dark .hljs-bullet {
+  color: #79c0ff;
+}
+
+.dark .hljs-meta,
+.dark .hljs-selector-class,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-pseudo {
+  color: #d2a8ff;
+}
+
+.dark .hljs-addition {
+  color: #aff5b4;
+  background-color: #033a16;
+}
+
+.dark .hljs-deletion {
+  color: #ffdcd7;
+  background-color: #67060c;
 }
 
 .prose-docs blockquote {

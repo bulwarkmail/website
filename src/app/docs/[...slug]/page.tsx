@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDocBySlug, getAllDocs, getDocSections } from "@/lib/docs";
+import { CopyableCode } from "@/components/docs/copyable-code";
 import { ChevronRight, Pencil } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -73,10 +74,7 @@ export default async function DocPage({ params }: PageProps) {
       </div>
 
       {/* Rendered markdown */}
-      <div
-        className="prose-docs"
-        dangerouslySetInnerHTML={{ __html: doc.html }}
-      />
+      <CopyableCode html={doc.html} />
 
       {/* Prev/Next navigation */}
       <nav className="mt-12 pt-6 border-t border-border flex justify-between gap-4">

@@ -6,19 +6,29 @@ order: 1
 
 # Docker Deployment
 
-The easiest way to deploy Bulwark in production is with Docker.
+The easiest way to deploy Bulwark in production is with Docker. Pre-built images are available for amd64 and arm64 on both Docker Hub and GHCR.
 
 ## Using Docker
 
 ### Pull and Run
 
 ```bash
+# From Docker Hub
 docker run -d \
   --name bulwark \
   -p 3000:3000 \
-  -e NEXT_PUBLIC_JMAP_URL=https://mail.example.com/jmap \
+  -e JMAP_SERVER_URL=https://mail.example.com \
+  rootfr/jmap-webmail:latest
+
+# From GHCR
+docker run -d \
+  --name bulwark \
+  -p 3000:3000 \
+  -e JMAP_SERVER_URL=https://mail.example.com \
   ghcr.io/root-fr/jmap-webmail:latest
 ```
+
+Environment variables are read at runtime — no rebuild is needed when changing configuration.
 
 ### Build from Source
 
@@ -26,7 +36,7 @@ docker run -d \
 git clone https://github.com/root-fr/jmap-webmail.git
 cd jmap-webmail
 docker build -t bulwark .
-docker run -d --name bulwark -p 3000:3000 bulwark
+docker run -d --name bulwark -p 3000:3000 -e JMAP_SERVER_URL=https://mail.example.com bulwark
 ```
 
 ## Docker Compose
@@ -34,8 +44,6 @@ docker run -d --name bulwark -p 3000:3000 bulwark
 Create a `docker-compose.yml` for running Bulwark alongside Stalwart:
 
 ```yaml
-version: "3.8"
-
 services:
   stalwart:
     image: stalwartlabs/mail-server:latest
@@ -56,16 +64,41 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NEXT_PUBLIC_JMAP_URL: http://stalwart:8080/jmap
+      JMAP_SERVER_URL: http://stalwart:8080
     depends_on:
       - stalwart
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     restart: unless-stopped
 
 volumes:
   stalwart-data:
 ```
 
-Start both services:
+Alternatively, use an `env_file` to load settings from `.env.local`:
+
+```yaml
+services:
+  bulwark:
+    image: ghcr.io/root-fr/jmap-webmail:latest
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+```
+
+Start the stack:
 
 ```bash
 docker compose up -d
@@ -99,6 +132,9 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
     }
 }

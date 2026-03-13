@@ -10,44 +10,59 @@ Bulwark supports keyboard shortcuts for power users. Press `?` anywhere in the a
 
 ## Global
 
-| Shortcut | Action                   |
-| -------- | ------------------------ |
-| `C`      | Compose new email        |
-| `?`      | Show keyboard shortcuts  |
-| `/`      | Focus search             |
-| `Esc`    | Close overlay / deselect |
+| Shortcut     | Action                   |
+| ------------ | ------------------------ |
+| `C`          | Compose new email        |
+| `/`          | Focus search             |
+| `?`          | Show keyboard shortcuts  |
+| `Shift+G`    | Refresh                  |
+| `Ctrl+A`     | Select all               |
+| `Esc`        | Close overlay / deselect |
 
 ## Navigation
 
-| Shortcut     | Action         |
-| ------------ | -------------- |
-| `G` then `I` | Go to Inbox    |
-| `G` then `S` | Go to Sent     |
-| `G` then `D` | Go to Drafts   |
-| `G` then `T` | Go to Trash    |
-| `G` then `A` | Go to Archive  |
-| `G` then `C` | Go to Calendar |
-| `G` then `O` | Go to Contacts |
+| Shortcut     | Action                |
+| ------------ | --------------------- |
+| `J` / `↓`    | Next email            |
+| `K` / `↑`    | Previous email        |
+| `Enter` / `O`| Open email            |
 
-## Email List
+## Email Actions
 
-| Shortcut  | Action                |
-| --------- | --------------------- |
-| `J` / `↓` | Next email            |
-| `K` / `↑` | Previous email        |
-| `Enter`   | Open email            |
-| `X`       | Select/deselect email |
-| `E`       | Archive               |
-| `#`       | Delete                |
-| `!`       | Mark as spam          |
-| `U`       | Mark as unread        |
+| Shortcut     | Action                     |
+| ------------ | -------------------------- |
+| `R`          | Reply                      |
+| `Shift+R` / `A` | Reply all              |
+| `F`          | Forward                    |
+| `S`          | Toggle star                |
+| `E`          | Archive                    |
+| `#` / `Del` / `Backspace` | Delete        |
+| `U`          | Mark as unread             |
+| `Shift+I`    | Mark as read               |
+| `!`          | Toggle spam                |
 
-## Reading Email
+## Threads
 
-| Shortcut | Action    |
-| -------- | --------- |
-| `R`      | Reply     |
-| `A`      | Reply all |
-| `F`      | Forward   |
-| `E`      | Archive   |
-| `#`      | Delete    |
+| Shortcut | Action                   |
+| -------- | ------------------------ |
+| `X`      | Expand/collapse thread   |
+
+## Composer
+
+| Shortcut       | Action          |
+| -------------- | --------------- |
+| `T`            | Open template picker |
+| `Ctrl+Enter`   | Send email      |
+| `Ctrl+S`       | Save as draft   |
+| `Ctrl+Shift+T` | Insert template |
+
+## Calendar
+
+| Shortcut | Action               |
+| -------- | -------------------- |
+| `M`      | Month view           |
+| `W`      | Week view            |
+| `D`      | Day view             |
+| `A`      | Agenda view          |
+| `T`      | Go to today          |
+| `N`      | New event            |

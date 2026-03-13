@@ -18,6 +18,10 @@ The editor supports full formatting:
 - Block quotes
 - Code blocks
 
+## Identity Selection
+
+Choose which sender identity to use from the dropdown in the composer. Each identity can have its own name, email address, and signature.
+
 ## Attachments
 
 - Drag and drop files onto the compose window
@@ -27,15 +31,25 @@ The editor supports full formatting:
 
 ## Signatures
 
-Set up multiple signatures in your account settings:
+Set up multiple signatures via identity management:
 
-- **Default signature** — Automatically appended to new emails
-- **Reply signature** — Used when replying or forwarding
-- Switch between signatures using the dropdown in the composer
+- Each identity has its own signature
+- Signatures are automatically appended based on the selected identity
+- Switch identities (and signatures) using the dropdown in the composer
+
+## Templates
+
+Insert reusable email templates from the compose toolbar:
+
+- Browse templates by category with search and filter
+- Placeholder variables (e.g., `{{recipientName}}`, `{{date}}`) are auto-filled from composer context
+- Custom placeholders prompt for input on insertion
+- Press `T` in the email list or `Ctrl+Shift+T` in the composer to open the template picker
+- Manage templates from Settings
 
 ## Drafts
 
-Emails are auto-saved as drafts every 30 seconds. You can also manually save with `Ctrl+S`. Drafts sync across devices via JMAP.
+Emails are auto-saved as drafts every 60 seconds (configurable in settings). You can also manually save with `Ctrl+S`. Drafts sync across devices via JMAP. A discard confirmation dialog appears when closing an unsaved draft.
 
 ## Keyboard Shortcuts
 
@@ -43,5 +57,5 @@ Emails are auto-saved as drafts every 30 seconds. You can also manually save wit
 | -------------- | --------------- |
 | `Ctrl+Enter`   | Send email      |
 | `Ctrl+S`       | Save as draft   |
-| `Ctrl+Shift+A` | Add attachment  |
+| `Ctrl+Shift+T` | Insert template |
 | `Escape`       | Discard / close |

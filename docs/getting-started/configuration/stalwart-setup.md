@@ -10,6 +10,10 @@ Bulwark requires a running Stalwart Mail Server with JMAP enabled.
 
 ## Installing Stalwart
 
+Stalwart offers multiple installation methods depending on your platform and preferences. For the full list of options (Docker, packages, binaries, and building from source), see the [official Stalwart installation guide](https://stalw.art/docs/category/installation).
+
+Below is a quick-start summary:
+
 ### Docker
 
 ```bash
@@ -26,7 +30,7 @@ Download the latest release from [Stalwart's GitHub](https://github.com/stalwart
 
 ## Enabling JMAP
 
-Ensure your Stalwart config includes a JMAP listener:
+JMAP is enabled by default in Stalwart. Ensure your Stalwart config includes a JMAP listener:
 
 ```toml
 [server.listener.jmap]
@@ -41,6 +45,25 @@ When Bulwark runs on a different domain than Stalwart, enable CORS:
 ```toml
 [server.http]
 allowed-origins = ["https://your-bulwark-domain.com"]
+```
+
+Bulwark automatically detects CORS misconfiguration and displays detailed error messages to help with setup.
+
+## Stalwart-Specific Features
+
+When connected to Stalwart, Bulwark enables additional features that require Stalwart's API:
+
+- **Password change** — Users can change their password from account settings
+- **TOTP 2FA** — Enable/disable two-factor authentication
+- **Sieve filters** — Server-side email filtering via Sieve scripts
+- **Vacation responder** — JMAP VacationResponse management
+- **Display name management** — Update display name from settings
+- **Storage quota display** — Show account storage usage
+
+To explicitly disable these features (e.g., when using a non-Stalwart JMAP server), set:
+
+```env
+STALWART_FEATURES=false
 ```
 
 ## Creating Users

@@ -10,11 +10,27 @@ This guide walks you through setting up Bulwark for local development or product
 
 ## Prerequisites
 
-- **Node.js** 20 or later
-- **npm**, **yarn**, or **pnpm**
-- A running **Stalwart Mail Server** instance with JMAP enabled
+- **Node.js** 18 or later
+- **npm** (included with Node.js)
+- A running **Stalwart Mail Server** instance with JMAP enabled (or use the built-in mock server for development). If you don't have Stalwart installed yet, follow the [official installation guide](https://stalw.art/docs/category/installation) and then see [Stalwart Setup](/docs/getting-started/configuration/stalwart-setup) for Bulwark-specific configuration.
 
-## Quick Start
+## Script Install
+
+The fastest way to get Bulwark up and running:
+
+```bash
+curl -fsSL https://bulwarkmail.org/install | bash
+```
+
+This downloads and runs the interactive setup script, which handles cloning, dependencies, environment configuration (JMAP server, OAuth, branding, logging), and deployment method selection.
+
+You can also run it in preview mode:
+
+```bash
+bash setup.sh --dry-run
+```
+
+## Manual Install
 
 ### 1. Clone the Repository
 
@@ -40,9 +56,14 @@ cp .env.example .env.local
 Edit `.env.local`:
 
 ```env
-NEXT_PUBLIC_JMAP_URL=https://your-stalwart-server.com/jmap
-NEXT_PUBLIC_APP_NAME=Bulwark
+# Your JMAP server URL (required)
+JMAP_SERVER_URL=https://your-stalwart-server.com
+
+# App name displayed in the UI
+APP_NAME=Bulwark
 ```
+
+These are runtime environment variables, read at request time. Docker deployments can be configured without rebuilding.
 
 ### 4. Start Development Server
 
@@ -51,6 +72,17 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Development Without a Mail Server
+
+To develop UI without an external mail server, use the built-in mock JMAP server:
+
+```bash
+cp .env.dev.example .env.local
+npm run dev
+```
+
+Log in with any username and password. The mock server is served at `/api/dev-jmap`.
 
 ## Production Build
 

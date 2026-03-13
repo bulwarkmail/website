@@ -1,20 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DocsSearch } from "./docs-search";
 
+interface SidebarHeading {
+  text: string;
+  id: string;
+}
+
 interface SidebarChild {
   title: string;
   slug: string;
+  headings?: SidebarHeading[];
 }
 
 interface SidebarItem {
   title: string;
   slug: string;
+  headings?: SidebarHeading[];
   children?: SidebarChild[];
 }
 
@@ -41,7 +48,13 @@ function SidebarLink({
   const isActive = pathname === href;
   const hasChildren = item.children && item.children.length > 0;
   const isChildActive = hasChildren && item.children!.some((c) => pathname === `/docs/${c.slug}`);
-  const [expanded, setExpanded] = useState(isActive || isChildActive);
+  const hasHeadings = item.headings && item.headings.length > 0;
+  const [expanded, setExpanded] = useState(true);
+  const [headingsExpanded, setHeadingsExpanded] = useState(isActive);
+
+  useEffect(() => {
+    if (isActive) setHeadingsExpanded(true);
+  }, [isActive]);
 
   return (
     <li>
@@ -67,6 +80,30 @@ function SidebarLink({
               {item.title}
             </Link>
           </button>
+        ) : hasHeadings ? (
+          <div
+            className={cn(
+              "flex items-center gap-2 w-full px-3 py-1.5 text-sm rounded-md transition-colors text-left",
+              isActive
+                ? "bg-primary/10 text-primary font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            )}
+          >
+            <button
+              onClick={() => setHeadingsExpanded(!headingsExpanded)}
+              className="shrink-0"
+            >
+              <ChevronRight
+                className={cn(
+                  "w-3 h-3 transition-transform duration-200",
+                  headingsExpanded && "rotate-90"
+                )}
+              />
+            </button>
+            <Link href={href} onClick={onNavigate} className="flex-1">
+              {item.title}
+            </Link>
+          </div>
         ) : (
           <Link
             href={href}
@@ -82,28 +119,108 @@ function SidebarLink({
           </Link>
         )}
       </div>
+      {hasHeadings && !hasChildren && headingsExpanded && (
+        <ul className="mt-0.5 space-y-0.5">
+          {item.headings!.map((heading) => (
+            <li key={heading.id}>
+              <Link
+                href={`${href}#${heading.id}`}
+                onClick={onNavigate}
+                className="block px-3 py-1 text-xs rounded-md transition-colors pl-12 text-muted-foreground/60 hover:text-foreground hover:bg-muted/50"
+              >
+                {heading.text}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
       {hasChildren && expanded && (
         <ul className="mt-0.5 space-y-0.5">
-          {item.children!.map((child) => {
-            const childHref = `/docs/${child.slug}`;
-            const childActive = pathname === childHref;
-            return (
-              <li key={child.slug}>
-                <Link
-                  href={childHref}
-                  onClick={onNavigate}
-                  className={cn(
-                    "block px-3 py-1.5 text-sm rounded-md transition-colors pl-10",
-                    childActive
-                      ? "bg-primary/10 text-primary font-medium"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  )}
-                >
-                  {child.title}
-                </Link>
-              </li>
-            );
-          })}
+          {item.children!.map((child) => (
+            <ChildLink
+              key={child.slug}
+              child={child}
+              pathname={pathname}
+              onNavigate={onNavigate}
+            />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+function ChildLink({
+  child,
+  pathname,
+  onNavigate,
+}: {
+  child: SidebarChild;
+  pathname: string;
+  onNavigate: () => void;
+}) {
+  const childHref = `/docs/${child.slug}`;
+  const childActive = pathname === childHref;
+  const hasHeadings = child.headings && child.headings.length > 0;
+  const [headingsExpanded, setHeadingsExpanded] = useState(childActive);
+
+  useEffect(() => {
+    if (childActive) setHeadingsExpanded(true);
+  }, [childActive]);
+
+  return (
+    <li>
+      {hasHeadings ? (
+        <div
+          className={cn(
+            "flex items-center gap-2 px-3 py-1.5 text-sm rounded-md transition-colors pl-8",
+            childActive
+              ? "bg-primary/10 text-primary font-medium"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+          )}
+        >
+          <button
+            onClick={() => setHeadingsExpanded(!headingsExpanded)}
+            className="shrink-0"
+          >
+            <ChevronRight
+              className={cn(
+                "w-3 h-3 transition-transform duration-200",
+                headingsExpanded && "rotate-90"
+              )}
+            />
+          </button>
+          <Link href={childHref} onClick={onNavigate} className="flex-1">
+            {child.title}
+          </Link>
+        </div>
+      ) : (
+        <Link
+          href={childHref}
+          onClick={onNavigate}
+          className={cn(
+            "block px-3 py-1.5 text-sm rounded-md transition-colors pl-10",
+            childActive
+              ? "bg-primary/10 text-primary font-medium"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+          )}
+        >
+          {child.title}
+        </Link>
+      )}
+      {hasHeadings && headingsExpanded && (
+        <ul className="mt-0.5 space-y-0.5">
+          {child.headings!.map((heading) => (
+            <li key={heading.id}>
+              <Link
+                href={`${childHref}#${heading.id}`}
+                onClick={onNavigate}
+                className="block px-3 py-1 text-xs rounded-md transition-colors pl-14 text-muted-foreground/60 hover:text-foreground hover:bg-muted/50"
+              >
+                {heading.text}
+              </Link>
+            </li>
+          ))}
         </ul>
       )}
     </li>
