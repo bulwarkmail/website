@@ -75,7 +75,7 @@ export default function Home() {
               </span>
               <span className="w-px h-4 bg-border" />
               <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                v1.1.2 â€” MIT License
+                v1.2.3 Mit License
               </span>
               <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
             </a>
