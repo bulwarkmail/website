@@ -29,7 +29,7 @@ const links = [
   {
     icon: Languages,
     label: "Help translate (8 languages so far)",
-    href: "https://github.com/bulwarkmail/webmail/tree/main/messages",
+    href: "https://github.com/bulwarkmail/webmail/tree/main/locales",
   },
 ];
 
