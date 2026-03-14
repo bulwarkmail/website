@@ -685,7 +685,7 @@ function MiniLanguagePicker() {
           className="text-[11px] text-foreground font-medium"
         >
           {languages[selected].greeting}{" "}
-          <span className="text-muted-foreground font-normal">â€” {languages[selected].label}</span>
+          <span className="text-muted-foreground font-normal">- {languages[selected].label}</span>
         </motion.div>
       </AnimatePresence>
     </div>

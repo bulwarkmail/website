@@ -107,11 +107,11 @@ All JMAP operations use a single HTTP endpoint. Requests are batched method call
 
 Bulwark detects server capabilities at session creation and conditionally enables features:
 
-- `urn:ietf:params:jmap:mail` â€” Email (always required)
-- `urn:ietf:params:jmap:calendars` â€” Calendar
-- `urn:ietf:params:jmap:contacts` â€” Contacts with JMAP sync
-- `urn:ietf:params:jmap:vacationresponse` â€” Vacation auto-reply
-- `urn:ietf:params:jmap:sieve` â€” Server-side email filters
+- `urn:ietf:params:jmap:mail` - Email (always required)
+- `urn:ietf:params:jmap:calendars` - Calendar
+- `urn:ietf:params:jmap:contacts` - Contacts with JMAP sync
+- `urn:ietf:params:jmap:vacationresponse` - Vacation auto-reply
+- `urn:ietf:params:jmap:sieve` - Server-side email filters
 
 ### Push Notifications
 
@@ -119,10 +119,10 @@ Bulwark uses JMAP's EventSource mechanism for real-time updates. When new emails
 
 ## State Management
 
-- **Server state** â€” Managed via JMAP state tokens for efficient sync
-- **UI state** â€” Zustand stores with persist middleware for client-side state
-- **Theme state** â€” Zustand store persisted in `localStorage` with system preference detection
-- **Settings state** â€” Zustand store with optional server-side sync (encrypted settings backup)
+- **Server state** - Managed via JMAP state tokens for efficient sync
+- **UI state** - Zustand stores with persist middleware for client-side state
+- **Theme state** - Zustand store persisted in `localStorage` with system preference detection
+- **Settings state** - Zustand store with optional server-side sync (encrypted settings backup)
 
 ## Security
 

@@ -44,7 +44,7 @@ These checks run automatically on commit via Husky pre-commit hooks.
 
 - We use **TypeScript** throughout the project
 - Follow the existing code patterns and define proper types (avoid `any`)
-- Use **Tailwind CSS** for styling â€” avoid custom CSS where possible
+- Use **Tailwind CSS** for styling - avoid custom CSS where possible
 - Components are in `components/` organized by feature (email, calendar, contacts, layout, ui)
 - Use `"use client"` directive only when necessary
 - Reusable UI primitives go in `components/ui/`
@@ -55,7 +55,7 @@ These checks run automatically on commit via Husky pre-commit hooks.
 
 This project uses **next-intl** for internationalization with 8 supported languages. Key rules:
 
-1. **Never hardcode user-facing text** â€” Always use translations:
+1. **Never hardcode user-facing text** - Always use translations:
 
    ```tsx
    const t = useTranslations("namespace");
@@ -72,13 +72,13 @@ This project uses **next-intl** for internationalization with 8 supported langua
 
 Follow the conventional commits format:
 
-- `feat:` â€” New features
-- `fix:` â€” Bug fixes
-- `docs:` â€” Documentation changes
-- `style:` â€” Code style changes (formatting, etc.)
-- `refactor:` â€” Code refactoring
-- `test:` â€” Adding or updating tests
-- `chore:` â€” Maintenance tasks
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting, etc.)
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
 
 ```
 feat: add email threading support

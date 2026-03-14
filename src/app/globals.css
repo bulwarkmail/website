@@ -310,7 +310,7 @@ html {
   color: #22c55e;
 }
 
-/* Syntax highlighting â€” Light theme */
+/* Syntax highlighting - Light theme */
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-built_in,
@@ -372,7 +372,7 @@ html {
   background-color: #ffeef0;
 }
 
-/* Syntax highlighting â€” Dark theme */
+/* Syntax highlighting - Dark theme */
 .dark .hljs-keyword,
 .dark .hljs-selector-tag,
 .dark .hljs-built_in,

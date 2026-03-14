@@ -115,7 +115,7 @@ export default function Home() {
             style={{ textShadow: '0 0 24px hsl(var(--background)), 0 0 48px hsl(var(--background)), 0 2px 4px rgba(0,0,0,0.8)' }}
           >
             A modern, self-hosted email client powered by the JMAP protocol.
-            Email, calendar, contacts â€” fast, private, and open source.
+            Email, calendar, contacts - fast, private, and open source.
           </motion.p>
 
           {/* CTAs */}

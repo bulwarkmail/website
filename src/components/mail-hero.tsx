@@ -193,7 +193,7 @@ const EMAILS: EmailData[] = [
           <li>API versioning strategy</li>
           <li>Rollback procedures</li>
         </ul>
-        <p className="text-muted-foreground">â€” Alex</p>
+        <p className="text-muted-foreground">- Alex</p>
       </>
     ),
   },
@@ -784,7 +784,7 @@ export function MailHero() {
           </button>
         </div>
 
-        {/* Email content â€” animated on switch */}
+        {/* Email content - animated on switch */}
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedEmailId}
@@ -1393,7 +1393,7 @@ export function MailHero() {
                       Phone Numbers
                     </div>
                     <p className="text-xs text-foreground">
-                      {selectedContact.phone || "â€”"}
+                      {selectedContact.phone || "-"}
                     </p>
                   </div>
 
@@ -1404,7 +1404,7 @@ export function MailHero() {
                       Organizations
                     </div>
                     <p className="text-xs text-foreground">
-                      {selectedContact.organization || "â€”"}
+                      {selectedContact.organization || "-"}
                     </p>
                   </div>
                 </div>
@@ -1836,7 +1836,7 @@ export function MailHero() {
             <div>
               <p className="text-xs font-medium text-foreground">New email</p>
               <p className="text-[10px] text-muted-foreground">
-                Re: David Park â€” Design system updates
+                Re: David Park - Design system updates
               </p>
             </div>
           </div>
