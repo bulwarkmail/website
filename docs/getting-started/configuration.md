@@ -36,30 +36,30 @@ JMAP_SERVER_URL=https://mail.example.com
 
 ## Environment Variables
 
-| Variable                      | Required        | Default                                   | Description                                                                               |
-| ----------------------------- | --------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `APP_NAME`                    | No              | `Webmail` fallback in app config          | Application name shown in the UI                                                          |
-| `JMAP_SERVER_URL`             | Yes             | —                                         | URL of your JMAP-compatible mail server                                                   |
-| `STALWART_FEATURES`           | No              | `true`                                    | Enables Stalwart-specific account and management features                                 |
-| `STALWART_API_URL`            | No              | `JMAP_SERVER_URL`                         | Direct URL for Stalwart management API calls when your proxy does not forward admin paths |
-| `OAUTH_ENABLED`               | No              | `false`                                   | Enables OAuth2 / OpenID Connect login                                                     |
-| `OAUTH_ONLY`                  | No              | `false`                                   | Hides the username/password login form and requires OAuth                                 |
-| `OAUTH_CLIENT_ID`             | OAuth only      | —                                         | OAuth client ID                                                                           |
-| `OAUTH_CLIENT_SECRET`         | No              | empty                                     | OAuth client secret for confidential clients                                              |
-| `OAUTH_ISSUER_URL`            | No              | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs                                                     |
-| `SESSION_SECRET`              | Feature-gated   | —                                         | Enables encrypted persistent sessions and settings sync encryption                        |
-| `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync                                               |
-| `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory used for encrypted settings storage                                             |
-| `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                       |
-| `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                        |
-| `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds                                                     |
-| `LOGIN_LOGO_DARK_URL`         | No              | Bulwark dark logo                         | Login page logo for dark backgrounds                                                      |
-| `LOGIN_COMPANY_NAME`          | No              | empty                                     | Company name shown on the login page                                                      |
-| `LOGIN_IMPRINT_URL`           | No              | empty                                     | Login page imprint / legal notice link                                                    |
-| `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                            |
-| `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                   |
-| `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | —                                         | Legacy build-time fallback for `APP_NAME`                                                 |
-| `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | —                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                          |
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `APP_NAME` | No | `Webmail` fallback in app config | Application name shown in the UI |
+| `JMAP_SERVER_URL` | Yes | — | URL of your JMAP-compatible mail server |
+| `STALWART_FEATURES` | No | `true` | Enables Stalwart-specific account and management features |
+| `STALWART_API_URL` | No | `JMAP_SERVER_URL` | Direct URL for Stalwart management API calls when your proxy does not forward admin paths |
+| `OAUTH_ENABLED` | No | `false` | Enables OAuth2 / OpenID Connect login |
+| `OAUTH_ONLY` | No | `false` | Hides the username/password login form and requires OAuth |
+| `OAUTH_CLIENT_ID` | OAuth only | — | OAuth client ID |
+| `OAUTH_CLIENT_SECRET` | No | empty | OAuth client secret for confidential clients |
+| `OAUTH_ISSUER_URL` | No | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs |
+| `SESSION_SECRET` | Feature-gated | — | Enables encrypted persistent sessions and settings sync encryption |
+| `SETTINGS_SYNC_ENABLED` | No | `false` | Enables encrypted server-side settings sync |
+| `SETTINGS_DATA_DIR` | No | `./data/settings` | Directory used for encrypted settings storage |
+| `LOG_FORMAT` | No | `text` | Log output format: `text` or `json` |
+| `LOG_LEVEL` | No | `info` | Log verbosity: `error`, `warn`, `info`, or `debug` |
+| `LOGIN_LOGO_LIGHT_URL` | No | Bulwark light logo | Login page logo for light backgrounds |
+| `LOGIN_LOGO_DARK_URL` | No | Bulwark dark logo | Login page logo for dark backgrounds |
+| `LOGIN_COMPANY_NAME` | No | empty | Company name shown on the login page |
+| `LOGIN_IMPRINT_URL` | No | empty | Login page imprint / legal notice link |
+| `LOGIN_PRIVACY_POLICY_URL` | No | empty | Login page privacy policy link |
+| `LOGIN_WEBSITE_URL` | No | empty | Login page website link |
+| `NEXT_PUBLIC_APP_NAME` | Legacy fallback | — | Legacy build-time fallback for `APP_NAME` |
+| `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | — | Legacy build-time fallback for `JMAP_SERVER_URL` |
 
 ## Full Reference
 

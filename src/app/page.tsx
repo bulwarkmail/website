@@ -75,7 +75,7 @@ export default function Home() {
               </span>
               <span className="w-px h-4 bg-border" />
               <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                v1.2.4 AGPL-3.0
+                v1.3.0 AGPL-3.0
               </span>
               <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
             </a>

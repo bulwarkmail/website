@@ -20,15 +20,15 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 ## Key Features
 
 - Full email management (compose, read, organize, search with filter panel)
-- Calendar with event management, drag-and-drop scheduling, and iTIP invitations
-- Contact management with JMAP sync, vCard import/export, and groups
+- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, and iCal/webcal subscriptions
+- Contact management with JMAP sync, vCard import/export from Settings, and groups
 - File browser with upload, preview, favorites, recent files, and bulk operations
 - Email templates with placeholder variables
 - Server-side email filters via Sieve scripts with visual rule builder
 - Vacation auto-responder
 - Multiple sender identities with per-identity signatures
-- Dark and light themes with system preference detection
-- Mobile-responsive design with bottom tab navigation
+- Dark and light themes with smart iframe email color transformation
+- Mobile-responsive design with bottom tab navigation and long-press context menus
 - Keyboard shortcuts
 - Real-time push notifications via JMAP EventSource
 - Internationalization (8 languages: English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese)

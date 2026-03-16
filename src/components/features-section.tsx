@@ -53,7 +53,7 @@ const features: Feature[] = [
     icon: Calendar,
     title: "Calendar Integration",
     description:
-      "JMAP Calendar (RFC 8984) with month, week, day, agenda views. Drag-and-drop rescheduling, resize, recurring events, iTIP invitations with RSVP from email.",
+      "JMAP Calendar (RFC 8984) with month, week, day, agenda views. Create, update, and delete events with drag-and-drop rescheduling, resize, recurring rules, iTIP invitations with RSVP trust assessment, and iCal/webcal subscription support.",
     accent: "text-blue-600",
     accentBg: "bg-blue-600",
     colSpan: "md:col-span-4",

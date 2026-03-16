@@ -43,7 +43,7 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 ## Sharing & Invitations
 
 - Send calendar invitations via iTIP scheduling messages
-- Accept/decline/tentative RSVP responses
+- Accept/decline/tentative RSVP responses with trust assessment
 - Organizer and attendee UI with participant management
 - Inline calendar invitation banner in email viewer — automatically detects `.ics` attachments with RSVP and import-to-calendar actions
 
@@ -54,6 +54,10 @@ Create and manage multiple calendars with different colors. Toggle visibility of
 ## iCalendar Import
 
 Import `.ics` files with a preview dialog and bulk event creation.
+
+## iCal/Webcal Subscriptions
+
+Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars appear alongside your own and refresh automatically.
 
 ## Real-time Updates
 

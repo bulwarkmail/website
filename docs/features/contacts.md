@@ -15,6 +15,8 @@ Manage your contacts directly within Bulwark using JMAP Contacts (RFC 9553/9610 
 - Organization and job title fields
 - Search and filter contacts list
 - Contact details view with edit form
+- Resizable sidebar for browsing contacts alongside details
+- Multi-select with checkboxes and selection toolbar
 
 ## Groups
 
@@ -30,8 +32,8 @@ When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc
 
 ## Import & Export
 
-- **Import** — vCard (.vcf) files (RFC 6350) with duplicate detection
-- **Export** — Download contacts as vCard
+- **Import** — vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
+- **Export** — Download contacts as vCard, accessible from Settings
 - **Sync** — Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
 
 ## Bulk Operations

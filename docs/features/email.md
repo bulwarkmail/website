@@ -12,9 +12,11 @@ Bulwark provides a full-featured email experience powered by the JMAP protocol.
 
 - Three-pane layout (sidebar, email list, viewer)
 - Hierarchical mailbox display with unread counts
+- Unread filter toggle in the mailbox sidebar
 - Drag-and-drop email organization between folders
 - Virtual scrolling for large email lists
 - Infinite scroll pagination
+- Empty folder action for Junk and Trash mailboxes (with confirmation)
 
 ## Composing
 
@@ -37,14 +39,18 @@ Press `C` anywhere in the app to open the compose window.
 ## Reading
 
 - Threaded conversation view with inline expansion
-- HTML rendering with DOMPurify sanitization
+- Iframe-based HTML rendering with smart dark mode transformation
+- DOMPurify sanitization for security
 - External content blocked by default with per-sender trust
-- SPF/DKIM/DMARC status indicators
+- SPF/DKIM/DMARC status indicators with security tooltips
 - Download or preview attachments
 - Reply, reply-all, and forward actions
 - Quick reply form
-- Expandable email headers
+- Expandable email headers with contact sidebar
+- Move-to mailbox directly from the viewer
 - Newsletter unsubscribe support (RFC 2369)
+- Mobile bottom action bar with reply and navigation controls
+- Auto-fetch full email content when a message is auto-selected
 
 ## Search
 
