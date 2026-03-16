@@ -37,10 +37,10 @@ export function ArchitectureSection() {
             className="text-3xl md:text-4xl font-bold text-foreground tracking-tight"
             style={{ fontFamily: "var(--font-exo2)" }}
           >
-            How it works
+            JMAP-native architecture
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            No custom REST API between the browser and the mail server. JMAP is the API.
+            No custom REST API between the browser and Stalwart. The JMAP protocol is the API — direct, standards-based, and efficient.
           </p>
         </motion.div>
 

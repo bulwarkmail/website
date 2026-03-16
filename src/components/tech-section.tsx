@@ -138,7 +138,7 @@ export function TechSection() {
             Under the hood
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-tight" style={{ fontFamily: 'var(--font-exo2)' }}>
-            Modern tech stack
+            Built on JMAP &amp; Next.js
             <br />
             <span className="text-muted-foreground font-normal">zero compromises.</span>
           </h2>

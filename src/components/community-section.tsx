@@ -54,7 +54,7 @@ export function CommunitySection() {
             Get involved
           </h2>
           <p className="mt-3 text-muted-foreground text-lg">
-            Bulwark is MIT-licensed and developed in the open. Bug reports, translations, and code contributions all happen on GitHub.
+            Bulwark is AGPL-licensed and developed in the open. Bug reports, translations, and code contributions all happen on GitHub.
           </p>
         </motion.div>
 

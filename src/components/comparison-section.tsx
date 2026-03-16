@@ -92,10 +92,10 @@ export function ComparisonSection() {
             className="text-3xl md:text-4xl font-bold text-foreground tracking-tight"
             style={{ fontFamily: "var(--font-exo2)" }}
           >
-            How Bulwark compares
+            How Bulwark compares to other webmail clients
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            See how Bulwark stacks up against other webmail clients and hosted providers.
+            See how Bulwark stacks up against Roundcube, Snappymail, and hosted email providers.
           </p>
         </motion.div>
 

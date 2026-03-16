@@ -35,9 +35,48 @@ const FaqSection = dynamic(() =>
 );
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Bulwark Webmail",
+    applicationCategory: "CommunicationApplication",
+    operatingSystem: "Web, Docker, Linux",
+    description:
+      "A modern, open-source webmail client for Stalwart Mail Server. Built with Next.js and JMAP for fast, private, self-hosted email, calendar, contacts, and file storage.",
+    url: "https://bulwarkmail.org",
+    downloadUrl: "https://github.com/bulwarkmail/webmail",
+    softwareVersion: "1.3.0",
+    license: "https://www.gnu.org/licenses/agpl-3.0.html",
+    isAccessibleForFree: true,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Email client for Stalwart Mail Server",
+      "JMAP protocol support",
+      "Calendar management",
+      "Contact management",
+      "File storage",
+      "Self-hosted deployment",
+      "Docker support",
+      "Dark mode",
+      "Keyboard shortcuts",
+    ],
+    author: {
+      "@type": "Organization",
+      name: "Bulwark Mail",
+      url: "https://bulwarkmail.org",
+    },
+  };
 
   return (
     <div className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
 
       <main>
@@ -106,8 +145,8 @@ export default function Home() {
               className="text-center text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-lg animate-fade-in-up"
               style={{ animationDelay: '0.3s', textShadow: '0 0 24px hsl(var(--background)), 0 0 48px hsl(var(--background))' }}
             >
-              A modern, self-hosted email client powered by the JMAP protocol.
-              Email, calendar, contacts, and files - fast, private, and open source.
+              A modern, self-hosted webmail client for Stalwart Mail Server, powered by the JMAP protocol.
+              Email, calendar, contacts, and files — fast, private, and open source.
             </p>
 
             {/* CTAs */}
@@ -168,7 +207,7 @@ export default function Home() {
             Ready to take control of your email?
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-            Self-host mail, calendar, contacts, and files with Stalwart. No tracking, no ads, no compromises.
+            Self-host your webmail with Bulwark and Stalwart Mail Server. Email, calendar, contacts, and files — no tracking, no ads, no compromises.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a

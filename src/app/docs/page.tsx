@@ -4,8 +4,12 @@ import { BookOpen, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Documentation — Bulwark",
-  description: "Learn how to install, configure, and use Bulwark webmail for Stalwart Mail Server.",
+  title: "Documentation — Bulwark Webmail for Stalwart",
+  description:
+    "Comprehensive documentation for Bulwark, the open-source JMAP webmail client for Stalwart Mail Server. Installation guides, configuration, features, and deployment with Docker.",
+  alternates: {
+    canonical: "/docs",
+  },
 };
 
 export default function DocsPage() {

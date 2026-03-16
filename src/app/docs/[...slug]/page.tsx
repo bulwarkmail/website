@@ -18,11 +18,17 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const doc = await getDocBySlug(slug.join("/"));
+  const slugStr = slug.join("/");
+  const doc = await getDocBySlug(slugStr);
   if (!doc) return {};
   return {
-    title: `${doc.title} — Bulwark Docs`,
-    description: doc.description,
+    title: `${doc.title} — Bulwark Webmail Docs`,
+    description:
+      doc.description ||
+      `${doc.title} — Bulwark webmail documentation for Stalwart Mail Server. Learn about setup, configuration, and usage with the JMAP protocol.`,
+    alternates: {
+      canonical: `/docs/${slugStr}`,
+    },
   };
 }
 

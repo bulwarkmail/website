@@ -965,7 +965,7 @@ export function FeaturesSection() {
           <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-tight">
             Everything you need
             <br />
-            <span className="text-muted-foreground font-normal">in a webmail client.</span>
+            <span className="text-muted-foreground font-normal">in a self-hosted webmail client.</span>
           </h2>
         </motion.div>
 

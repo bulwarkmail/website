@@ -60,10 +60,10 @@ export function ScreenshotsSection() {
             Screenshots
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight" style={{ fontFamily: 'var(--font-exo2)' }}>
-            See it in action
+            See Bulwark webmail in action
           </h2>
           <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
-            Mail, calendar, contacts, and files in one polished interface.
+            Mail, calendar, contacts, and file management — a complete webmail experience for Stalwart Mail Server.
           </p>
         </motion.div>
 

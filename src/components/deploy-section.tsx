@@ -112,10 +112,10 @@ export function DeploySection() {
             Get started
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight" style={{ fontFamily: 'var(--font-exo2)' }}>
-            Deploy in seconds
+            Deploy your webmail in seconds
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            One command to install. Or use Docker / build from source.
+            One command to install Bulwark alongside Stalwart. Or use Docker, build from source, or deploy with your favorite platform.
           </p>
         </motion.div>
 
