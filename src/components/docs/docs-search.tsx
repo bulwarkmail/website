@@ -163,9 +163,9 @@ export function DocsSearch() {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" onClick={close} />
-      <div className="fixed inset-x-0 top-[10%] z-50 mx-auto w-full max-w-lg px-4">
-        <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
+      <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm" onClick={close} />
+      <div className="fixed inset-x-0 top-[10%] z-[110] mx-auto w-full max-w-lg px-4">
+        <div className="relative isolate bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
           {/* Search input */}
           <div className="flex items-center gap-3 px-4 border-b border-border">
             <Search className="w-4 h-4 text-muted-foreground shrink-0" />

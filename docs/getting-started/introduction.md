@@ -14,14 +14,15 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 
 - **Modern UI/UX** — A clean, responsive interface built with cutting-edge web technologies
 - **JMAP Protocol** — Leveraging the modern JMAP standard instead of legacy IMAP for superior performance
-- **Stalwart Integration** — First-class support for Stalwart Mail Server, including Sieve filters, vacation responder, and account security management
-- **Open Source** — Fully open-source under the MIT license
+- **Stalwart Integration** — First-class support for Stalwart Mail Server, including Sieve filters, vacation responder, account security management, and JMAP FileNode storage
+- **Open Source** — Fully open-source under the AGPL v3 license
 
 ## Key Features
 
 - Full email management (compose, read, organize, search with filter panel)
 - Calendar with event management, drag-and-drop scheduling, and iTIP invitations
 - Contact management with JMAP sync, vCard import/export, and groups
+- File browser with upload, preview, favorites, recent files, and bulk operations
 - Email templates with placeholder variables
 - Server-side email filters via Sieve scripts with visual rule builder
 - Vacation auto-responder

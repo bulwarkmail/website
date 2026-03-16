@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   useState,
-  useCallback,
 } from "react";
 
 type Theme = "light" | "dark" | "system";
@@ -35,42 +34,40 @@ function getSystemTheme(): ResolvedTheme {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("system");
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>("light");
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "system";
+    return (localStorage.getItem("theme") as Theme | null) ?? "system";
+  });
+  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => {
+    if (typeof window === "undefined") return "light";
+    const storedTheme = (localStorage.getItem("theme") as Theme | null) ?? "system";
+    return storedTheme === "system" ? getSystemTheme() : storedTheme;
+  });
 
-  const applyTheme = useCallback((resolved: ResolvedTheme) => {
-    setResolvedTheme(resolved);
-    document.documentElement.classList.toggle("dark", resolved === "dark");
-  }, []);
+  const resolvedTheme: ResolvedTheme = theme === "system" ? systemTheme : theme;
 
-  // On mount, read stored preference
+  // Keep the document class in sync with the resolved theme.
   useEffect(() => {
-    const stored = localStorage.getItem("theme") as Theme | null;
-    const t = stored ?? "system";
-    setThemeState(t);
-    applyTheme(t === "system" ? getSystemTheme() : t);
-  }, [applyTheme]);
+    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
+  }, [resolvedTheme]);
 
   // Listen to system preference changes when in "system" mode
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = () => {
-      if (theme === "system") {
-        applyTheme(getSystemTheme());
-      }
+    const handler = (event: MediaQueryListEvent) => {
+      setSystemTheme(event.matches ? "dark" : "light");
     };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
-  }, [theme, applyTheme]);
+  }, []);
 
-  const setTheme = useCallback(
-    (t: Theme) => {
-      setThemeState(t);
-      localStorage.setItem("theme", t);
-      applyTheme(t === "system" ? getSystemTheme() : t);
-    },
-    [applyTheme]
-  );
+  const setTheme = (t: Theme) => {
+    setThemeState(t);
+    localStorage.setItem("theme", t);
+    if (t === "system") {
+      setSystemTheme(getSystemTheme());
+    }
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>

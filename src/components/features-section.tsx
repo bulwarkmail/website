@@ -15,6 +15,9 @@ import {
   Palette,
   Filter,
   FileText,
+  FolderOpen,
+  Upload,
+  Download,
   ArrowRight,
   Check,
   Inbox,
@@ -63,6 +66,15 @@ const features: Feature[] = [
     accent: "text-violet-600",
     accentBg: "bg-violet-600",
     colSpan: "md:col-span-3",
+  },
+  {
+    icon: FolderOpen,
+    title: "Cloud File Browser",
+    description:
+      "JMAP FileNode storage with upload, download, preview, folder navigation, favorites, recent files, and bulk operations.",
+    accent: "text-teal-600",
+    accentBg: "bg-teal-600",
+    colSpan: "md:col-span-4",
   },
   {
     icon: Search,
@@ -449,6 +461,61 @@ function MiniContacts() {
         {filtered.length === 0 && (
           <p className="text-[10px] text-muted-foreground px-2.5 py-3 text-center">No contacts found</p>
         )}
+      </div>
+    </div>
+  );
+}
+
+function MiniFilesBrowser() {
+  const entries = [
+    { name: "Brand Assets", meta: "Folder · 12 items", kind: "folder" },
+    { name: "Q1-plan.pdf", meta: "PDF · 2.4 MB", kind: "file" },
+    { name: "Launch Notes.md", meta: "Markdown · 18 KB", kind: "file" },
+  ];
+  const [selected, setSelected] = useState(0);
+
+  return (
+    <div className="mt-4 space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+          <span className="px-1.5 py-0.5 rounded-sm bg-muted text-foreground">/Files</span>
+          <span>/</span>
+          <span>Projects</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <button className="inline-flex items-center gap-1 rounded-sm border border-border px-1.5 py-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+            <Upload className="w-3 h-3" />
+            Upload
+          </button>
+          <button className="inline-flex items-center gap-1 rounded-sm border border-border px-1.5 py-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+            <Download className="w-3 h-3" />
+            Sync
+          </button>
+        </div>
+      </div>
+      <div className="border border-border bg-card rounded overflow-hidden">
+        {entries.map((entry, index) => (
+          <motion.div
+            key={entry.name}
+            onClick={() => setSelected(index)}
+            whileTap={{ scale: 0.98 }}
+            className={cn(
+              "flex items-center gap-2 px-2.5 py-2 border-b border-border/50 last:border-0 cursor-pointer transition-colors",
+              selected === index ? "bg-teal-600/5" : "hover:bg-muted/60"
+            )}
+          >
+            <span className={cn(
+              "inline-flex h-6 w-6 items-center justify-center rounded-sm",
+              entry.kind === "folder" ? "bg-teal-600/10 text-teal-600" : "bg-muted text-muted-foreground"
+            )}>
+              {entry.kind === "folder" ? <FolderOpen className="w-3.5 h-3.5" /> : <FileText className="w-3.5 h-3.5" />}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-medium text-foreground truncate">{entry.name}</p>
+              <p className="text-[10px] text-muted-foreground truncate">{entry.meta}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
@@ -863,17 +930,18 @@ export function FeaturesSection() {
     0: <MiniInbox />,
     1: <MiniCalendar />,
     2: <MiniContacts />,
-    3: <MiniSearchBar />,
-    4: <MiniNotifications />,
-    5: <MiniSecurityBadges />,
-    6: <MiniIdentitySwitcher />,
-    7: <MiniFilterBuilder />,
-    8: <MiniTemplatePicker />,
-    9: <MiniVacationToggle />,
-    10: <MiniKeyboard />,
-    11: <MiniThemePreview />,
-    12: <MiniLanguagePicker />,
-    13: <MiniDockerTerminal />,
+    3: <MiniFilesBrowser />,
+    4: <MiniSearchBar />,
+    5: <MiniNotifications />,
+    6: <MiniSecurityBadges />,
+    7: <MiniIdentitySwitcher />,
+    8: <MiniFilterBuilder />,
+    9: <MiniTemplatePicker />,
+    10: <MiniVacationToggle />,
+    11: <MiniKeyboard />,
+    12: <MiniThemePreview />,
+    13: <MiniLanguagePicker />,
+    14: <MiniDockerTerminal />,
   };
 
   return (

@@ -19,7 +19,7 @@ const faqs: FaqItem[] = [
   {
     question: "Which JMAP RFCs are supported?",
     answer:
-      "Bulwark supports RFC 8620 (JMAP Core), RFC 8621 (JMAP Mail), RFC 8984 (JMAP Calendars), and RFC 9553/9610 (JMAP Contacts). Sieve filter management (RFC 6785) is also supported for compatible servers.",
+      "Bulwark supports RFC 8620 (JMAP Core), RFC 8621 (JMAP Mail), RFC 8984 (JMAP Calendars), RFC 9553/9610 (JMAP Contacts), and RFC 9661 for JMAP Sieve script management on compatible servers.",
   },
   {
     question: "Can I migrate from Roundcube or another webmail?",
@@ -49,7 +49,7 @@ const faqs: FaqItem[] = [
   {
     question: "Is Bulwark free to use?",
     answer:
-      "Yes. Bulwark is open source under the MIT License. You can use, modify, and distribute it freely. There are no premium tiers or paid features.",
+      "Yes. Bulwark is open source under the AGPL v3 license. You can self-host, inspect, and modify it, and there are no premium tiers or paid features.",
   },
 ];
 

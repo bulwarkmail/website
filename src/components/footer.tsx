@@ -45,7 +45,7 @@ export function Footer() {
 
         <div className="mt-8 pt-6 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>
-            MIT License &copy; {new Date().getFullYear()} Bulwark
+            AGPL-3.0 &copy; {new Date().getFullYear()} Bulwark
           </p>
           <p className="flex items-center gap-1">
             Built with <Heart className="w-3 h-3 text-primary fill-primary" /> for Stalwart Mail Server

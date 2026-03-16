@@ -75,7 +75,7 @@ export default function Home() {
               </span>
               <span className="w-px h-4 bg-border" />
               <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                v1.2.3 Mit License
+                v1.2.4 AGPL-3.0
               </span>
               <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
             </a>
@@ -115,7 +115,7 @@ export default function Home() {
             style={{ textShadow: '0 0 24px hsl(var(--background)), 0 0 48px hsl(var(--background)), 0 2px 4px rgba(0,0,0,0.8)' }}
           >
             A modern, self-hosted email client powered by the JMAP protocol.
-            Email, calendar, contacts - fast, private, and open source.
+            Email, calendar, contacts, and files - fast, private, and open source.
           </motion.p>
 
           {/* CTAs */}
@@ -188,7 +188,7 @@ export default function Home() {
               Ready to take control of your email?
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Self-host your webmail with Stalwart. No tracking, no ads, no compromises.
+              Self-host mail, calendar, contacts, and files with Stalwart. No tracking, no ads, no compromises.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a

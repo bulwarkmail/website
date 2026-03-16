@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Menu, X } from "lucide-react";
@@ -47,14 +47,9 @@ function SidebarLink({
   const href = `/docs/${item.slug}`;
   const isActive = pathname === href;
   const hasChildren = item.children && item.children.length > 0;
-  const isChildActive = hasChildren && item.children!.some((c) => pathname === `/docs/${c.slug}`);
   const hasHeadings = item.headings && item.headings.length > 0;
   const [expanded, setExpanded] = useState(true);
   const [headingsExpanded, setHeadingsExpanded] = useState(isActive);
-
-  useEffect(() => {
-    if (isActive) setHeadingsExpanded(true);
-  }, [isActive]);
 
   return (
     <li>
@@ -138,7 +133,7 @@ function SidebarLink({
         <ul className="mt-0.5 space-y-0.5">
           {item.children!.map((child) => (
             <ChildLink
-              key={child.slug}
+              key={`${child.slug}:${pathname}`}
               child={child}
               pathname={pathname}
               onNavigate={onNavigate}
@@ -163,10 +158,6 @@ function ChildLink({
   const childActive = pathname === childHref;
   const hasHeadings = child.headings && child.headings.length > 0;
   const [headingsExpanded, setHeadingsExpanded] = useState(childActive);
-
-  useEffect(() => {
-    if (childActive) setHeadingsExpanded(true);
-  }, [childActive]);
 
   return (
     <li>
@@ -244,7 +235,7 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
           <ul className="space-y-0.5">
             {section.items.map((item) => (
               <SidebarLink
-                key={item.slug}
+                key={`${item.slug}:${pathname}`}
                 item={item}
                 pathname={pathname}
                 onNavigate={() => setMobileOpen(false)}

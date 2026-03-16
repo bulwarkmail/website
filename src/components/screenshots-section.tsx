@@ -16,24 +16,29 @@ const screenshots = [
     image: "/screenshots/02-inbox.png",
   },
   {
-    title: "Email Viewer",
-    description: "SPF/DKIM/DMARC badges",
-    image: "/screenshots/03-email-viewer.png",
+    title: "Calendar",
+    description: "Month, week, day, and agenda views",
+    image: "/screenshots/03-calendar.png",
   },
   {
-    title: "Compose",
-    description: "Identity switching & templates",
-    image: "/screenshots/04-compose.png",
+    title: "Contacts",
+    description: "Groups, autocomplete, and vCard sync",
+    image: "/screenshots/04-contacts.png",
   },
   {
-    title: "Dark Mode",
-    description: "System-aware theming",
-    image: "/screenshots/05-dark-mode.png",
+    title: "Files",
+    description: "Cloud file browser with upload and preview",
+    image: "/screenshots/05-files.png",
   },
   {
     title: "Settings",
     description: "Identities, filters & more",
     image: "/screenshots/06-settings.png",
+  },
+  {
+    title: "Light Mode",
+    description: "Theme-aware interface across the full app",
+    image: "/screenshots/07-light-mode.png",
   },
 ];
 
@@ -57,11 +62,11 @@ export function ScreenshotsSection() {
             See it in action
           </h2>
           <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
-            A polished interface designed for productivity.
+            Mail, calendar, contacts, and files in one polished interface.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2 mb-4">
           {screenshots.map((s, i) => (
             <button
               key={s.title}
