@@ -224,6 +224,7 @@ function MiniInbox() {
                 setStarred((s) => s.includes(i) ? s.filter((x) => x !== i) : [...s, i]);
               }}
               className="shrink-0 cursor-pointer"
+              aria-label={starred.includes(i) ? "Unstar email" : "Star email"}
             >
               <Star className={cn("w-3 h-3", starred.includes(i) ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40")} />
             </motion.button>
@@ -551,6 +552,7 @@ function MiniNotifications() {
             "w-7 h-4 rounded-full flex items-center px-0.5 cursor-pointer transition-colors",
             pulse ? "bg-amber-500 justify-end" : "bg-muted justify-start"
           )}
+          aria-label={pulse ? "Disable live updates" : "Enable live updates"}
         >
           <motion.div layout className="w-3 h-3 rounded-full bg-white shadow-sm" />
         </motion.button>
@@ -641,6 +643,7 @@ function MiniVacationToggle() {
             "w-8 h-[18px] rounded-full flex items-center px-0.5 cursor-pointer transition-colors",
             active ? "bg-sky-500 justify-end" : "bg-muted justify-start"
           )}
+          aria-label={active ? "Disable auto-reply" : "Enable auto-reply"}
         >
           <motion.div layout className="w-3.5 h-3.5 rounded-full bg-white shadow-sm" />
         </motion.button>
@@ -682,6 +685,7 @@ function MiniThemePreview() {
             "w-8 h-[18px] rounded-full flex items-center px-0.5 cursor-pointer transition-colors",
             dark ? "bg-violet-500 justify-end" : "bg-muted justify-start"
           )}
+          aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
         >
           <motion.div layout className="w-3.5 h-3.5 rounded-full bg-white shadow-sm" />
         </motion.button>
@@ -945,7 +949,7 @@ export function FeaturesSection() {
   };
 
   return (
-    <section id="features" className="py-20 px-6">
+    <section id="features" className="py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

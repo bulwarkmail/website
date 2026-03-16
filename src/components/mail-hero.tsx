@@ -1827,7 +1827,7 @@ export function MailHero() {
           initial={{ opacity: 0, y: 20, x: 20 }}
           animate={{ opacity: 1, y: 0, x: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
-          className="absolute -bottom-6 -right-4 z-10"
+          className="absolute -bottom-6 right-0 md:-right-4 z-10"
         >
           <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-md bg-card border border-border shadow-xl shadow-black/10">
             <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-xs font-medium text-white">

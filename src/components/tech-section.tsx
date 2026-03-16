@@ -125,7 +125,7 @@ export function TechSection() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <section id="tech" className="py-28 px-6 bg-muted/20">
+    <section id="tech" className="py-20 sm:py-28 px-4 sm:px-6 bg-muted/20">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -136,6 +136,21 @@ html {
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
 /* Documentation prose styles */
 .prose-docs {
   color: var(--foreground);
@@ -478,4 +493,54 @@ html {
   max-width: 100%;
   border-radius: 0.5rem;
   margin: 1.25rem 0;
+}
+
+/* Mobile-responsive docs table */
+.prose-docs table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-responsive prose */
+@media (max-width: 640px) {
+  .prose-docs {
+    font-size: 0.875rem;
+  }
+
+  .prose-docs h1 {
+    font-size: 1.75rem;
+  }
+
+  .prose-docs h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .prose-docs h3 {
+    font-size: 1.05rem;
+    margin-top: 1.5rem;
+  }
+
+  .prose-docs pre {
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+
+  .prose-docs code {
+    font-size: 0.75em;
+    word-break: break-word;
+  }
+}
+
+/* Prevent horizontal overflow */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
 }

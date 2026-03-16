@@ -76,7 +76,7 @@ function SupportIcon({ value }: { value: Support }) {
 
 export function ComparisonSection() {
   return (
-    <section id="compare" className="py-24 px-6">
+    <section id="compare" className="py-16 sm:py-24 px-4 sm:px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -106,17 +106,17 @@ export function ComparisonSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="overflow-x-auto rounded-xl border border-border bg-card"
         >
-          <table className="w-full text-sm">
+          <table className="w-full text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-border">
-                <th className="text-left py-4 px-5 text-muted-foreground font-medium sticky left-0 bg-card z-10">
+                <th className="text-left py-3 sm:py-4 px-3 sm:px-5 text-muted-foreground font-medium sticky left-0 bg-card z-10">
                   Feature
                 </th>
                 {competitors.map((c) => (
                   <th
                     key={c.name}
                     className={cn(
-                      "py-4 px-4 text-center font-semibold whitespace-nowrap",
+                      "py-3 sm:py-4 px-2 sm:px-4 text-center font-semibold whitespace-nowrap text-xs sm:text-sm",
                       c.name === "Bulwark"
                         ? "text-primary bg-primary/[0.06] border-x border-t border-primary/20 rounded-t-lg"
                         : "text-foreground"
@@ -139,14 +139,14 @@ export function ComparisonSection() {
                     i % 2 === 0 ? "bg-muted/20" : ""
                   )}
                 >
-                  <td className="py-3 px-5 text-foreground font-medium sticky left-0 bg-inherit z-10 whitespace-nowrap">
+                  <td className="py-2.5 sm:py-3 px-3 sm:px-5 text-foreground font-medium sticky left-0 bg-inherit z-10 whitespace-nowrap text-xs sm:text-sm">
                     {feature}
                   </td>
                   {competitors.map((c) => (
                     <td
                       key={c.name}
                       className={cn(
-                        "py-3 px-4 text-center",
+                        "py-2.5 sm:py-3 px-2 sm:px-4 text-center",
                         c.name === "Bulwark" && "bg-primary/[0.06] border-x border-primary/20"
                       )}
                     >

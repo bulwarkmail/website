@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const screenshots = [
@@ -46,7 +47,7 @@ export function ScreenshotsSection() {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="screenshots" className="py-16 px-6">
+    <section id="screenshots" className="py-16 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -66,23 +67,30 @@ export function ScreenshotsSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2 mb-4">
+        <div className={cn(
+          "flex gap-2 mb-4 overflow-x-auto pb-2 -mx-4 px-4",
+          "sm:pb-0 sm:grid sm:grid-cols-3 sm:mx-0 sm:px-0",
+          "lg:grid-cols-7"
+        )}>
           {screenshots.map((s, i) => (
             <button
               key={s.title}
               onClick={() => setActive(i)}
               className={cn(
-                "group relative rounded-md border overflow-hidden transition-all duration-200",
+                "group relative rounded-md border overflow-hidden transition-all duration-200 shrink-0 w-28 sm:w-auto",
                 i === active
                   ? "border-primary ring-1 ring-primary/30"
                   : "border-border hover:border-muted-foreground/30"
               )}
             >
-              <div className="aspect-video overflow-hidden">
-                <img
+              <div className="aspect-video overflow-hidden relative">
+                <Image
                   src={s.image}
                   alt={s.title}
+                  width={320}
+                  height={180}
                   className="w-full h-full object-cover object-top"
+                  sizes="(max-width: 640px) 112px, 160px"
                 />
               </div>
               <div className={cn(
@@ -114,11 +122,15 @@ export function ScreenshotsSection() {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="rounded-md border border-border bg-card overflow-hidden shadow-sm"
           >
-            <div className="aspect-[16/9] overflow-hidden">
-              <img
+            <div className="aspect-[16/9] overflow-hidden relative">
+              <Image
                 src={screenshots[active].image}
                 alt={screenshots[active].title}
+                width={1920}
+                height={1080}
                 className="w-full h-full object-cover object-top"
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                priority={active === 0}
               />
             </div>
           </motion.div>

@@ -49,8 +49,8 @@ export default async function DocPage({ params }: PageProps) {
   return (
     <article>
       {/* Breadcrumb */}
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-6">
+        <div className="flex items-center gap-1.5 text-sm text-muted-foreground flex-wrap">
           <Link href="/docs" className="hover:text-foreground transition-colors">
             Docs
           </Link>
@@ -77,7 +77,7 @@ export default async function DocPage({ params }: PageProps) {
       <CopyableCode html={doc.html} />
 
       {/* Prev/Next navigation */}
-      <nav className="mt-12 pt-6 border-t border-border flex justify-between gap-4">
+      <nav className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between gap-3 sm:gap-4">
         {prev ? (
           <Link
             href={`/docs/${prev.slug}`}

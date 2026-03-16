@@ -8,8 +8,8 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="min-h-screen bg-background">
       <DocsNavbar />
-      <div className="max-w-6xl mx-auto px-6 pt-20">
-        <div className="flex gap-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20">
+        <div className="flex gap-4 lg:gap-8">
           <DocsSidebar
             sections={sections.map((s) => {
               const topLevel = s.items.filter((i) => !i.parent);
