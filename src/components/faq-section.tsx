@@ -29,7 +29,7 @@ const faqs: FaqItem[] = [
   {
     question: "What are the system requirements?",
     answer:
-      "The Docker image runs on amd64 and arm64 architectures. It requires minimal resources — around 128 MB of RAM is sufficient. For building from source, you need Node.js 18+ and npm.",
+      "The Docker image runs on amd64 and arm64 architectures. It requires minimal resources - around 128 MB of RAM is sufficient. For building from source, you need Node.js 18+ and npm.",
   },
   {
     question: "Is there a mobile app or PWA?",

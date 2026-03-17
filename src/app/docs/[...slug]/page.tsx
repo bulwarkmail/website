@@ -22,10 +22,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const doc = await getDocBySlug(slugStr);
   if (!doc) return {};
   return {
-    title: `${doc.title} — Bulwark Webmail Docs`,
+    title: `${doc.title} - Bulwark Webmail Docs`,
     description:
       doc.description ||
-      `${doc.title} — Bulwark webmail documentation for Stalwart Mail Server. Learn about setup, configuration, and usage with the JMAP protocol.`,
+      `${doc.title} - Bulwark webmail documentation for Stalwart Mail Server. Learn about setup, configuration, and usage with the JMAP protocol.`,
     alternates: {
       canonical: `/docs/${slugStr}`,
     },

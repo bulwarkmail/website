@@ -77,16 +77,16 @@ LOGIN_PRIVACY_POLICY_URL=https://yourcompany.com/privacy
 
 Users can customize their experience from the Settings page:
 
-- **Font size** — Small, medium, or large
-- **List density** — Compact, regular, or comfortable
-- **Animations** — Enable or disable UI animations
-- **Date format** — Regional, ISO, or custom
-- **Time format** — 12-hour or 24-hour
-- **First day of week** — Sunday or Monday
-- **External content** — Ask, block, or allow by default
-- **Toolbar position** — Top or below subject
-- **Mark as read delay** — Instant, delayed, or never
-- **Delete action** — Move to trash or permanent delete
+- **Font size** - Small, medium, or large
+- **List density** - Compact, regular, or comfortable
+- **Animations** - Enable or disable UI animations
+- **Date format** - Regional, ISO, or custom
+- **Time format** - 12-hour or 24-hour
+- **First day of week** - Sunday or Monday
+- **External content** - Ask, block, or allow by default
+- **Toolbar position** - Top or below subject
+- **Mark as read delay** - Instant, delayed, or never
+- **Delete action** - Move to trash or permanent delete
 
 ## Structured Logging
 

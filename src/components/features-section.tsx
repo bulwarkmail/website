@@ -721,7 +721,7 @@ function MiniLanguagePicker() {
   const languages = [
     { code: "EN", label: "English", greeting: "Hello!" },
     { code: "FR", label: "FranÃ§ais", greeting: "Bonjour !" },
-    { code: "JA", label: "æ—¥æœ¬èªž", greeting: "ã“ã‚“ã«ã¡ã¯ï¼" },
+    { code: "JA", label: "æ-¥æœ¬èªž", greeting: "ã“ã‚“ã«ã¡ã¯ï¼" },
     { code: "ES", label: "EspaÃ±ol", greeting: "Â¡Hola!" },
     { code: "DE", label: "Deutsch", greeting: "Hallo!" },
   ];

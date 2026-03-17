@@ -21,8 +21,8 @@ Built with Next.js and Tailwind CSS.
 
 This repository contains the source code for the Bulwark project website, including:
 
-- **Landing page** — Product showcase with features, screenshots, tech stack, deployment guides, and FAQ
-- **Documentation** — Full docs covering installation, configuration, features, development, and deployment
+- **Landing page** - Product showcase with features, screenshots, tech stack, deployment guides, and FAQ
+- **Documentation** - Full docs covering installation, configuration, features, development, and deployment
 
 ## Quick Start
 
@@ -111,8 +111,8 @@ The documentation system supports:
 
 ## Related
 
-- [Bulwark Webmail](https://github.com/bulwarkmail/webmail) — The webmail client
-- [Stalwart Mail Server](https://github.com/stalwartlabs/mail-server) — The mail server Bulwark is built for
+- [Bulwark Webmail](https://github.com/bulwarkmail/webmail) - The webmail client
+- [Stalwart Mail Server](https://github.com/stalwartlabs/mail-server) - The mail server Bulwark is built for
 
 ## License
 

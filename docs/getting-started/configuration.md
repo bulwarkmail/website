@@ -14,8 +14,8 @@ The current app reads configuration from `.env.local` at runtime. In production,
 
 Bulwark supports two configuration layers:
 
-- **Runtime variables** — The preferred approach. These are read by the server at request time and work well for Docker and reverse-proxy deployments.
-- **Legacy build-time variables** — Still supported as a fallback for older deployments, but new setups should prefer runtime variables.
+- **Runtime variables** - The preferred approach. These are read by the server at request time and work well for Docker and reverse-proxy deployments.
+- **Legacy build-time variables** - Still supported as a fallback for older deployments, but new setups should prefer runtime variables.
 
 Runtime variables take precedence when both are set.
 
@@ -38,18 +38,18 @@ JMAP_SERVER_URL=https://mail.example.com
 
 | Variable                      | Required        | Default                                   | Description                                                                               |
 | ----------------------------- | --------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `HOSTNAME`                    | No              | `0.0.0.0`                                 | Address the server binds to — use `::` for IPv6                                           |
+| `HOSTNAME`                    | No              | `0.0.0.0`                                 | Address the server binds to - use `::` for IPv6                                           |
 | `PORT`                        | No              | `3000`                                    | Port the server listens on                                                                |
 | `APP_NAME`                    | No              | `Webmail` fallback in app config          | Application name shown in the UI                                                          |
-| `JMAP_SERVER_URL`             | Yes             | —                                         | URL of your JMAP-compatible mail server                                                   |
+| `JMAP_SERVER_URL`             | Yes             | -                                         | URL of your JMAP-compatible mail server                                                   |
 | `STALWART_FEATURES`           | No              | `true`                                    | Enables Stalwart-specific account and management features                                 |
 | `STALWART_API_URL`            | No              | `JMAP_SERVER_URL`                         | Direct URL for Stalwart management API calls when your proxy does not forward admin paths |
 | `OAUTH_ENABLED`               | No              | `false`                                   | Enables OAuth2 / OpenID Connect login                                                     |
 | `OAUTH_ONLY`                  | No              | `false`                                   | Hides the username/password login form and requires OAuth                                 |
-| `OAUTH_CLIENT_ID`             | OAuth only      | —                                         | OAuth client ID                                                                           |
+| `OAUTH_CLIENT_ID`             | OAuth only      | -                                         | OAuth client ID                                                                           |
 | `OAUTH_CLIENT_SECRET`         | No              | empty                                     | OAuth client secret for confidential clients                                              |
 | `OAUTH_ISSUER_URL`            | No              | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs                                                     |
-| `SESSION_SECRET`              | Feature-gated   | —                                         | Enables encrypted persistent sessions and settings sync encryption                        |
+| `SESSION_SECRET`              | Feature-gated   | -                                         | Enables encrypted persistent sessions and settings sync encryption                        |
 | `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync                                               |
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory used for encrypted settings storage                                             |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                       |
@@ -60,8 +60,8 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_IMPRINT_URL`           | No              | empty                                     | Login page imprint / legal notice link                                                    |
 | `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                            |
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                   |
-| `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | —                                         | Legacy build-time fallback for `APP_NAME`                                                 |
-| `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | —                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                          |
+| `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | -                                         | Legacy build-time fallback for `APP_NAME`                                                 |
+| `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | -                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                          |
 
 ## Full Reference
 
@@ -98,8 +98,8 @@ allowed-origins = ["https://your-bulwark-domain.com"]
 
 Bulwark uses JMAP's built-in authentication. Users log in with their email credentials configured in Stalwart. Supported authentication methods:
 
-- **Basic Auth** — Username and password
-- **OAuth 2.0** — If configured in Stalwart
+- **Basic Auth** - Username and password
+- **OAuth 2.0** - If configured in Stalwart
 
 ## Theming
 

@@ -100,8 +100,8 @@ Download: [SVG](https://github.com/bulwarkmail/branding/raw/main/favicon/Bulwark
 
 ## Usage Guidelines
 
-- **Clear space** — Maintain adequate padding around the logo. Do not crowd it with other elements.
-- **Minimum size** — Do not render the logo smaller than 24×24 pixels.
-- **No modifications** — Do not stretch, rotate, recolor, or add effects to the logo.
-- **Background contrast** — Use the appropriate color variant (dark, white, or color) to ensure sufficient contrast against the background.
-- **File formats** — Prefer SVG for web use and PNG for contexts where vector formats are not supported.
+- **Clear space** - Maintain adequate padding around the logo. Do not crowd it with other elements.
+- **Minimum size** - Do not render the logo smaller than 24×24 pixels.
+- **No modifications** - Do not stretch, rotate, recolor, or add effects to the logo.
+- **Background contrast** - Use the appropriate color variant (dark, white, or color) to ensure sufficient contrast against the background.
+- **File formats** - Prefer SVG for web use and PNG for contexts where vector formats are not supported.

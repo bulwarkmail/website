@@ -24,11 +24,11 @@ const SITE_URL = "https://bulwarkmail.org";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Bulwark — Modern Webmail Client for Stalwart Mail Server",
-    template: "%s — Bulwark",
+    default: "Bulwark - Modern Webmail Client for Stalwart Mail Server",
+    template: "%s - Bulwark",
   },
   description:
-    "Bulwark is a modern, open-source webmail client built for Stalwart Mail Server using the JMAP protocol. Self-hosted email, calendar, contacts, and file storage — fast, private, and free.",
+    "Bulwark is a modern, open-source webmail client built for Stalwart Mail Server using the JMAP protocol. Self-hosted email, calendar, contacts, and file storage - fast, private, and free.",
   keywords: [
     "Stalwart",
     "Stalwart Mail Server",
@@ -62,21 +62,21 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "Bulwark Webmail",
-    title: "Bulwark — Modern Webmail Client for Stalwart Mail Server",
+    title: "Bulwark - Modern Webmail Client for Stalwart Mail Server",
     description:
-      "Open-source, self-hosted webmail powered by JMAP. Email, calendar, contacts, and files — all in one modern interface for Stalwart Mail Server.",
+      "Open-source, self-hosted webmail powered by JMAP. Email, calendar, contacts, and files - all in one modern interface for Stalwart Mail Server.",
     images: [
       {
         url: "/branding/logo-with-lettering/Bulwark Logo with Lettering Dark and Color.png",
         width: 1200,
         height: 630,
-        alt: "Bulwark Webmail — Modern Email for Stalwart",
+        alt: "Bulwark Webmail - Modern Email for Stalwart",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bulwark — Modern Webmail Client for Stalwart Mail Server",
+    title: "Bulwark - Modern Webmail Client for Stalwart Mail Server",
     description:
       "Open-source, self-hosted webmail powered by JMAP. Email, calendar, contacts, and files for Stalwart Mail Server.",
     images: ["/branding/logo-with-lettering/Bulwark Logo with Lettering Dark and Color.png"],

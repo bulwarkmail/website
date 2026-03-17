@@ -32,9 +32,9 @@ When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc
 
 ## Import & Export
 
-- **Import** — vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
-- **Export** — Download contacts as vCard, accessible from Settings
-- **Sync** — Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
+- **Import** - vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
+- **Export** - Download contacts as vCard, accessible from Settings
+- **Sync** - Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
 
 ## Bulk Operations
 

@@ -40,11 +40,11 @@ export function ArchitectureSection() {
             JMAP-native architecture
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            No custom REST API between the browser and Stalwart. The JMAP protocol is the API — direct, standards-based, and efficient.
+            No custom REST API between the browser and Stalwart. The JMAP protocol is the API - direct, standards-based, and efficient.
           </p>
         </motion.div>
 
-        {/* Architecture diagram — 3 nodes */}
+        {/* Architecture diagram - 3 nodes */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

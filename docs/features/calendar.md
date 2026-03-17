@@ -10,10 +10,10 @@ Bulwark includes an integrated calendar powered by JMAP Calendars (RFC 8984) wit
 
 ## Views
 
-- **Month view** — Overview of the entire month with multi-day event spanning
-- **Week view** — Detailed weekly schedule with column-based overlap layout
-- **Day view** — Hour-by-hour daily agenda
-- **Agenda view** — Chronological list of upcoming events
+- **Month view** - Overview of the entire month with multi-day event spanning
+- **Week view** - Detailed weekly schedule with column-based overlap layout
+- **Day view** - Hour-by-hour daily agenda
+- **Agenda view** - Chronological list of upcoming events
 
 Switch views with keyboard shortcuts: `M` (month), `W` (week), `D` (day), `A` (agenda), `T` (today).
 
@@ -35,17 +35,17 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 
 ## Event Management
 
-- **Drag-and-drop rescheduling** — Move events between time slots in week/day views or between dates in month view
-- **Resize events** — Drag the bottom edge to change duration (15-minute snap)
-- **Duplicate events** — Clone an event with a +1 day offset for editing
-- **Recurring event editing** — Choose scope: this event, this and following, or all events
+- **Drag-and-drop rescheduling** - Move events between time slots in week/day views or between dates in month view
+- **Resize events** - Drag the bottom edge to change duration (15-minute snap)
+- **Duplicate events** - Clone an event with a +1 day offset for editing
+- **Recurring event editing** - Choose scope: this event, this and following, or all events
 
 ## Sharing & Invitations
 
 - Send calendar invitations via iTIP scheduling messages
 - Accept/decline/tentative RSVP responses with trust assessment
 - Organizer and attendee UI with participant management
-- Inline calendar invitation banner in email viewer — automatically detects `.ics` attachments with RSVP and import-to-calendar actions
+- Inline calendar invitation banner in email viewer - automatically detects `.ics` attachments with RSVP and import-to-calendar actions
 
 ## Multiple Calendars
 
@@ -61,7 +61,7 @@ Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars ap
 
 ## Real-time Updates
 
-Calendar state changes are pushed in real-time via JMAP EventSource — no manual refresh needed.
+Calendar state changes are pushed in real-time via JMAP EventSource - no manual refresh needed.
 
 ## Event Notifications
 

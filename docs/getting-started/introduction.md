@@ -6,16 +6,16 @@ order: 1
 
 # Introduction
 
-**Bulwark** is a modern, open-source webmail client built with [Next.js](https://nextjs.org) and the [JMAP protocol](https://jmap.io) for [Stalwart Mail Server](https://stalw.art). It provides email, calendar, and contacts — all in one beautiful interface.
+**Bulwark** is a modern, open-source webmail client built with [Next.js](https://nextjs.org) and the [JMAP protocol](https://jmap.io) for [Stalwart Mail Server](https://stalw.art). It provides email, calendar, and contacts - all in one beautiful interface.
 
 ## Why Bulwark?
 
 Most webmail clients are either outdated, slow, or lack modern features. Bulwark was created to fill this gap by providing:
 
-- **Modern UI/UX** — A clean, responsive interface built with cutting-edge web technologies
-- **JMAP Protocol** — Leveraging the modern JMAP standard instead of legacy IMAP for superior performance
-- **Stalwart Integration** — First-class support for Stalwart Mail Server, including Sieve filters, vacation responder, account security management, and JMAP FileNode storage
-- **Open Source** — Fully open-source under the AGPL v3 license
+- **Modern UI/UX** - A clean, responsive interface built with cutting-edge web technologies
+- **JMAP Protocol** - Leveraging the modern JMAP standard instead of legacy IMAP for superior performance
+- **Stalwart Integration** - First-class support for Stalwart Mail Server, including Sieve filters, vacation responder, account security management, and JMAP FileNode storage
+- **Open Source** - Fully open-source under the AGPL v3 license
 
 ## Key Features
 
@@ -50,6 +50,6 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 
 ## Getting Help
 
-- [GitHub Repository](https://github.com/bulwarkmail/webmail) — Source code and issue tracker
-- [Stalwart Documentation](https://stalw.art/docs) — Mail server setup and configuration
-- [JMAP Specification](https://jmap.io) — Protocol documentation
+- [GitHub Repository](https://github.com/bulwarkmail/webmail) - Source code and issue tracker
+- [Stalwart Documentation](https://stalw.art/docs) - Mail server setup and configuration
+- [JMAP Specification](https://jmap.io) - Protocol documentation

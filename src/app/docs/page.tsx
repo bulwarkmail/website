@@ -4,7 +4,7 @@ import { BookOpen, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Documentation — Bulwark Webmail for Stalwart",
+  title: "Documentation - Bulwark Webmail for Stalwart",
   description:
     "Comprehensive documentation for Bulwark, the open-source JMAP webmail client for Stalwart Mail Server. Installation guides, configuration, features, and deployment with Docker.",
   alternates: {

@@ -65,7 +65,7 @@ const techStack = [
   },
   {
     name: "JMAP Protocol",
-    description: "RFC 8620 — native, not bridged",
+    description: "RFC 8620 - native, not bridged",
     logo: (
       <div className="w-8 h-8 rounded-md bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center">
         <span className="text-primary-foreground font-bold text-[10px]">JMAP</span>

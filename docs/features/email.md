@@ -22,15 +22,15 @@ Bulwark provides a full-featured email experience powered by the JMAP protocol.
 
 The rich text editor supports:
 
-- **Formatting** — Bold, italic, underline, strikethrough
-- **Lists** — Ordered and unordered lists
-- **Links** — Inline hyperlinks
+- **Formatting** - Bold, italic, underline, strikethrough
+- **Lists** - Ordered and unordered lists
+- **Links** - Inline hyperlinks
 - **Block quotes** and **code blocks**
-- **Attachments** — Drag-and-drop file attachments
-- **Inline images** — Paste or drag images directly
-- **Signatures** — Multiple per-identity signatures
-- **Templates** — Reusable email templates with placeholder variables
-- **Identity selection** — Choose sender identity from dropdown
+- **Attachments** - Drag-and-drop file attachments
+- **Inline images** - Paste or drag images directly
+- **Signatures** - Multiple per-identity signatures
+- **Templates** - Reusable email templates with placeholder variables
+- **Identity selection** - Choose sender identity from dropdown
 
 ### Keyboard Shortcut
 
@@ -56,15 +56,15 @@ Press `C` anywhere in the app to open the compose window.
 
 Bulwark provides a visual search panel with search chips for precise filtering:
 
-- **Text search** — Full-text search across email content
-- **From** — Filter by sender
-- **To** — Filter by recipient
-- **Subject** — Search in subject line
-- **Body** — Search in email body
-- **Has attachment** — Filter emails with/without attachments
-- **Date range** — Filter by before/after dates
-- **Read status** — Filter read or unread emails
-- **Starred** — Filter starred or unstarred emails
+- **Text search** - Full-text search across email content
+- **From** - Filter by sender
+- **To** - Filter by recipient
+- **Subject** - Search in subject line
+- **Body** - Search in email body
+- **Has attachment** - Filter emails with/without attachments
+- **Date range** - Filter by before/after dates
+- **Read status** - Filter read or unread emails
+- **Starred** - Filter starred or unstarred emails
 
 Active filters display as removable search chips above the email list. The search supports cross-mailbox queries.
 

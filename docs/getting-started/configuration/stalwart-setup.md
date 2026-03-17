@@ -53,12 +53,12 @@ Bulwark automatically detects CORS misconfiguration and displays detailed error 
 
 When connected to Stalwart, Bulwark enables additional features that require Stalwart's API:
 
-- **Password change** — Users can change their password from account settings
-- **TOTP 2FA** — Enable/disable two-factor authentication
-- **Sieve filters** — Server-side email filtering via Sieve scripts
-- **Vacation responder** — JMAP VacationResponse management
-- **Display name management** — Update display name from settings
-- **Storage quota display** — Show account storage usage
+- **Password change** - Users can change their password from account settings
+- **TOTP 2FA** - Enable/disable two-factor authentication
+- **Sieve filters** - Server-side email filtering via Sieve scripts
+- **Vacation responder** - JMAP VacationResponse management
+- **Display name management** - Update display name from settings
+- **Storage quota display** - Show account storage usage
 
 To explicitly disable these features (e.g., when using a non-Stalwart JMAP server), set:
 

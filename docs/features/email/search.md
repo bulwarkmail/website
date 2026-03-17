@@ -38,4 +38,4 @@ Search operates across all mailboxes by default, not just the currently selected
 
 ## Combining Filters
 
-Multiple filters are combined with AND logic — all conditions must match. Use a combination of text search and structured filters for the most precise results.
+Multiple filters are combined with AND logic - all conditions must match. Use a combination of text search and structured filters for the most precise results.

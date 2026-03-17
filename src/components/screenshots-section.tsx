@@ -63,7 +63,7 @@ export function ScreenshotsSection() {
             See Bulwark webmail in action
           </h2>
           <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
-            Mail, calendar, contacts, and file management — a complete webmail experience for Stalwart Mail Server.
+            Mail, calendar, contacts, and file management - a complete webmail experience for Stalwart Mail Server.
           </p>
         </motion.div>
 
