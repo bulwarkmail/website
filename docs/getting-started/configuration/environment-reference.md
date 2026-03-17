@@ -135,6 +135,38 @@ All of the variables below are implemented in the current app. Some are always a
 - **Default** - `info`
 - **When to set it** - Increase to `debug` during troubleshooting; lower to `warn` or `error` in quieter production environments.
 
+## Branding
+
+### `FAVICON_URL`
+
+- **Purpose** - Custom favicon (browser tab icon) for the application.
+- **Required** - No.
+- **Default** - Bulwark favicon (`/branding/Bulwark_Favicon.svg`).
+- **Accepted values** - Absolute URL or path relative to `public/`.
+- **Supported formats** - SVG (recommended), PNG, ICO.
+- **Recommended size** - 32×32px minimum, 512×512px maximum. SVG is preferred for crisp scaling at all resolutions.
+- **When to set it** - Set this to replace the default Bulwark favicon with your organization's icon in the browser tab.
+
+### `APP_LOGO_LIGHT_URL`
+
+- **Purpose** - Logo shown in the sidebar on light backgrounds (main app, after login).
+- **Required** - No.
+- **Default** - Empty (no sidebar logo).
+- **Accepted values** - Absolute URL or path relative to `public/`.
+- **Supported formats** - SVG (recommended), PNG, WebP.
+- **Recommended size** - 24×24px minimum, 128×128px maximum. Displayed at 24×24px.
+- **When to set it** - Set this to add your brand logo to the sidebar.
+
+### `APP_LOGO_DARK_URL`
+
+- **Purpose** - Logo shown in the sidebar on dark backgrounds (main app, after login).
+- **Required** - No.
+- **Default** - Empty (falls back to `APP_LOGO_LIGHT_URL` if set, otherwise no logo).
+- **Accepted values** - Absolute URL or path relative to `public/`.
+- **Supported formats** - SVG (recommended), PNG, WebP.
+- **Recommended size** - 24×24px minimum, 128×128px maximum. Displayed at 24×24px.
+- **When to set it** - Set this when you need a different logo variant for dark mode (e.g., a white logo).
+
 ## Login Page Customization
 
 ### `LOGIN_LOGO_LIGHT_URL`
@@ -143,6 +175,8 @@ All of the variables below are implemented in the current app. Some are always a
 - **Required** - No.
 - **Default** - Bulwark light logo.
 - **Accepted values** - Absolute URL or path relative to `public/`.
+- **Supported formats** - SVG (recommended), PNG, WebP.
+- **Recommended size** - 32×32px minimum, 512×512px maximum. Displayed at 64×64px.
 
 ### `LOGIN_LOGO_DARK_URL`
 
@@ -150,6 +184,8 @@ All of the variables below are implemented in the current app. Some are always a
 - **Required** - No.
 - **Default** - Bulwark dark logo.
 - **Accepted values** - Absolute URL or path relative to `public/`.
+- **Supported formats** - SVG (recommended), PNG, WebP.
+- **Recommended size** - 32×32px minimum, 512×512px maximum. Displayed at 64×64px.
 
 ### `LOGIN_COMPANY_NAME`
 
@@ -247,4 +283,5 @@ At the time of writing, every variable listed in Bulwark's `.env.example` is int
 - `STALWART_FEATURES` and `STALWART_API_URL` control Stalwart-specific behavior.
 - `LOG_FORMAT` and `LOG_LEVEL` are used by the server logger.
 - Login branding variables are exposed through the runtime config endpoint and used by the login page.
+- Favicon and app logo variables are served through the config endpoint and rendered by the layout and sidebar.
 - `NEXT_PUBLIC_*` values remain as fallback support for older build-time setups.

@@ -62,6 +62,61 @@ Change the application name displayed in the UI:
 APP_NAME=YourMail
 ```
 
+## Custom Favicon
+
+Replace the browser tab icon with your own:
+
+```env
+FAVICON_URL=/branding/my-favicon.svg
+```
+
+| Property | Requirement |
+|---|---|
+| **Formats** | SVG (recommended), PNG, ICO |
+| **Minimum size** | 32×32px |
+| **Maximum size** | 512×512px |
+| **Recommendation** | Use SVG for crisp rendering at all resolutions |
+
+Place your favicon file in the `public/branding/` directory, or provide an absolute URL.
+
+When not set, the default Bulwark favicon is used.
+
+## App Logo (Sidebar)
+
+Add your brand logo to the sidebar header (visible in the main app after login):
+
+```env
+APP_LOGO_LIGHT_URL=/branding/my-logo-color.svg
+APP_LOGO_DARK_URL=/branding/my-logo-white.svg
+```
+
+| Property | Requirement |
+|---|---|
+| **Formats** | SVG (recommended), PNG, WebP |
+| **Minimum size** | 24×24px |
+| **Maximum size** | 128×128px |
+| **Display size** | 24×24px |
+
+If only one variant is provided, it is used for both light and dark modes. If neither is set, no logo appears in the sidebar.
+
+## Login Page Logo
+
+Customize the logo on the login page:
+
+```env
+LOGIN_LOGO_LIGHT_URL=/branding/my-login-logo.svg
+LOGIN_LOGO_DARK_URL=/branding/my-login-logo-white.svg
+```
+
+| Property | Requirement |
+|---|---|
+| **Formats** | SVG (recommended), PNG, WebP |
+| **Minimum size** | 32×32px |
+| **Maximum size** | 512×512px |
+| **Display size** | 64×64px |
+
+When not set, the default Bulwark logo is used.
+
 ## Login Page Branding
 
 Customize the login page with company information:

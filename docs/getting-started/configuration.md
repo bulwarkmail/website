@@ -54,8 +54,11 @@ JMAP_SERVER_URL=https://mail.example.com
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory used for encrypted settings storage                                             |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                       |
 | `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                        |
-| `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds                                                     |
-| `LOGIN_LOGO_DARK_URL`         | No              | Bulwark dark logo                         | Login page logo for dark backgrounds                                                      |
+| `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32–512px)                                   |
+| `APP_LOGO_LIGHT_URL`          | No              | empty                                     | Sidebar logo for light mode (SVG, PNG, or WebP; 24–128px)                                 |
+| `APP_LOGO_DARK_URL`           | No              | empty                                     | Sidebar logo for dark mode (SVG, PNG, or WebP; 24–128px)                                  |
+| `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds (SVG, PNG, or WebP; 32–512px)                       |
+| `LOGIN_LOGO_DARK_URL`         | No              | Bulwark dark logo                         | Login page logo for dark backgrounds (SVG, PNG, or WebP; 32–512px)                        |
 | `LOGIN_COMPANY_NAME`          | No              | empty                                     | Company name shown on the login page                                                      |
 | `LOGIN_IMPRINT_URL`           | No              | empty                                     | Login page imprint / legal notice link                                                    |
 | `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                            |
