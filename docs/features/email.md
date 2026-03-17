@@ -14,6 +14,7 @@ Bulwark provides a full-featured email experience powered by the JMAP protocol.
 - Hierarchical mailbox display with unread counts
 - Unread filter toggle in the mailbox sidebar
 - Drag-and-drop email organization between folders
+- Archive actions with configurable archive organization modes (single folder, year folders, or year/month folders)
 - Virtual scrolling for large email lists
 - Infinite scroll pagination
 - Empty folder action for Junk and Trash mailboxes (with confirmation)
@@ -40,9 +41,12 @@ Press `C` anywhere in the app to open the compose window.
 
 - Threaded conversation view with inline expansion
 - Iframe-based HTML rendering with smart dark mode transformation
+- Optional "Always Show Emails in Light Mode" setting for problematic HTML mail in dark theme
 - DOMPurify sanitization for security
 - External content blocked by default with per-sender trust
 - SPF/DKIM/DMARC status indicators with security tooltips
+- TNEF (`winmail.dat`) detection and extraction for Outlook rich-text bodies and attachments
+- S/MIME status banners for encrypted and signed messages, including unlock prompts for protected keys
 - Download or preview attachments
 - Reply, reply-all, and forward actions
 - Quick reply form
@@ -66,7 +70,7 @@ Bulwark provides a visual search panel with search chips for precise filtering:
 - **Read status** - Filter read or unread emails
 - **Starred** - Filter starred or unstarred emails
 
-Active filters display as removable search chips above the email list. The search supports cross-mailbox queries.
+Active filters display as removable search chips above the email list. The search supports cross-mailbox queries, wildcard queries, and OR conditions across supported fields.
 
 Press `/` to focus the search bar.
 
@@ -77,6 +81,14 @@ Organize emails with colored labels. Labels are synced with JMAP keywords so the
 ## Batch Operations
 
 Select multiple emails for bulk actions: archive, delete, mark read/unread, star/unstar, and move to folder.
+
+## S/MIME
+
+- Import PKCS#12 identities and recipient public certificates from Settings
+- Bind certificates to identities for default signing behavior
+- Toggle signing and encryption directly in the composer
+- Automatically decrypt supported encrypted messages when the matching key is available
+- Verify signatures in the viewer and optionally auto-import signer certificates for future encryption
 
 ## Email Filters
 

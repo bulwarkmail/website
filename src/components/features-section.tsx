@@ -44,7 +44,7 @@ const features: Feature[] = [
     icon: Mail,
     title: "Full Email Experience",
     description:
-      "Read, compose, reply, reply-all, forward with threading, attachments, draft auto-save, virtual scrolling, color tags, and drag-and-drop organization.",
+      "Read, compose, reply, reply-all, forward with threading, attachments, draft auto-save, virtual scrolling, color tags, archive modes, TNEF extraction, and drag-and-drop organization.",
     accent: "text-[#DB2D54]",
     accentBg: "bg-[#DB2D54]",
     colSpan: "md:col-span-5 md:row-span-2",
@@ -98,7 +98,7 @@ const features: Feature[] = [
     icon: Shield,
     title: "Privacy & Security",
     description:
-      "SPF/DKIM/DMARC indicators, external content blocking, DOMPurify sanitization, TOTP 2FA, OAuth2/OIDC with PKCE, and trusted senders list.",
+      "SPF/DKIM/DMARC indicators, external content blocking, DOMPurify sanitization, S/MIME certificate workflows, TOTP 2FA, OAuth2/OIDC with PKCE, and trusted senders.",
     accent: "text-emerald-600",
     accentBg: "bg-emerald-600",
     colSpan: "md:col-span-4",
@@ -107,7 +107,7 @@ const features: Feature[] = [
     icon: UserCheck,
     title: "Identity Management",
     description:
-      "Multiple sender identities with per-identity signatures. Sub-addressing (user+tag@domain.com) with tag suggestions and identity badges.",
+      "Multiple sender identities with per-identity signatures, server refresh after changes, sub-addressing (user+tag@domain.com), and identity badges.",
     accent: "text-rose-600",
     accentBg: "bg-rose-600",
     colSpan: "md:col-span-5",
@@ -150,9 +150,9 @@ const features: Feature[] = [
   },
   {
     icon: Palette,
-    title: "Light & Dark Themes",
+    title: "Themes & Branding",
     description:
-      "System-aware theming with smooth transitions. Three-pane layout with responsive design for desktop and mobile.",
+      "System-aware theming with smooth transitions, always-light email rendering, custom favicon and logo support, sidebar apps, and responsive desktop/mobile layouts.",
     accent: "text-violet-600",
     accentBg: "bg-violet-600",
     colSpan: "md:col-span-3",
@@ -170,7 +170,7 @@ const features: Feature[] = [
     icon: Zap,
     title: "Easy Deployment",
     description:
-      "Docker images on GHCR (amd64/arm64). Runtime env vars, health check endpoint, structured logging, and update check on startup.",
+      "Docker images on GHCR (amd64/arm64). Runtime env vars, configurable bind address via HOSTNAME, health checks, structured logging, and update checks on startup.",
     accent: "text-yellow-600",
     accentBg: "bg-yellow-600",
     colSpan: "md:col-span-5",

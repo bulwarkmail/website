@@ -72,6 +72,7 @@ Calendar state changes are pushed in real-time via JMAP EventSource - no manual 
 ## Settings
 
 - First day of week (Sunday or Monday)
-- Time format (12h or 24h)
+- Time format (12h or 24h) applied across calendar grids, event cards, popovers, and import previews
 - Default calendar view
 - Locale-aware date formatting
+- Persisted view preferences are validated so the calendar always falls back to a supported view mode

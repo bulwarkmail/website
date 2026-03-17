@@ -6,7 +6,7 @@ order: 1
 
 # Introduction
 
-**Bulwark** is a modern, open-source webmail client built with [Next.js](https://nextjs.org) and the [JMAP protocol](https://jmap.io) for [Stalwart Mail Server](https://stalw.art). It provides email, calendar, and contacts - all in one beautiful interface.
+**Bulwark** is a modern, open-source webmail client built with [Next.js](https://nextjs.org) and the [JMAP protocol](https://jmap.io) for [Stalwart Mail Server](https://stalw.art). It provides email, calendar, contacts, and cloud files in one interface with modern security and customization features.
 
 ## Why Bulwark?
 
@@ -14,21 +14,22 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 
 - **Modern UI/UX** - A clean, responsive interface built with cutting-edge web technologies
 - **JMAP Protocol** - Leveraging the modern JMAP standard instead of legacy IMAP for superior performance
-- **Stalwart Integration** - First-class support for Stalwart Mail Server, including Sieve filters, vacation responder, account security management, and JMAP FileNode storage
+- **Stalwart Integration** - First-class support for Stalwart Mail Server, including Sieve filters, vacation responder, account security management, JMAP FileNode storage, and runtime branding options
 - **Open Source** - Fully open-source under the AGPL v3 license
 
 ## Key Features
 
-- Full email management (compose, read, organize, search with filter panel)
-- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, and iCal/webcal subscriptions
+- Full email management with archive modes, TNEF (`winmail.dat`) extraction, and S/MIME-aware compose and reading flows
+- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, and shared time-format preferences
 - Contact management with JMAP sync, vCard import/export from Settings, and groups
 - File browser with upload, preview, favorites, recent files, and bulk operations
 - Email templates with placeholder variables
 - Server-side email filters via Sieve scripts with visual rule builder
 - Vacation auto-responder
-- Multiple sender identities with per-identity signatures
-- Dark and light themes with smart iframe email color transformation
+- Multiple sender identities with per-identity signatures and refresh after server-side changes
+- Dark and light themes with smart iframe email color transformation, an always-light email option, and custom favicon/logo branding
 - Mobile-responsive design with bottom tab navigation and long-press context menus
+- Custom sidebar apps with inline or new-tab launch modes
 - Keyboard shortcuts
 - Real-time push notifications via JMAP EventSource
 - Internationalization (8 languages: English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese)

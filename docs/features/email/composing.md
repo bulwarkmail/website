@@ -21,6 +21,7 @@ The editor supports full formatting:
 ## Identity Selection
 
 Choose which sender identity to use from the dropdown in the composer. Each identity can have its own name, email address, and signature.
+The identity manager refreshes from the server after create, update, and delete operations so the composer stays in sync with server-side changes.
 
 ## Attachments
 
@@ -46,6 +47,13 @@ Insert reusable email templates from the compose toolbar:
 - Custom placeholders prompt for input on insertion
 - Press `T` in the email list or `Ctrl+Shift+T` in the composer to open the template picker
 - Manage templates from Settings
+
+## S/MIME Compose Controls
+
+- Enable or disable signing per message when an S/MIME identity certificate is available
+- Enable encryption when every recipient has a known public certificate
+- Unlock protected keys on demand from the composer without leaving the draft
+- Keep default signing and encryption preferences in the S/MIME settings panel
 
 ## Drafts
 
