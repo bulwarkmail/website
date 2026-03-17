@@ -38,6 +38,8 @@ JMAP_SERVER_URL=https://mail.example.com
 
 | Variable                      | Required        | Default                                   | Description                                                                               |
 | ----------------------------- | --------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `HOSTNAME`                    | No              | `0.0.0.0`                                 | Address the server binds to — use `::` for IPv6                                           |
+| `PORT`                        | No              | `3000`                                    | Port the server listens on                                                                |
 | `APP_NAME`                    | No              | `Webmail` fallback in app config          | Application name shown in the UI                                                          |
 | `JMAP_SERVER_URL`             | Yes             | —                                         | URL of your JMAP-compatible mail server                                                   |
 | `STALWART_FEATURES`           | No              | `true`                                    | Enables Stalwart-specific account and management features                                 |

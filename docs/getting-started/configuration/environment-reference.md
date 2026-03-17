@@ -10,6 +10,22 @@ This page documents every setting currently present in Bulwark's `.env.example`.
 
 All of the variables below are implemented in the current app. Some are always available, some only affect optional features, and some exist as compatibility fallbacks for older build-time deployments.
 
+## Server Listen Address
+
+### `HOSTNAME`
+
+- **Purpose** — Sets the address the server binds to.
+- **Required** — No.
+- **Default** — `0.0.0.0`
+- **When to set it** — Set to `::` to listen on IPv6 (dual-stack), or to a specific interface address to restrict access.
+
+### `PORT`
+
+- **Purpose** — Sets the port the server listens on.
+- **Required** — No.
+- **Default** — `3000`
+- **When to set it** — Set this when you need the server to listen on a non-default port.
+
 ## Core Settings
 
 ### `APP_NAME`

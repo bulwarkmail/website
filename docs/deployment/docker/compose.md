@@ -33,6 +33,8 @@ services:
     ports:
       - "3000:3000"
     environment:
+      HOSTNAME: "0.0.0.0"    # Use "::" for IPv6
+      PORT: "3000"
       JMAP_SERVER_URL: http://stalwart:8080
     depends_on:
       - stalwart

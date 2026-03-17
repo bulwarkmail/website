@@ -26,6 +26,14 @@ docker run -d \
   -p 3000:3000 \
   -e JMAP_SERVER_URL=https://mail.example.com \
   ghcr.io/bulwarkmail/webmail:latest
+
+# IPv6 dual-stack
+docker run -d \
+  --name bulwark \
+  -p 3000:3000 \
+  -e HOSTNAME=:: \
+  -e JMAP_SERVER_URL=https://mail.example.com \
+  ghcr.io/bulwarkmail/webmail:latest
 ```
 
 Environment variables are read at runtime Ã¢â‚¬â€ no rebuild is needed when changing configuration.
