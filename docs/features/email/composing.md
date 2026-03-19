@@ -59,6 +59,8 @@ Insert reusable email templates from the compose toolbar:
 
 Emails are auto-saved as drafts every 60 seconds (configurable in settings). You can also manually save with `Ctrl+S`. Drafts sync across devices via JMAP. A discard confirmation dialog appears when closing an unsaved draft.
 
+Existing drafts can be reopened and edited — click a draft in the Drafts folder to resume editing with all content, recipients, attachments, and identity selection restored.
+
 ## Keyboard Shortcuts
 
 | Shortcut       | Action          |

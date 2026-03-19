@@ -11,9 +11,10 @@ Bulwark includes an integrated calendar powered by JMAP Calendars (RFC 8984) wit
 ## Views
 
 - **Month view** - Overview of the entire month with multi-day event spanning
-- **Week view** - Detailed weekly schedule with column-based overlap layout
+- **Week view** - Detailed weekly schedule with column-based overlap layout and time-based event sorting
 - **Day view** - Hour-by-hour daily agenda
 - **Agenda view** - Chronological list of upcoming events
+- **Task list view** - Dedicated task management view with task details, status tracking, and inline editing
 
 Switch views with keyboard shortcuts: `M` (month), `W` (week), `D` (day), `A` (agenda), `T` (today).
 
@@ -32,6 +33,7 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 
 - **Double-click** on an empty time slot for quick inline event creation (1-hour default)
 - **Click-and-drag** on empty slots to create events spanning a custom time range (15-minute snap)
+- Double-click in month view opens the event modal with the date pre-filled
 
 ## Event Management
 
@@ -50,6 +52,10 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 ## Multiple Calendars
 
 Create and manage multiple calendars with different colors. Toggle visibility of individual calendars using the mini-calendar sidebar.
+
+## Shared Calendar Grouping
+
+Shared calendars from other users are visually grouped and separated in the sidebar, making it easy to distinguish your own calendars from calendars shared with you.
 
 ## iCalendar Import
 

@@ -46,6 +46,7 @@ Press `C` anywhere in the app to open the compose window.
 - External content blocked by default with per-sender trust
 - SPF/DKIM/DMARC status indicators with security tooltips
 - TNEF (`winmail.dat`) detection and extraction for Outlook rich-text bodies and attachments
+- Embedded message/rfc822 attachment unwrapping with enhanced HTML body validation
 - S/MIME status banners for encrypted and signed messages, including unlock prompts for protected keys
 - Download or preview attachments
 - Reply, reply-all, and forward actions
@@ -77,6 +78,10 @@ Press `/` to focus the search bar.
 ## Labels & Tags
 
 Organize emails with colored labels. Labels are synced with JMAP keywords so they persist across clients. Customize label names and colors from settings.
+
+## Email Export & Import
+
+Export and import emails with full localization support across all supported languages.
 
 ## Batch Operations
 

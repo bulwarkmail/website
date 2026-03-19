@@ -19,9 +19,9 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 
 ## Key Features
 
-- Full email management with archive modes, TNEF (`winmail.dat`) extraction, and S/MIME-aware compose and reading flows
-- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, and shared time-format preferences
-- Contact management with JMAP sync, vCard import/export from Settings, and groups
+- Full email management with archive modes, TNEF (`winmail.dat`) extraction, draft editing, embedded message/rfc822 unwrapping, email export/import, and S/MIME-aware compose and reading flows
+- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, task list view, shared calendar grouping, and shared time-format preferences
+- Contact management with JMAP sync, vCard import/export from Settings, address book directories, and groups
 - File browser with upload, preview, favorites, recent files, and bulk operations
 - Email templates with placeholder variables
 - Server-side email filters via Sieve scripts with visual rule builder

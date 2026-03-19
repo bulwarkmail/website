@@ -44,7 +44,7 @@ const features: Feature[] = [
     icon: Mail,
     title: "Full Email Experience",
     description:
-      "Read, compose, reply, reply-all, forward with threading, attachments, draft auto-save, virtual scrolling, color tags, archive modes, TNEF extraction, and drag-and-drop organization.",
+      "Read, compose, reply, reply-all, forward with threading, attachments, draft editing, embedded message/rfc822 unwrapping, virtual scrolling, color tags, archive modes, TNEF extraction, email export/import, and drag-and-drop organization.",
     accent: "text-[#DB2D54]",
     accentBg: "bg-[#DB2D54]",
     colSpan: "md:col-span-5 md:row-span-2",
@@ -53,7 +53,7 @@ const features: Feature[] = [
     icon: Calendar,
     title: "Calendar Integration",
     description:
-      "JMAP Calendar (RFC 8984) with month, week, day, agenda views. Create, update, and delete events with drag-and-drop rescheduling, resize, recurring rules, iTIP invitations with RSVP trust assessment, and iCal/webcal subscription support.",
+      "JMAP Calendar (RFC 8984) with month, week, day, agenda, and task list views. Create, update, and delete events with drag-and-drop rescheduling, resize, recurring rules, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, shared calendar grouping, and double-click quick-create.",
     accent: "text-blue-600",
     accentBg: "bg-blue-600",
     colSpan: "md:col-span-4",
@@ -62,7 +62,7 @@ const features: Feature[] = [
     icon: Users,
     title: "Contacts & vCard",
     description:
-      "Contact management with JMAP sync (RFC 9553/9610), vCard import/export, groups, autocomplete in composer, duplicate detection, and bulk operations.",
+      "Contact management with JMAP sync (RFC 9553/9610), vCard import/export, address book directories with drag-and-drop, groups, autocomplete in composer, duplicate detection, and bulk operations.",
     accent: "text-violet-600",
     accentBg: "bg-violet-600",
     colSpan: "md:col-span-3",

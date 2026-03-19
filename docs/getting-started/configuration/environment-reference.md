@@ -17,7 +17,7 @@ All of the variables below are implemented in the current app. Some are always a
 - **Purpose** - Sets the address the server binds to.
 - **Required** - No.
 - **Default** - `0.0.0.0`
-- **When to set it** - Set to `::` for IPv6, use `[::]` on platforms that expect bracketed dual-stack binding syntax, or choose a specific interface address to restrict access.
+- **When to set it** - Set to `::` to listen on IPv6 (dual-stack), or to a specific interface address to restrict access.
 
 ### `PORT`
 

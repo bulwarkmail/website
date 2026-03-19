@@ -13,10 +13,20 @@ Manage your contacts directly within Bulwark using JMAP Contacts (RFC 9553/9610 
 - Add, edit, and delete contacts
 - Multiple email addresses, phone numbers, and addresses per contact
 - Organization and job title fields
+- Gender handling with speakToAs structure
 - Search and filter contacts list
 - Contact details view with edit form
 - Resizable sidebar for browsing contacts alongside details
 - Multi-select with checkboxes and selection toolbar
+
+## Address Book Directories
+
+Organize contacts across multiple address books:
+
+- Create and manage separate address books (directories)
+- Drag-and-drop contacts between address books
+- Address book picker in the contact editor
+- Visual separation of address books in the sidebar
 
 ## Groups
 
