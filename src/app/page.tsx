@@ -45,7 +45,7 @@ export default function Home() {
       "A modern, open-source webmail client for Stalwart Mail Server. Built with Next.js and JMAP for fast, private, self-hosted email, calendar, contacts, and file storage.",
     url: "https://bulwarkmail.org",
     downloadUrl: "https://github.com/bulwarkmail/webmail",
-    softwareVersion: "1.4.2",
+    softwareVersion: "1.4.3",
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
     isAccessibleForFree: true,
     offers: {
@@ -131,7 +131,7 @@ export default function Home() {
                 </span>
                 <span className="w-px h-4 bg-border" />
                 <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                  v1.4.2 AGPL-3.0
+                  v1.4.3 AGPL-3.0
                 </span>
                 <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
               </a>

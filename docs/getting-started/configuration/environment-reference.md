@@ -97,20 +97,20 @@ All of the variables below are implemented in the current app. Some are always a
 
 ### `SESSION_SECRET`
 
-- **Purpose** - Secret used to encrypt persistent "Remember me" sessions and settings sync data.
-- **Required** - No for basic login, required for encrypted persistent sessions and settings sync.
-- **When to set it** - Set this if you want users to keep signed in across browser restarts or if you enable settings sync.
+- **Purpose** - Secret used to encrypt persistent "Remember me" sessions, settings sync data, and multi-account configuration.
+- **Required** - No for basic login, required for encrypted persistent sessions, settings sync, and multi-account support.
+- **When to set it** - Set this if you want users to keep signed in across browser restarts, enable settings sync, or use multi-account support.
 - **Generation** - `openssl rand -base64 32`
 
 ## Settings Sync
 
 ### `SETTINGS_SYNC_ENABLED`
 
-- **Purpose** - Enables encrypted server-side settings persistence.
+- **Purpose** - Enables encrypted server-side settings persistence across devices and accounts.
 - **Required** - No.
 - **Dependency** - Requires `SESSION_SECRET`.
 - **Default** - `false`
-- **When to set it** - Set to `true` when you want settings to follow users across browsers and devices.
+- **When to set it** - Set to `true` when you want settings to follow users across browsers, devices, and accounts.
 
 ### `SETTINGS_DATA_DIR`
 
@@ -245,6 +245,16 @@ SESSION_SECRET=replace-with-a-random-secret
 ```
 
 ### Stalwart with cross-device settings sync
+
+```env
+APP_NAME=Bulwark Webmail
+JMAP_SERVER_URL=https://mail.example.com
+SESSION_SECRET=replace-with-a-random-secret
+SETTINGS_SYNC_ENABLED=true
+SETTINGS_DATA_DIR=/data/settings
+```
+
+### Multi-account with encrypted settings
 
 ```env
 APP_NAME=Bulwark Webmail

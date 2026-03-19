@@ -49,8 +49,8 @@ JMAP_SERVER_URL=https://mail.example.com
 | `OAUTH_CLIENT_ID`             | OAuth only      | -                                         | OAuth client ID                                                                           |
 | `OAUTH_CLIENT_SECRET`         | No              | empty                                     | OAuth client secret for confidential clients                                              |
 | `OAUTH_ISSUER_URL`            | No              | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs                                                     |
-| `SESSION_SECRET`              | Feature-gated   | -                                         | Enables encrypted persistent sessions and settings sync encryption                        |
-| `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync                                               |
+| `SESSION_SECRET`              | Feature-gated   | -                                         | Enables encrypted persistent sessions, settings sync, and multi-account support           |
+| `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                   |
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory used for encrypted settings storage                                             |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                       |
 | `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                        |

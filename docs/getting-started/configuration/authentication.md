@@ -61,7 +61,19 @@ SESSION_SECRET=your-secret-key-here
 
 When set, a "Remember me" checkbox appears on the login form. Credentials are encrypted with AES-256-GCM and stored in an httpOnly cookie with a 30-day expiry.
 
-The `SESSION_SECRET` is also required for the settings sync feature.
+The `SESSION_SECRET` is also required for settings sync and multi-account support.
+
+## Multi-Account Support
+
+Bulwark supports managing up to 5 email accounts simultaneously. Users can add accounts via the account switcher in the sidebar and switch between them instantly with full state preservation.
+
+Multi-account requires `SESSION_SECRET` to persist sessions for each account:
+
+```env
+SESSION_SECRET=your-secret-key-here
+```
+
+Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters) is cached in memory for instant restoration when switching.
 
 ## Two-Factor Authentication
 
