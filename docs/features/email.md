@@ -18,6 +18,8 @@ Bulwark provides a full-featured email experience powered by the JMAP protocol.
 - Virtual scrolling for large email lists
 - Infinite scroll pagination
 - Empty folder action for Junk and Trash mailboxes (with confirmation)
+- Hover actions with configurable quick-action buttons for common operations
+- Attachment position setting (top or bottom of email viewer)
 
 ## Composing
 
@@ -28,7 +30,8 @@ The rich text editor supports:
 - **Links** - Inline hyperlinks
 - **Block quotes** and **code blocks**
 - **Attachments** - Drag-and-drop file attachments
-- **Inline images** - Paste or drag images directly
+- **Inline images** - Paste or drag images directly, with resizable image component
+- **Image upload** - Rich text editor supports direct image upload
 - **Signatures** - Multiple per-identity signatures
 - **Templates** - Reusable email templates with placeholder variables
 - **Identity selection** - Choose sender identity from dropdown
@@ -93,6 +96,8 @@ Select multiple emails for bulk actions: archive, delete, mark read/unread, star
 - Bind certificates to identities for default signing behavior
 - Toggle signing and encryption directly in the composer
 - Automatically decrypt supported encrypted messages when the matching key is available
+- Legacy password-based encryption (PBE) support for older certificate formats
+- Enhanced certificate extraction from signed messages
 - Verify signatures in the viewer and optionally auto-import signer certificates for future encryption
 
 ## Email Filters
@@ -100,6 +105,7 @@ Select multiple emails for bulk actions: archive, delete, mark read/unread, star
 Server-side email filtering via JMAP Sieve Scripts (RFC 9661):
 
 - Visual rule builder with conditions (From, To, Subject, Size, Body, etc.) and actions (Move, Forward, Mark read, Star, Discard, Reject, etc.)
+- Expanded visual view for reviewing filter rules at a glance
 - Raw Sieve editor with syntax validation
 - Drag-and-drop rule reordering
 - Auto-save with rollback on failure

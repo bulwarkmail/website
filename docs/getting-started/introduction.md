@@ -20,21 +20,23 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 ## Key Features
 
 - **Multi-account support** - Manage up to 5 email accounts with instant switching and per-account state preservation
-- Full email management with archive modes, TNEF (`winmail.dat`) extraction, draft editing, embedded message/rfc822 unwrapping, email export/import, S/MIME-aware compose and reading flows, and keyword filtering
-- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, task list view, shared calendar grouping, and shared time-format preferences
-- Contact management with JMAP sync, vCard import/export from Settings, contact import, address book directories, groups, and bulk operations
-- File browser with upload, preview, favorites, recent files, and bulk operations
+- Full email management with archive modes, TNEF (`winmail.dat`) extraction, draft editing, embedded message/rfc822 unwrapping, email export/import, S/MIME-aware compose and reading flows, hover actions, resizable inline images, and keyword filtering
+- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, CalDAV discovery, task management, shared calendar grouping, week numbers, pending event preview, and shared time-format preferences
+- Contact management with JMAP sync, vCard import/export from Settings, contact import, address book directories, category filtering, groups, pagination, and bulk operations
+- File browser with upload, folder upload, preview, favorites, recent files, and bulk operations
 - Email templates with placeholder variables
-- Server-side email filters via Sieve scripts with visual rule builder
+- Server-side email filters via Sieve scripts with visual rule builder and expanded visual view
 - Vacation auto-responder
 - Multiple sender identities with per-identity signatures and refresh after server-side changes
 - Dark and light themes with smart iframe email color transformation, an always-light email option, and custom favicon/logo branding
 - Mobile-responsive design with bottom tab navigation and long-press context menus
-- Custom sidebar apps with inline or new-tab launch modes
+- Custom sidebar apps with inline or new-tab launch modes and mobile visibility toggle
+- Interactive guided tour for new user onboarding
+- Demo mode with fixture data for exploring the interface without a mail server
 - Keyboard shortcuts
 - Real-time push notifications via JMAP EventSource
 - Internationalization (8 languages: English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese)
-- OAuth2/OIDC with PKCE for SSO, plus TOTP two-factor authentication
+- OAuth2/OIDC with PKCE for SSO, non-interactive SSO for embedded deployments, plus TOTP two-factor authentication
 - Encrypted settings sync across devices and accounts
 
 ## Tech Stack

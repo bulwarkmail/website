@@ -10,7 +10,7 @@ For production deployments, place Bulwark behind a reverse proxy for TLS termina
 
 ## Caddy
 
-The simplest option Ã¢â‚¬â€ automatic HTTPS with Let's Encrypt:
+The simplest option - automatic HTTPS with Let's Encrypt:
 
 ```caddy
 mail.example.com {
@@ -62,9 +62,9 @@ bulwark:
 
 Whatever reverse proxy you use, make sure to forward these headers:
 
-- `X-Forwarded-For` Ã¢â‚¬â€ Client IP address
-- `X-Forwarded-Proto` Ã¢â‚¬â€ Original protocol (http/https)
-- `Host` Ã¢â‚¬â€ Original hostname
+- `X-Forwarded-For` - Client IP address
+- `X-Forwarded-Proto` - Original protocol (http/https)
+- `Host` - Original hostname
 
 ### EventSource Support
 

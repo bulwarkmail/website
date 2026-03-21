@@ -44,12 +44,17 @@ const faqs: FaqItem[] = [
   {
     question: "Can I use multiple email accounts?",
     answer:
-      "Bulwark supports multiple sender identities with separate signatures, reply-to addresses, and sub-addressing. Each identity can be selected when composing or replying to emails.",
+      "Yes. Bulwark supports up to 5 simultaneous email accounts with instant switching and per-account state preservation. Each account maintains its own JMAP session, and you can add, remove, or set a default account from the account switcher in the sidebar. Multiple sender identities with separate signatures and sub-addressing are also supported.",
   },
   {
     question: "Is Bulwark free to use?",
     answer:
       "Yes. Bulwark is open source under the AGPL v3 license. You can self-host, inspect, and modify it, and there are no premium tiers or paid features.",
+  },
+  {
+    question: "Can I try Bulwark without a mail server?",
+    answer:
+      "Yes. Bulwark includes a built-in demo mode with fixture data for emails, calendars, contacts, files, filters, identities, and vacation responses. Run with the development configuration to explore the full interface without connecting to a real JMAP server.",
   },
 ];
 

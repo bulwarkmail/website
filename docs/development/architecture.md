@@ -83,7 +83,7 @@ webmail/
 
 ## JMAP Integration
 
-Bulwark communicates with Stalwart exclusively through the JMAP protocol via a custom client implementation. Key aspects:
+Bulwark communicates with Stalwart exclusively through the JMAP protocol via a custom client implementation. The JMAP client is wrapped behind an interface abstraction that allows swapping between a live JMAP backend and a demo backend with fixture data. Key aspects:
 
 ### Request/Response Pattern
 

@@ -45,7 +45,7 @@ export default function Home() {
       "A modern, open-source webmail client for Stalwart Mail Server. Built with Next.js and JMAP for fast, private, self-hosted email, calendar, contacts, and file storage.",
     url: "https://bulwarkmail.org",
     downloadUrl: "https://github.com/bulwarkmail/webmail",
-    softwareVersion: "1.4.3",
+    softwareVersion: "1.4.7",
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
     isAccessibleForFree: true,
     offers: {
@@ -56,22 +56,26 @@ export default function Home() {
     featureList: [
       "Email client for Stalwart Mail Server",
       "JMAP protocol support",
-      "Calendar management",
-      "Calendar task list view",
+      "Calendar management with task tracking",
+      "CalDAV discovery with automatic calendar home resolution",
       "Shared calendar grouping",
-      "Contact management",
+      "Contact management with categories and pagination",
       "Address book directories",
-      "File storage",
-      "S/MIME certificate management",
+      "File storage with folder upload",
+      "S/MIME certificate management with legacy PBE support",
       "TNEF winmail.dat extraction",
       "Embedded message/rfc822 unwrapping",
+      "Email hover actions",
       "Draft editing",
       "Email export and import",
+      "Interactive guided tour for onboarding",
+      "Demo mode with fixture data",
       "Custom sidebar apps",
       "Self-hosted deployment",
       "Docker support",
       "Dark mode",
       "Keyboard shortcuts",
+      "Non-interactive SSO for embedded deployments",
     ],
     author: {
       "@type": "Organization",
@@ -131,7 +135,7 @@ export default function Home() {
                 </span>
                 <span className="w-px h-4 bg-border" />
                 <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                  v1.4.3 AGPL-3.0
+                  v1.4.7 AGPL-3.0
                 </span>
                 <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
               </a>

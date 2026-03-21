@@ -232,6 +232,37 @@ These variables still work, but they exist for compatibility with older deployme
 - **Required** - No.
 - **When to use it** - Only if you still depend on build-time configuration.
 
+## Embedded SSO & iframe
+
+### `AUTO_SSO_ENABLED`
+
+- **Purpose** - Automatically start the OAuth flow on the login page without user interaction.
+- **Required** - No.
+- **Default** - `false`
+- **Dependency** - Requires `OAUTH_ENABLED=true` and `OAUTH_ONLY=true`.
+- **When to set it** - Set to `true` when embedding Bulwark in an iframe with automatic SSO managed by a parent portal.
+
+### `ALLOWED_FRAME_ANCESTORS`
+
+- **Purpose** - Sets the CSP `frame-ancestors` directive to allow embedding in an iframe.
+- **Required** - No.
+- **Default** - `'none'` (iframe embedding disabled).
+- **When to set it** - Set to the origin of the parent portal (e.g., `https://portal.example.com`) to allow iframe embedding.
+
+### `COOKIE_SAME_SITE`
+
+- **Purpose** - Sets the `SameSite` attribute on session cookies.
+- **Allowed values** - `lax`, `none`, `strict`
+- **Default** - `lax`
+- **When to set it** - Set to `none` when Bulwark is embedded cross-origin in an iframe. Requires HTTPS.
+
+### `NEXT_PUBLIC_PARENT_ORIGIN`
+
+- **Purpose** - Origin of the parent frame for validating incoming `postMessage` events.
+- **Required** - No.
+- **Default** - Empty (accepts messages from any origin).
+- **When to set it** - Set to the origin of the parent portal for security when using the postMessage bridge.
+
 ## Recommended Patterns
 
 ### Small self-hosted setup
@@ -288,6 +319,22 @@ JMAP_SERVER_URL=https://mail.example.com
 STALWART_FEATURES=false
 ```
 
+### Embedded SSO in an iframe
+
+```env
+APP_NAME=Bulwark Webmail
+JMAP_SERVER_URL=https://mail.example.com
+OAUTH_ENABLED=true
+OAUTH_ONLY=true
+OAUTH_CLIENT_ID=webmail
+OAUTH_ISSUER_URL=https://auth.example.com
+SESSION_SECRET=replace-with-a-random-secret
+AUTO_SSO_ENABLED=true
+ALLOWED_FRAME_ANCESTORS=https://portal.example.com
+COOKIE_SAME_SITE=none
+NEXT_PUBLIC_PARENT_ORIGIN=https://portal.example.com
+```
+
 ## Integration Status
 
 At the time of writing, every variable listed in Bulwark's `.env.example` is integrated in the app.
@@ -299,4 +346,5 @@ At the time of writing, every variable listed in Bulwark's `.env.example` is int
 - `LOG_FORMAT` and `LOG_LEVEL` are used by the server logger.
 - Login branding variables are exposed through the runtime config endpoint and used by the login page.
 - Favicon and app logo variables are served through the config endpoint and rendered by the layout and sidebar.
+- Embedded SSO variables (`AUTO_SSO_ENABLED`, `ALLOWED_FRAME_ANCESTORS`, `COOKIE_SAME_SITE`, `NEXT_PUBLIC_PARENT_ORIGIN`) are used by the auth middleware and SSO API routes.
 - `NEXT_PUBLIC_*` values remain as fallback support for older build-time setups.

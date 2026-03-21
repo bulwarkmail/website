@@ -29,6 +29,8 @@ The identity manager refreshes from the server after create, update, and delete 
 - Click the attachment button to browse
 - Maximum file size is determined by your Stalwart configuration
 - Inline images can be pasted directly from the clipboard
+- Resizable image component for adjusting inline image dimensions
+- Direct image upload support in the rich text editor
 
 ## Signatures
 
@@ -59,7 +61,7 @@ Insert reusable email templates from the compose toolbar:
 
 Emails are auto-saved as drafts every 60 seconds (configurable in settings). You can also manually save with `Ctrl+S`. Drafts sync across devices via JMAP. A discard confirmation dialog appears when closing an unsaved draft.
 
-Existing drafts can be reopened and edited — click a draft in the Drafts folder to resume editing with all content, recipients, attachments, and identity selection restored.
+Existing drafts can be reopened and edited - click a draft in the Drafts folder to resume editing with all content, recipients, attachments, and identity selection restored.
 
 ## Keyboard Shortcuts
 

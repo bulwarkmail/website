@@ -54,15 +54,19 @@ JMAP_SERVER_URL=https://mail.example.com
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)     |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                       |
 | `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                        |
-| `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32–512px)                                   |
-| `APP_LOGO_LIGHT_URL`          | No              | empty                                     | Sidebar logo for light mode (SVG, PNG, or WebP; 24–128px)                                 |
-| `APP_LOGO_DARK_URL`           | No              | empty                                     | Sidebar logo for dark mode (SVG, PNG, or WebP; 24–128px)                                  |
-| `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds (SVG, PNG, or WebP; 32–512px)                       |
-| `LOGIN_LOGO_DARK_URL`         | No              | Bulwark dark logo                         | Login page logo for dark backgrounds (SVG, PNG, or WebP; 32–512px)                        |
+| `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32-512px)                                   |
+| `APP_LOGO_LIGHT_URL`          | No              | empty                                     | Sidebar logo for light mode (SVG, PNG, or WebP; 24-128px)                                 |
+| `APP_LOGO_DARK_URL`           | No              | empty                                     | Sidebar logo for dark mode (SVG, PNG, or WebP; 24-128px)                                  |
+| `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds (SVG, PNG, or WebP; 32-512px)                       |
+| `LOGIN_LOGO_DARK_URL`         | No              | Bulwark dark logo                         | Login page logo for dark backgrounds (SVG, PNG, or WebP; 32-512px)                        |
 | `LOGIN_COMPANY_NAME`          | No              | empty                                     | Company name shown on the login page                                                      |
 | `LOGIN_IMPRINT_URL`           | No              | empty                                     | Login page imprint / legal notice link                                                    |
 | `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                            |
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                   |
+| `AUTO_SSO_ENABLED`            | No              | `false`                                   | Automatically start OAuth flow on login page (for embedded SSO)                           |
+| `ALLOWED_FRAME_ANCESTORS`     | No              | `'none'`                                  | CSP `frame-ancestors` value for iframe embedding                                          |
+| `COOKIE_SAME_SITE`            | No              | `lax`                                     | Cookie `SameSite` attribute (`lax`, `none`, `strict`)                                     |
+| `NEXT_PUBLIC_PARENT_ORIGIN`   | No              | empty                                     | Origin of parent frame for postMessage validation                                         |
 | `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | -                                         | Legacy build-time fallback for `APP_NAME`                                                 |
 | `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | -                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                          |
 

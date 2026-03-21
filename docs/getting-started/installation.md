@@ -75,14 +75,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Development Without a Mail Server
 
-To develop UI without an external mail server, use the built-in mock JMAP server:
+To develop UI without an external mail server, use the built-in demo mode:
 
 ```bash
 cp .env.dev.example .env.local
 npm run dev
 ```
 
-Log in with any username and password. The mock server is served at `/api/dev-jmap`.
+Log in with any username and password. Demo mode includes fixture data for emails, calendars, contacts, files, filters, identities, mailboxes, and vacation responses, providing a full-featured experience without a real JMAP server.
 
 ## Production Build
 

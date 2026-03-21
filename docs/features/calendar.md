@@ -18,6 +18,10 @@ Bulwark includes an integrated calendar powered by JMAP Calendars (RFC 8984) wit
 
 Switch views with keyboard shortcuts: `M` (month), `W` (week), `D` (day), `A` (agenda), `T` (today).
 
+## Toolbar Navigation
+
+The desktop calendar toolbar includes prev/next navigation buttons and a date label for quick date navigation without needing to interact with the mini-calendar.
+
 ## Creating Events
 
 Click on any time slot or use the "New Event" button (`N` shortcut) to create an event:
@@ -49,9 +53,25 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 - Organizer and attendee UI with participant management
 - Inline calendar invitation banner in email viewer - automatically detects `.ics` attachments with RSVP and import-to-calendar actions
 
+## Pending Event Preview
+
+When navigating or creating events, a pending event preview is shown in calendar views and the event modal, giving visual feedback before the event is saved.
+
+## CalDAV Discovery
+
+Bulwark includes a CalDAV discovery API with automatic calendar home resolution. This enables seamless multi-account setups where each account's calendars are automatically discovered and loaded.
+
 ## Multiple Calendars
 
 Create and manage multiple calendars with different colors. Toggle visibility of individual calendars using the mini-calendar sidebar.
+
+### Week Numbers
+
+An optional setting allows displaying ISO week numbers in the mini-calendar for quick reference.
+
+### Calendar Management
+
+Calendar management settings include mailbox role reassignment controls, letting you change which calendar is the default or reassign special roles between calendars.
 
 ## Shared Calendar Grouping
 
@@ -80,5 +100,7 @@ Calendar state changes are pushed in real-time via JMAP EventSource - no manual 
 - First day of week (Sunday or Monday)
 - Time format (12h or 24h) applied across calendar grids, event cards, popovers, and import previews
 - Default calendar view
+- Show event start time in month view
+- Show week numbers in mini-calendar
 - Locale-aware date formatting
 - Persisted view preferences are validated so the calendar always falls back to a supported view mode

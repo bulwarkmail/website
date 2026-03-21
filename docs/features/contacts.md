@@ -18,6 +18,7 @@ Manage your contacts directly within Bulwark using JMAP Contacts (RFC 9553/9610 
 - Contact details view with edit form
 - Resizable sidebar for browsing contacts alongside details
 - Multi-select with checkboxes and selection toolbar
+- Pagination for large address books using maxObjectsInGet capability detection
 
 ## Address Book Directories
 
@@ -27,6 +28,14 @@ Organize contacts across multiple address books:
 - Drag-and-drop contacts between address books
 - Address book picker in the contact editor
 - Visual separation of address books in the sidebar
+
+## Categories
+
+Organize contacts with categories:
+
+- Assign categories to contacts via the category combo box in the contact form
+- Drag-and-drop contacts to a category in the sidebar
+- Filter contacts by category or use the no-category filter to find uncategorized contacts
 
 ## Groups
 

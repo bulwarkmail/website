@@ -142,6 +142,9 @@ Users can customize their experience from the Settings page:
 - **Toolbar position** - Top or below subject
 - **Mark as read delay** - Instant, delayed, or never
 - **Delete action** - Move to trash or permanent delete
+- **Attachment position** - Top or bottom of the email viewer
+- **Mobile sidebar apps** - Toggle visibility of individual sidebar apps on mobile
+- **Keyword migration** - One-click migration of legacy email tags to updated keywords
 
 ## Structured Logging
 

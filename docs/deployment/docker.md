@@ -36,7 +36,7 @@ docker run -d \
   ghcr.io/bulwarkmail/webmail:latest
 ```
 
-Environment variables are read at runtime Ã¢â‚¬â€ no rebuild is needed when changing configuration.
+Environment variables are read at runtime - no rebuild is needed when changing configuration.
 
 ### Build from Source
 

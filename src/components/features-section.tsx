@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -44,7 +44,7 @@ const features: Feature[] = [
     icon: Mail,
     title: "Full Email Experience",
     description:
-      "Read, compose, reply, reply-all, forward with threading, attachments, draft editing, embedded message/rfc822 unwrapping, virtual scrolling, color tags, archive modes, TNEF extraction, email export/import, and drag-and-drop organization.",
+      "Read, compose, reply, reply-all, forward with threading, attachments, draft editing, embedded message/rfc822 unwrapping, virtual scrolling, color tags, archive modes, TNEF extraction, email export/import, hover actions, resizable inline images, and drag-and-drop organization.",
     accent: "text-[#DB2D54]",
     accentBg: "bg-[#DB2D54]",
     colSpan: "md:col-span-5 md:row-span-2",
@@ -53,7 +53,7 @@ const features: Feature[] = [
     icon: Calendar,
     title: "Calendar Integration",
     description:
-      "JMAP Calendar (RFC 8984) with month, week, day, agenda, and task list views. Create, update, and delete events with drag-and-drop rescheduling, resize, recurring rules, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, shared calendar grouping, and double-click quick-create.",
+      "JMAP Calendar (RFC 8984) with month, week, day, agenda, and task list views. Create, update, and delete events with drag-and-drop rescheduling, resize, recurring rules, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, CalDAV discovery, shared calendar grouping, week numbers, task management, and double-click quick-create.",
     accent: "text-blue-600",
     accentBg: "bg-blue-600",
     colSpan: "md:col-span-4",
@@ -62,7 +62,7 @@ const features: Feature[] = [
     icon: Users,
     title: "Contacts & vCard",
     description:
-      "Contact management with JMAP sync (RFC 9553/9610), vCard import/export, address book directories with drag-and-drop, groups, autocomplete in composer, duplicate detection, and bulk operations.",
+      "Contact management with JMAP sync (RFC 9553/9610), vCard import/export, address book directories with drag-and-drop, category filtering, groups, pagination, autocomplete in composer, duplicate detection, and bulk operations.",
     accent: "text-violet-600",
     accentBg: "bg-violet-600",
     colSpan: "md:col-span-3",
@@ -71,7 +71,7 @@ const features: Feature[] = [
     icon: FolderOpen,
     title: "Cloud File Browser",
     description:
-      "JMAP FileNode storage with upload, download, preview, folder navigation, favorites, recent files, and bulk operations.",
+      "JMAP FileNode storage with upload, download, preview, folder upload via drag-and-drop, folder navigation, favorites, recent files, and bulk operations.",
     accent: "text-teal-600",
     accentBg: "bg-teal-600",
     colSpan: "md:col-span-4",
@@ -98,7 +98,7 @@ const features: Feature[] = [
     icon: Shield,
     title: "Privacy & Security",
     description:
-      "SPF/DKIM/DMARC indicators, external content blocking, DOMPurify sanitization, S/MIME certificate workflows, TOTP 2FA, OAuth2/OIDC with PKCE, and trusted senders.",
+      "SPF/DKIM/DMARC indicators, external content blocking, DOMPurify sanitization, S/MIME certificate workflows with legacy PBE support, TOTP 2FA, OAuth2/OIDC with PKCE, and trusted senders.",
     accent: "text-emerald-600",
     accentBg: "bg-emerald-600",
     colSpan: "md:col-span-4",
@@ -116,7 +116,7 @@ const features: Feature[] = [
     icon: Filter,
     title: "Sieve Email Filters",
     description:
-      "Visual rule builder for server-side filtering (RFC 9661). Conditions, actions, raw Sieve editor with syntax validation, and drag reorder.",
+      "Visual rule builder for server-side filtering (RFC 9661). Conditions, actions, expanded visual view, raw Sieve editor with syntax validation, and drag reorder.",
     accent: "text-orange-600",
     accentBg: "bg-orange-600",
     colSpan: "md:col-span-3",
@@ -152,7 +152,7 @@ const features: Feature[] = [
     icon: Palette,
     title: "Themes & Branding",
     description:
-      "System-aware theming with smooth transitions, always-light email rendering, custom favicon and logo support, sidebar apps, and responsive desktop/mobile layouts.",
+      "System-aware theming with smooth transitions, always-light email rendering, custom favicon and logo support, sidebar apps with mobile visibility toggle, interactive guided tour, and responsive desktop/mobile layouts.",
     accent: "text-violet-600",
     accentBg: "bg-violet-600",
     colSpan: "md:col-span-3",
@@ -320,7 +320,7 @@ function MiniSecurityBadges() {
         whileTap={{ scale: 0.97 }}
         className="text-[10px] text-[#DB2D54] font-medium hover:underline cursor-pointer"
       >
-        {revealed ? "Hide details" : "Show all checks â†’"}
+        {revealed ? "Hide details" : "Show all checks →"}
       </motion.button>
       <AnimatePresence>
         {revealed && (
@@ -330,9 +330,9 @@ function MiniSecurityBadges() {
             exit={{ opacity: 0, height: 0 }}
             className="text-[10px] text-muted-foreground space-y-0.5 overflow-hidden"
           >
-            <p>â€¢ OAuth2/OIDC with PKCE</p>
-            <p>â€¢ AES-256-GCM encrypted cookies</p>
-            <p>â€¢ CSP, X-Frame-Options headers</p>
+            <p>• OAuth2/OIDC with PKCE</p>
+            <p>• AES-256-GCM encrypted cookies</p>
+            <p>• CSP, X-Frame-Options headers</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -580,8 +580,8 @@ function MiniNotifications() {
 
 function MiniFilterBuilder() {
   const [rules, setRules] = useState([
-    { id: 1, condition: "From contains", value: "newsletter", action: "Move to â†’ Promos" },
-    { id: 2, condition: "Subject starts", value: "[JIRA]", action: "Label â†’ Work" },
+    { id: 1, condition: "From contains", value: "newsletter", action: "Move to → Promos" },
+    { id: 2, condition: "Subject starts", value: "[JIRA]", action: "Label → Work" },
     { id: 3, condition: "Has attachment", value: "> 5MB", action: "Star" },
   ]);
   const [activeRule, setActiveRule] = useState<number | null>(null);
@@ -663,7 +663,7 @@ function MiniVacationToggle() {
             </div>
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
               <Calendar className="w-3 h-3 text-sky-500" />
-              <span>Dec 23 â€“ Jan 6</span>
+              <span>Dec 23 – Jan 6</span>
             </div>
           </motion.div>
         )}
@@ -720,9 +720,9 @@ function MiniThemePreview() {
 function MiniLanguagePicker() {
   const languages = [
     { code: "EN", label: "English", greeting: "Hello!" },
-    { code: "FR", label: "FranÃ§ais", greeting: "Bonjour !" },
-    { code: "JA", label: "æ-¥æœ¬èªž", greeting: "ã“ã‚“ã«ã¡ã¯ï¼" },
-    { code: "ES", label: "EspaÃ±ol", greeting: "Â¡Hola!" },
+    { code: "FR", label: "Français", greeting: "Bonjour !" },
+    { code: "JA", label: "日本語", greeting: "こんにちは！" },
+    { code: "ES", label: "Español", greeting: "¡Hola!" },
     { code: "DE", label: "Deutsch", greeting: "Hallo!" },
   ];
   const [selected, setSelected] = useState(0);
@@ -768,9 +768,9 @@ function MiniDockerTerminal() {
   const lines = [
     "$ docker pull ghcr.io/bulwarkmail/webmail",
     "latest: Pulling from bulwarkmail/webmail",
-    "Status: Downloaded âœ“",
+    "Status: Downloaded ✓",
     "$ docker run -p 8080:80 ghcr.io/bulwarkmail/webmail",
-    "â–¸ Server ready on :8080",
+    "▸ Server ready on :8080",
   ];
   const [visibleLines, setVisibleLines] = useState(0);
 
@@ -793,7 +793,7 @@ function MiniDockerTerminal() {
               animate={{ opacity: 1 }}
               className={cn(
                 "text-[10px] leading-relaxed",
-                line.startsWith("$") ? "text-[#3fb950]" : line.includes("âœ“") || line.includes("ready") ? "text-[#58a6ff]" : "text-[#8b949e]"
+                line.startsWith("$") ? "text-[#3fb950]" : line.includes("✓") || line.includes("ready") ? "text-[#58a6ff]" : "text-[#8b949e]"
               )}
             >
               {line}
@@ -801,7 +801,7 @@ function MiniDockerTerminal() {
           ))}
           {visibleLines === 0 && (
             <p className="text-[10px] text-[#8b949e]">
-              <span className="animate-pulse">â–Š</span>
+              <span className="animate-pulse">▊</span>
             </p>
           )}
         </div>
@@ -819,7 +819,7 @@ function MiniDockerTerminal() {
           }}
           className="mt-2 text-[10px] text-yellow-600 font-medium hover:underline cursor-pointer"
         >
-          {visibleLines === 0 ? "Run deploy â†’" : "Continue â†’"}
+          {visibleLines === 0 ? "Run deploy →" : "Continue →"}
         </motion.button>
       )}
       {visibleLines >= lines.length && (

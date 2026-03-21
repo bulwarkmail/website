@@ -75,17 +75,21 @@ services:
 
 The standard OAuth PKCE flow stores the `code_verifier` in `sessionStorage`, which is lost when the browser navigates across browsing contexts (e.g., iframe to top-level and back). The server-side SSO flow solves this by keeping the PKCE state in an encrypted httpOnly cookie:
 
-1. **Start** — The client calls `POST /api/auth/sso/start`. The server generates PKCE parameters, stores them in an encrypted cookie (`sso_pending` with a 5-minute TTL), and returns the OAuth `authorize_url`.
+1. **Start** - The client calls `POST /api/auth/sso/start`. The server generates PKCE parameters, stores them in an encrypted cookie (`sso_pending` with a 5-minute TTL), and returns the OAuth `authorize_url`.
 
-2. **Redirect** — The browser redirects to the OAuth provider's authorize endpoint.
+2. **Redirect** - The browser redirects to the OAuth provider's authorize endpoint.
 
-3. **Callback** — The OAuth provider redirects back to `/auth/callback` with `code` and `state` parameters.
+3. **Callback** - The OAuth provider redirects back to `/auth/callback` with `code` and `state` parameters.
 
-4. **Complete** — The client calls `POST /api/auth/sso/complete`. The server reads the encrypted cookie, validates the `state` and TTL, exchanges the authorization code for tokens using the stored `code_verifier`, sets the `refresh_token` cookie, and returns the `access_token`.
+4. **Complete** - The client calls `POST /api/auth/sso/complete`. The server reads the encrypted cookie, validates the `state` and TTL, exchanges the authorization code for tokens using the stored `code_verifier`, sets the `refresh_token` cookie, and returns the `access_token`.
 
 ### Auto-SSO
 
 When `AUTO_SSO_ENABLED=true` and `OAUTH_ONLY=true`, the login page automatically starts the server-side SSO flow without user interaction. A 30-second loop guard prevents infinite redirect loops if the OAuth flow fails.
+
+### Non-Interactive SSO
+
+For fully embedded deployments where no login UI should ever appear, Bulwark supports a non-interactive SSO login flow. When configured, the OAuth flow starts automatically and completes without any user interaction, making it suitable for iframe deployments managed by a parent portal.
 
 ### iframe Security
 
@@ -105,8 +109,8 @@ Bulwark communicates with the parent frame via `postMessage`. All outgoing messa
 | --------------------- | -------------- | ------------------------------- |
 | `sso:auth-success`    | `{ username }` | User successfully authenticated |
 | `sso:auth-failure`    | `{ error }`    | Authentication failed           |
-| `sso:logout`          | —              | User logged out                 |
-| `sso:session-expired` | —              | Token refresh failed            |
+| `sso:logout`          | -              | User logged out                 |
+| `sso:session-expired` | -              | Token refresh failed            |
 
 ### Incoming Messages (Parent to Webmail)
 
