@@ -107,4 +107,4 @@ When reporting bugs, please include:
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+By contributing, you agree that your contributions will be licensed under the [GNU Affero General Public License v3 (AGPL-3.0-only)](https://www.gnu.org/licenses/agpl-3.0.html).
