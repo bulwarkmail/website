@@ -35,7 +35,7 @@ JMAP is enabled by default in Stalwart. Ensure your Stalwart config includes a J
 ```toml
 [server.listener.jmap]
 bind = ["0.0.0.0:8080"]
-protocol = "jmap"
+protocol = "http"
 ```
 
 ## CORS Configuration

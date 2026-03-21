@@ -85,7 +85,7 @@ Bulwark requires a Stalwart Mail Server with JMAP enabled. Make sure your Stalwa
 ```toml
 [server.listener.jmap]
 bind = ["0.0.0.0:8080"]
-protocol = "jmap"
+protocol = "http"
 ```
 
 ### CORS Configuration
