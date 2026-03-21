@@ -111,7 +111,3 @@ The documentation system supports:
 
 - [Bulwark Webmail](https://github.com/bulwarkmail/webmail) - The webmail client
 - [Stalwart Mail Server](https://github.com/stalwartlabs/mail-server) - The mail server Bulwark is built for
-
-## License
-
-[MIT](LICENSE)
