@@ -50,6 +50,10 @@ OAUTH_ISSUER_URL=https://keycloak.example.com/realms/mail
 
 Bulwark supports RP-initiated logout when an `end_session_endpoint` is available.
 
+### Embedded SSO
+
+If you need to embed Bulwark in an iframe with automatic SSO managed by a parent portal, see the [Embedded SSO guide](/docs/guides/embedded-sso).
+
 ## Remember Me
 
 By default, sessions end when the browser is closed. To enable persistent sessions for Basic Auth:
