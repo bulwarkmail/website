@@ -11,8 +11,6 @@
 The official website and documentation for [Bulwark Webmail](https://github.com/bulwarkmail/webmail).<br/>
 Built with Next.js and Tailwind CSS.
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
 </div>
 
 ---
