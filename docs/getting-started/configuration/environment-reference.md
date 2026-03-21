@@ -116,8 +116,13 @@ All of the variables below are implemented in the current app. Some are always a
 
 - **Purpose** - Filesystem location where encrypted settings files are stored.
 - **Required** - No.
-- **Default** - `./data/settings`
+- **Default** - `./data/settings` (resolves to `/app/data/settings` in Docker, since `WORKDIR` is `/app`)
 - **When to set it** - Set this when you want settings data stored on a specific persistent volume or host path.
+- **Docker note** - Mount a persistent volume at `/app/data/settings` (or at whatever absolute path you configure) so that settings survive container restarts:
+  ```yaml
+  volumes:
+    - bulwark-settings:/app/data/settings
+  ```
 
 ## Logging
 

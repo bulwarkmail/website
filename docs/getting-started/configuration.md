@@ -51,7 +51,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `OAUTH_ISSUER_URL`            | No              | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs                                                     |
 | `SESSION_SECRET`              | Feature-gated   | -                                         | Enables encrypted persistent sessions, settings sync, and multi-account support           |
 | `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                   |
-| `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory used for encrypted settings storage                                             |
+| `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)     |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                       |
 | `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                        |
 | `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32–512px)                                   |
@@ -94,7 +94,7 @@ If Bulwark and Stalwart are on different domains, configure CORS in Stalwart:
 
 ```toml
 [server.http]
-allowed-origins = ["https://your-bulwark-domain.com"]
+permissive-cors = true
 ```
 
 ## Authentication

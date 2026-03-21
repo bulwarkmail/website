@@ -43,12 +43,12 @@ COOKIE_SAME_SITE=none
 NEXT_PUBLIC_PARENT_ORIGIN=https://portal.example.com
 ```
 
-| Variable | Description | Default |
-|---|---|---|
-| `AUTO_SSO_ENABLED` | Automatically start the OAuth flow on the login page | `false` |
-| `ALLOWED_FRAME_ANCESTORS` | CSP `frame-ancestors` value | `'none'` |
-| `COOKIE_SAME_SITE` | Cookie `SameSite` attribute (`lax`, `none`, `strict`) | `lax` |
-| `NEXT_PUBLIC_PARENT_ORIGIN` | Origin of the parent frame for postMessage validation | (empty) |
+| Variable                    | Description                                           | Default  |
+| --------------------------- | ----------------------------------------------------- | -------- |
+| `AUTO_SSO_ENABLED`          | Automatically start the OAuth flow on the login page  | `false`  |
+| `ALLOWED_FRAME_ANCESTORS`   | CSP `frame-ancestors` value                           | `'none'` |
+| `COOKIE_SAME_SITE`          | Cookie `SameSite` attribute (`lax`, `none`, `strict`) | `lax`    |
+| `NEXT_PUBLIC_PARENT_ORIGIN` | Origin of the parent frame for postMessage validation | (empty)  |
 
 ## Example Docker Compose
 
@@ -101,40 +101,40 @@ Bulwark communicates with the parent frame via `postMessage`. All outgoing messa
 
 ### Outgoing Messages (Webmail to Parent)
 
-| Type | Payload | When |
-|---|---|---|
-| `sso:auth-success` | `{ username }` | User successfully authenticated |
-| `sso:auth-failure` | `{ error }` | Authentication failed |
-| `sso:logout` | — | User logged out |
-| `sso:session-expired` | — | Token refresh failed |
+| Type                  | Payload        | When                            |
+| --------------------- | -------------- | ------------------------------- |
+| `sso:auth-success`    | `{ username }` | User successfully authenticated |
+| `sso:auth-failure`    | `{ error }`    | Authentication failed           |
+| `sso:logout`          | —              | User logged out                 |
+| `sso:session-expired` | —              | Token refresh failed            |
 
 ### Incoming Messages (Parent to Webmail)
 
 Messages must include `source: 'portal'`. If `NEXT_PUBLIC_PARENT_ORIGIN` is set, only messages from that origin are accepted.
 
-| Type | Effect |
-|---|---|
-| `sso:trigger-login` | Navigates to the login page (starts auto-SSO if enabled) |
-| `sso:trigger-logout` | Logs the user out |
+| Type                 | Effect                                                   |
+| -------------------- | -------------------------------------------------------- |
+| `sso:trigger-login`  | Navigates to the login page (starts auto-SSO if enabled) |
+| `sso:trigger-logout` | Logs the user out                                        |
 
 ### Example Parent Integration
 
 ```javascript
-const iframe = document.getElementById('webmail-iframe');
+const iframe = document.getElementById("webmail-iframe");
 
 // Listen for auth events from Bulwark
-window.addEventListener('message', (event) => {
-  if (event.data?.source !== 'bulwark') return;
+window.addEventListener("message", (event) => {
+  if (event.data?.source !== "bulwark") return;
 
   switch (event.data.type) {
-    case 'sso:auth-success':
-      console.log('User logged in:', event.data.username);
+    case "sso:auth-success":
+      console.log("User logged in:", event.data.username);
       break;
-    case 'sso:session-expired':
+    case "sso:session-expired":
       // Re-trigger login when session expires
       iframe.contentWindow.postMessage(
-        { source: 'portal', type: 'sso:trigger-login' },
-        'https://webmail.example.com'
+        { source: "portal", type: "sso:trigger-login" },
+        "https://webmail.example.com",
       );
       break;
   }
@@ -143,8 +143,8 @@ window.addEventListener('message', (event) => {
 // Trigger logout from the parent portal
 function logoutWebmail() {
   iframe.contentWindow.postMessage(
-    { source: 'portal', type: 'sso:trigger-logout' },
-    'https://webmail.example.com'
+    { source: "portal", type: "sso:trigger-logout" },
+    "https://webmail.example.com",
   );
 }
 ```
@@ -156,6 +156,7 @@ function logoutWebmail() {
 Initiates the server-side OAuth flow.
 
 **Request:**
+
 ```json
 {
   "redirect_uri": "https://webmail.example.com/en/auth/callback"
@@ -163,6 +164,7 @@ Initiates the server-side OAuth flow.
 ```
 
 **Response:**
+
 ```json
 {
   "authorize_url": "https://auth.example.com/authorize?..."
@@ -174,6 +176,7 @@ Initiates the server-side OAuth flow.
 Completes the server-side OAuth flow. Requires the `sso_pending` cookie set by the start endpoint.
 
 **Request:**
+
 ```json
 {
   "code": "authorization_code_here",
@@ -182,6 +185,7 @@ Completes the server-side OAuth flow. Requires the `sso_pending` cookie set by t
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "...",

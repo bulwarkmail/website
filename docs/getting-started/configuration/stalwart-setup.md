@@ -20,7 +20,7 @@ Below is a quick-start summary:
 docker run -d \
   --name stalwart \
   -p 443:443 -p 25:25 -p 587:587 -p 993:993 -p 8080:8080 \
-  -v stalwart-data:/opt/stalwart-mail \
+  -v stalwart-data:/opt/stalwart \
   stalwartlabs/mail-server:latest
 ```
 
@@ -44,7 +44,7 @@ When Bulwark runs on a different domain than Stalwart, enable CORS:
 
 ```toml
 [server.http]
-allowed-origins = ["https://your-bulwark-domain.com"]
+permissive-cors = true
 ```
 
 Bulwark automatically detects CORS misconfiguration and displays detailed error messages to help with setup.

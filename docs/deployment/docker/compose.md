@@ -24,7 +24,7 @@ services:
       - "993:993"
       - "8080:8080"
     volumes:
-      - stalwart-data:/opt/stalwart-mail
+      - stalwart-data:/opt/stalwart
     restart: unless-stopped
 
   bulwark:
@@ -87,6 +87,28 @@ services:
       start_period: 10s
     restart: unless-stopped
 ```
+
+## Settings Sync Volume
+
+If you enable [settings sync](/docs/getting-started/configuration/environment-reference#settings_data_dir), mount a persistent volume so encrypted settings survive container restarts:
+
+```yaml
+services:
+  bulwark:
+    image: ghcr.io/bulwarkmail/webmail:latest
+    environment:
+      JMAP_SERVER_URL: http://stalwart:8080
+      SESSION_SECRET: your-secret-key-here
+      SETTINGS_SYNC_ENABLED: "true"
+    volumes:
+      - bulwark-settings:/app/data/settings
+    # ...
+
+volumes:
+  bulwark-settings:
+```
+
+The default `SETTINGS_DATA_DIR` is `./data/settings`, which resolves to `/app/data/settings` inside the container (the Dockerfile sets `WORKDIR /app`).
 
 ## Start the Stack
 

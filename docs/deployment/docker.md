@@ -63,7 +63,7 @@ services:
       - "993:993"
       - "8080:8080"
     volumes:
-      - stalwart-data:/opt/stalwart-mail
+      - stalwart-data:/opt/stalwart
     restart: unless-stopped
 
   bulwark:
@@ -126,6 +126,21 @@ Start the stack:
 
 ```bash
 docker compose up -d
+```
+
+## Settings Sync Volume
+
+If you enable settings sync, mount a persistent volume so encrypted settings survive container restarts. The default `SETTINGS_DATA_DIR` is `./data/settings`, which resolves to `/app/data/settings` in the container (`WORKDIR /app`):
+
+```yaml
+bulwark:
+  image: ghcr.io/bulwarkmail/webmail:latest
+  environment:
+    JMAP_SERVER_URL: http://stalwart:8080
+    SESSION_SECRET: your-secret-key-here
+    SETTINGS_SYNC_ENABLED: "true"
+  volumes:
+    - bulwark-settings:/app/data/settings
 ```
 
 ## Reverse Proxy
