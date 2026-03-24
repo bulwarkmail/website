@@ -14,6 +14,44 @@ The default method. Users enter their email address and password, which are vali
 
 By default, Bulwark uses session-based authentication with no password storage on the server for security. Credentials are held only in the browser session.
 
+Changing the Password via Bulwark Webmail
+
+Access Settings: Log into your Bulwark webmail. In the left-hand sidebar, look for the Account & Identity section and click on Security.
+
+Locate Change Password: On the "Account Security" dashboard, the first section is Change Password.
+
+Enter Credentials:
+
+Current Password: Enter the password you are currently using.
+
+New Password: Enter your desired new password.
+
+Confirm New Password: Re-type the new password to ensure there are no typos.
+
+Save: Click the gray Change Password button.
+
+Note: If the "Change Password" section is missing or you receive an error, it is likely because the administrative permissions have not been enabled.
+
+To allow the password change to actually take effect via the webmail, the following permissions must be toggled to On in the Stalwart user/account settings:
+
+Account Information Permission
+
+This is the master switch for account-level changes.
+
+Locate the setting: Modify user account information.
+
+Action: Select the On radio button.
+
+JMAP Identity Permissions
+
+Since Bulwark often relies on the JMAP protocol to communicate with Stalwart, these specific identity toggles are crucial:
+
+Modify user identities via JMAP: Set to On.
+
+Retrieve user identities via JMAP: Set to On.
+
+Track identity changes via JMAP: Set to On.
+
 ## OAuth 2.0 / OpenID Connect
 
 Bulwark supports OAuth2/OIDC with PKCE for single sign-on (SSO). This can be used alongside or instead of Basic Auth.
