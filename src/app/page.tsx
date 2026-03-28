@@ -34,7 +34,23 @@ const FaqSection = dynamic(() =>
   import("@/components/faq-section").then((m) => ({ default: m.FaqSection }))
 );
 
-export default function Home() {
+async function fetchLatestVersion(): Promise<string> {
+  try {
+    const res = await fetch(
+      "https://raw.githubusercontent.com/bulwarkmail/webmail/refs/heads/main/VERSION",
+      { next: { revalidate: 3600 } }
+    );
+    if (res.ok) {
+      return (await res.text()).trim();
+    }
+  } catch {
+    // fall through to default
+  }
+  return "1.4.9";
+}
+
+export default async function Home() {
+  const version = await fetchLatestVersion();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -45,7 +61,7 @@ export default function Home() {
       "A modern, open-source webmail client for Stalwart Mail Server. Built with Next.js and JMAP for fast, private, self-hosted email, calendar, contacts, and file storage.",
     url: "https://bulwarkmail.org",
     downloadUrl: "https://github.com/bulwarkmail/webmail",
-    softwareVersion: "1.4.7",
+    softwareVersion: version,
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
     isAccessibleForFree: true,
     offers: {
@@ -65,17 +81,26 @@ export default function Home() {
       "S/MIME certificate management with legacy PBE support",
       "TNEF winmail.dat extraction",
       "Embedded message/rfc822 unwrapping",
-      "Email hover actions",
+      "Email hover actions with configurable placement",
+      "Answered and forwarded email status indicators",
+      "Plain text-only composer mode",
+      "Conversation threading toggle",
       "Draft editing",
       "Email export and import",
+      "Notification sounds with preview playback",
+      "Vacation responder with Sieve generation and parsing",
       "Interactive guided tour for onboarding",
       "Demo mode with fixture data",
-      "Custom sidebar apps",
+      "Custom sidebar apps with drag-and-drop reordering",
+      "Stalwart admin panel with plugin and theme management",
+      "OAuth app password support",
       "Self-hosted deployment",
       "Docker support",
       "Dark mode",
       "Keyboard shortcuts",
       "Non-interactive SSO for embedded deployments",
+      "Path prefix support for reverse proxy deployments",
+      "9 languages including Russian",
     ],
     author: {
       "@type": "Organization",
@@ -135,7 +160,7 @@ export default function Home() {
                 </span>
                 <span className="w-px h-4 bg-border" />
                 <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                  v1.4.7 AGPL-3.0
+                  v{version} AGPL-3.0
                 </span>
                 <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
               </a>

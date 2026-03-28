@@ -44,7 +44,7 @@ const features: Feature[] = [
     icon: Mail,
     title: "Full Email Experience",
     description:
-      "Read, compose, reply, reply-all, forward with threading, attachments, draft editing, embedded message/rfc822 unwrapping, virtual scrolling, color tags, archive modes, TNEF extraction, email export/import, hover actions, resizable inline images, and drag-and-drop organization.",
+      "Read, compose, reply, reply-all, forward with threading, attachments, draft editing, embedded message/rfc822 unwrapping, virtual scrolling, color tags, answered and forwarded status icons, archive modes, TNEF extraction, email export/import, hover actions with configurable placement, plain text composer mode, conversation threading toggle, resizable inline images, and drag-and-drop organization.",
     accent: "text-[#DB2D54]",
     accentBg: "bg-[#DB2D54]",
     colSpan: "md:col-span-5 md:row-span-2",
@@ -89,7 +89,7 @@ const features: Feature[] = [
     icon: Bell,
     title: "Real-time Push",
     description:
-      "JMAP EventSource for live updates. Instant unread counts, email arrival notifications, and connection status indicator.",
+      "JMAP EventSource for live updates. Instant unread counts, email arrival notifications, configurable notification sounds with preview playback, and connection status indicator.",
     accent: "text-amber-600",
     accentBg: "bg-amber-600",
     colSpan: "md:col-span-3",
@@ -116,7 +116,7 @@ const features: Feature[] = [
     icon: Filter,
     title: "Sieve Email Filters",
     description:
-      "Visual rule builder for server-side filtering (RFC 9661). Conditions, actions, expanded visual view, raw Sieve editor with syntax validation, and drag reorder.",
+      "Visual rule builder for server-side filtering (RFC 9661). Conditions, actions, expanded visual view, raw Sieve editor with syntax validation, vacation responder management with Sieve generation and parsing, and drag reorder.",
     accent: "text-orange-600",
     accentBg: "bg-orange-600",
     colSpan: "md:col-span-3",
@@ -152,16 +152,16 @@ const features: Feature[] = [
     icon: Palette,
     title: "Themes & Branding",
     description:
-      "System-aware theming with smooth transitions, always-light email rendering, custom favicon and logo support, sidebar apps with mobile visibility toggle, interactive guided tour, and responsive desktop/mobile layouts.",
+      "System-aware theming with smooth transitions, always-light email rendering, custom favicon and logo support, sidebar apps with drag-and-drop reordering and mobile visibility toggle, plugin and theme admin dashboard with forced enable or disable controls and admin locks, interactive guided tour, and responsive desktop/mobile layouts.",
     accent: "text-violet-600",
     accentBg: "bg-violet-600",
     colSpan: "md:col-span-3",
   },
   {
     icon: Globe,
-    title: "8 Languages",
+    title: "9 Languages",
     description:
-      "English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese. Auto-detection with persistent preference.",
+      "English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese, Russian. Auto-detection with persistent preference.",
     accent: "text-teal-600",
     accentBg: "bg-teal-600",
     colSpan: "md:col-span-4",
