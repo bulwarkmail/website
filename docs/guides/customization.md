@@ -145,6 +145,12 @@ Users can customize their experience from the Settings page:
 - **Attachment position** - Top or bottom of the email viewer
 - **Mobile sidebar apps** - Toggle visibility of individual sidebar apps on mobile
 - **Keyword migration** - One-click migration of legacy email tags to updated keywords
+- **Mail layout** - Configure email list and viewer layout preferences
+- **Conversation threading** - Enable or disable email conversation threading
+- **Hover preview** - Configure calendar event hover preview behavior
+- **Account switcher visibility** - Hide or show the account switcher in the sidebar
+- **Account avatars** - Show account avatars on the navigation rail
+- **Folder expansion** - Folder expansion state is remembered across sessions
 
 ## Structured Logging
 
@@ -154,3 +160,7 @@ Configure log output format and verbosity:
 LOG_FORMAT=text   # "text" or "json"
 LOG_LEVEL=info    # "debug", "info", "warn", "error"
 ```
+
+### Logging Categories
+
+Bulwark supports logging categories for finer-grained log management. Categories allow you to control log verbosity for specific subsystems (e.g., JMAP, auth, calendar) independently.

@@ -23,6 +23,23 @@ The editor supports full formatting:
 Choose which sender identity to use from the dropdown in the composer. Each identity can have its own name, email address, and signature.
 The identity manager refreshes from the server after create, update, and delete operations so the composer stays in sync with server-side changes.
 
+### Auto-Select Reply Identity
+
+When replying to an email, Bulwark can automatically select the identity that matches the recipient address of the original email. This is configurable in settings.
+
+### Reply-To Addresses
+
+Configure reply-to addresses in the composer to direct replies to a different address than the sender identity.
+
+## Composer Modes
+
+Bulwark supports two composer modes:
+
+- **Rich text** - Full formatting with the rich text editor (default)
+- **Plain text only** - A simplified plain text composer for users who prefer unformatted emails
+
+The composer mode can be configured in email settings.
+
 ## Attachments
 
 - Drag and drop files onto the compose window

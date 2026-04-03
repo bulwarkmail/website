@@ -29,9 +29,10 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 - Title and description
 - Start and end time with automatic timezone detection
 - All-day events
-- Recurrence rules (daily, weekly, monthly, yearly)
+- Recurrence rules (daily, weekly, monthly, yearly) with client-side recurrence expansion
 - Reminders and alerts with configurable notification sound
 - Participant scheduling with contact autocomplete
+- Virtual location input for online meetings and video calls
 
 ### Quick Create
 
@@ -57,6 +58,10 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 
 When navigating or creating events, a pending event preview is shown in calendar views and the event modal, giving visual feedback before the event is saved.
 
+## Hover Preview
+
+Calendar events support hover preview with configurable settings. Hovering over an event displays a popover with event details including time, location, participants, and description without needing to open the full event modal.
+
 ## CalDAV Discovery
 
 Bulwark includes a CalDAV discovery API with automatic calendar home resolution. This enables seamless multi-account setups where each account's calendars are automatically discovered and loaded.
@@ -79,11 +84,11 @@ Shared calendars from other users are visually grouped and separated in the side
 
 ## iCalendar Import
 
-Import `.ics` files with a preview dialog and bulk event creation.
+Import `.ics` files with a preview dialog and bulk event creation. Batch event import is supported for importing large `.ics` files with multiple events.
 
 ## iCal/Webcal Subscriptions
 
-Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars appear alongside your own and refresh automatically.
+Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars appear alongside your own and refresh automatically. Subscription settings can be edited after creation, including URL, refresh interval, and display options.
 
 ## Real-time Updates
 
@@ -94,6 +99,10 @@ Calendar state changes are pushed in real-time via JMAP EventSource - no manual 
 - Client-side alert evaluation with toast display
 - Configurable notification sound
 - Proactive 24-hour event fetch for upcoming alerts
+
+## Plugin Integration
+
+Calendar events support action slots for plugins. For example, the Jitsi Meet plugin can add a "Start Meeting" button directly on calendar events with virtual locations.
 
 ## Settings
 

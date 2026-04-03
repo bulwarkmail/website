@@ -83,7 +83,7 @@ webmail/
 
 ## JMAP Integration
 
-Bulwark communicates with Stalwart exclusively through the JMAP protocol via a custom client implementation. The JMAP client is wrapped behind an interface abstraction that allows swapping between a live JMAP backend and a demo backend with fixture data. Key aspects:
+Bulwark communicates with Stalwart exclusively through the JMAP protocol via a custom client implementation. The JMAP client is wrapped behind an interface abstraction that allows swapping between a live JMAP backend and a demo backend with fixture data. Custom JMAP server endpoints can be configured from login and settings for flexible deployments. Key aspects:
 
 ### Request/Response Pattern
 
@@ -113,6 +113,16 @@ Bulwark detects server capabilities at session creation and conditionally enable
 - `urn:ietf:params:jmap:vacationresponse` - Vacation auto-reply
 - `urn:ietf:params:jmap:sieve` - Server-side email filters
 
+### Plugin System
+
+Bulwark includes an extensible plugin system with:
+
+- Schema-driven admin configuration UI for plugin settings
+- Calendar event action slots for plugins to add custom buttons
+- Plugin/theme admin dashboard with forced enable/disable controls and admin locks
+- Managed policy enforcement for enterprise deployments
+- Built-in Jitsi Meet plugin for video conferencing integration
+
 ### Push Notifications
 
 Bulwark uses JMAP's EventSource mechanism for real-time updates. When new emails arrive, calendar events change, or filter state updates, the server pushes notifications to the client without polling.
@@ -132,6 +142,8 @@ Bulwark uses JMAP's EventSource mechanism for real-time updates. When new emails
 - OAuth2/OIDC with PKCE for SSO
 - HTML sanitization with DOMPurify
 - External content blocked by default
-- CSP headers with per-request nonce
+- CSP headers with per-request nonce and enforcement
 - X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy headers
-- CORS misconfiguration detection with actionable error messages
+- SSRF redirect validation and IP spoofing prevention
+- PDF iframe sandbox for safe document preview
+- Plugin security with dangerous JS pattern blocking and strict session secret validation

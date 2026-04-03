@@ -21,7 +21,11 @@ Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so d
 - Upload individual files with progress tracking
 - Folder upload via drag-and-drop or toolbar button
 - Download files or entire selections
+- Dynamic server-configured maximum upload sizes
 - Clipboard-style cut, copy, paste, and duplicate actions
+
+> **Warning**
+> Large file uploads can cause server instability. Deleted files may not be immediately purged from storage. Use with caution.
 
 ## Preview & Organization
 

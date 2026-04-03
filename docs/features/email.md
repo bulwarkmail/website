@@ -10,7 +10,7 @@ Bulwark provides a full-featured email experience powered by the JMAP protocol.
 
 ## Inbox & Folders
 
-- Three-pane layout (sidebar, email list, viewer)
+- Three-pane layout (sidebar, email list, viewer) with configurable mail layout settings
 - Hierarchical mailbox display with unread counts
 - Unread filter toggle in the mailbox sidebar
 - Drag-and-drop email organization between folders
@@ -20,6 +20,7 @@ Bulwark provides a full-featured email experience powered by the JMAP protocol.
 - Empty folder action for Junk and Trash mailboxes (with confirmation)
 - Hover actions with configurable quick-action buttons for common operations
 - Attachment position setting (top or bottom of email viewer)
+- Answered and forwarded email status indicators
 
 ## Composing
 
@@ -34,7 +35,10 @@ The rich text editor supports:
 - **Image upload** - Rich text editor supports direct image upload
 - **Signatures** - Multiple per-identity signatures
 - **Templates** - Reusable email templates with placeholder variables
-- **Identity selection** - Choose sender identity from dropdown
+- **Identity selection** - Choose sender identity from dropdown with auto-select reply identity
+- **Reply-to addresses** - Configure reply-to addresses in the composer
+- **Plain text mode** - Optional plain text-only composer mode
+- **Conversation threading** - Optional toggle to disable conversation threading
 
 ### Keyboard Shortcut
 

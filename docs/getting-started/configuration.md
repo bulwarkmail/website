@@ -107,6 +107,11 @@ Bulwark uses JMAP's built-in authentication. Users log in with their email crede
 
 - **Basic Auth** - Username and password
 - **OAuth 2.0** - If configured in Stalwart
+- **OAuth App Passwords** - For environments using OAuth as primary auth
+
+## Custom JMAP Server Endpoints
+
+Bulwark supports configuring custom JMAP server endpoints directly from the login page and settings. This allows users to connect to different JMAP servers without modifying environment variables, useful for multi-server environments or testing.
 
 ## Theming
 

@@ -46,11 +46,41 @@ async function fetchLatestVersion(): Promise<string> {
   } catch {
     // fall through to default
   }
-  return "1.4.9";
+  return "1.4.11";
+}
+
+async function fetchGithubStars(): Promise<number | null> {
+  try {
+    const res = await fetch("https://api.github.com/repos/bulwarkmail/webmail", {
+      headers: {
+        Accept: "application/vnd.github+json",
+      },
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) {
+      return null;
+    }
+    const data = (await res.json()) as { stargazers_count?: number };
+    if (typeof data.stargazers_count === "number") {
+      return data.stargazers_count;
+    }
+  } catch {
+    // fall through to null
+  }
+  return null;
+}
+
+function formatStarCount(stars: number): string {
+  if (stars >= 1000) {
+    return `${(stars / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+  }
+  return String(stars);
 }
 
 export default async function Home() {
   const version = await fetchLatestVersion();
+  const stars = await fetchGithubStars();
+  const starsLabel = stars === null ? null : `${formatStarCount(stars)} stars`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -74,16 +104,23 @@ export default async function Home() {
       "JMAP protocol support",
       "Calendar management with task tracking",
       "CalDAV discovery with automatic calendar home resolution",
+      "Client-side recurrence expansion",
+      "iCal subscription editing and batch event import",
+      "Calendar hover preview settings",
+      "Virtual location input for calendar events",
       "Shared calendar grouping",
       "Contact management with categories and pagination",
       "Address book directories",
-      "File storage with folder upload",
+      "File storage with folder upload and dynamic max upload sizes",
       "S/MIME certificate management with legacy PBE support",
       "TNEF winmail.dat extraction",
       "Embedded message/rfc822 unwrapping",
       "Email hover actions with configurable placement",
       "Answered and forwarded email status indicators",
       "Plain text-only composer mode",
+      "Reply-to addresses support in composer",
+      "Auto-select reply identity",
+      "Mail layout settings",
       "Conversation threading toggle",
       "Draft editing",
       "Email export and import",
@@ -92,14 +129,18 @@ export default async function Home() {
       "Interactive guided tour for onboarding",
       "Demo mode with fixture data",
       "Custom sidebar apps with drag-and-drop reordering",
+      "Plugin system with schema-driven admin configuration and Jitsi Meet plugin",
       "Stalwart admin panel with plugin and theme management",
       "OAuth app password support",
+      "Custom JMAP server endpoints in login and settings",
       "Self-hosted deployment",
       "Docker support",
       "Dark mode",
       "Keyboard shortcuts",
       "Non-interactive SSO for embedded deployments",
       "Path prefix support for reverse proxy deployments",
+      "Logging categories for fine-grained log management",
+      "CSP enforcement and comprehensive security hardening",
       "9 languages including Russian",
     ],
     author: {
@@ -154,9 +195,9 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-card border border-border hover:border-primary/30 transition-colors group"
               >
-                <span className="flex items-center gap-1 text-xs font-medium text-primary">
-                  <Star className="w-3 h-3 fill-primary" />
-                  Open Source
+                <span className="flex items-center gap-1 text-xs font-medium text-yellow-500">
+                  <Star className="w-3 h-3 fill-yellow-500" />
+                  {starsLabel ?? "Open Source"}
                 </span>
                 <span className="w-px h-4 bg-border" />
                 <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
@@ -208,6 +249,50 @@ export default async function Home() {
                 <Github className="w-4 h-4" />
                 View Source
               </a>
+            </div>
+
+            {/* Sponsors */}
+            <div className="mb-16 text-center animate-fade-in-up" style={{ animationDelay: '0.45s' }}>
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/80 mb-6">
+                Backed by
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16">
+                <a
+                  href="https://rbm.systems"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="opacity-70 hover:opacity-100 transition-opacity duration-300"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/logos/rbmsys.svg"
+                    alt="RBM Sys"
+                    className="h-10 w-auto"
+                  />
+                </a>
+                <a
+                  href="https://lepthien.info/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="opacity-70 hover:opacity-100 transition-opacity duration-300"
+                >
+                  <Image
+                    src="/logos/logo(3).png"
+                    alt="Sponsor"
+                    width={120}
+                    height={40}
+                    className="h-10 w-auto object-contain"
+                  />
+                </a>
+                <a
+                  href="https://github.com/sponsors/bulwarkmail"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-md border border-dashed border-border/60 text-muted-foreground/50 hover:text-muted-foreground hover:border-border transition-all duration-300 text-sm"
+                >
+                  Become a sponsor
+                </a>
+              </div>
             </div>
 
             {/* Hero mail app */}

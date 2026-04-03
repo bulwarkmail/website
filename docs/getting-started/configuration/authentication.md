@@ -56,6 +56,10 @@ Track identity changes via JMAP: Set to On.
 
 Bulwark supports OAuth2/OIDC with PKCE for single sign-on (SSO). This can be used alongside or instead of Basic Auth.
 
+### OAuth App Passwords
+
+For environments where OAuth is the primary authentication method but some workflows require traditional credentials (e.g., IMAP/SMTP clients), Bulwark supports OAuth app password generation.
+
 ### Configuration
 
 Add the following to your `.env.local`:

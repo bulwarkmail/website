@@ -304,7 +304,7 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
       </AnimatePresence>
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-64 shrink-0 sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto pb-8 pr-2">
+      <aside className="hidden lg:block w-64 shrink-0 sticky top-14 min-h-[calc(100vh-3.5rem)] pb-8 pr-2 self-start">
         {sidebar}
       </aside>
     </>

@@ -14,7 +14,7 @@ const faqs: FaqItem[] = [
   {
     question: "Does Bulwark work with non-Stalwart mail servers?",
     answer:
-      "Bulwark communicates via the JMAP protocol (RFC 8620). Any mail server that implements JMAP should work. However, Stalwart is the primary tested backend and offers the best integration, including calendar and contacts support.",
+      "Bulwark communicates via the JMAP protocol (RFC 8620). Any mail server that implements JMAP should work. However, Stalwart is the primary tested backend and offers the best integration, including calendar, contacts, admin panel, and plugin management support. You can also configure custom JMAP server endpoints directly from the login page.",
   },
   {
     question: "Which JMAP RFCs are supported?",
@@ -34,7 +34,7 @@ const faqs: FaqItem[] = [
   {
     question: "Is there a mobile app or PWA?",
     answer:
-      "Bulwark is a responsive web application that works well on mobile browsers. A dedicated PWA mode is on the roadmap, which will enable install-to-home-screen and offline capabilities.",
+      "Bulwark is a responsive web application that works well on mobile browsers with bottom tab navigation, long-press context menus, and mobile-optimized layouts. A dedicated PWA mode is on the roadmap, which will enable install-to-home-screen and offline capabilities.",
   },
   {
     question: "How does Bulwark handle email security?",
@@ -45,6 +45,11 @@ const faqs: FaqItem[] = [
     question: "Can I use multiple email accounts?",
     answer:
       "Yes. Bulwark supports up to 5 simultaneous email accounts with instant switching and per-account state preservation. Each account maintains its own JMAP session, and you can add, remove, or set a default account from the account switcher in the sidebar. Multiple sender identities with separate signatures and sub-addressing are also supported.",
+  },
+  {
+    question: "Does Bulwark support plugins?",
+    answer:
+      "Yes. Bulwark includes an extensible plugin system with a schema-driven admin configuration UI. Plugins can add calendar event action slots, custom UI elements, and more. A built-in Jitsi Meet plugin is included for video conferencing integration. Admins can manage plugins and themes from the admin dashboard with forced enable/disable controls and policy enforcement.",
   },
   {
     question: "Is Bulwark free to use?",

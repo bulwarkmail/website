@@ -53,7 +53,7 @@ These checks run automatically on commit via Husky pre-commit hooks.
 
 ## Internationalization (i18n)
 
-This project uses **next-intl** for internationalization with 8 supported languages. Key rules:
+This project uses **next-intl** for internationalization with 9 supported languages. Key rules:
 
 1. **Never hardcode user-facing text** - Always use translations:
 

@@ -44,7 +44,7 @@ const features: Feature[] = [
     icon: Mail,
     title: "Full Email Experience",
     description:
-      "Read, compose, reply, reply-all, forward with threading, attachments, draft editing, embedded message/rfc822 unwrapping, virtual scrolling, color tags, answered and forwarded status icons, archive modes, TNEF extraction, email export/import, hover actions with configurable placement, plain text composer mode, conversation threading toggle, resizable inline images, and drag-and-drop organization.",
+      "Read, compose, reply, reply-all, forward with threading, attachments, draft editing, embedded message/rfc822 unwrapping, virtual scrolling, color tags, answered and forwarded status icons, archive modes, TNEF extraction, email export/import, hover actions with configurable placement, plain text composer mode, conversation threading toggle, resizable inline images, reply-to addresses, auto-select reply identity, mail layout settings, and drag-and-drop organization.",
     accent: "text-[#DB2D54]",
     accentBg: "bg-[#DB2D54]",
     colSpan: "md:col-span-5 md:row-span-2",
@@ -53,7 +53,7 @@ const features: Feature[] = [
     icon: Calendar,
     title: "Calendar Integration",
     description:
-      "JMAP Calendar (RFC 8984) with month, week, day, agenda, and task list views. Create, update, and delete events with drag-and-drop rescheduling, resize, recurring rules, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions, CalDAV discovery, shared calendar grouping, week numbers, task management, and double-click quick-create.",
+      "JMAP Calendar (RFC 8984) with month, week, day, agenda, and task list views. Create, update, and delete events with drag-and-drop rescheduling, resize, recurring rules with client-side recurrence expansion, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions with editing and batch import, CalDAV discovery, shared calendar grouping, week numbers, hover preview settings, virtual location input, task management, and double-click quick-create.",
     accent: "text-blue-600",
     accentBg: "bg-blue-600",
     colSpan: "md:col-span-4",
@@ -71,7 +71,7 @@ const features: Feature[] = [
     icon: FolderOpen,
     title: "Cloud File Browser",
     description:
-      "JMAP FileNode storage with upload, download, preview, folder upload via drag-and-drop, folder navigation, favorites, recent files, and bulk operations.",
+      "JMAP FileNode storage with upload, download, preview, folder upload via drag-and-drop, folder navigation, favorites, recent files, dynamic server-configured max upload sizes, and bulk operations.",
     accent: "text-teal-600",
     accentBg: "bg-teal-600",
     colSpan: "md:col-span-4",
@@ -98,7 +98,7 @@ const features: Feature[] = [
     icon: Shield,
     title: "Privacy & Security",
     description:
-      "SPF/DKIM/DMARC indicators, external content blocking, DOMPurify sanitization, S/MIME certificate workflows with legacy PBE support, TOTP 2FA, OAuth2/OIDC with PKCE, and trusted senders.",
+      "SPF/DKIM/DMARC indicators, external content blocking, DOMPurify sanitization, S/MIME certificate workflows with legacy PBE support, TOTP 2FA, OAuth2/OIDC with PKCE, OAuth app passwords, CSP enforcement, SSRF protection, and trusted senders.",
     accent: "text-emerald-600",
     accentBg: "bg-emerald-600",
     colSpan: "md:col-span-4",
@@ -116,7 +116,7 @@ const features: Feature[] = [
     icon: Filter,
     title: "Sieve Email Filters",
     description:
-      "Visual rule builder for server-side filtering (RFC 9661). Conditions, actions, expanded visual view, raw Sieve editor with syntax validation, vacation responder management with Sieve generation and parsing, and drag reorder.",
+      "Visual rule builder for server-side filtering (RFC 9661). Conditions, actions, expanded visual view, raw Sieve editor with syntax validation, vacation responder management with Sieve generation and parsing, filter activation state preservation, and drag reorder.",
     accent: "text-orange-600",
     accentBg: "bg-orange-600",
     colSpan: "md:col-span-3",
@@ -152,7 +152,7 @@ const features: Feature[] = [
     icon: Palette,
     title: "Themes & Branding",
     description:
-      "System-aware theming with smooth transitions, always-light email rendering, custom favicon and logo support, sidebar apps with drag-and-drop reordering and mobile visibility toggle, plugin and theme admin dashboard with forced enable or disable controls and admin locks, interactive guided tour, and responsive desktop/mobile layouts.",
+      "System-aware theming with smooth transitions, always-light email rendering, custom favicon and logo support, sidebar apps with drag-and-drop reordering and mobile visibility toggle, plugin and theme admin dashboard with schema-driven configuration, forced enable or disable controls, admin locks, Jitsi Meet plugin, interactive guided tour, and responsive desktop/mobile layouts.",
     accent: "text-violet-600",
     accentBg: "bg-violet-600",
     colSpan: "md:col-span-3",
@@ -170,7 +170,7 @@ const features: Feature[] = [
     icon: Zap,
     title: "Easy Deployment",
     description:
-      "Docker images on GHCR (amd64/arm64). Runtime env vars, configurable bind address via HOSTNAME, health checks, structured logging, and update checks on startup.",
+      "Docker images on GHCR (amd64/arm64). Runtime env vars, configurable bind address via HOSTNAME, health checks, structured logging with categories, custom JMAP server endpoints, and update checks on startup.",
     accent: "text-yellow-600",
     accentBg: "bg-yellow-600",
     colSpan: "md:col-span-5",

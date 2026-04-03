@@ -56,9 +56,10 @@ When connected to Stalwart, Bulwark enables additional features that require Sta
 - **Password change** - Users can change their password from account settings
 - **TOTP 2FA** - Enable/disable two-factor authentication
 - **Sieve filters** - Server-side email filtering via Sieve scripts
-- **Vacation responder** - JMAP VacationResponse management
+- **Vacation responder** - JMAP VacationResponse management with Sieve generation and parsing
 - **Display name management** - Update display name from settings
 - **Storage quota display** - Show account storage usage
+- **Admin panel** - Stalwart admin authentication with sidebar access, reorganized dashboard with dedicated policy sections, and plugin/theme management
 
 To explicitly disable these features (e.g., when using a non-Stalwart JMAP server), set:
 

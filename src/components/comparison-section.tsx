@@ -18,31 +18,31 @@ const features = [
   "Contacts",
   "Real-time Push",
   "Dark Mode",
-  "i18n (8+ langs)",
+  "i18n (9+ langs)",
   "Modern Stack",
   "Privacy First",
   "Docker Deploy",
+  "Plugin System",
   "Mobile App",
-  "Plugin Ecosystem",
   "Offline Mode",
 ];
 
 const competitors: Competitor[] = [
   {
     name: "Bulwark",
-    values: ["yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "no", "no", "no"],
+    values: ["yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "no", "no"],
   },
   {
     name: "Roundcube",
-    values: ["no", "yes", "partial", "yes", "no", "partial", "yes", "no", "yes", "yes", "no", "yes", "no"],
+    values: ["no", "yes", "partial", "yes", "no", "partial", "yes", "no", "yes", "yes", "yes", "no", "no"],
   },
   {
     name: "Rainloop",
-    values: ["no", "yes", "no", "yes", "no", "yes", "yes", "no", "yes", "yes", "no", "partial", "no"],
+    values: ["no", "yes", "no", "yes", "no", "yes", "yes", "no", "yes", "yes", "partial", "no", "no"],
   },
   {
     name: "SOGo",
-    values: ["no", "yes", "yes", "yes", "no", "partial", "yes", "no", "yes", "yes", "yes", "no", "no"],
+    values: ["no", "yes", "yes", "yes", "no", "partial", "yes", "no", "yes", "yes", "no", "yes", "no"],
   },
   {
     name: "Gmail",
