@@ -19,30 +19,24 @@ Most webmail clients are either outdated, slow, or lack modern features. Bulwark
 
 ## Key Features
 
-- **Multi-account support** - Manage up to 5 email accounts with instant switching and per-account state preservation
-- Full email management with archive modes, TNEF (`winmail.dat`) extraction, draft editing, embedded message/rfc822 unwrapping, email export/import, S/MIME-aware compose and reading flows, hover actions, resizable inline images, keyword filtering, reply-to addresses, auto-select reply identity, plain text composer mode, conversation threading toggle, and mail layout settings
-- Calendar with event management, drag-and-drop scheduling, iTIP invitations with RSVP trust assessment, iCal/webcal subscriptions with editing and batch import, CalDAV discovery, client-side recurrence expansion, task management, shared calendar grouping, week numbers, pending event preview, hover preview settings, virtual location input, and shared time-format preferences
-- Contact management with JMAP sync, vCard import/export from Settings, contact import, address book directories, category filtering, groups, pagination, and bulk operations
-- File browser with upload, folder upload, preview, favorites, recent files, dynamic server-configured maximum upload sizes, and bulk operations
-- Email templates with placeholder variables
-- Server-side email filters via Sieve scripts with visual rule builder and expanded visual view
-- Vacation auto-responder with Sieve generation and parsing
-- Multiple sender identities with per-identity signatures and refresh after server-side changes
-- Plugin system with schema-driven admin configuration, calendar event action slots, and extensible plugin architecture (including Jitsi Meet plugin)
-- Stalwart admin panel with authentication, sidebar access, reorganized dashboard, dedicated policy sections, and plugin/theme management with forced enable/disable controls
-- Dark and light themes with smart iframe email color transformation, an always-light email option, and custom favicon/logo branding
-- Mobile-responsive design with bottom tab navigation and long-press context menus
-- Custom sidebar apps with inline or new-tab launch modes, drag-and-drop reordering, and mobile visibility toggle
-- Configurable UI options including hiding the account switcher and showing account avatars on the navigation rail
-- Interactive guided tour for new user onboarding
-- Demo mode with fixture data for exploring the interface without a mail server
-- Keyboard shortcuts
-- Real-time push notifications via JMAP EventSource
-- Internationalization (9 languages: English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese, Russian)
-- OAuth2/OIDC with PKCE for SSO, non-interactive SSO for embedded deployments, OAuth app password support, plus TOTP two-factor authentication
-- Custom JMAP server endpoints configurable from login and settings
-- Encrypted settings sync across devices and accounts with folder expansion state management
-- Structured logging with configurable categories, CSP enforcement, and comprehensive security hardening
+- **Multi-account support** - Manage up to 5 email accounts with instant switching, per-account state preservation, default account selection, and unified inbox across all accounts
+- **Full email management** - Tiptap rich text composer with inline images and resizing, plain text mode, threaded conversation view (with disable toggle), draft auto-save and editing, archive modes (direct, by year, year/month), TNEF (`winmail.dat`) extraction, embedded `message/rfc822` unwrapping, color tag labels with multi-tag support, hover actions, answered/forwarded status icons, reply-to addresses, auto-select reply identity, sub-addressing (plus addressing), email export/import, newsletter unsubscribe (RFC 2369), and printable viewer
+- **Calendar (RFC 8984)** - Month, week, day, agenda, and task views, drag-to-reschedule, click-drag and double-click creation, edge-resize with 15-minute snap, recurring events with scoped edit/delete and client-side expansion, iMIP invitations on create/update (RFC 5545/6047) with RSVP trust assessment, inline calendar invitation banner in email viewer, iCal/webcal subscriptions with editing and batch import, CalDAV discovery with multi-account home resolution, auto-generated birthday calendar from contacts, virtual locations as first-class fields, task management with due dates and priority, week numbers, hover preview, notification sounds with sound picker
+- **Contacts (RFC 9553/9610)** - Multiple address books with drag-and-drop, contact groups with member management, vCard import/export with duplicate detection, autocomplete in composer, A-Z grouping with sticky section headers, revamped detail view with filters, photo, print, duplicate detection and contact activity (recent emails and upcoming events), right-click context menu, address book rename, trusted senders stored in a dedicated JMAP address book
+- **Files** - JMAP FileNode browser with grid/list views, streamed WebDAV PUT upload, folder upload via drag-and-drop, dynamic server-configured upload limits, preview for images/text/audio/video, clipboard cut/copy/paste/duplicate, favorites, and recent files
+- **Filters & Templates** - Server-side Sieve filters (RFC 9661) with visual rule builder, expanded visual view, raw editor with syntax validation, vacation responder with date-range scheduling, and reusable email templates with placeholder auto-fill
+- **Identity** - Multiple sender identities with per-identity signatures, automatic identity sync, identity badges in viewer/list, sub-addressing helper
+- **S/MIME** - Manage certificates, sign, encrypt, decrypt, and verify; legacy 3DES and password-based encryption (PBE) support; per-account key isolation; signer auto-import on verify
+- **Authentication** - OAuth2/OIDC with PKCE (Keycloak, Authentik, or built-in), OAuth-only mode, OAuth app passwords, non-interactive SSO for embedded iframe deployments, TOTP two-factor authentication, encrypted Remember-me sessions (AES-256-GCM)
+- **Admin & Extensibility** - Stalwart admin dashboard via JMAP `x:` methods (Stalwart 0.16+), API keys management, IP allowlist for app passwords, dedicated policy sections, schema-driven plugin configuration UI, plugin render and intercept hooks, `onAvatarResolve` hook, plugin i18n API, calendar event action slots, composer-sidebar plugin slot, manifest-declared `frameOrigins` merged into the host CSP, plugin sandboxing with dangerous-pattern detection and admin approval, theme upload as ZIP bundles with admin enforcement, and an extension marketplace (configured via `EXTENSION_DIRECTORY_URL`) for browsing and installing plugins/themes
+- **Bundled plugins** - Jitsi Meet for calendar video conferencing
+- **Themes & branding** - Dark and light themes with intelligent HTML email color transformation, "always light" email option, custom favicon, sidebar logos, login logos, login company name and links, dynamic PWA manifest with configurable name, description, icons, theme color, and background color
+- **Progressive Web App** - Service worker, install prompt with don't-ask-again option, configurable manifest, dynamic icons (192/512 + maskable variants)
+- **Interface** - Three-pane responsive layout with resizable columns, full keyboard navigation, drag-and-drop email organization and tag assignment, interactive guided tour, right-click context menus, toast notifications with undo, customizable toolbar position, pinnable sidebar apps with drag-and-drop reordering and mobile visibility toggle, encrypted settings sync across devices, storage quota display, WCAG AA contrast, reduced-motion support, focus trap, and screen reader live regions
+- **Internationalization** - 15 languages (English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese, Russian, Korean, Polish, Latvian, Simplified Chinese, Ukrainian, Czech) with auto-detection and configurable locale URL prefix via `NEXT_PUBLIC_LOCALE_PREFIX`
+- **Custom JMAP endpoints** - Optionally let users specify a JMAP server URL on the login form (`ALLOW_CUSTOM_JMAP_ENDPOINT`)
+- **Operations** - Real-time push via JMAP EventSource, structured logging (`text` or `json`) with category-based levels, automatic update check on startup, health check endpoint, demo mode with fixture data, release (`main`) and development (`dev`) Docker images on GHCR, native ARM runners
+- **Security hardening** - DOMPurify HTML sanitization, external content blocked by default with trusted senders, SPF/DKIM/DMARC indicators, enforced CSP with per-request nonce, SSRF redirect validation, IP spoofing prevention, sandboxed PDF iframe
 
 ## Tech Stack
 

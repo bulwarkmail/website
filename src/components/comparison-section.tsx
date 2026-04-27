@@ -18,7 +18,7 @@ const features = [
   "Contacts",
   "Real-time Push",
   "Dark Mode",
-  "i18n (9+ langs)",
+  "i18n (15+ langs)",
   "Modern Stack",
   "Privacy First",
   "Docker Deploy",
@@ -30,7 +30,7 @@ const features = [
 const competitors: Competitor[] = [
   {
     name: "Bulwark",
-    values: ["yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "no", "no"],
+    values: ["yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "partial", "partial"],
   },
   {
     name: "Roundcube",
@@ -95,7 +95,7 @@ export function ComparisonSection() {
             How Bulwark compares to other webmail clients
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg">
-            See how Bulwark stacks up against Roundcube, Snappymail, and hosted email providers.
+            See how Bulwark stacks up against Roundcube, Rainloop, SOGo, and hosted email providers.
           </p>
         </motion.div>
 

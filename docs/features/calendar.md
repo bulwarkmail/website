@@ -20,7 +20,7 @@ Switch views with keyboard shortcuts: `M` (month), `W` (week), `D` (day), `A` (a
 
 ## Toolbar Navigation
 
-The desktop calendar toolbar includes prev/next navigation buttons and a date label for quick date navigation without needing to interact with the mini-calendar.
+The desktop calendar toolbar includes prev/next navigation buttons, a "Today" button, and a date label for quick date navigation without needing to interact with the mini-calendar.
 
 ## Creating Events
 
@@ -43,16 +43,21 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 ## Event Management
 
 - **Drag-and-drop rescheduling** - Move events between time slots in week/day views or between dates in month view
-- **Resize events** - Drag the bottom edge to change duration (15-minute snap)
+- **Resize events** - Drag the top or bottom edge to change duration with 15-minute snap; `utcEnd` is recalculated as duration changes
 - **Duplicate events** - Clone an event with a +1 day offset for editing
 - **Recurring event editing** - Choose scope: this event, this and following, or all events
+- **Optimized overlapping layout** - Overlapping events are arranged in columns to maximize visible information without truncation
+- **Timezone-aware formatting** - Event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
 ## Sharing & Invitations
 
-- Send calendar invitations via iTIP scheduling messages
+- Send iMIP invitations on event create and update (RFC 5545 / 6047), with `calendarAddress` and `replyTo` participants for Stalwart compatibility
 - Accept/decline/tentative RSVP responses with trust assessment
 - Organizer and attendee UI with participant management
-- Inline calendar invitation banner in email viewer - automatically detects `.ics` attachments with RSVP and import-to-calendar actions
+- Inline calendar invitation banner in the email viewer — auto-detects `.ics` attachments and offers RSVP and import-to-calendar actions
+- Collapsible details on the invitation banner
+- ICS attachments are hidden from the attachment list when the invitation banner is shown
+- Shared calendars across accounts via JMAP sharing
 
 ## Pending Event Preview
 
@@ -69,6 +74,10 @@ Bulwark includes a CalDAV discovery API with automatic calendar home resolution.
 ## Multiple Calendars
 
 Create and manage multiple calendars with different colors. Toggle visibility of individual calendars using the mini-calendar sidebar.
+
+## Birthday Calendar
+
+Bulwark auto-generates a read-only birthday calendar from your contacts. February 29 birthdays are clamped to a valid day in non-leap years. The birthday calendar can be toggled in calendar settings.
 
 ### Week Numbers
 
@@ -100,9 +109,13 @@ Calendar state changes are pushed in real-time via JMAP EventSource - no manual 
 - Configurable notification sound
 - Proactive 24-hour event fetch for upcoming alerts
 
+## Tasks
+
+A dedicated task list view manages tasks with due dates, priority, and completion status. Tasks created by external CalDAV clients (such as Thunderbird) are detected and displayed alongside Bulwark-created tasks. Updates and deletions for synthetic JMAP IDs fall back to destroy-and-recreate when the server can't update them in place.
+
 ## Plugin Integration
 
-Calendar events support action slots for plugins. For example, the Jitsi Meet plugin can add a "Start Meeting" button directly on calendar events with virtual locations.
+Calendar events support action slots for plugins. For example, the bundled Jitsi Meet plugin adds a "Start Meeting" button on calendar events with virtual locations.
 
 ## Settings
 

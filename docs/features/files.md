@@ -15,27 +15,39 @@ Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so d
 - Sorting by name, size, or date
 - Favorites and recent files for quick access
 - Bulk multi-select actions
+- Right-click context menu
 
 ## Upload & Download
 
 - Upload individual files with progress tracking
-- Folder upload via drag-and-drop or toolbar button
+- Folder upload via drag-and-drop or toolbar button (recursive)
+- **Streamed WebDAV PUT** — uploads stream straight to the server without buffering the file in memory, so multi-GB uploads work in browsers with limited memory
 - Download files or entire selections
-- Dynamic server-configured maximum upload sizes
+- Dynamic upload size limits read from the server's configuration so the UI knows what's allowed before you try
 - Clipboard-style cut, copy, paste, and duplicate actions
+- Drop zone fills the available viewport height for easy bulk drops
+- Falls back to `application/octet-stream` for files with unusually long MIME types
 
 > **Warning**
-> Large file uploads can cause server instability. Deleted files may not be immediately purged from storage. Use with caution.
+> Stalwart's FileNode storage is still maturing. Very large uploads can occasionally cause server instability, and deleted files may not be immediately purged from storage. Use with caution in production deployments.
 
-## Preview & Organization
+## Preview
 
-- Built-in preview for images, text, audio, video, and other common file types
+- Images (JPEG, PNG, WebP, GIF, SVG)
+- Text (plaintext, source code with syntax highlighting)
+- Audio
+- Video
+- PDF (in a sandboxed iframe with strict CSP)
+
+## Organization
+
 - Create, rename, move, and delete folders
 - Quick metadata visibility for size and modified date
-- Shared storage experience consistent with the rest of the app
+- Recent files prune themselves automatically when underlying nodes are deleted on the server
 
 ## Integration
 
 - Native JMAP FileNode support in Stalwart
 - Unified authentication and permissions with the rest of Bulwark
+- Per-account isolation when multiple accounts are connected
 - Designed for fast switching between mail attachments and cloud files

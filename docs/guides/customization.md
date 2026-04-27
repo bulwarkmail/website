@@ -81,6 +81,31 @@ Place your favicon file in the `public/branding/` directory, or provide an absol
 
 When not set, the default Bulwark favicon is used.
 
+## PWA Branding
+
+When users install Bulwark as a Progressive Web App, the manifest is generated dynamically from the runtime config. You can customize the install experience and the splash screen:
+
+```env
+APP_NAME=Acme Mail
+APP_SHORT_NAME=Acme              # Home screen label, defaults to APP_NAME
+APP_DESCRIPTION=Acme webmail     # Shown by the OS during install
+PWA_ICON_URL=/branding/acme-icon.svg
+PWA_THEME_COLOR=#0f172a          # Browser UI chrome color (status bar on Android)
+PWA_BACKGROUND_COLOR=#ffffff     # Splash screen background
+```
+
+| Variable               | Purpose                                                                  | Default                |
+| ---------------------- | ------------------------------------------------------------------------ | ---------------------- |
+| `APP_SHORT_NAME`       | Short label on the home screen and install prompt                        | falls back to `APP_NAME` |
+| `APP_DESCRIPTION`      | Description shown by the OS install dialog                                | generic description    |
+| `PWA_ICON_URL`         | Source image used to auto-generate 192/512 PNG plus maskable variants    | `FAVICON_URL`          |
+| `PWA_THEME_COLOR`      | Color applied to the browser UI when launched as a PWA                    | `#ffffff`              |
+| `PWA_BACKGROUND_COLOR` | Splash screen background while the app is loading                         | `#ffffff`              |
+
+PWA icons (regular and maskable, in dark and light variants) are generated automatically from `PWA_ICON_URL` so you only need one source asset. SVG is recommended for best quality at all sizes; if PNG, use ≥512×512px.
+
+For more on PWA features (install flow, service worker, install-prompt UX), see the [Progressive Web App](/docs/features/pwa) page.
+
 ## App Logo (Sidebar)
 
 Add your brand logo to the sidebar header (visible in the main app after login):
@@ -130,27 +155,60 @@ LOGIN_PRIVACY_POLICY_URL=https://yourcompany.com/privacy
 
 ## In-App Settings
 
-Users can customize their experience from the Settings page:
+Users can customize their experience from the Settings page. Settings are organized into 6 groups (reorganized in 1.5.0) for clearer navigation:
 
-- **Font size** - Small, medium, or large
-- **List density** - Compact, regular, or comfortable
-- **Animations** - Enable or disable UI animations
-- **Date format** - Regional, ISO, or custom
-- **Time format** - 12-hour or 24-hour
-- **First day of week** - Sunday or Monday
-- **External content** - Ask, block, or allow by default
-- **Toolbar position** - Top or below subject
-- **Mark as read delay** - Instant, delayed, or never
-- **Delete action** - Move to trash or permanent delete
-- **Attachment position** - Top or bottom of the email viewer
-- **Mobile sidebar apps** - Toggle visibility of individual sidebar apps on mobile
-- **Keyword migration** - One-click migration of legacy email tags to updated keywords
-- **Mail layout** - Configure email list and viewer layout preferences
-- **Conversation threading** - Enable or disable email conversation threading
-- **Hover preview** - Configure calendar event hover preview behavior
-- **Account switcher visibility** - Hide or show the account switcher in the sidebar
-- **Account avatars** - Show account avatars on the navigation rail
-- **Folder expansion** - Folder expansion state is remembered across sessions
+### Appearance & Layout
+
+- **Font size** — Small, medium, large, or extra-compact density
+- **List density** — Compact, regular, or comfortable (compact hides the preview line to match the settings preview)
+- **Animations** — Enable or disable UI animations (respects `prefers-reduced-motion`)
+- **Theme** — Light, dark, or system
+- **Always show emails in light mode** — Avoid dark-mode color transformation for problematic HTML mail
+- **Toolbar position** — Top or below subject
+- **Mail layout** — Configure email list and viewer layout
+- **Hover actions** — Choose which quick-actions appear and their placement
+- **Sidebar apps** — Reorder, pin, or hide each app; mobile visibility toggle per app
+- **Account switcher visibility** — Hide or show the account switcher in the sidebar
+- **Account avatars** — Show account avatars on the navigation rail
+- **Junk folder avatars** — Show or hide avatars in the Junk folder (off by default)
+- **Folder expansion** — Folder expansion state is remembered across sessions
+
+### Date & Time
+
+- **Date format** — Regional, ISO, or custom
+- **Time format** — 12-hour or 24-hour, applied consistently across calendar and email
+- **First day of week** — Sunday or Monday
+- **Show time in month view** — Display event start time in the month view
+- **Show week numbers** — In the mini-calendar
+- **Birthday calendar** — Toggle the auto-generated birthday calendar
+- **Hover preview** — Configure calendar event hover preview behavior
+
+### Mail Behavior
+
+- **Conversation threading** — Enable or disable
+- **Mark as read delay** — Instant, delayed (configurable), or never
+- **Delete action** — Move to trash or permanent delete
+- **Archive mode** — Direct, by year, or by year/month
+- **Attachment position** — Top or bottom of the email viewer
+- **Composer mode** — Rich text or plain text only
+- **Auto-select reply identity** — Match reply identity to original recipient
+- **Reply-to addresses** — Configure reply-to in the composer
+- **External content** — Ask, block, or allow by default
+- **Forgotten attachment warning** — Detect attachment-related keywords in the body and warn before send
+- **Default mail program** — Register Bulwark as the system mail handler
+
+### Notifications
+
+- **Notification sound picker** — Choose from bundled sounds with preview playback
+- **Live update toggle** — Real-time push (via JMAP EventSource)
+
+### Contacts & Calendar
+
+- **Group contacts by first letter** — Toggle A-Z grouping with sticky section headers
+
+### Migration & Maintenance
+
+- **Keyword migration** — One-click migration of legacy email tags to updated keywords
 
 ## Structured Logging
 
@@ -163,4 +221,6 @@ LOG_LEVEL=info    # "debug", "info", "warn", "error"
 
 ### Logging Categories
 
-Bulwark supports logging categories for finer-grained log management. Categories allow you to control log verbosity for specific subsystems (e.g., JMAP, auth, calendar) independently.
+Bulwark supports logging categories for finer-grained log management. Categories let you tune log verbosity per subsystem (e.g., JMAP, auth, OAuth, calendar, plugin proxy, settings sync, admin) independently — useful when debugging a specific area without flooding logs from the rest of the app.
+
+Use `LOG_FORMAT=json` for machine-parseable output suitable for log aggregators (Loki, Elastic, Splunk). Each entry includes the category in its structured fields.

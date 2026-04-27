@@ -6,9 +6,9 @@ order: 3
 
 # Environment Reference
 
-This page documents every setting currently present in Bulwark's `.env.example`.
+This page documents every setting currently present in Bulwark's `.env.example` and a handful of additional advanced variables read by the app.
 
-All of the variables below are implemented in the current app. Some are always available, some only affect optional features, and some exist as compatibility fallbacks for older build-time deployments.
+All variables are evaluated at runtime, so Docker deployments can be reconfigured without rebuilding. Some are always available, some only affect optional features, and a few exist as compatibility fallbacks for older build-time deployments.
 
 ## Server Listen Address
 
@@ -30,33 +30,51 @@ All of the variables below are implemented in the current app. Some are always a
 
 ### `APP_NAME`
 
-- **Purpose** - Sets the application name displayed in the UI.
+- **Purpose** - Sets the application name displayed in the UI, browser tab title, and PWA manifest.
 - **Required** - No.
-- **Default behavior** - Falls back to a built-in app name when not set.
+- **Default** - `Webmail` (built-in fallback when not set).
 - **When to set it** - Set this if you want your deployment to be branded differently from the default Bulwark name.
+
+### `APP_SHORT_NAME`
+
+- **Purpose** - Short name for the app, used where space is limited (home screen label on mobile, PWA install prompt).
+- **Required** - No.
+- **Default** - Falls back to `APP_NAME` if not set.
+
+### `APP_DESCRIPTION`
+
+- **Purpose** - Description shown in the PWA manifest (displayed by the OS during install).
+- **Required** - No.
+- **Default** - Generic Bulwark description.
 
 ### `JMAP_SERVER_URL`
 
 - **Purpose** - Points Bulwark to your JMAP-compatible mail server.
-- **Required** - Yes, unless you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
+- **Required** - Yes, unless `ALLOW_CUSTOM_JMAP_ENDPOINT=true` (in which case users supply the URL on the login form) or you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
 - **Example** - `https://mail.example.com`
 - **When to set it** - Always for a normal runtime deployment.
+
+### `ALLOW_CUSTOM_JMAP_ENDPOINT`
+
+- **Purpose** - Shows a "JMAP Server" field on the login form so users can connect to any JMAP-compatible server.
+- **Required** - No.
+- **Default** - `false`
+- **CORS note** - External JMAP servers must include the webmail origin in their `Access-Control-Allow-Origin` response header, or browser requests will be blocked.
+- **When to set it** - Set to `true` for multi-tenant deployments or testing setups where users connect to different servers.
 
 ## Stalwart Integration
 
 ### `STALWART_FEATURES`
 
-- **Purpose** - Enables Stalwart-specific features such as password change, Sieve management, vacation responder controls, and similar account-management flows.
+- **Purpose** - Enables Stalwart-specific features such as password change, Sieve management, vacation responder controls, account security, API keys, and the admin dashboard.
 - **Required** - No.
-- **Default** - Enabled unless explicitly set to `false`.
-- **When to set it** - Set `STALWART_FEATURES=false` if you are using Bulwark with a non-Stalwart JMAP server and want to hide features that depend on Stalwart APIs.
+- **Default** - `true` unless explicitly set to `false`.
+- **When to set it** - Set `STALWART_FEATURES=false` if you are using Bulwark with a non-Stalwart JMAP server and want to hide features that depend on Stalwart-specific JMAP `x:` methods.
 
-### `STALWART_API_URL`
+### `STALWART_API_URL` *(deprecated in 1.5.0)*
 
-- **Purpose** - Overrides the URL used for Stalwart management API requests.
-- **Required** - No.
-- **Default** - Falls back to `JMAP_SERVER_URL`.
-- **When to set it** - Use this when your reverse proxy forwards JMAP but does not expose Stalwart management paths such as `/api/account/*` or `/api/principal/*`.
+- **Status** - Deprecated. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP. Bulwark now talks to the JMAP endpoint exclusively, so this variable has no effect.
+- **Migration** - Remove from your `.env.local`. The self-service portal (account settings, app passwords, API keys) requires Stalwart 0.16 or newer.
 
 ## OAuth / OpenID Connect
 
@@ -86,6 +104,12 @@ All of the variables below are implemented in the current app. Some are always a
 - **Required** - No.
 - **When to set it** - Only needed if your IdP registration expects a confidential client instead of a public PKCE-only client.
 
+### `OAUTH_CLIENT_SECRET_FILE`
+
+- **Purpose** - Path to a file containing the OAuth client secret.
+- **Required** - No.
+- **When to set it** - Use this with Docker secrets, Kubernetes secrets, or any platform that mounts secrets as files. If both `OAUTH_CLIENT_SECRET` and `OAUTH_CLIENT_SECRET_FILE` are set, the env var takes precedence.
+
 ### `OAUTH_ISSUER_URL`
 
 - **Purpose** - Explicit issuer URL used for OIDC discovery.
@@ -93,14 +117,48 @@ All of the variables below are implemented in the current app. Some are always a
 - **Default behavior** - If omitted, Bulwark falls back to discovery through `JMAP_SERVER_URL`.
 - **When to set it** - Set this when your mail server delegates auth to an external IdP such as Keycloak or Authentik.
 
+### `OAUTH_SCOPES`
+
+- **Purpose** - Override the OAuth scope string requested at the authorization endpoint.
+- **Required** - No.
+- **Default** - Built-in default scopes appropriate for JMAP and OIDC.
+- **When to set it** - Only when your IdP requires a specific scope set.
+
+### `OAUTH_EXTRA_SCOPES`
+
+- **Purpose** - Append extra scopes to the default scope set without replacing it.
+- **Required** - No.
+- **Default** - Empty.
+- **When to set it** - When you need to add provider-specific scopes (e.g., a custom audience scope) on top of the defaults.
+
 ## Session & Security
 
 ### `SESSION_SECRET`
 
-- **Purpose** - Secret used to encrypt persistent "Remember me" sessions, settings sync data, and multi-account configuration.
-- **Required** - No for basic login, required for encrypted persistent sessions, settings sync, and multi-account support.
-- **When to set it** - Set this if you want users to keep signed in across browser restarts, enable settings sync, or use multi-account support.
+- **Purpose** - Secret used to encrypt persistent "Remember me" sessions, settings sync data, multi-account state, and server-side OAuth PKCE state.
+- **Required** - Optional for basic login. Required for: encrypted persistent sessions, settings sync, multi-account support, and embedded SSO.
 - **Generation** - `openssl rand -base64 32`
+- **Validation** - Strict minimum length is enforced.
+
+### `SESSION_SECRET_FILE`
+
+- **Purpose** - Path to a file containing the session secret.
+- **Required** - No.
+- **When to set it** - Use with Docker secrets or Kubernetes secrets. `SESSION_SECRET` takes precedence if both are set.
+
+### `COOKIE_SAME_SITE`
+
+- **Purpose** - Sets the `SameSite` attribute on session cookies.
+- **Allowed values** - `lax`, `none`, `strict`
+- **Default** - `lax`
+- **When to set it** - Set to `none` when Bulwark is embedded cross-origin in an iframe. Requires HTTPS.
+
+### `COOKIE_SECURE`
+
+- **Purpose** - Force cookies to be marked as `Secure`.
+- **Required** - No.
+- **Default** - `true` when `COOKIE_SAME_SITE=none` or `NODE_ENV=production`, otherwise `false`.
+- **When to set it** - Override when reverse-proxying terminates TLS in front of an `http://` Bulwark and you need explicit control.
 
 ## Settings Sync
 
@@ -124,14 +182,57 @@ All of the variables below are implemented in the current app. Some are always a
     - bulwark-settings:/app/data/settings
   ```
 
+## Admin Dashboard
+
+### `ADMIN_PASSWORD`
+
+- **Purpose** - Sets the initial admin password for the local admin dashboard. The dashboard manages plugins, themes, runtime config overrides, and policy.
+- **Required** - No.
+- **Default** - On first startup with no password set, a random password is generated and logged to stdout.
+- **When to set it** - Set this in production so you have a known password and so it survives restarts.
+
+### `ADMIN_DATA_DIR`
+
+- **Purpose** - Directory for admin data (config overrides, plugin registry, plugin configs, audit log, password hash).
+- **Required** - No.
+- **Default** - `./data/admin` (resolves to `/app/data/admin` in Docker).
+- **Docker note** - Mount a persistent volume to keep admin state across container restarts:
+  ```yaml
+  volumes:
+    - bulwark-admin:/app/data/admin
+  ```
+
+### `ADMIN_SESSION_TTL`
+
+- **Purpose** - Admin session lifetime in seconds.
+- **Required** - No.
+- **Default** - Built-in safe default.
+
+### `TRUSTED_PROXY_DEPTH`
+
+- **Purpose** - Number of `X-Forwarded-For` hops to trust when resolving the client IP for admin sessions and audit logs.
+- **Required** - No.
+- **Default** - `1`
+- **When to set it** - Increase if Bulwark sits behind multiple reverse proxies (e.g., CDN -> ingress -> app).
+
+## Extension Directory / Marketplace
+
+### `EXTENSION_DIRECTORY_URL`
+
+- **Purpose** - URL of the BulwarkMail extension directory used by the admin marketplace for browsing and installing plugins and themes.
+- **Required** - No.
+- **Default** - Empty (marketplace disabled).
+- **Example** - `https://extensions.bulwarkmail.org`
+- **When to set it** - Set this to enable the marketplace browse-and-install UI in the admin dashboard.
+
 ## Logging
 
 ### `LOG_FORMAT`
 
 - **Purpose** - Controls server log output format.
-- **Allowed values** - `text`, `json`
+- **Allowed values** - `text` (colored, human-readable), `json` (structured)
 - **Default** - `text`
-- **When to set it** - Use `json` for structured log collection in platforms such as containers, centralized logging, or observability stacks.
+- **When to set it** - Use `json` for centralized log aggregation in containers and observability stacks.
 
 ### `LOG_LEVEL`
 
@@ -140,17 +241,40 @@ All of the variables below are implemented in the current app. Some are always a
 - **Default** - `info`
 - **When to set it** - Increase to `debug` during troubleshooting; lower to `warn` or `error` in quieter production environments.
 
-## Branding
+## Branding — Icons & Favicon
 
 ### `FAVICON_URL`
 
-- **Purpose** - Custom favicon (browser tab icon) for the application.
+- **Purpose** - Custom favicon shown in the browser tab.
 - **Required** - No.
 - **Default** - Bulwark favicon (`/branding/Bulwark_Favicon.svg`).
 - **Accepted values** - Absolute URL or path relative to `public/`.
 - **Supported formats** - SVG (recommended), PNG, ICO.
-- **Recommended size** - 32×32px minimum, 512×512px maximum. SVG is preferred for crisp scaling at all resolutions.
-- **When to set it** - Set this to replace the default Bulwark favicon with your organization's icon in the browser tab.
+- **Recommended size** - 32×32px minimum, 512×512px maximum. SVG is preferred for crisp scaling.
+
+### `PWA_ICON_URL`
+
+- **Purpose** - Source image used to auto-generate the PWA install icons (192×192 and 512×512 PNG, plus maskable variants).
+- **Required** - No.
+- **Default** - Falls back to `FAVICON_URL`, then to the default Bulwark icons.
+- **Accepted values** - Absolute URL or path relative to `public/`.
+- **Supported formats** - SVG (recommended for best quality) or PNG (≥512×512px recommended).
+
+### `PWA_THEME_COLOR`
+
+- **Purpose** - Color applied to the browser UI chrome when the app is installed as a PWA (address bar, Android status bar).
+- **Required** - No.
+- **Default** - `#ffffff`
+- **Example** - `#3b82f6`
+
+### `PWA_BACKGROUND_COLOR`
+
+- **Purpose** - Background color shown on the PWA splash screen while the app is loading.
+- **Required** - No.
+- **Default** - `#ffffff`
+- **When to set it** - Match your app's main background color.
+
+## Branding — Logos
 
 ### `APP_LOGO_LIGHT_URL`
 
@@ -160,17 +284,12 @@ All of the variables below are implemented in the current app. Some are always a
 - **Accepted values** - Absolute URL or path relative to `public/`.
 - **Supported formats** - SVG (recommended), PNG, WebP.
 - **Recommended size** - 24×24px minimum, 128×128px maximum. Displayed at 24×24px.
-- **When to set it** - Set this to add your brand logo to the sidebar.
 
 ### `APP_LOGO_DARK_URL`
 
 - **Purpose** - Logo shown in the sidebar on dark backgrounds (main app, after login).
 - **Required** - No.
 - **Default** - Empty (falls back to `APP_LOGO_LIGHT_URL` if set, otherwise no logo).
-- **Accepted values** - Absolute URL or path relative to `public/`.
-- **Supported formats** - SVG (recommended), PNG, WebP.
-- **Recommended size** - 24×24px minimum, 128×128px maximum. Displayed at 24×24px.
-- **When to set it** - Set this when you need a different logo variant for dark mode (e.g., a white logo).
 
 ## Login Page Customization
 
@@ -179,8 +298,6 @@ All of the variables below are implemented in the current app. Some are always a
 - **Purpose** - Logo shown on light backgrounds on the login page.
 - **Required** - No.
 - **Default** - Bulwark light logo.
-- **Accepted values** - Absolute URL or path relative to `public/`.
-- **Supported formats** - SVG (recommended), PNG, WebP.
 - **Recommended size** - 32×32px minimum, 512×512px maximum. Displayed at 64×64px.
 
 ### `LOGIN_LOGO_DARK_URL`
@@ -188,49 +305,31 @@ All of the variables below are implemented in the current app. Some are always a
 - **Purpose** - Logo shown on dark backgrounds on the login page.
 - **Required** - No.
 - **Default** - Bulwark dark logo.
-- **Accepted values** - Absolute URL or path relative to `public/`.
-- **Supported formats** - SVG (recommended), PNG, WebP.
-- **Recommended size** - 32×32px minimum, 512×512px maximum. Displayed at 64×64px.
 
 ### `LOGIN_COMPANY_NAME`
 
 - **Purpose** - Company or organization name shown above the version on the login page.
-- **Required** - No.
-- **Default** - Empty.
 
 ### `LOGIN_IMPRINT_URL`
 
 - **Purpose** - Adds an imprint / legal notice link to the login page.
-- **Required** - No.
-- **Default** - Empty.
 
 ### `LOGIN_PRIVACY_POLICY_URL`
 
 - **Purpose** - Adds a privacy policy link to the login page.
-- **Required** - No.
-- **Default** - Empty.
 
 ### `LOGIN_WEBSITE_URL`
 
 - **Purpose** - Adds a website link to the login page.
-- **Required** - No.
-- **Default** - Empty.
 
-## Legacy Build-time Fallbacks
+## Internationalization
 
-These variables still work, but they exist for compatibility with older deployments where values were baked into the frontend bundle at build time.
+### `NEXT_PUBLIC_LOCALE_PREFIX`
 
-### `NEXT_PUBLIC_APP_NAME`
-
-- **Purpose** - Legacy fallback for `APP_NAME`.
-- **Required** - No.
-- **When to use it** - Only if you still depend on build-time configuration.
-
-### `NEXT_PUBLIC_JMAP_SERVER_URL`
-
-- **Purpose** - Legacy fallback for `JMAP_SERVER_URL`.
-- **Required** - No.
-- **When to use it** - Only if you still depend on build-time configuration.
+- **Purpose** - Controls how the locale appears in URLs (e.g., `/en/inbox` vs `/inbox`).
+- **Allowed values** - `always` (always prefix), `as-needed` (only for non-default locales), `never` (never prefix).
+- **Default** - Built-in safe default.
+- **When to set it** - Match the routing strategy you want for SEO, redirects from older deployments, or middleware compatibility.
 
 ## Embedded SSO & iframe
 
@@ -247,14 +346,7 @@ These variables still work, but they exist for compatibility with older deployme
 - **Purpose** - Sets the CSP `frame-ancestors` directive to allow embedding in an iframe.
 - **Required** - No.
 - **Default** - `'none'` (iframe embedding disabled).
-- **When to set it** - Set to the origin of the parent portal (e.g., `https://portal.example.com`) to allow iframe embedding.
-
-### `COOKIE_SAME_SITE`
-
-- **Purpose** - Sets the `SameSite` attribute on session cookies.
-- **Allowed values** - `lax`, `none`, `strict`
-- **Default** - `lax`
-- **When to set it** - Set to `none` when Bulwark is embedded cross-origin in an iframe. Requires HTTPS.
+- **When to set it** - Set to the origin of the parent portal (e.g., `https://portal.example.com`).
 
 ### `NEXT_PUBLIC_PARENT_ORIGIN`
 
@@ -262,6 +354,22 @@ These variables still work, but they exist for compatibility with older deployme
 - **Required** - No.
 - **Default** - Empty (accepts messages from any origin).
 - **When to set it** - Set to the origin of the parent portal for security when using the postMessage bridge.
+
+## Legacy Build-time Fallbacks
+
+These variables still work, but they exist for compatibility with older deployments where values were baked into the frontend bundle at build time.
+
+### `NEXT_PUBLIC_APP_NAME`
+
+- **Purpose** - Legacy fallback for `APP_NAME`.
+- **Required** - No.
+- **When to use it** - Only if you still depend on build-time configuration.
+
+### `NEXT_PUBLIC_JMAP_SERVER_URL`
+
+- **Purpose** - Legacy fallback for `JMAP_SERVER_URL`.
+- **Required** - No.
+- **When to use it** - Only if you still depend on build-time configuration.
 
 ## Recommended Patterns
 
@@ -290,14 +398,30 @@ SETTINGS_SYNC_ENABLED=true
 SETTINGS_DATA_DIR=/data/settings
 ```
 
-### Multi-account with encrypted settings
+### Multi-account with extension marketplace
 
 ```env
 APP_NAME=Bulwark Webmail
 JMAP_SERVER_URL=https://mail.example.com
 SESSION_SECRET=replace-with-a-random-secret
 SETTINGS_SYNC_ENABLED=true
-SETTINGS_DATA_DIR=/data/settings
+EXTENSION_DIRECTORY_URL=https://extensions.bulwarkmail.org
+ADMIN_PASSWORD=replace-with-a-strong-admin-password
+```
+
+### Custom PWA branding
+
+```env
+APP_NAME=Acme Mail
+APP_SHORT_NAME=Acme
+APP_DESCRIPTION=Acme Corporation webmail
+JMAP_SERVER_URL=https://mail.acme.com
+FAVICON_URL=/branding/acme-favicon.svg
+PWA_ICON_URL=/branding/acme-icon.svg
+PWA_THEME_COLOR=#0f172a
+PWA_BACKGROUND_COLOR=#ffffff
+APP_LOGO_LIGHT_URL=/branding/acme-logo-color.svg
+APP_LOGO_DARK_URL=/branding/acme-logo-white.svg
 ```
 
 ### OAuth-only deployment
@@ -335,16 +459,35 @@ COOKIE_SAME_SITE=none
 NEXT_PUBLIC_PARENT_ORIGIN=https://portal.example.com
 ```
 
-## Integration Status
+### Behind multiple reverse proxies
 
-At the time of writing, every variable listed in Bulwark's `.env.example` is integrated in the app.
+```env
+JMAP_SERVER_URL=https://mail.example.com
+SESSION_SECRET=replace-with-a-random-secret
+TRUSTED_PROXY_DEPTH=2
+```
 
-- `APP_NAME` and `JMAP_SERVER_URL` are core runtime settings.
-- OAuth variables are used by the auth and config API routes.
-- `SESSION_SECRET`, `SETTINGS_SYNC_ENABLED`, and `SETTINGS_DATA_DIR` are used by encrypted session and settings-sync code paths.
-- `STALWART_FEATURES` and `STALWART_API_URL` control Stalwart-specific behavior.
-- `LOG_FORMAT` and `LOG_LEVEL` are used by the server logger.
-- Login branding variables are exposed through the runtime config endpoint and used by the login page.
-- Favicon and app logo variables are served through the config endpoint and rendered by the layout and sidebar.
-- Embedded SSO variables (`AUTO_SSO_ENABLED`, `ALLOWED_FRAME_ANCESTORS`, `COOKIE_SAME_SITE`, `NEXT_PUBLIC_PARENT_ORIGIN`) are used by the auth middleware and SSO API routes.
-- `NEXT_PUBLIC_*` values remain as fallback support for older build-time setups.
+## Using `*_FILE` Variables With Docker Secrets
+
+Several variables that hold secrets accept a corresponding `*_FILE` variant pointing at a file containing the value. This is the recommended pattern when running under Docker Swarm, Kubernetes, or any orchestration platform that mounts secrets as files:
+
+```yaml
+services:
+  bulwark:
+    image: ghcr.io/bulwarkmail/webmail:latest
+    environment:
+      JMAP_SERVER_URL: https://mail.example.com
+      SESSION_SECRET_FILE: /run/secrets/session_secret
+      OAUTH_CLIENT_SECRET_FILE: /run/secrets/oauth_secret
+    secrets:
+      - session_secret
+      - oauth_secret
+
+secrets:
+  session_secret:
+    external: true
+  oauth_secret:
+    external: true
+```
+
+If both the env var (e.g., `SESSION_SECRET`) and the `_FILE` variant (e.g., `SESSION_SECRET_FILE`) are set, the env var takes precedence.

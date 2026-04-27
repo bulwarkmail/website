@@ -159,9 +159,9 @@ const features: Feature[] = [
   },
   {
     icon: Globe,
-    title: "9 Languages",
+    title: "15 Languages",
     description:
-      "English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese, Russian. Auto-detection with persistent preference.",
+      "English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese, Russian, Korean, Polish, Latvian, Simplified Chinese, Ukrainian, Czech. Auto-detection with persistent preference and configurable locale URL prefix.",
     accent: "text-teal-600",
     accentBg: "bg-teal-600",
     colSpan: "md:col-span-4",
@@ -724,6 +724,9 @@ function MiniLanguagePicker() {
     { code: "JA", label: "日本語", greeting: "こんにちは！" },
     { code: "ES", label: "Español", greeting: "¡Hola!" },
     { code: "DE", label: "Deutsch", greeting: "Hallo!" },
+    { code: "ZH", label: "简体中文", greeting: "你好！" },
+    { code: "UK", label: "Українська", greeting: "Привіт!" },
+    { code: "CS", label: "Čeština", greeting: "Ahoj!" },
   ];
   const [selected, setSelected] = useState(0);
 

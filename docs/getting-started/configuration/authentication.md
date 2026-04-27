@@ -56,9 +56,11 @@ Track identity changes via JMAP: Set to On.
 
 Bulwark supports OAuth2/OIDC with PKCE for single sign-on (SSO). This can be used alongside or instead of Basic Auth.
 
-### OAuth App Passwords
+### App Passwords
 
-For environments where OAuth is the primary authentication method but some workflows require traditional credentials (e.g., IMAP/SMTP clients), Bulwark supports OAuth app password generation.
+For environments where OAuth is the primary authentication method but some workflows require traditional credentials (e.g., IMAP/SMTP clients, CalDAV), Bulwark supports app password generation. Users create per-app credentials from Settings → Security → App passwords.
+
+Each app password can carry an optional **IP allowlist** so it only authenticates from approved networks (added in 1.5.0). App passwords are managed via Stalwart's JMAP `x:` methods and require Stalwart 0.16 or newer.
 
 ### Configuration
 
@@ -74,8 +76,15 @@ OAUTH_CLIENT_ID=webmail
 # OAuth client secret (optional, for confidential clients)
 OAUTH_CLIENT_SECRET=your-client-secret
 
+# Or: read the secret from a file (Docker / Kubernetes secrets)
+# OAUTH_CLIENT_SECRET_FILE=/run/secrets/oauth_secret
+
 # To only allow OAuth login (hides username/password form):
 OAUTH_ONLY=true
+
+# Optional: customize requested scopes
+# OAUTH_SCOPES="openid profile email offline_access urn:ietf:params:jmap:core"
+# OAUTH_EXTRA_SCOPES="custom-audience-scope"
 ```
 
 ### Endpoint Discovery
@@ -111,21 +120,24 @@ The `SESSION_SECRET` is also required for settings sync and multi-account suppor
 
 ## Multi-Account Support
 
-Bulwark supports managing up to 5 email accounts simultaneously. Users can add accounts via the account switcher in the sidebar and switch between them instantly with full state preservation.
+Bulwark supports managing up to 5 email accounts simultaneously. Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
 
 Multi-account requires `SESSION_SECRET` to persist sessions for each account:
 
 ```env
 SESSION_SECRET=your-secret-key-here
+# Or: SESSION_SECRET_FILE=/run/secrets/session_secret
 ```
 
-Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters) is cached in memory for instant restoration when switching.
+Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters, identities, S/MIME keys) is cached in memory for instant restoration when switching. Accounts can mix authentication methods — for example, one OAuth account and one Basic Auth account.
+
+For full details, see [Multi-account Support](/docs/guides/multi-account).
 
 ## Two-Factor Authentication
 
 Bulwark supports TOTP two-factor authentication when configured in Stalwart. After entering their password, users are prompted for a verification code from their authenticator app.
 
-Users can enable or disable TOTP from the account security settings within Bulwark (when connected to a Stalwart server).
+Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16+). Recovery codes are generated for account recovery. Session expiry during TOTP setup is handled cleanly so users aren't logged out partway through enrollment.
 
 ## Session Security
 

@@ -6,26 +6,34 @@ order: 1
 
 # Docker Deployment
 
-The easiest way to deploy Bulwark in production is with Docker. Pre-built images are available for amd64 and arm64 on both Docker Hub and GHCR.
+The easiest way to deploy Bulwark in production is with Docker. Pre-built images are published only to **GitHub Container Registry (GHCR)** at `ghcr.io/bulwarkmail/webmail`. Both `linux/amd64` and `linux/arm64` are built natively (no QEMU emulation) so ARM deployments run at full speed.
+
+Two release channels are available as separate GHCR packages:
+
+| Tag                                        | Channel | Source              |
+| ------------------------------------------ | ------- | ------------------- |
+| `ghcr.io/bulwarkmail/webmail:latest`       | Stable  | `main` branch tags  |
+| `ghcr.io/bulwarkmail/webmail:dev`          | Dev     | `dev` branch builds |
+| `ghcr.io/bulwarkmail/webmail:1.5.2`        | Pinned  | Specific release    |
 
 ## Using Docker
 
 ### Pull and Run
 
 ```bash
-# From Docker Hub
+# Latest stable release
 docker run -d \
   --name bulwark \
   -p 3000:3000 \
   -e JMAP_SERVER_URL=https://mail.example.com \
   ghcr.io/bulwarkmail/webmail:latest
 
-# From GHCR
+# Pin to a specific version
 docker run -d \
   --name bulwark \
   -p 3000:3000 \
   -e JMAP_SERVER_URL=https://mail.example.com \
-  ghcr.io/bulwarkmail/webmail:latest
+  ghcr.io/bulwarkmail/webmail:1.5.2
 
 # IPv6 dual-stack
 docker run -d \
@@ -36,7 +44,7 @@ docker run -d \
   ghcr.io/bulwarkmail/webmail:latest
 ```
 
-Environment variables are read at runtime - no rebuild is needed when changing configuration.
+Environment variables are read at runtime — no rebuild is needed when changing configuration.
 
 ### Build from Source
 
@@ -128,9 +136,17 @@ Start the stack:
 docker compose up -d
 ```
 
-## Settings Sync Volume
+## Persistent Volumes
 
-If you enable settings sync, mount a persistent volume so encrypted settings survive container restarts. The default `SETTINGS_DATA_DIR` is `./data/settings`, which resolves to `/app/data/settings` in the container (`WORKDIR /app`):
+Bulwark stores two kinds of state on disk. Mount persistent volumes for both if you want them to survive container restarts.
+
+### Settings sync (`SETTINGS_DATA_DIR`)
+
+Encrypted per-account user preferences. Required only when `SETTINGS_SYNC_ENABLED=true`. Default: `./data/settings` → `/app/data/settings` in the container.
+
+### Admin data (`ADMIN_DATA_DIR`)
+
+Admin password hash, plugin/theme registry, plugin configs, runtime config overrides, and audit log. Default: `./data/admin` → `/app/data/admin` in the container. Without this volume, admin state (including the password) is lost on container recreation and a new random admin password is generated and logged on next start.
 
 ```yaml
 bulwark:
@@ -139,8 +155,11 @@ bulwark:
     JMAP_SERVER_URL: http://stalwart:8080
     SESSION_SECRET: your-secret-key-here
     SETTINGS_SYNC_ENABLED: "true"
+    ADMIN_PASSWORD: your-strong-admin-password
+    EXTENSION_DIRECTORY_URL: https://extensions.bulwarkmail.org
   volumes:
     - bulwark-settings:/app/data/settings
+    - bulwark-admin:/app/data/admin
 ```
 
 ## Reverse Proxy

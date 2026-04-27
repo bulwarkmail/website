@@ -74,7 +74,7 @@ const techStack = [
   },
   {
     name: "next-intl",
-    description: "Internationalization for 8 languages",
+    description: "Internationalization for 15 languages",
     logo: (
       <div className="w-8 h-8 rounded-md bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center">
         <span className="text-white font-bold text-[10px]">i18n</span>

@@ -19,7 +19,7 @@ const faqs: FaqItem[] = [
   {
     question: "Which JMAP RFCs are supported?",
     answer:
-      "Bulwark supports RFC 8620 (JMAP Core), RFC 8621 (JMAP Mail), RFC 8984 (JMAP Calendars), RFC 9553/9610 (JMAP Contacts), and RFC 9661 for JMAP Sieve script management on compatible servers.",
+      "Bulwark supports RFC 8620 (JMAP Core), RFC 8621 (JMAP Mail), RFC 8984 (JMAP Calendars), RFC 9553/9610 (JMAP Contacts/AddressBook), RFC 9661 (JMAP Sieve), and Stalwart's JMAP FileNode extension for cloud file storage. iMIP scheduling messages follow RFC 5545 and 6047. The newsletter unsubscribe banner follows RFC 2369.",
   },
   {
     question: "Can I migrate from Roundcube or another webmail?",
@@ -29,17 +29,17 @@ const faqs: FaqItem[] = [
   {
     question: "What are the system requirements?",
     answer:
-      "The Docker image runs on amd64 and arm64 architectures. It requires minimal resources - around 128 MB of RAM is sufficient. For building from source, you need Node.js 18+ and npm.",
+      "The Docker image runs on amd64 and arm64 architectures (native ARM runners, no QEMU) and is published only to GHCR. It needs minimal resources — around 128 MB of RAM is sufficient. For building from source, you need Node.js 18+ and npm. Stalwart 0.16 or newer is required for the self-service portal (account settings, app passwords, API keys), since Stalwart dropped its REST self-service API in 0.16 and Bulwark only talks to the new JMAP endpoint.",
   },
   {
     question: "Is there a mobile app or PWA?",
     answer:
-      "Bulwark is a responsive web application that works well on mobile browsers with bottom tab navigation, long-press context menus, and mobile-optimized layouts. A dedicated PWA mode is on the roadmap, which will enable install-to-home-screen and offline capabilities.",
+      "Bulwark ships as a Progressive Web App. A dynamic manifest with configurable name, description, icons, and theme color lets users install it to the home screen on Android, iOS, and desktop. The interface is fully responsive with bottom tab navigation, long-press context menus, and mobile-optimized layouts. There is no separate native app — the PWA is the mobile experience.",
   },
   {
     question: "How does Bulwark handle email security?",
     answer:
-      "Emails are sanitized with DOMPurify before rendering. SPF, DKIM, and DMARC results are displayed as visual badges. External image loading is blocked by default to prevent tracking. Authentication supports TOTP 2FA and OAuth2/OIDC.",
+      "Emails are sanitized with DOMPurify before rendering. SPF, DKIM, and DMARC results are displayed as visual badges. External images are blocked by default to prevent tracking, with a per-sender trust list. Bulwark also supports S/MIME (sign, encrypt, decrypt, verify with legacy 3DES/PBE compatibility), TOTP 2FA, OAuth2/OIDC with PKCE, OAuth-only mode, OAuth app passwords, an enforced CSP with per-request nonce, SSRF redirect validation, IP spoofing prevention, and a sandboxed PDF iframe.",
   },
   {
     question: "Can I use multiple email accounts?",
@@ -49,7 +49,7 @@ const faqs: FaqItem[] = [
   {
     question: "Does Bulwark support plugins?",
     answer:
-      "Yes. Bulwark includes an extensible plugin system with a schema-driven admin configuration UI. Plugins can add calendar event action slots, custom UI elements, and more. A built-in Jitsi Meet plugin is included for video conferencing integration. Admins can manage plugins and themes from the admin dashboard with forced enable/disable controls and policy enforcement.",
+      "Yes. Bulwark includes an extensible plugin system with a schema-driven admin configuration UI. Plugins can add calendar event action slots, a composer-sidebar panel, render hooks, intercept hooks, an onAvatarResolve hook, and an i18n API. They communicate with external services through a sandboxed HTTP proxy and can declare frame origins for embedded UIs. Plugins are disabled by default and require admin approval; dangerous JS patterns are blocked at install time. Admins can browse, install, and manage plugins and themes from the extension marketplace (configured via EXTENSION_DIRECTORY_URL). A bundled Jitsi Meet plugin is included for video conferencing on calendar events.",
   },
   {
     question: "Is Bulwark free to use?",

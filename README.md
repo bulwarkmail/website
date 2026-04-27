@@ -56,11 +56,16 @@ src/
 │   └── *.tsx             # Landing page sections
 └── lib/                  # Utilities (markdown processing, etc.)
 docs/                     # Documentation content (Markdown)
-├── getting-started/      # Installation, configuration, intro
-├── features/             # Email, calendar, contacts docs
+├── getting-started/      # Introduction, installation, configuration
+│   └── configuration/    # Stalwart setup, authentication, env reference
+├── features/             # Email, calendar, contacts, files, PWA
+│   └── email/            # Composing, search
 ├── development/          # Architecture, contributing
 ├── deployment/           # Docker, manual, reverse proxy
-├── guides/               # Customization, keyboard shortcuts
+│   └── docker/           # Compose, reverse-proxy
+├── guides/               # Customization, keyboard shortcuts, embedded SSO,
+│                         # plugins, account-security, multi-account, smime,
+│                         # marketplace, admin
 └── branding/             # Brand guidelines
 public/                   # Static assets
 ├── branding/             # Logos, favicons

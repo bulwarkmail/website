@@ -36,39 +36,58 @@ JMAP_SERVER_URL=https://mail.example.com
 
 ## Environment Variables
 
-| Variable                      | Required        | Default                                   | Description                                                                               |
-| ----------------------------- | --------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `HOSTNAME`                    | No              | `0.0.0.0`                                 | Address the server binds to - use `::` for IPv6                                           |
-| `PORT`                        | No              | `3000`                                    | Port the server listens on                                                                |
-| `APP_NAME`                    | No              | `Webmail` fallback in app config          | Application name shown in the UI                                                          |
-| `JMAP_SERVER_URL`             | Yes             | -                                         | URL of your JMAP-compatible mail server                                                   |
-| `STALWART_FEATURES`           | No              | `true`                                    | Enables Stalwart-specific account and management features                                 |
-| `STALWART_API_URL`            | No              | `JMAP_SERVER_URL`                         | Direct URL for Stalwart management API calls when your proxy does not forward admin paths |
-| `OAUTH_ENABLED`               | No              | `false`                                   | Enables OAuth2 / OpenID Connect login                                                     |
-| `OAUTH_ONLY`                  | No              | `false`                                   | Hides the username/password login form and requires OAuth                                 |
-| `OAUTH_CLIENT_ID`             | OAuth only      | -                                         | OAuth client ID                                                                           |
-| `OAUTH_CLIENT_SECRET`         | No              | empty                                     | OAuth client secret for confidential clients                                              |
-| `OAUTH_ISSUER_URL`            | No              | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs                                                     |
-| `SESSION_SECRET`              | Feature-gated   | -                                         | Enables encrypted persistent sessions, settings sync, and multi-account support           |
-| `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                   |
-| `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)     |
-| `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                       |
-| `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                        |
-| `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32-512px)                                   |
-| `APP_LOGO_LIGHT_URL`          | No              | empty                                     | Sidebar logo for light mode (SVG, PNG, or WebP; 24-128px)                                 |
-| `APP_LOGO_DARK_URL`           | No              | empty                                     | Sidebar logo for dark mode (SVG, PNG, or WebP; 24-128px)                                  |
-| `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds (SVG, PNG, or WebP; 32-512px)                       |
-| `LOGIN_LOGO_DARK_URL`         | No              | Bulwark dark logo                         | Login page logo for dark backgrounds (SVG, PNG, or WebP; 32-512px)                        |
-| `LOGIN_COMPANY_NAME`          | No              | empty                                     | Company name shown on the login page                                                      |
-| `LOGIN_IMPRINT_URL`           | No              | empty                                     | Login page imprint / legal notice link                                                    |
-| `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                            |
-| `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                   |
-| `AUTO_SSO_ENABLED`            | No              | `false`                                   | Automatically start OAuth flow on login page (for embedded SSO)                           |
-| `ALLOWED_FRAME_ANCESTORS`     | No              | `'none'`                                  | CSP `frame-ancestors` value for iframe embedding                                          |
-| `COOKIE_SAME_SITE`            | No              | `lax`                                     | Cookie `SameSite` attribute (`lax`, `none`, `strict`)                                     |
-| `NEXT_PUBLIC_PARENT_ORIGIN`   | No              | empty                                     | Origin of parent frame for postMessage validation                                         |
-| `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | -                                         | Legacy build-time fallback for `APP_NAME`                                                 |
-| `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | -                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                          |
+| Variable                      | Required        | Default                                   | Description                                                                                |
+| ----------------------------- | --------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `HOSTNAME`                    | No              | `0.0.0.0`                                 | Address the server binds to - use `::` for IPv6                                            |
+| `PORT`                        | No              | `3000`                                    | Port the server listens on                                                                 |
+| `APP_NAME`                    | No              | `Webmail`                                 | Application name shown in the UI, browser tab, and PWA manifest                            |
+| `APP_SHORT_NAME`              | No              | falls back to `APP_NAME`                  | Short name for the PWA install prompt and home screen                                      |
+| `APP_DESCRIPTION`             | No              | generic Bulwark description               | Description shown in the PWA manifest                                                      |
+| `JMAP_SERVER_URL`             | Yes¹            | -                                         | URL of your JMAP-compatible mail server                                                    |
+| `ALLOW_CUSTOM_JMAP_ENDPOINT`  | No              | `false`                                   | Show a "JMAP Server" field on the login form so users can specify their own server         |
+| `STALWART_FEATURES`           | No              | `true`                                    | Enables Stalwart-specific features (password change, Sieve, vacation, admin, API keys)     |
+| `OAUTH_ENABLED`               | No              | `false`                                   | Enables OAuth2 / OpenID Connect login                                                      |
+| `OAUTH_ONLY`                  | No              | `false`                                   | Hides the username/password login form and requires OAuth                                  |
+| `OAUTH_CLIENT_ID`             | OAuth only      | -                                         | OAuth client ID                                                                            |
+| `OAUTH_CLIENT_SECRET`         | No              | empty                                     | OAuth client secret for confidential clients                                               |
+| `OAUTH_CLIENT_SECRET_FILE`    | No              | empty                                     | Path to a file containing the OAuth client secret (Docker / Kubernetes secrets)            |
+| `OAUTH_ISSUER_URL`            | No              | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs                                                      |
+| `OAUTH_SCOPES`                | No              | built-in default                          | Override OAuth scope string                                                                |
+| `OAUTH_EXTRA_SCOPES`          | No              | empty                                     | Additional scopes appended to defaults                                                     |
+| `SESSION_SECRET`              | Feature-gated   | -                                         | Enables encrypted Remember-me, settings sync, multi-account, and embedded SSO              |
+| `SESSION_SECRET_FILE`         | No              | empty                                     | Path to a file containing the session secret                                               |
+| `COOKIE_SAME_SITE`            | No              | `lax`                                     | Cookie `SameSite` attribute (`lax`, `none`, `strict`)                                      |
+| `COOKIE_SECURE`               | No              | derived from env                          | Force `Secure` flag on cookies                                                             |
+| `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                    |
+| `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)      |
+| `ADMIN_PASSWORD`              | No              | random on first start                     | Initial admin dashboard password                                                           |
+| `ADMIN_DATA_DIR`              | No              | `./data/admin`                            | Directory for admin config, plugin registry, audit log, and password hash                  |
+| `ADMIN_SESSION_TTL`           | No              | safe default                              | Admin session lifetime in seconds                                                          |
+| `TRUSTED_PROXY_DEPTH`         | No              | `1`                                       | Number of `X-Forwarded-For` hops to trust                                                  |
+| `EXTENSION_DIRECTORY_URL`     | No              | empty                                     | Marketplace URL for browsing and installing plugins/themes                                 |
+| `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                        |
+| `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                         |
+| `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32-512px)                                    |
+| `PWA_ICON_URL`                | No              | falls back to `FAVICON_URL`               | Source image used to generate PWA install icons                                            |
+| `PWA_THEME_COLOR`             | No              | `#ffffff`                                 | PWA browser UI chrome color                                                                |
+| `PWA_BACKGROUND_COLOR`        | No              | `#ffffff`                                 | PWA splash screen background                                                               |
+| `APP_LOGO_LIGHT_URL`          | No              | empty                                     | Sidebar logo for light mode (SVG, PNG, or WebP; 24-128px)                                  |
+| `APP_LOGO_DARK_URL`           | No              | empty                                     | Sidebar logo for dark mode (SVG, PNG, or WebP; 24-128px)                                   |
+| `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds (SVG, PNG, or WebP; 32-512px)                        |
+| `LOGIN_LOGO_DARK_URL`         | No              | Bulwark dark logo                         | Login page logo for dark backgrounds (SVG, PNG, or WebP; 32-512px)                         |
+| `LOGIN_COMPANY_NAME`          | No              | empty                                     | Company name shown on the login page                                                       |
+| `LOGIN_IMPRINT_URL`           | No              | empty                                     | Login page imprint / legal notice link                                                     |
+| `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                             |
+| `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                    |
+| `NEXT_PUBLIC_LOCALE_PREFIX`   | No              | safe default                              | Locale URL prefix mode: `always`, `as-needed`, or `never`                                  |
+| `AUTO_SSO_ENABLED`            | No              | `false`                                   | Automatically start OAuth flow on login page (for embedded SSO)                            |
+| `ALLOWED_FRAME_ANCESTORS`     | No              | `'none'`                                  | CSP `frame-ancestors` value for iframe embedding                                           |
+| `NEXT_PUBLIC_PARENT_ORIGIN`   | No              | empty                                     | Origin of parent frame for postMessage validation                                          |
+| `STALWART_API_URL`            | Deprecated      | -                                         | Removed in 1.5.0; Stalwart 0.16+ self-service goes through JMAP                            |
+| `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | -                                         | Legacy build-time fallback for `APP_NAME`                                                  |
+| `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | -                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                           |
+
+¹ `JMAP_SERVER_URL` is required unless `ALLOW_CUSTOM_JMAP_ENDPOINT=true`, in which case users supply the URL on the login form.
 
 ## Full Reference
 
