@@ -67,8 +67,9 @@ const SECTION_LABELS: Record<string, { label: string; order: number }> = {
   features: { label: "Features", order: 2 },
   deployment: { label: "Deployment", order: 3 },
   guides: { label: "Guides", order: 4 },
-  development: { label: "Development", order: 5 },
-  branding: { label: "Branding", order: 6 },
+  extensions: { label: "Extensions", order: 5 },
+  development: { label: "Development", order: 6 },
+  branding: { label: "Branding", order: 7 },
 };
 
 function getSectionMeta(sectionSlug: string) {
