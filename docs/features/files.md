@@ -21,7 +21,7 @@ Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so d
 
 - Upload individual files with progress tracking
 - Folder upload via drag-and-drop or toolbar button (recursive)
-- **Streamed WebDAV PUT** — uploads stream straight to the server without buffering the file in memory, so multi-GB uploads work in browsers with limited memory
+- **Streamed WebDAV PUT** - uploads stream straight to the server without buffering the file in memory, so multi-GB uploads work in browsers with limited memory
 - Download files or entire selections
 - Dynamic upload size limits read from the server's configuration so the UI knows what's allowed before you try
 - Clipboard-style cut, copy, paste, and duplicate actions

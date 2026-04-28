@@ -29,12 +29,12 @@ const faqs: FaqItem[] = [
   {
     question: "What are the system requirements?",
     answer:
-      "The Docker image runs on amd64 and arm64 architectures (native ARM runners, no QEMU) and is published only to GHCR. It needs minimal resources — around 128 MB of RAM is sufficient. For building from source, you need Node.js 18+ and npm. Stalwart 0.16 or newer is required for the self-service portal (account settings, app passwords, API keys), since Stalwart dropped its REST self-service API in 0.16 and Bulwark only talks to the new JMAP endpoint.",
+      "The Docker image runs on amd64 and arm64 architectures (native ARM runners, no QEMU) and is published only to GHCR. It needs minimal resources - around 128 MB of RAM is sufficient. For building from source, you need Node.js 18+ and npm. Stalwart 0.16 or newer is required for the self-service portal (account settings, app passwords, API keys), since Stalwart dropped its REST self-service API in 0.16 and Bulwark only talks to the new JMAP endpoint.",
   },
   {
     question: "Is there a mobile app or PWA?",
     answer:
-      "Bulwark ships as a Progressive Web App. A dynamic manifest with configurable name, description, icons, and theme color lets users install it to the home screen on Android, iOS, and desktop. The interface is fully responsive with bottom tab navigation, long-press context menus, and mobile-optimized layouts. There is no separate native app — the PWA is the mobile experience.",
+      "Bulwark ships as a Progressive Web App. A dynamic manifest with configurable name, description, icons, and theme color lets users install it to the home screen on Android, iOS, and desktop. The interface is fully responsive with bottom tab navigation, long-press context menus, and mobile-optimized layouts. There is no separate native app - the PWA is the mobile experience.",
   },
   {
     question: "How does Bulwark handle email security?",
@@ -114,7 +114,7 @@ export function FaqSection() {
                   <ChevronDown
                     className={cn(
                       "w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200",
-                      isOpen && "rotate-180"
+                      isOpen && "rotate-180",
                     )}
                   />
                 </button>

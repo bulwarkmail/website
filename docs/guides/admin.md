@@ -88,7 +88,7 @@ See [Plugins](/docs/guides/plugins) for the full architecture.
 
 ### Audit Log
 
-Every admin action — sign in, plugin enable/disable, config change, theme upload, API key creation — is recorded. The log shows actor, action, target, and IP (after `TRUSTED_PROXY_DEPTH` resolution).
+Every admin action - sign in, plugin enable/disable, config change, theme upload, API key creation - is recorded. The log shows actor, action, target, and IP (after `TRUSTED_PROXY_DEPTH` resolution).
 
 ### Policy Sections
 
@@ -112,7 +112,7 @@ The admin dashboard is part of the running Bulwark process. To restrict access:
 
 - Block `/admin` and `/api/admin` at your reverse proxy and only allow your management network.
 - Use a strong `ADMIN_PASSWORD` and rotate periodically.
-- Don't expose the admin dashboard on the public internet for production deployments — gate it behind a VPN or IP allowlist when possible.
+- Don't expose the admin dashboard on the public internet for production deployments - gate it behind a VPN or IP allowlist when possible.
 
 ## Troubleshooting
 

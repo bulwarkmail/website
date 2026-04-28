@@ -20,21 +20,21 @@ For the Account Security feature to be available, the mail server administrator 
 
 ### Core Security Permissions
 
-| Permission                                  | Description                                              | Required |
-| ------------------------------------------- | -------------------------------------------------------- | -------- |
-| **Manage account passwords**                | Allows users to change their password                    | ✓ Yes    |
-| **Retrieve specific account information**   | Allows viewing current account details and settings      | ✓ Yes    |
-| **Modify user account information**         | Allows updating user profile and account settings        | ✓ Yes    |
-| **Authenticate**                            | Required for authentication operations                   | ✓ Yes    |
-| **Manage encryption-at-rest settings**      | Allows managing encryption configuration                 | ✓ Yes    |
+| Permission                                | Description                                         | Required |
+| ----------------------------------------- | --------------------------------------------------- | -------- |
+| **Manage account passwords**              | Allows users to change their password               | ✓ Yes    |
+| **Retrieve specific account information** | Allows viewing current account details and settings | ✓ Yes    |
+| **Modify user account information**       | Allows updating user profile and account settings   | ✓ Yes    |
+| **Authenticate**                          | Required for authentication operations              | ✓ Yes    |
+| **Manage encryption-at-rest settings**    | Allows managing encryption configuration            | ✓ Yes    |
 
 ### JMAP Identity Permissions (for compose / identities)
 
-| Permission                                | Required for                              |
-| ----------------------------------------- | ----------------------------------------- |
-| **Modify user identities via JMAP**       | Creating and updating sender identities   |
-| **Retrieve user identities via JMAP**     | Listing identities in the composer        |
-| **Track identity changes via JMAP**       | Real-time identity sync after edits       |
+| Permission                            | Required for                            |
+| ------------------------------------- | --------------------------------------- |
+| **Modify user identities via JMAP**   | Creating and updating sender identities |
+| **Retrieve user identities via JMAP** | Listing identities in the composer      |
+| **Track identity changes via JMAP**   | Real-time identity sync after edits     |
 
 ## Features by Permission
 
@@ -88,7 +88,7 @@ This error appears when one or more required permissions are disabled, or when S
 
 ### Bulwark talks to the wrong endpoint
 
-Earlier Bulwark versions used `STALWART_API_URL` to reach a separate REST endpoint. From 1.5.0 onward, all self-service traffic goes through the normal JMAP session URL — there is no separate URL to configure. Remove `STALWART_API_URL` from your environment.
+Earlier Bulwark versions used `STALWART_API_URL` to reach a separate REST endpoint. From 1.5.0 onward, all self-service traffic goes through the normal JMAP session URL - there is no separate URL to configure. Remove `STALWART_API_URL` from your environment.
 
 ## Admin Configuration Steps
 

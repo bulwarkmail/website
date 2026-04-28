@@ -10,16 +10,16 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 
 ## What You Get
 
-- **Installable** — Browsers offer "Add to Home Screen" / "Install app" once the manifest is detected.
-- **Standalone window** — Launches without browser chrome on desktop and mobile.
-- **Splash screen** — OS-rendered splash using your configured background color and icon.
-- **App-name everywhere** — Browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
-- **Service worker** — Registered automatically; caches the app shell.
-- **Install prompt** — A friendly in-app prompt suggests installation. Users can dismiss it, and there is a "don't remind me again" option.
+- **Installable** - Browsers offer "Add to Home Screen" / "Install app" once the manifest is detected.
+- **Standalone window** - Launches without browser chrome on desktop and mobile.
+- **Splash screen** - OS-rendered splash using your configured background color and icon.
+- **App-name everywhere** - Browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
+- **Service worker** - Registered automatically; caches the app shell.
+- **Install prompt** - A friendly in-app prompt suggests installation. Users can dismiss it, and there is a "don't remind me again" option.
 
 ## Configuration
 
-Every aspect of the PWA manifest is configured via runtime environment variables — you don't need to rebuild the image to rebrand the install experience.
+Every aspect of the PWA manifest is configured via runtime environment variables - you don't need to rebuild the image to rebrand the install experience.
 
 ```env
 APP_NAME=Acme Mail                 # Used in the manifest, browser tab, and SoftwareApplication metadata
@@ -37,9 +37,9 @@ PWA_BACKGROUND_COLOR=#ffffff       # Splash screen background
 
 Bulwark generates the required PWA icon sizes from a single source:
 
-- `icon-192x192.png` and `icon-512x512.png` — regular
-- `icon-maskable-light-192x192.png` / `icon-maskable-light-512x512.png` — maskable for light backgrounds
-- `icon-maskable-dark-192x192.png` / `icon-maskable-dark-512x512.png` — maskable for dark backgrounds
+- `icon-192x192.png` and `icon-512x512.png` - regular
+- `icon-maskable-light-192x192.png` / `icon-maskable-light-512x512.png` - maskable for light backgrounds
+- `icon-maskable-dark-192x192.png` / `icon-maskable-dark-512x512.png` - maskable for dark backgrounds
 
 If `PWA_ICON_URL` is not set, the app falls back to `FAVICON_URL`, then to the bundled Bulwark icons.
 
@@ -51,9 +51,9 @@ If you don't set `PWA_THEME_COLOR` and `PWA_BACKGROUND_COLOR`, both default to `
 
 When the browser fires the `beforeinstallprompt` event, Bulwark shows an in-app prompt:
 
-- **Install** — triggers the native install dialog
-- **Later** — dismisses the prompt for this session
-- **Don't remind me again** — persists the dismissal so the prompt won't reappear
+- **Install** - triggers the native install dialog
+- **Later** - dismisses the prompt for this session
+- **Don't remind me again** - persists the dismissal so the prompt won't reappear
 
 The prompt also shows the app's name and logo so users see your branding (not "Bulwark") when you have customized it.
 
@@ -65,10 +65,10 @@ The service worker is served from `/sw.js` and registered on first load. It prec
 
 If Bulwark sits behind a reverse proxy, make sure these paths are forwarded as-is:
 
-- `/manifest.webmanifest` — dynamic manifest
-- `/sw.js` — service worker (must NOT be cached aggressively at the proxy)
-- `/api/pwa-icon/*` — auto-generated PWA icons
-- `/branding/*` — branding assets
+- `/manifest.webmanifest` - dynamic manifest
+- `/sw.js` - service worker (must NOT be cached aggressively at the proxy)
+- `/api/pwa-icon/*` - auto-generated PWA icons
+- `/branding/*` - branding assets
 
 The service worker lives at the site root by design. If you serve Bulwark from a subpath, the service worker scope is automatically adjusted to that subpath.
 

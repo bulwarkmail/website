@@ -23,7 +23,7 @@ npm ci
 
 echo "==> Building..."
 if ! npm run build; then
-  echo "!!! Build failed — rolling back to previous commit..."
+  echo "!!! Build failed - rolling back to previous commit..."
   git rebase --abort 2>/dev/null || true
   git reset --hard HEAD~1
   npm ci

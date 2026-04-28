@@ -24,10 +24,10 @@ When set, a **Marketplace** tab appears in the admin dashboard's plugin and them
 2. Open Plugins or Themes.
 3. Click **Browse marketplace**.
 4. Select an extension to view its description, schema, screenshots, and required permissions.
-5. Click **Install** — Bulwark fetches the bundle, runs validation (dangerous-pattern detection), and registers the extension.
+5. Click **Install** - Bulwark fetches the bundle, runs validation (dangerous-pattern detection), and registers the extension.
 6. Newly installed extensions are **disabled by default**. Click **Enable** to activate them.
 
-Installed extensions are subject to the same validation as direct uploads — there is no "trusted directory bypass". If a plugin fails validation, install fails and the failure reason is logged.
+Installed extensions are subject to the same validation as direct uploads - there is no "trusted directory bypass". If a plugin fails validation, install fails and the failure reason is logged.
 
 ## Hosting Your Own Directory
 
@@ -53,7 +53,7 @@ See [Plugins](/docs/guides/plugins) for the full plugin security model.
 
 ## Updates
 
-When a newer version of an installed plugin is published in the directory, the marketplace surfaces an update prompt. Updates are not automatic — admins approve each update so a malicious or breaking new version can't roll out without review.
+When a newer version of an installed plugin is published in the directory, the marketplace surfaces an update prompt. Updates are not automatic - admins approve each update so a malicious or breaking new version can't roll out without review.
 
 ## Disabling the Marketplace
 
@@ -61,6 +61,6 @@ To hide the marketplace UI, unset `EXTENSION_DIRECTORY_URL` and restart Bulwark.
 
 ## See Also
 
-- [Plugins](/docs/guides/plugins) — plugin architecture, hooks, and security
-- [Customization](/docs/guides/customization) — themes and branding
-- [Admin Dashboard](/docs/guides/admin) — admin UI overview
+- [Plugins](/docs/guides/plugins) - plugin architecture, hooks, and security
+- [Customization](/docs/guides/customization) - themes and branding
+- [Admin Dashboard](/docs/guides/admin) - admin UI overview

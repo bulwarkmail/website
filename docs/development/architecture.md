@@ -25,7 +25,7 @@ An overview of Bulwark's technical architecture and design decisions.
 └──────────────┘
 ```
 
-After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, and the admin dashboard — never as a proxy for normal mail traffic.
+After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, and the admin dashboard - never as a proxy for normal mail traffic.
 
 ## Project Structure
 
@@ -104,7 +104,7 @@ webmail/
 
 ## JMAP Integration
 
-Bulwark communicates with Stalwart exclusively through JMAP via a custom client. The client is wrapped behind an interface abstraction that allows swapping between a live JMAP backend and a demo backend with fixture data — used by `npm run dev` with `.env.dev.example` and by demo deployments. Custom JMAP server endpoints can be configured from login and settings via `ALLOW_CUSTOM_JMAP_ENDPOINT`.
+Bulwark communicates with Stalwart exclusively through JMAP via a custom client. The client is wrapped behind an interface abstraction that allows swapping between a live JMAP backend and a demo backend with fixture data - used by `npm run dev` with `.env.dev.example` and by demo deployments. Custom JMAP server endpoints can be configured from login and settings via `ALLOW_CUSTOM_JMAP_ENDPOINT`.
 
 ### Request/Response Pattern
 
@@ -128,14 +128,14 @@ All JMAP operations use a single HTTP endpoint. Requests are batched method call
 
 Bulwark detects server capabilities at session creation and conditionally enables features:
 
-- `urn:ietf:params:jmap:core` — required, batched method calls and state tokens
-- `urn:ietf:params:jmap:mail` — required, email and mailbox handling
-- `urn:ietf:params:jmap:calendars` — calendar events and tasks
-- `urn:ietf:params:jmap:contacts` — JMAP ContactCard / AddressBook
-- `urn:ietf:params:jmap:vacationresponse` — vacation auto-reply
-- `urn:ietf:params:jmap:sieve` — server-side email filters
-- Stalwart's JMAP FileNode extension — cloud file storage
-- Stalwart's `x:` method namespace — admin, API keys, app passwords (Stalwart 0.16+)
+- `urn:ietf:params:jmap:core` - required, batched method calls and state tokens
+- `urn:ietf:params:jmap:mail` - required, email and mailbox handling
+- `urn:ietf:params:jmap:calendars` - calendar events and tasks
+- `urn:ietf:params:jmap:contacts` - JMAP ContactCard / AddressBook
+- `urn:ietf:params:jmap:vacationresponse` - vacation auto-reply
+- `urn:ietf:params:jmap:sieve` - server-side email filters
+- Stalwart's JMAP FileNode extension - cloud file storage
+- Stalwart's `x:` method namespace - admin, API keys, app passwords (Stalwart 0.16+)
 
 ### Session URL Rewriting
 
@@ -145,16 +145,16 @@ Bulwark rewrites the URLs returned in the JMAP session resource to match the ori
 
 Bulwark includes an extensible plugin system with:
 
-- **Schema-driven configuration** — plugins declare a config schema, the admin UI is generated from it
-- **Render hooks** — plugins can render into named slots (calendar event actions, composer sidebar, etc.)
-- **Intercept hooks** — plugins can intercept user actions like send, reply, archive
-- **`onAvatarResolve` hook** — provide custom avatar resolution logic
-- **Plugin i18n API** — plugins ship their own translation bundles
-- **Sandboxed HTTP proxy** — plugins talk to external services through a server-side proxy with origin validation, never exposing user credentials
-- **`frameOrigins` manifest field** — plugins declare which `https://host` origins they need to embed; the proxy reads the union of enabled plugin origins and merges into the host CSP `frame-src`
-- **Disabled by default + admin approval** — plugins are inert until an admin enables them
-- **Dangerous-pattern detection** — plugins with prohibited JS patterns are blocked at install time
-- **Theme bundles** — themes are uploaded as ZIP packages and managed alongside plugins
+- **Schema-driven configuration** - plugins declare a config schema, the admin UI is generated from it
+- **Render hooks** - plugins can render into named slots (calendar event actions, composer sidebar, etc.)
+- **Intercept hooks** - plugins can intercept user actions like send, reply, archive
+- **`onAvatarResolve` hook** - provide custom avatar resolution logic
+- **Plugin i18n API** - plugins ship their own translation bundles
+- **Sandboxed HTTP proxy** - plugins talk to external services through a server-side proxy with origin validation, never exposing user credentials
+- **`frameOrigins` manifest field** - plugins declare which `https://host` origins they need to embed; the proxy reads the union of enabled plugin origins and merges into the host CSP `frame-src`
+- **Disabled by default + admin approval** - plugins are inert until an admin enables them
+- **Dangerous-pattern detection** - plugins with prohibited JS patterns are blocked at install time
+- **Theme bundles** - themes are uploaded as ZIP packages and managed alongside plugins
 
 A bundled Jitsi Meet plugin demonstrates the calendar event slot.
 
@@ -164,11 +164,11 @@ Bulwark uses JMAP's EventSource mechanism for real-time updates. When new emails
 
 ## State Management
 
-- **Server state** — Managed via JMAP state tokens for efficient incremental sync
-- **UI state** — Zustand stores with optional `persist` middleware
-- **Theme state** — Zustand store persisted in `localStorage` with system preference detection
-- **Settings state** — Zustand store with optional encrypted server-side sync (`SETTINGS_SYNC_ENABLED`)
-- **Per-account state** — Cached in memory while the account is active so account switching is instant; OAuth refresh tokens are stored encrypted in httpOnly cookies
+- **Server state** - Managed via JMAP state tokens for efficient incremental sync
+- **UI state** - Zustand stores with optional `persist` middleware
+- **Theme state** - Zustand store persisted in `localStorage` with system preference detection
+- **Settings state** - Zustand store with optional encrypted server-side sync (`SETTINGS_SYNC_ENABLED`)
+- **Per-account state** - Cached in memory while the account is active so account switching is instant; OAuth refresh tokens are stored encrypted in httpOnly cookies
 
 ## Security
 

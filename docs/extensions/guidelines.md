@@ -6,7 +6,7 @@ order: 4
 
 # Submission guidelines
 
-Read these requirements carefully before submitting an extension. The directory review is strict on purpose — it keeps what we ship to users safe, auditable, and forever free.
+Read these requirements carefully before submitting an extension. The directory review is strict on purpose - it keeps what we ship to users safe, auditable, and forever free.
 
 ## Core principles
 
@@ -36,7 +36,7 @@ Read these requirements carefully before submitting an extension. The directory 
 
 Extensions must request only the **minimum permissions necessary** for their declared functionality. Over-requesting is the single most common reason for rejection.
 
-If an extension needs a permission that is not obviously required, justify it in the extension description or README. Permissions are shown to users on the install screen — you want your listing to be trustworthy at a glance.
+If an extension needs a permission that is not obviously required, justify it in the extension description or README. Permissions are shown to users on the install screen - you want your listing to be trustworthy at a glance.
 
 See the [full permissions list](/docs/extensions/manifest#permissions).
 
@@ -61,4 +61,4 @@ If your extension is rejected, you will receive a reason through the review syst
 
 ## Takedown
 
-We reserve the right to remove an extension from the directory at any time if it is later found to violate these guidelines — for example, if a new release introduces tracking code or dangerous behavior that slipped through review. Affected authors will be notified and given an opportunity to fix the issue.
+We reserve the right to remove an extension from the directory at any time if it is later found to violate these guidelines - for example, if a new release introduces tracking code or dangerous behavior that slipped through review. Affected authors will be notified and given an opportunity to fix the issue.

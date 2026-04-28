@@ -8,23 +8,23 @@ order: 1
 
 Bulwark Webmail can be extended with two kinds of third-party add-ons:
 
-- **Plugins** — add hooks, UI buttons, sidebar apps, keyboard shortcuts, and whole new workflows that integrate with the JMAP client.
-- **Themes** — customize fonts, colors, and layouts to reshape the look and feel of the inbox.
+- **Plugins** - add hooks, UI buttons, sidebar apps, keyboard shortcuts, and whole new workflows that integrate with the JMAP client.
+- **Themes** - customize fonts, colors, and layouts to reshape the look and feel of the inbox.
 
 Both are published on the [Bulwark Extensions directory](https://extensions.bulwarkmail.org/), which hosts free and open source extensions that have passed review.
 
 ## What you'll find in these docs
 
-- **[manifest.json reference](/docs/extensions/manifest)** — required fields, permissions, and metadata.
-- **[REST API reference](/docs/extensions/api)** — the public API the directory exposes for querying and installing extensions.
-- **[Submission guidelines](/docs/extensions/guidelines)** — rules, review process, and content policy for getting your extension published.
-- **[Publishing & updates](/docs/extensions/publishing)** — how the review pipeline works and how to ship new versions.
+- **[manifest.json reference](/docs/extensions/manifest)** - required fields, permissions, and metadata.
+- **[REST API reference](/docs/extensions/api)** - the public API the directory exposes for querying and installing extensions.
+- **[Submission guidelines](/docs/extensions/guidelines)** - rules, review process, and content policy for getting your extension published.
+- **[Publishing & updates](/docs/extensions/publishing)** - how the review pipeline works and how to ship new versions.
 
 ## Getting started
 
 ### Plugins
 
-Plugins are managed through Bulwark's admin dashboard. A plugin is a small JavaScript module with a declarative configuration schema, an optional set of UI extension points, and a permission manifest. See the [plugin system overview](/docs/guides/plugins) for the built-in architecture — the authoring model for third-party plugins follows the same conventions.
+Plugins are managed through Bulwark's admin dashboard. A plugin is a small JavaScript module with a declarative configuration schema, an optional set of UI extension points, and a permission manifest. See the [plugin system overview](/docs/guides/plugins) for the built-in architecture - the authoring model for third-party plugins follows the same conventions.
 
 ### Themes
 

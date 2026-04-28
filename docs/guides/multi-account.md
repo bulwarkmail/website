@@ -64,7 +64,7 @@ Folders shared with one account are surfaced under that account in the sidebar. 
 
 ## Connection Status
 
-The account switcher shows per-account connection status (connected, reconnecting, error). Connection loss is handled transparently — JMAP push reconnects automatically and search/filter state is preserved across reconnects.
+The account switcher shows per-account connection status (connected, reconnecting, error). Connection loss is handled transparently - JMAP push reconnects automatically and search/filter state is preserved across reconnects.
 
 ## Removing an Account
 
@@ -75,7 +75,7 @@ From the account switcher → account context menu → **Sign out**. Removing an
 Accounts and sender identities are separate:
 
 - **Accounts** are full mailboxes with their own JMAP session.
-- **Identities** are aliases under a single account — for example, a single Stalwart account with `you@personal.com` and `you@work.com` aliases configured. Identities have per-identity signatures and selectable from the composer.
+- **Identities** are aliases under a single account - for example, a single Stalwart account with `you@personal.com` and `you@work.com` aliases configured. Identities have per-identity signatures and selectable from the composer.
 
 You can use both: multiple accounts, each with multiple identities.
 
@@ -85,9 +85,9 @@ Identities support sub-addressing (`user+tag@domain.com`). When composing a repl
 
 ## Limits and Performance
 
-- **Maximum accounts** — 5 simultaneous accounts. The cap exists to keep memory and push connections bounded.
-- **Push connections** — One JMAP EventSource per account, established lazily on first switch.
-- **Session cookie size** — Per-account encrypted state fits within typical cookie size limits; very large refresh tokens may require server-side session storage. If you hit cookie size issues with many OAuth providers, contact support.
+- **Maximum accounts** - 5 simultaneous accounts. The cap exists to keep memory and push connections bounded.
+- **Push connections** - One JMAP EventSource per account, established lazily on first switch.
+- **Session cookie size** - Per-account encrypted state fits within typical cookie size limits; very large refresh tokens may require server-side session storage. If you hit cookie size issues with many OAuth providers, contact support.
 
 ## Troubleshooting
 

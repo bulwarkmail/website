@@ -54,7 +54,7 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 - Send iMIP invitations on event create and update (RFC 5545 / 6047), with `calendarAddress` and `replyTo` participants for Stalwart compatibility
 - Accept/decline/tentative RSVP responses with trust assessment
 - Organizer and attendee UI with participant management
-- Inline calendar invitation banner in the email viewer — auto-detects `.ics` attachments and offers RSVP and import-to-calendar actions
+- Inline calendar invitation banner in the email viewer - auto-detects `.ics` attachments and offers RSVP and import-to-calendar actions
 - Collapsible details on the invitation banner
 - ICS attachments are hidden from the attachment list when the invitation banner is shown
 - Shared calendars across accounts via JMAP sharing

@@ -48,9 +48,14 @@ export function Footer() {
           <p>
             AGPL-3.0 &copy; {new Date().getFullYear()} Bulwark
           </p>
-          <p className="flex items-center gap-1">
-            Built with <Heart className="w-3 h-3 text-primary fill-primary" /> for Stalwart Mail Server
-          </p>
+          <div className="flex items-center gap-4">
+            <a href="/docs/legal/privacy" className="hover:text-foreground transition-colors">
+              Privacy
+            </a>
+            <p className="flex items-center gap-1">
+              Built with <Heart className="w-3 h-3 text-primary fill-primary" /> for Stalwart Mail Server
+            </p>
+          </div>
         </div>
       </div>
     </footer>

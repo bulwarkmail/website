@@ -10,11 +10,11 @@ The easiest way to deploy Bulwark in production is with Docker. Pre-built images
 
 Two release channels are available as separate GHCR packages:
 
-| Tag                                        | Channel | Source              |
-| ------------------------------------------ | ------- | ------------------- |
-| `ghcr.io/bulwarkmail/webmail:latest`       | Stable  | `main` branch tags  |
-| `ghcr.io/bulwarkmail/webmail:dev`          | Dev     | `dev` branch builds |
-| `ghcr.io/bulwarkmail/webmail:1.5.2`        | Pinned  | Specific release    |
+| Tag                                  | Channel | Source              |
+| ------------------------------------ | ------- | ------------------- |
+| `ghcr.io/bulwarkmail/webmail:latest` | Stable  | `main` branch tags  |
+| `ghcr.io/bulwarkmail/webmail:dev`    | Dev     | `dev` branch builds |
+| `ghcr.io/bulwarkmail/webmail:1.5.2`  | Pinned  | Specific release    |
 
 ## Using Docker
 
@@ -44,7 +44,7 @@ docker run -d \
   ghcr.io/bulwarkmail/webmail:latest
 ```
 
-Environment variables are read at runtime — no rebuild is needed when changing configuration.
+Environment variables are read at runtime - no rebuild is needed when changing configuration.
 
 ### Build from Source
 

@@ -71,7 +71,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `true` unless explicitly set to `false`.
 - **When to set it** - Set `STALWART_FEATURES=false` if you are using Bulwark with a non-Stalwart JMAP server and want to hide features that depend on Stalwart-specific JMAP `x:` methods.
 
-### `STALWART_API_URL` *(deprecated in 1.5.0)*
+### `STALWART_API_URL` _(deprecated in 1.5.0)_
 
 - **Status** - Deprecated. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP. Bulwark now talks to the JMAP endpoint exclusively, so this variable has no effect.
 - **Migration** - Remove from your `.env.local`. The self-service portal (account settings, app passwords, API keys) requires Stalwart 0.16 or newer.
@@ -241,7 +241,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `info`
 - **When to set it** - Increase to `debug` during troubleshooting; lower to `warn` or `error` in quieter production environments.
 
-## Branding — Icons & Favicon
+## Branding - Icons & Favicon
 
 ### `FAVICON_URL`
 
@@ -274,7 +274,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `#ffffff`
 - **When to set it** - Match your app's main background color.
 
-## Branding — Logos
+## Branding - Logos
 
 ### `APP_LOGO_LIGHT_URL`
 

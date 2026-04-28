@@ -129,7 +129,7 @@ SESSION_SECRET=your-secret-key-here
 # Or: SESSION_SECRET_FILE=/run/secrets/session_secret
 ```
 
-Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters, identities, S/MIME keys) is cached in memory for instant restoration when switching. Accounts can mix authentication methods — for example, one OAuth account and one Basic Auth account.
+Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters, identities, S/MIME keys) is cached in memory for instant restoration when switching. Accounts can mix authentication methods - for example, one OAuth account and one Basic Auth account.
 
 For full details, see [Multi-account Support](/docs/guides/multi-account).
 

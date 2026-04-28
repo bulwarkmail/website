@@ -40,14 +40,14 @@ Older versions remain available at `/api/v1/bundle/:slug/:version` so existing i
 - **Pending.** Submission received, waiting on review.
 - **Approved.** Live in the directory, installable from Bulwark.
 - **Rejected.** Not published. You'll get a reason and can fix + resubmit.
-- **Suspended.** Previously approved but temporarily hidden — typically after a policy violation report. Existing installs still work but the version isn't discoverable.
+- **Suspended.** Previously approved but temporarily hidden - typically after a policy violation report. Existing installs still work but the version isn't discoverable.
 - **Archived.** Removed from search but still available for existing installs.
 
 ## Breaking changes
 
 If a new version changes permissions or breaks compatibility with older Bulwark releases, bump `minAppVersion` in the manifest. The admin panel uses this to prevent automatic updates for users on incompatible versions.
 
-For user-visible breaking changes, include a **changelog** in your GitHub release notes — the directory links to it on the extension page.
+For user-visible breaking changes, include a **changelog** in your GitHub release notes - the directory links to it on the extension page.
 
 ## Taking your extension down
 

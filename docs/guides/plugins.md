@@ -6,24 +6,24 @@ order: 4
 
 # Plugins
 
-Bulwark includes an extensible plugin system that lets administrators add custom functionality to the webmail interface — from extra calendar buttons and composer panels to integrations with external services. Plugins ship as ZIP bundles with a manifest, configuration schema, and frontend code.
+Bulwark includes an extensible plugin system that lets administrators add custom functionality to the webmail interface - from extra calendar buttons and composer panels to integrations with external services. Plugins ship as ZIP bundles with a manifest, configuration schema, and frontend code.
 
 ## Lifecycle
 
-1. **Install** — Upload a plugin ZIP from the admin dashboard, or install from the [extension marketplace](/docs/guides/marketplace).
-2. **Validate** — On upload, Bulwark scans the plugin code for dangerous JavaScript patterns. Plugins that fail validation are rejected.
-3. **Disabled by default** — Newly installed plugins are inert until an admin explicitly enables them. This prevents drive-by execution if someone gains write access to the registry directory.
-4. **Configure** — The admin form is generated from the plugin's config schema. Changes take effect immediately.
-5. **Run** — Enabled plugins load into the host app, can register slot renderers and intercept hooks, and can call out to external services through the sandboxed HTTP proxy.
+1. **Install** - Upload a plugin ZIP from the admin dashboard, or install from the [extension marketplace](/docs/guides/marketplace).
+2. **Validate** - On upload, Bulwark scans the plugin code for dangerous JavaScript patterns. Plugins that fail validation are rejected.
+3. **Disabled by default** - Newly installed plugins are inert until an admin explicitly enables them. This prevents drive-by execution if someone gains write access to the registry directory.
+4. **Configure** - The admin form is generated from the plugin's config schema. Changes take effect immediately.
+5. **Run** - Enabled plugins load into the host app, can register slot renderers and intercept hooks, and can call out to external services through the sandboxed HTTP proxy.
 
 ## Slots
 
 Plugins render into named UI slots. Available slots include:
 
-| Slot                    | Where                                | Permission              |
-| ----------------------- | ------------------------------------ | ----------------------- |
-| `calendar-event-action` | Action button row on calendar events | `ui:calendar-event`     |
-| `composer-sidebar`      | Left panel of the New Message dialog | `ui:composer-sidebar`   |
+| Slot                    | Where                                | Permission            |
+| ----------------------- | ------------------------------------ | --------------------- |
+| `calendar-event-action` | Action button row on calendar events | `ui:calendar-event`   |
+| `composer-sidebar`      | Left panel of the New Message dialog | `ui:composer-sidebar` |
 
 The `composer-sidebar` slot was added in 1.5.2; see `repos/subway-surfers` for an example plugin.
 
@@ -31,10 +31,10 @@ The `composer-sidebar` slot was added in 1.5.2; see `repos/subway-surfers` for a
 
 Plugins can register both render and intercept hooks:
 
-- **Render hooks** — render content into a slot when the host requests it
-- **Intercept hooks** — observe or transform user actions (send, reply, archive, etc.) before they execute
-- **`onAvatarResolve`** — provide a custom avatar URL for a sender; useful for company directory integrations
-- **i18n API** — plugins ship their own translation bundles and can use the host's locale
+- **Render hooks** - render content into a slot when the host requests it
+- **Intercept hooks** - observe or transform user actions (send, reply, archive, etc.) before they execute
+- **`onAvatarResolve`** - provide a custom avatar URL for a sender; useful for company directory integrations
+- **i18n API** - plugins ship their own translation bundles and can use the host's locale
 
 ## HTTP Proxy
 
@@ -54,10 +54,7 @@ Plugins that embed external UIs (e.g., a Jitsi room, a video player) declare all
 {
   "name": "my-plugin",
   "version": "1.0.0",
-  "frameOrigins": [
-    "https://meet.example.com",
-    "https://video.example.com"
-  ]
+  "frameOrigins": ["https://meet.example.com", "https://video.example.com"]
 }
 ```
 
@@ -67,9 +64,9 @@ Each entry must be a strict `https://host` origin. The proxy reads the union of 
 
 Plugins declare permissions they need. Slots are gated on permissions:
 
-- `ui:calendar-event` — render in the calendar event slot
-- `ui:composer-sidebar` — render in the composer sidebar slot
-- `http:<origin>` — outbound HTTP to a specific origin via the proxy
+- `ui:calendar-event` - render in the calendar event slot
+- `ui:composer-sidebar` - render in the composer sidebar slot
+- `http:<origin>` - outbound HTTP to a specific origin via the proxy
 
 Admins can review the requested permissions when enabling a plugin.
 
@@ -77,12 +74,12 @@ Admins can review the requested permissions when enabling a plugin.
 
 The plugin and theme admin dashboard provides:
 
-- **Listing** — view installed plugins with manifest details in a resizable detail sidebar
-- **Forced enable / disable** — administrators can lock plugins on or off for all users
-- **Admin locks** — pin plugin settings so users cannot override them
-- **Managed policy enforcement** — apply plugin policies across the whole deployment
-- **Audit log** — every plugin enable/disable/config change is recorded
-- **Harness tooling** — local development and testing of plugins
+- **Listing** - view installed plugins with manifest details in a resizable detail sidebar
+- **Forced enable / disable** - administrators can lock plugins on or off for all users
+- **Admin locks** - pin plugin settings so users cannot override them
+- **Managed policy enforcement** - apply plugin policies across the whole deployment
+- **Audit log** - every plugin enable/disable/config change is recorded
+- **Harness tooling** - local development and testing of plugins
 
 ## Themes
 

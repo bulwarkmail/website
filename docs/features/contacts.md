@@ -30,7 +30,7 @@ The contact detail view supports:
 - Filters for navigating between detail sections
 - Photo display with print support
 - Duplicate detection and merge actions
-- **Contact activity** — a dedicated component showing recent emails exchanged and upcoming calendar events for the contact
+- **Contact activity** - a dedicated component showing recent emails exchanged and upcoming calendar events for the contact
 
 ## Address Book Directories
 
