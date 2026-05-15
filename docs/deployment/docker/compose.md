@@ -8,6 +8,9 @@ order: 1
 
 Run Bulwark alongside Stalwart Mail Server using Docker Compose for a complete, self-contained email stack.
 
+> **First-launch note (1.6.4+)**
+> If you omit `JMAP_SERVER_URL` from the environment, the web setup wizard runs on first launch and configures the JMAP endpoint, OAuth, branding, and admin password through the browser - no need to author `.env.local` first.
+
 ## Basic Setup
 
 Create a `docker-compose.yml`:
@@ -88,27 +91,35 @@ services:
     restart: unless-stopped
 ```
 
-## Settings Sync Volume
-
-If you enable [settings sync](/docs/getting-started/configuration/environment-reference#settings_data_dir), mount a persistent volume so encrypted settings survive container restarts:
+## Persistent Volumes
 
 ```yaml
 services:
   bulwark:
     image: ghcr.io/bulwarkmail/webmail:latest
     environment:
+      # JMAP_SERVER_URL set here skips the setup wizard
       JMAP_SERVER_URL: http://stalwart:8080
       SESSION_SECRET: your-secret-key-here
       SETTINGS_SYNC_ENABLED: "true"
     volumes:
-      - bulwark-settings:/app/data/settings
+      - bulwark-settings:/app/data/settings    # encrypted user settings
+      - bulwark-config:/app/data/admin         # wizard / admin-managed config (1.6.4+)
+      - bulwark-state:/app/data/admin-state    # audit log, login timestamps (1.6.4+)
+      - bulwark-telemetry:/app/data/telemetry  # instance_id + consent
     # ...
 
 volumes:
   bulwark-settings:
+  bulwark-config:
+  bulwark-state:
+  bulwark-telemetry:
 ```
 
-The default `SETTINGS_DATA_DIR` is `./data/settings`, which resolves to `/app/data/settings` inside the container (the Dockerfile sets `WORKDIR /app`).
+- `SETTINGS_DATA_DIR` defaults to `./data/settings` → `/app/data/settings` in the container.
+- `ADMIN_CONFIG_DIR` defaults to `./data/admin` → `/app/data/admin`. After the setup wizard runs you may remount this `:ro` and set `ADMIN_CONFIG_READONLY=true`.
+- `ADMIN_STATE_DIR` defaults to `./data/admin-state` → `/app/data/admin-state`. Always read-write.
+- Legacy single-volume installs (`ADMIN_DATA_DIR`) are still honoured when neither split variable is set.
 
 ## Start the Stack
 

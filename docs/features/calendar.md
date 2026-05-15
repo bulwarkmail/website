@@ -8,6 +8,9 @@ order: 2
 
 Bulwark includes an integrated calendar powered by JMAP Calendars (RFC 8984) with server capability detection.
 
+<img class="theme-light-only" src="/screenshots/light-calendar.png" alt="Bulwark calendar month view" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar.png" alt="Bulwark calendar month view" width="2560" height="1440" />
+
 ## Views
 
 - **Month view** - Overview of the entire month with multi-day event spanning
@@ -23,6 +26,9 @@ Switch views with keyboard shortcuts: `M` (month), `W` (week), `D` (day), `A` (a
 The desktop calendar toolbar includes prev/next navigation buttons, a "Today" button, and a date label for quick date navigation without needing to interact with the mini-calendar.
 
 ## Creating Events
+
+<img class="theme-light-only" src="/screenshots/light-calendar-create.png" alt="Bulwark calendar event creation" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar-create.png" alt="Bulwark calendar event creation" width="2560" height="1440" />
 
 Click on any time slot or use the "New Event" button (`N` shortcut) to create an event:
 
@@ -101,7 +107,7 @@ Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars ap
 
 ## Real-time Updates
 
-Calendar state changes are pushed in real-time via JMAP EventSource - no manual refresh needed.
+Calendar state changes are pushed in real-time via JMAP push - no manual refresh needed. Push reconnects automatically across network blips and preserves any active search/filter state.
 
 ## Event Notifications
 

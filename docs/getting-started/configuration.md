@@ -6,18 +6,22 @@ order: 3
 
 # Configuration
 
-Bulwark is configured through runtime environment variables.
+Bulwark has two configuration surfaces that work together:
 
-The current app reads configuration from `.env.local` at runtime. In production, the recommended starting point is the app's `.env.example`, copied to `.env.local` and then customized for your deployment.
+1. The **web setup wizard** and **admin dashboard** (recommended for new installs since 1.6.4). The wizard runs on first launch when no `JMAP_SERVER_URL` is set in the environment, and writes JSON config to `ADMIN_CONFIG_DIR`. The admin dashboard manages the same config after setup.
+2. **Environment variables** in `.env.local` (or your container's env). Still fully supported, and the right choice for immutable / read-only / env-as-code deployments.
+
+When an environment variable is set, it takes precedence over the corresponding admin-managed value, so setting `JMAP_SERVER_URL` will hide that field from the wizard and lock it in the admin UI.
 
 ## Configuration Model
 
-Bulwark supports two configuration layers:
+Bulwark supports three configuration layers:
 
-- **Runtime variables** - The preferred approach. These are read by the server at request time and work well for Docker and reverse-proxy deployments.
-- **Legacy build-time variables** - Still supported as a fallback for older deployments, but new setups should prefer runtime variables.
+- **Admin-managed config** - Written by the setup wizard or the admin dashboard to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
+- **Runtime environment variables** - Read by the server at request time. Override admin-managed values. Work well for Docker and reverse-proxy deployments.
+- **Legacy build-time variables** - `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
 
-Runtime variables take precedence when both are set.
+The order of precedence is **env var > admin config > build-time fallback > built-in default**.
 
 ## Minimal Setup
 
@@ -60,9 +64,15 @@ JMAP_SERVER_URL=https://mail.example.com
 | `COOKIE_SECURE`               | No              | derived from env                          | Force `Secure` flag on cookies                                                             |
 | `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                    |
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)      |
-| `ADMIN_PASSWORD`              | No              | random on first start                     | Initial admin dashboard password                                                           |
-| `ADMIN_DATA_DIR`              | No              | `./data/admin`                            | Directory for admin config, plugin registry, audit log, and password hash                  |
+| `ADMIN_PASSWORD`              | No              | set via wizard or random on first start   | Initial admin dashboard password (overrides whatever the wizard wrote)                     |
+| `ADMIN_CONFIG_DIR`            | No              | `./data/admin`                            | Operator-authored: `config.json`, `policy.json`, `admin.json` (passwordHash), plugins, themes, branding uploads. Safe to mount read-only after setup |
+| `ADMIN_STATE_DIR`             | No              | `./data/admin-state`                      | Runtime: `admin-state.json` (login timestamps), `audit.log`, setup token. Always read-write |
+| `ADMIN_CONFIG_READONLY`       | No              | `false`                                   | Enforce read-only mode at the app layer (pair with `:ro` mount of the config volume)        |
+| `ADMIN_DATA_DIR`              | No              | -                                         | Legacy single dir used by pre-1.6.4 installs. Honoured when neither split var is set        |
 | `ADMIN_SESSION_TTL`           | No              | safe default                              | Admin session lifetime in seconds                                                          |
+| `BULWARK_TELEMETRY`           | No              | `on`                                      | Set to `off` to disable the anonymous daily heartbeat                                       |
+| `BULWARK_TELEMETRY_URL`       | No              | `https://telemetry.bulwarkmail.org/...`   | Point at your own collector, or clear to disable                                            |
+| `TELEMETRY_DATA_DIR`          | No              | `./data/telemetry`                        | Where the instance id and consent live; mount a volume to survive upgrades                   |
 | `TRUSTED_PROXY_DEPTH`         | No              | `1`                                       | Number of `X-Forwarded-For` hops to trust                                                  |
 | `EXTENSION_DIRECTORY_URL`     | No              | empty                                     | Marketplace URL for browsing and installing plugins/themes                                 |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                        |
@@ -80,6 +90,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                             |
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                    |
 | `NEXT_PUBLIC_LOCALE_PREFIX`   | No              | safe default                              | Locale URL prefix mode: `always`, `as-needed`, or `never`                                  |
+| `NEXT_PUBLIC_BASE_PATH`       | Build-time      | empty                                     | Mount Bulwark under a subpath (e.g. `/webmail`) - read at build time by Next.js             |
 | `AUTO_SSO_ENABLED`            | No              | `false`                                   | Automatically start OAuth flow on login page (for embedded SSO)                            |
 | `ALLOWED_FRAME_ANCESTORS`     | No              | `'none'`                                  | CSP `frame-ancestors` value for iframe embedding                                           |
 | `NEXT_PUBLIC_PARENT_ORIGIN`   | No              | empty                                     | Origin of parent frame for postMessage validation                                          |

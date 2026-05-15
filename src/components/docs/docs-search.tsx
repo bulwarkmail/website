@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { Search, X, FileText, Hash, CornerDownLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -146,22 +147,24 @@ export function DocsSearch() {
     []
   );
 
-  if (!open) {
-    return (
-      <button
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-muted-foreground bg-muted/50 border border-border rounded-lg hover:bg-muted transition-colors"
-      >
-        <Search className="w-4 h-4" />
-        <span className="flex-1 text-left">Search docs...</span>
-        <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-medium bg-background border border-border rounded">
-          <span className="text-xs">⌘</span>K
-        </kbd>
-      </button>
-    );
+  const trigger = (
+    <button
+      onClick={() => setOpen(true)}
+      className="flex items-center gap-2 w-full px-3 py-2 text-sm text-muted-foreground bg-muted/50 border border-border rounded-lg hover:bg-muted transition-colors"
+    >
+      <Search className="w-4 h-4" />
+      <span className="flex-1 text-left">Search docs...</span>
+      <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-medium bg-background border border-border rounded">
+        <span className="text-xs">⌘</span>K
+      </kbd>
+    </button>
+  );
+
+  if (!open || typeof document === "undefined") {
+    return trigger;
   }
 
-  return (
+  const modal = (
     <>
       <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm" onClick={close} />
       <div className="fixed inset-x-0 top-[10%] z-[110] mx-auto w-full max-w-lg px-4">
@@ -285,6 +288,13 @@ export function DocsSearch() {
           )}
         </div>
       </div>
+    </>
+  );
+
+  return (
+    <>
+      {trigger}
+      {createPortal(modal, document.body)}
     </>
   );
 }

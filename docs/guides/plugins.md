@@ -10,11 +10,22 @@ Bulwark includes an extensible plugin system that lets administrators add custom
 
 ## Lifecycle
 
-1. **Install** - Upload a plugin ZIP from the admin dashboard, or install from the [extension marketplace](/docs/guides/marketplace).
-2. **Validate** - On upload, Bulwark scans the plugin code for dangerous JavaScript patterns. Plugins that fail validation are rejected.
+1. **Install** - Upload a plugin ZIP from the admin dashboard, or install from the [extension marketplace](/docs/guides/marketplace). Install and uninstall are restricted to the admin dashboard since 1.6.2.
+2. **Validate** - On upload, Bulwark scans the plugin code for dangerous JavaScript patterns and an admin policy check. Plugins that fail validation are rejected.
 3. **Disabled by default** - Newly installed plugins are inert until an admin explicitly enables them. This prevents drive-by execution if someone gains write access to the registry directory.
-4. **Configure** - The admin form is generated from the plugin's config schema. Changes take effect immediately.
-5. **Run** - Enabled plugins load into the host app, can register slot renderers and intercept hooks, and can call out to external services through the sandboxed HTTP proxy.
+4. **Configure** - The admin form is generated inline from the plugin's config schema. Changes take effect immediately.
+5. **Run** - Enabled plugins load into the host app, can register slot renderers and intercept hooks, and can call out to external services through the sandboxed HTTP proxy or with the `http:fetch` permission via declared `httpOrigins`.
+
+## Development Workflow
+
+Plugins can be developed with hot-reload outside the registry:
+
+- Set `PLUGIN_DEV_DIR=/path/to/plugins-src` to load plugins from a folder during development.
+- Bulwark bundles the plugin's `src/` on demand with **esbuild** - no separate build step required.
+- Hot-reload picks up changes without restarting the container.
+- The plugin appears alongside registry plugins in the admin dashboard and can be enabled the same way.
+
+The `repos/subway-surfers` directory in the webmail repository is the reference example for the `composer-sidebar` slot.
 
 ## Slots
 
@@ -23,28 +34,40 @@ Plugins render into named UI slots. Available slots include:
 | Slot                    | Where                                | Permission            |
 | ----------------------- | ------------------------------------ | --------------------- |
 | `calendar-event-action` | Action button row on calendar events | `ui:calendar-event`   |
-| `composer-sidebar`      | Left panel of the New Message dialog | `ui:composer-sidebar` |
+| `composer-sidebar`      | Side panel of the New Message dialog | `ui:composer-sidebar` |
+| `email-banner`          | Banner row above the email viewer    | `ui:email-banner`     |
+| `email-footer`          | Footer row below the email viewer    | `ui:email-footer`     |
+| `sidebar-widget`        | Embed a small widget in the sidebar  | `ui:sidebar-widget`   |
+| `settings-section`      | Add a section to the settings page   | `ui:settings-section` |
+| `navigation-rail`       | Add an entry to the navigation rail  | `ui:navigation-rail`  |
+| `context-menu`          | Inject items into context menus      | `ui:context-menu`     |
+| `composer-toolbar`      | Add buttons to the composer toolbar  | `ui:composer-toolbar` |
+| `toolbar`               | Add buttons to the global toolbar    | `ui:toolbar`          |
 
-The `composer-sidebar` slot was added in 1.5.2; see `repos/subway-surfers` for an example plugin.
+See `repos/subway-surfers` for a `composer-sidebar` example plugin.
 
 ## Hooks
 
 Plugins can register both render and intercept hooks:
 
-- **Render hooks** - render content into a slot when the host requests it
+- **Render hooks** - render content into a slot when the host requests it (the `email-banner` slot receives `EmailReadView`, which includes parsed auth results from SPF/DKIM/DMARC)
 - **Intercept hooks** - observe or transform user actions (send, reply, archive, etc.) before they execute
+- **`onBeforeEmailSend`** - hook into the outgoing send pipeline; the `OutgoingEmail` it receives exposes `fromEmail` so plugins can branch on identity
 - **`onAvatarResolve`** - provide a custom avatar URL for a sender; useful for company directory integrations
+- **`auth:observe`** - read auth lifecycle events (login, switch, logout) without touching credentials
 - **i18n API** - plugins ship their own translation bundles and can use the host's locale
 
-## HTTP Proxy
+## HTTP Proxy and `http:fetch`
 
 Plugin code runs in the browser. Direct cross-origin requests would either expose user credentials or be blocked by CORS. Bulwark solves this with a server-side HTTP proxy:
 
 - Plugins call `bulwark.http(...)` instead of `fetch`
-- The host validates the URL against the plugin's declared allowed origins
+- The host validates the URL against the plugin's declared `httpOrigins`
 - The proxy adds the credentials the plugin is permitted to use (if any), strips others, and forwards the request
 
 Authentication headers are never exposed to plugin code.
+
+The `http:fetch` permission combined with the `httpOrigins` manifest field declares which origins a plugin is allowed to call. The proxy enforces the allowlist server-side; plugins cannot escape it from the browser.
 
 ## `frameOrigins` and CSP
 
@@ -62,13 +85,24 @@ Each entry must be a strict `https://host` origin. The proxy reads the union of 
 
 ## Permissions
 
-Plugins declare permissions they need. Slots are gated on permissions:
+Plugins declare permissions they need. Common categories:
 
-- `ui:calendar-event` - render in the calendar event slot
-- `ui:composer-sidebar` - render in the composer sidebar slot
-- `http:<origin>` - outbound HTTP to a specific origin via the proxy
+- `email:read`, `email:write`, `email:send`
+- `calendar:read`, `calendar:write`
+- `contacts:read`, `contacts:write`
+- `files:read`, `files:write`
+- `identity:read`, `identity:write`
+- `filters:read`, `filters:write`
+- `tasks:read`, `tasks:write`
+- `templates:read`, `templates:write`
+- `smime:read`
+- `vacation:read`, `vacation:write`
+- `settings:read`, `security:read`
+- `auth:observe`
+- `ui:*` slot permissions (`ui:toolbar`, `ui:email-banner`, `ui:email-footer`, `ui:composer-toolbar`, `ui:composer-sidebar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:keyboard`, `ui:calendar-event`)
+- `http:fetch` paired with `httpOrigins` for outbound HTTP via the proxy
 
-Admins can review the requested permissions when enabling a plugin.
+Admins can review the requested permissions when enabling a plugin. Settings sub-results in the settings sidebar fulltext search expose plugin settings directly.
 
 ## Admin Dashboard
 

@@ -8,19 +8,26 @@ order: 1
 
 Bulwark provides a full-featured email experience powered by the JMAP protocol.
 
+<img class="theme-light-only" src="/screenshots/light-viewer.png" alt="Bulwark mail reading view" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-viewer.png" alt="Bulwark mail reading view" width="2560" height="1440" />
+
 ## Inbox & Folders
 
-- Three-pane layout (sidebar, email list, viewer) with configurable mail layout settings
+- Three selectable mail layouts: **split** (three-pane), **focused list**, and **reading pane at bottom** - configurable per user
 - Hierarchical mailbox display with unread counts
 - Unread filter toggle in the mailbox sidebar
 - Drag-and-drop email organization between folders
 - Archive actions with configurable archive organization modes (single folder, year folders, or year/month folders)
-- Virtual scrolling for large email lists
+- Virtual scrolling for large email lists with prefetching of initial email data on login
 - Infinite scroll pagination
 - Empty folder action for Junk and Trash mailboxes (with confirmation)
 - Hover actions with configurable quick-action buttons for common operations
 - Attachment position setting (top or bottom of email viewer)
 - Answered and forwarded email status indicators
+- `.eml` file import via folder right-click menu
+- Right-click context menu on the folders sidebar with folder management actions
+- Mailbox context menu header shows the full path with intelligent path shortening
+- Unified mailbox view across all connected accounts (toggleable from the sidebar)
 
 ## Composing
 
@@ -29,16 +36,19 @@ The rich text editor supports:
 - **Formatting** - Bold, italic, underline, strikethrough
 - **Lists** - Ordered and unordered lists
 - **Links** - Inline hyperlinks
+- **Tables** - Insert and edit tables in rich-text emails
 - **Block quotes** and **code blocks**
-- **Attachments** - Drag-and-drop file attachments
-- **Inline images** - Paste or drag images directly, with resizable image component
+- **Attachments** - Drag-and-drop file attachments and forgotten-attachment warning (detects attachment keywords in the body before send)
+- **Inline images** - Paste or drag images directly; embedded as data URLs to prevent duplicate attachments. Resizable image component for fine-tuning dimensions
 - **Image upload** - Rich text editor supports direct image upload
-- **Signatures** - Multiple per-identity signatures
+- **Signatures** - Multiple per-identity signatures, with configurable position **above** or **below** quoted text (per identity, searchable from the email behavior settings)
 - **Templates** - Reusable email templates with placeholder variables
 - **Identity selection** - Choose sender identity from dropdown with auto-select reply identity
+- **From-header override** - Override the sender from the composer; combined with the catch-all auto-reply, replies to an alias on a domain you own auto-fill the alias as the sender even when it isn't a configured identity
 - **Reply-to addresses** - Configure reply-to addresses in the composer
 - **Plain text mode** - Optional plain text-only composer mode
 - **Conversation threading** - Optional toggle to disable conversation threading
+- **Auto-add trusted senders** - When you reply to someone, Bulwark adds them to your trusted senders so future mail loads images automatically
 
 ### Keyboard Shortcut
 
@@ -47,22 +57,24 @@ Press `C` anywhere in the app to open the compose window.
 ## Reading
 
 - Threaded conversation view with inline expansion
-- Iframe-based HTML rendering with smart dark mode transformation
-- Optional "Always Show Emails in Light Mode" setting for problematic HTML mail in dark theme
+- Iframe-based HTML rendering with smart dark mode transformation (and preserved emoji colors)
+- Optional "Always Show Emails in Light Mode" setting for problematic HTML mail in dark theme; per-email toggle is respected
 - DOMPurify sanitization for security
-- External content blocked by default with per-sender trust
+- External content blocked by default with per-sender trust; redesigned external-mail banner above attachments
 - SPF/DKIM/DMARC status indicators with security tooltips
 - TNEF (`winmail.dat`) detection and extraction for Outlook rich-text bodies and attachments
 - Embedded message/rfc822 attachment unwrapping with enhanced HTML body validation
-- S/MIME status banners for encrypted and signed messages, including unlock prompts for protected keys
-- Download or preview attachments
+- S/MIME status banners for encrypted and signed messages, including unlock prompts for protected keys; redesigned to match the calendar invitation banner
+- Download, preview, or **drag attachments out** of the viewer to the local file system; image attachments show thumbnails and preview chips
 - Reply, reply-all, and forward actions
-- Quick reply form
+- Quick reply form (redesigned to match the sender/banner layout)
 - Expandable email headers with contact sidebar
 - Move-to mailbox directly from the viewer
 - Newsletter unsubscribe support (RFC 2369)
 - Mobile bottom action bar with reply and navigation controls
 - Auto-fetch full email content when a message is auto-selected
+- PDF preview rendered via `<object>` with `blob:` source (closes on Escape before the email viewer)
+- Print the email directly from the viewer
 
 ## Search
 

@@ -16,6 +16,8 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 - **App-name everywhere** - Browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
 - **Service worker** - Registered automatically; caches the app shell.
 - **Install prompt** - A friendly in-app prompt suggests installation. Users can dismiss it, and there is a "don't remind me again" option.
+- **Web push notifications** - When the user grants permission, Bulwark subscribes to web push and surfaces new-inbox-mail notifications even when the tab is closed. Clicking the notification opens the message. New-mail notifications are scoped to genuine inbox deliveries (not flag changes).
+- **Update detection** - The service worker detects the changed app shell on the next load and refreshes the cache. Bulwark additionally performs a server-side update check on startup and shows a non-dismissible in-app update notice when a new release is available.
 
 ## Configuration
 
@@ -61,6 +63,17 @@ The prompt also shows the app's name and logo so users see your branding (not "B
 
 The service worker is served from `/sw.js` and registered on first load. It precaches the app shell and serves it on subsequent visits, which makes navigation between pages fast even on slow networks. Mail data itself is always fetched fresh from the JMAP server.
 
+## Web Push Notifications
+
+When the user grants notification permission, Bulwark subscribes the browser to web push and uses the JMAP push verification handshake to receive real-time new-mail pings. Notifications:
+
+- Fire only on **genuine inbox deliveries**, not on flag changes or moves
+- Click to jump directly to the message
+- Survive the tab being closed - the service worker handles delivery in the background
+- Use the longer push verification timeout to avoid spurious unsubscriptions; leftover subscriptions are cleaned up automatically
+
+If you self-host behind a reverse proxy, keep the `/api/push/*` and `/sw.js` paths reachable so the verification handshake can complete.
+
 ## Reverse Proxy Notes
 
 If Bulwark sits behind a reverse proxy, make sure these paths are forwarded as-is:
@@ -74,7 +87,9 @@ The service worker lives at the site root by design. If you serve Bulwark from a
 
 ## Updates
 
-When a new Bulwark version is deployed, the service worker detects the changed app shell and refreshes the cache on the next load. No manual cache busting is needed. Bulwark also performs a server-side version check on startup that logs to stderr when a newer release is available.
+When a new Bulwark version is deployed, the service worker detects the changed app shell and refreshes the cache on the next load. No manual cache busting is needed.
+
+Bulwark additionally performs a **server-side update check on startup** that logs to stderr and surfaces an **in-app, non-dismissible update notice** when a newer release is available. The notice provides a one-click refresh that picks up the new service worker; in dev it dynamically reloads without a full page navigation.
 
 ## Troubleshooting
 

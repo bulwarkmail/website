@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDocBySlug, getAllDocs, getDocSections } from "@/lib/docs";
 import { CopyableCode } from "@/components/docs/copyable-code";
-import { ChevronRight, Pencil } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronRight, Pencil } from "lucide-react";
 import type { Metadata } from "next";
 
 const GITHUB_EDIT_URL = "https://github.com/bulwarkmail/website/edit/main/docs";
@@ -53,28 +53,28 @@ export default async function DocPage({ params }: PageProps) {
     sections.find((s) => s.slug === doc.section)?.label ?? doc.section;
 
   return (
-    <article>
+    <article className="max-w-[760px]">
       {/* Breadcrumb */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-6">
-        <div className="flex items-center gap-1.5 text-sm text-muted-foreground flex-wrap">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-8">
+        <div className="ed-eyebrow flex items-center gap-2 flex-wrap">
           <Link href="/docs" className="hover:text-foreground transition-colors">
             Docs
           </Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="capitalize">{sectionLabel}</span>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-foreground font-medium">{doc.title}</span>
+          <ChevronRight className="w-3 h-3 opacity-60" />
+          <span>{sectionLabel}</span>
+          <ChevronRight className="w-3 h-3 opacity-60" />
+          <span className="text-foreground">{doc.title}</span>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-xs text-muted-foreground hidden sm:inline">Found an error?</span>
           <a
             href={`${GITHUB_EDIT_URL}/${slugStr}.md`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground border border-border rounded-md hover:bg-muted/50 transition-colors"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground border border-[color:var(--rule)] hover:border-foreground/40 transition-colors"
+            style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace", letterSpacing: "0.04em" }}
           >
             <Pencil className="w-3 h-3" />
-            Edit
+            Edit on GitHub
           </a>
         </div>
       </div>
@@ -83,34 +83,37 @@ export default async function DocPage({ params }: PageProps) {
       <CopyableCode html={doc.html} />
 
       {/* Prev/Next navigation */}
-      <nav className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between gap-3 sm:gap-4">
-        {prev ? (
-          <Link
-            href={`/docs/${prev.slug}`}
-            className="group flex flex-col px-4 py-3 rounded-lg border border-border hover:border-primary/30 transition-colors"
-          >
-            <span className="text-xs text-muted-foreground mb-1">Previous</span>
-            <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
-              ← {prev.title}
-            </span>
-          </Link>
-        ) : (
-          <div />
-        )}
-        {next ? (
-          <Link
-            href={`/docs/${next.slug}`}
-            className="group flex flex-col items-end px-4 py-3 rounded-lg border border-border hover:border-primary/30 transition-colors"
-          >
-            <span className="text-xs text-muted-foreground mb-1">Next</span>
-            <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
-              {next.title} →
-            </span>
-          </Link>
-        ) : (
-          <div />
-        )}
-      </nav>
+      {(prev || next) && (
+        <nav className="mt-16 pt-8 border-t border-[color:var(--rule)] flex">
+          <div className="flex-1">
+            {prev && (
+              <Link
+                href={`/docs/${prev.slug}`}
+                className="group flex flex-col px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors"
+              >
+                <span className="ed-eyebrow mb-2">Previous</span>
+                <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
+                  <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden /> {prev.title}
+                </span>
+              </Link>
+            )}
+          </div>
+          {prev && next && <div className="w-px bg-[color:var(--rule)]" />}
+          <div className="flex-1 flex justify-end">
+            {next && (
+              <Link
+                href={`/docs/${next.slug}`}
+                className="group flex flex-col items-end px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors text-right"
+              >
+                <span className="ed-eyebrow mb-2">Next</span>
+                <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
+                  {next.title} <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
+                </span>
+              </Link>
+            )}
+          </div>
+        </nav>
+      )}
     </article>
   );
 }

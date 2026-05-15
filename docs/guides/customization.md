@@ -6,11 +6,18 @@ order: 1
 
 # Customization
 
-Bulwark is designed to be easily customizable to match your brand.
+Bulwark is designed to be easily customizable to match your brand. Branding can be configured three ways:
+
+- **Setup wizard (1.6.4+)** - First-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
+- **Admin dashboard** - Update branding at any time after setup without restarting.
+- **Environment variables** - Lock branding via env-driven config (overrides admin-managed values).
 
 ## Theming
 
 Bulwark uses CSS custom properties for theming. Override them to change colors across the entire application.
+
+<img class="theme-light-only" src="/screenshots/light-themes.png" alt="Bulwark theme settings" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-themes.png" alt="Bulwark theme settings" width="2560" height="1440" />
 
 ### Light Theme Variables
 
@@ -165,8 +172,8 @@ Users can customize their experience from the Settings page. Settings are organi
 - **Theme** - Light, dark, or system
 - **Always show emails in light mode** - Avoid dark-mode color transformation for problematic HTML mail
 - **Toolbar position** - Top or below subject
-- **Mail layout** - Configure email list and viewer layout
-- **Hover actions** - Choose which quick-actions appear and their placement
+- **Mail layout** - Choose between split (three-pane), focused list, and reading pane at bottom
+- **Hover actions** - Choose which quick-actions appear and their placement (with avatar in Focused list for compact density and above)
 - **Sidebar apps** - Reorder, pin, or hide each app; mobile visibility toggle per app
 - **Account switcher visibility** - Hide or show the account switcher in the sidebar
 - **Account avatars** - Show account avatars on the navigation rail
@@ -193,6 +200,9 @@ Users can customize their experience from the Settings page. Settings are organi
 - **Composer mode** - Rich text or plain text only
 - **Auto-select reply identity** - Match reply identity to original recipient
 - **Reply-to addresses** - Configure reply-to in the composer
+- **Signature position** - Above or below quoted text, per identity (searchable from settings)
+- **From-header override** - Allow overriding the From header in the composer for catch-all aliases
+- **Sub-addressing delimiter** - Customize the character separating user and tag in plus-addressing (`user+tag@…`)
 - **External content** - Ask, block, or allow by default
 - **Forgotten attachment warning** - Detect attachment-related keywords in the body and warn before send
 - **Default mail program** - Register Bulwark as the system mail handler

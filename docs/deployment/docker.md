@@ -14,7 +14,22 @@ Two release channels are available as separate GHCR packages:
 | ------------------------------------ | ------- | ------------------- |
 | `ghcr.io/bulwarkmail/webmail:latest` | Stable  | `main` branch tags  |
 | `ghcr.io/bulwarkmail/webmail:dev`    | Dev     | `dev` branch builds |
-| `ghcr.io/bulwarkmail/webmail:1.5.2`  | Pinned  | Specific release    |
+| `ghcr.io/bulwarkmail/webmail:1.6.4`  | Pinned  | Specific release    |
+
+## First-Launch Setup Wizard
+
+Since 1.6.4 you don't need to write `.env.local` before the first start - launch the container with persistent volumes for `ADMIN_CONFIG_DIR` and `ADMIN_STATE_DIR`, then open the URL and the web setup wizard takes you through JMAP, OAuth, branding, and admin password. The wizard persists everything to `ADMIN_CONFIG_DIR/config.json`. After setup the config volume can optionally be remounted read-only (drop a `.config-locked` marker from the wizard or set `ADMIN_CONFIG_READONLY=true`).
+
+```bash
+docker run -d --name bulwark \
+  -p 3000:3000 \
+  -v bulwark-config:/app/data/admin \
+  -v bulwark-state:/app/data/admin-state \
+  ghcr.io/bulwarkmail/webmail:latest
+# Open http://localhost:3000 and follow the wizard
+```
+
+Setting `JMAP_SERVER_URL` in the environment skips the wizard - use that path when you want env-driven configuration.
 
 ## Using Docker
 
@@ -138,15 +153,31 @@ docker compose up -d
 
 ## Persistent Volumes
 
-Bulwark stores two kinds of state on disk. Mount persistent volumes for both if you want them to survive container restarts.
+Bulwark stores three kinds of state on disk. Mount persistent volumes for each if you want them to survive container restarts.
 
 ### Settings sync (`SETTINGS_DATA_DIR`)
 
 Encrypted per-account user preferences. Required only when `SETTINGS_SYNC_ENABLED=true`. Default: `./data/settings` → `/app/data/settings` in the container.
 
-### Admin data (`ADMIN_DATA_DIR`)
+### Admin config (`ADMIN_CONFIG_DIR`) - new in 1.6.4
 
-Admin password hash, plugin/theme registry, plugin configs, runtime config overrides, and audit log. Default: `./data/admin` → `/app/data/admin` in the container. Without this volume, admin state (including the password) is lost on container recreation and a new random admin password is generated and logged on next start.
+Operator-authored state written by the setup wizard and the admin dashboard: `config.json`, `policy.json`, `admin.json` (passwordHash only), `plugin-config/`, `plugins/`, `themes/`, and uploaded branding assets. Default: `./data/admin` → `/app/data/admin` in the container.
+
+After the setup wizard completes, this volume can optionally be mounted **read-only** for immutable deployments. Pair with `ADMIN_CONFIG_READONLY=true` so the app produces a clean error instead of an EROFS halfway through a write.
+
+### Admin runtime state (`ADMIN_STATE_DIR`) - new in 1.6.4
+
+Runtime mutations that must always stay writable: `admin-state.json` (login timestamps), `audit.log`, and the bootstrap setup token. Default: `./data/admin-state` → `/app/data/admin-state` in the container.
+
+### Telemetry state (`TELEMETRY_DATA_DIR`)
+
+Random `instance_id`, admin consent choice, HMAC'd login fingerprints. Default: `./data/telemetry` → `/app/data/telemetry`. Mount this so the consent and instance id survive image upgrades. Set `BULWARK_TELEMETRY=off` to disable the heartbeat entirely.
+
+### Legacy single-volume installs (`ADMIN_DATA_DIR`)
+
+Pre-1.6.4 installs used a single `ADMIN_DATA_DIR` volume containing both config and state. That variable is still honoured when neither split variable is set - existing installs keep working without migration.
+
+### Example
 
 ```yaml
 bulwark:
@@ -159,7 +190,10 @@ bulwark:
     EXTENSION_DIRECTORY_URL: https://extensions.bulwarkmail.org
   volumes:
     - bulwark-settings:/app/data/settings
-    - bulwark-admin:/app/data/admin
+    - bulwark-config:/app/data/admin # rw during setup
+    # - bulwark-config:/app/data/admin:ro       # ro after setup
+    - bulwark-state:/app/data/admin-state
+    - bulwark-telemetry:/app/data/telemetry
 ```
 
 ## Reverse Proxy
@@ -198,6 +232,26 @@ server {
 }
 ```
 
+## Subpath Deployment
+
+To serve Bulwark from a URL prefix like `https://example.com/webmail`, set `NEXT_PUBLIC_BASE_PATH` at **build time** (Next.js bakes it into asset URLs) and build your own image:
+
+```bash
+docker build --build-arg NEXT_PUBLIC_BASE_PATH=/webmail -t bulwark-webmail .
+```
+
+Then run with the matching locale prefix mode:
+
+```yaml
+bulwark:
+  image: bulwark-webmail
+  environment:
+    JMAP_SERVER_URL: http://stalwart:8080
+    NEXT_PUBLIC_LOCALE_PREFIX: always
+```
+
+Do **not** strip the prefix at the proxy - the container expects requests under `/webmail/...` and serves all routes (`/webmail/api/...`, `/webmail/_next/static/...`, `/webmail/sw.js`, etc.) accordingly.
+
 ## Health Check
 
-Bulwark exposes a health check endpoint at `/api/health`. Use it in your Docker or orchestration health checks.
+Bulwark exposes a health check endpoint at `/api/health`. Use it in your Docker or orchestration health checks. The health endpoint includes detailed memory diagnostics and a stable liveness probe.

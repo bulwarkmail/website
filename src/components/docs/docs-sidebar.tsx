@@ -239,13 +239,13 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
   }, [pathname]);
 
   const sidebar = (
-    <nav className="space-y-6">
+    <nav className="space-y-7">
       <div className="px-1">
         <DocsSearch />
       </div>
       {sections.map((section) => (
         <div key={section.slug}>
-          <h4 className="px-3 mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+          <h4 className="ed-eyebrow px-3 mb-2.5">
             {section.label}
           </h4>
           <ul className="space-y-0.5">
@@ -282,7 +282,7 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:hidden fixed inset-y-0 left-0 z-40 w-[280px] max-w-[85vw] bg-background border-r border-border overflow-y-auto pt-14 pb-8 flex flex-col"
+              className="lg:hidden fixed inset-y-0 left-0 z-40 w-[280px] max-w-[85vw] bg-background border-r border-[color:var(--rule)] overflow-y-auto pt-[66px] pb-8 flex flex-col"
             >
               {/* Close header */}
               <div className="flex items-center justify-between px-4 py-2.5 border-b border-border shrink-0">
@@ -304,7 +304,7 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
       </AnimatePresence>
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-64 shrink-0 sticky top-14 min-h-[calc(100vh-3.5rem)] pb-8 pr-2 self-start">
+      <aside className="hidden lg:block w-64 xl:w-72 shrink-0 sticky top-[66px] max-h-[calc(100vh-66px)] overflow-y-auto py-10 sm:py-14 pr-4 self-start border-r border-[color:var(--rule)]">
         {sidebar}
       </aside>
     </>

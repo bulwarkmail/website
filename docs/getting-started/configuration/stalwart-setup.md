@@ -55,6 +55,12 @@ permissive-cors = true
 
 Bulwark automatically detects CORS misconfiguration and displays detailed error messages to help with setup.
 
+## Configuring with the Setup Wizard
+
+If you are running Bulwark 1.6.4 or newer and don't have `JMAP_SERVER_URL` set in the environment, the first-launch web setup wizard probes the JMAP server for you. Paste the URL, the wizard validates that `.well-known/jmap` returns a usable session, asks for explicit confirmation when no session is found, and offers an **OAuth auto-setup** dialog that validates origin and issuer URLs against your Stalwart instance end-to-end.
+
+For env-driven deployments, set `JMAP_SERVER_URL` and the wizard is skipped.
+
 ## Stalwart-Specific Features
 
 When connected to Stalwart 0.16+, Bulwark enables additional features that depend on Stalwart's JMAP `x:` methods:
@@ -68,7 +74,7 @@ When connected to Stalwart 0.16+, Bulwark enables additional features that depen
 - **Display name management** - Update display name from settings
 - **Storage quota display** - Show account storage usage
 - **Identity sync** - Identities are kept in sync with the server via JMAP
-- **Admin panel** - Reorganized dashboard with dedicated policy sections, plugin and theme management with forced enable/disable controls, IP allowlists, and audit logs
+- **Admin panel** - Single tabbed page with dedicated policy sections, plugin and theme management with forced enable/disable controls, IP allowlists, OAuth auto-setup, and audit logs
 
 The corresponding Stalwart permissions to enable for these features are documented in [Account Security](/docs/guides/account-security).
 
@@ -94,4 +100,8 @@ Verify JMAP is working:
 curl -s https://your-stalwart-server.com/.well-known/jmap | jq .
 ```
 
-You should see a JMAP session resource with capabilities listed.
+You should see a JMAP session resource with capabilities listed. The setup wizard performs the same probe and will require explicit confirmation if no session is returned.
+
+## Multi-Server Deployments
+
+Bulwark supports pointing a single deployment at multiple JMAP servers - useful for organisations running shards by domain. Set `JMAP_SERVER_URL` to a comma-separated list, or add servers from the **Server** step of the setup wizard. The login form auto-picks the server by email domain when possible; users can still pick manually.

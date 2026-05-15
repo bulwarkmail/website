@@ -6,23 +6,34 @@ order: 9
 
 # Admin Dashboard
 
-The admin dashboard is Bulwark's control plane. It runs alongside the user-facing app and gives administrators a single place to manage runtime configuration, plugins and themes, the extension marketplace, Stalwart API keys, app password IP allowlists, and audit logs.
+The admin dashboard is Bulwark's control plane. It runs alongside the user-facing app and gives administrators a single place to manage runtime configuration, plugins and themes, the extension marketplace, Stalwart API keys, app password IP allowlists, and audit logs. In 1.6.2 it was collapsed into a single tabbed page so all admin tasks live behind one URL.
 
 ## First-Time Setup
 
-On first startup, Bulwark generates a random admin password and logs it to stdout. Set `ADMIN_PASSWORD` in your environment so you can pick a known password and ensure it survives restarts:
+On 1.6.4 and newer the **web setup wizard** runs on first launch and provisions the initial admin password (along with JMAP, OAuth, branding, and the session secret). Just point a browser at the running container and follow the steps; nothing has to be set in `.env.local` first.
+
+Setting `ADMIN_PASSWORD` in the environment **overrides** whatever the wizard wrote, and is the right path for env-driven deployments.
+
+## Admin Storage Split (1.6.4)
+
+Admin data is now split across two directories so the operator-authored config volume can be remounted read-only after the wizard completes:
 
 ```env
-ADMIN_PASSWORD=replace-with-a-strong-admin-password
-ADMIN_DATA_DIR=/app/data/admin
+ADMIN_CONFIG_DIR=/app/data/admin        # config.json, policy.json, plugins, themes, branding uploads
+ADMIN_STATE_DIR=/app/data/admin-state   # audit log, login timestamps, setup token
+ADMIN_CONFIG_READONLY=true              # optional: produce clean errors instead of EROFS
 ```
 
-Also mount `ADMIN_DATA_DIR` as a persistent volume so the password hash, plugin registry, runtime config overrides, and audit log survive container recreation. Without a persisted volume, every restart generates a new random admin password.
+Both default to subdirectories of `./data`. Existing pre-1.6.4 installs using the legacy single `ADMIN_DATA_DIR` continue to work without migration.
 
 ```yaml
 volumes:
-  - bulwark-admin:/app/data/admin
+  - bulwark-config:/app/data/admin            # rw during setup
+  # - bulwark-config:/app/data/admin:ro       # ro after the wizard completes
+  - bulwark-state:/app/data/admin-state       # always rw
 ```
+
+Without a persisted volume, every restart loses the password hash and a new random admin password is generated and logged.
 
 ## Signing In
 
@@ -43,10 +54,10 @@ Health summary, version, last successful update check, plugin and theme counts, 
 
 ### Configuration
 
-Override runtime config without redeploying. The admin dashboard writes to `data/admin/config.json`, which takes precedence over environment variables for these keys:
+Override runtime config without redeploying. The admin dashboard writes to `ADMIN_CONFIG_DIR/config.json` (same file the setup wizard populates). Admin-managed values fill these keys:
 
 - `appName`
-- `jmapServerUrl`
+- `jmapServerUrl` (single URL, or comma-separated list for multi-server)
 - `oauthEnabled`, `oauthOnly`, `oauthClientId`, `oauthIssuerUrl`
 - `stalwartFeaturesEnabled`
 - `settingsSyncEnabled`
@@ -57,23 +68,26 @@ Override runtime config without redeploying. The admin dashboard writes to `data
 - `allowCustomJmapEndpoint`
 - `autoSsoEnabled`
 
-This means you can re-brand or flip a feature on without restarting the container. Changes take effect on the next user session.
+Order of precedence: **env var > admin config > legacy build-time fallback > built-in default**. This means a value set in `.env.local` locks that field in the admin UI; clearing the env var lets the wizard / admin dashboard manage it again. Changes from the admin UI take effect on the next user session without a restart.
 
 ### Plugins
 
-- Browse the [marketplace](/docs/guides/marketplace) (when `EXTENSION_DIRECTORY_URL` is set) or upload ZIPs directly.
+- Browse the [marketplace](/docs/guides/marketplace) (when `EXTENSION_DIRECTORY_URL` is set) or upload ZIPs directly. **Install and uninstall are restricted to the admin dashboard** (1.6.2+).
 - Force-enable or force-disable plugins for all users.
 - Lock plugin settings (admin locks) so users cannot override them.
 - Apply managed policy across the whole deployment.
-- Review each plugin's manifest, declared permissions, and `frameOrigins`.
+- Review each plugin's manifest, declared permissions, `frameOrigins`, and `httpOrigins`.
+- Inline plugin config panel - configure without leaving the page.
+- Hot-reload and `PLUGIN_DEV_DIR` dev-folder loading for live plugin development (esbuild bundles `src/` on demand).
 
 See [Plugins](/docs/guides/plugins) for the full architecture.
 
 ### Themes
 
-- Upload theme ZIP bundles.
+- Upload theme ZIP bundles. **Install and uninstall are restricted to the admin dashboard** (1.6.2+).
 - Force-enable or force-disable themes.
 - Lock the theme (e.g., enforce a corporate dark theme).
+- Theme API v2 with token compiler and skin slot (1.5.3+).
 
 ### API Keys (Stalwart 0.16+)
 
@@ -96,7 +110,11 @@ Stalwart-specific policy areas surfaced in the dashboard, including authenticati
 
 ### OAuth Auto-Setup
 
-If your Stalwart server supports it, the dashboard offers OAuth auto-setup: a wizard validates origin and issuer URLs and configures the OAuth client end-to-end. Useful for getting SSO working without hand-editing config.
+If your Stalwart server supports it, the dashboard offers OAuth auto-setup: a dialog validates origin and issuer URLs and configures the OAuth client end-to-end. Useful for getting SSO working without hand-editing config.
+
+### Telemetry
+
+The **Anonymous usage stats** section shows the exact JSON the next heartbeat would send, lets you toggle telemetry on or off, fire a heartbeat immediately for testing, change the endpoint, and view "Last sent" timestamps. The env vars `BULWARK_TELEMETRY=off` and `BULWARK_TELEMETRY_URL=` override the UI toggle. See [Anonymous Usage Stats](/docs/features/telemetry) for the full schema.
 
 ## Behind a Reverse Proxy
 
@@ -118,7 +136,7 @@ The admin dashboard is part of the running Bulwark process. To restrict access:
 
 ### "Admin password reset on restart"
 
-You haven't mounted a persistent volume for `ADMIN_DATA_DIR`, so the password hash file is lost on container recreation. Mount the volume and (re)set `ADMIN_PASSWORD`.
+You haven't mounted a persistent volume for `ADMIN_CONFIG_DIR` (or `ADMIN_DATA_DIR` on legacy installs), so the password hash file is lost on container recreation. Mount the volume and either rerun the setup wizard or (re)set `ADMIN_PASSWORD`.
 
 ### "Account security / API keys / app password panels missing"
 

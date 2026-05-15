@@ -56,34 +56,40 @@ Every extension must include a `manifest.json` file in the repository root. The 
 
 ## Optional metadata
 
-| Field         | Description                                                                                                                                                  |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `author`      | GitHub username of the author. Defaults to the submitter.                                                                                                    |
-| `tags`        | Array of category tags. Allowed: `productivity`, `security`, `automation`, `appearance`, `integration`, `communication`, `developer-tools`, `accessibility`. |
-| `icon`        | Relative path to a square icon (128×128 PNG or SVG).                                                                                                         |
-| `screenshots` | Array of relative paths to screenshot images.                                                                                                                |
-| `homepage`    | URL to the extension's website or documentation.                                                                                                             |
+| Field          | Description                                                                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `author`       | GitHub username of the author. Defaults to the submitter.                                                                                                    |
+| `tags`         | Array of category tags. Allowed: `productivity`, `security`, `automation`, `appearance`, `integration`, `communication`, `developer-tools`, `accessibility`. |
+| `icon`         | Relative path to a square icon (128×128 PNG or SVG).                                                                                                         |
+| `screenshots`  | Array of relative paths to screenshot images.                                                                                                                |
+| `homepage`     | URL to the extension's website or documentation.                                                                                                             |
+| `frameOrigins` | Array of strict `https://host` origins the plugin needs to embed (merged into the host CSP `frame-src` only while the plugin is enabled).                    |
+| `httpOrigins`  | Array of `https://host` origins the plugin is allowed to call through the sandboxed HTTP proxy (requires the `http:fetch` permission).                       |
+
+> **Source assets**
+> When the directory ingests a submission, it pulls `icon`, banner, and `screenshots` straight from the source repo at the tag you submitted. There's no separate upload flow - keep these files inside your repository alongside `manifest.json`.
 
 ## Permissions
 
 Bulwark uses a declarative permission model. Each permission string takes the form `resource:action`. The directory shows these on the extension's listing so users can audit what an extension can do before installing.
 
-| Category  | Permissions                                                                                                                                                                   |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Email     | `email:read`, `email:write`, `email:send`                                                                                                                                     |
-| Calendar  | `calendar:read`, `calendar:write`                                                                                                                                             |
-| Contacts  | `contacts:read`, `contacts:write`                                                                                                                                             |
-| Files     | `files:read`, `files:write`                                                                                                                                                   |
-| Identity  | `identity:read`, `identity:write`                                                                                                                                             |
-| Filters   | `filters:read`, `filters:write`                                                                                                                                               |
-| Tasks     | `tasks:read`, `tasks:write`                                                                                                                                                   |
-| Templates | `templates:read`, `templates:write`                                                                                                                                           |
-| S/MIME    | `smime:read`                                                                                                                                                                  |
-| Vacation  | `vacation:read`, `vacation:write`                                                                                                                                             |
-| Settings  | `settings:read`                                                                                                                                                               |
-| Security  | `security:read`                                                                                                                                                               |
-| UI        | `ui:toolbar`, `ui:email-banner`, `ui:email-footer`, `ui:composer-toolbar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:keyboard` |
-| Auth      | `auth:observe`                                                                                                                                                                |
+| Category  | Permissions                                                                                                                                                                                            |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Email     | `email:read`, `email:write`, `email:send`                                                                                                                                                              |
+| Calendar  | `calendar:read`, `calendar:write`                                                                                                                                                                      |
+| Contacts  | `contacts:read`, `contacts:write`                                                                                                                                                                      |
+| Files     | `files:read`, `files:write`                                                                                                                                                                            |
+| Identity  | `identity:read`, `identity:write`                                                                                                                                                                      |
+| Filters   | `filters:read`, `filters:write`                                                                                                                                                                        |
+| Tasks     | `tasks:read`, `tasks:write`                                                                                                                                                                            |
+| Templates | `templates:read`, `templates:write`                                                                                                                                                                    |
+| S/MIME    | `smime:read`                                                                                                                                                                                           |
+| Vacation  | `vacation:read`, `vacation:write`                                                                                                                                                                      |
+| Settings  | `settings:read`                                                                                                                                                                                        |
+| Security  | `security:read`                                                                                                                                                                                        |
+| UI        | `ui:toolbar`, `ui:email-banner`, `ui:email-footer`, `ui:composer-toolbar`, `ui:composer-sidebar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:keyboard`, `ui:calendar-event` |
+| Auth      | `auth:observe`                                                                                                                                                                                         |
+| HTTP      | `http:fetch` (paired with the `httpOrigins` manifest field to declare the allowlist)                                                                                                                   |
 
 ## Validation
 

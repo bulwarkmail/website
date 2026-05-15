@@ -10,13 +10,19 @@ The extension marketplace lets administrators browse and install plugins and the
 
 ## Configuration
 
-Set the extension directory URL in your environment:
+The extension directory URL defaults to `https://extensions.bulwarkmail.org`. Override only if you run your own directory or want to disable the marketplace:
 
 ```env
 EXTENSION_DIRECTORY_URL=https://extensions.bulwarkmail.org
+# Or override with your own catalog:
+# EXTENSION_DIRECTORY_URL=https://extensions.example.com
+# Or disable entirely:
+# EXTENSION_DIRECTORY_URL=
 ```
 
-When set, a **Marketplace** tab appears in the admin dashboard's plugin and theme management. When unset, the marketplace is hidden and admins manage plugins via direct ZIP upload only.
+When the URL resolves to a reachable directory, a **Marketplace** tab appears in the admin dashboard's plugin and theme management. When unset (or unreachable), the marketplace is hidden and admins manage plugins via direct ZIP upload only.
+
+**Install and uninstall are restricted to the admin dashboard** (since 1.6.2). Regular users cannot add or remove plugins or themes.
 
 ## Using the Marketplace
 

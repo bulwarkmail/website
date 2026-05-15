@@ -14,43 +14,20 @@ The default method. Users enter their email address and password, which are vali
 
 By default, Bulwark uses session-based authentication with no password storage on the server for security. Credentials are held only in the browser session.
 
-Changing the Password via Bulwark Webmail
+### Changing the password from Bulwark
 
-Access Settings: Log into your Bulwark webmail. In the left-hand sidebar, look for the Account & Identity section and click on Security.
+1. Log into Bulwark.
+2. Open **Settings → Security → Change Password**.
+3. Enter the current password, then the new password twice.
+4. Click **Change Password**.
 
-Locate Change Password: On the "Account Security" dashboard, the first section is Change Password.
+If the section is missing or you receive an error, the administrator hasn't enabled the required Stalwart permissions. Required toggles in Stalwart:
 
-Enter Credentials:
+- **Modify user account information** - master switch for account changes.
+- **Manage account passwords** - allows password change via JMAP.
+- **Modify user identities via JMAP** / **Retrieve user identities via JMAP** / **Track identity changes via JMAP** - for identity sync in the composer.
 
-Current Password: Enter the password you are currently using.
-
-New Password: Enter your desired new password.
-
-Confirm New Password: Re-type the new password to ensure there are no typos.
-
-Save: Click the gray Change Password button.
-
-Note: If the "Change Password" section is missing or you receive an error, it is likely because the administrative permissions have not been enabled.
-
-To allow the password change to actually take effect via the webmail, the following permissions must be toggled to On in the Stalwart user/account settings:
-
-Account Information Permission
-
-This is the master switch for account-level changes.
-
-Locate the setting: Modify user account information.
-
-Action: Select the On radio button.
-
-JMAP Identity Permissions
-
-Since Bulwark often relies on the JMAP protocol to communicate with Stalwart, these specific identity toggles are crucial:
-
-Modify user identities via JMAP: Set to On.
-
-Retrieve user identities via JMAP: Set to On.
-
-Track identity changes via JMAP: Set to On.
+See [Account Security](/docs/guides/account-security) for the full permission matrix.
 
 ## OAuth 2.0 / OpenID Connect
 
@@ -120,7 +97,7 @@ The `SESSION_SECRET` is also required for settings sync and multi-account suppor
 
 ## Multi-Account Support
 
-Bulwark supports managing up to 5 email accounts simultaneously. Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
+Bulwark supports managing multiple email accounts simultaneously. The historical 5-account cap is lifted on HTTP/2 servers - on HTTP/1.1 the practical limit is set by the browser's per-origin connection pool (typically 6 parallel push streams). Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
 
 Multi-account requires `SESSION_SECRET` to persist sessions for each account:
 

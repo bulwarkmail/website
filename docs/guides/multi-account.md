@@ -1,12 +1,14 @@
 ---
 title: Multi-Account Support
-description: Manage up to 5 simultaneous email accounts in Bulwark.
+description: Manage multiple simultaneous email accounts in Bulwark.
 order: 6
 ---
 
 # Multi-Account Support
 
-Bulwark supports managing up to 5 simultaneous email accounts in a single browser session. Each account maintains its own JMAP session and per-account state, so switching is instant and nothing has to be re-fetched on a switch.
+Bulwark supports managing multiple simultaneous email accounts in a single browser session. Each account maintains its own JMAP session and per-account state, so switching is instant and nothing has to be re-fetched on a switch.
+
+The historical **5-account cap was lifted in 1.6.3** for HTTP/2 JMAP servers, which let Bulwark multiplex push streams over a single connection. On HTTP/1.1 the practical limit is set by the browser's per-origin connection pool - typically 6 parallel push streams across all accounts on the same origin.
 
 ## Requirements
 
@@ -81,13 +83,13 @@ You can use both: multiple accounts, each with multiple identities.
 
 ## Sub-addressing
 
-Identities support sub-addressing (`user+tag@domain.com`). When composing a reply, Bulwark suggests contextual tags based on the recipient. Sub-addressing also works with auto-select reply identity.
+Identities support sub-addressing (`user+tag@domain.com`). When composing a reply, Bulwark suggests contextual tags based on the recipient. Sub-addressing also works with auto-select reply identity. The delimiter character is **configurable** in mail settings (defaults to `+`, supports other commonly used separators like `-` for compatibility with mail servers that don't use `+`).
 
 ## Limits and Performance
 
-- **Maximum accounts** - 5 simultaneous accounts. The cap exists to keep memory and push connections bounded.
-- **Push connections** - One JMAP EventSource per account, established lazily on first switch.
-- **Session cookie size** - Per-account encrypted state fits within typical cookie size limits; very large refresh tokens may require server-side session storage. If you hit cookie size issues with many OAuth providers, contact support.
+- **Maximum accounts** - No hard cap on HTTP/2 servers; bounded by the browser's per-origin connection pool on HTTP/1.1 (typically 6 parallel push streams).
+- **Push connections** - One JMAP push stream per account, established lazily on first switch and multiplexed when the server supports HTTP/2.
+- **Session cookie size** - Per-account encrypted state fits within typical cookie size limits; very large refresh tokens may require server-side session storage. Each account gets its own `cookieSlot` so OAuth flows don't clobber each other.
 
 ## Troubleshooting
 

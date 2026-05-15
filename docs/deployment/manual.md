@@ -27,7 +27,9 @@ npm run build
 
 The build produces a standalone output in `.next/standalone` that includes all dependencies.
 
-### 2. Configure Environment
+### 2. Configure Environment (Optional)
+
+Since 1.6.4 the web setup wizard handles JMAP, OAuth, branding, and the admin password on first launch - you don't need to author `.env.local` unless you want env-driven, immutable configuration. To pre-seed configuration:
 
 ```bash
 cp .env.example .env.local
@@ -39,6 +41,8 @@ Set your JMAP endpoint and any other configuration:
 JMAP_SERVER_URL=https://mail.example.com
 APP_NAME=Bulwark
 ```
+
+Setting `JMAP_SERVER_URL` in the environment skips the wizard.
 
 ### 3. Run with PM2
 
@@ -67,11 +71,17 @@ Restart=on-failure
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=HOSTNAME=0.0.0.0
+# Split admin dirs (1.6.4+) - point at a writable user-owned location
+Environment=ADMIN_CONFIG_DIR=/var/lib/bulwark/admin
+Environment=ADMIN_STATE_DIR=/var/lib/bulwark/admin-state
+Environment=TELEMETRY_DATA_DIR=/var/lib/bulwark/telemetry
 EnvironmentFile=/opt/bulwark/.env.local
 
 [Install]
 WantedBy=multi-user.target
 ```
+
+Make sure the `www-data` user (or whichever user runs the service) owns the directories listed in `ADMIN_CONFIG_DIR`, `ADMIN_STATE_DIR`, and `TELEMETRY_DATA_DIR` so the setup wizard can write to them.
 
 Enable and start:
 

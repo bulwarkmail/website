@@ -8,7 +8,10 @@ order: 3
 
 This page documents every setting currently present in Bulwark's `.env.example` and a handful of additional advanced variables read by the app.
 
-All variables are evaluated at runtime, so Docker deployments can be reconfigured without rebuilding. Some are always available, some only affect optional features, and a few exist as compatibility fallbacks for older build-time deployments.
+All variables are evaluated at runtime, so Docker deployments can be reconfigured without rebuilding. Some are always available, some only affect optional features, and a few exist as compatibility fallbacks for older build-time deployments. The single exception is `NEXT_PUBLIC_BASE_PATH`, which Next.js bakes into asset URLs at build time.
+
+> **First-launch tip**
+> Most new installs no longer need to set environment variables by hand - launch the container without `JMAP_SERVER_URL` and the [web setup wizard](/docs/getting-started/installation#quickest-path-docker--setup-wizard) writes the equivalent values to `ADMIN_CONFIG_DIR`. Use env vars when you want env-driven, immutable, or read-only configuration.
 
 ## Server Listen Address
 
@@ -49,10 +52,11 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 
 ### `JMAP_SERVER_URL`
 
-- **Purpose** - Points Bulwark to your JMAP-compatible mail server.
-- **Required** - Yes, unless `ALLOW_CUSTOM_JMAP_ENDPOINT=true` (in which case users supply the URL on the login form) or you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
+- **Purpose** - Points Bulwark to your JMAP-compatible mail server. Setting this also disables the first-launch setup wizard.
+- **Required** - No - the setup wizard can write this value to admin config instead. Required only when you want env-driven configuration, when `ALLOW_CUSTOM_JMAP_ENDPOINT=true` is not set, or when you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
 - **Example** - `https://mail.example.com`
-- **When to set it** - Always for a normal runtime deployment.
+- **Multi-server** - Accepts a comma-separated list of URLs for deployments that fan out across multiple JMAP servers. The login form auto-picks by email domain when possible; users can still choose a server manually.
+- **When to set it** - For env-driven deployments, or when you want to lock the JMAP server choice and hide it from the admin UI.
 
 ### `ALLOW_CUSTOM_JMAP_ENDPOINT`
 
@@ -187,20 +191,46 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 ### `ADMIN_PASSWORD`
 
 - **Purpose** - Sets the initial admin password for the local admin dashboard. The dashboard manages plugins, themes, runtime config overrides, and policy.
-- **Required** - No.
-- **Default** - On first startup with no password set, a random password is generated and logged to stdout.
-- **When to set it** - Set this in production so you have a known password and so it survives restarts.
+- **Required** - No - the setup wizard prompts for an initial password instead.
+- **Default** - On first startup with no password set and no wizard completion, a random password is generated and logged to stdout.
+- **When to set it** - Set this when you want env-driven configuration or to override whatever the wizard wrote.
 
-### `ADMIN_DATA_DIR`
+### `ADMIN_CONFIG_DIR` _(new in 1.6.4)_
 
-- **Purpose** - Directory for admin data (config overrides, plugin registry, plugin configs, audit log, password hash).
+- **Purpose** - Operator-authored admin state. Holds `config.json`, `policy.json`, `admin.json` (passwordHash only), `plugin-config/`, `plugins/`, `themes/`, and uploaded branding assets. Safe to mount **read-only** after the setup wizard finishes.
 - **Required** - No.
-- **Default** - `./data/admin` (resolves to `/app/data/admin` in Docker).
-- **Docker note** - Mount a persistent volume to keep admin state across container restarts:
+- **Default** - `./data/admin` (resolves to `/app/data/admin` in Docker). Falls back to `ADMIN_DATA_DIR` for back-compat.
+- **Docker note** - Mount a persistent volume - read/write during initial setup, optionally read-only afterwards:
   ```yaml
   volumes:
-    - bulwark-admin:/app/data/admin
+    - bulwark-config:/app/data/admin       # rw during setup
+    # - bulwark-config:/app/data/admin:ro  # ro after setup completes
   ```
+
+### `ADMIN_STATE_DIR` _(new in 1.6.4)_
+
+- **Purpose** - Runtime admin state that must stay writable forever: `admin-state.json` (login timestamps), `audit.log`, and the bootstrap setup token.
+- **Required** - No.
+- **Default** - `./data/admin-state` (resolves to `/app/data/admin-state` in Docker). When `ADMIN_DATA_DIR` is set without the split vars, Bulwark uses `<ADMIN_DATA_DIR>/state` for back-compat.
+- **Docker note** - Always read-write:
+  ```yaml
+  volumes:
+    - bulwark-state:/app/data/admin-state
+  ```
+
+### `ADMIN_CONFIG_READONLY` _(new in 1.6.4)_
+
+- **Purpose** - Enforce read-only mode at the application layer so attempts to mutate config produce a clean error rather than a mid-request EROFS from the filesystem.
+- **Required** - No.
+- **Default** - `false`
+- **When to set it** - Pair with `:ro` on the `ADMIN_CONFIG_DIR` mount after the wizard completes. Useful for immutable infrastructure (Kubernetes / Talos / read-only root).
+
+### `ADMIN_DATA_DIR` _(legacy)_
+
+- **Purpose** - Single directory containing both config and state for pre-1.6.4 installs.
+- **Required** - No.
+- **Default** - Not set.
+- **Behavior** - Honoured only when neither `ADMIN_CONFIG_DIR` nor `ADMIN_STATE_DIR` is set. New installs should use the split variables.
 
 ### `ADMIN_SESSION_TTL`
 
@@ -214,6 +244,34 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Required** - No.
 - **Default** - `1`
 - **When to set it** - Increase if Bulwark sits behind multiple reverse proxies (e.g., CDN -> ingress -> app).
+
+## Anonymous Telemetry
+
+### `BULWARK_TELEMETRY`
+
+- **Purpose** - Master toggle for the anonymous daily heartbeat. Heartbeats contain no PII (version, platform, feature toggles, bucketed account counts).
+- **Required** - No.
+- **Default** - On.
+- **When to set it** - Set to `off` (or `disabled`) to turn telemetry off without going through the admin UI. The env var wins over the UI toggle.
+- **See also** - [Anonymous Usage Stats](/docs/features/telemetry) and [Telemetry privacy](/docs/legal/privacy/telemetry).
+
+### `BULWARK_TELEMETRY_URL`
+
+- **Purpose** - Endpoint the heartbeat is sent to.
+- **Required** - No.
+- **Default** - `https://telemetry.bulwarkmail.org/v1/heartbeat`.
+- **When to set it** - Point at your own collector ([open-source under `telemetry-collector/`](https://github.com/bulwarkmail/dashboard)), or clear it (`BULWARK_TELEMETRY_URL=`) to disable.
+
+### `TELEMETRY_DATA_DIR`
+
+- **Purpose** - Directory for telemetry state: the random `instance_id`, the admin's consent choice, and HMAC'd login fingerprints used to compute the 7-day-active-accounts bucket.
+- **Required** - No.
+- **Default** - `./data/telemetry` (resolves to `/app/data/telemetry` in Docker).
+- **Docker note** - Mount a persistent volume so the instance id and consent choice survive upgrades:
+  ```yaml
+  volumes:
+    - bulwark-telemetry:/app/data/telemetry
+  ```
 
 ## Extension Directory / Marketplace
 
@@ -329,7 +387,21 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Purpose** - Controls how the locale appears in URLs (e.g., `/en/inbox` vs `/inbox`).
 - **Allowed values** - `always` (always prefix), `as-needed` (only for non-default locales), `never` (never prefix).
 - **Default** - Built-in safe default.
-- **When to set it** - Match the routing strategy you want for SEO, redirects from older deployments, or middleware compatibility.
+- **When to set it** - Match the routing strategy you want for SEO, redirects from older deployments, or middleware compatibility. Set to `always` when using `NEXT_PUBLIC_BASE_PATH` to avoid `next-intl` rewrite loops.
+
+## Subpath / Reverse Proxy Mount
+
+### `NEXT_PUBLIC_BASE_PATH` _(build-time)_
+
+- **Purpose** - Mount Bulwark under a URL prefix (e.g. `https://example.com/webmail`).
+- **Required** - No.
+- **Default** - Empty (served from the root).
+- **Build-time** - Unlike most other variables, this is read at **build time** because Next.js bakes it into emitted asset URLs.
+- **When to set it** - Set this when fronting Bulwark with a reverse proxy that exposes it under a subpath. Pair with `NEXT_PUBLIC_LOCALE_PREFIX=always` and **do not** strip the prefix at the proxy - the app expects to receive requests under `/<base-path>/...` and serves all routes (`/<base-path>/api/...`, `/<base-path>/_next/static/...`, `/<base-path>/sw.js`, etc.) accordingly.
+- **Docker note** - To use this with the published image, build your own with the build arg set:
+  ```bash
+  docker build --build-arg NEXT_PUBLIC_BASE_PATH=/webmail -t bulwark-webmail .
+  ```
 
 ## Embedded SSO & iframe
 

@@ -8,6 +8,9 @@ order: 5
 
 The Account Security panel in Bulwark lets users manage authentication and encryption settings for their mail account: password changes, two-factor authentication (TOTP), app passwords, API keys, and encryption-at-rest configuration.
 
+<img class="theme-light-only" src="/screenshots/light-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
+
 ## Stalwart Version Requirement
 
 Account security management requires **Stalwart 0.16 or newer**. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP `x:` methods. Bulwark talks to the new JMAP endpoint exclusively. The deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.

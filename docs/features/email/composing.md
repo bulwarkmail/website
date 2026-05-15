@@ -8,6 +8,9 @@ order: 1
 
 Bulwark's composer provides a rich editing experience for crafting emails.
 
+<img class="theme-light-only" src="/screenshots/light-composer.png" alt="Bulwark email composer" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-composer.png" alt="Bulwark email composer" width="2560" height="1440" />
+
 ## Rich Text Editor
 
 The editor supports full formatting:
@@ -15,8 +18,10 @@ The editor supports full formatting:
 - **Bold**, _italic_, ~~strikethrough~~, and underline
 - Ordered and unordered lists
 - Inline hyperlinks
+- Tables (insert and edit)
 - Block quotes
 - Code blocks
+- Inline images with a resizable image component (embedded as data URLs so drops don't duplicate attachments)
 
 ## Identity Selection
 
@@ -30,6 +35,14 @@ When replying to an email, Bulwark can automatically select the identity that ma
 ### Reply-To Addresses
 
 Configure reply-to addresses in the composer to direct replies to a different address than the sender identity.
+
+### From-Header Override and Catch-All Auto-Reply
+
+When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g. `marketing@yourdomain.com`) should come back from the same alias - even when it isn't a configured identity. Bulwark detects this and pre-fills the alias as the From header in the composer. You can still override the From header manually before sending.
+
+### Signature Position
+
+Each identity can choose whether its signature appears **above** or **below** quoted text on a reply or forward. The default fallback is the primary identity's signature. The setting is searchable from the email behavior settings.
 
 ## Composer Modes
 
@@ -48,6 +61,7 @@ The composer mode can be configured in email settings.
 - Inline images can be pasted directly from the clipboard
 - Resizable image component for adjusting inline image dimensions
 - Direct image upload support in the rich text editor
+- **Forgotten-attachment warning** - if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
 
 ## Signatures
 

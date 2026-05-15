@@ -1,7 +1,23 @@
 import Link from "next/link";
 import { getDocSections } from "@/lib/docs";
-import { BookOpen, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  ChevronRight,
+  Code2,
+  Compass,
+  Container,
+  Palette,
+  Puzzle,
+  Rocket,
+  Scale,
+  Server,
+  Sparkles,
+  Terminal,
+  type LucideIcon,
+} from "lucide-react";
 import type { Metadata } from "next";
+import { InstallQuickstart } from "@/components/docs/install-quickstart";
 
 export const metadata: Metadata = {
   title: "Documentation - Bulwark Webmail for Stalwart",
@@ -12,49 +28,358 @@ export const metadata: Metadata = {
   },
 };
 
+const SANS = "var(--font-exo2), system-ui, sans-serif";
+const SERIF = "var(--font-source-serif), Georgia, serif";
+
+const STEPS: { n: string; title: string; body: React.ReactNode }[] = [
+  {
+    n: "01",
+    title: "Run this command",
+    body: (
+      <>
+        Docker is the only prerequisite. No <code className="font-mono text-[0.85em]">.env</code> file, no clone,
+        no <code className="font-mono text-[0.85em]">npm install</code>. Paste, hit enter, wait a few seconds.
+      </>
+    ),
+  },
+  {
+    n: "02",
+    title: "Open localhost:3000",
+    body: (
+      <>
+        The setup wizard takes over from the browser. It probes your JMAP server, picks OAuth or basic auth,
+        generates a session secret, accepts your logos, and sets the initial admin password. Nothing else to
+        edit by hand.
+      </>
+    ),
+  },
+  {
+    n: "03",
+    title: "Point it at a mail server",
+    body: (
+      <>
+        Bulwark is the front; <Link href="/docs/getting-started/configuration/stalwart-setup" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">Stalwart</Link>{" "}
+        is the server. If you don&apos;t have one yet, install Stalwart first and come back. The wizard handles the wiring.
+      </>
+    ),
+  },
+];
+
+type PathOption = {
+  icon: React.ComponentType<{ className?: string }>;
+  tag: string;
+  title: string;
+  desc: string;
+  href: string;
+  cta: string;
+};
+
+const SECTION_ICONS: Record<string, LucideIcon> = {
+  "getting-started": Rocket,
+  features: Sparkles,
+  deployment: Server,
+  guides: Compass,
+  extensions: Puzzle,
+  development: Code2,
+  branding: Palette,
+  legal: Scale,
+};
+
+const PATHS: PathOption[] = [
+  {
+    icon: Container,
+    tag: "Recommended",
+    title: "Docker",
+    desc: "One command, one container, web wizard for the rest. Best for almost everyone.",
+    href: "/docs/deployment/docker",
+    cta: "Docker guide",
+  },
+  {
+    icon: Terminal,
+    tag: "Guided",
+    title: "Install script",
+    desc: "An interactive shell installer for hosts that already have Node. Walks you through the same choices.",
+    href: "/docs/getting-started/installation",
+    cta: "Run the script",
+  },
+  {
+    icon: Server,
+    tag: "Hands-on",
+    title: "Manual install",
+    desc: "Clone the repo, install dependencies, edit the env file. The longest path, and the one with the most control.",
+    href: "/docs/deployment/manual",
+    cta: "Manual install",
+  },
+];
+
 export default function DocsPage() {
   const sections = getDocSections();
 
   return (
-    <div>
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-foreground mb-3" style={{ fontFamily: "var(--font-exo2)" }}>
-          Documentation
+    <div className="max-w-[920px]">
+      {/* Hero */}
+      <div className="mb-10 sm:mb-12">
+        <div className="ed-eyebrow mb-4">Documentation</div>
+        <h1
+          className="text-foreground"
+          style={{
+            fontFamily: SANS,
+            fontWeight: 800,
+            letterSpacing: "-0.035em",
+            lineHeight: 0.95,
+            fontSize: "clamp(2.5rem, 6vw, 4rem)",
+            margin: "0 0 1rem",
+          }}
+        >
+          The{" "}
+          <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
+            manual.
+          </span>
         </h1>
-        <p className="text-muted-foreground text-lg">
-          Everything you need to get started with Bulwark.
+        <p
+          className="text-foreground/70"
+          style={{
+            fontFamily: SERIF,
+            fontSize: "1.0625rem",
+            lineHeight: 1.55,
+            maxWidth: "640px",
+          }}
+        >
+          New here? The three steps below take you from nothing to a working inbox in about five minutes. Scroll
+          past them for the full manual.
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        {sections.map((section) => (
-          <div
-            key={section.slug}
-            className="group rounded-xl border border-border bg-card p-5 hover:border-primary/30 hover:shadow-md transition-all"
+      {/* Start here - 3-step quickstart */}
+      <section className="mb-16 sm:mb-20" aria-labelledby="start-here">
+        <details open className="group">
+          <summary
+            className="flex items-baseline justify-between gap-4 pb-3 border-b-2 border-foreground cursor-pointer list-none [&::-webkit-details-marker]:hidden"
           >
-            <h2 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-primary" />
-              {section.label}
+            <h2
+              id="start-here"
+              className="text-foreground"
+              style={{
+                fontFamily: SANS,
+                fontWeight: 800,
+                fontSize: "1.5rem",
+                letterSpacing: "-0.02em",
+                margin: 0,
+              }}
+            >
+              Start here.
             </h2>
-            <ul className="space-y-1">
-              {section.items.map((item) => (
-                <li key={item.slug}>
-                  <Link
-                    href={`/docs/${item.slug}`}
-                    className="flex items-center gap-2 py-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+            <ChevronRight
+              aria-hidden
+              className="w-5 h-5 text-foreground/60 transition-transform group-open:rotate-90 self-center"
+            />
+          </summary>
+
+          <ol className="m-0 p-0 list-none">
+          {STEPS.map((step) => (
+            <li
+              key={step.n}
+              className="grid grid-cols-[auto_1fr] gap-4 sm:gap-8 py-6 border-b border-[color:var(--rule)]"
+            >
+              <div
+                aria-hidden
+                className="text-[color:var(--rasp)]"
+                style={{
+                  fontFamily: SANS,
+                  fontWeight: 800,
+                  fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1,
+                  minWidth: "2.5rem",
+                }}
+              >
+                {step.n}
+              </div>
+              <div>
+                <h3
+                  className="text-foreground"
+                  style={{
+                    fontFamily: SANS,
+                    fontWeight: 700,
+                    fontSize: "1.125rem",
+                    letterSpacing: "-0.01em",
+                    margin: "0 0 0.5rem",
+                  }}
+                >
+                  {step.title}
+                </h3>
+                <p
+                  className="text-foreground/70 m-0"
+                  style={{ fontFamily: SERIF, fontSize: "1rem", lineHeight: 1.55 }}
+                >
+                  {step.body}
+                </p>
+                {step.n === "01" ? (
+                  <div className="mt-4">
+                    <InstallQuickstart />
+                  </div>
+                ) : null}
+                {step.n === "02" ? (
+                  <p
+                    className="mt-3 text-foreground/55"
+                    style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "0.9375rem", margin: "0.75rem 0 0" }}
                   >
-                    <ChevronRight className="w-3 h-3" />
-                    {item.title}
-                    <span className="hidden sm:inline text-xs text-muted-foreground/50 ml-auto truncate max-w-[150px]">
-                      {item.description}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+                    Stuck on the wizard? See{" "}
+                    <Link href="/docs/getting-started/configuration" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">
+                      configuration
+                    </Link>{" "}
+                    or{" "}
+                    <Link href="/docs/getting-started/configuration/authentication" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">
+                      authentication
+                    </Link>
+                    .
+                  </p>
+                ) : null}
+              </div>
+            </li>
+          ))}
+          </ol>
+        </details>
+      </section>
+
+      {/* Pick a path */}
+      <section className="mb-16 sm:mb-20" aria-labelledby="pick-a-path">
+        <div className="flex items-baseline justify-between gap-4 pb-3 border-b-2 border-foreground">
+          <h2
+            id="pick-a-path"
+            className="text-foreground"
+            style={{
+              fontFamily: SANS,
+              fontWeight: 800,
+              fontSize: "1.5rem",
+              letterSpacing: "-0.02em",
+              margin: 0,
+            }}
+          >
+            Or pick a path.
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 border-b border-[color:var(--rule)]">
+          {PATHS.map((p, idx) => {
+            const Icon = p.icon;
+            return (
+              <Link
+                key={p.title}
+                href={p.href}
+                className={`group flex flex-col p-6 transition-colors hover:bg-[color:var(--alt-section)] border-b md:border-b-0 md:border-r border-[color:var(--rule)] ${idx === PATHS.length - 1 ? "md:border-r-0" : ""}`}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <Icon className="w-4 h-4 text-[color:var(--rasp)]" />
+                  <span className="ed-eyebrow">{p.tag}</span>
+                </div>
+                <h3
+                  className="text-foreground"
+                  style={{
+                    fontFamily: SANS,
+                    fontWeight: 700,
+                    fontSize: "1.25rem",
+                    letterSpacing: "-0.015em",
+                    margin: "0 0 0.5rem",
+                  }}
+                >
+                  {p.title}
+                </h3>
+                <p
+                  className="text-foreground/70 flex-1"
+                  style={{
+                    fontFamily: SERIF,
+                    fontSize: "0.9375rem",
+                    lineHeight: 1.5,
+                    margin: "0 0 1rem",
+                  }}
+                >
+                  {p.desc}
+                </p>
+                <span
+                  className="inline-flex items-center gap-1.5 text-foreground group-hover:text-[color:var(--rasp)] transition-colors"
+                  style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.875rem" }}
+                >
+                  {p.cta}
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Full TOC */}
+      <section aria-labelledby="full-manual">
+        <div className="flex items-baseline justify-between gap-4 pb-3 border-b-2 border-foreground">
+          <h2
+            id="full-manual"
+            className="text-foreground"
+            style={{
+              fontFamily: SANS,
+              fontWeight: 800,
+              fontSize: "1.5rem",
+              letterSpacing: "-0.02em",
+              margin: 0,
+            }}
+          >
+            Browse the full manual.
+          </h2>
+        </div>
+
+        <div>
+          {sections.map((section) => {
+            const SectionIcon = SECTION_ICONS[section.slug] ?? BookOpen;
+            return (
+            <div
+              key={section.slug}
+              className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-10 py-6 border-b border-[color:var(--rule)]"
+            >
+              <div className="flex items-start gap-2 lg:pt-1">
+                <SectionIcon className="w-4 h-4 text-[color:var(--rasp)] shrink-0 mt-0.5" />
+                <h3
+                  className="text-foreground"
+                  style={{
+                    fontFamily: SANS,
+                    fontWeight: 700,
+                    fontSize: "1.0625rem",
+                    letterSpacing: "-0.01em",
+                    margin: 0,
+                  }}
+                >
+                  {section.label}
+                </h3>
+              </div>
+              <ul className="m-0 p-0 list-none">
+                {section.items.map((item) => (
+                  <li key={item.slug} className="border-b border-[color:var(--rule)] last:border-b-0">
+                    <Link
+                      href={`/docs/${item.slug}`}
+                      className="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 sm:gap-6 py-2.5 items-baseline"
+                    >
+                      <span
+                        className="text-foreground group-hover:text-[color:var(--rasp)] transition-colors inline-flex items-center gap-2"
+                        style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.9375rem", letterSpacing: "-0.005em" }}
+                      >
+                        <ChevronRight className="w-3 h-3 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                        {item.title}
+                      </span>
+                      {item.description ? (
+                        <span
+                          className="hidden sm:inline text-foreground/55 truncate"
+                          style={{ fontFamily: SERIF, fontSize: "0.875rem", fontStyle: "italic", maxWidth: "320px" }}
+                        >
+                          {item.description}
+                        </span>
+                      ) : null}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 }

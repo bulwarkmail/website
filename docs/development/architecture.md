@@ -25,21 +25,22 @@ An overview of Bulwark's technical architecture and design decisions.
 └──────────────┘
 ```
 
-After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, and the admin dashboard - never as a proxy for normal mail traffic.
+After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the **first-launch setup wizard** (1.6.4+), and the admin dashboard - never as a proxy for normal mail traffic.
 
 ## Project Structure
 
 ```
 webmail/
 ├── app/                       # Next.js App Router
-│   ├── api/                   # API routes (auth, config, health, sso, settings, admin, etc.)
+│   ├── api/                   # API routes (auth, config, health, sso, settings, admin, setup, push, etc.)
 │   └── [locale]/              # Locale-aware routing
 │       ├── login/             # Login page
 │       ├── auth/              # OAuth callback
+│       ├── setup/             # First-launch setup wizard (1.6.4+)
 │       ├── calendar/          # Calendar page
 │       ├── contacts/          # Contacts page
 │       ├── files/             # JMAP FileNode browser
-│       ├── admin/             # Admin dashboard
+│       ├── admin/             # Admin dashboard (single tabbed page)
 │       └── settings/          # Settings page
 ├── components/                # React components, organized by feature
 │   ├── email/                 # Email list, viewer, composer
@@ -65,8 +66,10 @@ webmail/
 │   ├── smime/                 # S/MIME sign/encrypt/decrypt/verify
 │   ├── tnef/                  # winmail.dat extractor
 │   ├── ical/                  # iCal/iMIP encoder and decoder
-│   ├── plugins/               # Plugin loader, sandbox, permissions, proxy
-│   ├── admin/                 # Admin session, config manager, audit log
+│   ├── plugins/               # Plugin loader, sandbox, permissions, proxy, esbuild on-demand
+│   ├── admin/                 # Admin session, config manager (split config/state), audit log
+│   ├── setup/                 # First-launch web setup wizard
+│   ├── telemetry/             # Anonymous heartbeat (opt-out)
 │   └── stalwart/              # Stalwart `x:` JMAP method bindings
 ├── stores/                    # Zustand state stores
 │   ├── auth-store.ts
@@ -145,22 +148,28 @@ Bulwark rewrites the URLs returned in the JMAP session resource to match the ori
 
 Bulwark includes an extensible plugin system with:
 
-- **Schema-driven configuration** - plugins declare a config schema, the admin UI is generated from it
-- **Render hooks** - plugins can render into named slots (calendar event actions, composer sidebar, etc.)
+- **Schema-driven configuration** - plugins declare a config schema, the admin UI is generated from it inline
+- **Render hooks** - plugins can render into named slots (calendar event actions, composer sidebar, email banner/footer, sidebar widget, settings sections, context menus, navigation rail, toolbars)
 - **Intercept hooks** - plugins can intercept user actions like send, reply, archive
+- **`onBeforeEmailSend` hook** - hook into the outgoing send pipeline; `OutgoingEmail` exposes `fromEmail` so plugins can branch on identity
 - **`onAvatarResolve` hook** - provide custom avatar resolution logic
 - **Plugin i18n API** - plugins ship their own translation bundles
 - **Sandboxed HTTP proxy** - plugins talk to external services through a server-side proxy with origin validation, never exposing user credentials
+- **`http:fetch` + `httpOrigins`** - per-plugin allowlist of outbound origins enforced by the proxy (1.6.2+)
 - **`frameOrigins` manifest field** - plugins declare which `https://host` origins they need to embed; the proxy reads the union of enabled plugin origins and merges into the host CSP `frame-src`
+- **Hot-reload and dev folder** - `PLUGIN_DEV_DIR` loads plugins from a folder during development, esbuild bundles `src/` on demand (1.6.2+)
+- **Install/uninstall restricted to admin dashboard** - regular users cannot add or remove plugins (1.6.2+)
 - **Disabled by default + admin approval** - plugins are inert until an admin enables them
 - **Dangerous-pattern detection** - plugins with prohibited JS patterns are blocked at install time
-- **Theme bundles** - themes are uploaded as ZIP packages and managed alongside plugins
+- **Theme bundles** - themes are uploaded as ZIP packages and managed alongside plugins; theme API v2 includes a token compiler and skin slot
 
 A bundled Jitsi Meet plugin demonstrates the calendar event slot.
 
 ### Push Notifications
 
-Bulwark uses JMAP's EventSource mechanism for real-time updates. When new emails arrive, calendar events change, or filter state updates, the server pushes notifications to the client without polling.
+Bulwark uses JMAP's push mechanism for real-time updates. When new emails arrive, calendar events change, or filter state updates, the server pushes notifications to the client without polling. On HTTP/2 servers, push streams are multiplexed over a single connection - that's what enables more than 5 simultaneous accounts (the previous cap was browser-imposed by HTTP/1.1 connection pooling).
+
+Web push notifications layer on top of this: when the user grants permission, the service worker subscribes to JMAP push for the inbox and surfaces new-mail notifications even when the tab is closed.
 
 ## State Management
 

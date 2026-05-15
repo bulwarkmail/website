@@ -1,41 +1,67 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
-  --foreground: #0f172a;
+  /* Editorial palette - these are absolute design constants, same in
+     every theme. Paper is always the light off-white; navy is always
+     navy. "Paper" is also the standard light text color on navy. */
+  --paper: #f5f6f8;
+  --paper-deep: #eceef2;
+  --navy: #0c1322;
+  --navy-deep: #070b16;
+  --ink: #0c1322;
+  --rasp: #db2d54;
+  --rasp-soft: #f4d3da;
+  --rule-navy: rgba(245, 246, 248, 0.14);
+  --muted-navy: rgba(245, 246, 248, 0.62);
+
+  /* Theme-aware tokens - change with light/dark mode. */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --alt-section: var(--paper-deep);
+  --rule: rgba(12, 19, 34, 0.14);
+  --muted-paper: rgba(12, 19, 34, 0.62);
+
+  /* Semantic shadcn-style tokens (kept for compatibility). */
   --primary: #db2d54;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #fde8ed;
+  --secondary: #eceef2;
+  --secondary-foreground: #0c1322;
+  --muted: #eceef2;
+  --muted-foreground: rgba(12, 19, 34, 0.62);
+  --accent: #f4d3da;
   --accent-foreground: #a11d3d;
-  --border: #e2e8f0;
+  --border: rgba(12, 19, 34, 0.14);
   --ring: #db2d54;
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --code-bg: #f0f2f5;
+  --card-foreground: #0c1322;
+  --code-bg: #eceef2;
   --code-border: #dfe3e8;
   --pre-bg: #f6f8fa;
-  --table-header-bg: #f0f2f5;
+  --table-header-bg: #eceef2;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
+  /* Paper / navy / ink / rasp remain absolute constants -
+     do NOT flip them with the theme. */
+
+  --background: var(--navy-deep);
+  --foreground: var(--paper);
+  --alt-section: var(--navy);
+  --rule: rgba(245, 246, 248, 0.14);
+  --muted-paper: rgba(245, 246, 248, 0.62);
+
   --primary: #db2d54;
   --primary-foreground: #ffffff;
-  --secondary: #171717;
-  --secondary-foreground: #fafafa;
-  --muted: #1a1a1a;
-  --muted-foreground: #a3a3a3;
+  --secondary: #0c1322;
+  --secondary-foreground: #f5f6f8;
+  --muted: #0c1322;
+  --muted-foreground: rgba(245, 246, 248, 0.62);
   --accent: #2a1018;
   --accent-foreground: #f9a8ba;
-  --border: #262626;
+  --border: rgba(245, 246, 248, 0.14);
   --ring: #db2d54;
-  --card: #111111;
-  --card-foreground: #fafafa;
+  --card: #0c1322;
+  --card-foreground: #f5f6f8;
   --code-bg: #1e1e1e;
   --code-border: #333333;
   --pre-bg: #161616;
@@ -57,8 +83,18 @@
   --color-ring: var(--ring);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-ink: var(--ink);
+  --color-rasp: var(--rasp);
+  --color-rasp-soft: var(--rasp-soft);
+  --color-alt-section: var(--alt-section);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-jetbrains);
+  --font-serif: var(--font-source-serif);
+  --font-display: var(--font-exo2);
 }
 
 * {
@@ -151,12 +187,207 @@ html {
   animation: fade-in-up 0.6s ease-out both;
 }
 
+/* ----------------------------------------------------------------------
+   Editorial design system - runheads, eyebrows, hero underline, drop-cap
+   ---------------------------------------------------------------------- */
+
+.ed-runhead {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted-paper);
+}
+
+.ed-eyebrow {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-paper);
+}
+
+.ed-folio {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--muted-paper);
+}
+
+/* Hero underline - raspberry highlighter behind given word range */
+.ed-hero-underline {
+  background-image: linear-gradient(
+    transparent 78%,
+    var(--rasp) 78%,
+    var(--rasp) 90%,
+    transparent 90%
+  );
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding-right: 1px;
+}
+
+/* Drop-cap for mission paragraphs */
+.ed-dropcap::first-letter {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-weight: 700;
+  font-size: 5.6em;
+  line-height: 0.85;
+  float: left;
+  padding: 6px 14px 0 0;
+  color: var(--rasp);
+}
+
+/* Editorial CTA primary (raspberry fill) */
+.ed-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background: var(--rasp);
+  color: #ffffff;
+  font-family: var(--font-exo2), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.005em;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.15s
+    var(--ease-standard, cubic-bezier(0.22, 1, 0.36, 1));
+  text-decoration: none;
+}
+.ed-cta-primary:hover {
+  background: #c12649;
+}
+
+/* Editorial CTA ghost - outline follows page foreground; on-navy uses paper. */
+.ed-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 24px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: var(--font-exo2), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.005em;
+  border: 1.5px solid var(--foreground);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  text-decoration: none;
+}
+.ed-cta-ghost:hover {
+  background: rgba(12, 19, 34, 0.05);
+}
+.dark .ed-cta-ghost:hover {
+  background: rgba(245, 246, 248, 0.06);
+}
+.ed-on-navy .ed-cta-ghost,
+.ed-on-navy-deep .ed-cta-ghost {
+  color: var(--paper);
+  border-color: var(--paper);
+}
+.ed-on-navy .ed-cta-ghost:hover,
+.ed-on-navy-deep .ed-cta-ghost:hover {
+  background: rgba(245, 246, 248, 0.06);
+}
+
+/* On-navy surfaces - flip text and rules */
+.ed-on-navy {
+  background: var(--navy);
+  color: var(--paper);
+}
+.ed-on-navy-deep {
+  background: var(--navy-deep);
+  color: var(--paper);
+}
+.ed-on-navy .ed-runhead,
+.ed-on-navy .ed-eyebrow,
+.ed-on-navy .ed-folio,
+.ed-on-navy-deep .ed-runhead,
+.ed-on-navy-deep .ed-eyebrow,
+.ed-on-navy-deep .ed-folio {
+  color: var(--muted-navy);
+}
+
+/* Screenshot plate - flat, no shadow, 1px hairline */
+.ed-plate {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+.ed-on-navy .ed-plate,
+.ed-on-navy-deep .ed-plate {
+  border-color: var(--rule-navy);
+}
+
+/* Hairline rule helpers */
+.ed-rule {
+  height: 1px;
+  background: var(--rule);
+  width: 100%;
+}
+.ed-on-navy .ed-rule,
+.ed-on-navy-deep .ed-rule {
+  background: var(--rule-navy);
+}
+
+/* Section padding - desktop / mobile */
+.ed-section {
+  padding: 96px 56px;
+}
+@media (max-width: 1024px) {
+  .ed-section {
+    padding: 72px 32px;
+  }
+}
+@media (max-width: 640px) {
+  .ed-section {
+    padding: 56px 20px;
+  }
+}
+
+/* Display + serif text utilities */
+.ed-display {
+  font-family: var(--font-exo2), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+.ed-serif-italic {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-float,
+  .animate-pulse-glow {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 /* Documentation prose styles */
 .prose-docs {
   color: var(--foreground);
-  line-height: 1.8;
+  line-height: 1.7;
   max-width: none;
-  font-size: 0.9375rem;
+  font-size: 1rem;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .prose-docs > :first-child {
@@ -164,13 +395,13 @@ html {
 }
 
 .prose-docs h1 {
-  font-size: 2.25rem;
+  font-size: clamp(2.25rem, 4.5vw, 2.75rem);
   font-weight: 800;
   margin-top: 0;
-  margin-bottom: 1.25rem;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  font-family: var(--font-exo2);
+  margin-bottom: 1.5rem;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-family: var(--font-exo2), system-ui, sans-serif;
   color: var(--foreground);
   scroll-margin-top: 5rem;
 }
@@ -178,56 +409,77 @@ html {
 .prose-docs h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  padding-bottom: 0;
+  border-bottom: none;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-family: var(--font-exo2), system-ui, sans-serif;
   color: var(--foreground);
   scroll-margin-top: 5rem;
 }
 
+.prose-docs h2::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 2px;
+  background: var(--foreground);
+  margin-bottom: 1rem;
+}
+
 .prose-docs h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  margin-top: 2.25rem;
+  margin-bottom: 0.625rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-family: var(--font-exo2), system-ui, sans-serif;
   color: var(--foreground);
   scroll-margin-top: 6rem;
 }
 
 .prose-docs h4 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.005em;
+  font-family: var(--font-exo2), system-ui, sans-serif;
   color: var(--foreground);
   scroll-margin-top: 6rem;
 }
 
 .prose-docs p {
   margin-top: 0;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.125rem;
 }
 
 .prose-docs a {
   color: var(--primary);
   text-decoration: underline;
   text-decoration-color: var(--primary);
-  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
   font-weight: 500;
   transition: opacity 0.15s;
 }
 
 .prose-docs a:hover {
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 .prose-docs strong {
   font-weight: 700;
   color: var(--foreground);
+}
+
+.prose-docs em {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
 }
 
 .prose-docs ul {
@@ -249,7 +501,7 @@ html {
 }
 
 .prose-docs li::marker {
-  color: var(--muted-foreground);
+  color: var(--rasp);
 }
 
 .prose-docs li > ul,
@@ -259,11 +511,12 @@ html {
 }
 
 .prose-docs code {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-family:
+    var(--font-jetbrains), var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.8125em;
   background-color: var(--code-bg);
-  padding: 0.2em 0.45em;
-  border-radius: 0.3rem;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
   color: var(--accent-foreground);
   border: 1px solid var(--code-border);
 }
@@ -272,13 +525,15 @@ html {
   position: relative;
   background-color: var(--pre-bg);
   border: 1px solid var(--border);
-  border-radius: 0.625rem;
+  border-radius: 6px;
   padding: 1rem 1.25rem;
-  margin-top: 0.25rem;
-  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.75rem;
   overflow-x: auto;
   font-size: 0.8125rem;
-  line-height: 1.7;
+  line-height: 1.65;
+  font-family:
+    var(--font-jetbrains), var(--font-geist-mono), ui-monospace, monospace;
 }
 
 .prose-docs pre code {
@@ -450,33 +705,52 @@ html {
 }
 
 .prose-docs blockquote {
-  border-left: 3px solid var(--primary);
-  padding-left: 1rem;
-  margin: 1.25rem 0;
-  color: var(--muted-foreground);
+  border-left: 2px solid var(--rasp);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--foreground);
+  opacity: 0.85;
+  font-family: var(--font-source-serif), Georgia, serif;
   font-style: italic;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.prose-docs blockquote p {
+  margin-bottom: 0.75rem;
+}
+
+.prose-docs blockquote p:last-child {
+  margin-bottom: 0;
 }
 
 .prose-docs table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0.25rem;
-  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.75rem;
   font-size: 0.875rem;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 .prose-docs th {
   text-align: left;
-  font-weight: 600;
-  padding: 0.625rem 0.75rem;
-  border-bottom: 2px solid var(--border);
+  font-weight: 700;
+  padding: 0.625rem 0.875rem 0.625rem 0;
+  border-top: 2px solid var(--foreground);
+  border-bottom: 1px solid var(--foreground);
   color: var(--foreground);
-  background-color: var(--table-header-bg);
+  background-color: transparent;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .prose-docs td {
-  padding: 0.625rem 0.75rem;
-  border-bottom: 1px solid var(--border);
+  padding: 0.625rem 0.875rem 0.625rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
 }
 
 .prose-docs tr:last-child td {
@@ -485,14 +759,15 @@ html {
 
 .prose-docs hr {
   border: none;
-  border-top: 1px solid var(--border);
-  margin: 2.5rem 0;
+  border-top: 1px solid var(--rule);
+  margin: 2.75rem 0;
 }
 
 .prose-docs img {
   max-width: 100%;
-  border-radius: 0.5rem;
-  margin: 1.25rem 0;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  margin: 1.5rem 0;
 }
 
 /* Mobile-responsive docs table */
@@ -505,27 +780,33 @@ html {
 /* Mobile-responsive prose */
 @media (max-width: 640px) {
   .prose-docs {
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
   }
 
   .prose-docs h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
+    letter-spacing: -0.03em;
   }
 
   .prose-docs h2 {
-    font-size: 1.25rem;
-    margin-top: 2rem;
+    font-size: 1.3125rem;
+    margin-top: 2.25rem;
+  }
+
+  .prose-docs h2::before {
+    width: 24px;
+    margin-bottom: 0.75rem;
   }
 
   .prose-docs h3 {
-    font-size: 1.05rem;
-    margin-top: 1.5rem;
+    font-size: 1.0625rem;
+    margin-top: 1.75rem;
   }
 
   .prose-docs pre {
-    padding: 0.75rem 1rem;
+    padding: 0.875rem 1rem;
     font-size: 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: 4px;
     margin-left: -0.5rem;
     margin-right: -0.5rem;
   }
@@ -543,4 +824,40 @@ html {
 
 body {
   overflow-x: hidden;
+}
+
+/* Sponsor logos: black silhouette in light mode (logos ship as white-on-dark),
+   natural colors in dark mode. Use the .dark class toggled by ThemeProvider. */
+.sponsor-logo {
+  display: inline-flex;
+  filter: brightness(0);
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+.sponsor-logo:hover {
+  opacity: 0.9;
+}
+.dark .sponsor-logo {
+  filter: none;
+  opacity: 0.9;
+}
+.dark .sponsor-logo:hover {
+  opacity: 1;
+}
+
+/* Theme-only visibility: render both light and dark variants of a screenshot
+   side by side and let CSS pick the right one. Works for server-rendered
+   pages (no theme flash) because the .dark class is set on <html> before
+   hydration. */
+.theme-light-only {
+  display: block;
+}
+.theme-dark-only {
+  display: none;
+}
+.dark .theme-light-only {
+  display: none;
+}
+.dark .theme-dark-only {
+  display: block;
 }
