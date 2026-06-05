@@ -84,7 +84,7 @@ webmail/
 │   ├── identity-store.ts
 │   ├── plugin-store.ts
 │   └── ...
-├── locales/                   # Translation files (15 languages)
+├── locales/                   # Translation files (18 languages)
 │   ├── en/                    # English
 │   ├── fr/                    # Français
 │   ├── ja/                    # 日本語

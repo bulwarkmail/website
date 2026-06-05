@@ -53,7 +53,7 @@ const FAQS = [
 const STATS = {
   instances: "1,403",
   commits: "769",
-  langs: 16,
+  langs: 18,
 };
 
 const GITHUB_API = "https://api.github.com/repos/bulwarkmail/webmail";

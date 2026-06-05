@@ -63,7 +63,7 @@ Click on any time slot or use the "New Event" button (`N` shortcut) to create an
 - Inline calendar invitation banner in the email viewer - auto-detects `.ics` attachments and offers RSVP and import-to-calendar actions
 - Collapsible details on the invitation banner
 - ICS attachments are hidden from the attachment list when the invitation banner is shown
-- Shared calendars across accounts via JMAP sharing
+- Shared calendars across accounts via JMAP sharing, with per-viewer colors so each user can recolor a shared calendar without affecting others (#345)
 
 ## Pending Event Preview
 

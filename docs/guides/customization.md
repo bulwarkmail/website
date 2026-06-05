@@ -61,6 +61,10 @@ Bulwark uses CSS custom properties for theming. Override them to change colors a
 
 Bulwark supports three theme modes: **light**, **dark**, and **system** (follows OS preference). The selected theme is persisted in `localStorage` and applied via Zustand state management.
 
+### Built-in Color Themes
+
+Bulwark ships several bundled color themes — including **Aurora Glass** and **Elastic** — alongside the default. In the Appearance settings, each theme is shown as a card rendered as a **mini mailbox mockup** built from that theme's own colors, with light/dark variant chips so you can preview both modes before applying. Clicking the already-active theme is a no-op. You can also upload your own themes as ZIP bundles, and admins can enforce a preset for all users.
+
 ## Custom App Name
 
 Change the application name displayed in the UI:

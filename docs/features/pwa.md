@@ -14,6 +14,7 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 - **Standalone window** - Launches without browser chrome on desktop and mobile.
 - **Splash screen** - OS-rendered splash using your configured background color and icon.
 - **App-name everywhere** - Browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
+- **Install screenshots** - Browsers that show a richer install dialog (e.g. Chrome on Android) display screenshots from the manifest. Bulwark ships default screenshots and lets you override them globally or per-domain.
 - **Service worker** - Registered automatically; caches the app shell.
 - **Install prompt** - A friendly in-app prompt suggests installation. Users can dismiss it, and there is a "don't remind me again" option.
 - **Web push notifications** - When the user grants permission, Bulwark subscribes to web push and surfaces new-inbox-mail notifications even when the tab is closed. Clicking the notification opens the message. New-mail notifications are scoped to genuine inbox deliveries (not flag changes).
@@ -44,6 +45,17 @@ Bulwark generates the required PWA icon sizes from a single source:
 - `icon-maskable-dark-192x192.png` / `icon-maskable-dark-512x512.png` - maskable for dark backgrounds
 
 If `PWA_ICON_URL` is not set, the app falls back to `FAVICON_URL`, then to the bundled Bulwark icons.
+
+### Install screenshots
+
+Browsers with a richer install UI render screenshots from the manifest. Override the bundled defaults with your own (resized on the fly to the required sizes):
+
+```env
+PWA_SCREENSHOT_MOBILE_URL=/branding/install-mobile.png    # rendered at 540x720
+PWA_SCREENSHOT_DESKTOP_URL=/branding/install-desktop.png  # rendered at 1280x720
+```
+
+Both can also be set from the admin dashboard, and overridden **per-domain** through the per-domain branding editor, so each hostname can present its own install screenshots. When unset, Bulwark falls back to its built-in screenshots.
 
 ### Default colors
 

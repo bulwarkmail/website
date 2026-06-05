@@ -14,6 +14,14 @@ On 1.6.4 and newer the **web setup wizard** runs on first launch and provisions 
 
 Setting `ADMIN_PASSWORD` in the environment **overrides** whatever the wizard wrote, and is the right path for env-driven deployments.
 
+### File-based secrets
+
+For Docker / Kubernetes secret mounts, the JSON config supports pointing at a file instead of inlining the secret. Set these keys in `admin.json` (`ADMIN_CONFIG_DIR/config.json`) to the path of a file holding the value:
+
+- `passwordHashFile` - admin password hash (alternative to inline `passwordHash`)
+- `sessionSecretFile` - session secret (alternative to `SESSION_SECRET` / `SESSION_SECRET_FILE`)
+- `oauthClientSecretFile` - OAuth client secret (alternative to `OAUTH_CLIENT_SECRET` / `OAUTH_CLIENT_SECRET_FILE`)
+
 ## Admin Storage Split (1.6.4)
 
 Admin data is now split across two directories so the operator-authored config volume can be remounted read-only after the wizard completes:
@@ -67,6 +75,7 @@ Override runtime config without redeploying. The admin dashboard writes to `ADMI
 - Demo mode
 - `allowCustomJmapEndpoint`
 - `autoSsoEnabled`
+- `searchEngineIndexing` - allow search engines to index the webmail. Off by default (emits `noindex`/`nofollow` in the page head); recommended off for private deployments. Env override: `SEARCH_ENGINE_INDEXING`.
 
 Order of precedence: **env var > admin config > legacy build-time fallback > built-in default**. This means a value set in `.env.local` locks that field in the admin UI; clearing the env var lets the wizard / admin dashboard manage it again. Changes from the admin UI take effect on the next user session without a restart.
 

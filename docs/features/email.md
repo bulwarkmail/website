@@ -48,6 +48,9 @@ The rich text editor supports:
 - **Reply-to addresses** - Configure reply-to addresses in the composer
 - **Plain text mode** - Optional plain text-only composer mode
 - **Conversation threading** - Optional toggle to disable conversation threading
+- **Editable quote island** - When replying, the quoted original is kept in an editable, layout-preserving block you can trim or annotate without breaking its formatting
+- **Scheduled send** - Schedule a message for a future time, or apply a configurable send delay that holds outgoing mail briefly so you can undo
+- **Read receipts** - Request a read receipt (MDN, RFC 8098) when composing; incoming receipt requests are handled in the viewer
 - **Auto-add trusted senders** - When you reply to someone, Bulwark adds them to your trusted senders so future mail loads images automatically
 
 ### Keyboard Shortcut
@@ -61,11 +64,12 @@ Press `C` anywhere in the app to open the compose window.
 - Optional "Always Show Emails in Light Mode" setting for problematic HTML mail in dark theme; per-email toggle is respected
 - DOMPurify sanitization for security
 - External content blocked by default with per-sender trust; redesigned external-mail banner above attachments
-- SPF/DKIM/DMARC status indicators with security tooltips
+- SPF/DKIM/DMARC status indicators with security tooltips - surfaces the most severe SPF result and hides the "via" badge on spoofed mail
 - TNEF (`winmail.dat`) detection and extraction for Outlook rich-text bodies and attachments
 - Embedded message/rfc822 attachment unwrapping with enhanced HTML body validation
 - S/MIME status banners for encrypted and signed messages, including unlock prompts for protected keys; redesigned to match the calendar invitation banner
 - Download, preview, or **drag attachments out** of the viewer to the local file system; image attachments show thumbnails and preview chips
+- Inline attachment preview with reliable MIME detection - images, inline PDF on desktop and mobile, and `.eml` (`message/rfc822`) attachments rendered like an email; composer attachments can be clicked to preview inline before send
 - Reply, reply-all, and forward actions
 - Quick reply form (redesigned to match the sender/banner layout)
 - Expandable email headers with contact sidebar
@@ -120,7 +124,7 @@ Select multiple emails for bulk actions: archive, delete, mark read/unread, star
 
 Server-side email filtering via JMAP Sieve Scripts (RFC 9661):
 
-- Visual rule builder with conditions (From, To, Subject, Size, Body, etc.) and actions (Move, Forward, Mark read, Star, Discard, Reject, etc.)
+- Visual rule builder with conditions (From, To, Subject, Size, Body, Attachment, etc.) supporting multi-value matching, and actions (Move, Forward, Mark read, Star, Discard, Reject, etc.)
 - Expanded visual view for reviewing filter rules at a glance
 - Raw Sieve editor with syntax validation
 - Drag-and-drop rule reordering

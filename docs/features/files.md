@@ -10,7 +10,7 @@ Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so d
 
 ## File Browser
 
-- Folder tree navigation with breadcrumb path
+- Folder tree navigation with breadcrumb path over a real `FileNode` hierarchy
 - Grid and list views
 - Sorting by name, size, or date
 - Favorites and recent files for quick access
@@ -42,6 +42,8 @@ Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so d
 ## Organization
 
 - Create, rename, move, and delete folders
+- Files are stored as real `FileNode` records in a nested hierarchy; folders are detected as blob-less nodes and listed via `FileNode/get`
+- Legacy installs that stored files under flat, slash-encoded names are migrated into the proper folder hierarchy automatically on first load
 - Quick metadata visibility for size and modified date
 - Recent files prune themselves automatically when underlying nodes are deleted on the server
 
