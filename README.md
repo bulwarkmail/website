@@ -15,14 +15,14 @@ Built with Next.js and Tailwind CSS.
 
 ---
 
-## Overview
+## What's in here
 
 This repository contains the source code for the Bulwark project website, including:
 
 - **Landing page** - Product showcase with features, screenshots, tech stack, deployment guides, and FAQ
 - **Documentation** - Full docs covering installation, configuration, features, development, and deployment
 
-## Quick Start
+## Quick start
 
 ### Development
 
@@ -35,14 +35,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-### Production Build
+### Production build
 
 ```bash
 npm run build
 npm start
 ```
 
-## Project Structure
+## Project structure
 
 ```
 src/
@@ -72,7 +72,7 @@ public/                   # Static assets
 └── screenshots/          # Product screenshots
 ```
 
-## Tech Stack
+## Tech stack
 
 |               |                                                   |
 | ------------- | ------------------------------------------------- |
@@ -108,7 +108,7 @@ The documentation system supports:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/my-change`)
-3. Commit your changes (`git commit -m 'Add my change'`)
+3. Commit using [Conventional Commits](https://www.conventionalcommits.org/) (`git commit -m 'docs: add my change'`)
 4. Push to the branch (`git push origin feature/my-change`)
 5. Open a Pull Request
 
