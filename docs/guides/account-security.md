@@ -1,27 +1,27 @@
 ---
-title: Account Security
+title: Account security
 description: Manage password, 2FA, app passwords, and API keys from within Bulwark.
 order: 5
 ---
 
-# Account Security
+# Account security
 
-The Account Security panel in Bulwark lets users manage authentication and encryption settings for their mail account: password changes, two-factor authentication (TOTP), app passwords, API keys, and encryption-at-rest configuration.
+This is the panel where users look after their own account rather than filing a ticket. They can change the password, turn TOTP two-factor on, mint and revoke app passwords and API keys, and switch on encryption at rest.
 
 <img class="theme-light-only" src="/screenshots/light-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
 <img class="theme-dark-only" src="/screenshots/dark-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
 
-## Stalwart Version Requirement
+## Stalwart version requirement
 
 Account security management requires **Stalwart 0.16 or newer**. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP `x:` methods. Bulwark talks to the new JMAP endpoint exclusively. The deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
 
 If you see "Account security management is not available for this mail server" with a recent Bulwark, upgrade Stalwart to 0.16+ and check the principal permissions described below.
 
-## Required Stalwart Permissions
+## Required Stalwart permissions
 
-For the Account Security feature to be available, the mail server administrator must enable the following principal permissions in Stalwart:
+The mail server administrator has to enable these principal permissions in Stalwart before the panel appears:
 
-### Core Security Permissions
+### Core security permissions
 
 | Permission                                | Description                                         | Required |
 | ----------------------------------------- | --------------------------------------------------- | -------- |
@@ -31,7 +31,7 @@ For the Account Security feature to be available, the mail server administrator 
 | **Authenticate**                          | Required for authentication operations              | ✓ Yes    |
 | **Manage encryption-at-rest settings**    | Allows managing encryption configuration            | ✓ Yes    |
 
-### JMAP Identity Permissions (for compose / identities)
+### JMAP identity permissions, for the composer
 
 | Permission                            | Required for                            |
 | ------------------------------------- | --------------------------------------- |
@@ -39,38 +39,38 @@ For the Account Security feature to be available, the mail server administrator 
 | **Retrieve user identities via JMAP** | Listing identities in the composer      |
 | **Track identity changes via JMAP**   | Real-time identity sync after edits     |
 
-## Features by Permission
+## Features by permission
 
-### Password Management
+### Password management
 
 - Requires: `Manage account passwords` + `Modify user account information`
 - Users can update their password from Settings → Security → Change Password.
 
-### Two-Factor Authentication (TOTP)
+### Two-factor authentication (TOTP)
 
 - Requires: `Authenticate`
 - Users can enable or disable TOTP-based 2FA from Settings → Security.
 - A QR code is rendered for authenticator apps; recovery codes are generated for account recovery.
 
-### App Passwords
+### App passwords
 
 - Requires: `Authenticate` + `Modify user account information`
 - Users can create per-app credentials for clients that don't support OAuth (IMAP/SMTP, CalDAV).
-- Each app password can carry an optional **IP allowlist** (added in 1.5.0) so it only authenticates from approved networks.
+- Each app password can carry an optional **IP allowlist**, so a credential only authenticates from approved networks.
 - Existing passwords can be revoked individually.
 
-### API Keys
+### API keys
 
 - Requires: appropriate Stalwart admin permissions
 - Available from the admin panel.
 - Generate, list, and revoke API keys used to access Stalwart programmatically.
 
-### Encryption-at-Rest
+### Encryption at rest
 
 - Requires: `Manage encryption-at-rest settings`
 - Users can enable encryption for stored mail.
 
-## Changing the Password from Bulwark
+## Changing the password from Bulwark
 
 1. Log into Bulwark.
 2. Open Settings → Security.
@@ -93,7 +93,7 @@ This error appears when one or more required permissions are disabled, or when S
 
 Earlier Bulwark versions used `STALWART_API_URL` to reach a separate REST endpoint. From 1.5.0 onward, all self-service traffic goes through the normal JMAP session URL - there is no separate URL to configure. Remove `STALWART_API_URL` from your environment.
 
-## Admin Configuration Steps
+## Admin configuration steps
 
 To enable Account Security as a Stalwart administrator:
 
@@ -104,9 +104,9 @@ To enable Account Security as a Stalwart administrator:
 
 Permissions can be applied at the role level for bulk configuration.
 
-## See Also
+## Related pages
 
 - [Stalwart Mail Server Documentation](https://stalw.art/)
 - [Authentication](/docs/getting-started/configuration/authentication)
-- [Stalwart Setup](/docs/getting-started/configuration/stalwart-setup)
-- [Multi-account Support](/docs/guides/multi-account)
+- [Stalwart setup](/docs/getting-started/configuration/stalwart-setup)
+- [Multi-account support](/docs/guides/multi-account)

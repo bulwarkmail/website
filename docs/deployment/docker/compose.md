@@ -6,12 +6,12 @@ order: 1
 
 # Docker Compose
 
-Run Bulwark alongside Stalwart Mail Server using Docker Compose for a complete, self-contained email stack.
+One compose file brings up Stalwart and Bulwark together: mail server and client, no other moving parts.
 
-> **First-launch note (1.6.4+)**
-> If you omit `JMAP_SERVER_URL` from the environment, the web setup wizard runs on first launch and configures the JMAP endpoint, OAuth, branding, and admin password through the browser - no need to author `.env.local` first.
+> **First-launch note**
+> Omit `JMAP_SERVER_URL` from the environment and the web setup wizard runs on first launch, configuring the JMAP endpoint, OAuth, branding, and the admin password through the browser. There is no `.env.local` to author first.
 
-## Basic Setup
+## Basic setup
 
 Create a `docker-compose.yml`:
 
@@ -91,7 +91,7 @@ services:
     restart: unless-stopped
 ```
 
-## Persistent Volumes
+## Persistent volumes
 
 ```yaml
 services:
@@ -104,8 +104,8 @@ services:
       SETTINGS_SYNC_ENABLED: "true"
     volumes:
       - bulwark-settings:/app/data/settings    # encrypted user settings
-      - bulwark-config:/app/data/admin         # wizard / admin-managed config (1.6.4+)
-      - bulwark-state:/app/data/admin-state    # audit log, login timestamps (1.6.4+)
+      - bulwark-config:/app/data/admin         # wizard / admin-managed config
+      - bulwark-state:/app/data/admin-state    # audit log, login timestamps
       - bulwark-telemetry:/app/data/telemetry  # instance_id + consent
     # ...
 
@@ -121,13 +121,13 @@ volumes:
 - `ADMIN_STATE_DIR` defaults to `./data/admin-state` → `/app/data/admin-state`. Always read-write.
 - Legacy single-volume installs (`ADMIN_DATA_DIR`) are still honoured when neither split variable is set.
 
-## Start the Stack
+## Start the stack
 
 ```bash
 docker compose up -d
 ```
 
-## View Logs
+## View logs
 
 ```bash
 docker compose logs -f bulwark
@@ -141,9 +141,11 @@ docker compose pull
 docker compose up -d
 ```
 
-## Custom Build
+See [Updating](/docs/deployment/updating) for release channels and what needs a mounted volume to survive.
 
-If you want to build Bulwark from source instead of using the prebuilt image:
+## Building from source
+
+To build from source instead of pulling the published image:
 
 ```yaml
 bulwark:

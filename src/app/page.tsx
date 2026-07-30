@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeftRight, ArrowRight, ArrowUpRight, ExternalLink, Github, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Github, Star } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { BulwarkMark } from "@/components/bulwark-mark";
@@ -21,39 +21,39 @@ const MONO = "var(--font-jetbrains), ui-monospace, monospace";
 const HERO_TITLE = ["Webmail built for", "the 21st", "century."];
 const HERO_ACCENT_RANGE: [number, number] = [3, 5]; // "the 21st century."
 const HERO_DECK =
-  "Email turned fifty in 2021. Webmail has been frozen in place since Gmail and Outlook drew the map. Bulwark is what mail looks like when someone finally writes it for the decade we're in: open protocol, instant push, your hardware.";
+  "One interface for everything your mail server holds: messages, calendars, address books and files. Bulwark threads your mail, searches all of it, and installs as a PWA on your phone.";
 
 const FAQS = [
   {
     q: "Is Bulwark the mail server, or just the front?",
-    a: "Just the front. Stalwart is the server: it stores mail, speaks SMTP, runs spam, holds auth. Bulwark is the JMAP client you point your browser at. You run both, but the heavy lifting lives a layer down.",
+    a: "The front. Stalwart is the mail server proper. It holds the messages, it's the thing SMTP talks to, and it owns the accounts and the spam filtering. Bulwark is a client that happens to run in a browser rather than on your desktop. You need both, and Stalwart is the one to install first.",
   },
   {
     q: "Why JMAP and not IMAP?",
-    a: "JMAP was designed for the modern web. One TLS connection, push instead of polling, batched mutations, threading on the server. The result is a webmail that feels like a native app instead of a Gmail polyfill.",
+    a: "IMAP is from 1986 and it shows. Every folder wants its own connection, the client has to keep asking whether anything changed, and threading is something you reassemble yourself after fetching more than you needed. JMAP moves that work to the server and sends back a diff. Concretely: marking twenty messages read is one request instead of twenty.",
   },
   {
     q: "How is this different from running Roundcube or SOGo?",
-    a: "Bulwark is built fresh for Stalwart and JMAP - no PHP, no plugin-of-plugins archaeology. The codebase is TypeScript and Next.js, the protocol is open, and the surface area is small enough to read in an afternoon.",
+    a: "Both of those are IMAP clients carrying two decades of compatibility layers, and they carry it honestly. Bulwark started at JMAP, so there was never a layer to accumulate. It's TypeScript and Next.js, and small enough that you can read what it does with your credentials in an afternoon.",
   },
   {
     q: "What does deployment look like?",
-    a: "A docker-compose file with two services - Stalwart and Bulwark - sitting behind your reverse proxy of choice. Caddy, Traefik, nginx; we have working examples for each. Manual install is documented if you prefer.",
+    a: "Two services in a compose file, Stalwart and Bulwark, behind whatever reverse proxy you already run. There are working examples for Caddy, Traefik and nginx. If you'd rather not use Docker at all, the manual install is written up too.",
   },
   {
     q: "Will it sit in front of an existing Stalwart deployment?",
-    a: "Yes. Point Bulwark at the JMAP endpoint, set up OAuth or basic auth, and you're done. No data migration, no reformatting of mailboxes; Stalwart stays the source of truth and Bulwark is just another client talking to it.",
+    a: "Yes, and that's the least disruptive way to try it. Point Bulwark at the JMAP endpoint and pick OAuth or basic auth. Nothing migrates and nothing gets reformatted. Stalwart stays the source of truth; Bulwark is one more client connecting to it, and you can turn it off again without consequences.",
   },
   {
     q: "Is there a hosted version I can try first?",
-    a: "There's a limited demo at demo.bulwarkmail.org - read-only-ish, shared mailbox, reset every hour, kept up to honestly look like the real thing. Beyond that, no hosted tier we run. The project is for people who would rather host their own; a hosted plan would quietly become the thing we're funded by, and we'd rather not. If the demo isn't enough, the container runs locally in ten minutes.",
+    a: "There's a demo at demo.bulwarkmail.org. Shared mailbox, mostly read-only, wiped every hour. Beyond that we don't run a hosted tier and don't intend to. The whole point is people running their own, and a paid tier would slowly become the thing we optimised for. If the demo doesn't answer your question, the container starts locally in about ten minutes.",
   },
 ];
 
 const STATS = {
-  instances: "1,403",
+  instances: "5,587",
   commits: "769",
-  langs: 18,
+  langs: 24,
 };
 
 const GITHUB_API = "https://api.github.com/repos/bulwarkmail/webmail";
@@ -70,7 +70,7 @@ async function fetchLatestVersion(): Promise<string> {
   } catch {
     // fall through
   }
-  return "1.5.2";
+  return "1.7.8";
 }
 
 async function fetchGithubStars(): Promise<number | null> {
@@ -129,10 +129,12 @@ async function fetchLocaleCount(): Promise<number | null> {
   return null;
 }
 
+// Panel 5 of the public adoption dashboard: "Total instances ever seen", i.e.
+// every instance that has ever reported a heartbeat, not just the active ones.
 async function fetchBulwarkInstances(): Promise<number | null> {
   try {
     const res = await fetch(
-      "https://grafana.external.bulwarkmail.org/api/public/dashboards/e8d712a9a7f44b399eb72a90fe36eb80/panels/1/query",
+      "https://grafana.external.bulwarkmail.org/api/public/dashboards/e8d712a9a7f44b399eb72a90fe36eb80/panels/5/query",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -372,16 +374,16 @@ function MissionSection() {
             <em style={{ fontStyle: "normal", fontFamily: SERIF, color: "var(--rasp)" }}>
               most of it was written then
             </em>
-            . The protocols caught up in 2019. The web caught up before that. Mail was the last surface waiting; Bulwark is what catching up looks like.
+            . The browser stopped being the limiting factor a long time ago, and JMAP took away the protocol excuse in 2019. We started Bulwark after both of those, which is honestly the only real advantage it has.
           </p>
           <div className="border-l border-[color:var(--rule)] pl-8">
             <div className="ed-eyebrow mb-3">What 2019 changed</div>
             <ul className="flex flex-col m-0 p-0 list-none border-t border-[color:var(--rule)]">
               {[
-                ["Push, not polling", "Server tells the client when state changes; no 30-second IMAP loop, no idle reconnects."],
-                ["One round-trip per click", "Mark-read, move, and fetch-next batched into a single JMAP call."],
-                ["Threading at the server", "Conversations stitched in Stalwart, not reassembled per-render in the browser."],
-                ["Typed across the wire", "JMAP defines exact response shapes; the client is strict TS, so drift is a compile error."],
+                ["The server speaks first", "Stalwart announces a state change the moment it happens. The 30-second poll loop goes away, and so do the idle reconnects that came with it."],
+                ["One round-trip per click", "Mark-read, move, and fetch-next travel as a single JMAP call."],
+                ["Threading is server work", "Stalwart stitches the conversation once. The browser renders what it's handed."],
+                ["Typed across the wire", "JMAP pins down the exact response shapes, and the client is strict TypeScript, so any drift between them fails at compile time."],
               ].map(([name, desc]) => (
                 <li
                   key={name}
@@ -571,7 +573,7 @@ function SurfacesSection() {
             color: "var(--paper)",
           }}
         >
-          One window. Mail, calendar,<br />contacts, files; all current.
+          Four apps that behave<br />like one application.
         </h2>
         <p
           style={{
@@ -583,7 +585,7 @@ function SurfacesSection() {
             margin: "0 0 64px",
           }}
         >
-          Everything Stalwart already serves, surfaced through a single window with the fit and finish you stopped expecting from self-hosted software a long time ago.
+          Stalwart already stores all of it. What was missing was a front end that doesn&apos;t make you feel the seam between mail and calendar, and doesn&apos;t ask you to forgive it for being self-hosted.
         </p>
 
         {/* Plate grid - responsive: stack on mobile, 2x2 on lg, overlap-y on xl */}
@@ -593,7 +595,7 @@ function SurfacesSection() {
             { light: "/screenshots/light-calendar.png", dark: "/screenshots/dark-calendar.png", label: "Calendar · month" },
             { light: "/screenshots/light-settings.png", dark: "/screenshots/dark-settings.png", label: "Settings · accounts & signing" },
             { light: "/screenshots/light-composer.png", dark: "/screenshots/dark-composer.png", label: "Mail · drafting" },
-            { light: "/screenshots/light-themes.png", dark: "/screenshots/dark-themes.png", label: "Themes · pick one or write your own" },
+            { light: "/screenshots/light-themes.webp", dark: "/screenshots/dark-themes.webp", label: "Themes · pick one or write your own" },
             { src: "/screenshots/dark-viewer.png", label: "A glimpse of dark mode", showOnly: "light" as const },
             { src: "/screenshots/light-viewer.png", label: "A glimpse of light mode", showOnly: "dark" as const },
           ] as Array<{ label: string } & ({ light: string; dark: string } | { src: string; showOnly?: "light" | "dark" })>).map((p) => {
@@ -701,7 +703,7 @@ function OverviewSection() {
             margin: "0 0 56px",
           }}
         >
-          The wizard handles the parts that would otherwise be in a config file. You&apos;ll probably spend longer picking a logo on the branding screen than configuring the mail server.
+          The wizard handles what would otherwise be a config file. You&apos;ll probably spend longer picking a logo on the branding screen than you will pointing Bulwark at your mail server.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
@@ -820,9 +822,9 @@ function CommonsSection({
             color: "var(--paper)",
           }}
         >
-          Fork it, file an issue,<br />
+          It&apos;s AGPL, which means<br />
           <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-            send a patch.
+            you can just fix it.
           </span>
         </h2>
 
@@ -865,7 +867,7 @@ function CommonsSection({
                 color: "var(--paper)",
               }}
             >
-              &ldquo;We&apos;re writing the webmail we wanted in 2026 and didn&apos;t find. Modern protocol, modern tooling, modern UI. Not a SaaS. Not a startup. Not for sale.&rdquo;
+              &ldquo;We&apos;re writing the webmail we wanted in 2026 and didn&apos;t find: a JMAP-native client with an interface built this decade. It&apos;s AGPL and self-hosted, run by the people who use it rather than sold to them.&rdquo;
             </p>
             <div className="ed-folio" style={{ color: "var(--muted-navy)" }}>
               from our contributing guide
@@ -959,152 +961,90 @@ function CommonsSection({
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Other projects
+// SECTION: Other projects - 2x2 grid of clickable tiles
 // -----------------------------------------------------------------------------
 function OtherProjectsSection() {
-  const projects: { tag: string; name: string; accent: string; meta: React.ReactNode; href: string; body: React.ReactNode }[] = [
+  const projects: { tag: string; accent: string; meta: string; body: string; href: string }[] = [
     {
-      tag: "Project",
-      name: "bulwark",
-      accent: "legacy proxy",
-      meta: (
-        <>
-          JMAP <ArrowLeftRight className="inline w-[0.95em] h-[0.95em] align-[-0.15em]" aria-hidden /> IMAP / SMTP /
-          <br />
-          ManageSieve / CardDAV
-        </>
-      ),
+      tag: "Protocol bridge",
+      accent: "Legacy Proxy",
+      meta: "JMAP in front · IMAP, SMTP, ManageSieve, CardDAV behind",
+      body: "A translation layer that lets JMAP clients read a classic IMAP account as if it were native. The proxy speaks JMAP on one side and the ordinary mailbox protocols on the other, and the mail never leaves the server that already holds it.",
       href: "https://github.com/bulwarkmail/legacy-proxy",
-      body: (
-        <>
-          <p style={{ margin: "0 0 1em" }}>
-            <em>bulwark legacy proxy</em> is a translation layer that puts a{" "}
-            <strong>JMAP for Mail</strong> server in front of a classic{" "}
-            <strong>IMAP / SMTP / ManageSieve / CardDAV</strong> stack. It speaks RFC 8620 + RFC 8621 to clients, and standard mailbox protocols to whatever server already holds the user&apos;s mail. No new mail store, no migration: the mail keeps living in the existing IMAP server, and a modern JMAP client sees the account as if it were native.
-          </p>
-          <div
-            style={{
-              borderLeft: "2px solid var(--rasp)",
-              paddingLeft: 22,
-              margin: "24px 0",
-              fontStyle: "italic",
-            }}
-          >
-            A JMAP client (Bulwark webmail, JMAP-enabled mobile apps, custom tooling) authenticates against this proxy. The proxy holds an IMAP connection open to the real mail server and translates each JMAP method into the equivalent IMAP / SMTP / ManageSieve / CardDAV operation.
-          </div>
-        </>
-      ),
     },
     {
-      tag: "Project · Beta",
-      name: "Bulwark",
+      tag: "Mobile app · beta",
       accent: "Mobile",
-      meta: "React Native · Expo SDK 54\nAndroid shipping · iOS soon",
+      meta: "React Native · Android on GitHub, iOS next",
+      body: "The same account in your pocket: mail, calendar, contacts and files, woken by push when something arrives. Android builds are on GitHub today; iOS follows once we have the hardware to sign it.",
       href: "https://github.com/bulwarkmail/native",
-      body: (
-        <>
-          <div
-            className="ed-eyebrow"
-            style={{
-              display: "inline-block",
-              color: "var(--rasp)",
-              border: "1.5px solid var(--rasp)",
-              padding: "5px 10px",
-              marginBottom: 18,
-            }}
-          >
-            Beta · work in progress
-          </div>
-          <p style={{ margin: "0 0 1em" }}>
-            <em>Bulwark Mobile</em> is a <strong>React Native (Expo SDK 54)</strong> client for Bulwark Webmail - a JMAP-based mail, calendar, contacts and Files app, with built-in <strong>FCM notifications</strong>.
-          </p>
-          <p style={{ margin: 0 }}>
-            The Android build is on GitHub today. An iOS release will follow once we have the hardware to sign and ship it properly.
-          </p>
-        </>
-      ),
     },
     {
-      tag: "Project",
-      name: "Bulwark",
+      tag: "Hosted service",
       accent: "Relay",
-      meta: (
-        <>
-          JMAP PushSubscription <ArrowLeftRight className="inline w-[0.95em] h-[0.95em] align-[-0.15em]" aria-hidden /> FCM
-          <br />
-          one hosted instance for all
-        </>
-      ),
+      meta: "JMAP push in, Firebase push out · one shared instance",
+      body: "Turns the mail server's push notifications into Firebase pushes, so the mobile app wakes without every self-hoster standing up their own Firebase project. All the relay ever sees is a device token and a hashed state id; message content never reaches it.",
       href: "https://github.com/bulwarkmail/relay",
-      body: (
-        <>
-          <p style={{ margin: "0 0 1em" }}>
-            <em>Bulwark Relay</em> is a push notification relay for Bulwark Webmail. It terminates <strong>JMAP PushSubscription</strong> pushes from the user&apos;s mail server and forwards them to <strong>Firebase Cloud Messaging</strong>, so the mobile app wakes up and fetches new mail over its own JMAP connection.
-          </p>
-          <p style={{ margin: 0 }}>
-            Designed so self-hosters don&apos;t need their own Firebase project: a single hosted instance serves every Bulwark client that opts in. The relay never sees mail content - only opaque FCM tokens, state-id hashes, and timing.
-          </p>
-        </>
-      ),
     },
     {
-      tag: "Project · Open directory",
-      name: "Bulwark",
-      accent: "Extensions.",
-      meta: "Plugins + themes · authored\nin JS, shipped from a manifest",
+      tag: "Extension directory",
+      accent: "Extensions",
+      meta: "Plugins and themes · installed from a ZIP",
+      body: "Plugins add toolbar buttons, sidebar apps, shortcuts and workflows the stock client doesn't have; themes change how it looks. The directory lists free and open-source extensions that have passed review.",
       href: "https://extensions.bulwarkmail.org/",
-      body: (
-        <>
-          <p style={{ margin: "0 0 1em" }}>
-            Bulwark Webmail can be extended with two kinds of third-party add-ons. <strong>Plugins</strong> add hooks, UI buttons, sidebar apps, keyboard shortcuts, and whole new workflows that integrate with the JMAP client. <strong>Themes</strong> customize fonts, colors, and layouts to reshape the look and feel of the inbox.
-          </p>
-          <p style={{ margin: "0 0 28px" }}>
-            Both are published on the <em>Bulwark Extensions</em> directory, which hosts free and open-source extensions that have passed review.
-          </p>
-        </>
-      ),
     },
   ];
 
   return (
     <section className="ed-section bg-[color:var(--alt-section)]">
       <div className="mx-auto max-w-[1440px]">
-        <h2
-          className="text-foreground"
-          style={{
-            fontFamily: SANS,
-            fontWeight: 700,
-            letterSpacing: "-0.035em",
-            lineHeight: 0.98,
-            margin: "0 0 48px",
-            maxWidth: 1100,
-            fontSize: "clamp(2rem, 5vw, 5rem)",
-          }}
-        >
-          Other{" "}
-          <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-            projects.
-          </span>
-        </h2>
-
-        {projects.map((p, idx) => (
-          <div
-            key={p.name + p.accent}
-            className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 lg:gap-16 items-start pt-9 border-t-2 border-foreground"
-            style={{ marginTop: idx === 0 ? 0 : 64 }}
+        <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-4 mb-12 sm:mb-16">
+          <h2
+            className="text-foreground"
+            style={{
+              fontFamily: SANS,
+              fontWeight: 700,
+              letterSpacing: "-0.035em",
+              lineHeight: 0.98,
+              margin: 0,
+              fontSize: "clamp(2rem, 5vw, 5rem)",
+            }}
           >
-            <div>
-              <div
-                style={{
-                  fontFamily: MONO,
-                  fontSize: 12,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "var(--rasp)",
-                  marginBottom: 14,
-                }}
-              >
-                {p.tag}
+            Other{" "}
+            <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
+              projects.
+            </span>
+          </h2>
+          <p
+            className="text-foreground/60"
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontSize: 16,
+              lineHeight: 1.5,
+              margin: 0,
+              maxWidth: 380,
+            }}
+          >
+            The webmail is the main repo. These grew up around it.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {projects.map((p) => (
+            <a
+              key={p.accent}
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col border border-[color:var(--rule)] p-6 sm:p-9 transition-colors duration-150 hover:border-foreground/40 hover:bg-[color:var(--background)]"
+            >
+              <div className="flex items-start justify-between gap-4 mb-6 sm:mb-8">
+                <span className="ed-eyebrow">{p.tag}</span>
+                <ArrowUpRight
+                  className="w-5 h-5 shrink-0 text-foreground/35 transition-all duration-150 group-hover:text-[color:var(--rasp)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden
+                />
               </div>
               <h3
                 className="text-foreground"
@@ -1112,55 +1052,47 @@ function OtherProjectsSection() {
                   fontFamily: SANS,
                   fontWeight: 800,
                   letterSpacing: "-0.025em",
-                  lineHeight: 1,
-                  margin: "0 0 14px",
-                  fontSize: "clamp(1.75rem, 3vw, 2.375rem)",
+                  lineHeight: 1.05,
+                  margin: "0 0 8px",
+                  fontSize: "clamp(1.5rem, 2.2vw, 1.875rem)",
                 }}
               >
-                {p.name}
-                <br />
-                <span
-                  style={{
-                    color: "var(--rasp)",
-                    fontFamily: SERIF,
-                    fontStyle: "italic",
-                    fontWeight: 400,
-                  }}
-                >
+                Bulwark{" "}
+                <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
                   {p.accent}
                 </span>
               </h3>
-              <div className="ed-folio mb-5">
+              <div className="ed-folio" style={{ marginBottom: 18 }}>
                 {p.meta}
               </div>
-              <a
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-foreground"
+              <p
+                className="text-foreground/85"
                 style={{
-                  fontFamily: MONO,
-                  fontSize: 13,
-                  borderBottom: "1.5px solid var(--rasp)",
-                  paddingBottom: 4,
+                  fontFamily: SERIF,
+                  fontSize: 17,
+                  lineHeight: 1.6,
+                  margin: 0,
+                  maxWidth: 560,
                 }}
               >
-                {p.href.replace(/^https?:\/\//, "")} <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
-            <div
-              className="text-foreground"
-              style={{
-                fontFamily: SERIF,
-                fontSize: 19,
-                lineHeight: 1.6,
-                maxWidth: 820,
-              }}
-            >
-              {p.body}
-            </div>
-          </div>
-        ))}
+                {p.body}
+              </p>
+              <div className="mt-auto pt-7">
+                <span
+                  className="text-foreground"
+                  style={{
+                    fontFamily: MONO,
+                    fontSize: 12.5,
+                    borderBottom: "1.5px solid var(--rasp)",
+                    paddingBottom: 3,
+                  }}
+                >
+                  {p.href.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1185,9 +1117,9 @@ function QuestionsSection() {
               fontSize: "clamp(2.5rem, 9vw, 8.25rem)",
             }}
           >
-            The obvious{" "}
+            Before you{" "}
             <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-              questions.
+              install it.
             </span>
           </h2>
         </div>
@@ -1242,7 +1174,7 @@ function QuestionsSection() {
             lineHeight: 1.5,
           }}
         >
-          The{" "}
+          Anything past this is in the{" "}
           <Link
             href="/docs"
             style={{
@@ -1252,8 +1184,8 @@ function QuestionsSection() {
             }}
           >
             documentation
-          </Link>{" "}
-          covers the rest. Or{" "}
+          </Link>
+          . If it isn&apos;t, that&apos;s a documentation bug, and the{" "}
           <a
             href="https://github.com/bulwarkmail/webmail/issues/new"
             target="_blank"
@@ -1264,9 +1196,9 @@ function QuestionsSection() {
               textDecoration: "none",
             }}
           >
-            open an issue
+            issue tracker
           </a>{" "}
-          on GitHub; a person reads every one.
+          is where to say so.
         </div>
       </div>
     </section>
@@ -1360,7 +1292,7 @@ export default async function Home() {
     applicationCategory: "CommunicationApplication",
     operatingSystem: "Web, Docker, Linux",
     description:
-      "A modern, self-hosted webmail client for Stalwart Mail Server. Built with Next.js and JMAP for fast, private, self-hosted email, calendar, contacts, and file storage.",
+      "A self-hosted webmail client for Stalwart Mail Server, built with Next.js and JMAP. Email, calendar, contacts, and file storage in one interface, running on your own hardware.",
     url: "https://bulwarkmail.org",
     downloadUrl: "https://github.com/bulwarkmail/webmail",
     softwareVersion: version,

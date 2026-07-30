@@ -6,13 +6,13 @@ order: 2
 
 # Authentication
 
-Bulwark supports multiple authentication methods. Users log in with their email credentials configured in Stalwart.
+Users sign in with the email credentials that already exist in Stalwart. There are three ways to do it. Basic auth is the default, OAuth 2.0 / OIDC handles single sign-on, and app passwords cover the clients that understand neither.
 
-## Basic Authentication
+## Basic authentication
 
-The default method. Users enter their email address and password, which are validated against Stalwart's user database via the JMAP authentication endpoint.
+Users enter their email address and password, and Bulwark checks them against Stalwart's user database through the JMAP authentication endpoint.
 
-By default, Bulwark uses session-based authentication with no password storage on the server for security. Credentials are held only in the browser session.
+No password is written to disk anywhere on the Bulwark side. The session lives in the browser and dies with it, unless you turn on Remember me below.
 
 ### Changing the password from Bulwark
 
@@ -31,13 +31,13 @@ See [Account Security](/docs/guides/account-security) for the full permission ma
 
 ## OAuth 2.0 / OpenID Connect
 
-Bulwark supports OAuth2/OIDC with PKCE for single sign-on (SSO). This can be used alongside or instead of Basic Auth.
+OAuth2/OIDC with PKCE handles single sign-on. Run it alongside basic auth, or set `OAUTH_ONLY=true` to run it instead.
 
-### App Passwords
+### App passwords
 
-For environments where OAuth is the primary authentication method but some workflows require traditional credentials (e.g., IMAP/SMTP clients, CalDAV), Bulwark supports app password generation. Users create per-app credentials from Settings → Security → App passwords.
+Plenty of clients never learned OAuth. IMAP and SMTP clients want a username and a password, and so does most CalDAV software. Users generate a separate credential for each of them from Settings → Security → App passwords.
 
-Each app password can carry an optional **IP allowlist** so it only authenticates from approved networks (added in 1.5.0). App passwords are managed via Stalwart's JMAP `x:` methods and require Stalwart 0.16 or newer.
+Each app password can carry an optional IP allowlist, so a credential handed to a backup box only works from that box. App passwords go through Stalwart's JMAP `x:` methods and need Stalwart 0.16 or newer.
 
 ### Configuration
 
@@ -64,11 +64,11 @@ OAUTH_ONLY=true
 # OAUTH_EXTRA_SCOPES="custom-audience-scope"
 ```
 
-### Endpoint Discovery
+### Endpoint discovery
 
-Endpoints are auto-discovered via `/.well-known/oauth-authorization-server` or `/.well-known/openid-configuration`. No manual endpoint configuration is needed.
+Bulwark discovers the endpoints from `/.well-known/oauth-authorization-server` or `/.well-known/openid-configuration`, so you don't configure them by hand.
 
-### External Identity Providers
+### External identity providers
 
 If your JMAP server delegates authentication to an external IdP (e.g., Keycloak, Authentik), set the issuer URL:
 
@@ -76,13 +76,13 @@ If your JMAP server delegates authentication to an external IdP (e.g., Keycloak,
 OAUTH_ISSUER_URL=https://keycloak.example.com/realms/mail
 ```
 
-Bulwark supports RP-initiated logout when an `end_session_endpoint` is available.
+When the provider advertises an `end_session_endpoint`, Bulwark performs RP-initiated logout.
 
 ### Embedded SSO
 
 If you need to embed Bulwark in an iframe with automatic SSO managed by a parent portal, see the [Embedded SSO guide](/docs/guides/embedded-sso).
 
-## Remember Me
+## Remember me
 
 By default, sessions end when the browser is closed. To enable persistent sessions for Basic Auth:
 
@@ -95,9 +95,9 @@ When set, a "Remember me" checkbox appears on the login form. Credentials are en
 
 The `SESSION_SECRET` is also required for settings sync and multi-account support.
 
-## Multi-Account Support
+## Multi-account support
 
-Bulwark supports managing multiple email accounts simultaneously. The historical 5-account cap is lifted on HTTP/2 servers - on HTTP/1.1 the practical limit is set by the browser's per-origin connection pool (typically 6 parallel push streams). Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
+Several accounts can be signed in at once. The historical 5-account cap is lifted on HTTP/2 servers - on HTTP/1.1 the practical limit is set by the browser's per-origin connection pool (typically 6 parallel push streams). Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
 
 Multi-account requires `SESSION_SECRET` to persist sessions for each account:
 
@@ -110,13 +110,13 @@ Each account maintains its own JMAP session, and per-account state (emails, cont
 
 For full details, see [Multi-account Support](/docs/guides/multi-account).
 
-## Two-Factor Authentication
+## Two-factor authentication
 
-Bulwark supports TOTP two-factor authentication when configured in Stalwart. After entering their password, users are prompted for a verification code from their authenticator app.
+When Stalwart has TOTP enabled, users are asked for a code from their authenticator app after the password step.
 
 Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16+). Recovery codes are generated for account recovery. Session expiry during TOTP setup is handled cleanly so users aren't logged out partway through enrollment.
 
-## Session Security
+## Session security
 
 - Sessions use secure, httpOnly cookies
 - Session tokens follow Stalwart's JMAP session configuration

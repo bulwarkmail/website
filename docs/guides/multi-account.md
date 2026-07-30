@@ -1,14 +1,14 @@
 ---
-title: Multi-Account Support
+title: Multi-account support
 description: Manage multiple simultaneous email accounts in Bulwark.
 order: 6
 ---
 
-# Multi-Account Support
+# Multi-account support
 
-Bulwark supports managing multiple simultaneous email accounts in a single browser session. Each account maintains its own JMAP session and per-account state, so switching is instant and nothing has to be re-fetched on a switch.
+Several accounts can be signed in at once in a single browser session. Each keeps its own JMAP session and its own cached state, so switching between them fetches nothing.
 
-The historical **5-account cap was lifted in 1.6.3** for HTTP/2 JMAP servers, which let Bulwark multiplex push streams over a single connection. On HTTP/1.1 the practical limit is set by the browser's per-origin connection pool - typically 6 parallel push streams across all accounts on the same origin.
+There used to be a hard cap of five. It was never really ours: each account holds a push stream open, and HTTP/1.1 browsers only allow about six connections per origin. On an HTTP/2 server those streams multiplex over one connection, so the cap is gone. On HTTP/1.1 the browser's connection pool still sets the ceiling, at roughly six streams across all accounts on the same origin.
 
 ## Requirements
 
@@ -26,18 +26,18 @@ For Docker / Kubernetes secret mounts, use `SESSION_SECRET_FILE` instead:
 SESSION_SECRET_FILE=/run/secrets/session_secret
 ```
 
-## Adding an Account
+## Adding an account
 
 1. Click your avatar in the bottom-left to open the account switcher.
 2. Click **Add account** (also available as a button on the navigation rail).
 3. Sign in with the new account's credentials. Both Basic Auth and OAuth are supported, and accounts can use different authentication methods.
 4. The new account is added and becomes active.
 
-## Switching Accounts
+## Switching accounts
 
 Click any account in the account switcher to switch instantly. Per-account state (mailboxes, contacts, calendar, filters, identities) is cached in memory so the switch is immediate. If a per-account store is empty (first switch in a session), it's lazy-loaded on demand.
 
-## Per-Account State
+## Per-account state
 
 Each account maintains its own:
 
@@ -52,27 +52,27 @@ Each account maintains its own:
 
 OAuth refresh tokens are stored encrypted in httpOnly cookies, scoped per account.
 
-## Default Account
+## Default account
 
 You can mark one account as the default. The default account loads on initial sign-in and is the fallback target for the unified inbox. Set the default from the account switcher.
 
-## Unified Inbox
+## Unified inbox
 
 A unified mailbox view aggregates new mail from every connected account into a single list. Each row is annotated with the source account so you always know which mailbox an email lives in. The unified inbox is toggleable from the sidebar.
 
-## Shared Folders
+## Shared folders
 
 Folders shared with one account are surfaced under that account in the sidebar. Shared account folder layouts mirror primary folders so navigation stays consistent.
 
-## Connection Status
+## Connection status
 
-The account switcher shows per-account connection status (connected, reconnecting, error). Connection loss is handled transparently - JMAP push reconnects automatically and search/filter state is preserved across reconnects.
+The account switcher shows each account as connected, reconnecting, or errored. When a connection drops, JMAP push reconnects on its own and whatever search or filter you had applied survives the reconnect.
 
-## Removing an Account
+## Removing an account
 
 From the account switcher → account context menu → **Sign out**. Removing an account purges its in-memory state, encrypted cookie, and any per-account settings stored under settings sync.
 
-## Identities vs. Accounts
+## Identities versus accounts
 
 Accounts and sender identities are separate:
 
@@ -85,7 +85,7 @@ You can use both: multiple accounts, each with multiple identities.
 
 Identities support sub-addressing (`user+tag@domain.com`). When composing a reply, Bulwark suggests contextual tags based on the recipient. Sub-addressing also works with auto-select reply identity. The delimiter character is **configurable** in mail settings (defaults to `+`, supports other commonly used separators like `-` for compatibility with mail servers that don't use `+`).
 
-## Limits and Performance
+## Limits and performance
 
 - **Maximum accounts** - No hard cap on HTTP/2 servers; bounded by the browser's per-origin connection pool on HTTP/1.1 (typically 6 parallel push streams).
 - **Push connections** - One JMAP push stream per account, established lazily on first switch and multiplexed when the server supports HTTP/2.

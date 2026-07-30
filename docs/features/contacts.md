@@ -1,14 +1,17 @@
 ---
 title: Contacts
-description: Contact management features.
+description: Address books, groups, categories, and vCard import and export.
 order: 3
 ---
 
 # Contacts
 
-Manage your contacts directly within Bulwark using JMAP Contacts (RFC 9553/9610 ContactCard/AddressBook).
+Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they live on the mail server alongside the mail rather than in a separate directory you have to keep in sync.
 
-## Contact Management
+<img class="theme-light-only" src="/screenshots/light-contacts-detail.webp" alt="A contact's detail view, showing recent mail and upcoming events with that person" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-contacts-detail.webp" alt="A contact's detail view, showing recent mail and upcoming events with that person" width="5120" height="2880" />
+
+## Managing contacts
 
 - Add, edit, and delete contacts
 - Multiple email addresses, phone numbers, and addresses per contact
@@ -23,16 +26,16 @@ Manage your contacts directly within Bulwark using JMAP Contacts (RFC 9553/9610 
 - Resizable sidebar for browsing contacts alongside details
 - Pagination for large address books via `maxObjectsInGet` capability detection
 
-## Revamped Detail View
+## Detail view
 
-The contact detail view supports:
+The detail view shows:
 
 - Filters for navigating between detail sections
 - Photo display with print support
 - Duplicate detection and merge actions
-- **Contact activity** - a dedicated component showing recent emails exchanged and upcoming calendar events for the contact
+- **Contact activity** - recent mail exchanged with this person and their upcoming calendar events
 
-## Address Book Directories
+## Address book directories
 
 Organize contacts across multiple address books:
 
@@ -43,7 +46,7 @@ Organize contacts across multiple address books:
 - Visual separation of address books in the sidebar
 - Sharing of address books via JMAP
 
-## Trusted Senders
+## Trusted senders
 
 Trusted senders are stored in a dedicated JMAP address book separate from your personal contacts. When you allow images from a sender or otherwise trust them, the entry is persisted server-side and synced across devices.
 
@@ -57,23 +60,23 @@ Organize contacts with categories:
 
 ## Groups
 
-Organize contacts into groups for easy access:
+Groups collect contacts you address together:
 
 - Create custom contact groups with JMAP members map
 - Add contacts to multiple groups
 - Group expansion when addressing emails
 
-## Auto-Complete
+## Autocomplete
 
 When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc) from your contacts stored on the JMAP server.
 
-## Import & Export
+## Import and export
 
 - **Import** - vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
 - **Export** - Download contacts as vCard, accessible from Settings
 - **Sync** - Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
 
-## Bulk Operations
+## Bulk operations
 
 Select multiple contacts for batch actions:
 

@@ -1,24 +1,24 @@
 ---
-title: Introduction
+title: Extensions overview
 description: Build plugins and themes for Bulwark Webmail and publish them on the Bulwark Extensions directory.
 order: 1
 ---
 
 # Extensions
 
-Bulwark Webmail can be extended with two kinds of third-party add-ons:
+Third parties can extend Bulwark Webmail two ways:
 
 - **Plugins** - add hooks, UI buttons, sidebar apps, keyboard shortcuts, and whole new workflows that integrate with the JMAP client.
-- **Themes** - customize fonts, colors, and layouts to reshape the look and feel of the inbox.
+- **Themes** - change fonts, colors, and layout.
 
-Both are published on the [Bulwark Extensions directory](https://extensions.bulwarkmail.org/), which hosts free and open source extensions that have passed review.
+Both are published on the [Bulwark Extensions directory](https://extensions.bulwarkmail.org/), which lists free and open source extensions that have passed review.
 
 ## What you'll find in these docs
 
 - **[manifest.json reference](/docs/extensions/manifest)** - required fields, permissions, and metadata.
 - **[REST API reference](/docs/extensions/api)** - the public API the directory exposes for querying and installing extensions.
 - **[Submission guidelines](/docs/extensions/guidelines)** - rules, review process, and content policy for getting your extension published.
-- **[Publishing & updates](/docs/extensions/publishing)** - how the review pipeline works and how to ship new versions.
+- **[Publishing and updates](/docs/extensions/publishing)** - how the review pipeline works and how to ship new versions.
 
 ## Getting started
 
@@ -32,9 +32,9 @@ A theme is a bundle of CSS overrides that target Bulwark's design tokens (the `-
 
 ## Design principles
 
-- **Free and open source, always.** The directory will never accept paid or closed-source extensions.
-- **Privacy first.** Extensions must not collect user data beyond what their declared permissions allow.
-- **Minimum permissions.** Requesting more capabilities than an extension needs is grounds for rejection.
-- **Auditable by default.** All source code must live in a public GitHub repository under an OSI-approved license.
+- **Free and open source, always:** the directory will never accept paid or closed-source extensions.
+- **Privacy first:** extensions must not collect user data beyond what their declared permissions allow.
+- **Minimum permissions:** asking for more than the extension needs is grounds for rejection.
+- **Auditable by default:** all source code must live in a public GitHub repository under an OSI-approved license.
 
-Ready to ship? Read the [submission guidelines](/docs/extensions/guidelines) first, then [submit at extensions.bulwarkmail.org/submit](https://extensions.bulwarkmail.org/submit).
+When you are ready to ship, read the [submission guidelines](/docs/extensions/guidelines), then [submit at extensions.bulwarkmail.org/submit](https://extensions.bulwarkmail.org/submit).

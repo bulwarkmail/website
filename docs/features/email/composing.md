@@ -1,17 +1,17 @@
 ---
-title: Composing Emails
+title: Composing emails
 description: Rich text editor and composing features.
 order: 1
 ---
 
-# Composing Emails
+# Composing emails
 
-Bulwark's composer provides a rich editing experience for crafting emails.
+The composer is a Tiptap rich-text editor. It has a plain-text mode for people who want one, signatures that follow the sending identity, reusable templates, and S/MIME signing and encryption toggles.
 
 <img class="theme-light-only" src="/screenshots/light-composer.png" alt="Bulwark email composer" width="2560" height="1440" />
 <img class="theme-dark-only" src="/screenshots/dark-composer.png" alt="Bulwark email composer" width="2560" height="1440" />
 
-## Rich Text Editor
+## Rich text editor
 
 The editor supports full formatting:
 
@@ -23,30 +23,30 @@ The editor supports full formatting:
 - Code blocks
 - Inline images with a resizable image component (embedded as data URLs so drops don't duplicate attachments)
 
-## Identity Selection
+## Identity selection
 
 Choose which sender identity to use from the dropdown in the composer. Each identity can have its own name, email address, and signature.
 The identity manager refreshes from the server after create, update, and delete operations so the composer stays in sync with server-side changes.
 
-### Auto-Select Reply Identity
+### Auto-select reply identity
 
-When replying to an email, Bulwark can automatically select the identity that matches the recipient address of the original email. This is configurable in settings.
+On a reply, Bulwark can pick the identity matching the address the original was sent to. Turn it on in settings.
 
-### Reply-To Addresses
+### Reply-to addresses
 
 Configure reply-to addresses in the composer to direct replies to a different address than the sender identity.
 
-### From-Header Override and Catch-All Auto-Reply
+### From-header override and catch-all auto-reply
 
 When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g. `marketing@yourdomain.com`) should come back from the same alias - even when it isn't a configured identity. Bulwark detects this and pre-fills the alias as the From header in the composer. You can still override the From header manually before sending.
 
-### Signature Position
+### Signature position
 
 Each identity can choose whether its signature appears **above** or **below** quoted text on a reply or forward. The default fallback is the primary identity's signature. The setting is searchable from the email behavior settings.
 
-## Composer Modes
+## Composer modes
 
-Bulwark supports two composer modes:
+There are two composer modes:
 
 - **Rich text** - Full formatting with the rich text editor (default)
 - **Plain text only** - A simplified plain text composer for users who prefer unformatted emails
@@ -76,12 +76,12 @@ Set up multiple signatures via identity management:
 Insert reusable email templates from the compose toolbar:
 
 - Browse templates by category with search and filter
-- Placeholder variables (e.g., `{{recipientName}}`, `{{date}}`) are auto-filled from composer context
+- Placeholder variables (e.g. `{{recipientName}}`, `{{date}}`) are auto-filled from composer context
 - Custom placeholders prompt for input on insertion
-- Press `T` in the email list or `Ctrl+Shift+T` in the composer to open the template picker
+- Press `t` to open the template picker, as long as focus isn't in a text field
 - Manage templates from Settings
 
-## S/MIME Compose Controls
+## S/MIME compose controls
 
 - Enable or disable signing per message when an S/MIME identity certificate is available
 - Enable encryption when every recipient has a known public certificate
@@ -90,15 +90,15 @@ Insert reusable email templates from the compose toolbar:
 
 ## Drafts
 
-Emails are auto-saved as drafts every 60 seconds (configurable in settings). You can also manually save with `Ctrl+S`. Drafts sync across devices via JMAP. A discard confirmation dialog appears when closing an unsaved draft.
+Drafts save themselves every 60 seconds, and the interval is adjustable in settings. They sync across devices over JMAP, and closing an unsaved draft asks for confirmation first.
 
-Existing drafts can be reopened and edited - click a draft in the Drafts folder to resume editing with all content, recipients, attachments, and identity selection restored.
+Click a draft in the Drafts folder to resume it: content, recipients, attachments, and the identity you had selected all come back.
 
-## Keyboard Shortcuts
+## Keyboard shortcuts
 
-| Shortcut       | Action          |
-| -------------- | --------------- |
-| `Ctrl+Enter`   | Send email      |
-| `Ctrl+S`       | Save as draft   |
-| `Ctrl+Shift+T` | Insert template |
-| `Escape`       | Discard / close |
+| Shortcut               | Action               |
+| ---------------------- | -------------------- |
+| `Ctrl/Cmd+Enter`       | Send                 |
+| `Ctrl/Cmd+Shift+Enter` | Schedule send        |
+| `t`                    | Open template picker |
+| `Escape`               | Close the composer   |

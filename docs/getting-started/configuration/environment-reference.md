@@ -1,19 +1,19 @@
 ---
-title: Environment Reference
-description: Complete reference for every variable in Bulwark's .env.example.
+title: Environment reference
+description: Every variable in Bulwark's .env.example, with defaults and when to set it.
 order: 3
 ---
 
-# Environment Reference
+# Environment reference
 
-This page documents every setting currently present in Bulwark's `.env.example` and a handful of additional advanced variables read by the app.
+Every setting in Bulwark's `.env.example`, plus a few advanced variables the app reads but doesn't advertise there.
 
 All variables are evaluated at runtime, so Docker deployments can be reconfigured without rebuilding. Some are always available, some only affect optional features, and a few exist as compatibility fallbacks for older build-time deployments. The single exception is `NEXT_PUBLIC_BASE_PATH`, which Next.js bakes into asset URLs at build time.
 
 > **First-launch tip**
 > Most new installs no longer need to set environment variables by hand - launch the container without `JMAP_SERVER_URL` and the [web setup wizard](/docs/getting-started/installation#quickest-path-docker--setup-wizard) writes the equivalent values to `ADMIN_CONFIG_DIR`. Use env vars when you want env-driven, immutable, or read-only configuration.
 
-## Server Listen Address
+## Server listen address
 
 ### `HOSTNAME`
 
@@ -29,7 +29,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `3000`
 - **When to set it** - Set this when you need the server to listen on a non-default port.
 
-## Core Settings
+## Core settings
 
 ### `APP_NAME`
 
@@ -66,7 +66,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **CORS note** - External JMAP servers must include the webmail origin in their `Access-Control-Allow-Origin` response header, or browser requests will be blocked.
 - **When to set it** - Set to `true` for multi-tenant deployments or testing setups where users connect to different servers.
 
-## Stalwart Integration
+## Stalwart integration
 
 ### `STALWART_FEATURES`
 
@@ -135,7 +135,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - Empty.
 - **When to set it** - When you need to add provider-specific scopes (e.g., a custom audience scope) on top of the defaults.
 
-## Session & Security
+## Session and security
 
 ### `SESSION_SECRET`
 
@@ -164,7 +164,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `true` when `COOKIE_SAME_SITE=none` or `NODE_ENV=production`, otherwise `false`.
 - **When to set it** - Override when reverse-proxying terminates TLS in front of an `http://` Bulwark and you need explicit control.
 
-## Settings Sync
+## Settings sync
 
 ### `SETTINGS_SYNC_ENABLED`
 
@@ -186,7 +186,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
     - bulwark-settings:/app/data/settings
   ```
 
-## Admin Dashboard
+## Admin dashboard
 
 ### `ADMIN_PASSWORD`
 
@@ -195,7 +195,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - On first startup with no password set and no wizard completion, a random password is generated and logged to stdout.
 - **When to set it** - Set this when you want env-driven configuration or to override whatever the wizard wrote.
 
-### `ADMIN_CONFIG_DIR` _(new in 1.6.4)_
+### `ADMIN_CONFIG_DIR`
 
 - **Purpose** - Operator-authored admin state. Holds `config.json`, `policy.json`, `admin.json` (passwordHash only), `plugin-config/`, `plugins/`, `themes/`, and uploaded branding assets. Safe to mount **read-only** after the setup wizard finishes.
 - **Required** - No.
@@ -207,7 +207,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
     # - bulwark-config:/app/data/admin:ro  # ro after setup completes
   ```
 
-### `ADMIN_STATE_DIR` _(new in 1.6.4)_
+### `ADMIN_STATE_DIR`
 
 - **Purpose** - Runtime admin state that must stay writable forever: `admin-state.json` (login timestamps), `audit.log`, and the bootstrap setup token.
 - **Required** - No.
@@ -218,7 +218,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
     - bulwark-state:/app/data/admin-state
   ```
 
-### `ADMIN_CONFIG_READONLY` _(new in 1.6.4)_
+### `ADMIN_CONFIG_READONLY`
 
 - **Purpose** - Enforce read-only mode at the application layer so attempts to mutate config produce a clean error rather than a mid-request EROFS from the filesystem.
 - **Required** - No.
@@ -245,7 +245,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `1`
 - **When to set it** - Increase if Bulwark sits behind multiple reverse proxies (e.g., CDN -> ingress -> app).
 
-## Anonymous Telemetry
+## Anonymous telemetry
 
 ### `BULWARK_TELEMETRY`
 
@@ -273,7 +273,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
     - bulwark-telemetry:/app/data/telemetry
   ```
 
-## Extension Directory / Marketplace
+## Extension directory and marketplace
 
 ### `EXTENSION_DIRECTORY_URL`
 
@@ -299,7 +299,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `info`
 - **When to set it** - Increase to `debug` during troubleshooting; lower to `warn` or `error` in quieter production environments.
 
-## Branding - Icons & Favicon
+## Branding: icons and favicon
 
 ### `FAVICON_URL`
 
@@ -332,7 +332,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `#ffffff`
 - **When to set it** - Match your app's main background color.
 
-## Branding - Logos
+## Branding: logos
 
 ### `APP_LOGO_LIGHT_URL`
 
@@ -349,7 +349,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Required** - No.
 - **Default** - Empty (falls back to `APP_LOGO_LIGHT_URL` if set, otherwise no logo).
 
-## Login Page Customization
+## Login page customization
 
 ### `LOGIN_LOGO_LIGHT_URL`
 
@@ -389,7 +389,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - Built-in safe default.
 - **When to set it** - Match the routing strategy you want for SEO, redirects from older deployments, or middleware compatibility. Set to `always` when using `NEXT_PUBLIC_BASE_PATH` to avoid `next-intl` rewrite loops.
 
-## Subpath / Reverse Proxy Mount
+## Subpath and reverse proxy mount
 
 ### `NEXT_PUBLIC_BASE_PATH` _(build-time)_
 
@@ -403,7 +403,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
   docker build --build-arg NEXT_PUBLIC_BASE_PATH=/webmail -t bulwark-webmail .
   ```
 
-## Embedded SSO & iframe
+## Embedded SSO and iframe
 
 ### `AUTO_SSO_ENABLED`
 
@@ -427,7 +427,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - Empty (accepts messages from any origin).
 - **When to set it** - Set to the origin of the parent portal for security when using the postMessage bridge.
 
-## Legacy Build-time Fallbacks
+## Legacy build-time fallbacks
 
 These variables still work, but they exist for compatibility with older deployments where values were baked into the frontend bundle at build time.
 
@@ -443,7 +443,7 @@ These variables still work, but they exist for compatibility with older deployme
 - **Required** - No.
 - **When to use it** - Only if you still depend on build-time configuration.
 
-## Recommended Patterns
+## Recommended patterns
 
 ### Small self-hosted setup
 
@@ -539,7 +539,7 @@ SESSION_SECRET=replace-with-a-random-secret
 TRUSTED_PROXY_DEPTH=2
 ```
 
-## Using `*_FILE` Variables With Docker Secrets
+## Using `*_FILE` variables with Docker secrets
 
 Several variables that hold secrets accept a corresponding `*_FILE` variant pointing at a file containing the value. This is the recommended pattern when running under Docker Swarm, Kubernetes, or any orchestration platform that mounts secrets as files:
 

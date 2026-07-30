@@ -1,139 +1,104 @@
 ---
 title: Email
-description: Email features and capabilities in Bulwark.
+description: How Bulwark handles reading, composing, searching, and filtering mail.
 order: 1
 ---
 
 # Email
 
-Bulwark provides a full-featured email experience powered by the JMAP protocol.
+The mail client talks JMAP. Threading, search and flag changes are all resolved on the server, and the browser hears about the result rather than going looking for it.
 
 <img class="theme-light-only" src="/screenshots/light-viewer.png" alt="Bulwark mail reading view" width="2560" height="1440" />
 <img class="theme-dark-only" src="/screenshots/dark-viewer.png" alt="Bulwark mail reading view" width="2560" height="1440" />
 
-## Inbox & Folders
+## Inbox and folders
 
-- Three selectable mail layouts: **split** (three-pane), **focused list**, and **reading pane at bottom** - configurable per user
-- Hierarchical mailbox display with unread counts
-- Unread filter toggle in the mailbox sidebar
-- Drag-and-drop email organization between folders
-- Archive actions with configurable archive organization modes (single folder, year folders, or year/month folders)
-- Virtual scrolling for large email lists with prefetching of initial email data on login
-- Infinite scroll pagination
-- Empty folder action for Junk and Trash mailboxes (with confirmation)
-- Hover actions with configurable quick-action buttons for common operations
-- Attachment position setting (top or bottom of email viewer)
-- Answered and forwarded email status indicators
-- `.eml` file import via folder right-click menu
-- Right-click context menu on the folders sidebar with folder management actions
-- Mailbox context menu header shows the full path with intelligent path shortening
-- Unified mailbox view across all connected accounts (toggleable from the sidebar)
+<img class="theme-light-only" src="/screenshots/light-inbox.webp" alt="The Bulwark inbox with colored tags in the sidebar" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-inbox.webp" alt="The Bulwark inbox with colored tags in the sidebar" width="5120" height="2880" />
+
+Pick one of three layouts, per user, in settings: **split** (three panes), **focused list**, or **reading pane at bottom**. The mailbox tree shows unread counts, filters down to unread only, and accepts messages dragged into it. With several accounts connected, a unified view merges their inboxes into one list.
+
+Long mailboxes are virtualised and paginate as you scroll, and the first page of message data is prefetched at login so the inbox isn't empty while you wait.
+
+The rest is the ordinary furniture:
+
+- Archive into a single folder, into year folders, or into year/month folders
+- Empty Junk and Trash, with a confirmation first
+- Configurable hover quick-actions, and attachments shown at the top or bottom of the viewer
+- Answered and forwarded status icons in the list
+- Right-click a folder to manage it or to import an `.eml` file into it; the context menu header elides a long path in the middle rather than truncating it
 
 ## Composing
 
-The rich text editor supports:
+The editor is Tiptap: bold, italic, underline, strikethrough, ordered and unordered lists, links, tables, block quotes, and code blocks. Images can be pasted or dragged in and are embedded as data URLs so a dropped image doesn't also become an attachment, and each one can be resized in place. There is a plain-text mode for people who want one.
 
-- **Formatting** - Bold, italic, underline, strikethrough
-- **Lists** - Ordered and unordered lists
-- **Links** - Inline hyperlinks
-- **Tables** - Insert and edit tables in rich-text emails
-- **Block quotes** and **code blocks**
-- **Attachments** - Drag-and-drop file attachments and forgotten-attachment warning (detects attachment keywords in the body before send)
-- **Inline images** - Paste or drag images directly; embedded as data URLs to prevent duplicate attachments. Resizable image component for fine-tuning dimensions
-- **Image upload** - Rich text editor supports direct image upload
-- **Signatures** - Multiple per-identity signatures, with configurable position **above** or **below** quoted text (per identity, searchable from the email behavior settings)
-- **Templates** - Reusable email templates with placeholder variables
-- **Identity selection** - Choose sender identity from dropdown with auto-select reply identity
-- **From-header override** - Override the sender from the composer; combined with the catch-all auto-reply, replies to an alias on a domain you own auto-fill the alias as the sender even when it isn't a configured identity
-- **Reply-to addresses** - Configure reply-to addresses in the composer
-- **Plain text mode** - Optional plain text-only composer mode
-- **Conversation threading** - Optional toggle to disable conversation threading
-- **Editable quote island** - When replying, the quoted original is kept in an editable, layout-preserving block you can trim or annotate without breaking its formatting
-- **Scheduled send** - Schedule a message for a future time, or apply a configurable send delay that holds outgoing mail briefly so you can undo
-- **Read receipts** - Request a read receipt (MDN, RFC 8098) when composing; incoming receipt requests are handled in the viewer
-- **Auto-add trusted senders** - When you reply to someone, Bulwark adds them to your trusted senders so future mail loads images automatically
+Which address a message leaves from is more flexible than the identity list suggests. Replies can auto-select the identity the original was addressed to, the From header can be overridden outright, and on a catch-all domain a reply to some arbitrary alias comes back from that alias even though no identity exists for it. Each identity carries its own signature and decides whether it lands above or below the quoted text.
 
-### Keyboard Shortcut
+On a reply, the quoted original stays in an editable block that preserves its own layout, so you can trim or annotate it without the formatting collapsing.
 
-Press `C` anywhere in the app to open the compose window.
+Before a message goes out, Bulwark checks the body for words like "attached" and warns you if nothing is attached. After you press send, a configurable delay holds it briefly so you can take it back, or you can schedule it for a specific time instead. Read receipts (MDN, RFC 8098) can be requested here and are answered in the viewer.
+
+Replying to someone adds them to your trusted senders, so their images load next time without asking.
+
+Press `c` anywhere in the app to open the composer. [Composing emails](/docs/features/email/composing) goes through all of it properly.
 
 ## Reading
 
-- Threaded conversation view with inline expansion
-- Iframe-based HTML rendering with smart dark mode transformation (and preserved emoji colors)
-- Optional "Always Show Emails in Light Mode" setting for problematic HTML mail in dark theme; per-email toggle is respected
-- DOMPurify sanitization for security
-- External content blocked by default with per-sender trust; redesigned external-mail banner above attachments
-- SPF/DKIM/DMARC status indicators with security tooltips - surfaces the most severe SPF result and hides the "via" badge on spoofed mail
-- TNEF (`winmail.dat`) detection and extraction for Outlook rich-text bodies and attachments
-- Embedded message/rfc822 attachment unwrapping with enhanced HTML body validation
-- S/MIME status banners for encrypted and signed messages, including unlock prompts for protected keys; redesigned to match the calendar invitation banner
-- Download, preview, or **drag attachments out** of the viewer to the local file system; image attachments show thumbnails and preview chips
-- Inline attachment preview with reliable MIME detection - images, inline PDF on desktop and mobile, and `.eml` (`message/rfc822`) attachments rendered like an email; composer attachments can be clicked to preview inline before send
-- Reply, reply-all, and forward actions
-- Quick reply form (redesigned to match the sender/banner layout)
-- Expandable email headers with contact sidebar
-- Move-to mailbox directly from the viewer
-- Newsletter unsubscribe support (RFC 2369)
-- Mobile bottom action bar with reply and navigation controls
-- Auto-fetch full email content when a message is auto-selected
-- PDF preview rendered via `<object>` with `blob:` source (closes on Escape before the email viewer)
-- Print the email directly from the viewer
+Messages render in an iframe, sanitised by DOMPurify on the way in. In dark mode the HTML is recolored by luminance so a white newsletter doesn't blind you, while emoji keep their own colors. Mail that survives this badly can be forced to light mode, either per message or globally.
+
+External content is blocked until you trust the sender, and the banner saying so sits above the attachments rather than below them. Next to it, SPF, DKIM and DMARC results are shown with the most severe SPF outcome surfaced first; on spoofed mail the "via" badge is suppressed rather than lending the message credibility.
+
+Two formats other clients tend to give up on are handled here. TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
+
+Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs render in a sandboxed object on desktop and mobile alike, and `.eml` attachments open like mail.
+
+Around all of that: reply, reply-all and forward, a quick reply form under the message, expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile.
 
 ## Search
 
-Bulwark provides a visual search panel with search chips for precise filtering:
+There is no query language to learn. The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list.
 
-- **Text search** - Full-text search across email content
-- **From** - Filter by sender
-- **To** - Filter by recipient
-- **Subject** - Search in subject line
-- **Body** - Search in email body
-- **Has attachment** - Filter emails with/without attachments
-- **Date range** - Filter by before/after dates
-- **Read status** - Filter read or unread emails
-- **Starred** - Filter starred or unstarred emails
+Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. Press `/` to jump to the search bar. [Search and filters](/docs/features/email/search) covers the panel in detail.
 
-Active filters display as removable search chips above the email list. The search supports cross-mailbox queries, wildcard queries, and OR conditions across supported fields.
+## Labels and tags
 
-Press `/` to focus the search bar.
+Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in settings.
 
-## Labels & Tags
+## Export and import
 
-Organize emails with colored labels. Labels are synced with JMAP keywords so they persist across clients. Customize label names and colors from settings.
+Export mail to disk and import it back. Both flows are translated into every language Bulwark ships.
 
-## Email Export & Import
+## Batch operations
 
-Export and import emails with full localization support across all supported languages.
-
-## Batch Operations
-
-Select multiple emails for bulk actions: archive, delete, mark read/unread, star/unstar, and move to folder.
+Select several messages and archive, delete, mark read or unread, star, or move them in one action.
 
 ## S/MIME
 
-- Import PKCS#12 identities and recipient public certificates from Settings
-- Bind certificates to identities for default signing behavior
-- Toggle signing and encryption directly in the composer
-- Automatically decrypt supported encrypted messages when the matching key is available
-- Legacy password-based encryption (PBE) support for older certificate formats
-- Enhanced certificate extraction from signed messages
-- Verify signatures in the viewer and optionally auto-import signer certificates for future encryption
+Import PKCS#12 identities and recipient certificates from Settings, bind a certificate to an identity so signing defaults on for it, and toggle signing and encryption per message in the composer. Incoming mail decrypts automatically when the matching key is loaded, signatures are verified in the viewer, and the signer's certificate can be auto-imported so you can encrypt the reply. Older bundles using password-based encryption are supported too.
 
-## Email Filters
+The full write-up, including the algorithm table and what each banner means, is on the [S/MIME page](/docs/guides/smime).
 
-Server-side email filtering via JMAP Sieve Scripts (RFC 9661):
+## Filters
 
-- Visual rule builder with conditions (From, To, Subject, Size, Body, Attachment, etc.) supporting multi-value matching, and actions (Move, Forward, Mark read, Star, Discard, Reject, etc.)
-- Expanded visual view for reviewing filter rules at a glance
-- Raw Sieve editor with syntax validation
-- Drag-and-drop rule reordering
-- Auto-save with rollback on failure
-- Only shown when the server supports Sieve
+Filtering happens on the server, as Sieve scripts over JMAP (RFC 9661), which means it keeps working while the browser is closed.
 
-## Email Templates
+Build rules visually (From, To, Subject, Size, Body, Attachment, and so on, each matching against several values) with actions to move, forward, mark read, star, discard, or reject. Reorder them by dragging. An expanded view shows every rule at once for review, and if you'd rather write Sieve directly there's a raw editor with syntax validation. Edits save themselves and roll back if the server rejects the script.
 
-- Reusable templates organized by category (General, Business, Personal, Support, Follow-up, custom)
-- Placeholder variables (`{{recipientName}}`, `{{date}}`, etc.) with auto-fill from composer context
-- Template picker in compose toolbar with search and category filter
-- Template manager in settings
+The whole section only appears when the server advertises Sieve support.
+
+## Vacation responder
+
+<img class="theme-light-only" src="/screenshots/light-vacation.webp" alt="Vacation responder settings with a date range and an HTML auto-reply" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-vacation.webp" alt="Vacation responder settings with a date range and an HTML auto-reply" width="5120" height="2880" />
+
+Out-of-office replies are a JMAP `VacationResponse`, which Bulwark writes and reads back as Sieve, so the server keeps answering while nothing of yours is running.
+
+Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. Turning on **Formatted message** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what actually goes out before you save.
+
+Like filters, this needs a server that supports Sieve.
+
+## Templates
+
+Templates are reusable message bodies grouped by category (General, Business, Personal, Support, Follow-up, or your own). Placeholders like `{{recipientName}}` and `{{date}}` fill themselves in from whatever the composer already knows; anything custom prompts you on insertion.
+
+Press `t` or use the compose toolbar to open the picker, which searches and filters by category. Templates are created and edited in settings.

@@ -19,10 +19,11 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
   {
     h: "Self-host",
     links: [
-      { label: "Docker", href: "/docs/deployment/docker/compose" },
+      { label: "Docker", href: "/docs/deployment/docker" },
       { label: "Compose", href: "/docs/deployment/docker/compose" },
       { label: "Reverse proxy", href: "/docs/deployment/docker/reverse-proxy" },
       { label: "Manual install", href: "/docs/deployment/manual" },
+      { label: "Updating", href: "/docs/deployment/updating" },
     ],
   },
   {
@@ -120,7 +121,7 @@ export function Footer() {
                 color: "var(--paper)",
               }}
             >
-              A webmail built for the decade we&apos;re actually in. Modern protocol, modern tooling, your hardware.
+              A JMAP webmail client for Stalwart Mail Server. AGPL, and it runs on your machine rather than ours.
             </p>
 
             {/* EU badge */}

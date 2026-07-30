@@ -6,13 +6,13 @@ order: 4
 
 # Submission guidelines
 
-Read these requirements carefully before submitting an extension. The directory review is strict on purpose - it keeps what we ship to users safe, auditable, and forever free.
+Read these before submitting. The review is strict on purpose: everything the directory ships to users has to stay auditable and free.
 
 ## Core principles
 
-- **Free and open source only.** No paid, proprietary, or closed-source extensions will ever be accepted. This is a core principle that will never change.
-- **Privacy-respecting.** Extensions must not collect, transmit, or store user data beyond what is required for their stated functionality.
-- **Transparency.** All source code must be publicly available and auditable.
+- **Free and open source only:** paid, proprietary, and closed-source extensions are never accepted, and that is not up for negotiation.
+- **Privacy-respecting:** extensions must not collect, transmit, or store user data beyond what their stated functionality requires.
+- **Transparency:** all source code must be publicly available and auditable.
 
 ## Technical requirements
 
@@ -34,9 +34,9 @@ Read these requirements carefully before submitting an extension. The directory 
 
 ## Permissions
 
-Extensions must request only the **minimum permissions necessary** for their declared functionality. Over-requesting is the single most common reason for rejection.
+Request the minimum permissions the extension actually needs. Over-requesting is the most common reason a submission is rejected.
 
-If an extension needs a permission that is not obviously required, justify it in the extension description or README. Permissions are shown to users on the install screen - you want your listing to be trustworthy at a glance.
+Where a permission is not obviously required, justify it in the description or the README. Users see the permission list on the install screen, and an unexplained one costs you installs.
 
 See the [full permissions list](/docs/extensions/manifest#permissions).
 
@@ -47,7 +47,7 @@ See the [full permissions list](/docs/extensions/manifest#permissions).
 3. **Manual review.** A human admin reviews the code for policy compliance, security, and quality.
 4. **Published.** Once approved, the extension appears in the directory and is installable from inside Bulwark Webmail.
 
-Most submissions are reviewed within a few days. You will be notified of the decision through GitHub.
+Reviews usually take a few days. The decision reaches you through GitHub.
 
 ## Updates
 
@@ -61,4 +61,4 @@ If your extension is rejected, you will receive a reason through the review syst
 
 ## Takedown
 
-We reserve the right to remove an extension from the directory at any time if it is later found to violate these guidelines - for example, if a new release introduces tracking code or dangerous behavior that slipped through review. Affected authors will be notified and given an opportunity to fix the issue.
+An extension can be pulled from the directory at any point if it turns out to break these rules, say a new release that slipped tracking code past review. The author is told why and gets a chance to fix it.

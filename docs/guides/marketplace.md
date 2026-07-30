@@ -1,12 +1,12 @@
 ---
-title: Extension Marketplace
+title: Extension marketplace
 description: Browse and install plugins and themes from a configurable extension directory.
 order: 8
 ---
 
-# Extension Marketplace
+# Extension marketplace
 
-The extension marketplace lets administrators browse and install plugins and themes directly from the Bulwark admin dashboard, without manually downloading and uploading ZIP bundles. The marketplace is opt-in and configurable, so you can point Bulwark at the official directory or run your own.
+Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin dashboard. You can point Bulwark at the official directory, at one you run yourself, or at nothing at all.
 
 ## Configuration
 
@@ -22,9 +22,9 @@ EXTENSION_DIRECTORY_URL=https://extensions.bulwarkmail.org
 
 When the URL resolves to a reachable directory, a **Marketplace** tab appears in the admin dashboard's plugin and theme management. When unset (or unreachable), the marketplace is hidden and admins manage plugins via direct ZIP upload only.
 
-**Install and uninstall are restricted to the admin dashboard** (since 1.6.2). Regular users cannot add or remove plugins or themes.
+**Install and uninstall are restricted to the admin dashboard.** Regular users cannot add or remove plugins or themes.
 
-## Using the Marketplace
+## Using the marketplace
 
 1. Sign in to the admin dashboard.
 2. Open Plugins or Themes.
@@ -35,17 +35,17 @@ When the URL resolves to a reachable directory, a **Marketplace** tab appears in
 
 Installed extensions are subject to the same validation as direct uploads - there is no "trusted directory bypass". If a plugin fails validation, install fails and the failure reason is logged.
 
-## Hosting Your Own Directory
+## Hosting your own directory
 
-The directory protocol is a simple HTTP API serving JSON manifests. Useful when you want to:
+The directory protocol is an HTTP API serving JSON manifests. Run your own when you want to:
 
 - Maintain an internal catalog of approved plugins for your organization
 - Host private themes restricted to your deployment
 - Air-gap your Bulwark deployment from the public internet
 
-The expected endpoints are documented in the open-source extension-directory project under the BulwarkMail organization. Point `EXTENSION_DIRECTORY_URL` at your hostname and you're done.
+The extension-directory project under the BulwarkMail organization documents the expected endpoints. Point `EXTENSION_DIRECTORY_URL` at your hostname once it serves them.
 
-## Safety Model
+## Safety model
 
 The marketplace does **not** implicitly trust the directory:
 
@@ -61,12 +61,12 @@ See [Plugins](/docs/guides/plugins) for the full plugin security model.
 
 When a newer version of an installed plugin is published in the directory, the marketplace surfaces an update prompt. Updates are not automatic - admins approve each update so a malicious or breaking new version can't roll out without review.
 
-## Disabling the Marketplace
+## Disabling the marketplace
 
 To hide the marketplace UI, unset `EXTENSION_DIRECTORY_URL` and restart Bulwark. Direct ZIP uploads continue to work.
 
-## See Also
+## Related pages
 
 - [Plugins](/docs/guides/plugins) - plugin architecture, hooks, and security
 - [Customization](/docs/guides/customization) - themes and branding
-- [Admin Dashboard](/docs/guides/admin) - admin UI overview
+- [Admin dashboard](/docs/guides/admin) - admin UI overview

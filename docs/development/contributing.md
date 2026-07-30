@@ -6,9 +6,9 @@ order: 1
 
 # Contributing
 
-We welcome contributions to Bulwark! Whether it's bug reports, feature requests, or code contributions.
+Bug reports, feature requests, and patches are all welcome.
 
-## Getting Started
+## Getting started
 
 1. Fork the repository on GitHub
 2. Clone your fork locally
@@ -18,7 +18,7 @@ We welcome contributions to Bulwark! Whether it's bug reports, feature requests,
 6. Commit with a descriptive message (see commit conventions below)
 7. Push to your fork and open a Pull Request
 
-## Development Setup
+## Development setup
 
 ```bash
 git clone https://github.com/bulwarkmail/webmail.git
@@ -30,7 +30,7 @@ npm run dev
 
 The `.env.dev.example` enables the built-in mock JMAP server so you can develop without an external mail server.
 
-### Code Quality Commands
+### Code quality commands
 
 ```bash
 npm run typecheck   # TypeScript type checking
@@ -40,20 +40,20 @@ npm run lint:fix    # Auto-fix lint issues
 
 These checks run automatically on commit via Husky pre-commit hooks.
 
-## Code Style
+## Code style
 
-- We use **TypeScript** throughout the project
+- TypeScript throughout
 - Follow the existing code patterns and define proper types (avoid `any`)
-- Use **Tailwind CSS** for styling - avoid custom CSS where possible
+- Tailwind CSS for styling; reach for custom CSS only when Tailwind can't express it
 - Components are in `components/` organized by feature (email, calendar, contacts, layout, ui)
 - Use `"use client"` directive only when necessary
 - Reusable UI primitives go in `components/ui/`
 - Custom hooks go in `hooks/`
-- State management uses **Zustand** stores in `stores/`
+- State lives in Zustand stores under `stores/`
 
 ## Internationalization (i18n)
 
-This project uses **next-intl** for internationalization with 15 supported languages (English, French, Japanese, Spanish, Italian, German, Dutch, Portuguese, Russian, Korean, Polish, Latvian, Simplified Chinese, Ukrainian, Czech). Key rules:
+Translation runs through **next-intl**, currently across 24 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Turkish, and Ukrainian. Arabic, Farsi, and Hebrew are right-to-left. Three rules matter:
 
 1. **Never hardcode user-facing text** - Always use translations:
 
@@ -68,7 +68,7 @@ This project uses **next-intl** for internationalization with 15 supported langu
 
 4. **Namespace examples**: `login.*`, `sidebar.*`, `email_list.*`, `email_viewer.*`, `email_composer.*`, `common.*`, `settings.*`, `calendar.*`, `contacts.*`
 
-## Commit Message Convention
+## Commit message convention
 
 Follow the conventional commits format:
 
@@ -86,7 +86,7 @@ fix: resolve attachment download issue
 docs: update README with keyboard shortcuts
 ```
 
-## Pull Request Guidelines
+## Pull request guidelines
 
 - Keep PRs focused on a single change
 - Include a clear description of what changed and why
@@ -95,7 +95,7 @@ docs: update README with keyboard shortcuts
 - Update translations if your change affects user-facing text
 - Ensure the build passes: `npm run build`
 
-## Reporting Issues
+## Reporting issues
 
 When reporting bugs, please include:
 

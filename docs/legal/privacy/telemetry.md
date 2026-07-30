@@ -1,31 +1,36 @@
 ---
-title: Anonymous Usage Telemetry
+title: Anonymous usage telemetry
 description: Exact data collected by self-hosted Bulwark instances that opt into anonymous usage stats, and how it's stored.
 order: 1
 ---
 
-# Anonymous Usage Telemetry
+# Anonymous usage telemetry
 
-This sub-page covers the **anonymous usage heartbeat** sent by self-hosted Bulwark webmail instances that opt in. The general project privacy policy is at [/docs/legal/privacy](/docs/legal/privacy). The friendly overview is the [feature page](/docs/features/telemetry); this page is the formal terms.
+This sub-page covers the **anonymous usage heartbeat** sent by self-hosted Bulwark webmail instances that opt in. The general project privacy policy is at [/docs/legal/privacy](/docs/legal/privacy). The [feature page](/docs/features/telemetry) is the plain-language version; this page is the formal terms.
 
-Last updated: 28 April 2026. Schema v1; the `push_relay` and `webdav_enabled` feature booleans were removed in this revision (push_relay was always reported false; webdav_enabled was a duplicate of `files`). `stalwart_version` is now actively probed from the JMAP server's `Server` response header instead of a static env var.
+Last updated: 26 July 2026. Schema v1; the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). `stalwart_version` is probed from the JMAP server's `Server` response header rather than read from a static environment variable.
 
 ## Scope
 
-Applies to instances of the Bulwark webmail software (the open-source Next.js app at `github.com/bulwarkmail/webmail`). Telemetry is enabled by default on fresh installs and can be disabled at any time. Disabling stops all future heartbeats; data already received from prior heartbeats can be deleted on request (see "Your rights" below).
+Applies to instances of the Bulwark webmail software (the open-source Next.js app at `github.com/bulwarkmail/webmail`). Telemetry is opt-in: it is off on a fresh install and stays off until an admin enables it. Turning it off again stops all future heartbeats; data already received can be deleted on request (see "Your rights" below).
 
 Receiving server: `telemetry.bulwarkmail.org`, operated by the Bulwark project on hardware in the European Union (Germany).
 
 ## Default state
 
-Telemetry is **enabled by default** on fresh installs. The first heartbeat fires **one hour** after the webmail process starts; an admin who installs and immediately disables telemetry will produce zero heartbeats. The exact JSON payload is visible verbatim in the admin UI before it is sent.
+Telemetry is **off by default**. On first boot the app writes a state file recording consent as `off`, and no heartbeat is scheduled. An install that nobody touches sends nothing at any point.
 
-We default to enabled rather than blocking the install behind a consent modal because the data collected is **instance-level only and contains no personal data**: no email addresses, no hostnames, no IP addresses, no end-user information of any kind - only software version, deployment shape, which features are turned on, and bucketed account counts. See "Lawful basis" below for the legal reasoning.
+When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible verbatim in the admin UI before that happens.
 
-Telemetry can be disabled at any time:
+Enable it in one of two ways:
+
+- In the admin UI (Settings → Anonymous usage stats → Enable).
+- By setting `BULWARK_TELEMETRY=on` in the environment.
+
+Disable it in one of four:
 
 - In the admin UI (Settings → Anonymous usage stats → Disable).
-- By setting `BULWARK_TELEMETRY=off` (or `BULWARK_TELEMETRY_DISABLED=1`) in the environment. The env var wins over the UI toggle.
+- By setting `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`) in the environment. Either environment variable wins over the UI toggle and greys it out.
 - By clearing `BULWARK_TELEMETRY_URL` (empty value).
 - By blocking `telemetry.bulwarkmail.org` at the network level.
 
@@ -58,7 +63,7 @@ One heartbeat per 24 hours, jittered ± 2 hours, containing exactly the followin
 
 Total payload size is under 1 KB.
 
-## What is explicitly NOT sent
+## What is never sent
 
 - Email addresses, even hashed (a hashed address is still personally identifiable for a known target)
 - Hostnames, FQDNs, your domain name, your server's hostname
@@ -87,33 +92,31 @@ The aggregated numbers we derive from this data (active-instance counts, version
 
 The receiving service is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you'd rather not share data with us, you can point your installs at your own collector by setting `BULWARK_TELEMETRY_URL` in your environment.
 
-## How to opt out
+## How to opt out again
 
 - **In the admin UI:** Settings → Anonymous usage stats → toggle off.
-- **By environment variable:** `BULWARK_TELEMETRY=off` (or `BULWARK_TELEMETRY_DISABLED=1`). Either wins over the UI toggle.
+- **By environment variable:** `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`). Either wins over the UI toggle.
 - **By blanking the endpoint:** `BULWARK_TELEMETRY_URL=` (empty value).
-- **At the network:** block `telemetry.bulwarkmail.org` at your firewall. Heartbeats will silently fail with no impact on Bulwark.
+- **At the network:** block `telemetry.bulwarkmail.org` at your firewall. Heartbeats fail silently with no impact on Bulwark.
 
-To additionally make future heartbeats from this install look like a brand-new instance to us, delete the `.telemetry-id` file in your Bulwark data directory before re-enabling.
+To additionally make any future heartbeats from this install look like a brand-new instance to us, delete the `.telemetry-id` file in your telemetry data directory before re-enabling.
 
 ## Your rights
 
 You can request:
 
 - **What we hold tied to your `instance_id`** - open a GitHub issue or email us with the `instance_id` from your `.telemetry-id` file. We'll send back the raw rows and confirm what they are.
-- **Deletion** - same channel. We delete all rows tagged with that `instance_id` from `heartbeats` and `instance_meta`. Aggregated data in `daily_rollups` cannot be unwound because no `instance_id` is stored there.
+- **Deletion** - same channel. We delete all rows tagged with that `instance_id` from `heartbeats` and `instance_meta`. Aggregated data in `daily_rollups` cannot be unwound, because no `instance_id` is stored there.
 
-We respond within 30 days. If we hold no rows tagged with your `instance_id` (because you've never opted in, or because the rows have aged out past 90 days), we'll tell you that.
+We respond within 30 days. If we hold no rows tagged with your `instance_id`, because you never opted in or because the rows aged out past 90 days, we'll tell you that.
 
 ## Lawful basis (GDPR / DSGVO)
 
-The data collected is **instance-level and contains no personal data of any data subject**. There is no email address, hostname, IP address, end-user identifier, or message content in any field - only software version, deployment shape, feature flags, and bucketed account counts. On that basis we take the position that the GDPR's processing rules for personal data **do not apply** to this data set, and the heartbeat can be enabled by default without prior consent.
+The data collected is **instance-level and contains no personal data of any data subject**. No email address, hostname, IP address, end-user identifier, or message content appears in any field: only software version, deployment shape, feature flags, and bucketed account counts. On that basis we take the position that the GDPR's processing rules for personal data do not apply to this data set.
 
-To the extent any pseudonymous identifier (the `instance_id`) is treated as personal data under a strict reading of GDPR Art. 4(1) - which we don't believe it is in this context, because no link to a natural person exists or can be created from the stored fields - the lawful basis would be **legitimate interest** under Art. 6(1)(f): the project has a legitimate interest in maintaining and improving open-source software it provides at no cost, the processing is minimal and proportionate, and the data subject's rights are preserved by easy opt-out and a documented deletion path.
+Independently of that, collection is **opt-in**. Nothing is sent until an administrator turns it on, having been shown the exact payload first, so the arrangement also satisfies consent under Art. 6(1)(a) if a supervisory authority reads the `instance_id` as a pseudonymous identifier under Art. 4(1). We do not believe it is one, because no link to a natural person exists or can be constructed from the stored fields.
 
-We do not rely on consent (Art. 6(1)(a)) precisely because consent must be opt-in to be valid under GDPR; auto-enabling telemetry would not satisfy that test. We rely instead on the data being non-personal (or at the outer edge, legitimate interest with full transparency and easy opt-out).
-
-Disabling stops further collection. Data already received before the disable does not retroactively vanish - use the deletion request channel above to remove rows tagged with your `instance_id`.
+Turning telemetry off stops further collection. Data already received before that does not retroactively vanish; use the deletion request channel above to remove rows tagged with your `instance_id`.
 
 ## Contact
 

@@ -6,20 +6,20 @@ order: 1
 
 # Customization
 
-Bulwark is designed to be easily customizable to match your brand. Branding can be configured three ways:
+Branding is set in one of three places, and each one overrides the one above it:
 
-- **Setup wizard (1.6.4+)** - First-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
+- **Setup wizard** - the first-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
 - **Admin dashboard** - Update branding at any time after setup without restarting.
 - **Environment variables** - Lock branding via env-driven config (overrides admin-managed values).
 
 ## Theming
 
-Bulwark uses CSS custom properties for theming. Override them to change colors across the entire application.
+Colors come from CSS custom properties. Override them and the change propagates through the whole app.
 
-<img class="theme-light-only" src="/screenshots/light-themes.png" alt="Bulwark theme settings" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-themes.png" alt="Bulwark theme settings" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-settings-appearance.webp" alt="Appearance settings: theme, font size, and density with a live preview" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-settings-appearance.webp" alt="Appearance settings: theme, font size, and density with a live preview" width="5120" height="2880" />
 
-### Light Theme Variables
+### Light theme variables
 
 ```css
 :root {
@@ -39,7 +39,7 @@ Bulwark uses CSS custom properties for theming. Override them to change colors a
 }
 ```
 
-### Dark Theme Variables
+### Dark theme variables
 
 ```css
 .dark {
@@ -53,19 +53,24 @@ Bulwark uses CSS custom properties for theming. Override them to change colors a
   --color-muted-foreground: #a3a3a3;
   --color-accent: #1e3a8a;
   --color-accent-foreground: #dbeafe;
-  --color-border: #262626;
+  --color-border: rgba(128, 128, 128, 0.3);
 }
 ```
 
-### Theme Modes
+`app/globals.css` defines around 170 tokens in total, including sidebar, card, popover, and status colors. The ones above are the set worth overriding first, since almost everything else inherits from them.
 
-Bulwark supports three theme modes: **light**, **dark**, and **system** (follows OS preference). The selected theme is persisted in `localStorage` and applied via Zustand state management.
+### Theme modes
 
-### Built-in Color Themes
+Three modes: light, dark, and system, which follows the OS preference. The choice is kept in `localStorage` and applied from a Zustand store.
 
-Bulwark ships several bundled color themes — including **Aurora Glass** and **Elastic** — alongside the default. In the Appearance settings, each theme is shown as a card rendered as a **mini mailbox mockup** built from that theme's own colors, with light/dark variant chips so you can preview both modes before applying. Clicking the already-active theme is a no-op. You can also upload your own themes as ZIP bundles, and admins can enforce a preset for all users.
+### Built-in color themes
 
-## Custom App Name
+<img class="theme-light-only" src="/screenshots/light-themes.webp" alt="Theme picker, each card a mini mailbox drawn in that theme's colors" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-themes.webp" alt="Theme picker, each card a mini mailbox drawn in that theme's colors" width="5120" height="2880" />
+
+Several color themes ship with Bulwark alongside the default, among them Aurora Glass and Elastic. In Appearance settings each one renders as a card: a miniature mailbox drawn in that theme's own colors, with light and dark variant chips, so you see both modes before you commit. Clicking the theme that's already active does nothing. You can upload your own as ZIP bundles, and admins can pin one preset for everybody.
+
+## App name
 
 Change the application name displayed in the UI:
 
@@ -73,7 +78,7 @@ Change the application name displayed in the UI:
 APP_NAME=YourMail
 ```
 
-## Custom Favicon
+## Favicon
 
 Replace the browser tab icon with your own:
 
@@ -92,7 +97,7 @@ Place your favicon file in the `public/branding/` directory, or provide an absol
 
 When not set, the default Bulwark favicon is used.
 
-## PWA Branding
+## PWA branding
 
 When users install Bulwark as a Progressive Web App, the manifest is generated dynamically from the runtime config. You can customize the install experience and the splash screen:
 
@@ -117,7 +122,7 @@ PWA icons (regular and maskable, in dark and light variants) are generated autom
 
 For more on PWA features (install flow, service worker, install-prompt UX), see the [Progressive Web App](/docs/features/pwa) page.
 
-## App Logo (Sidebar)
+## Sidebar logo
 
 Add your brand logo to the sidebar header (visible in the main app after login):
 
@@ -135,7 +140,7 @@ APP_LOGO_DARK_URL=/branding/my-logo-white.svg
 
 If only one variant is provided, it is used for both light and dark modes. If neither is set, no logo appears in the sidebar.
 
-## Login Page Logo
+## Login page logo
 
 Customize the logo on the login page:
 
@@ -153,7 +158,7 @@ LOGIN_LOGO_DARK_URL=/branding/my-login-logo-white.svg
 
 When not set, the default Bulwark logo is used.
 
-## Login Page Branding
+## Login page branding
 
 Customize the login page with company information:
 
@@ -164,11 +169,11 @@ LOGIN_IMPRINT_URL=https://yourcompany.com/imprint
 LOGIN_PRIVACY_POLICY_URL=https://yourcompany.com/privacy
 ```
 
-## In-App Settings
+## In-app settings
 
-Users can customize their experience from the Settings page. Settings are organized into 6 groups (reorganized in 1.5.0) for clearer navigation:
+The Settings page groups user preferences into six sections:
 
-### Appearance & Layout
+### Appearance and layout
 
 - **Font size** - Small, medium, large, or extra-compact density
 - **List density** - Compact, regular, or comfortable (compact hides the preview line to match the settings preview)
@@ -184,7 +189,7 @@ Users can customize their experience from the Settings page. Settings are organi
 - **Junk folder avatars** - Show or hide avatars in the Junk folder (off by default)
 - **Folder expansion** - Folder expansion state is remembered across sessions
 
-### Date & Time
+### Date and time
 
 - **Date format** - Regional, ISO, or custom
 - **Time format** - 12-hour or 24-hour, applied consistently across calendar and email
@@ -194,7 +199,7 @@ Users can customize their experience from the Settings page. Settings are organi
 - **Birthday calendar** - Toggle the auto-generated birthday calendar
 - **Hover preview** - Configure calendar event hover preview behavior
 
-### Mail Behavior
+### Mail behavior
 
 - **Conversation threading** - Enable or disable
 - **Mark as read delay** - Instant, delayed (configurable), or never
@@ -216,15 +221,15 @@ Users can customize their experience from the Settings page. Settings are organi
 - **Notification sound picker** - Choose from bundled sounds with preview playback
 - **Live update toggle** - Real-time push (via JMAP EventSource)
 
-### Contacts & Calendar
+### Contacts and calendar
 
 - **Group contacts by first letter** - Toggle A-Z grouping with sticky section headers
 
-### Migration & Maintenance
+### Migration and maintenance
 
 - **Keyword migration** - One-click migration of legacy email tags to updated keywords
 
-## Structured Logging
+## Structured logging
 
 Configure log output format and verbosity:
 
@@ -233,8 +238,8 @@ LOG_FORMAT=text   # "text" or "json"
 LOG_LEVEL=info    # "debug", "info", "warn", "error"
 ```
 
-### Logging Categories
+### Logging categories
 
-Bulwark supports logging categories for finer-grained log management. Categories let you tune log verbosity per subsystem (e.g., JMAP, auth, OAuth, calendar, plugin proxy, settings sync, admin) independently - useful when debugging a specific area without flooding logs from the rest of the app.
+Log verbosity can be set per subsystem: JMAP, auth, OAuth, calendar, plugin proxy, settings sync, and admin each take their own level. Turn one up to `debug` while chasing a problem and the rest of the app stays quiet.
 
 Use `LOG_FORMAT=json` for machine-parseable output suitable for log aggregators (Loki, Elastic, Splunk). Each entry includes the category in its structured fields.

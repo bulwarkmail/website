@@ -1,18 +1,18 @@
 ---
-title: Branding Guidelines
+title: Branding guidelines
 description: Official Bulwark logos, assets, and usage guidelines.
 order: 1
 ---
 
-# Branding Guidelines
+# Branding guidelines
 
-This page provides official Bulwark brand assets and guidelines for their use. Source files and additional formats are available in the [branding repository on GitHub](https://github.com/bulwarkmail/branding).
+Official Bulwark brand assets and the rules for using them. Source files and further formats live in the [branding repository on GitHub](https://github.com/bulwarkmail/branding).
 
 ## Logo
 
-The Bulwark logo is available in multiple formats and color variants.
+The mark comes in three color variants and two formats.
 
-### Color Logo
+### Color logo
 
 The primary logo for use on light and dark backgrounds.
 
@@ -29,7 +29,7 @@ The primary logo for use on light and dark backgrounds.
 
 Download: [SVG](https://github.com/bulwarkmail/branding/raw/main/logo/Bulwark%20Logo%20Color.svg) · [PNG](https://github.com/bulwarkmail/branding/raw/main/logo/Bulwark%20Logo%20Color.png)
 
-### Dark Logo
+### Dark logo
 
 For use on light backgrounds.
 
@@ -42,7 +42,7 @@ For use on light backgrounds.
 
 Download: [SVG](https://github.com/bulwarkmail/branding/raw/main/logo/Bulwark%20Logo%20Dark.svg) · [PNG](https://github.com/bulwarkmail/branding/raw/main/logo/Bulwark%20Logo%20Dark.png)
 
-### White Logo
+### White logo
 
 For use on dark backgrounds.
 
@@ -55,11 +55,11 @@ For use on dark backgrounds.
 
 Download: [SVG](https://github.com/bulwarkmail/branding/raw/main/logo/Bulwark%20Logo%20White.svg) · [PNG](https://github.com/bulwarkmail/branding/raw/main/logo/Bulwark%20Logo%20White.png)
 
-## Logo with Lettering
+## Logo with lettering
 
 Full lockup with the Bulwark wordmark.
 
-### Dark Text with Color Icon
+### Dark text with color icon
 
 <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; margin: 1.5rem 0;">
   <div style="padding: 1.5rem; background: #f8f8f8; border-radius: 12px; text-align: center;">
@@ -70,7 +70,7 @@ Full lockup with the Bulwark wordmark.
 
 Download: [SVG](https://github.com/bulwarkmail/branding/raw/main/logo-with-lettering/Bulwark%20Logo%20with%20Lettering%20Dark%20Color.svg) · [PNG](https://github.com/bulwarkmail/branding/raw/main/logo-with-lettering/Bulwark%20Logo%20with%20Lettering%20Dark%20and%20Color.png)
 
-### White Text with Color Icon
+### White text with color icon
 
 <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; margin: 1.5rem 0;">
   <div style="padding: 1.5rem; background: #1a1a2e; border-radius: 12px; text-align: center;">
@@ -98,7 +98,7 @@ The Bulwark favicon for browser tabs and bookmarks.
 
 Download: [SVG](https://github.com/bulwarkmail/branding/raw/main/favicon/Bulwark%20Favicon.svg) · [PNG](https://github.com/bulwarkmail/branding/raw/main/favicon/Bulwark%20Favicon.png)
 
-## Usage Guidelines
+## Usage rules
 
 - **Clear space** - Maintain adequate padding around the logo. Do not crowd it with other elements.
 - **Minimum size** - Do not render the logo smaller than 24×24 pixels.

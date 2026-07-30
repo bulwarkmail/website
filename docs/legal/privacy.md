@@ -1,12 +1,12 @@
 ---
-title: Privacy Policy
+title: Privacy policy
 description: What data the Bulwark project collects, why, and where it lives.
 order: 1
 ---
 
-# Privacy Policy
+# Privacy policy
 
-Last updated: 28 April 2026
+Last updated: 26 July 2026
 
 This page covers the services we operate at `bulwarkmail.org`, `extensions.bulwarkmail.org`, the public push relay, and the analytics we use across them. Bulwark itself is open-source software you can run on your own server; if you do that, you operate your own privacy-relevant infrastructure and this policy doesn't speak for you.
 
@@ -89,9 +89,9 @@ Source code for the relay is at [github.com/bulwarkmail/relay](https://github.co
 
 ## Self-hosted Bulwark instances (anonymous usage telemetry)
 
-If you run Bulwark on your own server, the install sends one anonymous usage heartbeat per day to `telemetry.bulwarkmail.org`. This is **enabled by default** because the data is instance-level only - no email addresses, no hostnames, no IPs (the receiving server's nginx logs are turned off), no message data, and no end-user information. Disabling is one click in admin settings or `BULWARK_TELEMETRY=off` in the environment. The first heartbeat fires one hour after the webmail process starts, so an install + immediate-disable produces zero pings.
+If you run Bulwark on your own server, the install can send one anonymous usage heartbeat per day to `telemetry.bulwarkmail.org`. This is **opt-in and off by default**: a fresh install sends nothing until an admin turns it on, in admin settings or with `BULWARK_TELEMETRY=on`. Once enabled, the first heartbeat fires an hour later.
 
-Heartbeats contain instance-level information only - version, platform (Docker / bare / k8s), which features are enabled, and bucketed account counts (`1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`). Raw rows are deleted after 90 days; only anonymized aggregates survive longer.
+Heartbeats contain instance-level information only: version, platform (Docker, bare metal, or Kubernetes), which features are enabled, and bucketed account counts (`1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`). No email addresses, no hostnames, no IPs (the receiving server's nginx logs are off), no message data, no end-user information. Raw rows are deleted after 90 days; only anonymized aggregates survive longer.
 
 The full schema, field-by-field intent, retention policy, lawful basis, opt-out instructions, and a public read-only dashboard of the aggregate numbers are on the [telemetry sub-page](/docs/legal/privacy/telemetry).
 
@@ -102,7 +102,7 @@ We run an internal Grafana dashboard for the project's own operations. It pulls:
 - **Public** GitHub data for the `bulwarkmail` org (star counts, open issues/PRs, traffic stats GitHub already shows repo admins, release download counts) via the GitHub API
 - Operational metrics from the relay (push counts, latencies, no per-user data)
 - Aggregated counts from the same Umami events the marketplace generates
-- Anonymous daily heartbeats from self-hosted instances (enabled by default, disable at any time - see the [telemetry sub-page](/docs/legal/privacy/telemetry) for the exact data, lawful basis, and disable instructions)
+- Anonymous daily heartbeats from the self-hosted instances that opted in (see the [telemetry sub-page](/docs/legal/privacy/telemetry) for the exact data, lawful basis, and opt-out instructions)
 
 This dashboard is private and never publicly exposed. It contains no personal data beyond what's already public on GitHub.
 

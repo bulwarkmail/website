@@ -1,5 +1,5 @@
 ---
-title: Publishing & updates
+title: Publishing and updates
 description: How to publish a new extension and ship updates through the Bulwark directory.
 order: 5
 ---
@@ -37,11 +37,11 @@ Older versions remain available at `/api/v1/bundle/:slug/:version` so existing i
 
 ## Version lifecycle
 
-- **Pending.** Submission received, waiting on review.
-- **Approved.** Live in the directory, installable from Bulwark.
-- **Rejected.** Not published. You'll get a reason and can fix + resubmit.
-- **Suspended.** Previously approved but temporarily hidden - typically after a policy violation report. Existing installs still work but the version isn't discoverable.
-- **Archived.** Removed from search but still available for existing installs.
+- **Pending:** submission received, waiting on review.
+- **Approved:** live in the directory, installable from Bulwark.
+- **Rejected:** not published. You'll get a reason, and you can fix it and resubmit.
+- **Suspended:** previously approved, temporarily hidden, usually after a policy violation report. Existing installs keep working; the version just isn't discoverable.
+- **Archived:** removed from search, still available to existing installs.
 
 ## Breaking changes
 

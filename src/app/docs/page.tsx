@@ -22,7 +22,7 @@ import { InstallQuickstart } from "@/components/docs/install-quickstart";
 export const metadata: Metadata = {
   title: "Documentation - Bulwark Webmail for Stalwart",
   description:
-    "Comprehensive documentation for Bulwark, the open-source JMAP webmail client for Stalwart Mail Server. Installation guides, configuration, features, and deployment with Docker.",
+    "Documentation for Bulwark, the open-source JMAP webmail client for Stalwart Mail Server: installation, configuration, features, and Docker deployment.",
   alternates: {
     canonical: "/docs",
   },
@@ -37,8 +37,9 @@ const STEPS: { n: string; title: string; body: React.ReactNode }[] = [
     title: "Run this command",
     body: (
       <>
-        Docker is the only prerequisite. No <code className="font-mono text-[0.85em]">.env</code> file, no clone,
-        no <code className="font-mono text-[0.85em]">npm install</code>. Paste, hit enter, wait a few seconds.
+        Docker is the only thing you need beforehand. There&apos;s nothing to clone and no{" "}
+        <code className="font-mono text-[0.85em]">.env</code> file to write first. Paste it, press enter, and
+        give it a few seconds to pull.
       </>
     ),
   },
@@ -47,9 +48,9 @@ const STEPS: { n: string; title: string; body: React.ReactNode }[] = [
     title: "Open localhost:3000",
     body: (
       <>
-        The setup wizard takes over from the browser. It probes your JMAP server, picks OAuth or basic auth,
-        generates a session secret, accepts your logos, and sets the initial admin password. Nothing else to
-        edit by hand.
+        From here the setup wizard takes over. It probes your JMAP server and works out whether to use OAuth
+        or basic auth, generates a session secret, takes your logos if you have any, and finishes by setting
+        the admin password. You won&apos;t need to edit a config file afterwards.
       </>
     ),
   },
@@ -90,7 +91,7 @@ const PATHS: PathOption[] = [
     icon: Container,
     tag: "Recommended",
     title: "Docker",
-    desc: "One command, one container, web wizard for the rest. Best for almost everyone.",
+    desc: "One command and one container, then a web wizard for everything else. Right for almost everyone.",
     href: "/docs/deployment/docker",
     cta: "Docker guide",
   },
@@ -98,7 +99,7 @@ const PATHS: PathOption[] = [
     icon: Terminal,
     tag: "Guided",
     title: "Install script",
-    desc: "An interactive shell installer for hosts that already have Node. Walks you through the same choices.",
+    desc: "An interactive shell installer for hosts that already run Node. It asks you the same questions the wizard does.",
     href: "/docs/getting-started/installation",
     cta: "Run the script",
   },
@@ -106,7 +107,7 @@ const PATHS: PathOption[] = [
     icon: Server,
     tag: "Hands-on",
     title: "Manual install",
-    desc: "Clone the repo, install dependencies, edit the env file. The longest path, and the one with the most control.",
+    desc: "Clone the repo and wire up the env file yourself. Takes the longest and leaves nothing hidden.",
     href: "/docs/deployment/manual",
     cta: "Manual install",
   },
@@ -145,8 +146,8 @@ export default function DocsPage() {
             maxWidth: "640px",
           }}
         >
-          New here? The three steps below take you from nothing to a working inbox in about five minutes. Scroll
-          past them for the full manual.
+          The three steps below take you from nothing to a working inbox in about five minutes. Everything
+          after them is reference: configuration, features, deployment, and the extension API.
         </p>
       </div>
 

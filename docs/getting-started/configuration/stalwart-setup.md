@@ -1,14 +1,14 @@
 ---
-title: Stalwart Setup
+title: Stalwart setup
 description: Configure Stalwart Mail Server for use with Bulwark.
 order: 1
 ---
 
-# Stalwart Setup
+# Stalwart setup
 
 Bulwark requires a running Stalwart Mail Server with JMAP enabled.
 
-## Version Requirement
+## Version requirement
 
 The self-service portal (account settings, app passwords, API keys, password change, vacation responder, Sieve management) requires **Stalwart 0.16 or newer**. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP `x:` methods, and Bulwark only talks to the new JMAP endpoint. The deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
 
@@ -16,9 +16,7 @@ Older Stalwart versions still work for plain mail/calendar/contacts/files, but S
 
 ## Installing Stalwart
 
-Stalwart offers multiple installation methods depending on your platform and preferences. For the full list of options (Docker, packages, binaries, and building from source), see the [official Stalwart installation guide](https://stalw.art/docs/category/installation).
-
-Below is a quick-start summary:
+Stalwart installs from Docker, distribution packages, prebuilt binaries, or source. The [official Stalwart installation guide](https://stalw.art/docs/category/installation) covers all four. Two shortcuts:
 
 ### Docker
 
@@ -44,7 +42,7 @@ bind = ["0.0.0.0:8080"]
 protocol = "http"
 ```
 
-## CORS Configuration
+## CORS configuration
 
 When Bulwark runs on a different domain than Stalwart, enable CORS:
 
@@ -53,15 +51,15 @@ When Bulwark runs on a different domain than Stalwart, enable CORS:
 permissive-cors = true
 ```
 
-Bulwark automatically detects CORS misconfiguration and displays detailed error messages to help with setup.
+If CORS is wrong, Bulwark says so on the login screen and names the missing header rather than failing with a generic network error.
 
-## Configuring with the Setup Wizard
+## Configuring with the setup wizard
 
-If you are running Bulwark 1.6.4 or newer and don't have `JMAP_SERVER_URL` set in the environment, the first-launch web setup wizard probes the JMAP server for you. Paste the URL, the wizard validates that `.well-known/jmap` returns a usable session, asks for explicit confirmation when no session is found, and offers an **OAuth auto-setup** dialog that validates origin and issuer URLs against your Stalwart instance end-to-end.
+With no `JMAP_SERVER_URL` set in the environment, the first-launch web setup wizard probes the JMAP server for you. Paste the URL, the wizard validates that `.well-known/jmap` returns a usable session, asks for explicit confirmation when no session is found, and offers an **OAuth auto-setup** dialog that validates origin and issuer URLs against your Stalwart instance end-to-end.
 
 For env-driven deployments, set `JMAP_SERVER_URL` and the wizard is skipped.
 
-## Stalwart-Specific Features
+## Stalwart-specific features
 
 When connected to Stalwart 0.16+, Bulwark enables additional features that depend on Stalwart's JMAP `x:` methods:
 
@@ -84,7 +82,7 @@ To explicitly disable these features (e.g., when using a non-Stalwart JMAP serve
 STALWART_FEATURES=false
 ```
 
-## Creating Users
+## Creating users
 
 Use the Stalwart admin interface or CLI to create mail accounts:
 
@@ -92,7 +90,7 @@ Use the Stalwart admin interface or CLI to create mail accounts:
 stalwart-cli account create user@example.com --password yourpassword
 ```
 
-## Testing the Connection
+## Testing the connection
 
 Verify JMAP is working:
 
@@ -102,6 +100,6 @@ curl -s https://your-stalwart-server.com/.well-known/jmap | jq .
 
 You should see a JMAP session resource with capabilities listed. The setup wizard performs the same probe and will require explicit confirmation if no session is returned.
 
-## Multi-Server Deployments
+## Multi-server deployments
 
-Bulwark supports pointing a single deployment at multiple JMAP servers - useful for organisations running shards by domain. Set `JMAP_SERVER_URL` to a comma-separated list, or add servers from the **Server** step of the setup wizard. The login form auto-picks the server by email domain when possible; users can still pick manually.
+One deployment can point at several JMAP servers, which is what you want if you shard accounts by domain. Set `JMAP_SERVER_URL` to a comma-separated list, or add servers from the **Server** step of the setup wizard. The login form auto-picks the server by email domain when possible; users can still pick manually.

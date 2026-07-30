@@ -1,10 +1,10 @@
 ---
-title: Reverse Proxy
+title: Reverse proxy
 description: Set up a reverse proxy in front of Bulwark.
 order: 2
 ---
 
-# Reverse Proxy
+# Reverse proxy
 
 For production deployments, place Bulwark behind a reverse proxy for TLS termination and custom domains.
 
@@ -56,9 +56,9 @@ bulwark:
     - "traefik.http.services.bulwark.loadbalancer.server.port=3000"
 ```
 
-## Important Notes
+## Proxy requirements
 
-### Required Headers
+### Required headers
 
 Whatever reverse proxy you use, make sure to forward these headers:
 
@@ -66,15 +66,15 @@ Whatever reverse proxy you use, make sure to forward these headers:
 - `X-Forwarded-Proto` - Original protocol (http/https)
 - `Host` - Original hostname
 
-### EventSource Support
+### EventSource support
 
-Bulwark uses JMAP EventSource for real-time push notifications. Ensure your reverse proxy supports long-lived HTTP connections and does not buffer server-sent events. For Nginx, the `proxy_set_header Connection 'upgrade'` and `proxy_http_version 1.1` directives handle this.
+Push notifications ride on JMAP EventSource, so the proxy has to hold long-lived HTTP connections open and must not buffer server-sent events. On Nginx, `proxy_http_version 1.1` plus `proxy_set_header Connection 'upgrade'` covers it.
 
-### Session URL Rewriting
+### Session URL rewriting
 
-Bulwark automatically rewrites JMAP session URLs returned by the server to match the origin the client connects to. This fixes deployments where Stalwart returns an internal hostname (e.g., `http://stalwart:8080`) that isn't reachable from the browser.
+Bulwark rewrites the JMAP session URLs the server returns so they match the origin the browser connected to. Without this, a Stalwart that advertises an internal hostname such as `http://stalwart:8080` would hand the browser an address it cannot reach.
 
-## Subpath Deployment
+## Subpath deployment
 
 To mount Bulwark under a URL prefix (e.g. `https://example.com/webmail`):
 
@@ -105,7 +105,7 @@ location /webmail/ {
 }
 ```
 
-## PWA Paths
+## PWA paths
 
 If Bulwark serves a PWA, make sure these paths are forwarded as-is and not aggressively cached at the proxy:
 

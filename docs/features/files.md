@@ -6,9 +6,12 @@ order: 4
 
 # Files
 
-Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so documents and media live alongside mail, calendar, and contacts in the same interface.
+Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and media end up in the same interface as the mail and the calendar, rather than in a separate app you have to remember to open.
 
-## File Browser
+<img class="theme-light-only" src="/screenshots/light-files.webp" alt="The Bulwark file browser in list view" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-files.webp" alt="The Bulwark file browser in list view" width="5120" height="2880" />
+
+## File browser
 
 - Folder tree navigation with breadcrumb path over a real `FileNode` hierarchy
 - Grid and list views
@@ -17,7 +20,7 @@ Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so d
 - Bulk multi-select actions
 - Right-click context menu
 
-## Upload & Download
+## Upload and download
 
 - Upload individual files with progress tracking
 - Folder upload via drag-and-drop or toolbar button (recursive)
@@ -52,4 +55,4 @@ Bulwark includes a cloud file browser for Stalwart's JMAP FileNode storage, so d
 - Native JMAP FileNode support in Stalwart
 - Unified authentication and permissions with the rest of Bulwark
 - Per-account isolation when multiple accounts are connected
-- Designed for fast switching between mail attachments and cloud files
+- Attachments and stored files sit one click apart, so moving between them doesn't mean changing apps

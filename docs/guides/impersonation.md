@@ -1,14 +1,14 @@
 ---
-title: Master-User Impersonation
+title: Master-user impersonation
 description: Land platform admins directly inside a tenant's mailbox via signed JWT handoff, without storing tenant passwords.
 order: 10
 ---
 
-# Master-User Impersonation
+# Master-user impersonation
 
-This guide explains how to wire up a control panel's "Open Webmail" button so an operator lands directly inside a tenant's mailbox in Bulwark — without re-prompting for the mailbox password.
+Wire a control panel's "Open Webmail" button so an operator lands inside a tenant's mailbox without being asked for that mailbox's password.
 
-Bulwark consumes a short-lived signed JWT from your platform, verifies it, and mints a webmail session as the target mailbox using Stalwart's native **master-user impersonation** protocol. The actual login uses a Stalwart account with the `Admin` role and a `<target>%<master>` username syntax. No tenant credentials are stored anywhere.
+Bulwark takes a short-lived signed JWT from your platform, verifies it, and mints a webmail session as the target mailbox through Stalwart's own master-user impersonation protocol. The login underneath uses a Stalwart account with the `Admin` role and the `<target>%<master>` username syntax. No tenant credential is stored anywhere.
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ BULWARK_STALWART_MASTER_PASSWORD=<that account's password>
 BULWARK_JWT_AUTH_ISSUER=platform-api/webmail
 ```
 
-When any of the three required variables is missing, `GET /api/auth/impersonate` returns `404 Not found` — the endpoint is invisible on an unconfigured deployment.
+With any of the three required variables missing, `GET /api/auth/impersonate` returns `404 Not found`, so the endpoint is invisible on a deployment that has not opted in.
 
 Generate a secret:
 
@@ -48,7 +48,7 @@ node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 | `BULWARK_STALWART_MASTER_PASSWORD`  | Master account's password.                                 | _empty (disabled)_       |
 | `BULWARK_JWT_AUTH_ISSUER`           | Expected `iss` claim.                                      | `platform-api/webmail`   |
 
-## JWT Contract
+## JWT contract
 
 Sign an HS256 JWT with these claims and link to the resulting URL:
 
@@ -95,18 +95,18 @@ const sig = crypto.createHmac('sha256', secret)
 console.log(`https://webmail.example.com/api/auth/impersonate?token=${header}.${payload}.${sig}`);
 ```
 
-## How It Works
+## How it works
 
 1. **Platform mints a JWT** signed with `BULWARK_JWT_AUTH_SECRET` and includes the target mailbox.
-2. **User clicks "Open Webmail"** — the browser hits `/api/auth/impersonate?token=<jwt>`.
+2. **User clicks "Open Webmail"**, and the browser hits `/api/auth/impersonate?token=<jwt>`.
 3. **Bulwark verifies** the signature, claims, mailbox sanity and `jti` (replay-rejected on second use).
-4. **Bulwark builds the master-user Basic header** — `Basic base64(<mailbox>%<master>:<password>)` — using the credentials from env.
+4. **Bulwark builds the master-user Basic header** (`Basic base64(<mailbox>%<master>:<password>)`) from the credentials in the environment.
 5. **Cookies are set** identically to a password login (`jmap_session` + `jmap_stalwart_ctx`, encrypted with `SESSION_SECRET`).
-6. **303 redirect to `/`** — the SPA hydrates, calls JMAP via Bulwark's same-origin proxy, and Stalwart honours the master-user credentials because the master account has the `Admin` role.
+6. **303 redirect to `/`**. The SPA hydrates, calls JMAP through Bulwark's same-origin proxy, and Stalwart honours the master-user credentials because the master account carries the `Admin` role.
 
-The cookies are **session-only** — they have no `Max-Age`, so the browser drops them when closed. Impersonation is treated as a temporary support handoff; persistent identity is what password logins are for.
+The cookies carry no `Max-Age`, so the browser drops them on quit. Impersonation is a temporary support handoff; password logins are what persistent identity is for.
 
-## Optional: Impersonation Notice Plugin
+## Optional: impersonation notice plugin
 
 Install the [Impersonation Notice](https://extensions.bulwarkmail.org/plugins/impersonation-notice) plugin from the marketplace to add a persistent "You are viewing X as Platform Admin" banner across every authenticated page, with a "Back to platform" button. The plugin detects impersonation automatically (`%` in the session username) and lets admins configure:
 
@@ -114,19 +114,19 @@ Install the [Impersonation Notice](https://extensions.bulwarkmail.org/plugins/im
 - Button label, role-suffix text
 - Banner colours for light and dark mode
 
-When the user closes the tab or clicks the return button, the plugin fires `DELETE /api/auth/session` so the impersonation ends immediately — no waiting for cookie expiry.
+Closing the tab or clicking the return button fires `DELETE /api/auth/session`, so the impersonation ends there rather than waiting on cookie expiry.
 
 ## Security
 
 - **The signing secret and master password live only in the Bulwark process environment.** Neither is exposed in admin config, the database, or any JWT.
-- **HS256 only.** Tokens signed with any other algorithm — including `none` — are rejected before signature verification.
+- **HS256 only.** Tokens signed with any other algorithm, `none` included, are rejected before signature verification.
 - **Replay protection.** Each `jti` is consumed exactly once per Bulwark process. The in-memory LRU holds ~4096 recent tokens and prunes by expiry.
 - **Lifetime ceiling.** `exp - iat` may not exceed 300 seconds regardless of what the signer asks for.
 - **Injection-safe mailbox parsing.** Any `%` or `:` in the mailbox claim causes the token to be rejected, since either character would otherwise corrupt the master-user auth string.
 - **Session-only cookies.** The impersonated session does not survive a browser quit.
 - **Structured audit log** per accepted handoff, with `jti`, `mailbox`, `tenant_id`, `actor_user_id`, `iss`, client IP, referer, and user-agent.
 
-## Negative Test Cases
+## Negative test cases
 
 These all return the documented error rather than silently authenticating:
 
@@ -145,4 +145,4 @@ These all return the documented error rather than silently authenticating:
 
 - **Per-process replay cache.** If you run multiple Bulwark replicas behind a load balancer, each replica maintains its own `jti` LRU. A stolen token replayed against a different replica would be accepted by that replica. Mitigate by routing the impersonate endpoint to a single replica, or by keeping `exp` lifetimes short so the attack window is small.
 - **Single master account.** All impersonations go through one master user. Per-tenant master accounts and JWKS-based rotation are not yet supported; open an issue if you need them.
-- **HS256 only.** RS256 / EdDSA support has not been requested yet — let us know if you'd use it.
+- **HS256 only.** Nobody has asked for RS256 or EdDSA yet. Open an issue if you would use it.

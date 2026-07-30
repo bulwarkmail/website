@@ -1,21 +1,23 @@
 ---
-title: Keyboard Shortcuts
+title: Keyboard shortcuts
 description: All keyboard shortcuts available in Bulwark.
 order: 2
 ---
 
-# Keyboard Shortcuts
+# Keyboard shortcuts
 
-Bulwark supports keyboard shortcuts for power users. Press `?` anywhere in the app to show the shortcuts overlay.
+Press `?` anywhere in the app for the shortcuts overlay. The same list, for reference.
+
+Single-letter shortcuts only fire when focus isn't in a text field, so typing a subject line never triggers an archive.
 
 ## Global
 
 | Shortcut  | Action                   |
 | --------- | ------------------------ |
-| `C`       | Compose new email        |
+| `c`       | Compose new email        |
 | `/`       | Focus search             |
 | `?`       | Show keyboard shortcuts  |
-| `Shift+G` | Refresh                  |
+| `Shift+G` | Refresh emails           |
 | `Ctrl+A`  | Select all               |
 | `Esc`     | Close overlay / deselect |
 
@@ -23,46 +25,39 @@ Bulwark supports keyboard shortcuts for power users. Press `?` anywhere in the a
 
 | Shortcut      | Action         |
 | ------------- | -------------- |
-| `J` / `↓`     | Next email     |
-| `K` / `↑`     | Previous email |
-| `Enter` / `O` | Open email     |
+| `j` / `↓`     | Next email     |
+| `k` / `↑`     | Previous email |
+| `Enter` / `o` | Open email     |
 
-## Email Actions
+## Email actions
 
-| Shortcut                  | Action         |
-| ------------------------- | -------------- |
-| `R`                       | Reply          |
-| `Shift+R` / `A`           | Reply all      |
-| `F`                       | Forward        |
-| `S`                       | Toggle star    |
-| `E`                       | Archive        |
-| `#` / `Del` / `Backspace` | Delete         |
-| `U`                       | Mark as unread |
-| `Shift+I`                 | Mark as read   |
-| `!`                       | Toggle spam    |
+| Shortcut     | Action                   |
+| ------------ | ------------------------ |
+| `r`          | Reply                    |
+| `R` / `a`    | Reply all                |
+| `f`          | Forward                  |
+| `s`          | Toggle star              |
+| `e`          | Archive                  |
+| `#` / `Del`  | Delete                   |
+| `u`          | Mark as unread           |
+| `Shift+I`    | Mark as read             |
+| `!`          | Report spam / not spam   |
 
 ## Threads
 
 | Shortcut | Action                 |
 | -------- | ---------------------- |
-| `X`      | Expand/collapse thread |
+| `x`      | Expand/collapse thread |
 
 ## Composer
 
-| Shortcut       | Action               |
-| -------------- | -------------------- |
-| `T`            | Open template picker |
-| `Ctrl+Enter`   | Send email           |
-| `Ctrl+S`       | Save as draft        |
-| `Ctrl+Shift+T` | Insert template      |
+| Shortcut               | Action               |
+| ---------------------- | -------------------- |
+| `t`                    | Open template picker |
+| `Ctrl/Cmd+Enter`       | Send                 |
+| `Ctrl/Cmd+Shift+Enter` | Schedule send        |
+| `Esc`                  | Close the composer   |
 
-## Calendar
+Drafts save themselves on a timer (a minute by default, adjustable in settings), so there is no save-draft key to press.
 
-| Shortcut | Action      |
-| -------- | ----------- |
-| `M`      | Month view  |
-| `W`      | Week view   |
-| `D`      | Day view    |
-| `A`      | Agenda view |
-| `T`      | Go to today |
-| `N`      | New event   |
+The calendar has no view-switching shortcuts. Use the toolbar or the view picker.

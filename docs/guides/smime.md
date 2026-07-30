@@ -6,7 +6,7 @@ order: 7
 
 # S/MIME
 
-Bulwark includes a full S/MIME workflow: import certificates, sign and encrypt outgoing messages, decrypt incoming encrypted mail, and verify signatures. It supports both modern algorithms and the legacy formats you need for compatibility with older S/MIME deployments.
+The whole S/MIME loop runs inside Bulwark. You import the certificates, sign and encrypt what you send, and read what arrives encrypted without leaving the browser. Current algorithms are covered. So are the older formats that corporate deployments still emit, which is the part most webmail quietly skips.
 
 ## Capabilities
 
@@ -19,7 +19,7 @@ Bulwark includes a full S/MIME workflow: import certificates, sign and encrypt o
 - Verify signatures and display detailed status (valid, untrusted issuer, expired, self-signed)
 - Per-account key isolation - keys imported in one account aren't visible to another
 
-## Algorithm Support
+## Algorithm support
 
 | Class             | Supported                                                           |
 | ----------------- | ------------------------------------------------------------------- |
@@ -31,25 +31,25 @@ Bulwark includes a full S/MIME workflow: import certificates, sign and encrypt o
 
 The legacy paths exist specifically because older corporate S/MIME deployments still emit 3DES-encrypted content and PBE-protected key bundles. Bulwark's `CryptoEngine` and `LinerEngine` work together to decrypt these without forcing you to drop down to a desktop client.
 
-## Importing Certificates
+## Importing certificates
 
 1. Open Settings → Security → S/MIME.
 2. Choose **Import identity certificate** for a `.p12` / `.pfx` file. You'll be prompted for the password if the bundle is protected (PBE or modern PKCS#12).
 3. Choose **Import recipient certificate** for a `.cer` / `.pem` file you've received from someone you want to encrypt mail to.
 4. Bind the imported identity to one or more sender identities so signing toggles default-on for them.
 
-## Sending Signed / Encrypted Mail
+## Sending signed and encrypted mail
 
 In the composer:
 
 - **Sign** - toggles when an identity certificate is bound to the active sender identity.
 - **Encrypt** - toggles only when every recipient has a known public certificate. If a recipient is missing a key, Bulwark explains who and offers to send unencrypted.
 
-If your private key is password-protected, you'll be prompted to unlock it directly from the composer - no need to leave the draft.
+A password-protected private key is unlocked from the composer itself, so you do not lose the draft.
 
 You can set default signing and encryption preferences per identity in Settings → Security → S/MIME.
 
-## Receiving Signed / Encrypted Mail
+## Receiving signed and encrypted mail
 
 The email viewer shows a banner above the message body:
 
@@ -60,15 +60,15 @@ The email viewer shows a banner above the message body:
 
 When verification succeeds, Bulwark can optionally auto-import the signer's certificate so you can encrypt your reply without an extra step. Auto-import is opt-in.
 
-## Per-Account Isolation
+## Per-account isolation
 
 S/MIME state is fully isolated per account:
 
 - A key imported under your work account is invisible to your personal account.
-- This avoids cross-account information leaks when multiple accounts are connected.
+- That boundary is what stops one account's keys leaking into another when several are connected.
 - Settings → Security → S/MIME shows the account context at the top so you always know which account's keys you are managing.
 
-## Security Notes
+## Security notes
 
 - Keys are stored encrypted using the per-account session key (which itself derives from `SESSION_SECRET`).
 - Keys never leave the browser unless you explicitly export them.

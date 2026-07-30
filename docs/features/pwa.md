@@ -8,7 +8,7 @@ order: 5
 
 Bulwark ships as a Progressive Web App (PWA). Users can install it to their home screen on Android, iOS, and desktop, and the service worker keeps the app shell ready for fast subsequent loads.
 
-## What You Get
+## What you get
 
 - **Installable** - Browsers offer "Add to Home Screen" / "Install app" once the manifest is detected.
 - **Standalone window** - Launches without browser chrome on desktop and mobile.
@@ -16,13 +16,13 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 - **App-name everywhere** - Browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
 - **Install screenshots** - Browsers that show a richer install dialog (e.g. Chrome on Android) display screenshots from the manifest. Bulwark ships default screenshots and lets you override them globally or per-domain.
 - **Service worker** - Registered automatically; caches the app shell.
-- **Install prompt** - A friendly in-app prompt suggests installation. Users can dismiss it, and there is a "don't remind me again" option.
+- **Install prompt** - An in-app prompt offers to install. Users can dismiss it for the session or choose "don't remind me again".
 - **Web push notifications** - When the user grants permission, Bulwark subscribes to web push and surfaces new-inbox-mail notifications even when the tab is closed. Clicking the notification opens the message. New-mail notifications are scoped to genuine inbox deliveries (not flag changes).
 - **Update detection** - The service worker detects the changed app shell on the next load and refreshes the cache. Bulwark additionally performs a server-side update check on startup and shows a non-dismissible in-app update notice when a new release is available.
 
 ## Configuration
 
-Every aspect of the PWA manifest is configured via runtime environment variables - you don't need to rebuild the image to rebrand the install experience.
+The whole manifest comes from runtime environment variables, so rebranding the install experience doesn't mean rebuilding the image.
 
 ```env
 APP_NAME=Acme Mail                 # Used in the manifest, browser tab, and SoftwareApplication metadata
@@ -61,7 +61,7 @@ Both can also be set from the admin dashboard, and overridden **per-domain** thr
 
 If you don't set `PWA_THEME_COLOR` and `PWA_BACKGROUND_COLOR`, both default to `#ffffff`. Match `PWA_BACKGROUND_COLOR` to your app's main background to avoid a visible color flash during launch.
 
-## Install Prompt UX
+## Install prompt
 
 When the browser fires the `beforeinstallprompt` event, Bulwark shows an in-app prompt:
 
@@ -71,11 +71,11 @@ When the browser fires the `beforeinstallprompt` event, Bulwark shows an in-app 
 
 The prompt also shows the app's name and logo so users see your branding (not "Bulwark") when you have customized it.
 
-## Service Worker
+## Service worker
 
 The service worker is served from `/sw.js` and registered on first load. It precaches the app shell and serves it on subsequent visits, which makes navigation between pages fast even on slow networks. Mail data itself is always fetched fresh from the JMAP server.
 
-## Web Push Notifications
+## Web push notifications
 
 When the user grants notification permission, Bulwark subscribes the browser to web push and uses the JMAP push verification handshake to receive real-time new-mail pings. Notifications:
 
@@ -86,7 +86,7 @@ When the user grants notification permission, Bulwark subscribes the browser to 
 
 If you self-host behind a reverse proxy, keep the `/api/push/*` and `/sw.js` paths reachable so the verification handshake can complete.
 
-## Reverse Proxy Notes
+## Reverse proxy notes
 
 If Bulwark sits behind a reverse proxy, make sure these paths are forwarded as-is:
 

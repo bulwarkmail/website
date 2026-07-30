@@ -6,10 +6,9 @@
   <img src="public/branding/logo-with-lettering/Bulwark%20Logo%20with%20Lettering%20Dark%20Color.svg" alt="Bulwark" width="280" />
 </picture>
 
-# Bulwark Website
+# Bulwark website
 
-The official website and documentation for [Bulwark Webmail](https://github.com/bulwarkmail/webmail).<br/>
-Built with Next.js and Tailwind CSS.
+The website and documentation for [Bulwark Webmail](https://github.com/bulwarkmail/webmail), in Next.js and Tailwind CSS.
 
 </div>
 
@@ -17,10 +16,7 @@ Built with Next.js and Tailwind CSS.
 
 ## What's in here
 
-This repository contains the source code for the Bulwark project website, including:
-
-- **Landing page** - Product showcase with features, screenshots, tech stack, deployment guides, and FAQ
-- **Documentation** - Full docs covering installation, configuration, features, development, and deployment
+Two things, both served from one Next.js app: the landing page at `/`, and the documentation at `/docs`, rendered from the Markdown under [`docs/`](docs/).
 
 ## Quick start
 

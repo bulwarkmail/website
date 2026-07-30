@@ -6,16 +6,16 @@ order: 2
 
 # Installation
 
-This guide walks you through running Bulwark, either via the **web setup wizard** (recommended for fresh installs) or with a fully env-driven configuration for read-only / immutable deployments.
+There are two ways to configure Bulwark: the **web setup wizard**, which is right for a fresh install, or environment variables, which is right when the config has to be immutable or checked into a repository. This page covers getting to the point where either one applies.
 
 ## Prerequisites
 
-- **Node.js** 18 or later (manual install only - the Docker image bundles its own runtime).
-- A running **Stalwart Mail Server** instance with JMAP enabled (or use the built-in demo backend for development). If you don't have Stalwart installed yet, follow the [official installation guide](https://stalw.art/docs/category/installation) and then see [Stalwart Setup](/docs/getting-started/configuration/stalwart-setup) for Bulwark-specific configuration.
+- A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/category/installation), then [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) for the Bulwark-specific parts.
+- **Node.js 20 or later**, for a manual install only. The Docker image ships its own Node 24 runtime, so ignore this if you're using the container.
 
 ## Quickest path: Docker + setup wizard
 
-The fastest way to a working webmail is the published Docker image. New in 1.6.4, you do **not** need to write `.env.local` first.
+The published Docker image is the shortest route to a working inbox, and there is nothing to write to `.env.local` first.
 
 ```bash
 docker run -d -p 3000:3000 --name bulwark \
@@ -24,48 +24,50 @@ docker run -d -p 3000:3000 --name bulwark \
   ghcr.io/bulwarkmail/webmail:latest
 ```
 
-Open `http://localhost:3000` and the web setup wizard guides you through:
+Open `http://localhost:3000` and the setup wizard takes seven steps:
 
-- **Server** - probe one or more JMAP endpoints, optional auto-pick by email domain, Stalwart feature toggle
-- **Auth** - OAuth2 / OIDC discovery and validation, or basic-auth fallback
-- **Security** - generate or paste a `SESSION_SECRET`, opt into settings sync
-- **Logging** - text or JSON, log level
-- **Branding** - upload favicon, app logos, login logos, and company / legal URLs
-- **Review** - grouped summary with an advanced toggle for the full config
-- **Admin** - set the initial admin password and optionally drop a `.config-locked` marker so the config volume can be remounted read-only
+| Step | What it does |
+| --- | --- |
+| Welcome | Confirms the app can write to its config directory |
+| Server | Probes one or more JMAP endpoints, optionally auto-picking by email domain, and toggles the Stalwart-specific features |
+| Auth | Runs OAuth2 / OIDC discovery and validates it, or falls back to basic auth |
+| Security | Generates or accepts a `SESSION_SECRET` and offers settings sync |
+| Logging | Text or JSON, and a log level |
+| Branding | Uploads for the favicon, app logos, and login logos, plus company and legal URLs |
+| Review | A grouped summary, the admin password, and an option to drop a `.config-locked` marker so the config volume can be remounted read-only |
 
-The wizard writes to `ADMIN_CONFIG_DIR` (`/app/data/admin` in the container). Setting `JMAP_SERVER_URL` in the environment **skips the wizard** and uses env-managed configuration.
+The wizard writes to `ADMIN_CONFIG_DIR` (`/app/data/admin` in the container). Setting `JMAP_SERVER_URL` in the environment skips the wizard entirely and hands configuration to the environment.
 
-## Script Install
+## Script install
 
-The legacy interactive setup script is still available if you prefer guided installation outside Docker:
+An interactive shell installer exists for hosts that already run Node and would rather not use Docker:
 
 ```bash
 curl -fsSL https://bulwarkmail.org/install | bash
 ```
 
-You can also run it in preview mode:
+Read it before you pipe it into a shell, as you would with any install script. It also has a preview mode that changes nothing:
 
 ```bash
 bash setup.sh --dry-run
 ```
 
-## Manual Install
+## Manual install
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/bulwarkmail/webmail.git
 cd webmail
 ```
 
-### 2. Install Dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. (Optional) Pre-seed Environment
+### 3. Pre-seed the environment (optional)
 
 You can skip this step and let the setup wizard configure the install on first launch. Only set environment variables when you want env-driven, immutable configuration:
 
@@ -82,7 +84,7 @@ APP_NAME=Bulwark
 
 Environment variables are read at runtime, so you can reconfigure Docker deployments without rebuilding. When `JMAP_SERVER_URL` is set, the setup wizard is hidden.
 
-### 4. Start the Server
+### 4. Start the server
 
 ```bash
 npm run build
@@ -91,18 +93,18 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) in your browser. If no `JMAP_SERVER_URL` is set, the setup wizard will walk you through the rest.
 
-### Development Without a Mail Server
+### Developing without a mail server
 
-To develop the UI without an external mail server, use the built-in demo mode:
+To work on the UI with no mail server anywhere in sight, use demo mode:
 
 ```bash
 cp .env.dev.example .env.local
 npm run dev
 ```
 
-Log in with any username and password. Demo mode includes fixture data for emails, calendars, contacts, files, filters, identities, mailboxes, and vacation responses, providing a full-featured experience without a real JMAP server.
+Log in with any username and password. Fixture data fills every screen. [Demo mode](/docs/getting-started/demo-mode) covers what's in the fixtures and what it deliberately doesn't do.
 
-## Production Build
+## Production build
 
 ```bash
 npm run build
@@ -117,7 +119,7 @@ PORT=8080 npm start
 
 ## Updating
 
-To update to the latest version:
+For a source install:
 
 ```bash
 git pull origin main
@@ -125,4 +127,4 @@ npm install
 npm run build
 ```
 
-Bulwark performs a server-side update check on startup and surfaces a non-dismissible update notice in-app when a new release is available.
+Bulwark checks for a newer release at startup and shows an update notice in the app when one exists. Release channels, container upgrades, and which directories have to persist are on the [Updating](/docs/deployment/updating) page.

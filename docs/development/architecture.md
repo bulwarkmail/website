@@ -1,14 +1,14 @@
 ---
 title: Architecture
-description: Technical architecture overview of Bulwark.
+description: How the browser, the Next.js server, and Stalwart divide the work.
 order: 2
 ---
 
 # Architecture
 
-An overview of Bulwark's technical architecture and design decisions.
+Where the work happens, and why it was split up this way.
 
-## High-Level Architecture
+## The shape of it
 
 ```
 ┌──────────────┐     JMAP/HTTP      ┌──────────────┐
@@ -25,9 +25,9 @@ An overview of Bulwark's technical architecture and design decisions.
 └──────────────┘
 ```
 
-After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the **first-launch setup wizard** (1.6.4+), and the admin dashboard - never as a proxy for normal mail traffic.
+After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the first-launch setup wizard, and the admin dashboard - never as a proxy for normal mail traffic.
 
-## Project Structure
+## Project structure
 
 ```
 webmail/
@@ -36,7 +36,7 @@ webmail/
 │   └── [locale]/              # Locale-aware routing
 │       ├── login/             # Login page
 │       ├── auth/              # OAuth callback
-│       ├── setup/             # First-launch setup wizard (1.6.4+)
+│       ├── setup/             # First-launch setup wizard
 │       ├── calendar/          # Calendar page
 │       ├── contacts/          # Contacts page
 │       ├── files/             # JMAP FileNode browser
@@ -84,32 +84,19 @@ webmail/
 │   ├── identity-store.ts
 │   ├── plugin-store.ts
 │   └── ...
-├── locales/                   # Translation files (24 languages)
-│   ├── en/                    # English
-│   ├── fr/                    # Français
-│   ├── ja/                    # 日本語
-│   ├── es/                    # Español
-│   ├── it/                    # Italiano
-│   ├── de/                    # Deutsch
-│   ├── nl/                    # Nederlands
-│   ├── pt/                    # Português
-│   ├── ru/                    # Русский
-│   ├── ko/                    # 한국어
-│   ├── pl/                    # Polski
-│   ├── lv/                    # Latviešu
-│   ├── zh/                    # 简体中文
-│   ├── uk/                    # Українська
-│   └── cs/                    # Čeština
+├── locales/                   # One directory per language, 24 of them:
+│                              #   ar ca cs da de en es fa fr he hu it
+│                              #   ja ko lv nl pl pt ro ru sk tr uk zh
 ├── i18n/                      # next-intl configuration
 ├── public/                    # Static assets, branding, PWA icons, service worker
 └── e2e/                       # Playwright end-to-end tests
 ```
 
-## JMAP Integration
+## JMAP integration
 
-Bulwark communicates with Stalwart exclusively through JMAP via a custom client. The client is wrapped behind an interface abstraction that allows swapping between a live JMAP backend and a demo backend with fixture data - used by `npm run dev` with `.env.dev.example` and by demo deployments. Custom JMAP server endpoints can be configured from login and settings via `ALLOW_CUSTOM_JMAP_ENDPOINT`.
+Everything Bulwark says to Stalwart goes over JMAP, through a client of its own. That client sits behind an interface, so a demo backend with fixture data can take its place; `npm run dev` with `.env.dev.example` does exactly that, and so do demo deployments. With `ALLOW_CUSTOM_JMAP_ENDPOINT`, the server URL can also come from the login form or from settings.
 
-### Request/Response Pattern
+### Request and response pattern
 
 All JMAP operations use a single HTTP endpoint. Requests are batched method calls:
 
@@ -127,9 +114,9 @@ All JMAP operations use a single HTTP endpoint. Requests are batched method call
 }
 ```
 
-### Capability Detection
+### Capability detection
 
-Bulwark detects server capabilities at session creation and conditionally enables features:
+At session creation Bulwark reads the advertised capabilities and turns features on accordingly:
 
 - `urn:ietf:params:jmap:core` - required, batched method calls and state tokens
 - `urn:ietf:params:jmap:mail` - required, email and mailbox handling
@@ -140,13 +127,13 @@ Bulwark detects server capabilities at session creation and conditionally enable
 - Stalwart's JMAP FileNode extension - cloud file storage
 - Stalwart's `x:` method namespace - admin, API keys, app passwords (Stalwart 0.16+)
 
-### Session URL Rewriting
+### Session URL rewriting
 
-Bulwark rewrites the URLs returned in the JMAP session resource to match the origin the client connects to. This is what makes deployments where Stalwart returns an internal hostname (e.g., `http://stalwart:8080`) work transparently behind a reverse proxy.
+The URLs in the JMAP session resource are rewritten to the origin the client actually connected to. That is what lets a Stalwart advertising an internal hostname such as `http://stalwart:8080` work behind a reverse proxy without the browser ever noticing.
 
-### Plugin System
+### Plugin system
 
-Bulwark includes an extensible plugin system with:
+The plugin system covers:
 
 - **Schema-driven configuration** - plugins declare a config schema, the admin UI is generated from it inline
 - **Render hooks** - plugins can render into named slots (calendar event actions, composer sidebar, email banner/footer, sidebar widget, settings sections, context menus, navigation rail, toolbars)
@@ -155,23 +142,23 @@ Bulwark includes an extensible plugin system with:
 - **`onAvatarResolve` hook** - provide custom avatar resolution logic
 - **Plugin i18n API** - plugins ship their own translation bundles
 - **Sandboxed HTTP proxy** - plugins talk to external services through a server-side proxy with origin validation, never exposing user credentials
-- **`http:fetch` + `httpOrigins`** - per-plugin allowlist of outbound origins enforced by the proxy (1.6.2+)
+- **`http:fetch` + `httpOrigins`** - per-plugin allowlist of outbound origins enforced by the proxy
 - **`frameOrigins` manifest field** - plugins declare which `https://host` origins they need to embed; the proxy reads the union of enabled plugin origins and merges into the host CSP `frame-src`
-- **Hot-reload and dev folder** - `PLUGIN_DEV_DIR` loads plugins from a folder during development, esbuild bundles `src/` on demand (1.6.2+)
-- **Install/uninstall restricted to admin dashboard** - regular users cannot add or remove plugins (1.6.2+)
+- **Hot-reload and dev folder** - `PLUGIN_DEV_DIR` loads plugins from a folder during development, esbuild bundles `src/` on demand
+- **Install/uninstall restricted to admin dashboard** - regular users cannot add or remove plugins
 - **Disabled by default + admin approval** - plugins are inert until an admin enables them
 - **Dangerous-pattern detection** - plugins with prohibited JS patterns are blocked at install time
 - **Theme bundles** - themes are uploaded as ZIP packages and managed alongside plugins; theme API v2 includes a token compiler and skin slot
 
 A bundled Jitsi Meet plugin demonstrates the calendar event slot.
 
-### Push Notifications
+### Push notifications
 
-Bulwark uses JMAP's push mechanism for real-time updates. When new emails arrive, calendar events change, or filter state updates, the server pushes notifications to the client without polling. On HTTP/2 servers, push streams are multiplexed over a single connection - that's what enables more than 5 simultaneous accounts (the previous cap was browser-imposed by HTTP/1.1 connection pooling).
+Real-time updates ride JMAP push: new mail, calendar changes, and filter state all arrive because the server sends them, not because the client asked. On HTTP/2 the push streams multiplex over one connection, which is what lifted the old 5-account cap. That cap was never ours; it came from HTTP/1.1 connection pooling in the browser.
 
 Web push notifications layer on top of this: when the user grants permission, the service worker subscribes to JMAP push for the inbox and surfaces new-mail notifications even when the tab is closed.
 
-## State Management
+## State management
 
 - **Server state** - Managed via JMAP state tokens for efficient incremental sync
 - **UI state** - Zustand stores with optional `persist` middleware

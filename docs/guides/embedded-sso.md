@@ -6,11 +6,11 @@ order: 3
 
 # Embedded SSO
 
-This guide explains how to embed Bulwark in an iframe within a parent portal that manages authentication via SSO.
+Run Bulwark inside an iframe in a parent portal that already handles authentication through SSO.
 
 ## Prerequisites
 
-Before configuring embedded SSO, ensure you have:
+Embedded SSO needs all three of these in place first:
 
 - OAuth 2.0 / OIDC configured (see [Authentication](/docs/getting-started/configuration/authentication))
 - A `SESSION_SECRET` set for server-side PKCE encryption
@@ -50,7 +50,7 @@ NEXT_PUBLIC_PARENT_ORIGIN=https://portal.example.com
 | `COOKIE_SAME_SITE`          | Cookie `SameSite` attribute (`lax`, `none`, `strict`) | `lax`    |
 | `NEXT_PUBLIC_PARENT_ORIGIN` | Origin of the parent frame for postMessage validation | (empty)  |
 
-## Example Docker Compose
+## Example Docker Compose file
 
 ```yaml
 services:
@@ -69,11 +69,11 @@ services:
       - NEXT_PUBLIC_PARENT_ORIGIN=https://portal.example.com
 ```
 
-## How It Works
+## How it works
 
-### Server-Side PKCE Flow
+### Server-side PKCE flow
 
-The standard OAuth PKCE flow stores the `code_verifier` in `sessionStorage`, which is lost when the browser navigates across browsing contexts (e.g., iframe to top-level and back). The server-side SSO flow solves this by keeping the PKCE state in an encrypted httpOnly cookie:
+The usual OAuth PKCE flow keeps the `code_verifier` in `sessionStorage`, and that is lost the moment the browser crosses browsing contexts, iframe to top-level and back. Bulwark keeps the PKCE state in an encrypted httpOnly cookie instead:
 
 1. **Start** - The client calls `POST /api/auth/sso/start`. The server generates PKCE parameters, stores them in an encrypted cookie (`sso_pending` with a 5-minute TTL), and returns the OAuth `authorize_url`.
 
@@ -87,11 +87,11 @@ The standard OAuth PKCE flow stores the `code_verifier` in `sessionStorage`, whi
 
 When `AUTO_SSO_ENABLED=true` and `OAUTH_ONLY=true`, the login page automatically starts the server-side SSO flow without user interaction. A 30-second loop guard prevents infinite redirect loops if the OAuth flow fails.
 
-### Non-Interactive SSO
+### Non-interactive SSO
 
-For fully embedded deployments where no login UI should ever appear, Bulwark supports a non-interactive SSO login flow. When configured, the OAuth flow starts automatically and completes without any user interaction, making it suitable for iframe deployments managed by a parent portal.
+Where no login UI should ever appear, the OAuth flow starts and finishes without user interaction. This is the mode to use when a parent portal owns the whole login experience.
 
-### iframe Security
+### iframe security
 
 When `ALLOWED_FRAME_ANCESTORS` is set to anything other than `'none'`:
 
@@ -99,11 +99,11 @@ When `ALLOWED_FRAME_ANCESTORS` is set to anything other than `'none'`:
 - CSP `frame-ancestors` is set to the configured value
 - Set `COOKIE_SAME_SITE=none` for cross-origin iframe cookies (requires HTTPS)
 
-## postMessage Bridge
+## postMessage bridge
 
 Bulwark communicates with the parent frame via `postMessage`. All outgoing messages include `source: 'bulwark'`.
 
-### Outgoing Messages (Webmail to Parent)
+### Outgoing messages, webmail to parent
 
 | Type                  | Payload        | When                            |
 | --------------------- | -------------- | ------------------------------- |
@@ -112,7 +112,7 @@ Bulwark communicates with the parent frame via `postMessage`. All outgoing messa
 | `sso:logout`          | -              | User logged out                 |
 | `sso:session-expired` | -              | Token refresh failed            |
 
-### Incoming Messages (Parent to Webmail)
+### Incoming messages, parent to webmail
 
 Messages must include `source: 'portal'`. If `NEXT_PUBLIC_PARENT_ORIGIN` is set, only messages from that origin are accepted.
 
@@ -121,7 +121,7 @@ Messages must include `source: 'portal'`. If `NEXT_PUBLIC_PARENT_ORIGIN` is set,
 | `sso:trigger-login`  | Navigates to the login page (starts auto-SSO if enabled) |
 | `sso:trigger-logout` | Logs the user out                                        |
 
-### Example Parent Integration
+### Example parent integration
 
 ```javascript
 const iframe = document.getElementById("webmail-iframe");
@@ -153,7 +153,7 @@ function logoutWebmail() {
 }
 ```
 
-## API Reference
+## API reference
 
 ### POST /api/auth/sso/start
 

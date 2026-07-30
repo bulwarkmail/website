@@ -85,11 +85,18 @@ Bulwark uses a declarative permission model. Each permission string takes the fo
 | Templates | `templates:read`, `templates:write`                                                                                                                                                                    |
 | S/MIME    | `smime:read`                                                                                                                                                                                           |
 | Vacation  | `vacation:read`, `vacation:write`                                                                                                                                                                      |
-| Settings  | `settings:read`                                                                                                                                                                                        |
+| Settings  | `settings:read`, `settings:write`                                                                                                                                                                      |
 | Security  | `security:read`                                                                                                                                                                                        |
-| UI        | `ui:toolbar`, `ui:email-banner`, `ui:email-footer`, `ui:composer-toolbar`, `ui:composer-sidebar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:keyboard`, `ui:calendar-event` |
+| UI        | `ui:toolbar`, `ui:app-top-banner`, `ui:email-banner`, `ui:email-footer`, `ui:email-details`, `ui:composer-toolbar`, `ui:composer-sidebar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:calendar-action`, `ui:admin-page`, `ui:keyboard`, `ui:download-file`, `ui:message-list-tabs` |
 | Auth      | `auth:observe`                                                                                                                                                                                         |
-| HTTP      | `http:fetch` (paired with the `httpOrigins` manifest field to declare the allowlist)                                                                                                                   |
+| Admin     | `admin:config`                                                                                                                                                                                         |
+| HTTP      | `http:fetch`, `http:post` (paired with the `httpOrigins` manifest field to declare the allowlist)                                                                                                      |
+
+`ui:observe` and `app:lifecycle` are granted to every plugin automatically. Listing them does nothing.
+
+### Privileged permissions
+
+`crypto:full`, `email:raw-send`, `email:blob-read`, `email:blob-write`, and `email:render-takeover` require `"tier": "privileged"`, a signed bundle, and an explicit high-risk consent step from the admin installing it. They exist for plugins that perform their own message cryptography. Requesting one without that justification will fail review.
 
 ## Validation
 
