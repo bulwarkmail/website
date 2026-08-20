@@ -16,21 +16,7 @@ Older Stalwart versions still work for plain mail/calendar/contacts/files, but S
 
 ## Installing Stalwart
 
-Stalwart installs from Docker, distribution packages, prebuilt binaries, or source. The [official Stalwart installation guide](https://stalw.art/docs/category/installation) covers all four. Two shortcuts:
-
-### Docker
-
-```bash
-docker run -d \
-  --name stalwart \
-  -p 443:443 -p 25:25 -p 587:587 -p 993:993 -p 8080:8080 \
-  -v stalwart-data:/opt/stalwart \
-  stalwartlabs/mail-server:latest
-```
-
-### Binary
-
-Download the latest release from [Stalwart's GitHub](https://github.com/stalwartlabs/mail-server/releases) and follow the installation instructions for your platform.
+Installing Stalwart itself is out of scope for these docs. Follow the [official Stalwart installation guide](https://stalw.art/docs/install/), which covers Docker, distribution packages, prebuilt binaries, and building from source. Come back here once the server is running.
 
 ## Enabling JMAP
 

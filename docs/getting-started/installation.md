@@ -10,7 +10,7 @@ There are two ways to configure Bulwark: the **web setup wizard**, which is righ
 
 ## Prerequisites
 
-- A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/category/installation), then [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) for the Bulwark-specific parts.
+- A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/install/), then [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) for the Bulwark-specific parts.
 - **Node.js 20 or later**, for a manual install only. The Docker image ships its own Node 24 runtime, so ignore this if you're using the container.
 
 ## Quickest path: Docker + setup wizard

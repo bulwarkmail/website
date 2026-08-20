@@ -61,6 +61,8 @@ volumes:
   stalwart-data:
 ```
 
+The `stalwart` service above is a minimal example to get the pair talking. For the authoritative Stalwart setup - image, ports, volumes, and initial configuration - follow the [official Stalwart installation guide](https://stalw.art/docs/install/).
+
 ## Using env_file
 
 For more complex configurations (OAuth, session secret, branding, etc.), use an environment file:
