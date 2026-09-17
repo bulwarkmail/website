@@ -20,12 +20,14 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
                   items: topLevel.map((i) => ({
                     title: i.title,
                     slug: i.slug,
+                    edition: i.edition,
                     headings: i.headings.map((h) => ({ text: h.text, id: h.id })),
                     children: s.items
                       .filter((c) => c.parent === i.slug)
                       .map((c) => ({
                         title: c.title,
                         slug: c.slug,
+                        edition: c.edition,
                         headings: c.headings.map((h) => ({ text: h.text, id: h.id })),
                       })),
                   })),

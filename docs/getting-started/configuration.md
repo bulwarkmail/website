@@ -1,7 +1,8 @@
 ---
 title: Configuration
 description: Configure Bulwark for your environment.
-order: 3
+order: 4
+edition: full
 ---
 
 # Configuration

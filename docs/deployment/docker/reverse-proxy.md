@@ -2,6 +2,7 @@
 title: Reverse proxy
 description: Set up a reverse proxy in front of Bulwark.
 order: 2
+edition: full
 ---
 
 # Reverse proxy

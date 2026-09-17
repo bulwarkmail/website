@@ -4,15 +4,23 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { Search, X, FileText, Hash, CornerDownLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEdition } from "@/components/edition-provider";
 
 interface SearchResult {
   title: string;
   slug: string;
   section: string;
+  edition: "full" | "lite" | "both";
   heading?: { text: string; id: string };
   excerpt: string;
   score: number;
 }
+
+const EDITION_TAGS: Record<SearchResult["edition"], string | null> = {
+  both: null,
+  full: "Bulwark only",
+  lite: "Lite only",
+};
 
 function highlightTerms(text: string, query: string) {
   if (!query.trim()) return text;
@@ -47,6 +55,7 @@ export function DocsSearch() {
   const listRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const router = useRouter();
+  const { edition } = useEdition();
 
   const close = useCallback(() => {
     setOpen(false);
@@ -91,7 +100,7 @@ export function DocsSearch() {
     debounceRef.current = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/docs-search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`/api/docs-search?q=${encodeURIComponent(query)}&edition=${edition}`);
         if (res.ok) {
           const data = await res.json();
           setResults(data);
@@ -101,7 +110,7 @@ export function DocsSearch() {
         setLoading(false);
       }
     }, 150);
-  }, [query]);
+  }, [query, edition]);
 
   // Scroll active item into view
   useEffect(() => {
@@ -142,7 +151,10 @@ export function DocsSearch() {
       features: "Features",
       deployment: "Deployment",
       guides: "Guides",
+      extensions: "Extensions",
       development: "Development",
+      branding: "Branding",
+      legal: "Legal",
     }),
     []
   );
@@ -153,7 +165,9 @@ export function DocsSearch() {
       className="flex items-center gap-2 w-full px-3 py-2 text-sm text-muted-foreground bg-muted/50 border border-border rounded-lg hover:bg-muted transition-colors"
     >
       <Search className="w-4 h-4" />
-      <span className="flex-1 text-left">Search docs...</span>
+      <span className="flex-1 text-left">
+        Search <span className="ed-lite-only">Lite </span>docs...
+      </span>
       <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-medium bg-background border border-border rounded">
         <span className="text-xs">⌘</span>K
       </kbd>
@@ -246,6 +260,9 @@ export function DocsSearch() {
                     </div>
                     <div className="text-[10px] text-muted-foreground/50 mt-1">
                       {sectionLabels[result.section] ?? result.section}
+                      {EDITION_TAGS[result.edition] ? (
+                        <span className="ml-2 text-[color:var(--rasp)]">{EDITION_TAGS[result.edition]}</span>
+                      ) : null}
                     </div>
                   </div>
                   {i === activeIndex && (

@@ -2,6 +2,7 @@
 title: Troubleshooting
 description: The failures people actually hit, and what each one means.
 order: 11
+edition: both
 ---
 
 # Troubleshooting

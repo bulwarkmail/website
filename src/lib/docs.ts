@@ -19,6 +19,32 @@ export interface DocHeading {
   id: string;
 }
 
+/** Which edition a page applies to. Front-matter `edition:`; defaults to both. */
+export type DocEdition = "full" | "lite" | "both";
+
+export function parseEdition(value: unknown): DocEdition {
+  return value === "full" || value === "lite" ? value : "both";
+}
+
+/** CSS class that hides a page's entry in the other edition (see globals.css). */
+export function editionClass(edition: DocEdition): string {
+  if (edition === "full") return "ed-full-only";
+  if (edition === "lite") return "ed-lite-only";
+  return "";
+}
+
+/** The class for a group of pages: hidden only when every member is. */
+export function groupEditionClass(editions: DocEdition[]): string {
+  if (editions.length === 0) return "";
+  if (editions.every((e) => e === "full")) return "ed-full-only";
+  if (editions.every((e) => e === "lite")) return "ed-lite-only";
+  return "";
+}
+
+export function appliesTo(doc: { edition: DocEdition }, edition: "full" | "lite"): boolean {
+  return doc.edition === "both" || doc.edition === edition;
+}
+
 export interface DocMeta {
   title: string;
   description: string;
@@ -26,6 +52,7 @@ export interface DocMeta {
   slug: string;
   section: string;
   parent?: string;
+  edition: DocEdition;
   headings: DocHeading[];
 }
 
@@ -103,6 +130,7 @@ export function getAllDocs(): DocMeta[] {
           order: data.order ?? 99,
           slug: `${section.name}/${entry.name.replace(".md", "")}`,
           section: section.name,
+          edition: parseEdition(data.edition),
           headings: extractHeadings(content),
         });
       } else if (entry.isDirectory()) {
@@ -124,6 +152,7 @@ export function getAllDocs(): DocMeta[] {
             slug: `${section.name}/${entry.name}/${subFile.replace(".md", "")}`,
             section: section.name,
             parent: parentSlug,
+            edition: parseEdition(data.edition),
             headings: extractHeadings(subContent),
           });
         }
@@ -177,7 +206,8 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
     .use(rehypeStringify)
     .process(content);
 
-  const section = slug.split("/")[0];
+  const parts = slug.split("/");
+  const section = parts[0];
 
   return {
     title: data.title ?? "",
@@ -185,6 +215,8 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
     order: data.order ?? 99,
     slug,
     section,
+    parent: parts.length === 3 ? `${parts[0]}/${parts[1]}` : undefined,
+    edition: parseEdition(data.edition),
     content,
     html: result.toString(),
     headings: extractHeadings(content),
@@ -195,6 +227,7 @@ export interface SearchResult {
   title: string;
   slug: string;
   section: string;
+  edition: DocEdition;
   heading?: { text: string; id: string };
   excerpt: string;
   score: number;
@@ -320,14 +353,19 @@ function anyTermMatch(text: string, terms: string[]): boolean {
   return terms.some((t) => lower.includes(t));
 }
 
-export function searchDocs(query: string): SearchResult[] {
+/**
+ * Full-text search over the docs. With `edition` set, pages that exist only
+ * in the other edition are left out; every hit carries its page's edition
+ * either way so the client can tag it.
+ */
+export function searchDocs(query: string, edition?: "full" | "lite"): SearchResult[] {
   const trimmed = query.trim();
   if (!trimmed) return [];
 
   const terms = tokenize(trimmed).filter((t) => t.length > 1);
   if (terms.length === 0) return [];
 
-  const docs = getAllDocs();
+  const docs = getAllDocs().filter((doc) => !edition || appliesTo(doc, edition));
   const results: SearchResult[] = [];
 
   for (const doc of docs) {
@@ -378,6 +416,7 @@ export function searchDocs(query: string): SearchResult[] {
       title: doc.title,
       slug: doc.slug,
       section: doc.section,
+      edition: doc.edition,
       excerpt: docExcerpt,
       score: docScore,
     });
@@ -406,6 +445,7 @@ export function searchDocs(query: string): SearchResult[] {
           title: doc.title,
           slug: doc.slug,
           section: doc.section,
+          edition: doc.edition,
           heading: sec.heading,
           excerpt: buildExcerpt(sec.body, terms),
           score: headingScore,

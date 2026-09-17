@@ -2,6 +2,7 @@
 title: Contacts
 description: Address books, groups, categories, and vCard import and export.
 order: 3
+edition: both
 ---
 
 # Contacts

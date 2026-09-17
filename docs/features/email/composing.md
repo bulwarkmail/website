@@ -2,6 +2,7 @@
 title: Composing emails
 description: Rich text editor and composing features.
 order: 1
+edition: both
 ---
 
 # Composing emails

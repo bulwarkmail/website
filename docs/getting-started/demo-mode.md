@@ -1,7 +1,8 @@
 ---
 title: Demo mode
 description: Run Bulwark against fixture data instead of a mail server.
-order: 4
+order: 5
+edition: both
 ---
 
 # Demo mode

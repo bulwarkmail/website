@@ -2,6 +2,7 @@
 title: Extension marketplace
 description: Browse and install plugins and themes from a configurable extension directory.
 order: 8
+edition: full
 ---
 
 # Extension marketplace

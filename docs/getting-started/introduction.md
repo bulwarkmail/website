@@ -2,6 +2,7 @@
 title: Introduction
 description: What Bulwark is and what it runs on.
 order: 1
+edition: both
 ---
 
 # Introduction

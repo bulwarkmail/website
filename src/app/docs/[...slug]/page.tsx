@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getDocBySlug, getAllDocs, getDocSections } from "@/lib/docs";
+import { getDocBySlug, getAllDocs, getDocSections, appliesTo, type DocMeta } from "@/lib/docs";
 import { CopyableCode } from "@/components/docs/copyable-code";
+import { EditionBanner } from "@/components/docs/edition-banner";
 import { ArrowLeft, ArrowRight, ChevronRight, Pencil } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -39,15 +40,27 @@ export default async function DocPage({ params }: PageProps) {
 
   if (!doc) notFound();
 
-  // Find prev/next only among sibling pages (same parent or same section top-level)
+  // Find prev/next only among sibling pages (same parent or same section
+  // top-level). Each edition has its own neighbours, so both pairs are
+  // rendered and the data-edition attribute picks one.
   const sections = getDocSections();
   const allItems = sections.flatMap((s) => s.items);
-  const siblings = doc.parent
+  const allSiblings = doc.parent
     ? allItems.filter((i) => i.parent === doc.parent)
     : allItems.filter((i) => i.section === doc.section && !i.parent);
-  const idx = siblings.findIndex((i) => i.slug === slugStr);
-  const prev = siblings.length > 1 && idx > 0 ? siblings[idx - 1] : null;
-  const next = siblings.length > 1 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+  const neighbours = (edition: "full" | "lite"): { prev: DocMeta | null; next: DocMeta | null } => {
+    const siblings = allSiblings.filter((i) => appliesTo(i, edition));
+    const idx = siblings.findIndex((i) => i.slug === slugStr);
+    if (idx === -1) return { prev: null, next: null };
+    return {
+      prev: idx > 0 ? siblings[idx - 1] : null,
+      next: idx < siblings.length - 1 ? siblings[idx + 1] : null,
+    };
+  };
+  const pagers: { edition: "full" | "lite"; className: string; prev: DocMeta | null; next: DocMeta | null }[] = [
+    { edition: "full", className: "ed-full-only", ...neighbours("full") },
+    { edition: "lite", className: "ed-lite-only", ...neighbours("lite") },
+  ];
 
   const sectionLabel =
     sections.find((s) => s.slug === doc.section)?.label ?? doc.section;
@@ -79,40 +92,45 @@ export default async function DocPage({ params }: PageProps) {
         </div>
       </div>
 
+      {/* A page that exists only in the other edition says so instead of vanishing */}
+      {doc.edition !== "both" ? <EditionBanner pageEdition={doc.edition} /> : null}
+
       {/* Rendered markdown */}
       <CopyableCode html={doc.html} />
 
-      {/* Prev/Next navigation */}
-      {(prev || next) && (
-        <nav className="mt-16 pt-8 border-t border-[color:var(--rule)] flex">
-          <div className="flex-1">
-            {prev && (
-              <Link
-                href={`/docs/${prev.slug}`}
-                className="group flex flex-col px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors"
-              >
-                <span className="ed-eyebrow mb-2">Previous</span>
-                <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
-                  <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden /> {prev.title}
-                </span>
-              </Link>
-            )}
-          </div>
-          {prev && next && <div className="w-px bg-[color:var(--rule)]" />}
-          <div className="flex-1 flex justify-end">
-            {next && (
-              <Link
-                href={`/docs/${next.slug}`}
-                className="group flex flex-col items-end px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors text-right"
-              >
-                <span className="ed-eyebrow mb-2">Next</span>
-                <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
-                  {next.title} <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
-                </span>
-              </Link>
-            )}
-          </div>
-        </nav>
+      {/* Prev/Next navigation, one pair per edition */}
+      {pagers.map(({ edition, className, prev, next }) =>
+        prev || next ? (
+          <nav key={edition} className={`${className} mt-16 pt-8 border-t border-[color:var(--rule)] flex`}>
+            <div className="flex-1">
+              {prev && (
+                <Link
+                  href={`/docs/${prev.slug}`}
+                  className="group flex flex-col px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors"
+                >
+                  <span className="ed-eyebrow mb-2">Previous</span>
+                  <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
+                    <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden /> {prev.title}
+                  </span>
+                </Link>
+              )}
+            </div>
+            {prev && next && <div className="w-px bg-[color:var(--rule)]" />}
+            <div className="flex-1 flex justify-end">
+              {next && (
+                <Link
+                  href={`/docs/${next.slug}`}
+                  className="group flex flex-col items-end px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors text-right"
+                >
+                  <span className="ed-eyebrow mb-2">Next</span>
+                  <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
+                    {next.title} <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
+                  </span>
+                </Link>
+              )}
+            </div>
+          </nav>
+        ) : null
       )}
     </article>
   );

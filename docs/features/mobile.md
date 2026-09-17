@@ -2,6 +2,7 @@
 title: Mobile
 description: Bulwark on a phone - the installable PWA, the native app, and the push relay behind both.
 order: 6
+edition: both
 ---
 
 # Mobile

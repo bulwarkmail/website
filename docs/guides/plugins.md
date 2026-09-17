@@ -2,6 +2,7 @@
 title: Plugins
 description: Plugin system for extending Bulwark with custom functionality.
 order: 4
+edition: full
 ---
 
 # Plugins

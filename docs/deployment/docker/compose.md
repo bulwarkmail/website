@@ -2,6 +2,7 @@
 title: Docker Compose
 description: Run Bulwark alongside Stalwart with Docker Compose.
 order: 1
+edition: full
 ---
 
 # Docker Compose

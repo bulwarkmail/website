@@ -2,6 +2,7 @@
 title: Architecture
 description: How the browser, the Next.js server, and Stalwart divide the work.
 order: 2
+edition: both
 ---
 
 # Architecture

@@ -2,6 +2,7 @@
 title: Stalwart setup
 description: Configure Stalwart Mail Server for use with Bulwark.
 order: 1
+edition: both
 ---
 
 # Stalwart setup

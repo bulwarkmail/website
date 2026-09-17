@@ -2,6 +2,7 @@
 title: Calendar
 description: Views, event editing, invitations, and subscriptions in the calendar.
 order: 2
+edition: both
 ---
 
 # Calendar

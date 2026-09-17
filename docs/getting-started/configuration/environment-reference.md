@@ -2,6 +2,7 @@
 title: Environment reference
 description: Every variable in Bulwark's .env.example, with defaults and when to set it.
 order: 3
+edition: full
 ---
 
 # Environment reference

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getDocSections } from "@/lib/docs";
+import { editionClass, getDocSections, groupEditionClass } from "@/lib/docs";
 import {
   ArrowRight,
   BookOpen,
@@ -7,13 +7,13 @@ import {
   Code2,
   Compass,
   Container,
+  FolderArchive,
   Palette,
   Puzzle,
   Rocket,
   Scale,
   Server,
   Sparkles,
-  Terminal,
   type LucideIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -31,7 +31,11 @@ export const metadata: Metadata = {
 const SANS = "var(--font-exo2), system-ui, sans-serif";
 const SERIF = "var(--font-source-serif), Georgia, serif";
 
-const STEPS: { n: string; title: string; body: React.ReactNode }[] = [
+type Step = { n: string; title: string; body: React.ReactNode };
+
+// The three steps differ per edition; both lists are rendered and the
+// data-edition attribute on <html> shows one (see globals.css).
+const STEPS: Step[] = [
   {
     n: "01",
     title: "Run this command",
@@ -61,6 +65,43 @@ const STEPS: { n: string; title: string; body: React.ReactNode }[] = [
       <>
         Bulwark is the front; <Link href="/docs/getting-started/configuration/stalwart-setup" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">Stalwart</Link>{" "}
         is the server. If you don&apos;t have one yet, install Stalwart first and come back. The wizard handles the wiring.
+      </>
+    ),
+  },
+];
+
+const LITE_STEPS: Step[] = [
+  {
+    n: "01",
+    title: "Download the zip",
+    body: (
+      <>
+        Every <a href="https://github.com/bulwarkmail/webmail/releases/latest" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">release</a>{" "}
+        attaches <code className="font-mono text-[0.85em]">bulwark-lite-&lt;version&gt;.zip</code>. Nothing to install and no
+        Node.js anywhere: it is a folder of HTML, JavaScript and one JSON file.
+      </>
+    ),
+  },
+  {
+    n: "02",
+    title: "Edit config.json",
+    body: (
+      <>
+        Set <code className="font-mono text-[0.85em]">jmapServerUrl</code> to your Stalwart, and{" "}
+        <code className="font-mono text-[0.85em]">appName</code> if you like. The file is read at runtime, so you can
+        change it again later without rebuilding anything.
+      </>
+    ),
+  },
+  {
+    n: "03",
+    title: "Upload it, allow CORS",
+    body: (
+      <>
+        Put the folder on any static host and set <code className="font-mono text-[0.85em]">http.permissive-cors = true</code>{" "}
+        in Stalwart, because the browser now talks to the mail server directly. Host snippets for nginx, Caddy, Netlify,
+        Cloudflare Pages and GitHub Pages are on the{" "}
+        <Link href="/docs/deployment/static" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">static hosting</Link> page.
       </>
     ),
   },
@@ -96,18 +137,18 @@ const PATHS: PathOption[] = [
     cta: "Docker guide",
   },
   {
-    icon: Terminal,
-    tag: "Guided",
-    title: "Install script",
-    desc: "An interactive shell installer for hosts that already run Node. It asks you the same questions the wizard does.",
-    href: "/docs/getting-started/installation",
-    cta: "Run the script",
+    icon: FolderArchive,
+    tag: "No server",
+    title: "Bulwark Lite",
+    desc: "The same client as static files. Upload a folder to any web host, point config.json at Stalwart, done.",
+    href: "/docs/getting-started/lite",
+    cta: "Lite guide",
   },
   {
     icon: Server,
     tag: "Hands-on",
     title: "Manual install",
-    desc: "Clone the repo and wire up the env file yourself. Takes the longest and leaves nothing hidden.",
+    desc: "A prebuilt standalone tarball or your own build, run under systemd or PM2. Leaves nothing hidden.",
     href: "/docs/deployment/manual",
     cta: "Manual install",
   },
@@ -143,8 +184,15 @@ export default function DocsPage() {
             maxWidth: "640px",
           }}
         >
-          The three steps below take you from nothing to a working inbox in about five minutes. Everything
-          after them is reference: configuration, features, deployment, and the extension API.
+          <span className="ed-full-only">
+            The three steps below take you from nothing to a working inbox in about five minutes. Everything
+            after them is reference: configuration, features, deployment, and the extension API.
+          </span>
+          <span className="ed-lite-only">
+            You are reading the Bulwark Lite manual: the same client as static files, no Node.js process. The three
+            steps below get it onto a web host; pages that only apply to the full edition are hidden, and say so if
+            you land on one.
+          </span>
         </p>
       </div>
 
@@ -173,8 +221,12 @@ export default function DocsPage() {
             />
           </summary>
 
-          <ol className="m-0 p-0 list-none">
-          {STEPS.map((step) => (
+          {([
+            { edition: "full", className: "ed-full-only", steps: STEPS },
+            { edition: "lite", className: "ed-lite-only", steps: LITE_STEPS },
+          ] as const).map(({ edition, className, steps }) => (
+          <ol key={edition} className={`${className} m-0 p-0 list-none`}>
+          {steps.map((step) => (
             <li
               key={step.n}
               className="grid grid-cols-[auto_1fr] gap-4 sm:gap-8 py-6 border-b border-[color:var(--rule)]"
@@ -212,12 +264,12 @@ export default function DocsPage() {
                 >
                   {step.body}
                 </p>
-                {step.n === "01" ? (
+                {step.n === "01" && edition === "full" ? (
                   <div className="mt-4">
                     <InstallQuickstart />
                   </div>
                 ) : null}
-                {step.n === "02" ? (
+                {step.n === "02" && edition === "full" ? (
                   <p
                     className="mt-3 text-foreground/55"
                     style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "0.9375rem", margin: "0.75rem 0 0" }}
@@ -237,6 +289,7 @@ export default function DocsPage() {
             </li>
           ))}
           </ol>
+          ))}
         </details>
       </section>
 
@@ -327,10 +380,11 @@ export default function DocsPage() {
         <div>
           {sections.map((section) => {
             const SectionIcon = SECTION_ICONS[section.slug] ?? BookOpen;
+            const sectionClass = groupEditionClass(section.items.map((i) => i.edition));
             return (
             <div
               key={section.slug}
-              className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-10 py-6 border-b border-[color:var(--rule)]"
+              className={`${sectionClass} grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-10 py-6 border-b border-[color:var(--rule)]`}
             >
               <div className="flex items-start gap-2 lg:pt-1">
                 <SectionIcon className="w-4 h-4 text-[color:var(--rasp)] shrink-0 mt-0.5" />
@@ -349,7 +403,7 @@ export default function DocsPage() {
               </div>
               <ul className="m-0 p-0 list-none">
                 {section.items.map((item) => (
-                  <li key={item.slug} className="border-b border-[color:var(--rule)] last:border-b-0">
+                  <li key={item.slug} className={`${editionClass(item.edition)} border-b border-[color:var(--rule)] last:border-b-0`}>
                     <Link
                       href={`/docs/${item.slug}`}
                       className="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 sm:gap-6 py-2.5 items-baseline"

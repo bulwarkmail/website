@@ -2,6 +2,7 @@
 title: Publishing and updates
 description: How to publish a new extension and ship updates through the Bulwark directory.
 order: 5
+edition: full
 ---
 
 # Publishing and updates

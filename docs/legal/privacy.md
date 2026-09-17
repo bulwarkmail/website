@@ -2,6 +2,7 @@
 title: Privacy policy
 description: What data the Bulwark project collects, why, and where it lives.
 order: 1
+edition: both
 ---
 
 # Privacy policy

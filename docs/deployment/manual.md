@@ -2,6 +2,7 @@
 title: Manual deployment
 description: Deploy Bulwark manually on a server.
 order: 2
+edition: full
 ---
 
 # Manual deployment

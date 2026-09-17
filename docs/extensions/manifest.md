@@ -2,6 +2,7 @@
 title: manifest.json reference
 description: Required fields, permissions, and metadata for Bulwark extensions.
 order: 2
+edition: full
 ---
 
 # manifest.json reference

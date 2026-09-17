@@ -2,6 +2,7 @@
 title: Submission guidelines
 description: Requirements, review process, and content policy for publishing extensions on the Bulwark directory.
 order: 4
+edition: full
 ---
 
 # Submission guidelines

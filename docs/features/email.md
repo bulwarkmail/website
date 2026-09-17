@@ -2,6 +2,7 @@
 title: Email
 description: How Bulwark handles reading, composing, searching, and filtering mail.
 order: 1
+edition: both
 ---
 
 # Email

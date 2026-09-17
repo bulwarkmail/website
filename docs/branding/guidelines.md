@@ -2,6 +2,7 @@
 title: Branding guidelines
 description: Official Bulwark logos, assets, and usage guidelines.
 order: 1
+edition: both
 ---
 
 # Branding guidelines

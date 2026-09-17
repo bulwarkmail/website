@@ -2,6 +2,7 @@
 title: Docker deployment
 description: Deploy Bulwark with Docker and Docker Compose.
 order: 1
+edition: full
 ---
 
 # Docker deployment

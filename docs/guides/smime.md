@@ -2,6 +2,7 @@
 title: S/MIME
 description: Sign, encrypt, decrypt, and verify mail with S/MIME certificates.
 order: 7
+edition: both
 ---
 
 # S/MIME

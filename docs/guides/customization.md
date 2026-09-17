@@ -2,6 +2,7 @@
 title: Customization
 description: Customize the look and feel of Bulwark.
 order: 1
+edition: both
 ---
 
 # Customization

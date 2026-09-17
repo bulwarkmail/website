@@ -1,7 +1,8 @@
 ---
 title: Installation
 description: How to install and run Bulwark.
-order: 2
+order: 3
+edition: full
 ---
 
 # Installation

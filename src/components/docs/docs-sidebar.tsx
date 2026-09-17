@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { editionClass, groupEditionClass, type DocEdition } from "@/lib/docs";
 import { DocsSearch } from "./docs-search";
 
 interface SidebarHeading {
@@ -16,12 +17,14 @@ interface SidebarHeading {
 interface SidebarChild {
   title: string;
   slug: string;
+  edition: DocEdition;
   headings?: SidebarHeading[];
 }
 
 interface SidebarItem {
   title: string;
   slug: string;
+  edition: DocEdition;
   headings?: SidebarHeading[];
   children?: SidebarChild[];
 }
@@ -51,9 +54,13 @@ function SidebarLink({
   const hasHeadings = item.headings && item.headings.length > 0;
   const [expanded, setExpanded] = useState(true);
   const [headingsExpanded, setHeadingsExpanded] = useState(isActive);
+  // A parent is hidden only when it and every child belong to the other edition.
+  const liClass = hasChildren
+    ? groupEditionClass([item.edition, ...item.children!.map((c) => c.edition)])
+    : editionClass(item.edition);
 
   return (
-    <li>
+    <li className={liClass || undefined}>
       <div className="flex items-center">
         {hasChildren ? (
           <button
@@ -88,6 +95,7 @@ function SidebarLink({
             <button
               onClick={() => setHeadingsExpanded(!headingsExpanded)}
               className="shrink-0"
+              aria-label={headingsExpanded ? "Collapse sections" : "Expand sections"}
             >
               <ChevronRight
                 className={cn(
@@ -161,7 +169,7 @@ function ChildLink({
   const [headingsExpanded, setHeadingsExpanded] = useState(childActive);
 
   return (
-    <li>
+    <li className={editionClass(child.edition) || undefined}>
       {hasHeadings ? (
         <div
           className={cn(
@@ -174,6 +182,7 @@ function ChildLink({
           <button
             onClick={() => setHeadingsExpanded(!headingsExpanded)}
             className="shrink-0"
+            aria-label={headingsExpanded ? "Collapse sections" : "Expand sections"}
           >
             <ChevronRight
               className={cn(
@@ -221,45 +230,47 @@ function ChildLink({
 
 export function DocsSidebar({ sections }: DocsSidebarProps) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  // The mobile drawer is "open for this pathname": a route change closes it
+  // without an effect, because the new pathname no longer matches.
+  const [openFor, setOpenFor] = useState<string | null>(null);
+  const mobileOpen = openFor === pathname;
+  const close = useCallback(() => setOpenFor(null), []);
 
   const toggleSidebar = useCallback(() => {
-    setMobileOpen((prev) => !prev);
-  }, []);
+    setOpenFor((prev) => (prev === pathname ? null : pathname));
+  }, [pathname]);
 
   // Listen for navbar toggle event
   useEffect(() => {
-    window.addEventListener('toggle-docs-sidebar', toggleSidebar);
-    return () => window.removeEventListener('toggle-docs-sidebar', toggleSidebar);
+    window.addEventListener("toggle-docs-sidebar", toggleSidebar);
+    return () => window.removeEventListener("toggle-docs-sidebar", toggleSidebar);
   }, [toggleSidebar]);
-
-  // Close on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
 
   const sidebar = (
     <nav className="space-y-7">
       <div className="px-1">
         <DocsSearch />
       </div>
-      {sections.map((section) => (
-        <div key={section.slug}>
-          <h4 className="ed-eyebrow px-3 mb-2.5">
-            {section.label}
-          </h4>
-          <ul className="space-y-0.5">
-            {section.items.map((item) => (
-              <SidebarLink
-                key={`${item.slug}:${pathname}`}
-                item={item}
-                pathname={pathname}
-                onNavigate={() => setMobileOpen(false)}
-              />
-            ))}
-          </ul>
-        </div>
-      ))}
+      {sections.map((section) => {
+        const sectionClass = groupEditionClass(
+          section.items.flatMap((i) => [i.edition, ...(i.children ?? []).map((c) => c.edition)])
+        );
+        return (
+          <div key={section.slug} className={sectionClass || undefined}>
+            <h4 className="ed-eyebrow px-3 mb-2.5">{section.label}</h4>
+            <ul className="space-y-0.5">
+              {section.items.map((item) => (
+                <SidebarLink
+                  key={`${item.slug}:${pathname}`}
+                  item={item}
+                  pathname={pathname}
+                  onNavigate={close}
+                />
+              ))}
+            </ul>
+          </div>
+        );
+      })}
     </nav>
   );
 
@@ -275,7 +286,7 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="lg:hidden fixed inset-0 z-40 bg-background/60 backdrop-blur-sm"
-              onClick={() => setMobileOpen(false)}
+              onClick={close}
             />
             <motion.aside
               initial={{ x: "-100%" }}
@@ -286,18 +297,18 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
             >
               {/* Close header */}
               <div className="flex items-center justify-between px-4 py-2.5 border-b border-border shrink-0">
-                <span className="text-sm font-semibold text-foreground" style={{ fontFamily: 'var(--font-exo2)' }}>Navigation</span>
+                <span className="text-sm font-semibold text-foreground" style={{ fontFamily: "var(--font-exo2)" }}>
+                  Navigation
+                </span>
                 <button
-                  onClick={() => setMobileOpen(false)}
+                  onClick={close}
                   className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
                   aria-label="Close navigation"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="flex-1 overflow-y-auto px-4 pt-4">
-                {sidebar}
-              </div>
+              <div className="flex-1 overflow-y-auto px-4 pt-4">{sidebar}</div>
             </motion.aside>
           </>
         )}

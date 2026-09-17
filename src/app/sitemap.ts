@@ -21,6 +21,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      // The same landing page in its Bulwark Lite reading.
+      url: `${SITE_URL}/?edition=lite`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${SITE_URL}/docs`,
       lastModified: new Date(),
       changeFrequency: "weekly",

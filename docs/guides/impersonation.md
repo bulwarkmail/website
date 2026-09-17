@@ -2,6 +2,7 @@
 title: Master-user impersonation
 description: Land platform admins directly inside a tenant's mailbox via signed JWT handoff, without storing tenant passwords.
 order: 10
+edition: full
 ---
 
 # Master-user impersonation

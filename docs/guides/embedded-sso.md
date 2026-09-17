@@ -2,6 +2,7 @@
 title: Embedded SSO
 description: Embed Bulwark in an iframe with automatic single sign-on managed by a parent portal.
 order: 3
+edition: full
 ---
 
 # Embedded SSO

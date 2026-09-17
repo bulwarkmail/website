@@ -2,6 +2,7 @@
 title: Search and filters
 description: Full-text search, structured filters, and search chips.
 order: 2
+edition: both
 ---
 
 # Search and filters

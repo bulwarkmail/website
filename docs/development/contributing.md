@@ -2,6 +2,7 @@
 title: Contributing
 description: How to contribute to the Bulwark project.
 order: 1
+edition: both
 ---
 
 # Contributing

@@ -2,6 +2,7 @@
 title: Anonymous usage stats
 description: The optional daily heartbeat - what it counts, why, and how to turn it on or off.
 order: 7
+edition: full
 ---
 
 # Anonymous usage stats

@@ -2,6 +2,7 @@
 title: Admin dashboard
 description: Manage runtime configuration, plugins, themes, API keys, and policy from a single place.
 order: 9
+edition: full
 ---
 
 # Admin dashboard

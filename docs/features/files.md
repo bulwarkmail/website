@@ -2,6 +2,7 @@
 title: Files
 description: Cloud file browser and JMAP FileNode storage features.
 order: 4
+edition: both
 ---
 
 # Files

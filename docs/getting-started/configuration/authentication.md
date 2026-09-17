@@ -2,6 +2,7 @@
 title: Authentication
 description: Authentication methods supported by Bulwark.
 order: 2
+edition: full
 ---
 
 # Authentication

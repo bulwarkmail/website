@@ -2,6 +2,7 @@
 title: Anonymous usage telemetry
 description: Exact data collected by self-hosted Bulwark instances that opt into anonymous usage stats, and how it's stored.
 order: 1
+edition: both
 ---
 
 # Anonymous usage telemetry

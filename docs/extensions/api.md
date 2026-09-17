@@ -2,6 +2,7 @@
 title: REST API reference
 description: The public REST API of the Bulwark Extensions directory.
 order: 3
+edition: full
 ---
 
 # REST API reference

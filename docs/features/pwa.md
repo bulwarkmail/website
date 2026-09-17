@@ -2,6 +2,7 @@
 title: Progressive Web App
 description: Install Bulwark to your home screen with a service worker and dynamic manifest.
 order: 5
+edition: both
 ---
 
 # Progressive Web App

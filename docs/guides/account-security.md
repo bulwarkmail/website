@@ -2,6 +2,7 @@
 title: Account security
 description: Manage password, 2FA, app passwords, and API keys from within Bulwark.
 order: 5
+edition: full
 ---
 
 # Account security
