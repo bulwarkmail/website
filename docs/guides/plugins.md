@@ -8,6 +8,8 @@ order: 4
 
 A plugin adds something to the interface that isn't in the box. An extra button on a calendar event, a panel down the side of the composer, a bridge to some service you already pay for. Each one ships as a ZIP bundle holding a manifest, a configuration schema and the frontend code itself.
 
+<div class="lite-callout">Not in Bulwark Lite: plugins and sidebar apps need the sandbox routes and the admin server, so the static export pins both off. Themes still work.</div>
+
 ## Lifecycle
 
 1. **Install** - Upload a plugin ZIP from the admin dashboard, or install from the [extension marketplace](/docs/guides/marketplace). Install and uninstall are restricted to the admin dashboard.
@@ -45,6 +47,9 @@ Plugins render into named UI slots. The slot name goes in the code; the permissi
 | `context-menu-email`      | Items in the email context menu           | `ui:context-menu`      |
 | `navigation-rail-bottom`  | Entry at the foot of the navigation rail  | `ui:navigation-rail`   |
 | `calendar-event-actions`  | Action button row on calendar events      | `ui:calendar-action`   |
+| `attachment-actions`      | Action row on an attachment in the viewer | `ui:email-details`     |
+| `composer-attachment-source` | An extra source in the composer's attach menu | `ui:composer-toolbar` |
+| `plugin-dialog`           | A large modal the plugin opens itself with `ui.openDialog` | `ui:toolbar` |
 | `admin-plugin-page`       | The plugin's own page in the admin UI     | `ui:admin-page`        |
 
 The `repos/subway-surfers` directory in the webmail repository is a working `composer-sidebar` example.
@@ -57,8 +62,23 @@ Plugins can register both render and intercept hooks:
 - **Intercept hooks** - observe or transform user actions (send, reply, archive, etc.) before they execute
 - **`onBeforeEmailSend`** - hook into the outgoing send pipeline; the `OutgoingEmail` it receives exposes `fromEmail` so plugins can branch on identity
 - **`onAvatarResolve`** - provide a custom avatar URL for a sender; useful for company directory integrations
+- **`onBeforeComposeOpenToReply`** and its siblings - edit an email before it populates the composer for a reply or forward
+- **`onBeforeBlobUpload`** - divert an attachment to external storage before it reaches the server; `api.http.post` takes binary bodies and reports byte progress back to the composer chip through `progressFileId`
+- **Mailbox refresh hook** - run when the folder list reloads
 - **`auth:observe`** - read auth lifecycle events (login, switch, logout) without touching credentials
 - **i18n API** - plugins ship their own translation bundles and can use the host's locale
+
+## APIs
+
+Beyond hooks, a plugin can call into the host. The main groups, each behind its own consent permission:
+
+- **Contacts and address books** - `contact.get`, `create`, `update`, `search`, and the address-book list
+- **User** - `user.getAccounts`, `user.getIdentities`, `user.logout`, with `isActive` on each account
+- **Keywords and labels** - read and set JMAP keywords, and read or reorder the user's label definitions
+- **JMAP blobs** - `jmap.uploadBlob`, and on the privileged tier a byte range of a blob
+- **Keys** - `getPublicKeyFromWKD` looks up an OpenPGP key by Web Key Directory
+- **OAuth** - a callback handler so a plugin can complete its own OAuth flow against a third-party service
+- **UI** - `ui.openDialog` opens a large, clickable dialog rendered by the plugin
 
 ## HTTP proxy and `http:fetch`
 

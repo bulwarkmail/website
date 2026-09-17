@@ -8,6 +8,8 @@ order: 5
 
 This is the panel where users look after their own account rather than filing a ticket. They can change the password, turn TOTP two-factor on, mint and revoke app passwords and API keys, and switch on encryption at rest.
 
+<div class="lite-callout">Not in Bulwark Lite: the account security tab is hidden, because these calls go through the Node.js server. Logging in with a password and a TOTP code still works in Lite; enrolling or changing them does not.</div>
+
 <img class="theme-light-only" src="/screenshots/light-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
 <img class="theme-dark-only" src="/screenshots/dark-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
 

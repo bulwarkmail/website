@@ -38,7 +38,7 @@ npm run lint        # ESLint
 npm run lint:fix    # Auto-fix lint issues
 ```
 
-These checks run automatically on commit via Husky pre-commit hooks.
+These checks run automatically on commit via Husky pre-commit hooks, and the unit test suite runs in CI on every push and pull request.
 
 ## Code style
 
@@ -53,7 +53,7 @@ These checks run automatically on commit via Husky pre-commit hooks.
 
 ## Internationalization (i18n)
 
-Translation runs through **next-intl**, currently across 24 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Turkish, and Ukrainian. Arabic, Farsi, and Hebrew are right-to-left. Three rules matter:
+Translation runs through **next-intl**, currently across 27 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Mongolian, Norwegian Bokmål, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Traditional Chinese, Turkish, and Ukrainian. Arabic, Farsi, and Hebrew are right-to-left. Three rules matter:
 
 1. **Never hardcode user-facing text** - Always use translations:
 

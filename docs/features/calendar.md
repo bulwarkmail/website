@@ -16,8 +16,10 @@ The calendar speaks JMAP Calendars (RFC 8984). Bulwark reads the capabilities th
 - **Month view** - Overview of the entire month with multi-day event spanning
 - **Week view** - Detailed weekly schedule with column-based overlap layout and time-based event sorting
 - **Day view** - Hour-by-hour daily agenda
-- **Agenda view** - Chronological list of upcoming events
+- **Agenda view** - Chronological list of upcoming events, loading more as you scroll
 - **Task list view** - Dedicated task management view with task details, status tracking, and inline editing
+
+Month, week and day views scroll freely: keep scrolling past the end of the month and the next one follows, rather than snapping a period at a time. The toolbar's date label and the mini-calendar follow the week in view. If you preferred the paged behaviour, **Free scrolling** in calendar settings turns it off.
 
 ## Toolbar navigation
 
@@ -49,7 +51,7 @@ Click any time slot, or use the "New Event" button, to create an event:
 - **Drag-and-drop rescheduling** - Move events between time slots in week/day views or between dates in month view
 - **Resize events** - Drag the top or bottom edge to change duration with 15-minute snap; `utcEnd` is recalculated as duration changes
 - **Duplicate events** - Clone an event with a +1 day offset for editing
-- **Recurring event editing** - Choose scope: this event, this and following, or all events
+- **Recurring event editing** - Choose scope: this event, this and following, or all events. Each occurrence is addressed by the synthetic id Stalwart assigns it, so an edit to one Tuesday cannot land on another
 - **Overlap layout** - Events that overlap are laid out in columns rather than stacked, so none of them gets truncated
 - **Timezone-aware formatting** - Event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
@@ -57,7 +59,8 @@ Click any time slot, or use the "New Event" button, to create an event:
 
 - Send iMIP invitations on event create and update (RFC 5545 / 6047), with `calendarAddress` and `replyTo` participants for Stalwart compatibility
 - Accept/decline/tentative RSVP responses with trust assessment
-- Organizer and attendee UI with participant management
+- Organizer and attendee UI with participant management, including each attendee's free/busy status (`Principal/getAvailability`) while you pick a time
+- Invitations and updates that arrive as `CalendarEventNotification` objects surface in the app, and invitations you send go out under your default `ParticipantIdentity`
 - Inline calendar invitation banner in the email viewer - auto-detects `.ics` attachments and offers RSVP and import-to-calendar actions
 - Collapsible details on the invitation banner
 - ICS attachments are hidden from the attachment list when the invitation banner is shown
@@ -74,6 +77,8 @@ Hovering an event opens a popover with its time, location, participants, and des
 ## CalDAV discovery
 
 Bulwark includes a CalDAV discovery API that resolves each account's calendar home automatically. In a multi-account setup, every account's calendars are found and loaded without per-account configuration.
+
+<div class="lite-callout">Not in Bulwark Lite: CalDAV discovery and iCal / webcal URL subscriptions both go through the Node.js server, so Lite hides them. Importing an <code>.ics</code> file still works, as does everything that is plain JMAP.</div>
 
 ## Multiple calendars
 

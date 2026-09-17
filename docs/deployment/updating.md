@@ -14,9 +14,11 @@ Two GHCR packages, built for `linux/amd64` and `linux/arm64` on native runners:
 | ------------------------------------ | ------- | ------------------- |
 | `ghcr.io/bulwarkmail/webmail:latest` | Stable  | tagged `main`       |
 | `ghcr.io/bulwarkmail/webmail:dev`    | Dev     | every `dev` push    |
-| `ghcr.io/bulwarkmail/webmail:1.7.8`  | Pinned  | one specific release |
+| `ghcr.io/bulwarkmail/webmail:1.10.0` | Pinned  | one specific release |
 
 Run `:latest` unless you have a reason not to. Pin a version when you need reproducible deploys. Use `:dev` only where breakage is acceptable, because it moves whenever `dev` does.
+
+Each GitHub release also carries two non-Docker artifacts: a standalone Node.js tarball per architecture (`bulwark-standalone-<version>-linux-amd64.tar.gz`, `-arm64`) and the static [Bulwark Lite](/docs/deployment/static) export (`bulwark-lite-<version>.zip`). Lite has no update channel of its own: download the new zip, keep your `config.json`, and re-upload.
 
 ## Upgrading
 
@@ -63,6 +65,8 @@ Lose the config volume and the next start generates a fresh random admin passwor
 ## The in-app update notice
 
 Bulwark checks for a newer release at startup, logs the result, and shows a notice in the app when one exists. The notice is not dismissible, and its refresh button also picks up the new service worker so the PWA shell doesn't stay on the old build.
+
+The feed marks releases that fix a published security advisory. When the running build is older than one of those, the notice turns red and links to the advisory, so an operator can tell a routine update from one that should happen today. The 1.9.x and 1.10.0 releases carried such fixes; the details are in the [repository's security advisories](https://github.com/bulwarkmail/webmail/security/advisories).
 
 Turn it off if you'd rather manage upgrades entirely from outside:
 

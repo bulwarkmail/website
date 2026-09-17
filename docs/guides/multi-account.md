@@ -8,11 +8,11 @@ order: 6
 
 Several accounts can be signed in at once in a single browser session. Each keeps its own JMAP session and its own cached state, so switching between them fetches nothing.
 
-There used to be a hard cap of five. It was never really ours: each account holds a push stream open, and HTTP/1.1 browsers only allow about six connections per origin. On an HTTP/2 server those streams multiplex over one connection, so the cap is gone. On HTTP/1.1 the browser's connection pool still sets the ceiling, at roughly six streams across all accounts on the same origin.
+There used to be a hard cap of five. It was never really ours: each account holds a push stream open, and HTTP/1.1 browsers only allow about six connections per origin. On an HTTP/2 server those streams multiplex over one connection, so the cap is gone. On HTTP/1.1 the browser's connection pool still sets the ceiling, at roughly six streams across all accounts on the same origin. Bulwark reads the protocol from the initial navigation's timing entry, so a deployment behind an HTTP/2 proxy is recognised without configuration, and it caps the number of live push streams per tab so many logins can't starve ordinary requests.
 
 ## Requirements
 
-Multi-account requires `SESSION_SECRET` to be set so per-account credentials can be persisted encrypted across browser restarts:
+Multi-account requires `SESSION_SECRET` to be set so per-account credentials can be persisted encrypted across browser restarts (Bulwark Lite keeps them in the browser instead, as Stalwart refresh tokens, and needs no secret):
 
 ```env
 SESSION_SECRET=your-32-char-secret-here

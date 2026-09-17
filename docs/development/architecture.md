@@ -27,6 +27,8 @@ Where the work happens, and why it was split up this way.
 
 After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the first-launch setup wizard, and the admin dashboard - never as a proxy for normal mail traffic.
 
+That split is what makes Bulwark Lite possible. `npm run build:lite` exports the same client with `output: "export"` and `NEXT_PUBLIC_BULWARK_LITE=1`, after deleting the server-only trees (`app/api`, the admin and setup routes, the plugin sandbox, the proxy). What the server provided is either a static file next to `index.html` (`config.json`, `policy.json`), done in the browser against Stalwart's own endpoints (token login, "remember me"), or switched off. `IS_LITE` in `lib/lite.ts` is the build-time constant the feature gates read, and `scripts/lite/verify.mjs` fails the build if a client chunk references a server endpoint that `scripts/lite/lib.mjs` does not list as gated.
+
 ## Project structure
 
 ```
@@ -70,7 +72,9 @@ webmail/
 │   ├── admin/                 # Admin session, config manager (split config/state), audit log
 │   ├── setup/                 # First-launch web setup wizard
 │   ├── telemetry/             # Anonymous heartbeat (opt-out)
-│   └── stalwart/              # Stalwart `x:` JMAP method bindings
+│   ├── stalwart/              # Stalwart `x:` JMAP method bindings
+│   ├── search/                # Global search: query parser, ranking, providers
+│   └── lite*.ts               # Lite build constant, config.json and policy.json loaders
 ├── stores/                    # Zustand state stores
 │   ├── auth-store.ts
 │   ├── email-store.ts
@@ -84,9 +88,10 @@ webmail/
 │   ├── identity-store.ts
 │   ├── plugin-store.ts
 │   └── ...
-├── locales/                   # One directory per language, 24 of them:
-│                              #   ar ca cs da de en es fa fr he hu it
-│                              #   ja ko lv nl pl pt ro ru sk tr uk zh
+├── locales/                   # One directory per language, 27 of them:
+│                              #   ar ca cs da de en es fa fr he hu it ja ko
+│                              #   lv mn nb nl pl pt ro ru sk tr uk zh zh-TW
+├── scripts/lite/              # Bulwark Lite: prepare, build, postbuild, verify
 ├── i18n/                      # next-intl configuration
 ├── public/                    # Static assets, branding, PWA icons, service worker
 └── e2e/                       # Playwright end-to-end tests
@@ -154,7 +159,7 @@ A bundled Jitsi Meet plugin demonstrates the calendar event slot.
 
 ### Push notifications
 
-Real-time updates ride JMAP push: new mail, calendar changes, and filter state all arrive because the server sends them, not because the client asked. On HTTP/2 the push streams multiplex over one connection, which is what lifted the old 5-account cap. That cap was never ours; it came from HTTP/1.1 connection pooling in the browser.
+Real-time updates ride JMAP push: new mail, calendar changes, and filter state all arrive because the server sends them, not because the client asked. A push is resolved with `Email/changes` and `Mailbox/changes` deltas rather than by refetching the list. On HTTP/2 the push streams multiplex over one connection, which is what lifted the old 5-account cap. That cap was never ours; it came from HTTP/1.1 connection pooling in the browser.
 
 Web push notifications layer on top of this: when the user grants permission, the service worker subscribes to JMAP push for the inbox and surfaces new-mail notifications even when the tab is closed.
 

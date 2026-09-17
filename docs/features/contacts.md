@@ -20,6 +20,7 @@ Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they l
 - Gender handling with `speakToAs` structure
 - Anniversary and birthday fields with non-string date handling
 - Search and filter contacts list
+- Sort by first name or by last name
 - A-Z grouping with sticky section headers (toggleable in settings)
 - Right-click context menu for contact actions
 - Multi-select with checkboxes and selection toolbar
@@ -40,6 +41,7 @@ The detail view shows:
 Organize contacts across multiple address books:
 
 - Create and manage separate address books (directories)
+- Mark one address book as the default, so new contacts land there unless you pick another
 - Rename existing address books from settings
 - Drag-and-drop contacts between address books with proper ID namespacing for shared address books
 - Address book picker in the contact editor
@@ -75,6 +77,8 @@ When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc
 - **Import** - vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
 - **Export** - Download contacts as vCard, accessible from Settings
 - **Sync** - Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
+
+<div class="lite-callout">Everything on this page works in Bulwark Lite. Contacts are plain JMAP, so nothing here needs the Node.js server.</div>
 
 ## Bulk operations
 

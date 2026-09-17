@@ -8,6 +8,8 @@ order: 9
 
 The admin dashboard runs inside the same process as the user-facing app, and it is where an operator does everything that isn't reading mail. Runtime configuration lives there, along with plugins and themes, the extension marketplace, Stalwart API keys, the IP allowlists on app passwords, and the audit log. All of it sits on one tabbed page behind a single URL.
 
+<div class="lite-callout">Bulwark Lite has no admin dashboard and no setup wizard. Its configuration is a <code>config.json</code> file next to <code>index.html</code>, and an optional <code>policy.json</code> for the settings policy. See <a href="/docs/deployment/static">static hosting</a>.</div>
+
 ## First-time setup
 
 The web setup wizard runs on first launch and sets the initial admin password along with JMAP, OAuth, branding, and the session secret. Point a browser at the running container and follow the steps; nothing needs to be in `.env.local` beforehand.
@@ -47,6 +49,16 @@ Without a persisted volume, every restart loses the password hash and a new rand
 
 The admin dashboard lives at `/admin` (or `/<locale>/admin`). It uses a separate session from the user app, so you can be signed in as both a regular user and an admin in the same browser.
 
+What a Stalwart administrator account is worth here is configurable, under **Authentication** in the dashboard or with `STALWART_ADMIN_ACCESS`:
+
+| Value | Effect |
+| --- | --- |
+| `auto` (default) | Stalwart admins see the admin shield in the app and are signed into `/admin` without the Bulwark admin password |
+| `password` | Stalwart admins see the shield but must enter the Bulwark admin password like everyone else |
+| `off` | Stalwart admin status is ignored; `/admin` is reachable only through `/admin/login` with the admin password |
+
+`password` and `off` need an admin password to exist, from the wizard or `ADMIN_PASSWORD`, or the dashboard would have no way in.
+
 Admin sessions are protected with:
 
 - Strict session secret length validation
@@ -65,10 +77,13 @@ Health summary, version, last successful update check, plugin and theme counts, 
 Override runtime config without redeploying. The admin dashboard writes to `ADMIN_CONFIG_DIR/config.json` (same file the setup wizard populates). Admin-managed values fill these keys:
 
 - `appName`
-- `jmapServerUrl` (single URL, or comma-separated list for multi-server)
+- `jmapServerUrl`, plus the `jmapServers` list for multi-server deployments
 - `oauthEnabled`, `oauthOnly`, `oauthClientId`, `oauthIssuerUrl`
-- `stalwartFeaturesEnabled`
+- `stalwartFeaturesEnabled`, and separately `stalwartJmapPassthroughEnabled`, the server-side switch for the credential-bearing Stalwart JMAP passthrough. Turn it off to keep the client features but block the passthrough route entirely (env: `STALWART_JMAP_PASSTHROUGH_ENABLED`)
+- `stalwartAdminAccess` (see above)
 - `settingsSyncEnabled`
+- The push relay, picked from an admin-defined list rather than typed as a free URL
+- Default sidebar apps that every user gets, in addition to the ones they pin themselves
 - `allowedFrameAncestors`
 - `parentOrigin`
 - Branding (favicon, app and login logos, login company info)
@@ -123,7 +138,7 @@ Where the Stalwart server supports it, a dialog validates the origin and issuer 
 
 ### Telemetry
 
-The **Anonymous usage stats** section shows the exact JSON the next heartbeat would send, lets you toggle telemetry on or off, fire a heartbeat immediately for testing, change the endpoint, and view "Last sent" timestamps. The env vars `BULWARK_TELEMETRY=off` and `BULWARK_TELEMETRY_URL=` override the UI toggle. See [Anonymous usage stats](/docs/features/telemetry) for the full schema.
+The **Anonymous usage stats** section shows the exact JSON the next heartbeat would send, lets you toggle telemetry on or off, fire a heartbeat immediately for testing, change the endpoint, and view "Last sent" timestamps. Setting `BULWARK_TELEMETRY` in the environment, to either value, locks the choice and greys out the toggle. See [Anonymous usage stats](/docs/features/telemetry) for the full schema.
 
 ## Behind a reverse proxy
 

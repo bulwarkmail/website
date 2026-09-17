@@ -30,7 +30,7 @@ protocol = "http"
 
 ## CORS configuration
 
-When Bulwark runs on a different domain than Stalwart, enable CORS:
+When Bulwark runs on a different domain than Stalwart, enable CORS. Bulwark Lite always needs this, because the browser talks to the mail server directly from whatever origin the static files are served on:
 
 ```toml
 [server.http]
@@ -88,4 +88,4 @@ You should see a JMAP session resource with capabilities listed. The setup wizar
 
 ## Multi-server deployments
 
-One deployment can point at several JMAP servers, which is what you want if you shard accounts by domain. Set `JMAP_SERVER_URL` to a comma-separated list, or add servers from the **Server** step of the setup wizard. The login form auto-picks the server by email domain when possible; users can still pick manually.
+One deployment can point at several JMAP servers, which is what you want if you shard accounts by domain. Add servers from the **Server** step of the setup wizard or the admin dashboard, or set `JMAP_SERVERS` to a JSON list for stateless deployments. With `JMAP_SERVER_AUTO_PICK_BY_DOMAIN=true` the login form picks the server from the domain of the address the user types; users can still pick manually. Bulwark Lite reads the same list from `jmapServers` in `config.json`.

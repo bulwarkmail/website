@@ -52,6 +52,8 @@ JMAP_SERVER_URL=https://mail.example.com
 | `JMAP_SERVER_AUTO_PICK_BY_DOMAIN` | No          | `false`                                   | Pick a server from `JMAP_SERVERS` by the domain the user types                             |
 | `ALLOW_CUSTOM_JMAP_ENDPOINT`  | No              | `false`                                   | Show a "JMAP Server" field on the login form so users can specify their own server         |
 | `STALWART_FEATURES`           | No              | `true`                                    | Enables Stalwart-specific features (password change, Sieve, vacation, admin, API keys)     |
+| `STALWART_JMAP_PASSTHROUGH_ENABLED` | No        | `true`                                    | Server-side switch for the credential-bearing Stalwart JMAP passthrough, independent of the UI flag above |
+| `STALWART_ADMIN_ACCESS`       | No              | `auto`                                    | What a Stalwart admin account grants in the admin dashboard: `auto`, `password`, or `off`  |
 | `OAUTH_ENABLED`               | No              | `false`                                   | Enables OAuth2 / OpenID Connect login                                                      |
 | `OAUTH_ONLY`                  | No              | `false`                                   | Hides the username/password login form and requires OAuth                                  |
 | `OAUTH_CLIENT_ID`             | OAuth only      | -                                         | OAuth client ID                                                                            |
@@ -75,7 +77,8 @@ JMAP_SERVER_URL=https://mail.example.com
 | `ADMIN_DATA_DIR`              | No              | -                                         | Legacy single dir used by pre-1.6.4 installs. Honoured when neither split var is set        |
 | `ADMIN_SESSION_TTL`           | No              | safe default                              | Admin session lifetime in seconds                                                          |
 | `BULWARK_TELEMETRY`           | No              | `off`                                     | Set to `on` to enable the anonymous daily heartbeat. Setting it either way locks the admin toggle |
-| `BULWARK_TELEMETRY_URL`       | No              | `https://telemetry.bulwarkmail.org/...`   | Point at your own collector, or clear to disable                                            |
+| `BULWARK_TELEMETRY_DISABLED`  | No              | -                                         | Legacy kill switch, honoured only when `BULWARK_TELEMETRY` is unset                         |
+| `BULWARK_TELEMETRY_ALLOW_PRIVATE` | No          | -                                         | Let heartbeats reach a private or loopback collector (development only)                      |
 | `TELEMETRY_DATA_DIR`          | No              | `./data/telemetry`                        | Where the instance id and consent live; mount a volume to survive upgrades                   |
 | `BULWARK_UPDATE_CHECK`        | No              | `on`                                      | Set to `off` to stop the startup release check and the in-app update notice                 |
 | `BULWARK_UPDATE_CHECK_URL`    | No              | project release feed                      | Point the check at your own feed; an empty value disables it                                |
@@ -85,12 +88,16 @@ JMAP_SERVER_URL=https://mail.example.com
 | `EXTENSION_DIRECTORY_URL`     | No              | `https://extensions.bulwarkmail.org`      | Marketplace URL for browsing and installing plugins/themes; clear it to hide the marketplace |
 | `DEMO_MODE`                   | No              | `false`                                   | Serve fixture data instead of talking to a mail server                                      |
 | `PLUGIN_DEV_DIR`              | No              | empty                                     | Load plugins from a source folder with hot reload during development                        |
+| `WOPI_CLIENT_URL`             | No              | empty                                     | Base URL of a Collabora Online, OnlyOffice or EuroOffice server; empty turns office editing off |
+| `WOPI_HOST_URL`               | No              | request origin                            | How the editor reaches this webmail when it sees a different host than the browser           |
+| `ICAL_MAX_BYTES`              | No              | built-in cap                              | Size limit for fetched iCalendar subscription feeds                                          |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                        |
 | `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                         |
 | `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32-512px)                                    |
 | `PWA_ICON_URL`                | No              | falls back to `FAVICON_URL`               | Source image used to generate PWA install icons                                            |
 | `PWA_THEME_COLOR`             | No              | `#ffffff`                                 | PWA browser UI chrome color                                                                |
 | `PWA_BACKGROUND_COLOR`        | No              | `#ffffff`                                 | PWA splash screen background                                                               |
+| `PWA_SCREENSHOT_MOBILE_URL` / `_DESKTOP_URL` | No | bundled                              | Screenshots shown in the browser's install dialog                                          |
 | `APP_LOGO_LIGHT_URL`          | No              | empty                                     | Sidebar logo for light mode (SVG, PNG, or WebP; 24-128px)                                  |
 | `APP_LOGO_DARK_URL`           | No              | empty                                     | Sidebar logo for dark mode (SVG, PNG, or WebP; 24-128px)                                   |
 | `LOGIN_LOGO_LIGHT_URL`        | No              | Bulwark light logo                        | Login page logo for light backgrounds (SVG, PNG, or WebP; 32-512px)                        |

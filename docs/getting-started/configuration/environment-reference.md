@@ -6,9 +6,11 @@ order: 3
 
 # Environment reference
 
-Every setting in Bulwark's `.env.example`, plus a few advanced variables the app reads but doesn't advertise there.
+Every setting in Bulwark's `.env.example`, plus a few advanced variables the app reads but doesn't advertise there. Order and grouping follow the code's config map (`lib/admin/types.ts`) rather than the example file, so a variable you find in one is in the other.
 
-All variables are evaluated at runtime, so Docker deployments can be reconfigured without rebuilding. Some are always available, some only affect optional features, and a few exist as compatibility fallbacks for older build-time deployments. The single exception is `NEXT_PUBLIC_BASE_PATH`, which Next.js bakes into asset URLs at build time.
+Nearly all variables are evaluated at runtime, so Docker deployments can be reconfigured without rebuilding. Some are always available, some only affect optional features, and a few exist as compatibility fallbacks for older build-time deployments. The exceptions are the `NEXT_PUBLIC_*` variables, which Next.js bakes into the bundle at build time: `NEXT_PUBLIC_BASE_PATH`, `NEXT_PUBLIC_LOCALE_PREFIX`, `NEXT_PUBLIC_DEFAULT_LOCALE`, `NEXT_PUBLIC_PUSH_RELAY_URL` and `NEXT_PUBLIC_PARENT_ORIGIN`. To change one of those with the published Docker image, build your own with the matching `--build-arg`.
+
+<div class="lite-callout">None of this applies to Bulwark Lite, which has no server to read an environment. Lite is configured by the <code>LITE_*</code> build inputs and the shipped <code>config.json</code>; both are on the <a href="/docs/deployment/static">static hosting</a> page.</div>
 
 > **First-launch tip**
 > Most new installs no longer need to set environment variables by hand - launch the container without `JMAP_SERVER_URL` and the [web setup wizard](/docs/getting-started/installation#quickest-path-docker--setup-wizard) writes the equivalent values to `ADMIN_CONFIG_DIR`. Use env vars when you want env-driven, immutable, or read-only configuration.
@@ -55,8 +57,7 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Purpose** - Points Bulwark to your JMAP-compatible mail server. Setting this also disables the first-launch setup wizard.
 - **Required** - No - the setup wizard can write this value to admin config instead. Required only when you want env-driven configuration, when `ALLOW_CUSTOM_JMAP_ENDPOINT=true` is not set, or when you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
 - **Example** - `https://mail.example.com`
-- **Multi-server** - Accepts a comma-separated list of URLs for deployments that fan out across multiple JMAP servers. The login form auto-picks by email domain when possible; users can still choose a server manually.
-- **When to set it** - For env-driven deployments, or when you want to lock the JMAP server choice and hide it from the admin UI.
+- **When to set it** - For env-driven deployments, or when you want to lock the JMAP server choice and hide it from the admin UI. For several servers, see `JMAP_SERVERS` below.
 
 ### `ALLOW_CUSTOM_JMAP_ENDPOINT`
 
@@ -66,6 +67,22 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **CORS note** - External JMAP servers must include the webmail origin in their `Access-Control-Allow-Origin` response header, or browser requests will be blocked.
 - **When to set it** - Set to `true` for multi-tenant deployments or testing setups where users connect to different servers.
 
+### `JMAP_SERVERS`
+
+- **Purpose** - Offers a fixed list of JMAP servers on the login form instead of a free-text field.
+- **Required** - No.
+- **Default** - Empty.
+- **Format** - A JSON array. Each entry needs `id`, `label` and `url`, and may carry `domains` (a list of email domains it serves) and its own `oauth` block.
+- **Example** - `[{"id":"eu","label":"Europe","url":"https://eu.example.com","domains":["example.com"]},{"id":"us","label":"US","url":"https://us.example.com"}]`
+- **When to set it** - Deployments sharded across servers, and stateless installs that can't use the admin dashboard, which manages the same list.
+
+### `JMAP_SERVER_AUTO_PICK_BY_DOMAIN`
+
+- **Purpose** - Picks the server from `JMAP_SERVERS` whose `domains` list contains the domain of the address the user types.
+- **Required** - No.
+- **Default** - `false`
+- **When to set it** - With `JMAP_SERVERS`, when every account's domain maps to exactly one server.
+
 ## Stalwart integration
 
 ### `STALWART_FEATURES`
@@ -74,6 +91,19 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Required** - No.
 - **Default** - `true` unless explicitly set to `false`.
 - **When to set it** - Set `STALWART_FEATURES=false` if you are using Bulwark with a non-Stalwart JMAP server and want to hide features that depend on Stalwart-specific JMAP `x:` methods.
+
+### `STALWART_JMAP_PASSTHROUGH_ENABLED`
+
+- **Purpose** - Server-side switch for the credential-bearing passthrough route that Stalwart-specific features use to reach the mail server through Bulwark.
+- **Required** - No.
+- **Default** - `true`
+- **When to set it** - Set to `false` to keep the client-side Stalwart features but block the passthrough entirely. Independent of `STALWART_FEATURES`; also editable in the admin dashboard.
+
+### `STALWART_VERSION`
+
+- **Purpose** - Report a fixed Stalwart version in the telemetry heartbeat instead of probing the JMAP server's `Server` response header.
+- **Required** - No.
+- **When to set it** - When a proxy in front of Stalwart strips that header.
 
 ### `STALWART_API_URL` _(deprecated in 1.5.0)_
 
@@ -120,6 +150,20 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Required** - No.
 - **Default behavior** - If omitted, Bulwark falls back to discovery through `JMAP_SERVER_URL`.
 - **When to set it** - Set this when your mail server delegates auth to an external IdP such as Keycloak or Authentik.
+
+### `OAUTH_AUTHORIZE_URL`
+
+- **Purpose** - Overrides only the user-facing authorize endpoint. Discovery, token exchange and refresh keep using `OAUTH_ISSUER_URL`.
+- **Required** - No.
+- **Default** - The `authorization_endpoint` from discovery.
+- **When to set it** - A per-brand login host in front of a single canonical issuer.
+
+### `OAUTH_ALLOW_PRIVATE_ENDPOINTS`
+
+- **Purpose** - Lets OAuth discovery resolve to private (RFC 1918) or loopback addresses.
+- **Required** - No.
+- **Default** - `false`, as an SSRF guard.
+- **When to set it** - Split-DNS deployments where the issuer's public hostname resolves to an internal IP from the Bulwark container.
 
 ### `OAUTH_SCOPES`
 
@@ -236,7 +280,22 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 
 - **Purpose** - Admin session lifetime in seconds.
 - **Required** - No.
-- **Default** - Built-in safe default.
+- **Default** - `3600` (one hour).
+
+### `STALWART_ADMIN_ACCESS`
+
+- **Purpose** - What a Stalwart admin account grants in the Bulwark admin dashboard.
+- **Allowed values** - `auto` (Stalwart admins see the admin shield and are signed into `/admin` without the Bulwark admin password), `password` (they see the shield but must enter the admin password), `off` (Stalwart admin status is ignored; `/admin` is reachable only via `/admin/login`).
+- **Default** - `auto`
+- **Dependency** - `password` and `off` need an admin password to exist, from the wizard or `ADMIN_PASSWORD`.
+- **When to set it** - Also editable in the dashboard under Authentication; set it here to lock it.
+
+### `SEARCH_ENGINE_INDEXING`
+
+- **Purpose** - Allow search engines to index the app.
+- **Required** - No.
+- **Default** - `false`, which serves a disallowing `robots.txt` and emits `noindex`.
+- **When to set it** - Only for a deliberately public deployment.
 
 ### `TRUSTED_PROXY_DEPTH`
 
@@ -251,16 +310,20 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 
 - **Purpose** - Master toggle for the anonymous daily heartbeat. Heartbeats contain no PII (version, platform, feature toggles, bucketed account counts).
 - **Required** - No.
-- **Default** - On.
-- **When to set it** - Set to `off` (or `disabled`) to turn telemetry off without going through the admin UI. The env var wins over the UI toggle.
+- **Default** - Off. Nothing is sent until an admin opts in through the admin UI, the installer, or this variable.
+- **When to set it** - Set to `on` to opt in from the environment, or `off` to lock it off. Setting it to either value greys out the admin toggle.
 - **See also** - [Anonymous Usage Stats](/docs/features/telemetry) and [Telemetry privacy](/docs/legal/privacy/telemetry).
 
-### `BULWARK_TELEMETRY_URL`
+### `BULWARK_TELEMETRY_DISABLED` _(legacy)_
 
-- **Purpose** - Endpoint the heartbeat is sent to.
-- **Required** - No.
-- **Default** - `https://telemetry.bulwarkmail.org/v1/heartbeat`.
-- **When to set it** - Point at your own collector ([open-source under `telemetry-collector/`](https://github.com/bulwarkmail/dashboard)), or clear it (`BULWARK_TELEMETRY_URL=`) to disable.
+- **Purpose** - Older kill switch, honoured only when `BULWARK_TELEMETRY` is unset.
+- **When to set it** - Don't, in new configs; use `BULWARK_TELEMETRY=off`.
+
+### `BULWARK_TELEMETRY_ALLOW_PRIVATE`
+
+- **Purpose** - Let heartbeats reach a private or loopback collector address.
+- **Default** - Off, as an SSRF guard.
+- **When to set it** - Only while running a collector locally during development. The collector endpoint itself is changed in the admin UI, not by an environment variable.
 
 ### `TELEMETRY_DATA_DIR`
 
@@ -273,15 +336,60 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
     - bulwark-telemetry:/app/data/telemetry
   ```
 
-## Extension directory and marketplace
+## Update check
+
+### `BULWARK_UPDATE_CHECK`
+
+- **Purpose** - The app periodically checks for new releases and raises an in-app notice, red when the release fixes a security advisory.
+- **Required** - No.
+- **Default** - On.
+- **When to set it** - Set to `off` (or `false`, `0`, `no`) to disable the check entirely, for instance on an air-gapped host.
+
+### `BULWARK_UPDATE_CHECK_URL`
+
+- **Purpose** - Override the endpoint the check reads. Takes priority over the on-disk state file.
+- **Required** - No.
+- **When to set it** - To point at your own feed. An explicit empty value also disables the check.
+
+### `VERSION_CHECK_DATA_DIR`
+
+- **Purpose** - Where the check stores its state.
+- **Default** - `./data/version-check`
+
+## Extension directory and plugins
 
 ### `EXTENSION_DIRECTORY_URL`
 
-- **Purpose** - URL of the BulwarkMail extension directory used by the admin marketplace for browsing and installing plugins and themes.
+- **Purpose** - URL of the extension directory used by the admin marketplace for browsing and installing plugins and themes.
 - **Required** - No.
-- **Default** - Empty (marketplace disabled).
-- **Example** - `https://extensions.bulwarkmail.org`
-- **When to set it** - Set this to enable the marketplace browse-and-install UI in the admin dashboard.
+- **Default** - `https://extensions.bulwarkmail.org`
+- **When to set it** - Only when you run your own directory, or to clear it (`EXTENSION_DIRECTORY_URL=`) and hide the marketplace.
+
+### `PLUGIN_DEV_DIR`
+
+- **Purpose** - Load plugins from a folder on disk instead of uploaded ZIPs. Each immediate subfolder is one plugin with a `manifest.json`; an entrypoint under `src/` is bundled on demand with esbuild, so editing sources needs only a browser refresh.
+- **Required** - No.
+- **When to set it** - Plugin development only.
+
+## Files and calendar
+
+### `WOPI_CLIENT_URL`
+
+- **Purpose** - Base URL of a WOPI-capable office editor (Collabora Online, OnlyOffice, EuroOffice). Bulwark fetches discovery from `<url>/hosting/discovery` unless the URL already carries a path.
+- **Required** - No.
+- **Default** - Empty, which turns office editing off.
+
+### `WOPI_HOST_URL`
+
+- **Purpose** - How the WOPI editor reaches this webmail (the `WOPISrc` base).
+- **Default** - Derived from the request origin.
+- **When to set it** - When the editor sees a different host than the browser does: Docker networks, split DNS.
+
+### `ICAL_MAX_BYTES`
+
+- **Purpose** - Response cap, in bytes, for fetched iCalendar subscription feeds. Read per request, so raising it needs no restart.
+- **Required** - No.
+- **When to set it** - When a legitimate feed is larger than the built-in limit and the calendar shows the size error.
 
 ## Logging
 
@@ -332,6 +440,13 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 - **Default** - `#ffffff`
 - **When to set it** - Match your app's main background color.
 
+### `PWA_SCREENSHOT_MOBILE_URL` / `PWA_SCREENSHOT_DESKTOP_URL`
+
+- **Purpose** - Screenshots shown in the browser's richer install dialog (Chrome on Android, for instance). Resized on the fly to what the manifest needs.
+- **Required** - No.
+- **Default** - Bundled screenshots.
+- **Accepted values** - Absolute URL or path relative to `public/`. Both can also be overridden per hostname through `DOMAIN_BRANDING`.
+
 ## Branding: logos
 
 ### `APP_LOGO_LIGHT_URL`
@@ -380,14 +495,39 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
 
 - **Purpose** - Adds a website link to the login page.
 
+### `LOGIN_LOGO_MAX_HEIGHT` / `LOGIN_LOGO_MAX_WIDTH`
+
+- **Purpose** - Cap the rendered size of the login logo. Any CSS length (`96px`, `8rem`).
+- **Default** - Unset; the logo renders at its natural size inside a 64×64 box.
+- **When to set it** - A wide wordmark, which otherwise renders about 13px tall.
+
+### `LOGIN_SHOW_HEADING` / `LOGIN_SHOW_SUBTITLE` / `LOGIN_SHOW_TOTP` / `LOGIN_SHOW_VERSION`
+
+- **Purpose** - Hide parts of the login page: the heading (the app name), the subtitle, the optional "I have a 2FA code" toggle, and the version number.
+- **Default** - All `true`.
+- **When to set it** - Turn the heading and subtitle off when the logo already reads as the brand. Turn the TOTP toggle off when authentication lives in an external directory with no server-side TOTP; a server that requires TOTP still asks for it. Turn the version off so it isn't disclosed to unauthenticated visitors.
+
+### `DOMAIN_BRANDING`
+
+- **Purpose** - Per-hostname overrides for the branding fields above when one deployment serves several hostnames. Matched on the request `Host` (or `X-Forwarded-Host`); `*.example.com` matches any subdomain. Exact matches win over wildcards.
+- **Format** - A JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`.
+- **When to set it** - Stateless deployments; the admin dashboard manages the same list.
+
 ## Internationalization
 
-### `NEXT_PUBLIC_LOCALE_PREFIX`
+### `NEXT_PUBLIC_DEFAULT_LOCALE` _(build-time)_
+
+- **Purpose** - Fallback UI locale when the visitor's `Accept-Language` header matches no supported locale and no preference cookie is set.
+- **Default** - `en`. An unsupported value falls back to `en`.
+- **Supported** - `ar`, `ca`, `cs`, `da`, `de`, `en`, `es`, `fa`, `fr`, `he`, `hu`, `it`, `ja`, `ko`, `lv`, `mn`, `nb`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `tr`, `uk`, `zh`, `zh-TW`.
+- **Docker note** - Build your own image with `--build-arg NEXT_PUBLIC_DEFAULT_LOCALE=de`.
+
+### `NEXT_PUBLIC_LOCALE_PREFIX` _(build-time)_
 
 - **Purpose** - Controls how the locale appears in URLs (e.g., `/en/inbox` vs `/inbox`).
 - **Allowed values** - `always` (always prefix), `as-needed` (only for non-default locales), `never` (never prefix).
-- **Default** - Built-in safe default.
-- **When to set it** - Match the routing strategy you want for SEO, redirects from older deployments, or middleware compatibility. Set to `always` when using `NEXT_PUBLIC_BASE_PATH` to avoid `next-intl` rewrite loops.
+- **Default** - `never`
+- **When to set it** - Set to `always` when using `NEXT_PUBLIC_BASE_PATH` to avoid `next-intl` rewrite loops. Bulwark Lite always builds with `always`.
 
 ## Subpath and reverse proxy mount
 
@@ -402,6 +542,37 @@ All variables are evaluated at runtime, so Docker deployments can be reconfigure
   ```bash
   docker build --build-arg NEXT_PUBLIC_BASE_PATH=/webmail -t bulwark-webmail .
   ```
+
+## Web push
+
+### `NEXT_PUBLIC_PUSH_RELAY_URL` _(build-time)_
+
+- **Purpose** - The relay that turns JMAP push into web push, so self-hosters need no VAPID keys or Firebase project of their own.
+- **Default** - `https://notifications.relay.bulwarkmail.org`
+- **When to set it** - Point at your own relay ([github.com/bulwarkmail/relay](https://github.com/bulwarkmail/relay)) to avoid the hosted one. The admin dashboard picks the relay from an admin-defined list at runtime; this variable sets the build-time default.
+
+## Demo mode
+
+### `DEMO_MODE`
+
+- **Purpose** - Serve fixture data instead of talking to a mail server. Any credentials log in.
+- **Default** - `false`
+- **When to set it** - Demos and UI work. See [Demo mode](/docs/getting-started/demo-mode).
+
+## Translation proxy
+
+### `LIBRETRANSLATE_URL` / `LIBRETRANSLATE_API_KEY`
+
+- **Purpose** - Point the in-app translate action at a LibreTranslate instance instead of the public MyMemory API it defaults to, so message text stays on infrastructure you control.
+- **Required** - No.
+
+## Master-user impersonation
+
+### `BULWARK_JWT_AUTH_SECRET` / `BULWARK_STALWART_MASTER_USER` / `BULWARK_STALWART_MASTER_PASSWORD` / `BULWARK_JWT_AUTH_ISSUER`
+
+- **Purpose** - Let a trusted platform mint a signed JWT that opens a user's mailbox through a Stalwart master account, without that user's password.
+- **Default** - Unset. The endpoint returns 404 until the first three are all set, so the feature is fully off by default.
+- **Security** - This grants sign-in as any mailbox on the server. Treat the secret and the master password as root credentials. The whole flow is on the [impersonation](/docs/guides/impersonation) page.
 
 ## Embedded SSO and iframe
 

@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: "What does deployment look like?",
-    a: "Two services in a compose file, Stalwart and Bulwark, behind whatever reverse proxy you already run. There are working examples for Caddy, Traefik and nginx. If you'd rather not use Docker at all, the manual install is written up too.",
+    a: "One container next to the Stalwart you already run, behind whatever reverse proxy you already have. There are working examples for Caddy, Traefik and nginx, a compose file for the pair, and a prebuilt standalone tarball on every release if you'd rather not use Docker at all.",
   },
   {
     q: "Will it sit in front of an existing Stalwart deployment?",
@@ -50,10 +50,13 @@ const FAQS = [
   },
 ];
 
+// Fallbacks for when the live lookups below fail. Refresh them with each
+// release: `git rev-list --count HEAD` and `ls locales | wc -l` in the webmail
+// checkout.
 const STATS = {
   instances: "5,587",
-  commits: "769",
-  langs: 24,
+  commits: "1,834",
+  langs: 27,
 };
 
 const GITHUB_API = "https://api.github.com/repos/bulwarkmail/webmail";
@@ -70,7 +73,7 @@ async function fetchLatestVersion(): Promise<string> {
   } catch {
     // fall through
   }
-  return "1.7.8";
+  return "1.10.0";
 }
 
 async function fetchGithubStars(): Promise<number | null> {
@@ -644,10 +647,10 @@ function SurfacesSection() {
 // -----------------------------------------------------------------------------
 function OverviewSection() {
   const apps: [string, string][] = [
-    ["Mail", "threading, unified inbox, full-text search, Sieve filters, S/MIME, templates"],
-    ["Calendar", "month / week / day / agenda, recurring events, iMIP invitations, CalDAV subscriptions"],
+    ["Mail", "threading, unified inbox, full-text and global search, folder sharing, Sieve filters, S/MIME, templates"],
+    ["Calendar", "free-scrolling month / week / day / agenda, recurring events, iMIP invitations, free/busy, iCal subscriptions"],
     ["Contacts", "multiple address books, groups, vCard import / export"],
-    ["Files", "Stalwart's JMAP FileNode storage with previews and folder upload"],
+    ["Files", "Stalwart's JMAP FileNode storage with previews, sharing, folder upload and office editing"],
   ];
   return (
     <section id="deploy" className="ed-section">
@@ -743,10 +746,10 @@ function OverviewSection() {
               <div className="ed-eyebrow mb-4">Quick start</div>
               <ol className="border-t-2 border-foreground m-0 p-0 list-none">
                 {[
-                  ["Fetch the compose file", "curl -O https://bulwarkmail.org/compose.yml", "$"],
-                  ["Bring the container up", "docker compose up -d", "$"],
-                  ["Open the setup wizard", "https://mail.example.com", "$"],
-                  ["Click through a few screens", "server · auth · security · logging · branding", "→"],
+                  ["Run the container", "docker run -d -p 3000:3000 ghcr.io/bulwarkmail/webmail:latest", "$"],
+                  ["Open the setup wizard", "http://localhost:3000", "$"],
+                  ["Click through a few screens", "server · auth · security · logging · branding · review", "→"],
+                  ["Put a reverse proxy in front", "Caddy, nginx or Traefik, examples in the docs", "→"],
                 ].map(([t, c, p]) => (
                   <li
                     key={t}

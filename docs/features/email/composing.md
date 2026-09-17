@@ -13,9 +13,10 @@ The composer is a Tiptap rich-text editor. It has a plain-text mode for people w
 
 ## Rich text editor
 
-The editor supports full formatting:
+The formatting toolbar stays pinned to the top of the editor while a long message scrolls, and the address and subject fields stay above it. The editor supports full formatting:
 
 - **Bold**, _italic_, ~~strikethrough~~, and underline
+- A font-size picker and text and background colors
 - Ordered and unordered lists
 - Inline hyperlinks
 - Tables (insert and edit)
@@ -30,7 +31,7 @@ The identity manager refreshes from the server after create, update, and delete 
 
 ### Auto-select reply identity
 
-On a reply, Bulwark can pick the identity matching the address the original was sent to. Turn it on in settings.
+On a reply, Bulwark can pick the identity matching the address the original was sent to. Turn it on in settings, and choose whether a match means the exact address or any address on the same domain.
 
 ### Reply-to addresses
 
@@ -58,6 +59,7 @@ The composer mode can be configured in email settings.
 - Drag and drop files onto the compose window
 - Click the attachment button to browse
 - Maximum file size is determined by your Stalwart configuration
+- Each attachment chip shows real byte progress while it uploads, and cancelling aborts the transfer rather than just hiding the chip
 - Inline images can be pasted directly from the clipboard
 - Resizable image component for adjusting inline image dimensions
 - Direct image upload support in the rich text editor
@@ -87,6 +89,10 @@ Insert reusable email templates from the compose toolbar:
 - Enable encryption when every recipient has a known public certificate
 - Unlock protected keys on demand from the composer without leaving the draft
 - Keep default signing and encryption preferences in the S/MIME settings panel
+
+## Delivery options
+
+Next to the read-receipt request, the send menu can ask the receiving server for a delivery status notification (DSN), and can mark the message REQUIRETLS so it is never relayed over a connection without TLS. Both ride on the JMAP submission; whether the far end honours them is up to that server.
 
 ## Drafts
 

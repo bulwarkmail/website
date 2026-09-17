@@ -16,9 +16,13 @@ The mail client talks JMAP. Threading, search and flag changes are all resolved 
 <img class="theme-light-only" src="/screenshots/light-inbox.webp" alt="The Bulwark inbox with colored tags in the sidebar" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-inbox.webp" alt="The Bulwark inbox with colored tags in the sidebar" width="5120" height="2880" />
 
-Pick one of three layouts, per user, in settings: **split** (three panes), **focused list**, or **reading pane at bottom**. The mailbox tree shows unread counts, filters down to unread only, and accepts messages dragged into it. With several accounts connected, a unified view merges their inboxes into one list.
+Pick one of three layouts, per user, in settings: **split** (three panes), **focused list**, or **reading pane at bottom**. Any open message can also go fullscreen, and dragging a message from the list onto a new browser tab opens it there on its own. The mailbox tree shows unread counts, filters down to unread only, and accepts messages dragged into it. With several accounts connected, a unified view merges their inboxes into one list.
 
-Long mailboxes are virtualised and paginate as you scroll, and the first page of message data is prefetched at login so the inbox isn't empty while you wait.
+Long mailboxes are virtualised and paginate as you scroll, and the first page of message data is prefetched at login so the inbox isn't empty while you wait. Rows show their attachments, and an attachment opens straight from the row without opening the message first.
+
+The order of the list is yours to set. Presets put unread, starred or tagged mail first; or define up to three custom sort levels. The order is applied through the JMAP sort, so the whole folder obeys it rather than the page you have loaded, and it can apply to the Inbox only or to every folder.
+
+Folders can be shared with other users on the same server (`mail:share`). When someone shares a folder with you, a toast says so and the folder appears under their account in your sidebar. Deleting a folder that still holds mail offers to delete the messages with it.
 
 The rest is the ordinary furniture:
 
@@ -32,11 +36,11 @@ The rest is the ordinary furniture:
 
 The editor is Tiptap: bold, italic, underline, strikethrough, ordered and unordered lists, links, tables, block quotes, and code blocks. Images can be pasted or dragged in and are embedded as data URLs so a dropped image doesn't also become an attachment, and each one can be resized in place. There is a plain-text mode for people who want one.
 
-Which address a message leaves from is more flexible than the identity list suggests. Replies can auto-select the identity the original was addressed to, the From header can be overridden outright, and on a catch-all domain a reply to some arbitrary alias comes back from that alias even though no identity exists for it. Each identity carries its own signature and decides whether it lands above or below the quoted text.
+Which address a message leaves from is more flexible than the identity list suggests. Replies can auto-select the identity the original was addressed to, matching either the exact address or anything on the same domain, whichever you prefer in settings. The From header can be overridden outright, and on a catch-all domain a reply to some arbitrary alias comes back from that alias even though no identity exists for it. Each identity carries its own signature and decides whether it lands above or below the quoted text.
 
 On a reply, the quoted original stays in an editable block that preserves its own layout, so you can trim or annotate it without the formatting collapsing.
 
-Before a message goes out, Bulwark checks the body for words like "attached" and warns you if nothing is attached. After you press send, a configurable delay holds it briefly so you can take it back, or you can schedule it for a specific time instead. Read receipts (MDN, RFC 8098) can be requested here and are answered in the viewer.
+Before a message goes out, Bulwark checks the body for words like "attached" and warns you if nothing is attached. After you press send, a configurable delay holds it briefly so you can take it back, or you can schedule it for a specific time instead. Read receipts (MDN, RFC 8098) can be requested here and are answered in the viewer, and so can delivery status notifications (DSN) from the receiving server. A message can also be marked REQUIRETLS, so the server refuses to hand it on over an unencrypted hop.
 
 Replying to someone adds them to your trusted senders, so their images load next time without asking.
 
@@ -44,7 +48,7 @@ Press `c` anywhere in the app to open the composer. [Composing emails](/docs/fea
 
 ## Reading
 
-Messages render in an iframe, sanitised by DOMPurify on the way in. In dark mode the HTML is recolored by luminance so a white newsletter doesn't blind you, while emoji keep their own colors. Mail that survives this badly can be forced to light mode, either per message or globally.
+Messages render in an iframe, sanitised by DOMPurify on the way in. In dark mode the HTML is recolored by luminance so a white newsletter doesn't blind you, while emoji keep their own colors. Mail that survives this badly can be forced to light mode, either per message or globally, and any message with both parts can be flipped between its HTML and plain-text version from the viewer toolbar.
 
 External content is blocked until you trust the sender, and the banner saying so sits above the attachments rather than below them. Next to it, SPF, DKIM and DMARC results are shown with the most severe SPF outcome surfaced first; on spoofed mail the "via" badge is suppressed rather than lending the message credibility.
 
@@ -52,17 +56,23 @@ Two formats other clients tend to give up on are handled here. TNEF (`winmail.da
 
 Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs render in a sandboxed object on desktop and mobile alike, and `.eml` attachments open like mail.
 
-Around all of that: reply, reply-all and forward, a quick reply form under the message, expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile.
+Around all of that: reply, reply-all and forward, a quick reply form under the message, expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars use the sender's domain favicon where one exists, falling back to initials.
+
+<div class="lite-callout">In Bulwark Lite, sender avatars are always initials. The favicon lookup runs on the Node.js server, which Lite doesn't have.</div>
 
 ## Search
 
-There is no query language to learn. The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list.
+There is no query language to learn. The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, message size, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list. Matching text in the results is highlighted with the server's own snippets.
 
-Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. Press `/` to jump to the search bar. [Search and filters](/docs/features/email/search) covers the panel in detail.
+Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. Press `/` to jump to the search bar. Beyond mail there is a global search palette that also covers contacts, calendar and files across every account. [Search and filters](/docs/features/email/search) covers both.
 
 ## Labels and tags
 
-Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in settings.
+Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in settings, tags can nest under a parent, and each one can be always shown, shown only while it has unread mail, or hidden. The tag view lists tagged mail from every connected account, not just the one whose folder is selected.
+
+## Time zone
+
+Dates and times follow the browser's zone unless you pick one in settings, which is the setting for people who read mail from a machine that thinks it is somewhere else.
 
 ## Export and import
 

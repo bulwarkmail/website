@@ -8,6 +8,8 @@ order: 2
 
 There are two ways to configure Bulwark: the **web setup wizard**, which is right for a fresh install, or environment variables, which is right when the config has to be immutable or checked into a repository. This page covers getting to the point where either one applies.
 
+If you want no server process at all, skip this page: [Bulwark Lite](/docs/getting-started/lite) is the same client as a folder of static files, and its own install is three steps on the [static hosting](/docs/deployment/static) page.
+
 ## Prerequisites
 
 - A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/install/), then [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) for the Bulwark-specific parts.
@@ -40,7 +42,7 @@ The wizard writes to `ADMIN_CONFIG_DIR` (`/app/data/admin` in the container). Se
 
 ## Script install
 
-An interactive shell installer exists for hosts that already run Node and would rather not use Docker:
+An interactive shell installer still ships in the repository for hosts that already run Node and would rather not use Docker. It is no longer the recommended path, and the README no longer documents it, but it works:
 
 ```bash
 curl -fsSL https://bulwarkmail.org/install | bash
@@ -53,6 +55,8 @@ bash setup.sh --dry-run
 ```
 
 ## Manual install
+
+Every release also attaches a prebuilt standalone tarball (`bulwark-standalone-<version>-linux-amd64.tar.gz` and `-arm64`) to the [GitHub release](https://github.com/bulwarkmail/webmail/releases), which skips the clone and build below: unpack it and run `node server.js`. The [manual deployment](/docs/deployment/manual) page has the service file.
 
 ### 1. Clone the repository
 
@@ -127,4 +131,4 @@ npm install
 npm run build
 ```
 
-Bulwark checks for a newer release at startup and shows an update notice in the app when one exists. Release channels, container upgrades, and which directories have to persist are on the [Updating](/docs/deployment/updating) page.
+Bulwark checks for a newer release at startup and shows an update notice in the app when one exists; a release that fixes a security advisory is flagged in red. Release channels, container upgrades, and which directories have to persist are on the [Updating](/docs/deployment/updating) page.

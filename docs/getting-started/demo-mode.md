@@ -25,9 +25,11 @@ DEMO_MODE=true
 
 Then log in with anything at all. The credentials are not checked because there is nothing to check them against.
 
+Bulwark Lite has the same switch as a build input: `LITE_DEMO_MODE=true` produces a static export whose login page offers the demo account, or set `"demoMode": true` in the shipped `config.json`. See [static hosting](/docs/deployment/static).
+
 ## What's in the fixtures
 
-Emails, mailboxes, calendars, tasks, contacts, files, Sieve filters, identities, and a vacation response. Enough that no screen renders empty, and enough that layout work on the message list or the calendar grid has something realistic to push against.
+Emails, mailboxes, calendars, tasks, contacts, files (office documents included, so the editor integration has something to open), Sieve filters, identities, and a vacation response. Enough that no screen renders empty, and enough that layout work on the message list or the calendar grid has something realistic to push against.
 
 ## What it is not
 

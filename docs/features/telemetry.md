@@ -76,7 +76,7 @@ In **Admin → Settings → Anonymous usage stats** you can:
 - Turn the heartbeat on or off at any time.
 - **Preview payload** - the exact JSON the next heartbeat would send, filled in with your install's current values.
 - **Send now** - fire a heartbeat immediately, for testing or just to see it happen.
-- Change the **endpoint** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector, or clear it to disable.
+- Change the **endpoint** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector, or clear it to disable. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
 - See when the last one went out.
 
 ## How to turn it on
@@ -86,15 +86,17 @@ Either flip **Anonymous usage stats** on in the admin UI, or set `BULWARK_TELEME
 ## How to turn it off again
 
 - In the admin UI, flip **Anonymous usage stats** off.
-- Set `BULWARK_TELEMETRY=off` in your environment (`.env`, `docker-compose.yml`, or your systemd unit). This wins over the UI toggle.
-- Set `BULWARK_TELEMETRY_URL=` (empty), which has the same effect.
+- Set `BULWARK_TELEMETRY=off` in your environment (`.env`, `docker-compose.yml`, or your systemd unit). This wins over the UI toggle. The older `BULWARK_TELEMETRY_DISABLED=1` still works when `BULWARK_TELEMETRY` is unset.
+- Clear the endpoint in the admin UI, which has the same effect.
 - Block `telemetry.bulwarkmail.org` at your firewall. Heartbeats fail silently and nothing else in Bulwark notices.
 
 The toggle takes effect immediately. To also reset your `instance_id`, so future heartbeats from this install look like a brand-new one, delete the `.telemetry-id` file in your telemetry data directory.
 
 ## Run your own collector
 
-The collector is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you want the same data for your own fleet, point your installs at your own collector with `BULWARK_TELEMETRY_URL`.
+The collector is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you want the same data for your own fleet, point your installs at your own collector from the endpoint field in the admin UI.
+
+<div class="lite-callout">Bulwark Lite has no server process and sends no heartbeat at all. This page only applies to the full edition.</div>
 
 ## Public dashboard
 

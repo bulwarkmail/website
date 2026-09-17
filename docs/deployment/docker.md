@@ -6,7 +6,7 @@ order: 1
 
 # Docker deployment
 
-Docker is the shortest production path. Pre-built images live on GitHub Container Registry at `ghcr.io/bulwarkmail/webmail`, and nowhere else. Both `linux/amd64` and `linux/arm64` come off native runners rather than QEMU emulation, which is why the ARM image isn't the slow one.
+Docker is the shortest production path for the full edition. (Bulwark Lite needs no container at all; see [static hosting](/docs/deployment/static).) Pre-built images live on GitHub Container Registry at `ghcr.io/bulwarkmail/webmail`, and nowhere else. Both `linux/amd64` and `linux/arm64` come off native runners rather than QEMU emulation, which is why the ARM image isn't the slow one.
 
 Two release channels are available as separate GHCR packages:
 
@@ -14,7 +14,7 @@ Two release channels are available as separate GHCR packages:
 | ------------------------------------ | ------- | ------------------- |
 | `ghcr.io/bulwarkmail/webmail:latest` | Stable  | `main` branch tags  |
 | `ghcr.io/bulwarkmail/webmail:dev`    | Dev     | `dev` branch builds |
-| `ghcr.io/bulwarkmail/webmail:1.7.8`  | Pinned  | A specific release  |
+| `ghcr.io/bulwarkmail/webmail:1.10.0` | Pinned  | A specific release  |
 
 ## First-launch setup wizard
 
@@ -48,7 +48,7 @@ docker run -d \
   --name bulwark \
   -p 3000:3000 \
   -e JMAP_SERVER_URL=https://mail.example.com \
-  ghcr.io/bulwarkmail/webmail:1.7.8
+  ghcr.io/bulwarkmail/webmail:1.10.0
 
 # IPv6 dual-stack
 docker run -d \
@@ -94,7 +94,7 @@ Runtime mutations that must always stay writable: `admin-state.json` (login time
 
 ### Telemetry state (`TELEMETRY_DATA_DIR`)
 
-Random `instance_id`, admin consent choice, HMAC'd login fingerprints. Default: `./data/telemetry` → `/app/data/telemetry`. Mount this so the consent and instance id survive image upgrades. Set `BULWARK_TELEMETRY=off` to disable the heartbeat entirely.
+Random `instance_id`, admin consent choice, HMAC'd login fingerprints. Default: `./data/telemetry` → `/app/data/telemetry`. Mount this so the consent and instance id survive image upgrades. The heartbeat is off until an admin opts in; `BULWARK_TELEMETRY=off` locks it off and greys out the toggle.
 
 ### Legacy single-volume installs (`ADMIN_DATA_DIR`)
 

@@ -23,6 +23,8 @@ It reports `healthy`, `degraded`, or `unhealthy`, along with uptime, version, No
 permissive-cors = true
 ```
 
+**Bulwark Lite shows a CORS error on every login.** Lite has no server in between, so the mail server itself must allow the Lite origin. `http.permissive-cors = true` in Stalwart, or a reverse-proxy rule that allows the origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`.
+
 **Correct password rejected.** If OAuth is involved, check that the issuer is reachable from the Bulwark container specifically, not just from your laptop. Where the issuer's public hostname resolves to an internal address, discovery is blocked by the SSRF guard until you set `OAUTH_ALLOW_PRIVATE_ENDPOINTS=true`.
 
 **Everyone gets logged out after a deploy.** `SESSION_SECRET` changed. Every encrypted cookie became unreadable at once. Pin the secret and mount it, ideally through `SESSION_SECRET_FILE`.
@@ -48,6 +50,10 @@ If you still have `STALWART_API_URL` set anywhere, delete it. It pointed at a RE
 ## The admin password resets on every restart
 
 `ADMIN_CONFIG_DIR` isn't on a persistent volume, so the password hash goes with the container and a fresh random one is generated and logged. Mount it, then rerun the wizard or set `ADMIN_PASSWORD`.
+
+## A Lite deep link lands on the wrong page
+
+A URL like `/en/mail/thread/abc` is served by the shell at `/en/mail/index.html`, and the host has to be told so. Netlify and Cloudflare Pages read the shipped `_redirects`; nginx and Caddy have example configs in the zip. On a host with no rewrite rules the shipped `404.html` replays the link in the browser, with one extra page load. Details on the [static hosting](/docs/deployment/static) page.
 
 ## Assets 404 under a subpath
 

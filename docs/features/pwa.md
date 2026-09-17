@@ -17,7 +17,8 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 - **Install screenshots** - Browsers that show a richer install dialog (e.g. Chrome on Android) display screenshots from the manifest. Bulwark ships default screenshots and lets you override them globally or per-domain.
 - **Service worker** - Registered automatically; caches the app shell.
 - **Install prompt** - An in-app prompt offers to install. Users can dismiss it for the session or choose "don't remind me again".
-- **Web push notifications** - When the user grants permission, Bulwark subscribes to web push and surfaces new-inbox-mail notifications even when the tab is closed. Clicking the notification opens the message. New-mail notifications are scoped to genuine inbox deliveries (not flag changes).
+- **Web push notifications** - When the user grants permission, Bulwark subscribes to web push and surfaces new-inbox-mail notifications even when the tab is closed. Clicking the notification opens the message. New-mail notifications are scoped to genuine inbox deliveries (not flag changes), grouped per account with a "+N more" line instead of one notification per message, and spam is excluded on servers that support the JMAP `emailPush` delivery filter (Stalwart 0.16.16 or newer).
+- **Unread badge** - Where the Badging API exists, the installed app's icon shows the unread count.
 - **Update detection** - The service worker detects the changed app shell on the next load and refreshes the cache. Bulwark additionally performs a server-side update check on startup and shows a non-dismissible in-app update notice when a new release is available.
 
 ## Configuration
@@ -84,7 +85,11 @@ When the user grants notification permission, Bulwark subscribes the browser to 
 - Survive the tab being closed - the service worker handles delivery in the background
 - Use the longer push verification timeout to avoid spurious unsubscriptions; leftover subscriptions are cleaned up automatically
 
+On start, the app re-syncs any push registrations it already holds, so a registration created before the spam filter existed, or one whose Junk mailbox id went stale, is repaired without the user re-enabling notifications. Each device's subscription can be revoked individually from settings.
+
 If you self-host behind a reverse proxy, keep the `/api/push/*` and `/sw.js` paths reachable so the verification handshake can complete.
+
+<div class="lite-callout">Bulwark Lite ships a web app manifest, so it can be added to a home screen, but it registers no service worker: there is no offline shell, no web push and no unread badge. Push previews and generated icons are server routes that a static host cannot serve.</div>
 
 ## Reverse proxy notes
 

@@ -8,9 +8,11 @@ order: 2
 
 Deploy Bulwark directly on a Linux server without Docker.
 
+There are two ways to get the build: clone and build it yourself as below, or download the prebuilt standalone tarball attached to every [release](https://github.com/bulwarkmail/webmail/releases) (`bulwark-standalone-<version>-linux-amd64.tar.gz` or `-arm64`), which unpacks to the same `server.js` layout the service file below expects.
+
 ## Prerequisites
 
-- Node.js 20 or later
+- Node.js 20 or later (the Docker image and the release builds use Node 22 to 24)
 - A process manager, PM2 or systemd
 - A reverse proxy: Nginx, Caddy, or whatever you already run
 

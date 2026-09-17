@@ -8,6 +8,8 @@ order: 1
 
 Bulwark is an open-source webmail client for [Stalwart Mail Server](https://stalw.art). It is written in [Next.js](https://nextjs.org) and talks to the server over [JMAP](https://jmap.io). Email, calendar, contacts and file storage all sit behind the same login.
 
+It ships in two editions. **Bulwark** runs as a Node.js service with a setup wizard, an admin console, plugins and settings sync. **Bulwark Lite** is the same client exported as static files, with the browser talking JMAP to the mail server directly. The [editions page](/docs/getting-started/editions) compares them; most of this manual applies to both.
+
 ## What it is for
 
 Most self-hosted webmail is an IMAP client with a browser bolted onto it. That inheritance shows up as a poll loop, one connection per folder, and threads the browser has to reassemble on every render. JMAP does that work on the server, which lets Bulwark stay thin and still stay in sync.
@@ -18,13 +20,15 @@ The license is AGPL v3.
 
 ## The four apps
 
-**Mail** is the one you'll spend your day in. Threaded conversations, full-text search across the whole account, colored labels that map onto JMAP keywords, and three layouts to choose between: three-pane split, focused list, or reading pane at the bottom. The composer is Tiptap, with inline images, tables, per-identity signatures, templates, scheduled send, and S/MIME signing and encryption. Awkward mail is handled rather than ignored: `winmail.dat` gets unpacked, embedded `message/rfc822` attachments open like the messages they are, and PDFs preview in place. See [Email](/docs/features/email).
+**Mail** is the one you'll spend your day in. Threaded conversations, full-text search across the whole account, colored labels that map onto JMAP keywords, and three layouts to choose between: three-pane split, focused list, or reading pane at the bottom. Any message can be read fullscreen, switched between its HTML and plain-text parts, or dragged onto a new browser tab. Folders can be shared with other users on the server. The composer is Tiptap, with inline images, tables, per-identity signatures, templates, scheduled send, delivery notifications, and S/MIME signing and encryption. Awkward mail is handled rather than ignored: `winmail.dat` gets unpacked, embedded `message/rfc822` attachments open like the messages they are, and PDFs preview in place. See [Email](/docs/features/email).
 
-**Calendar** covers month, week, day, agenda, and task views, with drag-to-reschedule, recurring events you can edit by scope, and iMIP invitations that Stalwart actually accepts. It subscribes to external iCal and webcal feeds and generates a birthday calendar from your contacts. See [Calendar](/docs/features/calendar).
+**Calendar** covers month, week, day, agenda, and task views that scroll freely from one period into the next, with drag-to-reschedule, recurring events you can edit by scope, attendee free/busy lookup, and iMIP invitations that Stalwart actually accepts. It subscribes to external iCal and webcal feeds and generates a birthday calendar from your contacts. See [Calendar](/docs/features/calendar).
 
-**Contacts** gives you multiple address books, groups, categories, vCard import and export with duplicate detection, and autocomplete in the composer. Each contact's detail view shows recent mail with that person and their upcoming events. See [Contacts](/docs/features/contacts).
+**Contacts** gives you multiple address books with one marked as the default, groups, categories, vCard import and export with duplicate detection, sorting by first or last name, and autocomplete in the composer. Each contact's detail view shows recent mail with that person and their upcoming events. See [Contacts](/docs/features/contacts).
 
-**Files** browses Stalwart's JMAP FileNode storage as a real folder tree, with streamed uploads that don't buffer in memory, folder drag-and-drop, and previews for images, text, audio, video, and PDF. See [Files](/docs/features/files).
+**Files** browses Stalwart's JMAP FileNode storage as a real folder tree, with streamed uploads that don't buffer in memory, folder drag-and-drop, sharing with other users, and previews for images, text, audio, video, and PDF. Point it at a Collabora, OnlyOffice or EuroOffice server and office documents open for editing in place. See [Files](/docs/features/files).
+
+**Search** spans all four. A search palette and, in the Pro interface, a search tab query mail, contacts, calendar and files across every signed-in account at once, with server-side snippets and suggestions. See [Search](/docs/features/email/search).
 
 ## Everything around them
 
@@ -32,6 +36,7 @@ The license is AGPL v3.
 | --- | --- |
 | Setup | A web wizard on first launch that probes your JMAP server, configures OAuth, generates the session secret, takes your branding, and sets the admin password |
 | Accounts | Several accounts signed in at once, switching instantly, with a unified inbox across all of them |
+| Editions | Bulwark as a Node.js service, or [Bulwark Lite](/docs/getting-started/lite) as static files on any web host |
 | Identities | Multiple sender identities per account, each with its own signature and signature position, plus sub-addressing with a configurable delimiter |
 | Filters | Server-side Sieve (RFC 9661) through a visual rule builder or a raw editor, and a vacation responder with date ranges |
 | S/MIME | Sign, encrypt, decrypt, verify. Legacy 3DES and password-based key bundles included, per-account key isolation throughout |
@@ -40,8 +45,8 @@ The license is AGPL v3.
 | Extensions | Plugins and themes as ZIP bundles, sandboxed and admin-approved, installable from a marketplace you can point anywhere |
 | Appearance | Light and dark themes that remap HTML email colors by luminance, bundled color themes, and branding down to per-hostname overrides |
 | [Mobile](/docs/features/mobile) | Installable as a PWA with web push for new mail, plus a separate React Native app |
-| Languages | 24, three of them right-to-left, detected from the browser |
-| Operations | JMAP push instead of polling, structured logging, a health endpoint, an update check, and an optional anonymous heartbeat that is off by default |
+| Languages | 27, three of them right-to-left, detected from the browser |
+| Operations | JMAP push instead of polling, structured logging, a health endpoint, an update check that flags security releases, and an optional anonymous heartbeat that is off by default |
 
 The exhaustive version, kept in sync with each release, is [FEATURES.md](https://github.com/bulwarkmail/webmail/blob/main/FEATURES.md) in the repository.
 
@@ -60,6 +65,6 @@ The exhaustive version, kept in sync with each release, is [FEATURES.md](https:/
 
 ## Where to go next
 
-[Installation](/docs/getting-started/installation) is a container and a wizard, and takes about ten minutes. If Stalwart isn't running yet, do [that](/docs/getting-started/configuration/stalwart-setup) first: Bulwark is a client and has nothing to talk to without it.
+[Installation](/docs/getting-started/installation) is a container and a wizard, and takes about ten minutes. If you would rather not run a Node.js process at all, [Bulwark Lite](/docs/getting-started/lite) is a folder of static files. Either way, if Stalwart isn't running yet, do [that](/docs/getting-started/configuration/stalwart-setup) first: Bulwark is a client and has nothing to talk to without it.
 
 Questions the docs don't answer belong on the [issue tracker](https://github.com/bulwarkmail/webmail/issues). Anything about the mail server itself is covered better in [Stalwart's own documentation](https://stalw.art/docs), and the protocol underneath both is specified at [jmap.io](https://jmap.io).

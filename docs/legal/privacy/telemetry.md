@@ -12,7 +12,7 @@ Last updated: 26 July 2026. Schema v1; the `push_relay` and `webdav_enabled` fea
 
 ## Scope
 
-Applies to instances of the Bulwark webmail software (the open-source Next.js app at `github.com/bulwarkmail/webmail`). Telemetry is opt-in: it is off on a fresh install and stays off until an admin enables it. Turning it off again stops all future heartbeats; data already received can be deleted on request (see "Your rights" below).
+Applies to instances of the Bulwark webmail software (the open-source Next.js app at `github.com/bulwarkmail/webmail`). Bulwark Lite, the static export, has no server process and never sends a heartbeat. Telemetry is opt-in: it is off on a fresh install and stays off until an admin enables it. Turning it off again stops all future heartbeats; data already received can be deleted on request (see "Your rights" below).
 
 Receiving server: `telemetry.bulwarkmail.org`, operated by the Bulwark project on hardware in the European Union (Germany).
 
@@ -31,7 +31,7 @@ Disable it in one of four:
 
 - In the admin UI (Settings → Anonymous usage stats → Disable).
 - By setting `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`) in the environment. Either environment variable wins over the UI toggle and greys it out.
-- By clearing `BULWARK_TELEMETRY_URL` (empty value).
+- By clearing the endpoint field in the admin UI.
 - By blocking `telemetry.bulwarkmail.org` at the network level.
 
 ## What is sent
@@ -90,13 +90,13 @@ The aggregated numbers we derive from this data (active-instance counts, version
 
 ## Run your own collector
 
-The receiving service is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you'd rather not share data with us, you can point your installs at your own collector by setting `BULWARK_TELEMETRY_URL` in your environment.
+The receiving service is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you'd rather not share data with us, you can point your installs at your own collector from the endpoint field in the admin UI.
 
 ## How to opt out again
 
 - **In the admin UI:** Settings → Anonymous usage stats → toggle off.
 - **By environment variable:** `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`). Either wins over the UI toggle.
-- **By blanking the endpoint:** `BULWARK_TELEMETRY_URL=` (empty value).
+- **By blanking the endpoint** in the admin UI.
 - **At the network:** block `telemetry.bulwarkmail.org` at your firewall. Heartbeats fail silently with no impact on Bulwark.
 
 To additionally make any future heartbeats from this install look like a brand-new instance to us, delete the `.telemetry-id` file in your telemetry data directory before re-enabling.

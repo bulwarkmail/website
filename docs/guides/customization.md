@@ -6,7 +6,7 @@ order: 1
 
 # Customization
 
-Branding is set in one of three places, and each one overrides the one above it:
+Branding is set in one of three places, and each one overrides the one above it (in Bulwark Lite the same keys live in `config.json`, camel-cased; see [static hosting](/docs/deployment/static)):
 
 - **Setup wizard** - the first-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
 - **Admin dashboard** - Update branding at any time after setup without restarting.
@@ -193,6 +193,7 @@ The Settings page groups user preferences into six sections:
 
 - **Date format** - Regional, ISO, or custom
 - **Time format** - 12-hour or 24-hour, applied consistently across calendar and email
+- **Time zone** - Follow the browser, or pick a zone explicitly
 - **First day of week** - Sunday or Monday
 - **Show time in month view** - Display event start time in the month view
 - **Show week numbers** - In the mini-calendar
@@ -207,7 +208,8 @@ The Settings page groups user preferences into six sections:
 - **Archive mode** - Direct, by year, or by year/month
 - **Attachment position** - Top or bottom of the email viewer
 - **Composer mode** - Rich text or plain text only
-- **Auto-select reply identity** - Match reply identity to original recipient
+- **Auto-select reply identity** - Match reply identity to original recipient, by exact address or by domain
+- **Message list order** - Unread, starred or tagged first, or custom sort levels, for the Inbox or every folder
 - **Reply-to addresses** - Configure reply-to in the composer
 - **Signature position** - Above or below quoted text, per identity (searchable from settings)
 - **From-header override** - Allow overriding the From header in the composer for catch-all aliases
@@ -224,6 +226,8 @@ The Settings page groups user preferences into six sections:
 ### Contacts and calendar
 
 - **Group contacts by first letter** - Toggle A-Z grouping with sticky section headers
+- **Sort contacts by** - First or last name
+- **Free scrolling** - Continuous month, week and day views, or one period at a time
 
 ### Migration and maintenance
 

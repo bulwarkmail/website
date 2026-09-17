@@ -18,6 +18,10 @@ Any modern browser will offer to install Bulwark once it has read the manifest. 
 
 Installed, it launches without browser chrome, shows an OS splash screen in your configured colors, and receives web push for new inbox mail even with the tab closed. The whole manifest (name, description, icons, colors, install screenshots) is generated from runtime configuration, so rebranding it does not mean rebuilding the image.
 
+On a phone the mail list gets a search-first header instead of a second toolbar row, and swiping a row left or right runs a quick action (archive, delete, read, star or spam, configurable per direction and mirrored for right-to-left languages).
+
+<div class="lite-callout">Bulwark Lite on a phone is the same layout, minus web push: Lite registers no service worker. The native app below is unaffected, since it talks to the relay on its own.</div>
+
 [Progressive Web App](/docs/features/pwa) covers the configuration, the reverse-proxy paths that must stay reachable, and what to do when the install option doesn't appear.
 
 ## The native app
