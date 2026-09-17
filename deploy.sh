@@ -3,6 +3,8 @@ set -euo pipefail
 
 APP_DIR="/opt/bulwarkmail-website"
 BRANCH="main"
+# The mail VM hosts other pm2 apps; only ever touch this one.
+PM2_APP="${PM2_APP:-bulwarkmail-website}"
 STASH_MSG="deploy-auto-stash-$(date +%F-%H%M%S)"
 
 cd "$APP_DIR"
@@ -32,11 +34,11 @@ if ! npm run build; then
   exit 1
 fi
 
-echo "==> Restarting PM2 processes..."
-pm2 restart all
+echo "==> Restarting PM2 process $PM2_APP..."
+pm2 restart "$PM2_APP" --update-env
 
 echo "==> Deploy complete. Current commit:"
 git --no-pager log --oneline -1
 
 echo "==> PM2 status:"
-pm2 status
+pm2 describe "$PM2_APP" | head -20
