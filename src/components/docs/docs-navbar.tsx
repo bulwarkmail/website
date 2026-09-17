@@ -6,6 +6,7 @@ import { Sun, Moon, ArrowLeft, Menu, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";
+import { EditionSwitch } from "@/components/edition-switch";
 
 export function DocsNavbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -89,6 +90,7 @@ export function DocsNavbar() {
             >
               <Star className="w-3.5 h-3.5" />
             </a>
+            <EditionSwitch />
             <Link
               href="/"
               className="inline-flex items-center gap-1.5 text-[13px] text-foreground/70 hover:text-foreground transition-colors"

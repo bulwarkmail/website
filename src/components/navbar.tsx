@@ -6,6 +6,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";
+import { EditionSwitch } from "@/components/edition-switch";
+import { EditionLink } from "@/components/edition-link";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -73,14 +75,14 @@ export function Navbar({ stars }: NavbarProps) {
           {/* Cell 2 - primary nav (hidden on mobile, fills the gap) */}
           <nav className="hidden md:flex items-center gap-7 px-7">
             {navLinks.map((link) => (
-              <Link
+              <EditionLink
                 key={link.href}
                 href={link.href}
                 className="text-[14px] font-medium text-foreground/85 hover:text-[color:var(--rasp)] transition-colors"
                 style={{ fontFamily: "var(--font-exo2)" }}
               >
                 {link.label}
-              </Link>
+              </EditionLink>
             ))}
           </nav>
 
@@ -96,6 +98,7 @@ export function Navbar({ stars }: NavbarProps) {
             <Star className="w-3.5 h-3.5" />
             <span>{formatStars(stars)}</span>
           </a>
+          <EditionSwitch className="hidden md:inline-flex" />
           <button
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
             className="hidden md:inline-flex p-2 text-foreground/70 hover:text-foreground transition-colors"
@@ -109,7 +112,7 @@ export function Navbar({ stars }: NavbarProps) {
           </button>
           <a
             href="#deploy"
-            className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-semibold bg-[color:var(--rasp)] text-white hover:bg-[#c12649] transition-colors"
+            className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-semibold bg-[color:var(--rasp)] text-white hover:bg-[color:var(--rasp-hover)] transition-colors"
             style={{ fontFamily: "var(--font-exo2)" }}
           >
             Get started
@@ -141,6 +144,9 @@ export function Navbar({ stars }: NavbarProps) {
               </Link>
             ))}
             <div className="h-px bg-[color:var(--rule)] my-2" />
+            <div className="px-2 py-2">
+              <EditionSwitch block />
+            </div>
             <div className="flex items-center justify-between gap-3 px-2 py-2">
               <button
                 onClick={() => {

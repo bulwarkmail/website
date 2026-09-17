@@ -557,7 +557,7 @@ function SurfacesSection() {
     <section id="features" className="ed-section ed-on-navy relative overflow-hidden">
       <div className="absolute pointer-events-none" style={{
         top: -200, right: -200, width: 600, height: 600, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(219,45,84,0.20) 0%, transparent 60%)",
+        background: "radial-gradient(circle, color-mix(in srgb, var(--rasp) 20%, transparent) 0%, transparent 60%)",
       }} />
       <div className="mx-auto max-w-[1440px] relative">
         <h2
@@ -806,7 +806,7 @@ function CommonsSection({
     <section className="ed-section ed-on-navy relative overflow-hidden">
       <div className="absolute pointer-events-none" style={{
         bottom: -200, left: -200, width: 600, height: 600, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(219,45,84,0.20) 0%, transparent 60%)",
+        background: "radial-gradient(circle, color-mix(in srgb, var(--rasp) 20%, transparent) 0%, transparent 60%)",
       }} />
       <div className="mx-auto max-w-[1440px] relative">
         <h2

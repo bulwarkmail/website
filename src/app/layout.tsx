@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Exo_2, Source_Serif_4, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { EditionProvider } from "@/components/edition-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -117,9 +118,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/branding/favicon/Bulwark%20Favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/branding/favicon/Bulwark%20Favicon.png" type="image/png" />
+        {/* Theme and edition are applied before first paint. Theme: the .dark
+            class. Edition: data-edition from ?edition= (which also persists
+            the choice) or localStorage, plus the matching favicon. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}})()`
+            __html: `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}try{var q=new URLSearchParams(location.search).get('edition');var e=q==='lite'||q==='full'?q:localStorage.getItem('edition');if(q==='lite'||q==='full')localStorage.setItem('edition',q);if(e==='lite'){document.documentElement.setAttribute('data-edition','lite');var l=document.querySelector('link[rel="icon"][type="image/svg+xml"]');if(l)l.href='/branding/favicon/Bulwark%20Favicon%20Lite.svg'}else{document.documentElement.setAttribute('data-edition','full')}}catch(e){}})()`
           }}
         />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID ? (
@@ -134,7 +138,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${exo2.variable} ${sourceSerif.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <ThemeProvider>
-          {children}
+          <EditionProvider>{children}</EditionProvider>
         </ThemeProvider>
       </body>
     </html>

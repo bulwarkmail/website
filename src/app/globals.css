@@ -9,7 +9,11 @@
   --navy: #0c1322;
   --navy-deep: #070b16;
   --ink: #0c1322;
+  /* Brand accent. Raspberry for Bulwark; [data-edition="lite"] below swaps
+     the whole accent family to teal. Nothing may hard-code #db2d54: use the
+     tokens, or color-mix() on them for tints. */
   --rasp: #db2d54;
+  --rasp-hover: #c12649;
   --rasp-soft: #f4d3da;
   --rule-navy: rgba(245, 246, 248, 0.14);
   --muted-navy: rgba(245, 246, 248, 0.62);
@@ -66,6 +70,184 @@
   --code-border: #333333;
   --pre-bg: #161616;
   --table-header-bg: #1a1a1a;
+}
+
+/* ----------------------------------------------------------------------
+   Bulwark Lite accent. Set on <html> as data-edition by the blocking script
+   in layout.tsx, so it is right before first paint. Teal at roughly the same
+   luminance as the raspberry, so contrast against paper (4.2:1), against
+   navy (4.2:1) and with white text on it (4.5:1) all hold in both themes.
+   ---------------------------------------------------------------------- */
+:root[data-edition="lite"] {
+  --rasp: #0f8578;
+  --rasp-hover: #0c6e63;
+  --rasp-soft: #cfe9e5;
+  --primary: #0f8578;
+  --ring: #0f8578;
+  --accent: #cfe9e5;
+  --accent-foreground: #0a5f56;
+}
+
+.dark[data-edition="lite"] {
+  --primary: #0f8578;
+  --ring: #0f8578;
+  --accent: #0d2a27;
+  --accent-foreground: #7fd3c7;
+}
+
+/* The accent transition when the switch flips. Off for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .ed-cta-primary,
+  .ed-switch-option,
+  .ed-hero-underline,
+  .prose-docs li::marker {
+    transition-property: background-color, background-image, border-color, color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+  }
+}
+
+/* Edition-only visibility, the same trick as .theme-light-only below:
+   render both variants server-side and let the attribute pick one, so
+   server components can carry edition copy without a client round-trip. */
+.ed-lite-only {
+  display: none;
+}
+[data-edition="lite"] .ed-lite-only {
+  display: revert;
+}
+[data-edition="lite"] .ed-full-only {
+  display: none;
+}
+
+/* Segmented "Bulwark | Lite" control (edition-switch.tsx). */
+.ed-switch-track {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--rule);
+  padding: 2px;
+  gap: 2px;
+}
+.ed-switch-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-exo2), system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--muted-paper);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ed-switch-option:hover {
+  color: var(--foreground);
+}
+.ed-switch-option:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+.ed-switch-dot {
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+  opacity: 0.35;
+  flex-shrink: 0;
+}
+/* Selected state comes from the attribute, not from React, so it is
+   correct on the very first paint. */
+:root:not([data-edition="lite"]) .ed-switch-option[data-value="full"],
+[data-edition="lite"] .ed-switch-option[data-value="lite"] {
+  color: #ffffff;
+  background: var(--rasp);
+}
+:root:not([data-edition="lite"]) .ed-switch-option[data-value="full"] .ed-switch-dot,
+[data-edition="lite"] .ed-switch-option[data-value="lite"] .ed-switch-dot {
+  opacity: 1;
+  border-radius: 0;
+}
+[data-edition="lite"] .ed-switch-option[data-value="lite"] .ed-switch-dot {
+  border-radius: 50%;
+}
+.ed-switch-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ed-switch-block .ed-switch-track {
+  display: flex;
+}
+.ed-switch-block .ed-switch-option {
+  flex: 1;
+  justify-content: center;
+  padding: 9px 10px;
+  font-size: 13.5px;
+}
+.ed-switch-hint {
+  margin: 0;
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--muted-paper);
+}
+
+/* Inline "not in Lite" note inside docs pages (a <div class="lite-callout">
+   in the markdown; rehype-raw passes it through). */
+.lite-callout {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin: 1.5rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--rasp);
+  background: color-mix(in srgb, var(--rasp) 6%, transparent);
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.lite-callout::before {
+  content: "Lite";
+  flex-shrink: 0;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rasp);
+}
+.lite-callout code {
+  font-size: 0.85em;
+}
+
+/* Banner on a page that only exists in the other edition (docs/[...slug]). */
+.ed-edition-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--rasp);
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: 0.9375rem;
+}
+.ed-edition-banner button {
+  font-family: var(--font-exo2), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--rasp);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--rasp);
+  padding: 0;
+  cursor: pointer;
 }
 
 @theme inline {
@@ -140,7 +322,7 @@ html {
 
 /* Selection color */
 ::selection {
-  background-color: #db2d5433;
+  background-color: color-mix(in srgb, var(--rasp) 20%, transparent);
   color: var(--foreground);
 }
 
@@ -157,10 +339,10 @@ html {
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 20px #db2d5420;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--rasp) 12%, transparent);
   }
   50% {
-    box-shadow: 0 0 40px #db2d5440;
+    box-shadow: 0 0 40px color-mix(in srgb, var(--rasp) 25%, transparent);
   }
 }
 
@@ -260,7 +442,7 @@ html {
   text-decoration: none;
 }
 .ed-cta-primary:hover {
-  background: #c12649;
+  background: var(--rasp-hover);
 }
 
 /* Editorial CTA ghost - outline follows page foreground; on-navy uses paper. */
@@ -375,6 +557,22 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Visually hidden, kept for assistive tech. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Documentation prose styles */
