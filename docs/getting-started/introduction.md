@@ -41,7 +41,7 @@ The license is AGPL v3.
 | Appearance | Light and dark themes that remap HTML email colors by luminance, bundled color themes, and branding down to per-hostname overrides |
 | [Mobile](/docs/features/mobile) | Installable as a PWA with web push for new mail, plus a separate React Native app |
 | Languages | 24, three of them right-to-left, detected from the browser |
-| Operations | JMAP push instead of polling, structured logging, a health endpoint, an update check, and an optional anonymous heartbeat that ships off |
+| Operations | JMAP push instead of polling, structured logging, a health endpoint, an update check, and an optional anonymous heartbeat that is off by default |
 
 The exhaustive version, kept in sync with each release, is [FEATURES.md](https://github.com/bulwarkmail/webmail/blob/main/FEATURES.md) in the repository.
 

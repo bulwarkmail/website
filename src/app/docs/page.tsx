@@ -132,10 +132,7 @@ export default function DocsPage() {
             margin: "0 0 1rem",
           }}
         >
-          The{" "}
-          <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-            manual.
-          </span>
+          The manual.
         </h1>
         <p
           className="text-foreground/70"

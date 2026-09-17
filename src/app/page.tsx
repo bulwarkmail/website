@@ -351,11 +351,7 @@ function MissionSection() {
             hyphens: "auto",
           }}
         >
-          Email is{" "}
-          <span style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 400, color: "var(--rasp)" }}>
-            {ageWord}.
-          </span>{" "}
-          Webmail doesn&apos;t have to be.
+          Email is {ageWord}. Webmail doesn&apos;t have to be.
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-start mb-16 sm:mb-20">
@@ -374,7 +370,7 @@ function MissionSection() {
             <em style={{ fontStyle: "normal", fontFamily: SERIF, color: "var(--rasp)" }}>
               most of it was written then
             </em>
-            . The browser stopped being the limiting factor a long time ago, and JMAP took away the protocol excuse in 2019. We started Bulwark after both of those, which is honestly the only real advantage it has.
+            . The browser stopped being the limiting factor a long time ago, and JMAP took away the protocol excuse in 2019. We started Bulwark after both of those, which is honestly the only advantage it has.
           </p>
           <div className="border-l border-[color:var(--rule)] pl-8">
             <div className="ed-eyebrow mb-3">What 2019 changed</div>
@@ -823,9 +819,7 @@ function CommonsSection({
           }}
         >
           It&apos;s AGPL, which means<br />
-          <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-            you can just fix it.
-          </span>
+          you can just fix it.
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-20 items-end">
@@ -1010,10 +1004,7 @@ function OtherProjectsSection() {
               fontSize: "clamp(2rem, 5vw, 5rem)",
             }}
           >
-            Other{" "}
-            <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-              projects.
-            </span>
+            Other projects.
           </h2>
           <p
             className="text-foreground/60"
@@ -1057,10 +1048,7 @@ function OtherProjectsSection() {
                   fontSize: "clamp(1.5rem, 2.2vw, 1.875rem)",
                 }}
               >
-                Bulwark{" "}
-                <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-                  {p.accent}
-                </span>
+                Bulwark {p.accent}
               </h3>
               <div className="ed-folio" style={{ marginBottom: 18 }}>
                 {p.meta}
@@ -1117,10 +1105,7 @@ function QuestionsSection() {
               fontSize: "clamp(2.5rem, 9vw, 8.25rem)",
             }}
           >
-            Before you{" "}
-            <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontStyle: "italic", fontWeight: 400 }}>
-              install it.
-            </span>
+            Before you install it.
           </h2>
         </div>
 
@@ -1229,10 +1214,7 @@ function FinalCtaSection() {
           >
             Catch
             <br />
-            mail{" "}
-            <span style={{ color: "var(--rasp)", fontFamily: SERIF, fontWeight: 400, fontStyle: "italic" }}>
-              up.
-            </span>
+            mail up.
           </h2>
           <div className="flex flex-col">
             <Link
