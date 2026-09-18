@@ -58,7 +58,7 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 - **Purpose** - Points Bulwark to your JMAP-compatible mail server. Setting this also disables the first-launch setup wizard.
 - **Required** - No - the setup wizard can write this value to admin config instead. Required only when you want env-driven configuration, when `ALLOW_CUSTOM_JMAP_ENDPOINT=true` is not set, or when you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
 - **Example** - `https://mail.example.com`
-- **When to set it** - For env-driven deployments, or when you want to lock the JMAP server choice and hide it from the admin UI. For several servers, see `JMAP_SERVERS` below.
+- **When to set it** - For env-driven deployments. A server URL already saved by the wizard or the dashboard takes priority over this variable. For several servers, see `JMAP_SERVERS` below.
 
 ### `ALLOW_CUSTOM_JMAP_ENDPOINT`
 
@@ -238,7 +238,7 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 - **Purpose** - Sets the initial admin password for the local admin dashboard. The dashboard manages plugins, themes, runtime config overrides, and policy.
 - **Required** - No - the setup wizard prompts for an initial password instead.
 - **Default** - On first startup with no password set and no wizard completion, a random password is generated and logged to stdout.
-- **When to set it** - Set this when you want env-driven configuration or to override whatever the wizard wrote.
+- **When to set it** - Env-driven deployments that skip the wizard. It is a bootstrap value: read only while `admin.json` does not exist, then hashed into it.
 
 ### `ADMIN_CONFIG_DIR`
 
@@ -289,7 +289,7 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 - **Allowed values** - `auto` (Stalwart admins see the admin shield and are signed into `/admin` without the Bulwark admin password), `password` (they see the shield but must enter the admin password), `off` (Stalwart admin status is ignored; `/admin` is reachable only via `/admin/login`).
 - **Default** - `auto`
 - **Dependency** - `password` and `off` need an admin password to exist, from the wizard or `ADMIN_PASSWORD`.
-- **When to set it** - Also editable in the dashboard under Authentication; set it here to lock it.
+- **When to set it** - For env-driven deployments. Also editable in the dashboard under Authentication, and a value saved there wins.
 
 ### `SEARCH_ENGINE_INDEXING`
 

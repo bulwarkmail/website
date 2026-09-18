@@ -29,7 +29,7 @@ The license is AGPL v3.
 
 **Files** browses Stalwart's JMAP FileNode storage as a real folder tree, with streamed uploads that don't buffer in memory, folder drag-and-drop, sharing with other users, and previews for images, text, audio, video, and PDF. Point it at a Collabora, OnlyOffice or EuroOffice server and office documents open for editing in place. See [Files](/docs/features/files).
 
-**Search** spans all four. A search palette and, in the Pro interface, a search tab query mail, contacts, calendar and files across every signed-in account at once, with server-side snippets and suggestions. See [Search](/docs/features/email/search).
+**Search** spans all four. In the Pro interface, the desktop layout with tabs, a search palette and a search tab query mail, contacts, calendar and files across every signed-in account at once; the ordinary mail search has server-side snippets and suggestions. See [Search](/docs/features/email/search).
 
 ## Everything around them
 

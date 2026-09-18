@@ -31,6 +31,7 @@ The toggle at the top of every page on this site switches the documentation betw
 | iCal / webcal URL subscriptions, CalDAV discovery | Yes | No (`.ics` import still works) |
 | Office document editing (WOPI) | Yes | No |
 | Sender favicons as avatars | Yes | No (initials) |
+| Register as the default mail app (`mailto:` handler) | Yes | No |
 | PWA install | Yes, with service worker, web push and unread badge | Manifest only; no service worker, no push |
 | Update notice | Yes, red for security releases | No; re-download the zip |
 | Anonymous telemetry | Opt-in | None (nothing to send it) |

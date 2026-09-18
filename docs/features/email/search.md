@@ -7,7 +7,7 @@ edition: both
 
 # Search and filters
 
-Search runs on the JMAP server, not in the browser, so it covers the whole mailbox rather than the messages already loaded. There are two searches: the mail search bar with its filter panel, and a global palette that spans mail, contacts, calendar and files.
+Search runs on the JMAP server, not in the browser, so it covers the whole mailbox rather than the messages already loaded. There are two searches: the mail search bar with its filter panel, and, in the Pro interface, a global palette that spans mail, contacts, calendar and files.
 
 ## Basic search
 
@@ -44,6 +44,6 @@ Filters combine with AND: every condition has to match. Pairing a text query wit
 
 ## Global search
 
-The search entry on the navigation rail opens a palette that queries mail, contacts, calendar events and files at once, across every account you are signed in to. Results are ranked and grouped by kind, each row carries an avatar or a tinted icon and a structured preview, and opening a hit goes through the login that owns it, so a message in a shared or secondary account opens in the right context. The same server object reached through several logins shows once.
+Global search lives in the Pro interface (Settings → Layout → Pro Interface). There, the search entry at the top of the navigation rail, or `Ctrl/Cmd+K`, opens a palette that queries mail, contacts, calendar events and files at once, across every account you are signed in to. Results are ranked and grouped by kind, each row carries an avatar or a tinted icon and a structured preview, and opening a hit goes through the login that owns it, so a message in a shared or secondary account opens in the right context. The same server object reached through several logins shows once.
 
-In the Pro interface the palette has a sibling: a search tab with facets and scope chips that stays open next to your mail tabs, for the searches you keep coming back to.
+The palette has a sibling: "Show all results" opens a search tab with facets and scope chips that stays open next to your other Pro tabs, for the searches you keep coming back to.

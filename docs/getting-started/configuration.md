@@ -12,17 +12,17 @@ Bulwark has two configuration surfaces that work together:
 1. The **web setup wizard** and **admin dashboard**, which is what new installs should use. The wizard runs on first launch when no `JMAP_SERVER_URL` is set in the environment and writes JSON config to `ADMIN_CONFIG_DIR`. The admin dashboard manages the same file afterwards.
 2. **Environment variables** in `.env.local` (or your container's env). Still fully supported, and the right choice for immutable / read-only / env-as-code deployments.
 
-When an environment variable is set, it takes precedence over the corresponding admin-managed value, so setting `JMAP_SERVER_URL` will hide that field from the wizard and lock it in the admin UI.
+The two layer rather than compete. A value the wizard or the dashboard has saved wins; the environment fills in every key the admin config leaves unset. Setting `JMAP_SERVER_URL` in the environment before the first launch skips the wizard, which is how an env-only deployment stays env-only.
 
 ## Configuration model
 
 Bulwark supports three configuration layers:
 
 - **Admin-managed config** - Written by the setup wizard or the admin dashboard to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
-- **Runtime environment variables** - Read by the server at request time. Override admin-managed values. Work well for Docker and reverse-proxy deployments.
+- **Runtime environment variables** - Read by the server at request time. Used for every key the admin config does not set. Work well for Docker and reverse-proxy deployments.
 - **Legacy build-time variables** - `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
 
-The order of precedence is **env var > admin config > build-time fallback > built-in default**.
+The order of precedence is **admin config > env var > build-time fallback > built-in default**. If an environment variable seems to be ignored, look for the same key in `ADMIN_CONFIG_DIR/config.json`: a value saved there, even `false`, takes priority until you remove it.
 
 ## Minimal setup
 
@@ -71,7 +71,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `COOKIE_SECURE`               | No              | derived from env                          | Force `Secure` flag on cookies                                                             |
 | `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                    |
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)      |
-| `ADMIN_PASSWORD`              | No              | set via wizard or random on first start   | Initial admin dashboard password (overrides whatever the wizard wrote)                     |
+| `ADMIN_PASSWORD`              | No              | set via wizard or random on first start   | Bootstrap admin password, read only while `admin.json` does not exist yet                  |
 | `ADMIN_CONFIG_DIR`            | No              | `./data/admin`                            | Operator-authored: `config.json`, `policy.json`, `admin.json` (passwordHash), plugins, themes, branding uploads. Safe to mount read-only after setup |
 | `ADMIN_STATE_DIR`             | No              | `./data/admin-state`                      | Runtime: `admin-state.json` (login timestamps), `audit.log`, setup token. Always read-write |
 | `ADMIN_CONFIG_READONLY`       | No              | `false`                                   | Enforce read-only mode at the app layer (pair with `:ro` mount of the config volume)        |

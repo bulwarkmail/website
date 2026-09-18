@@ -49,7 +49,7 @@ These need the Node.js server, so the static build hides or disables them:
 - Office document editing (WOPI).
 - Web push notifications, and with them the unread badge on an installed icon. There is no service worker at all.
 - The in-app update notice, and the anonymous telemetry heartbeat.
-- Device pairing.
+- Device pairing, and registering Bulwark as the system's default mail app (the "Default apps" protocol handler).
 
 `scripts/lite/lib.mjs` in the repository is the list the build is checked against: any client code that references a server endpoint not documented there fails the export.
 
