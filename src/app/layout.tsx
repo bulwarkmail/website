@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Exo_2, Source_Serif_4, JetBrains_Mono } from "next/f
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { EditionProvider } from "@/components/edition-provider";
+import { OG_IMAGES } from "@/lib/og";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -79,21 +80,14 @@ export const metadata: Metadata = {
     title: "Bulwark - JMAP Webmail Client for Stalwart Mail Server",
     description:
       "Open-source, self-hosted webmail built on JMAP. Email, calendar, contacts, and files in one interface for Stalwart Mail Server.",
-    images: [
-      {
-        url: "/branding/logo-with-lettering/Bulwark Logo with Lettering Dark and Color.png",
-        width: 1200,
-        height: 630,
-        alt: "Bulwark Webmail - JMAP email for Stalwart",
-      },
-    ],
+    images: [OG_IMAGES.full],
   },
   twitter: {
     card: "summary_large_image",
     title: "Bulwark - JMAP Webmail Client for Stalwart Mail Server",
     description:
       "Open-source, self-hosted webmail built on JMAP. Email, calendar, contacts, and files for Stalwart Mail Server.",
-    images: ["/branding/logo-with-lettering/Bulwark Logo with Lettering Dark and Color.png"],
+    images: [OG_IMAGES.full.url],
   },
   robots: {
     index: true,

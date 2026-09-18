@@ -12,6 +12,8 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
     h: "Product",
     links: [
       { label: "Features", href: "https://github.com/bulwarkmail/webmail/blob/main/FEATURES.md" },
+      { label: "Editions", href: "/docs/getting-started/editions" },
+      { label: "Bulwark Lite", href: "/docs/getting-started/lite?edition=lite" },
       { label: "Screenshots", href: "#features" },
       { label: "Changelog", href: "https://github.com/bulwarkmail/webmail/releases" },
     ],
@@ -23,6 +25,7 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
       { label: "Compose", href: "/docs/deployment/docker/compose" },
       { label: "Reverse proxy", href: "/docs/deployment/docker/reverse-proxy" },
       { label: "Manual install", href: "/docs/deployment/manual" },
+      { label: "Static hosting", href: "/docs/deployment/static?edition=lite" },
       { label: "Updating", href: "/docs/deployment/updating" },
     ],
   },
@@ -32,6 +35,7 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
       { label: "GitHub", href: "https://github.com/bulwarkmail" },
       { label: "Contributing", href: "https://github.com/bulwarkmail/webmail/blob/main/CONTRIBUTING.md" },
       { label: "Branding", href: "/docs/branding/guidelines" },
+      { label: "Press kit", href: "/press/README.md" },
     ],
   },
   {
