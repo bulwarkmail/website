@@ -510,6 +510,15 @@ html {
   border-color: var(--rule-navy);
 }
 
+/* Framed beauty shots (public/beauty): the frame, shadow and background are
+   baked into the image, so no border here; just keep the corners soft. */
+.ed-beauty {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
 /* Hairline rule helpers */
 .ed-rule {
   height: 1px;

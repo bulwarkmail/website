@@ -6,6 +6,8 @@ import { Footer } from "@/components/footer";
 import { BulwarkMark } from "@/components/bulwark-mark";
 import { ThemeImage } from "@/components/theme-image";
 import { EditionLink } from "@/components/edition-link";
+import type { Metadata } from "next";
+import { OG_IMAGES } from "@/lib/og";
 
 // =============================================================================
 // Editorial homepage - "21st Century" voice
@@ -357,23 +359,41 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* Inbox screenshot - flat, hairline border */}
+        {/* Hero plate: one beauty shot per edition, light and dark inside each.
+            Both editions render; data-edition picks one, so there is no flash. */}
         <div className="mt-14 sm:mt-20 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-          <div className="flex items-center gap-2.5 mb-3.5">
-            <span className="block w-2 h-2" style={{ background: "var(--rasp)" }} />
-            <span className="ed-runhead">Mail · reading view</span>
-          </div>
-          <ThemeImage
-            light="/screenshots/light-viewer.png"
-            dark="/screenshots/dark-viewer.png"
-            alt="Bulwark mail reading view"
-            width={2560}
-            height={1440}
-            priority
-            sizes="(max-width: 1440px) 100vw, 1440px"
-            className="ed-plate"
-            style={{ borderRadius: 10 }}
-          />
+          <Only edition="full" as="div">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <span className="block w-2 h-2" style={{ background: "var(--rasp)" }} />
+              <span className="ed-runhead">Mail · reading view</span>
+            </div>
+            <ThemeImage
+              light="/beauty/light-inbox.webp"
+              dark="/beauty/dark-inbox.webp"
+              alt="Bulwark's inbox with a message open in the reading pane"
+              width={2400}
+              height={1500}
+              priority
+              sizes="(max-width: 1440px) 100vw, 1440px"
+              className="ed-beauty"
+            />
+          </Only>
+          <Only edition="lite" as="div">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <span className="block w-2 h-2" style={{ background: "var(--rasp)" }} />
+              <span className="ed-runhead">Search · everything, from static files</span>
+            </div>
+            <ThemeImage
+              light="/beauty/light-search.webp"
+              dark="/beauty/dark-search.webp"
+              alt="The global search palette in Bulwark Lite, matching mail and calendar entries"
+              width={2400}
+              height={1500}
+              priority
+              sizes="(max-width: 1440px) 100vw, 1440px"
+              className="ed-beauty"
+            />
+          </Only>
         </div>
 
       </div>
@@ -672,28 +692,24 @@ function SurfacesSection() {
           Stalwart already stores all of it. What was missing was a front end that doesn&apos;t make you feel the seam between mail and calendar, and doesn&apos;t ask you to forgive it for being self-hosted.
         </p>
 
-        {/* Plate grid - responsive: stack on mobile, 2x2 on lg, overlap-y on xl */}
+        {/* Plate grid: one framed shot per surface. Beauty shots come from
+            scripts/shoot-beauty.mjs + scripts/frame-beauty.mjs (see
+            SCREENSHOTS-TODO.md); all are 2400x1500. */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
           {([
-            { light: "/screenshots/light-pane-at-bottom.png", dark: "/screenshots/dark-pane-at-bottom.png", label: "Mail · reading view" },
-            { light: "/screenshots/light-calendar.png", dark: "/screenshots/dark-calendar.png", label: "Calendar · month" },
-            { light: "/screenshots/light-settings.png", dark: "/screenshots/dark-settings.png", label: "Settings · accounts & signing", fullOnly: true },
-            { light: "/screenshots/light-composer.png", dark: "/screenshots/dark-composer.png", label: "Mail · drafting" },
-            { light: "/screenshots/light-themes.webp", dark: "/screenshots/dark-themes.webp", label: "Themes · pick one or write your own" },
-            { src: "/screenshots/dark-viewer.png", label: "A glimpse of dark mode", showOnly: "light" as const },
-            { src: "/screenshots/light-viewer.png", label: "A glimpse of light mode", showOnly: "dark" as const },
-          ] as Array<{ label: string; fullOnly?: boolean } & ({ light: string; dark: string } | { src: string; showOnly?: "light" | "dark" })>).map((p) => {
-            const key = "src" in p ? p.src : p.light;
-            const visibilityClass = [
-              "showOnly" in p && p.showOnly === "light"
-                ? "theme-light-only"
-                : "showOnly" in p && p.showOnly === "dark"
-                  ? "theme-dark-only"
-                  : "",
-              p.fullOnly ? "ed-full-only" : "",
-            ].filter(Boolean).join(" ");
+            { name: "calendar-week", label: "Calendar · week, scrolling freely", alt: "A week in the Bulwark calendar with events and a birthday" },
+            { name: "contact", label: "Contacts · detail with recent mail and events", alt: "A contact's detail view with recent mail and upcoming events" },
+            { name: "composer", label: "Mail · drafting", alt: "The composer mid-draft with a recipient, subject and body" },
+            { name: "files", label: "Files · Stalwart's FileNode storage", alt: "The Files app in grid view with folders and office documents" },
+            { name: "pro", label: "Pro interface · tabs across surfaces", alt: "The Pro shell with mail, calendar, contacts and files as tabs", fullOnly: true },
+            { name: "search", label: "Search · mail, contacts, calendar and files at once", alt: "The global search palette with mail and calendar hits", liteOnly: true },
+            { name: "laptop-phone", label: "The same account on a laptop and a phone", alt: "The inbox on a laptop next to a message on a phone" },
+            { src: "/beauty/split-inbox.webp", label: "Light and dark, one interface", alt: "The inbox split diagonally between the light and the dark theme" },
+          ] as Array<{ label: string; alt: string; fullOnly?: boolean; liteOnly?: boolean } & ({ name: string } | { src: string })>).map((p) => {
+            const key = "src" in p ? p.src : p.name;
+            const visibilityClass = [p.fullOnly ? "ed-full-only" : "", p.liteOnly ? "ed-lite-only" : ""].filter(Boolean).join(" ");
             return (
-              <div key={key} className={visibilityClass}>
+              <div key={key} className={visibilityClass || undefined}>
                 <div className="flex items-center gap-2.5 mb-3.5">
                   <span className="block w-2 h-2" style={{ background: "var(--rasp)" }} />
                   <span className="ed-runhead" style={{ color: "var(--muted-navy)" }}>
@@ -703,21 +719,21 @@ function SurfacesSection() {
                 {"src" in p ? (
                   <Image
                     src={p.src}
-                    alt={p.label}
-                    width={2560}
-                    height={1440}
+                    alt={p.alt}
+                    width={2400}
+                    height={1500}
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="ed-plate"
+                    className="ed-beauty"
                   />
                 ) : (
                   <ThemeImage
-                    light={p.light}
-                    dark={p.dark}
-                    alt={p.label}
-                    width={2560}
-                    height={1440}
+                    light={`/beauty/light-${p.name}.webp`}
+                    dark={`/beauty/dark-${p.name}.webp`}
+                    alt={p.alt}
+                    width={2400}
+                    height={1500}
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="ed-plate"
+                    className="ed-beauty"
                   />
                 )}
               </div>
@@ -1416,6 +1432,37 @@ function FinalCtaSection() {
 // =============================================================================
 // PAGE
 // =============================================================================
+
+// The edition is client state, but a shared link carries it as ?edition=lite,
+// and that is the one place the metadata API can see it: crawlers get the
+// Lite card for Lite links and the Bulwark card otherwise.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ edition?: string | string[] }>;
+}): Promise<Metadata> {
+  const { edition } = await searchParams;
+  if (edition !== "lite") return {};
+  return {
+    title: "Bulwark Lite - the same webmail as static files",
+    description:
+      "Bulwark Lite is Bulwark Webmail exported as static files: upload a folder to any web host, point it at Stalwart, and the browser talks JMAP directly. No Node.js process.",
+    openGraph: {
+      title: "Bulwark Lite - the same webmail, no server to run",
+      description:
+        "Bulwark Webmail exported as static files. Upload a folder, point config.json at Stalwart, done.",
+      url: `https://bulwarkmail.org/?edition=lite`,
+      images: [OG_IMAGES.lite],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Bulwark Lite - the same webmail, no server to run",
+      description: "Bulwark Webmail exported as static files. Upload a folder, point config.json at Stalwart, done.",
+      images: [OG_IMAGES.lite.url],
+    },
+  };
+}
+
 export default async function Home() {
   const [version, stars, instances, commits, langs] = await Promise.all([
     fetchLatestVersion(),
