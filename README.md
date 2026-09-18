@@ -42,31 +42,52 @@ npm start
 
 ```
 src/
-├── app/                  # Next.js App Router pages
-│   ├── page.tsx          # Landing page
-│   ├── docs/             # Documentation pages
-│   ├── install/          # Install redirect
-│   └── api/              # API routes (docs search)
-├── components/           # React components
-│   ├── docs/             # Documentation components
-│   └── *.tsx             # Landing page sections
-└── lib/                  # Utilities (markdown processing, etc.)
-docs/                     # Documentation content (Markdown)
-├── getting-started/      # Introduction, installation, configuration
-│   └── configuration/    # Stalwart setup, authentication, env reference
-├── features/             # Email, calendar, contacts, files, PWA
-│   └── email/            # Composing, search
-├── development/          # Architecture, contributing
-├── deployment/           # Docker, manual, reverse proxy
-│   └── docker/           # Compose, reverse-proxy
-├── guides/               # Customization, keyboard shortcuts, embedded SSO,
-│                         # plugins, account-security, multi-account, smime,
-│                         # marketplace, admin
-└── branding/             # Brand guidelines
-public/                   # Static assets
-├── branding/             # Logos, favicons
-└── screenshots/          # Product screenshots
+├── app/                      # Next.js App Router
+│   ├── layout.tsx            # Fonts, metadata, theme + edition bootstrap script
+│   ├── page.tsx              # Landing page (edition-aware copy and quick start)
+│   ├── docs/                 # Documentation index and [...slug] pages
+│   ├── install/              # curl-able install script redirect
+│   ├── api/docs-search/      # Docs search endpoint (edition-aware)
+│   ├── sitemap.ts, robots.ts
+│   └── globals.css           # Tokens (raspberry / Lite teal), editorial styles
+├── components/
+│   ├── edition-provider.tsx  # data-edition on <html>, ?edition= deep links
+│   ├── edition-switch.tsx    # "Bulwark | Lite" radiogroup
+│   ├── edition-link.tsx      # Link that carries the edition into the URL
+│   ├── theme-provider.tsx, theme-image.tsx
+│   ├── navbar.tsx, footer.tsx, bulwark-mark.tsx
+│   └── docs/                 # Sidebar, search, navbar, edition banner, quickstart
+└── lib/
+    ├── docs.ts               # Markdown loading, front matter (incl. edition), search
+    └── og.ts                 # Open Graph card paths
+docs/                         # Documentation content (Markdown, front matter `edition:`)
+├── getting-started/          # Introduction, editions, installation, Lite, configuration, demo
+│   └── configuration/        # Stalwart setup, authentication, env reference
+├── features/                 # Email, calendar, contacts, files, PWA, mobile, telemetry
+│   └── email/                # Composing, search
+├── deployment/               # Static hosting (Lite), Docker, manual, updating
+│   └── docker/               # Compose, reverse proxy
+├── guides/                   # Customization, shortcuts, embedded SSO, plugins,
+│                             # account security, multi-account, S/MIME, marketplace,
+│                             # admin, impersonation, troubleshooting
+├── extensions/               # Extension directory: manifest, API, guidelines, publishing
+├── development/              # Architecture, contributing
+├── branding/                 # Brand guidelines
+└── legal/                    # Privacy, telemetry terms
+scripts/
+├── shoot-beauty.mjs          # Raw beauty captures from a demo instance (Playwright)
+├── frame-beauty.mjs          # Frames them into public/beauty (WebP)
+├── og.mjs                    # Renders the Open Graph cards
+└── lib/render.mjs            # Shared headless-Chromium/sharp helpers
+public/
+├── branding/                 # Logos, favicons (raspberry and Lite teal)
+├── screenshots/              # Docs screenshots, light-/dark- pairs
+├── beauty/                   # Framed hero shots for the landing page
+├── press/                    # Press kit: logos, beauty shots, cards, boilerplate
+└── og-full.png, og-lite.png  # Social cards per edition
 ```
+
+See `SCREENSHOTS-TODO.md` for how every image is produced.
 
 ## Tech stack
 
@@ -99,6 +120,7 @@ The documentation system supports:
 - Syntax-highlighted code blocks with copy button
 - Auto-generated sidebar navigation
 - Full-text search
+- An `edition: full | lite | both` front-matter field (default `both`). The site-wide "Bulwark | Lite" switch hides pages of the other edition from the sidebar, index and search, and shows a banner on one you land on directly. Inside a page, `<div class="lite-callout">…</div>` renders an inline "not in Lite" note.
 
 ## Contributing
 
