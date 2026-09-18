@@ -11,6 +11,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import GithubSlugger from "github-slugger";
+import { appliesTo, parseEdition, type DocEdition } from "./editions";
 
 const docsDirectory = path.join(process.cwd(), "docs");
 
@@ -19,31 +20,8 @@ export interface DocHeading {
   id: string;
 }
 
-/** Which edition a page applies to. Front-matter `edition:`; defaults to both. */
-export type DocEdition = "full" | "lite" | "both";
-
-export function parseEdition(value: unknown): DocEdition {
-  return value === "full" || value === "lite" ? value : "both";
-}
-
-/** CSS class that hides a page's entry in the other edition (see globals.css). */
-export function editionClass(edition: DocEdition): string {
-  if (edition === "full") return "ed-full-only";
-  if (edition === "lite") return "ed-lite-only";
-  return "";
-}
-
-/** The class for a group of pages: hidden only when every member is. */
-export function groupEditionClass(editions: DocEdition[]): string {
-  if (editions.length === 0) return "";
-  if (editions.every((e) => e === "full")) return "ed-full-only";
-  if (editions.every((e) => e === "lite")) return "ed-lite-only";
-  return "";
-}
-
-export function appliesTo(doc: { edition: DocEdition }, edition: "full" | "lite"): boolean {
-  return doc.edition === "both" || doc.edition === edition;
-}
+export { parseEdition, editionClass, groupEditionClass, appliesTo } from "./editions";
+export type { DocEdition } from "./editions";
 
 export interface DocMeta {
   title: string;

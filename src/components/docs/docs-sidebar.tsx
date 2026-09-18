@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { editionClass, groupEditionClass, type DocEdition } from "@/lib/docs";
+import { editionClass, groupEditionClass, type DocEdition } from "@/lib/editions";
 import { DocsSearch } from "./docs-search";
 
 interface SidebarHeading {
