@@ -198,11 +198,11 @@
 /* Inline "not in Lite" note inside docs pages (a <div class="lite-callout">
    in the markdown; rehype-raw passes it through). */
 .lite-callout {
-  display: flex;
-  gap: 12px;
-  align-items: baseline;
+  /* Block, not flex: the note contains inline code and links, and flex would
+     turn every text run into its own column. The label hangs in the padding. */
+  position: relative;
   margin: 1.5rem 0;
-  padding: 0.85rem 1rem;
+  padding: 0.85rem 1rem 0.85rem 4.25rem;
   border: 1px solid var(--rule);
   border-left: 3px solid var(--rasp);
   background: color-mix(in srgb, var(--rasp) 6%, transparent);
@@ -212,7 +212,9 @@
 }
 .lite-callout::before {
   content: "Lite";
-  flex-shrink: 0;
+  position: absolute;
+  left: 1rem;
+  top: 1.05rem;
   font-family: var(--font-jetbrains), ui-monospace, monospace;
   font-style: normal;
   font-size: 10.5px;

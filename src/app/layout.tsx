@@ -110,14 +110,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/branding/favicon/Bulwark%20Favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/branding/favicon/Bulwark%20Favicon.png" type="image/png" />
         {/* Theme and edition are applied before first paint. Theme: the .dark
             class. Edition: data-edition from ?edition= (which also persists
-            the choice) or localStorage, plus the matching favicon. */}
+            the choice) or localStorage. The script also owns the SVG favicon
+            link (raspberry or Lite teal): React must not render it, or it
+            re-inserts the original after hydration. The PNG above is the
+            no-JS fallback. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}try{var q=new URLSearchParams(location.search).get('edition');var e=q==='lite'||q==='full'?q:localStorage.getItem('edition');if(q==='lite'||q==='full')localStorage.setItem('edition',q);if(e==='lite'){document.documentElement.setAttribute('data-edition','lite');var l=document.querySelector('link[rel="icon"][type="image/svg+xml"]');if(l)l.href='/branding/favicon/Bulwark%20Favicon%20Lite.svg'}else{document.documentElement.setAttribute('data-edition','full')}}catch(e){}})()`
+            __html: `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}try{var q=new URLSearchParams(location.search).get('edition');var e=q==='lite'||q==='full'?q:localStorage.getItem('edition');if(q==='lite'||q==='full')localStorage.setItem('edition',q);var lite=e==='lite';document.documentElement.setAttribute('data-edition',lite?'lite':'full');var l=document.createElement('link');l.rel='icon';l.type='image/svg+xml';l.setAttribute('data-edition-icon','');l.href=lite?'/branding/favicon/Bulwark%20Favicon%20Lite.svg':'/branding/favicon/Bulwark%20Favicon.svg';document.head.appendChild(l)}catch(e){}})()`
           }}
         />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID ? (

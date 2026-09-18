@@ -58,8 +58,8 @@ const HERO: Record<Edition, HeroCopy> = {
     cta: { label: "Read the docs", href: "/docs" },
   },
   lite: {
-    title: ["The same webmail.", "No server", "to run."],
-    accent: [3, 6],
+    title: ["Same webmail.", "No server", "to run."],
+    accent: [2, 5],
     deck: "Bulwark Lite is the same client exported as static files. Upload the folder to any host that serves HTML, point config.json at your Stalwart, and the browser talks JMAP to the mail server directly. Nothing to keep running.",
     cta: { label: "Read the Lite guide", href: "/docs/getting-started/lite" },
   },

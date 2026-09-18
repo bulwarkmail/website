@@ -68,7 +68,8 @@ function getServerEdition(): Edition {
 export function applyEdition(edition: Edition) {
   const root = document.documentElement;
   if (root.getAttribute("data-edition") !== edition) root.setAttribute("data-edition", edition);
-  const icon = document.querySelector<HTMLLinkElement>('link[rel="icon"][type="image/svg+xml"]');
+  // The SVG favicon link is created by the inline script in layout.tsx.
+  const icon = document.querySelector<HTMLLinkElement>("link[data-edition-icon]");
   if (icon) icon.href = FAVICONS[edition];
   try {
     localStorage.setItem(EDITION_STORAGE_KEY, edition);
