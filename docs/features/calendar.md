@@ -9,8 +9,8 @@ edition: both
 
 The calendar speaks JMAP Calendars (RFC 8984). Bulwark reads the capabilities the server advertises at session start and hides whatever that server cannot actually do, so you never click something that fails.
 
-<img class="theme-light-only" src="/screenshots/light-calendar.png" alt="Bulwark calendar month view" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-calendar.png" alt="Bulwark calendar month view" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
 
 ## Views
 
@@ -28,8 +28,8 @@ The desktop toolbar carries prev/next buttons, a "Today" button, and a date labe
 
 ## Creating events
 
-<img class="theme-light-only" src="/screenshots/light-calendar-create.png" alt="Bulwark calendar event creation" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-calendar-create.png" alt="Bulwark calendar event creation" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-calendar-create.webp" alt="Bulwark calendar event creation" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar-create.webp" alt="Bulwark calendar event creation" width="2560" height="1440" />
 
 Click any time slot, or use the "New Event" button, to create an event:
 

@@ -9,8 +9,8 @@ edition: both
 
 The mail client talks JMAP. Threading, search and flag changes are all resolved on the server, and the browser hears about the result rather than going looking for it.
 
-<img class="theme-light-only" src="/screenshots/light-viewer.png" alt="Bulwark mail reading view" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-viewer.png" alt="Bulwark mail reading view" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-viewer.webp" alt="Bulwark mail reading view" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-viewer.webp" alt="Bulwark mail reading view" width="5120" height="2880" />
 
 ## Inbox and folders
 
@@ -65,7 +65,7 @@ Around all of that: reply, reply-all and forward, a quick reply form under the m
 
 There is no query language to learn. The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, message size, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list. Matching text in the results is highlighted with the server's own snippets.
 
-Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. Press `/` to jump to the search bar. Beyond mail there is a global search palette that also covers contacts, calendar and files across every account. [Search and filters](/docs/features/email/search) covers both.
+Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. Press `/` to jump to the search bar. Beyond mail, the Pro interface has a global search palette that also covers contacts, calendar and files across every account. [Search and filters](/docs/features/email/search) covers both.
 
 ## Labels and tags
 

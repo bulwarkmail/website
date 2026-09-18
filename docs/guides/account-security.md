@@ -11,8 +11,8 @@ This is the panel where users look after their own account rather than filing a 
 
 <div class="lite-callout">Not in Bulwark Lite: the account security tab is hidden, because these calls go through the Node.js server. Logging in with a password and a TOTP code still works in Lite; enrolling or changing them does not.</div>
 
-<img class="theme-light-only" src="/screenshots/light-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-settings.png" alt="Bulwark account settings panel" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-settings.webp" alt="Bulwark account settings panel" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-settings.webp" alt="Bulwark account settings panel" width="5120" height="2880" />
 
 ## Stalwart version requirement
 

@@ -9,8 +9,8 @@ edition: both
 
 The composer is a Tiptap rich-text editor. It has a plain-text mode for people who want one, signatures that follow the sending identity, reusable templates, and S/MIME signing and encryption toggles.
 
-<img class="theme-light-only" src="/screenshots/light-composer.png" alt="Bulwark email composer" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-composer.png" alt="Bulwark email composer" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-composer.webp" alt="Bulwark email composer" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-composer.webp" alt="Bulwark email composer" width="5120" height="2880" />
 
 ## Rich text editor
 

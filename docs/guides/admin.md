@@ -15,7 +15,7 @@ The admin dashboard runs inside the same process as the user-facing app, and it 
 
 The web setup wizard runs on first launch and sets the initial admin password along with JMAP, OAuth, branding, and the session secret. Point a browser at the running container and follow the steps; nothing needs to be in `.env.local` beforehand.
 
-`ADMIN_PASSWORD` in the environment overrides whatever the wizard wrote, which is what you want for env-driven deployments.
+`ADMIN_PASSWORD` in the environment is a bootstrap value for env-driven deployments: it is read only while `admin.json` does not exist yet, then hashed and written there. Once a password exists, change it from the dashboard.
 
 ### File-based secrets
 
@@ -69,9 +69,14 @@ Admin sessions are protected with:
 
 ## Sections
 
+<img class="theme-light-only" src="/screenshots/light-admin-overview.webp" alt="The admin dashboard: server details and enabled features, with the section list on the left" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-overview.webp" alt="The admin dashboard: server details and enabled features, with the section list on the left" width="2560" height="1440" />
+
+The sidebar groups the sections: Dashboard; Settings, Branding, Authentication and Policy under Configuration; Plugins, Themes and Marketplace under Extensions; Version and Telemetry under System.
+
 ### Overview
 
-Health summary, version, last successful update check, plugin and theme counts, and recent audit log entries.
+Server details (application name, JMAP server, last admin login) and which integrations are enabled: the admin panel itself, settings sync, OAuth, and the Stalwart integration.
 
 ### Configuration
 
@@ -93,9 +98,12 @@ Override runtime config without redeploying. The admin dashboard writes to `ADMI
 - `autoSsoEnabled`
 - `searchEngineIndexing` - allow search engines to index the webmail. Off by default (emits `noindex`/`nofollow` in the page head); recommended off for private deployments. Env override: `SEARCH_ENGINE_INDEXING`.
 
-Order of precedence: **env var > admin config > legacy build-time fallback > built-in default**. This means a value set in `.env.local` locks that field in the admin UI; clearing the env var lets the wizard / admin dashboard manage it again. Changes from the admin UI take effect on the next user session without a restart.
+Order of precedence: **admin config > env var > legacy build-time fallback > built-in default**. A value saved here wins over the same key in `.env.local`; the dashboard shows where each value currently comes from (admin, environment, or default). Changes from the admin UI take effect on the next user session without a restart.
 
 ### Plugins
+
+<img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="2560" height="1440" />
 
 - Browse the [marketplace](/docs/guides/marketplace) (when `EXTENSION_DIRECTORY_URL` is set) or upload ZIPs directly. **Install and uninstall are restricted to the admin dashboard.**
 - Force-enable or force-disable plugins for all users.
