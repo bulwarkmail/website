@@ -128,7 +128,7 @@ export function EditionQuiz() {
         {q.help ? <p className="bw-quiz-help">{q.help}</p> : null}
 
         <div className="bw-quiz-tiles" role="group" aria-labelledby={`q-${q.id}`}>
-          {q.choices.map((c) => {
+          {q.choices.filter((c) => !c.showIf || c.showIf(answers)).map((c) => {
             const on = selected.includes(c.id);
             return (
               <button

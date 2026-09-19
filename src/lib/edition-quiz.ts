@@ -27,6 +27,8 @@ export type Choice = {
   bulwarkOnly?: boolean;
   /** Shown as a full-width tile above the others. */
   wide?: boolean;
+  /** Only offered when this returns true for the answers so far. */
+  showIf?: (answers: Answers) => boolean;
 };
 
 export type Question = {
@@ -71,6 +73,17 @@ export const QUESTIONS: Question[] = [
         hint: "Where you'd upload an ordinary website: shared hosting, GitHub Pages, Netlify",
         lean: -3,
         tag: "A simple website host",
+      },
+      {
+        // Stalwart 0.16 serves Lite itself as an Application
+        // (docs/deployment/stalwart-app.md). Only Lite can live there, and only
+        // someone with Stalwart can pick it.
+        id: "stalwart",
+        label: "Inside Stalwart itself",
+        hint: "Stalwart serves it, at an address like mail.example.com/webmail",
+        lean: -3,
+        tag: "Served by Stalwart",
+        showIf: (answers) => pick(answers, "server") !== "other",
       },
       { id: "server", label: "On a server", hint: "A rented server, a home server, or the one my mail runs on" },
       { id: "unsure", label: "Not sure yet" },
@@ -196,6 +209,7 @@ export type Verdict = {
 const LINKS = {
   installFull: { label: "Install Bulwark", href: "/docs/getting-started/installation" },
   installLite: { label: "Set up Bulwark Lite", href: "/docs/getting-started/lite" },
+  stalwartApp: { label: "Install on Stalwart", href: "/docs/deployment/stalwart-app" },
   stalwart: { label: "Setting up Stalwart", href: "/docs/getting-started/configuration/stalwart-setup" },
   proxy: { label: "Legacy Proxy", href: "https://github.com/bulwarkmail/legacy-proxy" },
   roundcube: { label: "Roundcube", href: "https://roundcube.net" },
@@ -230,6 +244,8 @@ export function evaluate(answers: Answers): Verdict {
 
   const server = pick(answers, "server");
   const webhostOnly = pick(answers, "where") === "webhost";
+  // Stalwart serving Lite as an Application: only Lite fits there.
+  const inStalwart = pick(answers, "where") === "stalwart" && server !== "other";
   const needs = reasons.filter((r) => r.must);
   const needsList = needs.map((r) => r.tag.toLowerCase()).join(", ");
   const upkeepMinimal = pick(answers, "upkeep") === "minimal";
@@ -293,17 +309,22 @@ export function evaluate(answers: Answers): Verdict {
     // Bulwark needs a server. If you run Stalwart, you have one; if someone
     // else does and all you have is a website host, neither version works as
     // things stand.
-    if (webhostOnly && hosted) {
+    if ((webhostOnly || inStalwart) && hosted) {
+      const those = needs.length > 1 ? "those" : "that";
       return {
         kind: "stuck",
         pick: null,
         close: false,
         eyebrow: "Not with this setup as it is",
         title: "Two ways to get there",
-        pitch: `Only Bulwark has ${needsList}, and Bulwark needs a server to run on. Bulwark Lite could use your website host, but it leaves ${needs.length > 1 ? "those" : "that"} out.`,
+        pitch: inStalwart
+          ? `Only Bulwark has ${needsList}, and Bulwark is an app of its own that needs a server. Only Lite can live inside Stalwart, and it leaves ${those} out.`
+          : `Only Bulwark has ${needsList}, and Bulwark needs a server to run on. Bulwark Lite could use your website host, but it leaves ${those} out.`,
         reasons: [
           ...needs,
-          { tag: "A simple website host", toward: "lite", must: true, badge: "Can't run Bulwark" },
+          inStalwart
+            ? { tag: "Served by Stalwart", toward: "lite", must: true, badge: "Only Lite fits there" }
+            : { tag: "A simple website host", toward: "lite", must: true, badge: "Can't run Bulwark" },
           { tag: "Someone else runs your mail server", toward: "full", must: false, badge: "Lite needs their help" },
         ],
         options: [
@@ -312,11 +333,17 @@ export function evaluate(answers: Answers): Verdict {
             text: "Any small rented server can run it, and nothing has to change on your mail provider's side.",
             link: LINKS.installFull,
           },
-          {
-            title: `Or use Lite without ${needsList}`,
-            text: "Lite runs on your website host, but your mail provider has to switch on one setting first. Ask them before you start.",
-            link: LINKS.liteSetting,
-          },
+          inStalwart
+            ? {
+                title: `Or use Lite without ${needsList}`,
+                text: "Your mail provider installs it inside Stalwart for you, since that needs admin rights there. Ask them before you start.",
+                link: LINKS.stalwartApp,
+              }
+            : {
+                title: `Or use Lite without ${needsList}`,
+                text: "Lite runs on your website host, but your mail provider has to switch on one setting first. Ask them before you start.",
+                link: LINKS.liteSetting,
+              },
         ],
         caveats,
       };
@@ -327,9 +354,11 @@ export function evaluate(answers: Answers): Verdict {
       close: false,
       eyebrow: "Your pick",
       title: "Bulwark",
-      pitch: webhostOnly
-        ? "An app that needs a server rather than a website host. The machine your mail server runs on can run it too."
-        : "An app you run on a server, with an admin page, add-ons and single sign-on.",
+      pitch: inStalwart
+        ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."
+        : webhostOnly
+          ? "An app that needs a server rather than a website host. The machine your mail server runs on can run it too."
+          : "An app you run on a server, with an admin page, add-ons and single sign-on.",
       primary: LINKS.installFull,
       reasons: [...needs, ...reasons.filter((r) => !r.must && r.toward === "full")],
       options: [],
@@ -340,7 +369,22 @@ export function evaluate(answers: Answers): Verdict {
   // --- Nothing forced: the leans decide, a tie goes to Lite -----------------
   const lite = score <= 0;
   const close = Math.abs(score) <= 1;
-  if (lite) {
+  const options: Card[] = [];
+  if (lite && inStalwart) {
+    // Same origin as Stalwart: no setting to switch on, no web host.
+    if (hosted) {
+      caveats.push({
+        text: "Installing it needs admin rights on Stalwart, so your mail provider has to do it. Ask them first; Bulwark doesn't need their help.",
+      });
+    } else {
+      caveats.push({ text: "It needs Stalwart 0.16 or later and an admin account there.", link: LINKS.stalwartApp });
+    }
+    caveats.push({ text: "The Stalwart version of Lite is new: so far it ships with the 1.11.0-beta.1 pre-release." });
+    // With a provider, updating is their job too.
+    if (upkeepMinimal && !hosted) {
+      caveats.push({ text: "Lite doesn't tell you about updates. Watch the release page, then run \"update applications\" in Stalwart, especially for security fixes." });
+    }
+  } else if (lite) {
     if (hosted) {
       caveats.push({
         text: "Lite only works if your mail provider switches on one setting for it. Ask them first; Bulwark doesn't need it.",
@@ -348,6 +392,11 @@ export function evaluate(answers: Answers): Verdict {
       });
     } else {
       caveats.push({ text: "Lite needs one setting switched on in Stalwart. It takes a minute.", link: LINKS.liteSetting });
+      options.push({
+        title: "Or let Stalwart host it",
+        text: "Stalwart 0.16 can serve Lite itself, next to its admin page. Then there's no website host and no setting to switch on.",
+        link: LINKS.stalwartApp,
+      });
     }
     if (upkeepMinimal) {
       caveats.push({ text: "Lite doesn't tell you about updates. Watch the release page, and upload new versions yourself, especially security fixes." });
@@ -360,12 +409,16 @@ export function evaluate(answers: Answers): Verdict {
     eyebrow: close ? "Both would work. We'd pick" : "Your pick",
     title: lite ? "Bulwark Lite" : "Bulwark",
     pitch: lite
-      ? "Just files you upload to a website host. There's no app to keep running."
-      : "An app you run on a server. It tells you about updates and has room to grow: an admin page, add-ons and single sign-on.",
-    primary: lite ? LINKS.installLite : LINKS.installFull,
+      ? inStalwart
+        ? "Stalwart serves it itself, next to its admin page. No website host, no extra app, and no setting to switch on."
+        : "Just files you upload to a website host. There's no app to keep running."
+      : inStalwart
+        ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."
+        : "An app you run on a server. It tells you about updates and has room to grow: an admin page, add-ons and single sign-on.",
+    primary: lite ? (inStalwart ? LINKS.stalwartApp : LINKS.installLite) : LINKS.installFull,
     secondary: close ? (lite ? { label: "Or Bulwark", href: LINKS.installFull.href } : { label: "Or Bulwark Lite", href: LINKS.installLite.href }) : undefined,
     reasons: reasons.filter((r) => r.toward === (lite ? "lite" : "full")),
-    options: [],
+    options,
     caveats,
   };
 }
