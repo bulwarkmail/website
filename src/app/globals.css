@@ -171,7 +171,9 @@ body {
   font-family: var(--bw-font);
   font-size: var(--bw-body);
   line-height: 1.55;
-  overflow-x: hidden;
+  /* clip, not hidden: with html also hiding overflow, hidden would make body
+     a scroll container and break every position: sticky (docs nav, sidebar). */
+  overflow-x: clip;
 }
 
 h1,
