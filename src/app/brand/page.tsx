@@ -471,7 +471,7 @@ export default function BrandPage() {
             </Guide>
             <Guide
               title="Icons"
-              text="Lucide on a 24px grid with a 1.5px stroke, square caps and mitred joins. Sizes are 16, 20 and 24px, in the text colour or the brand colour, never inside a filled circle."
+              text="Tabler Icons on a 24px grid with a 1.5px stroke, square caps and mitred joins. Sizes are 16, 20 and 24px, in the text colour or the brand colour, never inside a filled circle."
             >
               <div className="bw-ex" style={{ gap: 20 }}>
                 {[Mail, Calendar, Contact, Folder, Search, Settings, Copy, ArrowRight].map((Icon, i) => (

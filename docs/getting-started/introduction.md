@@ -61,7 +61,7 @@ The exhaustive version, kept in sync with each release, is [FEATURES.md](https:/
 | Zustand         | State management         |
 | JMAP            | Mail protocol (RFC 8620) |
 | next-intl       | Internationalization     |
-| Lucide React    | Icon library             |
+| Tabler Icons    | Icon library             |
 | Stalwart        | Mail server              |
 
 ## Where to go next

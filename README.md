@@ -97,7 +97,7 @@ See `SCREENSHOTS-TODO.md` for how every image is produced.
 | **Language**  | TypeScript                                        |
 | **Styling**   | [Tailwind CSS v4](https://tailwindcss.com/)       |
 | **Markdown**  | unified / remark / rehype pipeline                |
-| **Icons**     | [Lucide React](https://lucide.dev/)               |
+| **Icons**     | [Tabler Icons](https://tabler.io/icons)             |
 | **Animation** | [Framer Motion](https://motion.dev/)              |
 
 ## Documentation
