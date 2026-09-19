@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "@/components/icons";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -56,7 +56,7 @@ const FACTS: [string, React.ReactNode][] = [
   ["Licence", "GNU AGPL v3"],
   ["Mail server", "Stalwart Mail Server, over JMAP"],
   ["Social cards", <><a className="bw-link" href="/og-full.png">Bulwark</a>, <a className="bw-link" href="/og-lite.png">Bulwark Lite</a> (1200 × 630 PNG)</>],
-  ["Contact", <a key="mail" className="bw-link" href="mailto:bulwark@rbm.systems">bulwark@rbm.systems</a>],
+  ["Contact", <a key="mail" className="bw-link" href="mailto:dev@bulwarkmail.org">dev@bulwarkmail.org</a>],
 ];
 
 export default function PressPage() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { ArrowRight, Menu, X, Sun, Moon } from "lucide-react";
+import { ArrowRight, Menu, X, Sun, Moon } from "@/components/icons";
 import Link from "next/link";
 import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";

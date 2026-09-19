@@ -9,7 +9,7 @@ import {
   Search,
   Settings,
   TriangleAlert,
-} from "lucide-react";
+} from "@/components/icons";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";

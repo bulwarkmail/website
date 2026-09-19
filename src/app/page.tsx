@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Calendar, Check, Code2, Contact, Folder, Globe, Mail, MapPin, Minus, Plus, Zap } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Calendar, Check, Code2, Contact, Folder, Globe, Mail, MapPin, Minus, Plus, Zap } from "@/components/icons";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { EditionLink } from "@/components/edition-link";

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, ChevronRight, Menu, Search, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, Search, X } from "@/components/icons";
 import { editionClass, groupEditionClass, type DocEdition } from "@/lib/editions";
 import { ICON } from "@/lib/icon";
 import { DocsSearch, OPEN_SEARCH_EVENT } from "./docs-search";

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getDocBySlug, getAllDocs, getDocSections, appliesTo, type DocMeta } from "@/lib/docs";
 import { CopyableCode } from "@/components/docs/copyable-code";
 import { EditionBanner } from "@/components/docs/edition-banner";
-import { Pencil } from "lucide-react";
+import { Pencil } from "@/components/icons";
 import { ICON } from "@/lib/icon";
 import type { Metadata } from "next";
 

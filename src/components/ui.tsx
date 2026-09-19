@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { ArrowRight, ArrowUpRight, type LucideIcon } from "lucide-react";
+import { ArrowRight, ArrowUpRight, type AppIcon } from "@/components/icons";
 import { ThemeImage } from "@/components/theme-image";
 import { EditionLink } from "@/components/edition-link";
 import { ICON } from "@/lib/icon";
@@ -42,7 +42,7 @@ type TileProps = {
   href: string;
   title: string;
   text: ReactNode;
-  icon?: LucideIcon;
+  icon?: AppIcon;
   /** The list form: no minimum height, arrow centred. */
   compact?: boolean;
 };

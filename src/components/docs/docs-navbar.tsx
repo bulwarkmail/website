@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon } from "@/components/icons";
 import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";
 import { EditionSwitch } from "@/components/edition-switch";

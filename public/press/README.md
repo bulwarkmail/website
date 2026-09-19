@@ -21,4 +21,4 @@ The screenshots are generated, not edited: `scripts/shoot-beauty.mjs` and `scrip
 - Source: https://github.com/bulwarkmail/webmail
 - Licence: GNU AGPL v3
 - Mail server: Stalwart Mail Server, over JMAP
-- Contact: bulwark@rbm.systems
+- Contact: dev@bulwarkmail.org

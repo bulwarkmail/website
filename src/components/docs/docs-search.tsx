@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
-import { Search } from "lucide-react";
+import { Search } from "@/components/icons";
 import { useRouter } from "next/navigation";
 import { useEdition } from "@/components/edition-provider";
 import { ICON } from "@/lib/icon";
