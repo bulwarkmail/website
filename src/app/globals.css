@@ -31,6 +31,10 @@
   --bw-on-ink: #f2f2f3;
   --bw-ink-muted: #ababb2;
 
+  /* the flag of Europe (eu-badge.tsx), the same in both themes and editions */
+  --bw-eu-blue: #003399;
+  --bw-eu-gold: #ffcc00;
+
   /* semantic, never the brand colour */
   --bw-error: #b42318;
   --bw-warning: #8a5d00;
@@ -2302,4 +2306,32 @@ ul.bw-rules > li::before {
   background: transparent;
   border-color: var(--bw-on-ink);
   color: var(--bw-on-ink);
+}
+
+/* ----------------------------------------------------------------------
+   Made in the EU. The one place the site shows a flag: the right end of the
+   footer's legal line. The flag
+   keeps its own colours in both themes and editions; everything around it
+   is set like the footer's legal line, at its right end.
+   ---------------------------------------------------------------------- */
+.bw-eu-flag {
+  flex: none;
+  /* a hairline keeps the blue from sinking into dark grounds */
+  outline: 1px solid color-mix(in srgb, var(--bw-text) 12%, transparent);
+  outline-offset: -1px;
+}
+.bw-eu-field {
+  fill: var(--bw-eu-blue);
+}
+.bw-eu-stars {
+  fill: var(--bw-eu-gold);
+}
+/* Set like the footer's legal line it ends: no box, inherited type. */
+.bw-eu-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.bw-foot-legal .bw-eu-badge {
+  margin-left: auto;
 }

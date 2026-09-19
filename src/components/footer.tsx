@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BulwarkMark } from "@/components/bulwark-mark";
+import { MadeInEuBadge } from "@/components/eu-badge";
 
 const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
   {
@@ -56,7 +57,7 @@ export function Footer() {
               <span>Bulwark</span>
             </Link>
             <p>
-              A JMAP webmail client for Stalwart Mail Server. Open source under AGPL-3.0 and built in the EU.
+              A JMAP webmail client for Stalwart Mail Server. Open source under AGPL-3.0.
             </p>
           </div>
 
@@ -84,6 +85,7 @@ export function Footer() {
           <a href="https://jmap.io" target="_blank" rel="noopener noreferrer">
             JMAP
           </a>
+          <MadeInEuBadge />
         </div>
       </div>
     </footer>

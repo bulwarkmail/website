@@ -19,6 +19,7 @@ import { CodeBlock } from "@/components/code-block";
 import { LogoTile, type LogoAsset } from "@/components/logo-tile";
 import { Tile } from "@/components/ui";
 import { ICON } from "@/lib/icon";
+import { MadeInEuBadge } from "@/components/eu-badge";
 
 export const metadata: Metadata = {
   title: "Brand and design system",
@@ -738,6 +739,17 @@ export default function BrandPage() {
                     <input type="checkbox" id="brand-f-notes" defaultChecked /> Send me release notes
                   </label>
                 </div>
+              </div>
+            </Guide>
+
+            <Guide
+              title="Made in the EU"
+              text="The one place the site shows a flag: once, at the right end of the footer's legal line. The flag keeps its own colours (#039 and #fc0, drawn like Wikimedia's Flag_of_Europe.svg) in both themes and editions; the words beside it take the legal line's type: no box, 13px, muted. Never in the fact row, never recoloured."
+            >
+              <div className="bw-foot-legal" style={{ marginTop: 0, background: "var(--bw-surface)", padding: "20px 24px" }}>
+                <span>© 2026 Bulwark Mail</span>
+                <span>AGPL-3.0</span>
+                <MadeInEuBadge />
               </div>
             </Guide>
           </div>
