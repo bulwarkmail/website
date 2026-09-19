@@ -31,7 +31,7 @@ protocol = "http"
 
 ## CORS configuration
 
-When Bulwark runs on a different domain than Stalwart, enable CORS. Bulwark Lite always needs this, because the browser talks to the mail server directly from whatever origin the static files are served on:
+When Bulwark runs on a different domain than Stalwart, enable CORS. Bulwark Lite on a static host always needs this, because the browser talks to the mail server directly from whatever origin the static files are served on. Lite served by Stalwart itself as an [Application](/docs/deployment/stalwart-app) shares Stalwart's origin and needs no CORS:
 
 ```toml
 [server.http]

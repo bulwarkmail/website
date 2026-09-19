@@ -15,8 +15,8 @@ The toggle at the top of every page on this site switches the documentation betw
 
 | | Bulwark | Bulwark Lite |
 | --- | --- | --- |
-| Runs as | Node.js process (Docker image, standalone tarball, or `npm start`) | Static files on any web host |
-| Install | `docker run`, then a web setup wizard | Unzip, edit `config.json`, upload |
+| Runs as | Node.js process (Docker image, standalone tarball, or `npm start`) | Static files on any web host, or served by Stalwart itself as an Application |
+| Install | `docker run`, then a web setup wizard | Unzip, edit `config.json`, upload; or create a Stalwart Application |
 | Configuration | Wizard and admin dashboard, or environment variables | `config.json`, plus `LITE_*` build inputs for baked-in defaults |
 | Mail, calendar, contacts, files | Yes | Yes |
 | Global search, threads, filters, S/MIME, templates | Yes | Yes |
@@ -36,8 +36,8 @@ The toggle at the top of every page on this site switches the documentation betw
 | Update notice | Yes, red for security releases | No; re-download the zip |
 | Anonymous telemetry | Opt-in | None (nothing to send it) |
 | Deep links | Yes | Yes, via host rewrite rules or the `404.html` replay |
-| Mail server requirement | Stalwart with JMAP | Stalwart with JMAP and `http.permissive-cors = true` |
-| Release artifact | `ghcr.io/bulwarkmail/webmail`, `bulwark-standalone-<v>-linux-<arch>.tar.gz` | `bulwark-lite-<v>.zip` |
+| Mail server requirement | Stalwart with JMAP | Stalwart with JMAP and `http.permissive-cors = true` (not needed when Stalwart serves Lite) |
+| Release artifact | `ghcr.io/bulwarkmail/webmail`, `bulwark-standalone-<v>-linux-<arch>.tar.gz` | `bulwark-lite-<v>.zip`, `bulwark-lite-stalwart.zip` |
 
 ## How to choose
 
@@ -52,5 +52,5 @@ Both editions build from the same repository and the same commit, so a feature t
 ## Where each is documented
 
 - Bulwark: [Installation](/docs/getting-started/installation), [Configuration](/docs/getting-started/configuration), [Docker](/docs/deployment/docker)
-- Bulwark Lite: [Bulwark Lite](/docs/getting-started/lite), [Static hosting](/docs/deployment/static)
+- Bulwark Lite: [Bulwark Lite](/docs/getting-started/lite), [Static hosting](/docs/deployment/static), [Install on Stalwart](/docs/deployment/stalwart-app)
 - Both: everything under Features, and the Stalwart, demo mode and troubleshooting pages

@@ -7,7 +7,7 @@ edition: lite
 
 # Bulwark Lite
 
-Bulwark Lite is Bulwark Webmail exported as static files. Same mail, calendar, contacts and files client, same themes, same keyboard shortcuts, minus the Node.js server. You upload a folder to any web host, tell it where your Stalwart is, and the browser does the rest.
+Bulwark Lite is Bulwark Webmail exported as static files. Same mail, calendar, contacts and files client, same themes, same keyboard shortcuts, minus the Node.js server. You upload a folder to any web host, tell it where your Stalwart is, and the browser does the rest. Or you skip the web host too, and let Stalwart serve it [as an Application](/docs/deployment/stalwart-app).
 
 It exists because the full edition's server does two different jobs. One is brokering things the browser cannot do alone: OAuth, the admin console, plugins, settings sync. The other is just serving files. If you don't need the first job, Lite lets you skip the process entirely and put the second one on the static host you already have.
 
@@ -71,7 +71,7 @@ Branding keys (`loginLogoLightUrl`, `loginCompanyName`, the `loginShow*` toggles
 
 ## The one server-side requirement
 
-The browser talks to Stalwart directly, from the origin your static host serves. Stalwart has to allow that:
+The browser talks to Stalwart directly, from the origin your static host serves. Stalwart has to allow that (unless Stalwart serves Lite itself as an [Application](/docs/deployment/stalwart-app): then it is the same origin and nothing needs allowing):
 
 ```toml
 [http]
@@ -83,6 +83,7 @@ Or the equivalent reverse-proxy rule that allows your Lite origin with the `Auth
 ## Where to get it
 
 - Every [release](https://github.com/bulwarkmail/webmail/releases) attaches `bulwark-lite-<version>.zip`, built for the site root with no server URL baked in. Edit `config.json` and upload.
+- Releases from 1.11 on also attach `bulwark-lite-stalwart.zip`, a bundle Stalwart 0.16 downloads and serves itself. See [Install on Stalwart](/docs/deployment/stalwart-app).
 - The **Build Static Lite** workflow in the repository can be dispatched by hand with a fixed server URL, an app name, a sub-path mount, a locale subset, or the demo flag, and produces a zip tailored to one deployment.
 - Or build it locally with `npm run build:lite` in a disposable checkout; the [static hosting](/docs/deployment/static) page has the exact commands.
 
@@ -96,5 +97,6 @@ Or the equivalent reverse-proxy rule that allows your Lite origin with the `Auth
 ## Related pages
 
 - [Static hosting](/docs/deployment/static) - build inputs, `config.json`, host snippets
+- [Install on Stalwart](/docs/deployment/stalwart-app) - let Stalwart serve Lite itself, no CORS
 - [Editions](/docs/getting-started/editions) - the comparison table
 - [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) - the mail server side

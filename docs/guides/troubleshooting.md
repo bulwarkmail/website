@@ -24,7 +24,9 @@ It reports `healthy`, `degraded`, or `unhealthy`, along with uptime, version, No
 permissive-cors = true
 ```
 
-**Bulwark Lite shows a CORS error on every login.** Lite has no server in between, so the mail server itself must allow the Lite origin. `http.permissive-cors = true` in Stalwart, or a reverse-proxy rule that allows the origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`.
+**Bulwark Lite shows a CORS error on every login.** Lite has no server in between, so the mail server itself must allow the Lite origin. `http.permissive-cors = true` in Stalwart, or a reverse-proxy rule that allows the origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`. Or let Stalwart serve Lite [as an Application](/docs/deployment/stalwart-app), which avoids CORS entirely.
+
+**The Stalwart Application answers 404.** Creating the Application mounts nothing: run "update applications" (`stalwart-cli create Action/UpdateApps`) or restart Stalwart. If it still answers 404, check that `resourceUrl` downloads a zip (not an HTML page or a `releases/latest/download` URL of a release without the asset), and that the prefix is not one Stalwart routes itself, such as `/mail` or `/calendar`. The [install page](/docs/deployment/stalwart-app#choosing-the-prefix) lists them.
 
 **Correct password rejected.** If OAuth is involved, check that the issuer is reachable from the Bulwark container specifically, not just from your laptop. Where the issuer's public hostname resolves to an internal address, discovery is blocked by the SSRF guard until you set `OAUTH_ALLOW_PRIVATE_ENDPOINTS=true`.
 

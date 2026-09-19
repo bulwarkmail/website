@@ -19,7 +19,7 @@ Two GHCR packages, built for `linux/amd64` and `linux/arm64` on native runners:
 
 Run `:latest` unless you have a reason not to. Pin a version when you need reproducible deploys. Use `:dev` only where breakage is acceptable, because it moves whenever `dev` does.
 
-Each GitHub release also carries two non-Docker artifacts: a standalone Node.js tarball per architecture (`bulwark-standalone-<version>-linux-amd64.tar.gz`, `-arm64`) and the static [Bulwark Lite](/docs/deployment/static) export (`bulwark-lite-<version>.zip`). Lite has no update channel of its own: download the new zip, keep your `config.json`, and re-upload.
+Each GitHub release also carries two non-Docker artifacts: a standalone Node.js tarball per architecture (`bulwark-standalone-<version>-linux-amd64.tar.gz`, `-arm64`) and the static [Bulwark Lite](/docs/deployment/static) export (`bulwark-lite-<version>.zip`). Lite has no update channel of its own: download the new zip, keep your `config.json`, and re-upload. From 1.11 on, releases also carry `bulwark-lite-stalwart.zip`; a Lite install hosted by Stalwart updates when Stalwart downloads it again, see [Install on Stalwart](/docs/deployment/stalwart-app#updating).
 
 ## Upgrading
 
