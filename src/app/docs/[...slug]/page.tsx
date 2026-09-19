@@ -3,7 +3,8 @@ import Link from "next/link";
 import { getDocBySlug, getAllDocs, getDocSections, appliesTo, type DocMeta } from "@/lib/docs";
 import { CopyableCode } from "@/components/docs/copyable-code";
 import { EditionBanner } from "@/components/docs/edition-banner";
-import { ArrowLeft, ArrowRight, ChevronRight, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
+import { ICON } from "@/lib/icon";
 import type { Metadata } from "next";
 
 const GITHUB_EDIT_URL = "https://github.com/bulwarkmail/website/edit/main/docs";
@@ -66,30 +67,21 @@ export default async function DocPage({ params }: PageProps) {
     sections.find((s) => s.slug === doc.section)?.label ?? doc.section;
 
   return (
-    <article className="max-w-[760px]">
-      {/* Breadcrumb */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-8">
-        <div className="ed-eyebrow flex items-center gap-2 flex-wrap">
-          <Link href="/docs" className="hover:text-foreground transition-colors">
-            Docs
-          </Link>
-          <ChevronRight className="w-3 h-3 opacity-60" />
-          <span>{sectionLabel}</span>
-          <ChevronRight className="w-3 h-3 opacity-60" />
-          <span className="text-foreground">{doc.title}</span>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <a
-            href={`${GITHUB_EDIT_URL}/${slugStr}.md`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground border border-[color:var(--rule)] hover:border-foreground/40 transition-colors"
-            style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace", letterSpacing: "0.04em" }}
-          >
-            <Pencil className="w-3 h-3" />
-            Edit on GitHub
-          </a>
-        </div>
+    <article className="bw-docs-article">
+      {/* The breadcrumb is the only label on a docs page */}
+      <div className="bw-crumb">
+        <span>
+          <Link href="/docs">Docs</Link> / {sectionLabel}
+        </span>
+        <a
+          href={`${GITHUB_EDIT_URL}/${slugStr}.md`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bw-crumb-edit"
+        >
+          <Pencil size={14} {...ICON} />
+          Edit on GitHub
+        </a>
       </div>
 
       {/* A page that exists only in the other edition says so instead of vanishing */}
@@ -101,35 +93,22 @@ export default async function DocPage({ params }: PageProps) {
       {/* Prev/Next navigation, one pair per edition */}
       {pagers.map(({ edition, className, prev, next }) =>
         prev || next ? (
-          <nav key={edition} className={`${className} mt-16 pt-8 border-t border-[color:var(--rule)] flex`}>
-            <div className="flex-1">
-              {prev && (
-                <Link
-                  href={`/docs/${prev.slug}`}
-                  className="group flex flex-col px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors"
-                >
-                  <span className="ed-eyebrow mb-2">Previous</span>
-                  <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
-                    <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden /> {prev.title}
-                  </span>
+          <div key={edition} className={className}>
+            <nav className="bw-pager" aria-label="Previous and next page">
+              {prev ? (
+                <Link href={`/docs/${prev.slug}`}>
+                  <span>Previous</span>
+                  {prev.title}
                 </Link>
-              )}
-            </div>
-            {prev && next && <div className="w-px bg-[color:var(--rule)]" />}
-            <div className="flex-1 flex justify-end">
-              {next && (
-                <Link
-                  href={`/docs/${next.slug}`}
-                  className="group flex flex-col items-end px-5 py-4 hover:bg-[color:var(--alt-section)] transition-colors text-right"
-                >
-                  <span className="ed-eyebrow mb-2">Next</span>
-                  <span className="text-foreground group-hover:text-primary transition-colors inline-flex items-center gap-2" style={{ fontFamily: "var(--font-exo2)", fontWeight: 600, letterSpacing: "-0.01em" }}>
-                    {next.title} <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
-                  </span>
+              ) : null}
+              {next ? (
+                <Link href={`/docs/${next.slug}`} className="bw-pager-next">
+                  <span>Next</span>
+                  {next.title}
                 </Link>
-              )}
-            </div>
-          </nav>
+              ) : null}
+            </nav>
+          </div>
         ) : null
       )}
     </article>

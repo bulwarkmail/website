@@ -74,7 +74,6 @@ const SECTION_LABELS: Record<string, { label: string; order: number }> = {
   guides: { label: "Guides", order: 4 },
   extensions: { label: "Extensions", order: 5 },
   development: { label: "Development", order: 6 },
-  branding: { label: "Branding", order: 7 },
   legal: { label: "Legal", order: 8 },
 };
 

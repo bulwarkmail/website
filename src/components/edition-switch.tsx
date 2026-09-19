@@ -3,14 +3,14 @@
 import { useId, useRef } from "react";
 import { useEdition, type Edition } from "@/components/edition-provider";
 
-const OPTIONS: { value: Edition; label: string; description: string }[] = [
-  { value: "full", label: "Bulwark", description: "The Node.js service with admin console and plugins" },
-  { value: "lite", label: "Lite", description: "The same client as static files, no server process" },
+const OPTIONS: { value: Edition; label: string; wideLabel: string; description: string }[] = [
+  { value: "full", label: "Bulwark", wideLabel: "Bulwark, as a container", description: "The Node.js service with admin console and plugins" },
+  { value: "lite", label: "Lite", wideLabel: "Lite, as static files", description: "The same client as static files, no server process" },
 ];
 
 type EditionSwitchProps = {
-  /** Fills the row and shows the descriptions; used in the mobile menu. */
-  block?: boolean;
+  /** The wider form with full labels, used in the install section and the phone menu. */
+  wide?: boolean;
   className?: string;
 };
 
@@ -20,7 +20,7 @@ type EditionSwitchProps = {
  * announced. The visual state is driven by CSS from data-edition on <html>,
  * so it is right before hydration; aria-checked catches up after mount.
  */
-export function EditionSwitch({ block = false, className }: EditionSwitchProps) {
+export function EditionSwitch({ wide = false, className }: EditionSwitchProps) {
   const { edition, setEdition } = useEdition();
   const labelId = useId();
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
@@ -42,11 +42,11 @@ export function EditionSwitch({ block = false, className }: EditionSwitchProps) 
   };
 
   return (
-    <div className={["ed-switch", block ? "ed-switch-block" : "", className ?? ""].filter(Boolean).join(" ")}>
+    <div className={className}>
       <span id={labelId} className="sr-only">
         Edition
       </span>
-      <div role="radiogroup" aria-labelledby={labelId} className="ed-switch-track">
+      <div role="radiogroup" aria-labelledby={labelId} className={wide ? "bw-switch bw-switch-wide" : "bw-switch"}>
         {OPTIONS.map((option, index) => {
           const checked = edition === option.value;
           return (
@@ -62,22 +62,15 @@ export function EditionSwitch({ block = false, className }: EditionSwitchProps) 
               title={option.description}
               tabIndex={checked ? 0 : -1}
               data-value={option.value}
-              className="ed-switch-option"
+              className="bw-switch-option"
               onClick={() => select(option.value, index)}
               onKeyDown={(event) => onKeyDown(event, index)}
             >
-              <span className="ed-switch-dot" aria-hidden />
-              <span>{option.label}</span>
+              {wide ? option.wideLabel : option.label}
             </button>
           );
         })}
       </div>
-      {block ? (
-        <p className="ed-switch-hint" aria-live="polite">
-          <span className="ed-full-only">{OPTIONS[0].description}.</span>
-          <span className="ed-lite-only">{OPTIONS[1].description}.</span>
-        </p>
-      ) : null}
     </div>
   );
 }

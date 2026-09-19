@@ -1,37 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Exo_2, Source_Serif_4, JetBrains_Mono } from "next/font/google";
+import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { EditionProvider } from "@/components/edition-provider";
 import { OG_IMAGES } from "@/lib/og";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// One family for everything and a mono for code. Hanken Grotesk is a variable
+// font, so one file covers 400, 500 and 600.
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const exo2 = Exo_2({
-  variable: "--font-exo2",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 const SITE_URL = "https://bulwarkmail.org";
@@ -108,7 +94,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${hanken.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/branding/favicon/Bulwark%20Favicon.png" type="image/png" />
         {/* Theme and edition are applied before first paint. Theme: the .dark
@@ -130,9 +116,9 @@ export default function RootLayout({
           />
         ) : null}
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${exo2.variable} ${sourceSerif.variable} ${jetbrainsMono.variable} antialiased`}
-      >
+      {/* The font variables sit on <html> because the tokens in globals.css
+          resolve them on :root. */}
+      <body className="antialiased">
         <ThemeProvider>
           <EditionProvider>{children}</EditionProvider>
         </ThemeProvider>

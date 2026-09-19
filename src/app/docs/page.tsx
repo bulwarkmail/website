@@ -1,23 +1,8 @@
 import Link from "next/link";
 import { editionClass, getDocSections, groupEditionClass } from "@/lib/docs";
-import {
-  ArrowRight,
-  BookOpen,
-  ChevronRight,
-  Code2,
-  Compass,
-  Container,
-  FolderArchive,
-  Palette,
-  Puzzle,
-  Rocket,
-  Scale,
-  Server,
-  Sparkles,
-  type LucideIcon,
-} from "lucide-react";
 import type { Metadata } from "next";
 import { InstallQuickstart } from "@/components/docs/install-quickstart";
+import { Ed, Tile } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Documentation - Bulwark Webmail for Stalwart",
@@ -28,410 +13,123 @@ export const metadata: Metadata = {
   },
 };
 
-const SANS = "var(--font-exo2), system-ui, sans-serif";
-const SERIF = "var(--font-source-serif), Georgia, serif";
-
-type Step = { n: string; title: string; body: React.ReactNode };
-
-// The three steps differ per edition; both lists are rendered and the
-// data-edition attribute on <html> shows one (see globals.css).
-const STEPS: Step[] = [
-  {
-    n: "01",
-    title: "Run this command",
-    body: (
-      <>
-        Docker is the only thing you need beforehand. There&apos;s nothing to clone and no{" "}
-        <code className="font-mono text-[0.85em]">.env</code> file to write first. Paste it, press enter, and
-        give it a few seconds to pull.
-      </>
-    ),
-  },
-  {
-    n: "02",
-    title: "Open localhost:3000",
-    body: (
-      <>
-        From here the setup wizard takes over. It probes your JMAP server and works out whether to use OAuth
-        or basic auth, generates a session secret, takes your logos if you have any, and finishes by setting
-        the admin password. You won&apos;t need to edit a config file afterwards.
-      </>
-    ),
-  },
-  {
-    n: "03",
-    title: "Point it at a mail server",
-    body: (
-      <>
-        Bulwark is the front; <Link href="/docs/getting-started/configuration/stalwart-setup" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">Stalwart</Link>{" "}
-        is the server. If you don&apos;t have one yet, install Stalwart first and come back. The wizard handles the wiring.
-      </>
-    ),
-  },
-];
-
-const LITE_STEPS: Step[] = [
-  {
-    n: "01",
-    title: "Download the zip",
-    body: (
-      <>
-        Every <a href="https://github.com/bulwarkmail/webmail/releases/latest" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">release</a>{" "}
-        attaches <code className="font-mono text-[0.85em]">bulwark-lite-&lt;version&gt;.zip</code>. Nothing to install and no
-        Node.js anywhere: it is a folder of HTML, JavaScript and one JSON file.
-      </>
-    ),
-  },
-  {
-    n: "02",
-    title: "Edit config.json",
-    body: (
-      <>
-        Set <code className="font-mono text-[0.85em]">jmapServerUrl</code> to your Stalwart, and{" "}
-        <code className="font-mono text-[0.85em]">appName</code> if you like. The file is read at runtime, so you can
-        change it again later without rebuilding anything.
-      </>
-    ),
-  },
-  {
-    n: "03",
-    title: "Upload it, allow CORS",
-    body: (
-      <>
-        Put the folder on any static host and set <code className="font-mono text-[0.85em]">http.permissive-cors = true</code>{" "}
-        in Stalwart, because the browser now talks to the mail server directly. Host snippets for nginx, Caddy, Netlify,
-        Cloudflare Pages and GitHub Pages are on the{" "}
-        <Link href="/docs/deployment/static" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">static hosting</Link> page.
-      </>
-    ),
-  },
-];
-
-type PathOption = {
-  icon: React.ComponentType<{ className?: string }>;
-  tag: string;
-  title: string;
-  desc: string;
-  href: string;
-  cta: string;
-};
-
-const SECTION_ICONS: Record<string, LucideIcon> = {
-  "getting-started": Rocket,
-  features: Sparkles,
-  deployment: Server,
-  guides: Compass,
-  extensions: Puzzle,
-  development: Code2,
-  branding: Palette,
-  legal: Scale,
-};
-
-const PATHS: PathOption[] = [
-  {
-    icon: Container,
-    tag: "Recommended",
-    title: "Docker",
-    desc: "One command and one container, then a web wizard for everything else. Right for almost everyone.",
-    href: "/docs/deployment/docker",
-    cta: "Docker guide",
-  },
-  {
-    icon: FolderArchive,
-    tag: "No server",
-    title: "Bulwark Lite",
-    desc: "The same client as static files. Upload a folder to any web host, point config.json at Stalwart, done.",
-    href: "/docs/getting-started/lite",
-    cta: "Lite guide",
-  },
-  {
-    icon: Server,
-    tag: "Hands-on",
-    title: "Manual install",
-    desc: "A prebuilt standalone tarball or your own build, run under systemd or PM2. Leaves nothing hidden.",
-    href: "/docs/deployment/manual",
-    cta: "Manual install",
-  },
-];
-
 export default function DocsPage() {
   const sections = getDocSections();
 
   return (
-    <div className="max-w-[920px]">
-      {/* Hero */}
-      <div className="mb-10 sm:mb-12">
-        <div className="ed-eyebrow mb-4">Documentation</div>
-        <h1
-          className="text-foreground"
-          style={{
-            fontFamily: SANS,
-            fontWeight: 800,
-            letterSpacing: "-0.035em",
-            lineHeight: 0.95,
-            fontSize: "clamp(2.5rem, 6vw, 4rem)",
-            margin: "0 0 1rem",
-          }}
-        >
-          The manual.
-        </h1>
-        <p
-          className="text-foreground/70"
-          style={{
-            fontFamily: SERIF,
-            fontSize: "1.0625rem",
-            lineHeight: 1.55,
-            maxWidth: "640px",
-          }}
-        >
-          <span className="ed-full-only">
-            The three steps below take you from nothing to a working inbox in about five minutes. Everything
-            after them is reference: configuration, features, deployment, and the extension API.
-          </span>
-          <span className="ed-lite-only">
-            You are reading the Bulwark Lite manual: the same client as static files, no Node.js process. The three
-            steps below get it onto a web host; pages that only apply to the full edition are hidden, and say so if
-            you land on one.
-          </span>
-        </p>
+    <div className="bw-docs-wide prose-docs">
+      <h1>Documentation</h1>
+      <p>
+        <Ed
+          full="Three steps take you from nothing to a working inbox in about five minutes. The rest of the manual is reference: configuration, features, deployment and the extension API."
+          lite="This is the Bulwark Lite manual. Three steps put the client on a web host, and pages that only apply to the full edition are hidden."
+        />
+      </p>
+
+      {/* The numbers are a real sequence, one list per edition. */}
+      <h2 id="start-here">Start here</h2>
+      <div className="ed-full-only">
+        <ol className="bw-steps" style={{ maxWidth: 760 }}>
+          <li>
+            <span className="bw-steps-n">1</span>
+            <div>
+              <strong>Run the container.</strong> Docker is the only requirement. There is nothing to clone and no{" "}
+              <code>.env</code> file to write first.
+              <InstallQuickstart />
+            </div>
+          </li>
+          <li>
+            <span className="bw-steps-n">2</span>
+            <div>
+              <strong>
+                Open <code>localhost:3000</code>.
+              </strong>{" "}
+              The setup wizard finds your JMAP server, chooses OAuth or password sign-in, generates a session secret
+              and sets the admin password. The{" "}
+              <Link href="/docs/getting-started/configuration">configuration</Link> and{" "}
+              <Link href="/docs/getting-started/configuration/authentication">authentication</Link> pages cover each
+              screen.
+            </div>
+          </li>
+          <li>
+            <span className="bw-steps-n">3</span>
+            <div>
+              <strong>Point it at Stalwart.</strong> Stalwart is the mail server. The{" "}
+              <Link href="/docs/getting-started/configuration/stalwart-setup">Stalwart setup</Link> page covers
+              installing it first.
+            </div>
+          </li>
+        </ol>
+      </div>
+      <div className="ed-lite-only">
+        <ol className="bw-steps" style={{ maxWidth: 760 }}>
+          <li>
+            <span className="bw-steps-n">1</span>
+            <div>
+              <strong>Download the zip.</strong> Every{" "}
+              <a href="https://github.com/bulwarkmail/webmail/releases/latest">release</a> attaches{" "}
+              <code>bulwark-lite-&lt;version&gt;.zip</code>: a folder of HTML, JavaScript and one JSON file.
+            </div>
+          </li>
+          <li>
+            <span className="bw-steps-n">2</span>
+            <div>
+              <strong>
+                Edit <code>config.json</code>.
+              </strong>{" "}
+              Set <code>jmapServerUrl</code> to your Stalwart server, and <code>appName</code> if you like. The file is
+              read at runtime, so later edits need no rebuild.
+            </div>
+          </li>
+          <li>
+            <span className="bw-steps-n">3</span>
+            <div>
+              <strong>Upload it and allow CORS.</strong> Put the folder on any static host and set{" "}
+              <code>http.permissive-cors = true</code> in Stalwart. Host snippets for nginx, Caddy, Netlify,
+              Cloudflare Pages and GitHub Pages are on the{" "}
+              <Link href="/docs/deployment/static">static hosting</Link> page.
+            </div>
+          </li>
+        </ol>
       </div>
 
-      {/* Start here - 3-step quickstart */}
-      <section className="mb-16 sm:mb-20" aria-labelledby="start-here">
-        <details open className="group">
-          <summary
-            className="flex items-baseline justify-between gap-4 pb-3 border-b-2 border-foreground cursor-pointer list-none [&::-webkit-details-marker]:hidden"
-          >
-            <h2
-              id="start-here"
-              className="text-foreground"
-              style={{
-                fontFamily: SANS,
-                fontWeight: 800,
-                fontSize: "1.5rem",
-                letterSpacing: "-0.02em",
-                margin: 0,
-              }}
-            >
-              Start here.
-            </h2>
-            <ChevronRight
-              aria-hidden
-              className="w-5 h-5 text-foreground/60 transition-transform group-open:rotate-90 self-center"
-            />
-          </summary>
+      <h2 id="install-paths">Choose how to install</h2>
+      <div className="bw-tiles bw-tiles-3" style={{ marginTop: 16 }}>
+        <Tile
+          href="/docs/deployment/docker"
+          title="Docker"
+          text="One container and a setup wizard. The route for most installs."
+        />
+        <Tile
+          href="/docs/getting-started/lite"
+          title="Bulwark Lite"
+          text="The same client as static files, uploaded to any web host."
+        />
+        <Tile
+          href="/docs/deployment/manual"
+          title="Manual install"
+          text="A standalone tarball or your own build, run under systemd or PM2."
+        />
+      </div>
 
-          {([
-            { edition: "full", className: "ed-full-only", steps: STEPS },
-            { edition: "lite", className: "ed-lite-only", steps: LITE_STEPS },
-          ] as const).map(({ edition, className, steps }) => (
-          <ol key={edition} className={`${className} m-0 p-0 list-none`}>
-          {steps.map((step) => (
-            <li
-              key={step.n}
-              className="grid grid-cols-[auto_1fr] gap-4 sm:gap-8 py-6 border-b border-[color:var(--rule)]"
-            >
-              <div
-                aria-hidden
-                className="text-[color:var(--rasp)]"
-                style={{
-                  fontFamily: SANS,
-                  fontWeight: 800,
-                  fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1,
-                  minWidth: "2.5rem",
-                }}
-              >
-                {step.n}
-              </div>
-              <div>
-                <h3
-                  className="text-foreground"
-                  style={{
-                    fontFamily: SANS,
-                    fontWeight: 700,
-                    fontSize: "1.125rem",
-                    letterSpacing: "-0.01em",
-                    margin: "0 0 0.5rem",
-                  }}
-                >
-                  {step.title}
-                </h3>
-                <p
-                  className="text-foreground/70 m-0"
-                  style={{ fontFamily: SERIF, fontSize: "1rem", lineHeight: 1.55 }}
-                >
-                  {step.body}
-                </p>
-                {step.n === "01" && edition === "full" ? (
-                  <div className="mt-4">
-                    <InstallQuickstart />
-                  </div>
-                ) : null}
-                {step.n === "02" && edition === "full" ? (
-                  <p
-                    className="mt-3 text-foreground/55"
-                    style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "0.9375rem", margin: "0.75rem 0 0" }}
-                  >
-                    Stuck on the wizard? See{" "}
-                    <Link href="/docs/getting-started/configuration" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">
-                      configuration
-                    </Link>{" "}
-                    or{" "}
-                    <Link href="/docs/getting-started/configuration/authentication" className="underline decoration-[color:var(--rasp)] underline-offset-2 hover:text-[color:var(--rasp)]">
-                      authentication
-                    </Link>
-                    .
-                  </p>
-                ) : null}
-              </div>
-            </li>
-          ))}
-          </ol>
-          ))}
-        </details>
-      </section>
-
-      {/* Pick a path */}
-      <section className="mb-16 sm:mb-20" aria-labelledby="pick-a-path">
-        <div className="flex items-baseline justify-between gap-4 pb-3 border-b-2 border-foreground">
-          <h2
-            id="pick-a-path"
-            className="text-foreground"
-            style={{
-              fontFamily: SANS,
-              fontWeight: 800,
-              fontSize: "1.5rem",
-              letterSpacing: "-0.02em",
-              margin: 0,
-            }}
-          >
-            Or pick a path.
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 border-b border-[color:var(--rule)]">
-          {PATHS.map((p, idx) => {
-            const Icon = p.icon;
-            return (
-              <Link
-                key={p.title}
-                href={p.href}
-                className={`group flex flex-col p-6 transition-colors hover:bg-[color:var(--alt-section)] border-b md:border-b-0 md:border-r border-[color:var(--rule)] ${idx === PATHS.length - 1 ? "md:border-r-0" : ""}`}
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <Icon className="w-4 h-4 text-[color:var(--rasp)]" />
-                  <span className="ed-eyebrow">{p.tag}</span>
-                </div>
-                <h3
-                  className="text-foreground"
-                  style={{
-                    fontFamily: SANS,
-                    fontWeight: 700,
-                    fontSize: "1.25rem",
-                    letterSpacing: "-0.015em",
-                    margin: "0 0 0.5rem",
-                  }}
-                >
-                  {p.title}
-                </h3>
-                <p
-                  className="text-foreground/70 flex-1"
-                  style={{
-                    fontFamily: SERIF,
-                    fontSize: "0.9375rem",
-                    lineHeight: 1.5,
-                    margin: "0 0 1rem",
-                  }}
-                >
-                  {p.desc}
-                </p>
-                <span
-                  className="inline-flex items-center gap-1.5 text-foreground group-hover:text-[color:var(--rasp)] transition-colors"
-                  style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.875rem" }}
-                >
-                  {p.cta}
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Full TOC */}
-      <section aria-labelledby="full-manual">
-        <div className="flex items-baseline justify-between gap-4 pb-3 border-b-2 border-foreground">
-          <h2
-            id="full-manual"
-            className="text-foreground"
-            style={{
-              fontFamily: SANS,
-              fontWeight: 800,
-              fontSize: "1.5rem",
-              letterSpacing: "-0.02em",
-              margin: 0,
-            }}
-          >
-            Browse the full manual.
-          </h2>
-        </div>
-
-        <div>
-          {sections.map((section) => {
-            const SectionIcon = SECTION_ICONS[section.slug] ?? BookOpen;
-            const sectionClass = groupEditionClass(section.items.map((i) => i.edition));
-            return (
-            <div
-              key={section.slug}
-              className={`${sectionClass} grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4 lg:gap-10 py-6 border-b border-[color:var(--rule)]`}
-            >
-              <div className="flex items-start gap-2 lg:pt-1">
-                <SectionIcon className="w-4 h-4 text-[color:var(--rasp)] shrink-0 mt-0.5" />
-                <h3
-                  className="text-foreground"
-                  style={{
-                    fontFamily: SANS,
-                    fontWeight: 700,
-                    fontSize: "1.0625rem",
-                    letterSpacing: "-0.01em",
-                    margin: 0,
-                  }}
-                >
-                  {section.label}
-                </h3>
-              </div>
-              <ul className="m-0 p-0 list-none">
+      <h2 id="manual">Browse the manual</h2>
+      <div className="bw-manual" style={{ marginTop: 16 }}>
+        {sections.map((section) => {
+          const sectionClass = groupEditionClass(section.items.map((i) => i.edition));
+          return (
+            <div key={section.slug} className={sectionClass || undefined}>
+              <h3 style={{ margin: 0 }}>{section.label}</h3>
+              <ul style={{ listStyle: "none", margin: 0, padding: 0, maxWidth: "none" }}>
                 {section.items.map((item) => (
-                  <li key={item.slug} className={`${editionClass(item.edition)} border-b border-[color:var(--rule)] last:border-b-0`}>
-                    <Link
-                      href={`/docs/${item.slug}`}
-                      className="group grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 sm:gap-6 py-2.5 items-baseline"
-                    >
-                      <span
-                        className="text-foreground group-hover:text-[color:var(--rasp)] transition-colors inline-flex items-center gap-2"
-                        style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.9375rem", letterSpacing: "-0.005em" }}
-                      >
-                        <ChevronRight className="w-3 h-3 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                        {item.title}
-                      </span>
-                      {item.description ? (
-                        <span
-                          className="hidden sm:inline text-foreground/55 truncate"
-                          style={{ fontFamily: SERIF, fontSize: "0.875rem", fontStyle: "italic", maxWidth: "320px" }}
-                        >
-                          {item.description}
-                        </span>
-                      ) : null}
-                    </Link>
+                  <li key={item.slug} className={editionClass(item.edition) || undefined} style={{ padding: 0 }}>
+                    <Link href={`/docs/${item.slug}`}>{item.title}</Link>
                   </li>
                 ))}
               </ul>
             </div>
-            );
-          })}
-        </div>
-      </section>
+          );
+        })}
+      </div>
     </div>
   );
 }

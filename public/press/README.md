@@ -1,6 +1,6 @@
 # Bulwark press kit
 
-Everything in this folder may be used to write about Bulwark Webmail, Bulwark Lite and the projects around them. Please don't alter the logos (recolor, stretch, add effects); the [branding guidelines](https://bulwarkmail.org/docs/branding/guidelines) have the rules and the clear-space requirements.
+Everything in this folder may be used to write about Bulwark Webmail, Bulwark Lite and the projects around them. Please don't alter the logos (recolor, stretch, add effects); the [branding guidelines](https://bulwarkmail.org/brand) have the rules and the clear-space requirements.
 
 ## Boilerplate
 

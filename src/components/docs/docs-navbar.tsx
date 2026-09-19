@@ -1,110 +1,69 @@
 "use client";
 
-import { useState, useEffect, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
-import { Sun, Moon, ArrowLeft, Menu, Star } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Sun, Moon } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";
 import { EditionSwitch } from "@/components/edition-switch";
+import { EditionLink } from "@/components/edition-link";
+import { ICON } from "@/lib/icon";
 
+const links = [
+  { label: "Docs", href: "/docs" },
+  { label: "Getting started", href: "/docs/getting-started/introduction" },
+  { label: "Deployment", href: "/docs/deployment/docker" },
+  { label: "Features", href: "/docs/features/email" },
+  { label: "GitHub", href: "https://github.com/bulwarkmail/webmail" },
+];
+
+/**
+ * The docs nav is the same field as the landing nav, and it stays at the top
+ * while a long page scrolls. On a phone the page menu and the search live in
+ * the bar below it (docs-sidebar.tsx).
+ */
 export function DocsNavbar() {
-  const [scrolled, setScrolled] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
     () => false
   );
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const dark = mounted && resolvedTheme === "dark";
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 transition-colors duration-200",
-        scrolled
-          ? "bg-background/85 supports-[backdrop-filter]:backdrop-blur-xl border-b border-[color:var(--rule)]"
-          : "bg-transparent border-b border-transparent"
-      )}
-    >
-      <div className="px-5 sm:px-8 lg:px-14">
-        <div className="mx-auto max-w-[1440px] grid grid-cols-[auto_1fr_auto] items-stretch">
-          {/* Cell 1 - mark + wordmark + Docs */}
-          <div className="flex items-center gap-3 pr-5 sm:pr-8 lg:pr-14 py-5 border-r border-[color:var(--rule)]">
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent("toggle-docs-sidebar"))}
-              className="lg:hidden -ml-1 p-1 text-foreground/70 hover:text-foreground transition-colors"
-              aria-label="Toggle navigation"
-            >
-              <Menu className="w-5 h-5" />
-            </button>
-            <Link
-              href="/"
-              className="flex items-center gap-3"
-              onContextMenu={(e) => {
-                e.preventDefault();
-                window.location.href = "/docs/branding/guidelines";
-              }}
-            >
-              <BulwarkMark size={26} color="var(--rasp)" />
-              <span
-                className="font-extrabold tracking-tight text-[19px] leading-none"
-                style={{ fontFamily: "var(--font-exo2)" }}
-              >
-                Bulwark
-              </span>
-            </Link>
-            <span
-              className="text-foreground/30 text-[19px] leading-none hidden sm:inline"
-              style={{ fontFamily: "var(--font-source-serif), Georgia, serif", fontStyle: "italic" }}
-              aria-hidden
-            >
-              /
-            </span>
-            <Link
-              href="/docs"
-              className="hidden sm:inline-flex text-[14px] font-medium text-foreground/85 hover:text-[color:var(--rasp)] transition-colors"
-              style={{ fontFamily: "var(--font-exo2)" }}
-            >
-              Docs
-            </Link>
-          </div>
+    <header className="bw-field bw-docs-nav">
+      <div className="bw-w bw-w-docs">
+        <div className="bw-nav-in">
+          <Link
+            href="/"
+            className="bw-brandmark"
+            onContextMenu={(e) => {
+              e.preventDefault();
+              window.location.href = "/brand";
+            }}
+          >
+            <BulwarkMark size={24} color="currentColor" />
+            <span>Bulwark</span>
+          </Link>
 
-          {/* Cell 2 - middle (empty, takes the inner gap between rules) */}
-          <div className="px-7" />
+          <nav className="bw-nav-links" aria-label="Documentation">
+            {links.map((link) => (
+              <EditionLink key={link.href} href={link.href}>
+                {link.label}
+              </EditionLink>
+            ))}
+          </nav>
 
-          {/* Cell 3 - github + back home + theme */}
-          <div className="flex items-center justify-end gap-4 pl-5 sm:pl-8 lg:pl-14 border-l border-[color:var(--rule)]">
-            <a
-              href="https://github.com/bulwarkmail/webmail"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:inline-flex items-center gap-1.5 text-[13px] text-foreground/70 hover:text-foreground transition-colors"
-              style={{ fontFamily: "var(--font-jetbrains)" }}
-              aria-label="GitHub"
-            >
-              <Star className="w-3.5 h-3.5" />
-            </a>
+          <div className="bw-nav-r">
             <EditionSwitch />
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-[13px] text-foreground/70 hover:text-foreground transition-colors"
-              style={{ fontFamily: "var(--font-exo2)" }}
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Home</span>
-            </Link>
             <button
-              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="p-2 text-foreground/70 hover:text-foreground transition-colors"
-              aria-label="Toggle theme"
+              type="button"
+              onClick={() => setTheme(dark ? "light" : "dark")}
+              className="bw-iconbtn"
+              aria-label="Switch between light and dark"
             >
-              {mounted && resolvedTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {dark ? <Sun size={16} {...ICON} /> : <Moon size={16} {...ICON} />}
             </button>
           </div>
         </div>

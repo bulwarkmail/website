@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
   },
+  async redirects() {
+    return [
+      // The branding guidelines moved out of the docs into /brand.
+      { source: "/docs/branding/guidelines", destination: "/brand", permanent: true },
+      { source: "/docs/branding", destination: "/brand", permanent: true },
+    ];
+  },
   async rewrites() {
     return [
       {

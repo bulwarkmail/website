@@ -4,7 +4,9 @@ type BulwarkMarkProps = {
   className?: string;
 };
 
-export function BulwarkMark({ size = 28, color = "var(--rasp)", className }: BulwarkMarkProps) {
+// The geometry is fixed. The colour is the brand token on a page ground and
+// "currentColor" on the field, so one asset serves Bulwark, Lite and white.
+export function BulwarkMark({ size = 28, color = "var(--bw-brand)", className }: BulwarkMarkProps) {
   return (
     <svg
       width={size}

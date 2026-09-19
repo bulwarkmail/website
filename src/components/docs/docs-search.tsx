@@ -2,9 +2,13 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
-import { Search, X, FileText, Hash, CornerDownLeft } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEdition } from "@/components/edition-provider";
+import { ICON } from "@/lib/icon";
+
+/** Dispatched on window by the phone docs bar to open the dialog. */
+export const OPEN_SEARCH_EVENT = "open-docs-search";
 
 interface SearchResult {
   title: string;
@@ -22,6 +26,16 @@ const EDITION_TAGS: Record<SearchResult["edition"], string | null> = {
   lite: "Lite only",
 };
 
+const SECTION_LABELS: Record<string, string> = {
+  "getting-started": "Getting started",
+  features: "Features",
+  deployment: "Deployment",
+  guides: "Guides",
+  extensions: "Extensions",
+  development: "Development",
+  legal: "Legal",
+};
+
 function highlightTerms(text: string, query: string) {
   if (!query.trim()) return text;
   const terms = query
@@ -31,21 +45,18 @@ function highlightTerms(text: string, query: string) {
   if (terms.length === 0) return text;
 
   const pattern = terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
-  const regex = new RegExp(`(${pattern})`, "gi");
-  const parts = text.split(regex);
+  const parts = text.split(new RegExp(`(${pattern})`, "gi"));
+  const isTerm = new RegExp(`^(?:${pattern})$`, "i");
 
-  return parts.map((part, i) =>
-    regex.test(part) ? (
-      <mark key={i} className="bg-primary/20 text-foreground rounded-sm px-0.5">
-        {part}
-      </mark>
-    ) : (
-      part
-    )
-  );
+  return parts.map((part, i) => (isTerm.test(part) ? <mark key={i}>{part}</mark> : part));
 }
 
-export function DocsSearch() {
+type DocsSearchProps = {
+  /** Also open on the phone bar's event. Only one mounted instance should listen. */
+  listen?: boolean;
+};
+
+export function DocsSearch({ listen = false }: DocsSearchProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -66,7 +77,10 @@ export function DocsSearch() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      const typing =
+        e.target instanceof HTMLElement &&
+        (e.target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName));
+      if (((e.metaKey || e.ctrlKey) && e.key === "k") || (e.key === "/" && !typing)) {
         e.preventDefault();
         setOpen(true);
       }
@@ -74,9 +88,14 @@ export function DocsSearch() {
         close();
       }
     };
+    const handleOpen = () => setOpen(true);
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [close]);
+    if (listen) window.addEventListener(OPEN_SEARCH_EVENT, handleOpen);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      if (listen) window.removeEventListener(OPEN_SEARCH_EVENT, handleOpen);
+    };
+  }, [close, listen]);
 
   useEffect(() => {
     if (open) {
@@ -112,6 +131,22 @@ export function DocsSearch() {
     }, 150);
   }, [query, edition]);
 
+  // Results are shown grouped by docs section, sections in the order of their
+  // best hit. The arrow keys walk the grouped order.
+  const groups = useMemo(() => {
+    const order: string[] = [];
+    const bySection = new Map<string, SearchResult[]>();
+    for (const result of results) {
+      if (!bySection.has(result.section)) {
+        bySection.set(result.section, []);
+        order.push(result.section);
+      }
+      bySection.get(result.section)!.push(result);
+    }
+    return order.map((section) => ({ section, items: bySection.get(section)! }));
+  }, [results]);
+  const ordered = useMemo(() => groups.flatMap((g) => g.items), [groups]);
+
   // Scroll active item into view
   useEffect(() => {
     const container = listRef.current;
@@ -133,44 +168,25 @@ export function DocsSearch() {
     (e: React.KeyboardEvent) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
-        setActiveIndex((i) => Math.min(i + 1, results.length - 1));
+        setActiveIndex((i) => Math.min(i + 1, ordered.length - 1));
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setActiveIndex((i) => Math.max(i - 1, 0));
-      } else if (e.key === "Enter" && results.length > 0) {
+      } else if (e.key === "Enter" && ordered.length > 0) {
         e.preventDefault();
-        navigateTo(results[activeIndex]);
+        navigateTo(ordered[activeIndex]);
       }
     },
-    [results, activeIndex, navigateTo]
-  );
-
-  const sectionLabels: Record<string, string> = useMemo(
-    () => ({
-      "getting-started": "Getting Started",
-      features: "Features",
-      deployment: "Deployment",
-      guides: "Guides",
-      extensions: "Extensions",
-      development: "Development",
-      branding: "Branding",
-      legal: "Legal",
-    }),
-    []
+    [ordered, activeIndex, navigateTo]
   );
 
   const trigger = (
-    <button
-      onClick={() => setOpen(true)}
-      className="flex items-center gap-2 w-full px-3 py-2 text-sm text-muted-foreground bg-muted/50 border border-border rounded-lg hover:bg-muted transition-colors"
-    >
-      <Search className="w-4 h-4" />
-      <span className="flex-1 text-left">
-        Search <span className="ed-lite-only">Lite </span>docs...
+    <button type="button" onClick={() => setOpen(true)} className="bw-searchbtn">
+      <Search size={16} {...ICON} />
+      <span>
+        Search the <span className="ed-lite-only">Lite </span>docs
       </span>
-      <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-medium bg-background border border-border rounded">
-        <span className="text-xs">⌘</span>K
-      </kbd>
+      <kbd className="bw-kbd">/</kbd>
     </button>
   );
 
@@ -180,129 +196,80 @@ export function DocsSearch() {
 
   const modal = (
     <>
-      <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm" onClick={close} />
-      <div className="fixed inset-x-0 top-[10%] z-[110] mx-auto w-full max-w-lg px-4">
-        <div className="relative isolate bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
-          {/* Search input */}
-          <div className="flex items-center gap-3 px-4 border-b border-border">
-            <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+      <div className="bw-docs-scrim" style={{ zIndex: 100 }} onClick={close} />
+      <div className="bw-search" role="dialog" aria-modal="true" aria-label="Search the docs">
+        <div className="bw-search-panel">
+          <div className="bw-search-input">
+            <Search size={20} {...ICON} />
             <input
               ref={inputRef}
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Search documentation..."
-              className="flex-1 py-3 text-sm bg-transparent outline-none placeholder:text-muted-foreground"
+              placeholder="Search the docs"
+              aria-label="Search the docs"
+              autoComplete="off"
             />
-            {query && (
-              <button
-                onClick={() => {
-                  setQuery("");
-                  inputRef.current?.focus();
-                }}
-                className="p-1 text-muted-foreground hover:text-foreground"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-            <button onClick={close} className="p-1 text-muted-foreground hover:text-foreground">
-              <kbd className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono font-medium bg-muted border border-border rounded">
-                ESC
-              </kbd>
+            <button type="button" onClick={close} aria-label="Close the search">
+              <kbd className="bw-kbd">Esc</kbd>
             </button>
           </div>
 
-          {/* Results */}
-          <div ref={listRef} className="max-h-[60vh] overflow-y-auto">
-            {loading && (
-              <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-                <div className="inline-block w-4 h-4 border-2 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
-              </div>
-            )}
+          <div ref={listRef} className="bw-search-list">
+            {!query ? <p className="bw-search-empty">Type to search the documentation.</p> : null}
+            {query && loading && ordered.length === 0 ? <p className="bw-search-empty">Searching.</p> : null}
+            {query && !loading && ordered.length === 0 ? (
+              <p className="bw-search-empty">
+                Nothing matches &ldquo;{query}&rdquo;. Try another word, or check the spelling.
+              </p>
+            ) : null}
 
-            {!loading && query && results.length === 0 && (
-              <div className="px-4 py-8 text-center">
-                <p className="text-sm text-muted-foreground">No results found for &ldquo;{query}&rdquo;</p>
-                <p className="text-xs text-muted-foreground/60 mt-1">Try different keywords or check your spelling</p>
+            {groups.map((group) => (
+              <div key={group.section}>
+                <div className="bw-search-group">{SECTION_LABELS[group.section] ?? group.section}</div>
+                {group.items.map((result) => {
+                  const i = ordered.indexOf(result);
+                  return (
+                    <button
+                      key={`${result.slug}-${result.heading?.id ?? "doc"}`}
+                      type="button"
+                      data-index={i}
+                      data-active={i === activeIndex}
+                      onClick={() => navigateTo(result)}
+                      onMouseMove={() => setActiveIndex(i)}
+                      className="bw-search-row"
+                    >
+                      <b>
+                        {result.heading ? (
+                          <>
+                            {result.title}: {highlightTerms(result.heading.text, query)}
+                          </>
+                        ) : (
+                          highlightTerms(result.title, query)
+                        )}
+                      </b>
+                      <span>{highlightTerms(result.excerpt, query)}</span>
+                      {EDITION_TAGS[result.edition] ? <small>{EDITION_TAGS[result.edition]}</small> : null}
+                    </button>
+                  );
+                })}
               </div>
-            )}
-
-            {!loading &&
-              results.map((result, i) => (
-                <button
-                  key={`${result.slug}-${result.heading?.id ?? "doc"}`}
-                  data-index={i}
-                  onClick={() => navigateTo(result)}
-                  className={`flex items-start gap-3 px-4 py-3 w-full text-left transition-colors border-b border-border/50 last:border-0 ${
-                    i === activeIndex ? "bg-primary/10" : "hover:bg-muted/50"
-                  }`}
-                >
-                  {result.heading ? (
-                    <Hash className="w-4 h-4 mt-0.5 text-primary/60 shrink-0" />
-                  ) : (
-                    <FileText className="w-4 h-4 mt-0.5 text-muted-foreground shrink-0" />
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <div className="text-sm font-medium text-foreground">
-                      {result.heading ? (
-                        <>
-                          <span className="text-muted-foreground">{result.title}</span>
-                          <span className="text-muted-foreground/40 mx-1.5">›</span>
-                          <span>{highlightTerms(result.heading.text, query)}</span>
-                        </>
-                      ) : (
-                        highlightTerms(result.title, query)
-                      )}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                      {highlightTerms(result.excerpt, query)}
-                    </div>
-                    <div className="text-[10px] text-muted-foreground/50 mt-1">
-                      {sectionLabels[result.section] ?? result.section}
-                      {EDITION_TAGS[result.edition] ? (
-                        <span className="ml-2 text-[color:var(--rasp)]">{EDITION_TAGS[result.edition]}</span>
-                      ) : null}
-                    </div>
-                  </div>
-                  {i === activeIndex && (
-                    <CornerDownLeft className="w-3.5 h-3.5 mt-1 text-muted-foreground/40 shrink-0" />
-                  )}
-                </button>
-              ))}
-
-            {!loading && !query && (
-              <div className="px-4 py-8 text-center">
-                <p className="text-sm text-muted-foreground">Type to search the documentation</p>
-                <div className="flex items-center justify-center gap-3 mt-3 text-[10px] text-muted-foreground/50">
-                  <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 bg-muted border border-border rounded font-mono">↑↓</kbd> navigate
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 bg-muted border border-border rounded font-mono">↵</kbd> open
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <kbd className="px-1 py-0.5 bg-muted border border-border rounded font-mono">esc</kbd> close
-                  </span>
-                </div>
-              </div>
-            )}
+            ))}
           </div>
 
-          {/* Footer with result count */}
-          {!loading && query && results.length > 0 && (
-            <div className="px-4 py-2 border-t border-border bg-muted/30 flex items-center justify-between text-[10px] text-muted-foreground/60">
-              <span>{results.length} result{results.length !== 1 ? "s" : ""}</span>
-              <div className="flex items-center gap-2">
-                <span className="flex items-center gap-1">
-                  <kbd className="px-1 py-0.5 bg-muted border border-border rounded font-mono">↑↓</kbd> navigate
-                </span>
-                <span className="flex items-center gap-1">
-                  <kbd className="px-1 py-0.5 bg-muted border border-border rounded font-mono">↵</kbd> open
-                </span>
-              </div>
-            </div>
-          )}
+          <div className="bw-search-foot">
+            <span>
+              <kbd className="bw-kbd">↑</kbd>
+              <kbd className="bw-kbd">↓</kbd> to move
+            </span>
+            <span>
+              <kbd className="bw-kbd">Enter</kbd> to open
+            </span>
+            <span>
+              {ordered.length} result{ordered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
         </div>
       </div>
     </>

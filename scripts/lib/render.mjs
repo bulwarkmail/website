@@ -75,7 +75,10 @@ export const PALETTE = {
   ink: "#0c1322",
   rasp: "#db2d54",
   teal: "#0f8578",
+  rule: "#dddde1",
 };
 
+// The site's own family (see src/app/layout.tsx). This link is only fetched by
+// the image scripts on a developer machine, never by the site.
 export const FONT_LINK =
-  '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700;800&family=Source+Serif+4:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">';
+  '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">';

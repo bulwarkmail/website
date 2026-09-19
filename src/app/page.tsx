@@ -1,135 +1,35 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Github, Star } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Calendar, Check, Code2, Contact, Folder, Globe, Mail, MapPin, Minus, Plus, Zap } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { BulwarkMark } from "@/components/bulwark-mark";
-import { ThemeImage } from "@/components/theme-image";
 import { EditionLink } from "@/components/edition-link";
+import { EditionSwitch } from "@/components/edition-switch";
+import { CodeBlock } from "@/components/code-block";
+import { Ed, Shot, Tile } from "@/components/ui";
+import { ICON } from "@/lib/icon";
 import type { Metadata } from "next";
 import { OG_IMAGES } from "@/lib/og";
 
 // =============================================================================
-// Editorial homepage - "21st Century" voice
+// Landing page, "Flat fields".
 //
-// Single-column editorial flow on paper/navy. Tonal contrast between sections
-// (paper → paper-deep → navy → paper → navy) replaces card chrome. Brand
-// raspberry is the only accent; type carries the layout.
+// Nav and hero share one flat field, the screenshot leaves it at the right
+// edge of the page, and the field returns once for install. Every section is
+// a heading plus at most one paragraph; no section has a label above it.
 //
 // Two editions, one page. Copy that differs between Bulwark and Bulwark Lite
-// is rendered twice inside <Only edition="full"> / <Only edition="lite">, and
-// the data-edition attribute on <html> (set before paint, see layout.tsx)
-// shows one of them. That keeps this a server component with no flash.
+// is rendered twice through <Ed>, and the data-edition attribute on <html>
+// (set before paint, see layout.tsx) shows one of them. That keeps this a
+// server component with no flash.
 // =============================================================================
 
 type Edition = "full" | "lite";
 
-function Only({
-  edition,
-  as: Tag = "span",
-  className,
-  children,
-}: {
-  edition: Edition;
-  as?: "span" | "div" | "p" | "li";
-  className?: string;
-  children: React.ReactNode;
-}) {
-  const cls = [edition === "full" ? "ed-full-only" : "ed-lite-only", className].filter(Boolean).join(" ");
-  return <Tag className={cls}>{children}</Tag>;
-}
-
-const SANS = "var(--font-exo2), system-ui, sans-serif";
-const SERIF = "var(--font-source-serif), 'Source Serif 4', Georgia, serif";
-const MONO = "var(--font-jetbrains), ui-monospace, monospace";
-
-type HeroCopy = {
-  title: string[]; // one entry per line
-  accent: [number, number]; // word index range to underline, across all lines
-  deck: string;
-  cta: { label: string; href: string };
-};
-
-const HERO: Record<Edition, HeroCopy> = {
-  full: {
-    title: ["Webmail built for", "the 21st", "century."],
-    accent: [3, 5],
-    deck: "One interface for everything your mail server holds: messages, calendars, address books and files. Bulwark threads your mail, searches all of it, and installs as a PWA on your phone.",
-    cta: { label: "Read the docs", href: "/docs" },
-  },
-  lite: {
-    title: ["Same webmail.", "No server", "to run."],
-    accent: [2, 5],
-    deck: "Bulwark Lite is the same client exported as static files. Upload the folder to any host that serves HTML, point config.json at your Stalwart, and the browser talks JMAP to the mail server directly. Nothing to keep running.",
-    cta: { label: "Read the Lite guide", href: "/docs/getting-started/lite" },
-  },
-};
-
-type Faq = { q: string; a: string; edition?: Edition };
-
-const FAQS: Faq[] = [
-  {
-    q: "Is Bulwark the mail server, or just the front?",
-    a: "The front. Stalwart is the mail server proper. It holds the messages, it's the thing SMTP talks to, and it owns the accounts and the spam filtering. Bulwark is a client that happens to run in a browser rather than on your desktop. You need both, and Stalwart is the one to install first.",
-  },
-  {
-    q: "Why JMAP and not IMAP?",
-    a: "IMAP is from 1986 and it shows. Every folder wants its own connection, the client has to keep asking whether anything changed, and threading is something you reassemble yourself after fetching more than you needed. JMAP moves that work to the server and sends back a diff. Concretely: marking twenty messages read is one request instead of twenty.",
-  },
-  {
-    q: "How is this different from running Roundcube or SOGo?",
-    a: "Both of those are IMAP clients carrying two decades of compatibility layers, and they carry it honestly. Bulwark started at JMAP, so there was never a layer to accumulate. It's TypeScript and Next.js, and small enough that you can read what it does with your credentials in an afternoon.",
-  },
-  {
-    edition: "full",
-    q: "What does deployment look like?",
-    a: "One container next to the Stalwart you already run, behind whatever reverse proxy you already have. There are working examples for Caddy, Traefik and nginx, a compose file for the pair, and a prebuilt standalone tarball on every release if you'd rather not use Docker at all.",
-  },
-  {
-    edition: "lite",
-    q: "What does deployment look like?",
-    a: "A folder. Unzip the release, set the server URL in config.json, and upload it to whatever already serves your HTML: nginx, Caddy, Netlify, Cloudflare Pages, GitHub Pages, an S3 bucket. There is no process to supervise, and updating means uploading the next zip over it.",
-  },
-  {
-    edition: "lite",
-    q: "Why does Lite need a CORS setting on the mail server?",
-    a: "Because there is nothing in between. In the full edition the Node.js server sits on the same origin as the page and talks to Stalwart on its behalf. In Lite the browser talks to Stalwart itself, from your static host's origin, and browsers refuse that unless the mail server says it's allowed. One line in Stalwart's config, http.permissive-cors = true, says so.",
-  },
-  {
-    edition: "lite",
-    q: "Where did the admin console go?",
-    a: "It was a server. The setup wizard, the admin dashboard, plugins, settings sync and OAuth all ran in the Node.js process that Lite doesn't have. What they configured is now a config.json you edit by hand, and the features that only existed because of the server are simply off. The rest of the client, which is most of it, is unchanged.",
-  },
-  {
-    q: "Bulwark or Lite, which one?",
-    a: "Lite if you already run a web server and your users sign in with a password. Bulwark if you want any of OAuth, plugins, settings that follow people between devices, or the admin console. They build from the same commit and store nothing of their own, so picking wrong costs you a redeploy, not a migration.",
-  },
-  {
-    edition: "full",
-    q: "Will it sit in front of an existing Stalwart deployment?",
-    a: "Yes, and that's the least disruptive way to try it. Point Bulwark at the JMAP endpoint and pick OAuth or basic auth. Nothing migrates and nothing gets reformatted. Stalwart stays the source of truth; Bulwark is one more client connecting to it, and you can turn it off again without consequences.",
-  },
-  {
-    edition: "lite",
-    q: "Will it sit in front of an existing Stalwart deployment?",
-    a: "Yes, and with Lite that is barely a deployment. Point config.json at the JMAP endpoint, allow the origin in Stalwart, and sign in with the credentials you already have. Nothing migrates and nothing gets reformatted. Stalwart stays the source of truth, and deleting the folder undoes everything.",
-  },
-  {
-    q: "Is there a hosted version I can try first?",
-    a: "There's a demo at demo.bulwarkmail.org. Shared mailbox, mostly read-only, wiped every hour. Beyond that we don't run a hosted tier and don't intend to. The whole point is people running their own, and a paid tier would slowly become the thing we optimised for. If the demo doesn't answer your question, the container starts locally in about ten minutes.",
-  },
-];
+const GITHUB = "https://github.com/bulwarkmail/webmail";
+const GITHUB_API = "https://api.github.com/repos/bulwarkmail/webmail";
 
 // Fallbacks for when the live lookups below fail. Refresh them with each
-// release: `git rev-list --count HEAD` and `ls locales | wc -l` in the webmail
-// checkout.
-const STATS = {
-  instances: "5,587",
-  commits: "1,834",
-  langs: 27,
-};
-
-const GITHUB_API = "https://api.github.com/repos/bulwarkmail/webmail";
+// release: `ls locales | wc -l` in the webmail checkout.
+const FALLBACK = { instances: 5587, langs: 27 };
 
 async function fetchLatestVersion(): Promise<string> {
   try {
@@ -144,44 +44,6 @@ async function fetchLatestVersion(): Promise<string> {
     // fall through
   }
   return "1.10.0";
-}
-
-async function fetchGithubStars(): Promise<number | null> {
-  try {
-    const res = await fetch(GITHUB_API, {
-      headers: { Accept: "application/vnd.github+json" },
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { stargazers_count?: number };
-    if (typeof data.stargazers_count === "number") return data.stargazers_count;
-  } catch {
-    // fall through
-  }
-  return null;
-}
-
-// GitHub doesn't expose a commit count directly. Asking for one commit per page
-// makes the Link header's last-page number equal to the total commit count.
-async function fetchGithubCommits(): Promise<number | null> {
-  try {
-    const res = await fetch(`${GITHUB_API}/commits?per_page=1`, {
-      headers: { Accept: "application/vnd.github+json" },
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    const link = res.headers.get("link");
-    if (link) {
-      const m = link.match(/<[^>]*[?&]page=(\d+)[^>]*>;\s*rel="last"/);
-      if (m) return Number(m[1]);
-    }
-    // Repo with a single commit returns no Link header.
-    const data = (await res.json()) as unknown[];
-    return Array.isArray(data) ? data.length : null;
-  } catch {
-    // fall through
-  }
-  return null;
 }
 
 // Counts entries under /locales on the default branch. Each entry represents
@@ -227,424 +89,74 @@ async function fetchBulwarkInstances(): Promise<number | null> {
   return null;
 }
 
-function HeroTitle({ copy }: { copy: HeroCopy }) {
-  const [from, to] = copy.accent;
-  const lineEnds = new Set<number>();
-  let count = 0;
-  for (const line of copy.title) {
-    count += line.split(" ").length;
-    lineEnds.add(count - 1);
-  }
-  const words = copy.title.join(" ").split(" ");
-  return (
-    <>
-      {words.map((w, i) => {
-        const inRange = i >= from && i <= to;
-        return (
-          <span key={i}>
-            <span className={inRange ? "ed-hero-underline" : undefined}>{w}</span>
-            {i < words.length - 1 ? (lineEnds.has(i) ? <br /> : " ") : null}
-          </span>
-        );
-      })}
-    </>
-  );
-}
-
 // -----------------------------------------------------------------------------
-// SECTION: Hero
+// SECTION: Hero - on the field, the screenshot leaves it at the right page edge
 // -----------------------------------------------------------------------------
 function HeroSection() {
   return (
-    <section className="relative overflow-hidden px-5 sm:px-8 lg:px-14 pt-20 sm:pt-28 pb-14 sm:pb-20">
-      {/* Background mark - center sits on the right edge of the section */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute"
-        style={{ top: 150, right: -800, opacity: 0.07, zIndex: 0 }}
-      >
-        <BulwarkMark size={1600} color="var(--rasp)" />
-      </div>
-      <div className="relative mx-auto max-w-[1440px]" style={{ zIndex: 1 }}>
-        {/* Title */}
-        <h1
-          className="ed-display animate-fade-in-up text-foreground"
-          style={{
-            fontFamily: SANS,
-            fontWeight: 800,
-            letterSpacing: "-0.045em",
-            lineHeight: 0.92,
-            fontSize: "clamp(3rem, 11vw, 9.75rem)",
-            maxWidth: "1300px",
-          }}
-        >
-          <Only edition="full"><HeroTitle copy={HERO.full} /></Only>
-          <Only edition="lite"><HeroTitle copy={HERO.lite} /></Only>
-        </h1>
-
-        {/* Deck + CTAs */}
-        <div className="mt-10 sm:mt-14 grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-end animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-          <p
-            className="text-foreground/70"
-            style={{
-              fontFamily: SANS,
-              fontWeight: 400,
-              fontSize: "clamp(1.1rem, 1.6vw, 1.375rem)",
-              lineHeight: 1.45,
-              maxWidth: "700px",
-            }}
-          >
-            <Only edition="full">{HERO.full.deck}</Only>
-            <Only edition="lite">{HERO.lite.deck}</Only>
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Only edition="full">
-              <Link href={HERO.full.cta.href} className="ed-cta-primary">
-                {HERO.full.cta.label} <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Only>
-            <Only edition="lite">
-              <EditionLink href={HERO.lite.cta.href} className="ed-cta-primary">
-                {HERO.lite.cta.label} <ArrowRight className="w-4 h-4" />
-              </EditionLink>
-            </Only>
-            <a
-              href="https://github.com/bulwarkmail/webmail"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ed-cta-ghost"
-            >
-              <Github className="w-4 h-4" />
-              View source
-            </a>
-          </div>
-        </div>
-
-        {/* Sponsors strip */}
-        <div className="mt-16 sm:mt-20 pt-6 border-t border-[color:var(--rule)]">
-          <p className="ed-eyebrow text-center mb-6">Backed by</p>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 sm:gap-x-12">
-            <a
-              href="https://rbm.systems"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="sponsor-logo"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logos/rbmsys.svg" alt="RBM Sys" className="h-9 w-auto" />
-            </a>
-            <a
-              href="https://lepthien.info/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="sponsor-logo"
-            >
-              <Image
-                src="/logos/logo(3).png"
-                alt="Le Phien Lab"
-                width={140}
-                height={42}
-                className="h-9 w-auto object-contain"
+    <section className="bw-field bw-hero">
+      <div className="bw-w">
+        <div className="bw-hero-in">
+          <div className="bw-hero-text">
+            <h1 className="bw-h1">
+              <Ed full="Webmail for Stalwart Mail Server." lite="Webmail for Stalwart, served as static files." />
+            </h1>
+            <p className="bw-lead">
+              <Ed
+                full="Bulwark puts mail, calendar, contacts and files in one browser client that talks JMAP to your own server."
+                lite="Bulwark Lite is the same client as a folder of HTML and JavaScript. Upload it to any web host and the browser talks JMAP to Stalwart directly."
               />
-            </a>
-            <a
-              href="https://github.com/sponsors/bulwarkmail"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-5 py-2.5 border border-dashed border-[color:var(--rule)] text-foreground/70 hover:text-foreground hover:border-foreground/40 transition-colors text-sm"
-              style={{ fontFamily: SANS }}
-            >
-              Become a sponsor
-            </a>
+            </p>
+            <div className="bw-btns">
+              <span className="ed-full-only">
+                <EditionLink href="/docs" className="bw-btn">
+                  Read the docs <ArrowRight size={16} {...ICON} />
+                </EditionLink>
+              </span>
+              <span className="ed-lite-only">
+                <EditionLink href="/docs/getting-started/lite" className="bw-btn">
+                  Read the Lite guide <ArrowRight size={16} {...ICON} />
+                </EditionLink>
+              </span>
+              <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn bw-btn-ghost">
+                View source <ArrowUpRight size={16} {...ICON} />
+              </a>
+            </div>
           </div>
+          <Shot
+            name="inbox"
+            alt="The Bulwark inbox with a message open in the reading pane"
+            className="bw-hero-shot"
+            sizes="(max-width: 900px) 120vw, 60vw"
+            priority
+          />
         </div>
-
-        {/* Hero plate: one beauty shot per edition, light and dark inside each.
-            Both editions render; data-edition picks one, so there is no flash. */}
-        <div className="mt-14 sm:mt-20 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-          <Only edition="full" as="div">
-            <div className="flex items-center gap-2.5 mb-3.5">
-              <span className="block w-2 h-2" style={{ background: "var(--rasp)" }} />
-              <span className="ed-runhead">Mail · reading view</span>
-            </div>
-            <ThemeImage
-              light="/beauty/light-inbox.webp"
-              dark="/beauty/dark-inbox.webp"
-              alt="Bulwark's inbox with a message open in the reading pane"
-              width={2400}
-              height={1500}
-              priority
-              sizes="(max-width: 1440px) 100vw, 1440px"
-              className="ed-beauty"
-            />
-          </Only>
-          <Only edition="lite" as="div">
-            <div className="flex items-center gap-2.5 mb-3.5">
-              <span className="block w-2 h-2" style={{ background: "var(--rasp)" }} />
-              <span className="ed-runhead">Search · everything, from static files</span>
-            </div>
-            <ThemeImage
-              light="/beauty/light-search.webp"
-              dark="/beauty/dark-search.webp"
-              alt="The global search palette in Bulwark Lite, matching mail and calendar entries"
-              width={2400}
-              height={1500}
-              priority
-              sizes="(max-width: 1440px) 100vw, 1440px"
-              className="ed-beauty"
-            />
-          </Only>
-        </div>
-
       </div>
     </section>
   );
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Mission ("Email is fifty. Webmail doesn't have to be.")
+// SECTION: Fact row
 // -----------------------------------------------------------------------------
-
-// Email's birthday: October 1, 1971 - used as the reference date for showing
-// how old email actually is on every page render.
-const EMAIL_BIRTH = new Date(1971, 9, 1);
-
-function emailAge(now: Date = new Date()): number {
-  let age = now.getFullYear() - EMAIL_BIRTH.getFullYear();
-  const m = now.getMonth() - EMAIL_BIRTH.getMonth();
-  if (m < 0 || (m === 0 && now.getDate() < EMAIL_BIRTH.getDate())) age--;
-  return age;
-}
-
-const NUMBER_ONES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-const NUMBER_TEENS = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
-const NUMBER_TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-
-function numberToWord(n: number): string {
-  if (n < 0) return "";
-  if (n < 10) return NUMBER_ONES[n];
-  if (n < 20) return NUMBER_TEENS[n - 10];
-  const t = Math.floor(n / 10);
-  const o = n % 10;
-  if (t >= NUMBER_TENS.length) return String(n);
-  return o === 0 ? NUMBER_TENS[t] : `${NUMBER_TENS[t]}-${NUMBER_ONES[o]}`;
-}
-
-function MissionSection() {
-  const ageWord = numberToWord(emailAge());
-  const ticks: { y: string; t: string; hi?: boolean }[] = [
-    { y: "1971", t: "first email sent" },
-    { y: "1996", t: "Hotmail launches" },
-    { y: "2008", t: "Roundcube 0.2" },
-    { y: "2019", t: "JMAP standardised", hi: true },
-    { y: "2026", t: "Bulwark v1", hi: true },
+function FactsSection({ langs }: { langs: number }) {
+  const facts = [
+    { icon: Code2, title: "Open source", text: "AGPL-3.0, developed in public on GitHub." },
+    { icon: Zap, title: "Built on JMAP", text: "Stalwart pushes each change, and the client fetches only the difference." },
+    { icon: Globe, title: `${langs} languages`, text: "Translated by the people who use it." },
+    { icon: MapPin, title: "Built in the EU", text: "Runs on your hardware and stores nothing of its own." },
   ];
   return (
-    <section id="mission" className="ed-section">
-      <div className="mx-auto max-w-[1440px]">
-        <h2
-          className="text-foreground"
-          style={{
-            fontFamily: SANS,
-            fontWeight: 800,
-            letterSpacing: "-0.05em",
-            lineHeight: 1.02,
-            margin: "0 0 48px",
-            maxWidth: "1180px",
-            fontSize: "clamp(2.25rem, 11vw, 8.25rem)",
-            overflowWrap: "break-word",
-            hyphens: "auto",
-          }}
-        >
-          Email is {ageWord}. Webmail doesn&apos;t have to be.
-        </h2>
-
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-start mb-16 sm:mb-20">
-          <p
-            className="text-foreground"
-            style={{
-              fontFamily: SANS,
-              fontWeight: 400,
-              fontSize: "clamp(1.1rem, 1.5vw, 1.375rem)",
-              lineHeight: 1.5,
-              margin: 0,
-              maxWidth: "640px",
-            }}
-          >
-            Most self-hosted webmail still feels like 2008 because{" "}
-            <em style={{ fontStyle: "normal", fontFamily: SERIF, color: "var(--rasp)" }}>
-              most of it was written then
-            </em>
-            . The browser stopped being the limiting factor a long time ago, and JMAP took away the protocol excuse in 2019. We started Bulwark after both of those, which is honestly the only advantage it has.
-          </p>
-          <div className="border-l border-[color:var(--rule)] pl-8">
-            <div className="ed-eyebrow mb-3">What 2019 changed</div>
-            <ul className="flex flex-col m-0 p-0 list-none border-t border-[color:var(--rule)]">
-              {[
-                ["The server speaks first", "Stalwart announces a state change the moment it happens. The 30-second poll loop goes away, and so do the idle reconnects that came with it."],
-                ["One round-trip per click", "Mark-read, move, and fetch-next travel as a single JMAP call."],
-                ["Threading is server work", "Stalwart stitches the conversation once. The browser renders what it's handed."],
-                ["Typed across the wire", "JMAP pins down the exact response shapes, and the client is strict TypeScript, so any drift between them fails at compile time."],
-              ].map(([name, desc]) => (
-                <li
-                  key={name}
-                  className="grid grid-cols-[minmax(160px,_38%)_1fr] gap-6 items-baseline py-2 border-b border-[color:var(--rule)]"
-                >
-                  <span
-                    className="text-foreground"
-                    style={{
-                      fontFamily: SANS,
-                      fontWeight: 700,
-                      fontSize: "14px",
-                      letterSpacing: "-0.005em",
-                      whiteSpace: "nowrap",
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {name}
-                  </span>
-                  <span
-                    className="text-foreground/70"
-                    style={{ fontFamily: SERIF, fontSize: "14px", lineHeight: 1.3 }}
-                  >
-                    {desc}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Timeline - vertical on mobile, horizontal from sm up */}
-        <ul className="sm:hidden flex flex-col m-0 p-0 list-none pt-4 border-t border-[color:var(--rule)]">
-          {ticks.map((t) => (
-            <li
-              key={`m-${t.y}`}
-              className="grid items-center gap-4 py-5 border-b border-[color:var(--rule)]"
-              style={{ gridTemplateColumns: "auto auto 1fr" }}
-            >
-              <div
-                aria-hidden
-                style={{
-                  width: t.hi ? 14 : 10,
-                  height: t.hi ? 14 : 10,
-                  background: t.hi ? "var(--rasp)" : "var(--foreground)",
-                  borderRadius: t.hi ? 0 : "50%",
-                }}
-              />
-              <div
-                style={{
-                  fontFamily: SANS,
-                  fontWeight: 800,
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1,
-                  fontSize: "clamp(3rem, 16vw, 5rem)",
-                  color: t.hi ? "var(--rasp)" : "var(--foreground)",
-                }}
-              >
-                {t.y}
-              </div>
-              <div
-                className="ed-eyebrow text-right"
-                style={{ letterSpacing: "0.14em", lineHeight: 1.35, fontSize: 12 }}
-              >
-                {t.t}
-              </div>
-            </li>
+    <section className="bw-sec-tight">
+      <div className="bw-w">
+        <div className="bw-facts">
+          {facts.map(({ icon: Icon, title, text }) => (
+            <div key={title}>
+              <Icon size={24} {...ICON} />
+              <h3 className="bw-h3">{title}</h3>
+              <p>{text}</p>
+            </div>
           ))}
-        </ul>
-        <div className="hidden sm:block overflow-x-auto pt-4">
-          <div className="min-w-[640px]">
-            {/* Year row */}
-            <div
-              className="grid"
-              style={{ gridTemplateColumns: `repeat(${ticks.length}, 1fr)` }}
-            >
-              {ticks.map((t) => (
-                <div
-                  key={`y-${t.y}`}
-                  className="text-left pr-4"
-                  style={{
-                    fontFamily: SANS,
-                    fontWeight: 800,
-                    letterSpacing: "-0.03em",
-                    lineHeight: 1,
-                    fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
-                    color: t.hi ? "var(--rasp)" : "var(--foreground)",
-                  }}
-                >
-                  {t.y}
-                </div>
-              ))}
-            </div>
-
-            {/* Dots + line row: line is absolutely positioned at this row's
-                vertical center, dots sit on the same center so the line
-                visibly passes through them. */}
-            <div className="relative" style={{ height: 14, marginTop: 16 }}>
-              <div
-                className="absolute"
-                style={{
-                  left: 0,
-                  right: 12,
-                  top: "50%",
-                  height: 1,
-                  background: "var(--rule)",
-                  transform: "translateY(-50%)",
-                }}
-              />
-              <ArrowRight
-                aria-hidden
-                strokeWidth={1.5}
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  width: 16,
-                  height: 16,
-                  color: "var(--rasp)",
-                }}
-              />
-              <div
-                className="grid relative h-full"
-                style={{ gridTemplateColumns: `repeat(${ticks.length}, 1fr)` }}
-              >
-                {ticks.map((t) => (
-                  <div key={`d-${t.y}`} className="relative pr-4 h-full">
-                    <div
-                      style={{
-                        width: t.hi ? 12 : 8,
-                        height: t.hi ? 12 : 8,
-                        background: t.hi ? "var(--rasp)" : "var(--foreground)",
-                        borderRadius: t.hi ? 0 : "50%",
-                        position: "absolute",
-                        top: "50%",
-                        left: 0,
-                        transform: "translateY(-50%)",
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Label row */}
-            <div
-              className="grid"
-              style={{ gridTemplateColumns: `repeat(${ticks.length}, 1fr)`, marginTop: 18 }}
-            >
-              {ticks.map((t) => (
-                <div
-                  key={`l-${t.y}`}
-                  className="ed-eyebrow text-left pr-4"
-                  style={{ letterSpacing: "0.1em", lineHeight: 1.4 }}
-                >
-                  {t.t}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -652,93 +164,49 @@ function MissionSection() {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Surfaces - overlapping screenshot plates on navy
+// SECTION: The four apps
 // -----------------------------------------------------------------------------
-function SurfacesSection() {
+function AppsSection() {
   return (
-    <section id="features" className="ed-section ed-on-navy relative overflow-hidden">
-      <div className="absolute pointer-events-none" style={{
-        top: -200, right: -200, width: 600, height: 600, borderRadius: "50%",
-        background: "radial-gradient(circle, color-mix(in srgb, var(--rasp) 20%, transparent) 0%, transparent 60%)",
-      }} />
-      <div className="mx-auto max-w-[1440px] relative">
-        <h2
-          style={{
-            fontFamily: SANS,
-            fontWeight: 700,
-            letterSpacing: "-0.035em",
-            lineHeight: 0.98,
-            margin: "16px 0 24px",
-            maxWidth: "1100px",
-            fontSize: "clamp(2rem, 6vw, 5.5rem)",
-            color: "var(--paper)",
-          }}
-        >
-          Four apps that behave<br />like one application.
-        </h2>
-        <p className="ed-lite-only" style={{ fontFamily: MONO, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted-navy)", margin: "0 0 12px" }}>
-          All of it in Lite, too. Everything on this screen runs in the browser.
-        </p>
-        <p
-          style={{
-            fontFamily: SANS,
-            fontSize: "clamp(1rem, 1.4vw, 1.1875rem)",
-            lineHeight: 1.5,
-            color: "var(--muted-navy)",
-            maxWidth: 720,
-            margin: "0 0 64px",
-          }}
-        >
-          Stalwart already stores all of it. What was missing was a front end that doesn&apos;t make you feel the seam between mail and calendar, and doesn&apos;t ask you to forgive it for being self-hosted.
-        </p>
-
-        {/* Plate grid: one framed shot per surface. Beauty shots come from
-            scripts/shoot-beauty.mjs + scripts/frame-beauty.mjs (see
-            SCREENSHOTS-TODO.md); all are 2400x1500. */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-          {([
-            { name: "calendar-week", label: "Calendar · week, scrolling freely", alt: "A week in the Bulwark calendar with events and a birthday" },
-            { name: "contact", label: "Contacts · detail with recent mail and events", alt: "A contact's detail view with recent mail and upcoming events" },
-            { name: "composer", label: "Mail · drafting", alt: "The composer mid-draft with a recipient, subject and body" },
-            { name: "files", label: "Files · Stalwart's FileNode storage", alt: "The Files app in grid view with folders and office documents" },
-            { name: "pro", label: "Pro interface · tabs across surfaces", alt: "The Pro shell with mail, calendar, contacts and files as tabs", fullOnly: true },
-            { name: "search", label: "Search · mail, contacts, calendar and files at once", alt: "The global search palette with mail and calendar hits", liteOnly: true },
-            { name: "laptop-phone", label: "The same account on a laptop and a phone", alt: "The inbox on a laptop next to a message on a phone" },
-            { src: "/beauty/split-inbox.webp", label: "Light and dark, one interface", alt: "The inbox split diagonally between the light and the dark theme" },
-          ] as Array<{ label: string; alt: string; fullOnly?: boolean; liteOnly?: boolean } & ({ name: string } | { src: string })>).map((p) => {
-            const key = "src" in p ? p.src : p.name;
-            const visibilityClass = [p.fullOnly ? "ed-full-only" : "", p.liteOnly ? "ed-lite-only" : ""].filter(Boolean).join(" ");
-            return (
-              <div key={key} className={visibilityClass || undefined}>
-                <div className="flex items-center gap-2.5 mb-3.5">
-                  <span className="block w-2 h-2" style={{ background: "var(--rasp)" }} />
-                  <span className="ed-runhead" style={{ color: "var(--muted-navy)" }}>
-                    {p.label}
-                  </span>
-                </div>
-                {"src" in p ? (
-                  <Image
-                    src={p.src}
-                    alt={p.alt}
-                    width={2400}
-                    height={1500}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="ed-beauty"
-                  />
-                ) : (
-                  <ThemeImage
-                    light={`/beauty/light-${p.name}.webp`}
-                    dark={`/beauty/dark-${p.name}.webp`}
-                    alt={p.alt}
-                    width={2400}
-                    height={1500}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="ed-beauty"
-                  />
-                )}
-              </div>
-            );
-          })}
+    <section id="features" className="bw-sec">
+      <div className="bw-w">
+        <div className="bw-head">
+          <h2 className="bw-h2">Everything Stalwart stores, in one interface.</h2>
+          <p>
+            Stalwart keeps your messages, calendars, address books and files. Bulwark shows all four in the same
+            window, with a single search across them.
+          </p>
+        </div>
+        <div className="bw-tiles">
+          <Tile
+            href="/docs/features/email"
+            icon={Mail}
+            title="Mail"
+            text="Threaded conversations, a unified inbox, Sieve filters and S/MIME."
+          />
+          <Tile
+            href="/docs/features/calendar"
+            icon={Calendar}
+            title="Calendar"
+            text="Month, week, day and agenda views with invitations and free/busy."
+          />
+          <Tile
+            href="/docs/features/contacts"
+            icon={Contact}
+            title="Contacts"
+            text="Several address books, groups, and vCard import and export."
+          />
+          <Tile
+            href="/docs/features/files"
+            icon={Folder}
+            title="Files"
+            text={
+              <Ed
+                full="Stalwart's file storage with previews, sharing and office editing."
+                lite="Stalwart's file storage with previews, sharing and folder upload."
+              />
+            }
+          />
         </div>
       </div>
     </section>
@@ -746,380 +214,242 @@ function SurfacesSection() {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Overview - install + suite
+// SECTION: Text-and-figure rows. The figure is always product UI.
 // -----------------------------------------------------------------------------
-const APPS: Record<Edition, [string, string][]> = {
-  full: [
-    ["Mail", "threading, unified inbox, full-text and global search, folder sharing, Sieve filters, S/MIME, templates"],
-    ["Calendar", "free-scrolling month / week / day / agenda, recurring events, iMIP invitations, free/busy, iCal subscriptions"],
-    ["Contacts", "multiple address books, groups, vCard import / export"],
-    ["Files", "Stalwart's JMAP FileNode storage with previews, sharing, folder upload and office editing"],
-  ],
-  lite: [
-    ["Mail", "threading, unified inbox, full-text and global search, folder sharing, Sieve filters, S/MIME, templates"],
-    ["Calendar", "free-scrolling month / week / day / agenda, recurring events, iMIP invitations, free/busy, .ics import"],
-    ["Contacts", "multiple address books, groups, vCard import / export"],
-    ["Files", "Stalwart's JMAP FileNode storage with previews, sharing and folder upload"],
-  ],
+type FeatureRowProps = {
+  heading: string;
+  text: React.ReactNode;
+  link: { label: string; href: string };
+  shot: { name: string; alt: string; pos?: string };
+  /** Figure on the left, on the quiet surface band. */
+  flip?: boolean;
 };
+
+function FeatureRow({ heading, text, link, shot, flip }: FeatureRowProps) {
+  return (
+    <section className={flip ? "bw-sec bw-band" : "bw-sec"}>
+      <div className="bw-w">
+        <div className={`bw-split bw-split-center ${flip ? "bw-split-7-5" : "bw-split-5-7"}`}>
+          <div className={flip ? "bw-stack bw-order-last" : "bw-stack"}>
+            <h2 className="bw-h2">{heading}</h2>
+            <p className="bw-muted">{text}</p>
+            <EditionLink href={link.href} className="bw-tlink">
+              {link.label} <ArrowRight size={16} {...ICON} />
+            </EditionLink>
+          </div>
+          <Shot name={shot.name} alt={shot.alt} pos={shot.pos} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// SECTION: Editions
+// -----------------------------------------------------------------------------
 
 // Verified against scripts/lite/lib.mjs and the IS_LITE gates in the webmail
-// checkout. If a line here can't be traced to one of those, take it out.
-const LITE_LEAVES_OUT = [
-  "Admin console and setup wizard",
-  "Plugins and sidebar apps",
-  "Settings sync between devices",
-  "OAuth / OIDC and single sign-on",
-  "Account security tab",
-  "iCal URL subscriptions and CalDAV discovery",
-  "Sender favicons",
-  "Office document editing",
-  "Web push and the update notice",
+// checkout. If a row here can't be traced to one of those, take it out.
+const EDITION_ROWS: [string, boolean | string, boolean | string][] = [
+  ["Mail, calendar, contacts and files", true, true],
+  ["Sign-in with a password", true, true],
+  ["OAuth and single sign-on", true, false],
+  ["Plugins and sidebar apps", true, false],
+  ["Settings that follow you between devices", true, false],
+  ["Admin console and setup wizard", true, false],
+  ["Office document editing", true, false],
+  ["Web push and the update notice", true, false],
+  ["Runs on", "Docker or Node.js", "Any static web host"],
 ];
 
-const QUICKSTART: Record<Edition, [string, string, string][]> = {
-  full: [
-    ["Run the container", "docker run -d -p 3000:3000 ghcr.io/bulwarkmail/webmail:latest", "$"],
-    ["Open the setup wizard", "http://localhost:3000", "$"],
-    ["Click through a few screens", "server · auth · security · logging · branding · review", "→"],
-    ["Put a reverse proxy in front", "Caddy, nginx or Traefik, examples in the docs", "→"],
-  ],
-  lite: [
-    ["Download the zip", "bulwark-lite-<version>.zip, attached to every release", "→"],
-    ["Edit config.json", "\"jmapServerUrl\": \"https://mail.example.com\"", "→"],
-    ["Upload the folder", "nginx · Caddy · Netlify · Cloudflare Pages · GitHub Pages", "→"],
-    ["Allow the origin in Stalwart", "http.permissive-cors = true", "→"],
-  ],
-};
-
-function OverviewSection() {
-  return (
-    <section id="deploy" className="ed-section">
-      <div className="mx-auto max-w-[1440px]">
-        <h2
-          className="text-foreground"
-          style={{
-            fontFamily: SANS,
-            fontWeight: 700,
-            letterSpacing: "-0.035em",
-            lineHeight: 0.98,
-            margin: "0 0 28px",
-            maxWidth: 1100,
-            fontSize: "clamp(2rem, 6vw, 5.5rem)",
-          }}
-        >
-          Installing it takes less time<br />
-          than uninstalling{" "}
-          <span
-            className="group relative inline-block"
-            style={{
-              color: "var(--rasp)",
-              fontFamily: SERIF,
-              fontStyle: "italic",
-              fontWeight: 400,
-              cursor:
-                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/%3E%3C/svg%3E\") 16 16, pointer",
-            }}
-          >
-            Outlook.
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/clippy.gif"
-              alt=""
-              aria-hidden="true"
-              className="absolute left-full top-1/2 -translate-y-1/2 -ml-16 mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-              style={{ width: 220, height: "auto" }}
-            />
-          </span>
-        </h2>
-        <p
-          className="text-foreground/70"
-          style={{
-            fontFamily: SERIF,
-            fontStyle: "italic",
-            fontSize: "clamp(1rem, 1.4vw, 1.375rem)",
-            lineHeight: 1.5,
-            maxWidth: 820,
-            margin: "0 0 56px",
-          }}
-        >
-          <Only edition="full">
-            The wizard handles what would otherwise be a config file. You&apos;ll probably spend longer picking a logo on the branding screen than you will pointing Bulwark at your mail server.
-          </Only>
-          <Only edition="lite">
-            There is no wizard, because there is nothing to install. Unzip, put the server URL in config.json, upload. The only change on the mail server is one line that lets your origin talk to it.
-          </Only>
-        </p>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          {/* LEFT - Features (apps list + infra panel) */}
-          <div className="flex flex-col gap-10">
-            <div>
-              <div className="ed-eyebrow mb-4">What you get</div>
-              {(["full", "lite"] as const).map((edition) => (
-                <Only key={edition} edition={edition} as="div" className="border-t-2 border-foreground">
-                  {APPS[edition].map((a) => (
-                    <div
-                      key={a[0]}
-                      className="py-5 border-b border-[color:var(--rule)]"
-                    >
-                      <div
-                        className="text-foreground"
-                        style={{
-                          fontFamily: SANS,
-                          fontSize: 20,
-                          fontWeight: 700,
-                          letterSpacing: "-0.015em",
-                        }}
-                      >
-                        {a[0]}
-                      </div>
-                      <div
-                        className="text-foreground/70 mt-1.5"
-                        style={{ fontFamily: SERIF, fontSize: 15, lineHeight: 1.5 }}
-                      >
-                        {a[1]}
-                      </div>
-                    </div>
-                  ))}
-                </Only>
-              ))}
-            </div>
-
-            <Only edition="lite" as="div">
-              <div className="ed-eyebrow mb-4">What Lite leaves out</div>
-              <ul className="m-0 p-0 list-none border-t-2 border-foreground">
-                {LITE_LEAVES_OUT.map((item) => (
-                  <li
-                    key={item}
-                    className="py-2.5 border-b border-[color:var(--rule)] text-foreground/70"
-                    style={{ fontFamily: SERIF, fontSize: 15, lineHeight: 1.4 }}
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-4 text-foreground/60 m-0" style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 14, lineHeight: 1.5 }}>
-                Each of these needs the Node.js server. The{" "}
-                <EditionLink href="/docs/getting-started/editions" style={{ color: "var(--rasp)", borderBottom: "1px solid var(--rasp)" }}>
-                  editions table
-                </EditionLink>{" "}
-                has the full comparison.
-              </p>
-            </Only>
-
-          </div>
-
-          {/* RIGHT - Install steps */}
-          <div className="flex flex-col gap-10">
-            <div>
-              <div className="ed-eyebrow mb-4">Quick start</div>
-              {(["full", "lite"] as const).map((edition) => (
-              <Only key={edition} edition={edition} as="div">
-              <ol className="border-t-2 border-foreground m-0 p-0 list-none">
-                {QUICKSTART[edition].map(([t, c, p]) => (
-                  <li
-                    key={t}
-                    className="py-5 border-b border-[color:var(--rule)]"
-                  >
-                    <div
-                      className="text-foreground"
-                      style={{
-                        fontFamily: SANS,
-                        fontSize: 20,
-                        fontWeight: 700,
-                        letterSpacing: "-0.015em",
-                      }}
-                    >
-                      {t}
-                    </div>
-                    <div
-                      className="mt-1.5 text-foreground/70 inline-flex items-center gap-1.5"
-                      style={{ fontFamily: MONO, fontSize: 13, letterSpacing: "0.005em" }}
-                    >
-                      {p === "→" ? (
-                        <ArrowRight className="w-3.5 h-3.5" aria-hidden />
-                      ) : (
-                        <span>{p}</span>
-                      )}
-                      <span>{c}</span>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              </Only>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+function YesNo({ value }: { value: boolean | string }) {
+  if (typeof value === "string") return <>{value}</>;
+  return value ? (
+    <span className="bw-yn bw-yn-yes">
+      <Check size={16} {...ICON} /> Yes
+    </span>
+  ) : (
+    <span className="bw-yn bw-yn-no">
+      <Minus size={16} {...ICON} /> No
+    </span>
   );
 }
 
-// -----------------------------------------------------------------------------
-// SECTION: Commons - navy, big star count
-// -----------------------------------------------------------------------------
-function CommonsSection({
-  stars,
-  instances,
-  commits,
-  langs,
-}: {
-  stars: number | null;
-  instances: number | null;
-  commits: number | null;
-  langs: number | null;
-}) {
+function EditionsSection() {
   return (
-    <section className="ed-section ed-on-navy relative overflow-hidden">
-      <div className="absolute pointer-events-none" style={{
-        bottom: -200, left: -200, width: 600, height: 600, borderRadius: "50%",
-        background: "radial-gradient(circle, color-mix(in srgb, var(--rasp) 20%, transparent) 0%, transparent 60%)",
-      }} />
-      <div className="mx-auto max-w-[1440px] relative">
-        <h2
-          style={{
-            fontFamily: SANS,
-            fontWeight: 700,
-            letterSpacing: "-0.035em",
-            lineHeight: 0.98,
-            margin: "0 0 64px",
-            maxWidth: 1100,
-            fontSize: "clamp(2rem, 6vw, 5.5rem)",
-            color: "var(--paper)",
-          }}
-        >
-          It&apos;s AGPL, which means<br />
-          you can just fix it.
-        </h2>
-
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-20 items-end">
-          <div>
-            <div
-              className="inline-flex items-baseline gap-4"
-              style={{
-                fontFamily: SANS,
-                fontWeight: 800,
-                lineHeight: 0.82,
-                letterSpacing: "-0.055em",
-                color: "var(--rasp)",
-                fontSize: "clamp(6rem, 20vw, 17.5rem)",
-              }}
-            >
-              {stars ?? "-"}
-              <Star
-                aria-hidden
-                strokeWidth={1.5}
-                style={{
-                  width: "0.28em",
-                  height: "0.28em",
-                  color: "var(--paper)",
-                  flexShrink: 0,
-                  alignSelf: "center",
-                  transform: "translateY(-0.15em)",
-                }}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-7">
-            <p
-              style={{
-                fontFamily: SERIF,
-                fontSize: "clamp(1.1rem, 1.6vw, 1.625rem)",
-                lineHeight: 1.45,
-                fontStyle: "italic",
-                margin: 0,
-                color: "var(--paper)",
-              }}
-            >
-              &ldquo;We&apos;re writing the webmail we wanted in 2026 and didn&apos;t find: a JMAP-native client with an interface built this decade. It&apos;s AGPL and self-hosted, run by the people who use it rather than sold to them.&rdquo;
+    <section className="bw-sec">
+      <div className="bw-w">
+        <div className="bw-split bw-split-4-8">
+          <div className="bw-head">
+            <h2 className="bw-h2">Two editions from the same code.</h2>
+            <p>
+              Bulwark runs as a Node.js container with an admin console. Bulwark Lite is the same client exported as
+              static files, for hosts that only serve HTML.
             </p>
-            <div className="ed-folio" style={{ color: "var(--muted-navy)" }}>
-              from our contributing guide
-            </div>
-            <div
-              className="grid grid-cols-3 pt-6"
-              style={{ borderTop: "1px solid var(--rule-navy)" }}
-            >
-              {[
-                {
-                  n: instances != null ? instances.toLocaleString("en-US") : STATS.instances,
-                  k: "confirmed instances",
-                  href: "https://grafana.external.bulwarkmail.org",
-                },
-                {
-                  n: commits != null ? commits.toLocaleString("en-US") : STATS.commits,
-                  k: "commits",
-                  href: "https://github.com/bulwarkmail/webmail/commits/main",
-                },
-                {
-                  n: langs != null ? String(langs) : String(STATS.langs),
-                  k: "languages",
-                },
-              ].map(({ n, k, href }, i) => {
-                const content = (
-                  <>
-                    <div
-                      style={{
-                        fontFamily: SANS,
-                        fontWeight: 700,
-                        letterSpacing: "-0.02em",
-                        lineHeight: 1,
-                        fontSize: "clamp(1.5rem, 2.8vw, 2.25rem)",
-                        color: "var(--paper)",
-                      }}
-                    >
-                      {n}
-                    </div>
-                    <div className="ed-folio mt-2" style={{ color: "var(--muted-navy)" }}>
-                      {k}
-                    </div>
-                  </>
-                );
-                return (
-                  <div
-                    key={k}
-                    className={i === 0 ? "" : "pl-5"}
-                    style={{ borderLeft: i === 0 ? "none" : "1px solid var(--rule-navy)" }}
-                  >
-                    {href ? (
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block transition-opacity hover:opacity-80"
-                      >
-                        {content}
-                      </a>
-                    ) : (
-                      content
-                    )}
+            <EditionLink href="/docs/getting-started/editions" className="bw-tlink">
+              Compare the editions <ArrowRight size={16} {...ICON} />
+            </EditionLink>
+          </div>
+          <div className="bw-table-wrap">
+            <table className="bw-table bw-table-compare">
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Bulwark</th>
+                  <th scope="col">Bulwark Lite</th>
+                </tr>
+              </thead>
+              <tbody>
+                {EDITION_ROWS.map(([feature, full, lite]) => (
+                  <tr key={feature}>
+                    <td>{feature}</td>
+                    <td>
+                      <YesNo value={full} />
+                    </td>
+                    <td>
+                      <YesNo value={lite} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// SECTION: Install - the field returns once. Three numbered steps per edition;
+// the numbers are a real sequence.
+// -----------------------------------------------------------------------------
+function InstallSection() {
+  return (
+    <section id="install" className="bw-sec bw-field">
+      <div className="bw-w">
+        <div className="bw-split bw-split-5-7">
+          <div className="bw-stack">
+            <h2 className="bw-h2">
+              <Ed full="Run Bulwark as one container." lite="Upload Bulwark Lite in three steps." />
+            </h2>
+            <p>
+              <Ed
+                full="Docker is the only requirement. There is nothing to clone and no config file to write first."
+                lite="Lite is a folder of HTML, JavaScript and one JSON file. It runs on any host that serves static files, with one setting changed on the mail server."
+              />
+            </p>
+            <EditionSwitch wide />
+          </div>
+
+          <div>
+            <div className="ed-full-only">
+              <ol className="bw-steps">
+                <li>
+                  <span className="bw-steps-n">1</span>
+                  <div>
+                    Run the container.
+                    <CodeBlock
+                      prompt
+                      code="docker run -d -p 3000:3000 ghcr.io/bulwarkmail/webmail:latest"
+                      label="Copy the command"
+                    />
                   </div>
-                );
-              })}
+                </li>
+                <li>
+                  <span className="bw-steps-n">2</span>
+                  <div>
+                    Open <code className="bw-icode">http://localhost:3000</code>. The setup wizard finds your Stalwart
+                    server and sets the admin password.
+                  </div>
+                </li>
+                <li>
+                  <span className="bw-steps-n">3</span>
+                  <div>
+                    Put your{" "}
+                    <EditionLink href="/docs/deployment/docker/reverse-proxy" className="bw-link">
+                      reverse proxy
+                    </EditionLink>{" "}
+                    in front. The docs have examples for Caddy, nginx and Traefik.
+                  </div>
+                </li>
+              </ol>
+            </div>
+            <div className="ed-lite-only">
+              <ol className="bw-steps">
+                <li>
+                  <span className="bw-steps-n">1</span>
+                  <div>
+                    Download <code className="bw-icode">bulwark-lite-&lt;version&gt;.zip</code> from the{" "}
+                    <a
+                      href={`${GITHUB}/releases/latest`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bw-link"
+                    >
+                      latest release
+                    </a>{" "}
+                    and unzip it.
+                  </div>
+                </li>
+                <li>
+                  <span className="bw-steps-n">2</span>
+                  <div>
+                    Set <code className="bw-icode">jmapServerUrl</code> in <code className="bw-icode">config.json</code>{" "}
+                    to your Stalwart server.
+                  </div>
+                </li>
+                <li>
+                  <span className="bw-steps-n">3</span>
+                  <div>
+                    Upload the folder, and set <code className="bw-icode">http.permissive-cors = true</code> in
+                    Stalwart. The{" "}
+                    <EditionLink href="/docs/deployment/static" className="bw-link">
+                      static hosting
+                    </EditionLink>{" "}
+                    page has host snippets.
+                  </div>
+                </li>
+              </ol>
             </div>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
 
-        <div className="flex flex-wrap gap-4 mt-14 relative">
-          <a
-            href="https://github.com/bulwarkmail/webmail"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ed-cta-primary"
-          >
-            <Star className="w-4 h-4" /> Star on GitHub
-          </a>
-          <a
-            href="https://github.com/bulwarkmail/webmail"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ed-cta-ghost"
-            style={{ color: "var(--paper)", borderColor: "var(--paper)" }}
-          >
-            <Github className="w-4 h-4" /> Read the source
-          </a>
+// -----------------------------------------------------------------------------
+// SECTION: Other projects
+// -----------------------------------------------------------------------------
+function ProjectsSection() {
+  return (
+    <section className="bw-sec">
+      <div className="bw-w">
+        <div className="bw-head">
+          <h2 className="bw-h2">More from the Bulwark project.</h2>
+        </div>
+        <div className="bw-tiles">
+          <Tile
+            href="https://github.com/bulwarkmail/legacy-proxy"
+            title="Bulwark Legacy Proxy"
+            text="Lets a JMAP client read a classic IMAP account, with CardDAV and Sieve behind it."
+          />
+          <Tile
+            href="https://github.com/bulwarkmail/native"
+            title="Bulwark Mobile"
+            text="Mail, calendar, contacts and files on Android. iOS follows."
+          />
+          <Tile
+            href="https://github.com/bulwarkmail/relay"
+            title="Bulwark Relay"
+            text="Turns JMAP push into phone notifications and never sees message content."
+          />
+          <Tile
+            href="https://extensions.bulwarkmail.org/"
+            title="Bulwark Extensions"
+            text="Reviewed plugins and themes, installed from a ZIP."
+          />
         </div>
       </div>
     </section>
@@ -1127,131 +457,51 @@ function CommonsSection({
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Other projects - 2x2 grid of clickable tiles
+// SECTION: Open source - text and buttons left, sponsors as a compact list
 // -----------------------------------------------------------------------------
-function OtherProjectsSection() {
-  const projects: { tag: string; accent: string; meta: string; body: string; href: string }[] = [
-    {
-      tag: "Protocol bridge",
-      accent: "Legacy Proxy",
-      meta: "JMAP in front · IMAP, SMTP, ManageSieve, CardDAV behind",
-      body: "A translation layer that lets JMAP clients read a classic IMAP account as if it were native. The proxy speaks JMAP on one side and the ordinary mailbox protocols on the other, and the mail never leaves the server that already holds it.",
-      href: "https://github.com/bulwarkmail/legacy-proxy",
-    },
-    {
-      tag: "Mobile app · beta",
-      accent: "Mobile",
-      meta: "React Native · Android on GitHub, iOS next",
-      body: "The same account in your pocket: mail, calendar, contacts and files, woken by push when something arrives. Android builds are on GitHub today; iOS follows once we have the hardware to sign it.",
-      href: "https://github.com/bulwarkmail/native",
-    },
-    {
-      tag: "Hosted service",
-      accent: "Relay",
-      meta: "JMAP push in, Firebase push out · one shared instance",
-      body: "Turns the mail server's push notifications into Firebase pushes, so the mobile app wakes without every self-hoster standing up their own Firebase project. All the relay ever sees is a device token and a hashed state id; message content never reaches it.",
-      href: "https://github.com/bulwarkmail/relay",
-    },
-    {
-      tag: "Extension directory",
-      accent: "Extensions",
-      meta: "Plugins and themes · installed from a ZIP",
-      body: "Plugins add toolbar buttons, sidebar apps, shortcuts and workflows the stock client doesn't have; themes change how it looks. The directory lists free and open-source extensions that have passed review.",
-      href: "https://extensions.bulwarkmail.org/",
-    },
-  ];
-
+function OpenSourceSection({ instances }: { instances: number }) {
   return (
-    <section className="ed-section bg-[color:var(--alt-section)]">
-      <div className="mx-auto max-w-[1440px]">
-        <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-4 mb-12 sm:mb-16">
-          <h2
-            className="text-foreground"
-            style={{
-              fontFamily: SANS,
-              fontWeight: 700,
-              letterSpacing: "-0.035em",
-              lineHeight: 0.98,
-              margin: 0,
-              fontSize: "clamp(2rem, 5vw, 5rem)",
-            }}
-          >
-            Other projects.
-          </h2>
-          <p
-            className="text-foreground/60"
-            style={{
-              fontFamily: SERIF,
-              fontStyle: "italic",
-              fontSize: 16,
-              lineHeight: 1.5,
-              margin: 0,
-              maxWidth: 380,
-            }}
-          >
-            The webmail is the main repo. These grew up around it.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {projects.map((p) => (
-            <a
-              key={p.accent}
-              href={p.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col border border-[color:var(--rule)] p-6 sm:p-9 transition-colors duration-150 hover:border-foreground/40 hover:bg-[color:var(--background)]"
-            >
-              <div className="flex items-start justify-between gap-4 mb-6 sm:mb-8">
-                <span className="ed-eyebrow">{p.tag}</span>
-                <ArrowUpRight
-                  className="w-5 h-5 shrink-0 text-foreground/35 transition-all duration-150 group-hover:text-[color:var(--rasp)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  aria-hidden
-                />
-              </div>
-              <h3
-                className="text-foreground"
-                style={{
-                  fontFamily: SANS,
-                  fontWeight: 800,
-                  letterSpacing: "-0.025em",
-                  lineHeight: 1.05,
-                  margin: "0 0 8px",
-                  fontSize: "clamp(1.5rem, 2.2vw, 1.875rem)",
-                }}
+    <section className="bw-sec bw-band">
+      <div className="bw-w">
+        <div className="bw-split bw-split-7-5">
+          <div className="bw-stack">
+            <h2 className="bw-h2">Bulwark is open source under AGPL-3.0.</h2>
+            <p className="bw-muted">
+              The code, the issue tracker and the release notes are public, and{" "}
+              <a
+                href="https://grafana.external.bulwarkmail.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bw-link"
               >
-                Bulwark {p.accent}
-              </h3>
-              <div className="ed-folio" style={{ marginBottom: 18 }}>
-                {p.meta}
-              </div>
-              <p
-                className="text-foreground/85"
-                style={{
-                  fontFamily: SERIF,
-                  fontSize: 17,
-                  lineHeight: 1.6,
-                  margin: 0,
-                  maxWidth: 560,
-                }}
+                {instances.toLocaleString("en-US")} instances
+              </a>{" "}
+              have reported in so far. Sponsors pay for the work.
+            </p>
+            <div className="bw-btns" style={{ marginTop: 8 }}>
+              <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
+                View source on GitHub <ArrowUpRight size={16} {...ICON} />
+              </a>
+              <a
+                href="https://github.com/sponsors/bulwarkmail"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bw-btn bw-btn-ghost"
               >
-                {p.body}
-              </p>
-              <div className="mt-auto pt-7">
-                <span
-                  className="text-foreground"
-                  style={{
-                    fontFamily: MONO,
-                    fontSize: 12.5,
-                    borderBottom: "1.5px solid var(--rasp)",
-                    paddingBottom: 3,
-                  }}
-                >
-                  {p.href.replace(/^https?:\/\//, "").replace(/\/$/, "")}
-                </span>
-              </div>
-            </a>
-          ))}
+                Become a sponsor <ArrowUpRight size={16} {...ICON} />
+              </a>
+            </div>
+          </div>
+          <div className="bw-tiles bw-tiles-1">
+            <Tile compact href="https://rbm.systems" title="RBM Systems" text="rbm.systems" />
+            <Tile compact href="https://lepthien.info/" title="Ingenieurbüro Lepthien" text="lepthien.info" />
+            <Tile
+              compact
+              href="https://github.com/sponsors/bulwarkmail"
+              title="Your organisation"
+              text="Sponsor Bulwark on GitHub"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -1259,169 +509,69 @@ function OtherProjectsSection() {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Questions - centered reading column FAQ
+// SECTION: FAQ
 // -----------------------------------------------------------------------------
-function QuestionsSection() {
+type Faq = { q: string; a: string; edition?: Edition };
+
+const FAQS: Faq[] = [
+  {
+    q: "Is Bulwark the mail server?",
+    a: "Bulwark is the client. Stalwart is the mail server: it holds the messages, speaks SMTP, and owns the accounts and the spam filtering. Install Stalwart first, then point Bulwark at it.",
+  },
+  {
+    q: "Why JMAP?",
+    a: "JMAP moves threading, search and change tracking to the server and returns only what changed. The inbox updates by push, and marking twenty messages as read is one request.",
+  },
+  {
+    q: "Bulwark or Bulwark Lite?",
+    a: "Choose Lite if you already run a web server and your users sign in with a password. Choose Bulwark for OAuth, plugins, settings sync or the admin console. Both build from the same commit and store nothing of their own, so switching is a redeploy.",
+  },
+  {
+    q: "Does it work with a Stalwart server I already run?",
+    a: "Yes. Point Bulwark at the JMAP endpoint and sign in with the accounts you have. Nothing migrates, and Stalwart stays the source of truth.",
+  },
+  {
+    edition: "full",
+    q: "What does deployment look like?",
+    a: "One container next to Stalwart, behind the reverse proxy you already use. There are working examples for Caddy, Traefik and nginx, a compose file for the pair, and a standalone tarball on every release for installs without Docker.",
+  },
+  {
+    edition: "lite",
+    q: "What does deployment look like?",
+    a: "A folder. Unzip the release, set the server URL in config.json, and upload it to whatever already serves your HTML: nginx, Caddy, Netlify, Cloudflare Pages, GitHub Pages or an S3 bucket. Updating means uploading the next zip over it.",
+  },
+  {
+    edition: "lite",
+    q: "Why does Lite need a CORS setting on the mail server?",
+    a: "In Lite the browser talks to Stalwart directly, from your static host's origin, and browsers only allow that when the mail server says so. One line in Stalwart's config, http.permissive-cors = true, allows it.",
+  },
+  {
+    q: "Can I try it first?",
+    a: "A demo runs at demo.bulwarkmail.org with a shared mailbox that resets every hour. The container also starts on your own machine in about ten minutes.",
+  },
+];
+
+function FaqSection() {
   return (
-    <section id="faq" className="ed-section">
-      <div className="mx-auto max-w-[1440px]">
-        <div className="flex flex-wrap items-baseline justify-between gap-8 mb-10 sm:mb-14 max-w-[1040px]">
-          <h2
-            className="text-foreground"
-            style={{
-              fontFamily: SANS,
-              fontWeight: 800,
-              letterSpacing: "-0.045em",
-              lineHeight: 0.92,
-              margin: 0,
-              fontSize: "clamp(2.5rem, 9vw, 8.25rem)",
-            }}
-          >
-            Before you install it.
-          </h2>
-        </div>
-
-        <div className="max-w-[1040px] relative">
-          {FAQS.map((f, i) => {
-            const editionClass = f.edition === "full" ? "ed-full-only" : f.edition === "lite" ? "ed-lite-only" : undefined;
-            return (
-              <article
-                key={i}
-                className={editionClass}
-                style={{
-                  paddingBottom: 24,
-                  marginBottom: 24,
-                  borderBottom: "1px solid var(--rule)",
-                }}
-              >
-                <h3
-                  className="text-foreground"
-                  style={{
-                    fontFamily: SANS,
-                    fontSize: "clamp(1.0625rem, 1.4vw, 1.25rem)",
-                    fontWeight: 700,
-                    letterSpacing: "-0.015em",
-                    lineHeight: 1.3,
-                    margin: "0 0 8px",
-                    textWrap: "balance",
-                  }}
-                >
-                  {f.q}
-                </h3>
-                <p
-                  className="text-foreground/80 m-0"
-                  style={{
-                    fontFamily: SERIF,
-                    fontSize: 16,
-                    lineHeight: 1.55,
-                  }}
-                >
-                  {f.a}
-                </p>
-              </article>
-            );
-          })}
-        </div>
-
-        <div
-          className="max-w-[1040px] mt-10 text-foreground/70"
-          style={{
-            fontFamily: SERIF,
-            fontStyle: "italic",
-            fontSize: 17,
-            lineHeight: 1.5,
-          }}
-        >
-          Anything past this is in the{" "}
-          <EditionLink
-            href="/docs"
-            style={{
-              color: "var(--rasp)",
-              borderBottom: "1px solid var(--rasp)",
-              textDecoration: "none",
-            }}
-          >
-            documentation
-          </EditionLink>
-          . If it isn&apos;t, that&apos;s a documentation bug, and the{" "}
-          <a
-            href="https://github.com/bulwarkmail/webmail/issues/new"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "var(--rasp)",
-              borderBottom: "1px solid var(--rasp)",
-              textDecoration: "none",
-            }}
-          >
-            issue tracker
-          </a>{" "}
-          is where to say so.
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// -----------------------------------------------------------------------------
-// SECTION: Final CTA - navy with 4px double rasp top border
-// -----------------------------------------------------------------------------
-function FinalCtaSection() {
-  return (
-    <section
-      className="ed-section ed-on-navy"
-      style={{ borderTop: "4px double var(--rasp)" }}
-    >
-      <div className="mx-auto max-w-[1440px]">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-20 items-end">
-          <h2
-            style={{
-              fontFamily: SANS,
-              fontWeight: 800,
-              letterSpacing: "-0.045em",
-              lineHeight: 0.9,
-              margin: 0,
-              fontSize: "clamp(2.75rem, 10vw, 8.25rem)",
-              color: "var(--paper)",
-            }}
-          >
-            Catch
-            <br />
-            mail up.
-          </h2>
-          <div className="flex flex-col">
-            <EditionLink
-              href="/docs"
-              className="ed-cta-primary"
-              style={{
-                justifyContent: "space-between",
-                padding: "20px 24px",
-                fontSize: 17,
-              }}
-            >
-              <Only edition="full">Read the docs</Only>
-              <Only edition="lite">Read the Lite docs</Only>
-              <ArrowRight className="w-5 h-5" />
-            </EditionLink>
-            <a
-              href="https://github.com/bulwarkmail/webmail"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ed-cta-ghost"
-              style={{
-                justifyContent: "space-between",
-                color: "var(--paper)",
-                borderColor: "var(--paper)",
-                padding: "19px 24px",
-                fontSize: 17,
-                marginTop: 0,
-              }}
-            >
-              <span className="inline-flex items-center gap-2">
-                <Star className="w-4 h-4" /> View source
-              </span>
-              <ArrowUpRight className="w-5 h-5" />
-            </a>
+    <section id="faq" className="bw-sec">
+      <div className="bw-w">
+        <div className="bw-split bw-split-4-8">
+          <h2 className="bw-h2">Questions about running Bulwark</h2>
+          <div className="bw-faq">
+            {FAQS.map((f, i) => {
+              const open = i === 0;
+              const editionClass =
+                f.edition === "full" ? "ed-full-only" : f.edition === "lite" ? "ed-lite-only" : undefined;
+              return (
+                <details key={`${f.edition ?? "both"}-${f.q}`} className={editionClass} open={open}>
+                  <summary>
+                    {f.q}
+                    <Plus size={18} {...ICON} />
+                  </summary>
+                  <p>{f.a}</p>
+                </details>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -1443,32 +593,31 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { edition } = await searchParams;
   if (edition !== "lite") return {};
+  const title = "Bulwark Lite - webmail for Stalwart, served as static files";
+  const description =
+    "Bulwark Lite is Bulwark Webmail exported as static files: upload a folder to any web host, point it at Stalwart, and the browser talks JMAP directly. No Node.js process.";
   return {
-    title: "Bulwark Lite - the same webmail as static files",
-    description:
-      "Bulwark Lite is Bulwark Webmail exported as static files: upload a folder to any web host, point it at Stalwart, and the browser talks JMAP directly. No Node.js process.",
+    title,
+    description,
     openGraph: {
-      title: "Bulwark Lite - the same webmail, no server to run",
-      description:
-        "Bulwark Webmail exported as static files. Upload a folder, point config.json at Stalwart, done.",
+      title,
+      description: "Bulwark Webmail exported as static files. Upload a folder and point config.json at Stalwart.",
       url: `https://bulwarkmail.org/?edition=lite`,
       images: [OG_IMAGES.lite],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Bulwark Lite - the same webmail, no server to run",
-      description: "Bulwark Webmail exported as static files. Upload a folder, point config.json at Stalwart, done.",
+      title,
+      description: "Bulwark Webmail exported as static files. Upload a folder and point config.json at Stalwart.",
       images: [OG_IMAGES.lite.url],
     },
   };
 }
 
 export default async function Home() {
-  const [version, stars, instances, commits, langs] = await Promise.all([
+  const [version, instances, langs] = await Promise.all([
     fetchLatestVersion(),
-    fetchGithubStars(),
     fetchBulwarkInstances(),
-    fetchGithubCommits(),
     fetchLocaleCount(),
   ]);
 
@@ -1481,7 +630,7 @@ export default async function Home() {
     description:
       "A self-hosted webmail client for Stalwart Mail Server, built with Next.js and JMAP. Email, calendar, contacts, and file storage in one interface, running on your own hardware.",
     url: "https://bulwarkmail.org",
-    downloadUrl: "https://github.com/bulwarkmail/webmail",
+    downloadUrl: GITHUB,
     softwareVersion: version,
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
     isAccessibleForFree: true,
@@ -1490,22 +639,46 @@ export default async function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar stars={stars} />
+      <Navbar />
 
       <main>
         <HeroSection />
-        <MissionSection />
-        <SurfacesSection />
-        <OverviewSection />
-        <CommonsSection stars={stars} instances={instances} commits={commits} langs={langs} />
-        <OtherProjectsSection />
-        <QuestionsSection />
-        <FinalCtaSection />
+        <FactsSection langs={langs ?? FALLBACK.langs} />
+        <AppsSection />
+        <FeatureRow
+          heading="Mail opens as threads, with search across every folder."
+          text="The server threads each conversation and a unified inbox covers every account. Sieve filters, templates and S/MIME are built in."
+          link={{ label: "Mail features", href: "/docs/features/email" }}
+          shot={{ name: "composer", alt: "The composer with a draft open over the inbox", pos: "100% 100%" }}
+        />
+        <FeatureRow
+          flip
+          heading="The calendar handles invitations and recurring events."
+          text="Scroll freely through month, week, day and agenda views. Invitations arrive as mail and are answered from the message, and shared calendars show who is free."
+          link={{ label: "Calendar features", href: "/docs/features/calendar" }}
+          shot={{ name: "calendar", alt: "The calendar in month view with several events" }}
+        />
+        <FeatureRow
+          heading="Files sit on the mail server, next to your mail."
+          text={
+            <Ed
+              full="Bulwark browses Stalwart's file storage with previews, sharing and folder upload. Office documents open for editing in the browser."
+              lite="Bulwark Lite browses Stalwart's file storage with previews, sharing and folder upload."
+            />
+          }
+          link={{ label: "Files features", href: "/docs/features/files" }}
+          shot={{ name: "files", alt: "The files list with folders and documents" }}
+        />
+        <EditionsSection />
+        <InstallSection />
+        <ProjectsSection />
+        <OpenSourceSection instances={instances ?? FALLBACK.instances} />
+        <FaqSection />
       </main>
 
       <Footer />

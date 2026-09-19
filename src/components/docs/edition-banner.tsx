@@ -4,11 +4,13 @@ import { useEdition } from "@/components/edition-provider";
 
 const COPY = {
   full: {
-    text: "This page applies to Bulwark, not Bulwark Lite.",
+    lead: "Bulwark only.",
+    text: "This page applies to Bulwark and has no counterpart in Bulwark Lite.",
     action: "Switch to Bulwark",
   },
   lite: {
-    text: "This page applies to Bulwark Lite, not the full edition.",
+    lead: "Lite only.",
+    text: "This page applies to Bulwark Lite and has no counterpart in the full edition.",
     action: "Switch to Lite",
   },
 } as const;
@@ -23,8 +25,8 @@ export function EditionBanner({ pageEdition }: { pageEdition: "full" | "lite" })
   const copy = COPY[pageEdition];
   return (
     <div className={pageEdition === "full" ? "ed-lite-only" : "ed-full-only"}>
-      <div className="ed-edition-banner" role="note">
-        <span>{copy.text}</span>
+      <div className="bw-note bw-note-edition" role="note">
+        <b>{copy.lead}</b> {copy.text}
         <button type="button" onClick={() => setEdition(pageEdition)}>
           {copy.action}
         </button>
