@@ -7,6 +7,7 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: "Features", href: "https://github.com/bulwarkmail/webmail/blob/main/FEATURES.md" },
       { label: "Editions", href: "/docs/getting-started/editions" },
+      { label: "Which edition?", href: "/choose" },
       { label: "Bulwark Lite", href: "/docs/getting-started/lite?edition=lite" },
       { label: "Changelog", href: "https://github.com/bulwarkmail/webmail/releases" },
     ],

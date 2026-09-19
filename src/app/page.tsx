@@ -289,6 +289,9 @@ function EditionsSection() {
             <EditionLink href="/docs/getting-started/editions" className="bw-tlink">
               Compare the editions <ArrowRight size={16} {...ICON} />
             </EditionLink>
+            <EditionLink href="/choose" className="bw-tlink">
+              Take the one-minute quiz <ArrowRight size={16} {...ICON} />
+            </EditionLink>
           </div>
           <div className="bw-table-wrap">
             <table className="bw-table bw-table-compare">

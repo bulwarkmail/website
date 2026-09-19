@@ -1988,3 +1988,318 @@ ul.bw-rules > li::before {
 .bw-rules b {
   font-weight: 600;
 }
+
+/* ----------------------------------------------------------------------
+   Edition quiz (/choose). One question per screen, answers as large tiles,
+   then a result on the field in the picked edition's colour.
+   ---------------------------------------------------------------------- */
+.bw-quiz-hero {
+  padding-block: 64px 72px;
+}
+.bw-quiz-sec {
+  padding-block: 56px var(--bw-section);
+  scroll-margin-top: 16px;
+}
+.bw-quiz {
+  scroll-margin-top: 24px;
+  display: grid;
+  gap: 24px;
+  max-width: 880px;
+  margin-inline: auto;
+}
+.bw-quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--bw-small);
+}
+.bw-quiz-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  font: inherit;
+  font-weight: 500;
+  color: var(--bw-text-muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.bw-quiz-back:hover {
+  color: var(--bw-text);
+}
+.bw-quiz-back:disabled {
+  visibility: hidden;
+}
+.bw-quiz-count {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.bw-quiz-bar {
+  height: 4px;
+  margin-top: -12px;
+  background: var(--bw-rule);
+}
+.bw-quiz-bar i {
+  display: block;
+  height: 100%;
+  background: var(--bw-brand);
+  transition: width 300ms ease-out;
+}
+.bw-quiz-step {
+  display: grid;
+  gap: 12px;
+  padding-top: 32px;
+  animation: bw-quiz-in 260ms ease-out;
+}
+@keyframes bw-quiz-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bw-quiz-step,
+  .bw-quiz-done {
+    animation: none;
+  }
+}
+.bw-quiz-step h2:focus,
+.bw-quiz-result h2:focus {
+  outline: none;
+}
+.bw-quiz-help {
+  font-size: var(--bw-lead);
+  line-height: 1.45;
+  color: var(--bw-text-muted);
+  max-width: 40em;
+}
+.bw-quiz-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+.bw-quiz-tile-wide {
+  grid-column: 1 / -1;
+  min-height: 0;
+}
+.bw-quiz-tile {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-height: 112px;
+  padding: 20px 52px 20px 20px;
+  font: inherit;
+  text-align: left;
+  color: var(--bw-text);
+  background: var(--bw-page);
+  border: 1px solid var(--bw-rule);
+  border-radius: var(--bw-radius-control);
+  cursor: pointer;
+  transition:
+    border-color var(--bw-motion),
+    background-color var(--bw-motion),
+    transform var(--bw-motion);
+}
+.bw-quiz-tile:hover {
+  border-color: var(--bw-control);
+  background: var(--bw-surface);
+}
+.bw-quiz-tile:active {
+  transform: scale(0.99);
+}
+.bw-quiz-tile[data-on] {
+  border-color: var(--bw-brand);
+  box-shadow: inset 0 0 0 1px var(--bw-brand);
+  background: color-mix(in srgb, var(--bw-brand) 7%, var(--bw-page));
+}
+.bw-quiz-tick {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--bw-control);
+  border-radius: 50%;
+  transition:
+    background-color var(--bw-motion),
+    border-color var(--bw-motion);
+}
+.bw-quiz-tile[data-on] .bw-quiz-tick {
+  background: var(--bw-brand);
+  border-color: var(--bw-brand);
+  color: var(--bw-on-brand);
+}
+.bw-quiz-tile-label {
+  font-size: var(--bw-h3);
+  line-height: 1.2;
+  letter-spacing: var(--bw-heading-tracking);
+}
+.bw-quiz-tile-hint {
+  font-size: var(--bw-small);
+  line-height: 1.45;
+  color: var(--bw-text-muted);
+}
+.bw-quiz-next {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.bw-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.bw-btn:disabled:hover {
+  background: var(--bw-brand);
+  border-color: var(--bw-brand);
+  color: var(--bw-on-brand);
+}
+
+/* Result */
+.bw-quiz-done {
+  gap: 28px;
+  animation: bw-quiz-in 260ms ease-out;
+}
+.bw-quiz-result {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 48px;
+  padding: 48px;
+}
+.bw-quiz-result-main {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  align-content: start;
+}
+.bw-quiz-result-main svg {
+  margin-bottom: 12px;
+}
+.bw-quiz-eyebrow {
+  font-size: var(--bw-caption);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.bw-quiz-name {
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+}
+.bw-quiz-pitch {
+  font-size: var(--bw-lead);
+  line-height: 1.45;
+  max-width: 26em;
+  margin-bottom: 12px;
+}
+.bw-quiz-why {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.bw-quiz-why ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--bw-rule);
+}
+.bw-quiz-why li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: var(--bw-small);
+  border-bottom: 1px solid var(--bw-rule);
+}
+.bw-quiz-badge {
+  flex: none;
+  padding: 2px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid var(--bw-on-field);
+  border-radius: 999px;
+}
+.bw-quiz-badge[data-hard] {
+  background: var(--bw-on-field);
+  color: var(--bw-field);
+}
+.bw-quiz-fork {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bw-quiz-fork > div {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  justify-items: start;
+  padding: var(--bw-tile-pad);
+  border: 1px solid var(--bw-rule);
+  border-radius: var(--bw-radius-control);
+}
+.bw-quiz-fork p {
+  font-size: var(--bw-small);
+  color: var(--bw-text-muted);
+}
+.bw-quiz-note {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 10px;
+  margin: 0;
+}
+.bw-quiz-note svg {
+  margin-top: 3px;
+}
+.bw-quiz-fine {
+  font-size: var(--bw-small);
+  color: var(--bw-text-muted);
+  max-width: 62ch;
+}
+.bw-quiz-again {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+}
+.bw-quiz-again button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+@media (max-width: 760px) {
+  .bw-quiz-hero {
+    padding-block: 40px 48px;
+  }
+  .bw-quiz-sec {
+    padding-top: 32px;
+  }
+  .bw-quiz-result {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+  .bw-quiz-fork {
+    grid-template-columns: 1fr;
+  }
+  .bw-quiz-tile {
+    min-height: 0;
+  }
+}
+/* A result that isn't one of the two editions (a classic webmail, or no way
+   forward yet) sits on ink, not in either edition's colour. */
+.bw-quiz-result-neutral {
+  --bw-field: var(--bw-ink);
+  --bw-on-field: var(--bw-on-ink);
+}
+.bw-quiz-result-neutral .bw-btn:hover {
+  background: transparent;
+  border-color: var(--bw-on-ink);
+  color: var(--bw-on-ink);
+}

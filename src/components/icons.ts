@@ -5,6 +5,7 @@
 export type { TablerIcon as AppIcon, IconProps as AppIconProps } from '@tabler/icons-react';
 
 export {
+  IconArrowLeft as ArrowLeft,
   IconArrowRight as ArrowRight,
   IconArrowUpRight as ArrowUpRight,
   IconCalendar as Calendar,
@@ -16,6 +17,7 @@ export {
   IconCopy as Copy,
   IconFolder as Folder,
   IconWorld as Globe,
+  IconInfoCircle as Info,
   IconMail as Mail,
   IconMapPin as MapPin,
   IconMenu2 as Menu,
