@@ -1,0 +1,132 @@
+name: Deploy beta
+
+# Puts every push to main on https://beta.bulwarkmail.org (mail.rath.li).
+# "Run workflow" redeploys main, or rolls back to the previous release.
+# Production (bulwarkmail.org) is not touched.
+#
+# The runner builds the standalone server, checks that the exact bundle
+# starts and answers, then streams it over SSH to
+# /usr/local/bin/bulwarkmail-beta-deploy on the server
+# (deploy/beta-deploy.sh), which switches, health-checks and rolls back on
+# failure. Nothing is compiled on the server.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "What to do"
+        type: choice
+        options: [deploy, rollback]
+        default: deploy
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-beta
+  cancel-in-progress: false
+
+env:
+  DEPLOY_HOST: 62.176.249.204
+  DEPLOY_USER: ubuntu
+  # ED25519 host key of mail.rath.li (SHA256:KJU3AEoj23/nBmHDF5w8o+wfRQcQTLdg3HHBrmlMdSQ).
+  DEPLOY_HOST_KEY: "62.176.249.204 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINOvbgUpI8cbxGf9nLOZlaG+0xd/bkJosDpBTyMxuurC"
+
+jobs:
+  deploy:
+    name: ${{ inputs.action == 'rollback' && 'Roll back' || 'Build and deploy' }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      # A push has no inputs; it always deploys.
+      ACTION: ${{ inputs.action || 'deploy' }}
+    environment:
+      name: beta
+      url: https://beta.bulwarkmail.org
+    steps:
+      - uses: actions/checkout@v7
+        if: env.ACTION == 'deploy'
+
+      - uses: actions/setup-node@v7
+        if: env.ACTION == 'deploy'
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install
+        if: env.ACTION == 'deploy'
+        run: npm ci
+
+      - name: Lint and typecheck
+        if: env.ACTION == 'deploy'
+        run: |
+          npm run lint
+          npx tsc --noEmit
+
+      - name: Build
+        if: env.ACTION == 'deploy'
+        run: npm run build
+        env:
+          NEXT_OUTPUT_STANDALONE: 1
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Assemble the release
+        if: env.ACTION == 'deploy'
+        run: |
+          rm -rf release && mkdir release
+          cp -a .next/standalone/. release/
+          mkdir -p release/.next && cp -a .next/static release/.next/static
+          cp -a public release/public
+          # The docs are read from disk at request time (src/lib/docs.ts).
+          cp -a docs release/docs
+          mkdir -p release/deploy && cp deploy/ecosystem.beta.config.cjs release/deploy/
+          rm -f release/.env*
+          tar -czf release.tgz -C release .
+          du -h release.tgz
+
+      - name: Check that the release starts
+        if: env.ACTION == 'deploy'
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/smoke"
+          mkdir -p "$work" && tar -xzf release.tgz -C "$work"
+          (cd "$work" && PORT=3100 HOSTNAME=127.0.0.1 NODE_ENV=production node server.js > "$RUNNER_TEMP/server.log" 2>&1 &)
+          for i in $(seq 1 30); do curl -fsS -o /dev/null http://127.0.0.1:3100/ && break; sleep 1; done
+          for path in / /docs /docs/getting-started/editions /choose /press /brand /sitemap.xml /this-page-does-not-exist; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:3100${path}")
+            echo "$path $code"
+            if [ "$path" = /this-page-does-not-exist ]; then [ "$code" = 404 ]; else [ "$code" = 200 ]; fi
+          done
+          grep -q 'bw-field' <(curl -s http://127.0.0.1:3100/)
+
+      - name: Show the server log
+        if: failure() && env.ACTION == 'deploy'
+        run: cat "$RUNNER_TEMP/server.log" || true
+
+      - name: Set up SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_HOST_KEY" > ~/.ssh/known_hosts
+
+      - name: Deploy
+        if: env.ACTION == 'deploy'
+        run: ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "deploy $GITHUB_SHA" < release.tgz
+
+      - name: Roll back
+        if: env.ACTION == 'rollback'
+        run: ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" rollback
+
+      - name: Check the live site
+        run: |
+          for i in $(seq 1 10); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' https://beta.bulwarkmail.org/)
+            [ "$code" = 200 ] && { echo "live: $code"; exit 0; }
+            sleep 3
+          done
+          echo "live site answered $code"; exit 1

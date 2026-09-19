@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // The beta deploy (.github/workflows/beta.yml) ships a self-contained
+  // server. Production still runs `next start` from a checkout, so standalone
+  // output is opt-in.
+  ...(process.env.NEXT_OUTPUT_STANDALONE === "1" ? { output: "standalone" as const } : {}),
   reactCompiler: true,
   turbopack: {
     root: __dirname,
