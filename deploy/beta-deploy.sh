@@ -51,6 +51,29 @@ run_current() {
   sudo -n pm2 save >/dev/null
 }
 
+# Prune all but the newest $KEEP_RELEASES releases. The app runs as root and
+# writes .next/cache into its own release directory, so old releases hold
+# root-owned files that ubuntu cannot remove; hence sudo. This is housekeeping,
+# so it never fails a deploy that is already live.
+# Releases newest first. Sorted by name, not mtime: the directories are named
+# after the UTC build time, while their mtime moves whenever the running app
+# writes .next/cache into the one it serves.
+releases_newest_first() {
+  ls -1d "$BASE"/releases/*/ 2>/dev/null | sed 's:/$::' | sort -r
+}
+
+prune_old_releases() {
+  local cur old dir
+  cur=$(readlink -f "$BASE/current" 2>/dev/null || true)
+  # Everything but the current release and the newest few beside it.
+  old=$(releases_newest_first | grep -vxF "$cur" | tail -n +"$KEEP_RELEASES")
+  [[ -n "$old" ]] || return 0
+  while IFS= read -r dir; do
+    [[ -n "$dir" && "$dir" == "$BASE"/releases/* ]] || continue
+    sudo -n rm -rf -- "$dir" || log "could not remove $dir"
+  done <<< "$old"
+}
+
 # Point `current` at a release atomically.
 switch_to() {
   ln -sfn "$1" "$BASE/current.next"
@@ -90,12 +113,12 @@ case "$cmd" in
       exit 4
     fi
 
-    ls -1dt "$BASE"/releases/*/ | tail -n +$((KEEP_RELEASES + 1)) | xargs -r rm -rf
+    prune_old_releases
     ;;
 
   rollback)
     cur=$(readlink -f "$BASE/current")
-    prev=$(ls -1dt "$BASE"/releases/*/ | sed 's:/$::' | grep -vx "$cur" | head -n 1 || true)
+    prev=$(releases_newest_first | grep -vxF "$cur" | head -n 1 || true)
     [[ -n "$prev" ]] || { log "no earlier release to roll back to"; exit 5; }
     switch_to "$prev"
     run_current
@@ -108,7 +131,7 @@ case "$cmd" in
     else
       echo "current: none"
     fi
-    ls -1dt "$BASE"/releases/*/ 2>/dev/null | head -n "$KEEP_RELEASES" | xargs -r -n1 basename || true
+    releases_newest_first | head -n "$KEEP_RELEASES" | xargs -r -n1 basename || true
     ;;
 
   *)
