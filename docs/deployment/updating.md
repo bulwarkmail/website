@@ -50,6 +50,10 @@ pm2 restart bulwark      # or: sudo systemctl restart bulwark
 
 Configuration is read at runtime, so an upgrade never requires rewriting `.env.local` or rebuilding to change a setting. The one exception is the handful of build-time variables (`NEXT_PUBLIC_BASE_PATH`, `NEXT_PUBLIC_LOCALE_PREFIX`, `NEXT_PUBLIC_DEFAULT_LOCALE`, `NEXT_PUBLIC_PUSH_RELAY_URL`), which need a rebuild if you change them.
 
+## Moving to Stalwart 1.0
+
+Upgrade Bulwark to {{BULWARK_VERSION}} or newer before the mail server moves to Stalwart 1.0, and check the server settings some features depend on there. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0) has the order, the settings and the differences.
+
 ## What survives an upgrade
 
 Only what you mounted. Everything Bulwark writes lives under `/app/data`, split into four directories so they can be given different treatment:

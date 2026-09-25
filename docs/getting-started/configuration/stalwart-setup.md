@@ -20,7 +20,7 @@ Bulwark needs **Stalwart 0.16.6 or newer**. Stalwart 1.0 needs **Bulwark {{BULWA
 | 0.16.16 and newer | Web push leaves out spam, through the JMAP `emailPush` delivery filter |
 | 0.16.19 and newer | Lite served by Stalwart can use its own OAuth client id (`oauthClientId`) |
 | 0.16.23 | A Lite Application keeps its running bundle when an update fails to download |
-| 1.0 | Supported from Bulwark {{BULWARK_VERSION}} on |
+| 1.0 | Supported from Bulwark {{BULWARK_VERSION}} on. Read [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0) first |
 
 The self-service portal (account settings, app passwords, API keys, password change) and the admin features use Stalwart's JMAP `x:` methods, which replaced its REST self-service HTTP API in 0.16. Bulwark only talks to the JMAP endpoint, and the deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
 
