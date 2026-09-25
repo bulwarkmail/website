@@ -11,6 +11,7 @@ Bulwark is an open-source webmail client for Stalwart Mail Server, built in Type
 - `logos/` - the mark and the wordmark lockups in colour, dark and white, as SVG and PNG, plus the favicon.
 - `beauty/` - framed product screenshots (2400×1500 WebP) in light and dark: inbox, composer, global search, calendar week, contact detail, files, the Pro interface, a laptop-and-phone pair, and a light/dark split. All captured from the demo fixtures, so no real mail is shown.
 - `og-full.png`, `og-lite.png` - the 1200×630 social cards for each edition.
+- `launch/` - the Stalwart 1.0 launch images as PNG: 1200×630 link cards for each edition in light and dark, a 1600×900 post, a 1080×1080 square and a 1500×500 profile header. `scripts/launch-images.mjs` re-creates them.
 
 The screenshots are generated, not edited: `scripts/shoot-beauty.mjs` and `scripts/frame-beauty.mjs` in the [website repository](https://github.com/bulwarkmail/website) re-create them from a running demo instance.
 
