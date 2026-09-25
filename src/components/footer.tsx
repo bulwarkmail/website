@@ -85,6 +85,7 @@ export function Footer() {
           <a href="https://jmap.io" target="_blank" rel="noopener noreferrer">
             JMAP
           </a>
+          <span>Stalwart is a trademark of Stalwart Labs. Bulwark is an independent project.</span>
           <MadeInEuBadge />
         </div>
       </div>

@@ -8,6 +8,7 @@ import { Ed, Shot, Tile } from "@/components/ui";
 import { ICON } from "@/lib/icon";
 import type { Metadata } from "next";
 import { OG_IMAGES } from "@/lib/og";
+import { BULWARK_VERSION } from "@/lib/version";
 
 // =============================================================================
 // Landing page, "Flat fields".
@@ -513,7 +514,7 @@ function OpenSourceSection({ instances }: { instances: number }) {
 // -----------------------------------------------------------------------------
 // SECTION: FAQ
 // -----------------------------------------------------------------------------
-type Faq = { q: string; a: string; edition?: Edition };
+type Faq = { q: string; a: React.ReactNode; edition?: Edition };
 
 const FAQS: Faq[] = [
   {
@@ -530,7 +531,17 @@ const FAQS: Faq[] = [
   },
   {
     q: "Does it work with a Stalwart server I already run?",
-    a: "Yes. Point Bulwark at the JMAP endpoint and sign in with the accounts you have. Nothing migrates, and Stalwart stays the source of truth.",
+    a: (
+      <>
+        Yes, if it runs Stalwart 0.16.6 or newer, or 1.0 with Bulwark {BULWARK_VERSION} or newer. Point Bulwark at the
+        JMAP endpoint and sign in with the accounts you have. Nothing migrates, and Stalwart stays the source of truth.
+        Before a server moves to 1.0, read the{" "}
+        <EditionLink href="/docs/deployment/updating/stalwart-1-0" className="bw-link">
+          upgrade guide
+        </EditionLink>
+        .
+      </>
+    ),
   },
   {
     edition: "full",

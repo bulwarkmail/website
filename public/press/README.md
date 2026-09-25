@@ -21,4 +21,6 @@ The screenshots are generated, not edited: `scripts/shoot-beauty.mjs` and `scrip
 - Source: https://github.com/bulwarkmail/webmail
 - Licence: GNU AGPL v3
 - Mail server: Stalwart Mail Server, over JMAP
+- Stalwart versions: 0.16.6 or newer, and 1.0 with Bulwark [BULWARK VERSION] or newer
 - Contact: dev@bulwarkmail.org
+- Trademarks: Stalwart is a trademark of Stalwart Labs. Bulwark is an independent project.
