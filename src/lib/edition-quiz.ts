@@ -75,7 +75,7 @@ export const QUESTIONS: Question[] = [
         tag: "A simple website host",
       },
       {
-        // Stalwart 0.16 serves Lite itself as an Application
+        // Stalwart 0.16.6 and later, 1.0 included, serves Lite itself as an Application
         // (docs/deployment/stalwart-app.md). Only Lite can live there, and only
         // someone with Stalwart can pick it.
         id: "stalwart",
@@ -377,9 +377,8 @@ export function evaluate(answers: Answers): Verdict {
         text: "Installing it needs admin rights on Stalwart, so your mail provider has to do it. Ask them first; Bulwark doesn't need their help.",
       });
     } else {
-      caveats.push({ text: "It needs Stalwart 0.16 or later and an admin account there.", link: LINKS.stalwartApp });
+      caveats.push({ text: "It needs Stalwart 0.16.6 or later and an admin account there.", link: LINKS.stalwartApp });
     }
-    caveats.push({ text: "The Stalwart version of Lite is new: so far it ships with the 1.11.0-beta.1 pre-release." });
     // With a provider, updating is their job too.
     if (upkeepMinimal && !hosted) {
       caveats.push({ text: "Lite doesn't tell you about updates. Watch the release page, then run \"update applications\" in Stalwart, especially for security fixes." });
@@ -394,7 +393,7 @@ export function evaluate(answers: Answers): Verdict {
       caveats.push({ text: "Lite needs one setting switched on in Stalwart. It takes a minute.", link: LINKS.liteSetting });
       options.push({
         title: "Or let Stalwart host it",
-        text: "Stalwart 0.16 can serve Lite itself, next to its admin page. Then there's no website host and no setting to switch on.",
+        text: "Stalwart 0.16.6 or later can serve Lite itself, next to its admin page. Then there's no website host and no setting to switch on.",
         link: LINKS.stalwartApp,
       });
     }
