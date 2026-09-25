@@ -437,6 +437,46 @@ h3 {
 }
 
 /* ----------------------------------------------------------------------
+   Announcement bar above the nav (announcement-bar.tsx): 48px with its
+   rule. It is in the normal flow, not sticky, so it scrolls away and the
+   docs nav, sidebar and phone bar keep their offsets. On a phone the link
+   wraps under the sentence.
+   ---------------------------------------------------------------------- */
+.bw-announce {
+  background: var(--bw-surface);
+  border-bottom: 1px solid var(--bw-rule);
+  color: var(--bw-text);
+  font-size: var(--bw-small);
+  line-height: 1.4;
+}
+.bw-announce-in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 16px;
+  min-height: 47px;
+  padding-block: 12px;
+  text-align: center;
+}
+.bw-announce-in p {
+  text-wrap: balance;
+}
+.bw-announce-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  color: var(--bw-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.bw-announce-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ----------------------------------------------------------------------
    Nav and the edition switch. Every control in the nav is 36px high.
    ---------------------------------------------------------------------- */
 .bw-nav-in {
