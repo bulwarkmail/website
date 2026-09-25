@@ -71,11 +71,11 @@ Branding keys (`loginLogoLightUrl`, `loginCompanyName`, the `loginShow*` toggles
 
 ## The one server-side requirement
 
-The browser talks to Stalwart directly, from the origin your static host serves. Stalwart has to allow that (unless Stalwart serves Lite itself as an [Application](/docs/deployment/stalwart-app): then it is the same origin and nothing needs allowing):
+The browser talks to Stalwart directly, from the origin your static host serves. Stalwart has to allow that (unless Stalwart serves Lite itself as an [Application](/docs/deployment/stalwart-app): then it is the same origin and nothing needs allowing). Turn on **Permissive CORS policy** under **Settings > Network > HTTP > Security** in Stalwart's web admin, or use the CLI:
 
-```toml
-[http]
-permissive-cors = true
+```bash
+stalwart-cli update Http --field usePermissiveCors=true
+stalwart-cli create Action/ReloadSettings
 ```
 
 Or the equivalent reverse-proxy rule that allows your Lite origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`. Without it every login fails with a CORS error, and Bulwark names the missing header on the login screen rather than failing generically.

@@ -30,22 +30,34 @@ Installing Stalwart itself is out of scope for these docs. Follow the [official 
 
 ## Enabling JMAP
 
-JMAP is enabled by default in Stalwart. Ensure your Stalwart config includes a JMAP listener:
+JMAP is enabled by default in Stalwart. A fresh install serves it on its HTTPS listener (port 443), so there is nothing to add; point Bulwark at that address, such as `https://mail.example.com`. Listeners are `NetworkListener` objects, under **Settings > Network > Listeners** in the web admin, if you need another port.
 
-```toml
-[server.listener.jmap]
-bind = ["0.0.0.0:8080"]
-protocol = "http"
-```
+Stalwart 0.16 and later store every setting as a JMAP object in their data store and read no TOML configuration, so `[server.listener.*]` or `permissive-cors` lines from older guides have no effect.
 
 ## CORS configuration
 
-When Bulwark runs on a different domain than Stalwart, enable CORS. Bulwark Lite on a static host always needs this, because the browser talks to the mail server directly from whatever origin the static files are served on. Lite served by Stalwart itself as an [Application](/docs/deployment/stalwart-app) shares Stalwart's origin and needs no CORS:
+When Bulwark runs on a different domain than Stalwart, enable CORS. Bulwark Lite on a static host always needs this, because the browser talks to the mail server directly from whatever origin the static files are served on. Lite served by Stalwart itself as an [Application](/docs/deployment/stalwart-app) shares Stalwart's origin and needs no CORS.
 
-```toml
-[server.http]
-permissive-cors = true
+The setting is `usePermissiveCors` on Stalwart's `Http` object: **Permissive CORS policy** under **Settings > Network > HTTP > Security** in the web admin. With `stalwart-cli`:
+
+```bash
+stalwart-cli update Http --field usePermissiveCors=true
+stalwart-cli create Action/ReloadSettings
 ```
+
+Or over JMAP as an administrator:
+
+```json
+{
+  "using": ["urn:ietf:params:jmap:core", "urn:stalwart:jmap"],
+  "methodCalls": [
+    ["x:Http/set", { "update": { "singleton": { "usePermissiveCors": true } } }, "0"],
+    ["x:Action/set", { "create": { "r": { "@type": "ReloadSettings" } } }, "1"]
+  ]
+}
+```
+
+The change applies once the settings are reloaded or Stalwart restarts.
 
 If CORS is wrong, Bulwark says so on the login screen and names the missing header rather than failing with a generic network error.
 
@@ -80,18 +92,24 @@ STALWART_FEATURES=false
 
 ## Creating users
 
-Use the Stalwart admin interface or CLI to create mail accounts:
+Create mail accounts in the Stalwart web admin, under **Management > Directory > Accounts**, or with `stalwart-cli`. The CLI takes the domain's id, so look that up first:
 
 ```bash
-stalwart-cli account create user@example.com --password yourpassword
+stalwart-cli query Domain --fields id,name
+stalwart-cli create Account/User \
+  --field name=user \
+  --field domainId=<domain-id> \
+  --field 'credentials={"0":{"@type":"Password","secret":"yourpassword"}}'
 ```
+
+That creates `user@<domain>` in the domain with that id. `stalwart-cli` reads the server URL and an administrator's credentials from `STALWART_URL`, `STALWART_USER` and `STALWART_PASSWORD`.
 
 ## Testing the connection
 
 Verify JMAP is working:
 
 ```bash
-curl -s https://your-stalwart-server.com/.well-known/jmap | jq .
+curl -sL https://your-stalwart-server.com/.well-known/jmap | jq .
 ```
 
 You should see a JMAP session resource with capabilities listed. The setup wizard performs the same probe and will require explicit confirmation if no session is returned.

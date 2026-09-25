@@ -405,12 +405,11 @@ function InstallSection() {
                 <li>
                   <span className="bw-steps-n">3</span>
                   <div>
-                    Upload the folder, and set <code className="bw-icode">http.permissive-cors = true</code> in
-                    Stalwart. The{" "}
+                    Upload the folder, and turn on the Permissive CORS policy in Stalwart&apos;s HTTP settings. The{" "}
                     <EditionLink href="/docs/deployment/static" className="bw-link">
                       static hosting
                     </EditionLink>{" "}
-                    page has host snippets.
+                    page has the steps and host snippets.
                   </div>
                 </li>
               </ol>
@@ -546,7 +545,7 @@ const FAQS: Faq[] = [
   {
     edition: "lite",
     q: "Why does Lite need a CORS setting on the mail server?",
-    a: "In Lite the browser talks to Stalwart directly, from your static host's origin, and browsers only allow that when the mail server says so. One line in Stalwart's config, http.permissive-cors = true, allows it.",
+    a: "In Lite the browser talks to Stalwart directly, from your static host's origin, and browsers only allow that when the mail server says so. One setting in Stalwart allows it: the Permissive CORS policy, under Settings > Network > HTTP > Security in its web admin.",
   },
   {
     q: "Can I try it first?",

@@ -87,9 +87,9 @@ export default function DocsPage() {
           <li>
             <span className="bw-steps-n">3</span>
             <div>
-              <strong>Upload it and allow CORS.</strong> Put the folder on any static host and set{" "}
-              <code>http.permissive-cors = true</code> in Stalwart. Host snippets for nginx, Caddy, Netlify,
-              Cloudflare Pages and GitHub Pages are on the{" "}
+              <strong>Upload it and allow CORS.</strong> Put the folder on any static host and turn on the
+              Permissive CORS policy in Stalwart, under Settings &gt; Network &gt; HTTP &gt; Security. Host snippets
+              for nginx, Caddy, Netlify, Cloudflare Pages and GitHub Pages are on the{" "}
               <Link href="/docs/deployment/static">static hosting</Link> page.
             </div>
           </li>

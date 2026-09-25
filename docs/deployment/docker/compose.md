@@ -19,16 +19,17 @@ Create a `docker-compose.yml`:
 ```yaml
 services:
   stalwart:
-    image: stalwartlabs/mail-server:latest
+    image: stalwartlabs/stalwart:v0.16 # a release line, never latest
     container_name: stalwart
     ports:
-      - "443:443"
-      - "25:25"
-      - "587:587"
-      - "993:993"
-      - "8080:8080"
+      - "443:443" # HTTPS: JMAP and the web admin
+      - "25:25" # SMTP
+      - "465:465" # SMTP submission, implicit TLS
+      - "993:993" # IMAP, implicit TLS
+      - "8080:8080" # plain HTTP: the first-launch setup
     volumes:
-      - stalwart-data:/opt/stalwart
+      - stalwart-etc:/etc/stalwart
+      - stalwart-data:/var/lib/stalwart
     restart: unless-stopped
 
   bulwark:
@@ -39,7 +40,8 @@ services:
     environment:
       HOSTNAME: "0.0.0.0" # Use "::" for IPv6
       PORT: "3000"
-      JMAP_SERVER_URL: http://stalwart:8080
+      # Stalwart's public HTTPS address. Browsers talk JMAP to it directly.
+      JMAP_SERVER_URL: https://mail.example.com
     depends_on:
       - stalwart
     healthcheck:
@@ -59,8 +61,13 @@ services:
     restart: unless-stopped
 
 volumes:
+  stalwart-etc:
   stalwart-data:
 ```
+
+<div class="bw-note bw-note-warning"><b>Warning.</b> Keep Stalwart on a release line such as <code>v0.16</code>. With a floating tag like <code>latest</code>, <code>docker compose pull</code> could move a 0.16 data store onto Stalwart 1.0, which can't open it; see <a href="/docs/deployment/updating/stalwart-1-0">Upgrading to Stalwart 1.0</a>.</div>
+
+Browsers load mail straight from `JMAP_SERVER_URL`, so it has to be an address they can reach, and Stalwart needs its [permissive CORS policy](/docs/getting-started/configuration/stalwart-setup#cors-configuration) turned on unless the two share an origin. Port 8080 serves Stalwart's first-launch setup; you can drop it once the server is configured.
 
 The `stalwart` service above is a minimal example to get the pair talking. For the authoritative Stalwart setup - image, ports, volumes, and initial configuration - follow the [official Stalwart installation guide](https://stalw.art/docs/install/).
 
@@ -102,7 +109,7 @@ services:
     image: ghcr.io/bulwarkmail/webmail:latest
     environment:
       # JMAP_SERVER_URL set here skips the setup wizard
-      JMAP_SERVER_URL: http://stalwart:8080
+      JMAP_SERVER_URL: https://mail.example.com
       SESSION_SECRET: your-secret-key-here
       SETTINGS_SYNC_ENABLED: "true"
     volumes:
@@ -159,7 +166,7 @@ bulwark:
   ports:
     - "3000:3000"
   environment:
-    JMAP_SERVER_URL: http://stalwart:8080
+    JMAP_SERVER_URL: https://mail.example.com
   depends_on:
     - stalwart
   restart: unless-stopped

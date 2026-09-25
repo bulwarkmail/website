@@ -17,14 +17,16 @@ It reports `healthy`, `degraded`, or `unhealthy`, along with uptime, version, No
 
 ## Login fails
 
-**"CORS" or a network error on the login screen.** Bulwark detects a CORS misconfiguration and names the missing header rather than failing generically, so read the message before changing anything. The fix is on the Stalwart side when the two are on different origins:
+**"CORS" or a network error on the login screen.** Bulwark detects a CORS misconfiguration and names the missing header rather than failing generically, so read the message before changing anything. The fix is on the Stalwart side when the two are on different origins: turn on **Permissive CORS policy** under **Settings > Network > HTTP > Security** in the web admin, or run
 
-```toml
-[server.http]
-permissive-cors = true
+```bash
+stalwart-cli update Http --field usePermissiveCors=true
+stalwart-cli create Action/ReloadSettings
 ```
 
-**Bulwark Lite shows a CORS error on every login.** Lite has no server in between, so the mail server itself must allow the Lite origin. `http.permissive-cors = true` in Stalwart, or a reverse-proxy rule that allows the origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`. Or let Stalwart serve Lite [as an Application](/docs/deployment/stalwart-app), which avoids CORS entirely.
+A `permissive-cors` line in a TOML file does nothing, because Stalwart has not read TOML configuration since 0.16.
+
+**Bulwark Lite shows a CORS error on every login.** Lite has no server in between, so the mail server itself must allow the Lite origin: the same Permissive CORS policy in Stalwart, or a reverse-proxy rule that allows the origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`. Or let Stalwart serve Lite [as an Application](/docs/deployment/stalwart-app), which avoids CORS entirely.
 
 **The Stalwart Application answers 404.** Creating the Application mounts nothing: run "update applications" (`stalwart-cli create Action/UpdateApps`) or restart Stalwart. If it still answers 404, check that `resourceUrl` downloads a zip (not an HTML page or a `releases/latest/download` URL of a release without the asset), and that the prefix is not one Stalwart routes itself, such as `/mail` or `/calendar`. The [install page](/docs/deployment/stalwart-app#choosing-the-prefix) lists them.
 

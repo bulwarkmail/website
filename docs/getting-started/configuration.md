@@ -134,21 +134,15 @@ The table above is the short version. Every setting in `.env.example` is written
 
 ## Stalwart server setup
 
-Bulwark requires a Stalwart Mail Server with JMAP enabled. Make sure your Stalwart configuration includes:
-
-```toml
-[server.listener.jmap]
-bind = ["0.0.0.0:8080"]
-protocol = "http"
-```
+Bulwark requires a Stalwart Mail Server with JMAP enabled, which it is by default: a fresh install serves JMAP on its HTTPS listener. [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) covers the supported versions and the server settings Bulwark depends on.
 
 ### CORS configuration
 
-If Bulwark and Stalwart are on different domains, configure CORS in Stalwart:
+If Bulwark and Stalwart are on different domains, turn on CORS in Stalwart: **Permissive CORS policy** under **Settings > Network > HTTP > Security** in the web admin (`usePermissiveCors` on the `Http` object), or with the CLI:
 
-```toml
-[server.http]
-permissive-cors = true
+```bash
+stalwart-cli update Http --field usePermissiveCors=true
+stalwart-cli create Action/ReloadSettings
 ```
 
 ## Authentication

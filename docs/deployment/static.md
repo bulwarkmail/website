@@ -13,11 +13,11 @@ Bulwark Lite is a folder. This page is about getting that folder built the way y
 
 1. Get the zip. Every [release](https://github.com/bulwarkmail/webmail/releases) attaches `bulwark-lite-<version>.zip`. Unzip it and upload the whole folder so that `/index.html` and `/config.json` are served from your site root (or from the sub-path you built it for, see below).
 2. Edit `config.json`: set `jmapServerUrl` to your mail server, and `appName` to what the tab should say.
-3. Allow the browser to talk to the mail server. In Stalwart:
+3. Allow the browser to talk to the mail server. In Stalwart's web admin, turn on **Permissive CORS policy** under **Settings > Network > HTTP > Security**, or use the CLI:
 
-   ```toml
-   [http]
-   permissive-cors = true
+   ```bash
+   stalwart-cli update Http --field usePermissiveCors=true
+   stalwart-cli create Action/ReloadSettings
    ```
 
    Or an equivalent reverse-proxy rule that allows your Lite origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`.

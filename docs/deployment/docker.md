@@ -107,7 +107,7 @@ Pre-1.6.4 installs used a single `ADMIN_DATA_DIR` volume containing both config 
 bulwark:
   image: ghcr.io/bulwarkmail/webmail:latest
   environment:
-    JMAP_SERVER_URL: http://stalwart:8080
+    JMAP_SERVER_URL: https://mail.example.com
     SESSION_SECRET: your-secret-key-here
     SETTINGS_SYNC_ENABLED: "true"
     ADMIN_PASSWORD: your-strong-admin-password
