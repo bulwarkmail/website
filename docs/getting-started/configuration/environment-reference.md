@@ -102,9 +102,11 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 
 ### `STALWART_VERSION`
 
-- **Purpose** - Report a fixed Stalwart version in the telemetry heartbeat instead of probing the JMAP server's `Server` response header.
+- **Purpose** - The Stalwart version the anonymous telemetry heartbeat reports as `stalwart_version`.
 - **Required** - No.
-- **When to set it** - When a proxy in front of Stalwart strips that header.
+- **Default** - Empty, and the heartbeat reports `null`: Stalwart doesn't publish its version, so Bulwark doesn't look it up. Before {{BULWARK_VERSION}}, Bulwark read the JMAP server's `Server` response header when this was unset. Stalwart sends no such header, so those releases reported `null` or the version of a reverse proxy in front of it.
+- **When to set it** - When telemetry is on and you want the heartbeat to include your Stalwart version, for example `0.16.23`. Change it when you upgrade Stalwart.
+- **See also** - [Telemetry privacy](/docs/legal/privacy/telemetry).
 
 ### `STALWART_API_URL` _(deprecated in 1.5.0)_
 

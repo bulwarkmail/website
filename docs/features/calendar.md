@@ -81,7 +81,7 @@ Hovering an event opens a popover with its time, location, participants, and des
 
 Bulwark includes a CalDAV discovery API that resolves each account's calendar home automatically. In a multi-account setup, every account's calendars are found and loaded without per-account configuration.
 
-<div class="lite-callout">Not in Bulwark Lite: CalDAV discovery and iCal / webcal URL subscriptions both go through the Node.js server, so Lite hides them. Importing an <code>.ics</code> file still works, as does everything that is plain JMAP.</div>
+<div class="bw-note bw-note-edition"><b>Not in Lite.</b> CalDAV discovery and iCal / webcal URL subscriptions both go through the Node.js server, so Lite hides them. Importing an <code>.ics</code> file still works, as does everything that is plain JMAP.</div>
 
 ## Multiple calendars
 

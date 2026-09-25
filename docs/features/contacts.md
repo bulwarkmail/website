@@ -81,7 +81,7 @@ When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc
 - **Export** - Download contacts as vCard, accessible from Settings
 - **Sync** - Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
 
-<div class="lite-callout">Everything on this page works in Bulwark Lite. Contacts are plain JMAP, so nothing here needs the Node.js server.</div>
+<div class="bw-note bw-note-edition"><b>Also in Lite.</b> Everything on this page works in Bulwark Lite. Contacts are plain JMAP, so nothing here needs the Node.js server.</div>
 
 ## Bulk operations
 
