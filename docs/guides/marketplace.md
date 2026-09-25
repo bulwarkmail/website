@@ -9,7 +9,7 @@ edition: full
 
 Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin dashboard. You can point Bulwark at the official directory, at one you run yourself, or at nothing at all.
 
-<div class="lite-callout">Not in Bulwark Lite: there is no admin dashboard to browse from, and plugins don't run in Lite at all.</div>
+<div class="bw-note bw-note-edition"><b>Not in Lite.</b> There is no admin dashboard to browse from, and plugins don't run in Lite at all.</div>
 
 ## Configuration
 

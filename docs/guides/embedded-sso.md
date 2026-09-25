@@ -9,7 +9,7 @@ edition: full
 
 Run Bulwark inside an iframe in a parent portal that already handles authentication through SSO.
 
-<div class="lite-callout">Not in Bulwark Lite: OAuth and SSO are pinned off in the static export, which has no server to hold the PKCE state or the cookies. Lite's <code>config.json</code> does accept <code>embeddedMode</code> and <code>parentOrigin</code> for framing a password login, but the SSO flow on this page needs the full edition.</div>
+<div class="bw-note bw-note-edition"><b>Not in Lite.</b> OAuth and SSO are pinned off in the static export, which has no server to hold the PKCE state or the cookies. Lite's <code>config.json</code> does accept <code>embeddedMode</code> and <code>parentOrigin</code> for framing a password login, but the SSO flow on this page needs the full edition.</div>
 
 ## Prerequisites
 

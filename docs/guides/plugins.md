@@ -9,7 +9,7 @@ edition: full
 
 A plugin adds something to the interface that isn't in the box. An extra button on a calendar event, a panel down the side of the composer, a bridge to some service you already pay for. Each one ships as a ZIP bundle holding a manifest, a configuration schema and the frontend code itself.
 
-<div class="lite-callout">Not in Bulwark Lite: plugins and sidebar apps need the sandbox routes and the admin server, so the static export pins both off. Themes still work.</div>
+<div class="bw-note bw-note-edition"><b>Not in Lite.</b> Plugins and sidebar apps need the sandbox routes and the admin server, so the static export pins both off. Themes still work.</div>
 
 ## Lifecycle
 
