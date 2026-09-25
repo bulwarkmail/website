@@ -138,6 +138,21 @@ The press kit in `public/press/` is a copy: `logos/` from `public/branding`,
 `beauty/` from `public/beauty`, the two cards, and `README.md` with the
 boilerplate. Re-copy after regenerating either source.
 
+The Stalwart 1.0 launch set renders into `public/press/launch/` from the
+committed inbox and week-view screenshots, so it needs no running app:
+
+```bash
+node scripts/launch-images.mjs                  # every board
+node scripts/launch-images.mjs card header      # only the boards named
+node scripts/launch-images.mjs header --guides  # adds profile-header-guides.png
+```
+
+It writes four 1200×630 link cards (`og-{full,lite}-{light,dark}.png`),
+`post.png` (1600×900), `square.png` (1080×1080) and `profile-header.png`
+(1500×500). The ticks on the post and the square claim features checked on a
+1.0 server. The note at the top of the script says which ones were, and Push
+still needs a check through a live relay before anything is published.
+
 ## Still to shoot
 
 1. **Setup wizard** (`getting-started/installation.md`). Needs an instance with
