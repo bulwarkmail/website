@@ -13,7 +13,7 @@ If you want no server process at all, skip this page: [Bulwark Lite](/docs/getti
 
 ## Prerequisites
 
-- A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/install/), then [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) for the Bulwark-specific parts.
+- A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. Bulwark needs Stalwart 0.16.6 or newer, and Stalwart 1.0 needs Bulwark {{BULWARK_VERSION}} or newer ([supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions)). No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/install/), then [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) for the Bulwark-specific parts.
 - **Node.js 20 or later**, for a manual install only. The Docker image ships its own Node 24 runtime, so ignore this if you're using the container.
 
 ## Quickest path: Docker + setup wizard

@@ -7,7 +7,7 @@ edition: lite
 
 # Static hosting
 
-Bulwark Lite is a folder. This page is about getting that folder built the way you want it, putting it on a host, and making deep links work there. If you haven't read [what Lite is](/docs/getting-started/lite), start there. If your mail server is Stalwart 0.16 or later, you can also skip the web host and let Stalwart serve Lite: see [Install on Stalwart](/docs/deployment/stalwart-app). If you run containers anyway, there is a ready-made [Lite image](#container-image).
+Bulwark Lite is a folder. This page is about getting that folder built the way you want it, putting it on a host, and making deep links work there. If you haven't read [what Lite is](/docs/getting-started/lite), start there. If your mail server is Stalwart 0.16.6 or later, 1.0 included, you can also skip the web host and let Stalwart serve Lite: see [Install on Stalwart](/docs/deployment/stalwart-app). If you run containers anyway, there is a ready-made [Lite image](#container-image).
 
 ## Three steps
 

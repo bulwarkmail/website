@@ -85,6 +85,7 @@ When the user grants notification permission, Bulwark subscribes the browser to 
 - Click to jump directly to the message
 - Survive the tab being closed - the service worker handles delivery in the background
 - Use the longer push verification timeout to avoid spurious unsubscriptions; leftover subscriptions are cleaned up automatically
+- Cover your own mailboxes: mailboxes that other people share with you don't send background notifications, and the notification settings say so
 
 On start, the app re-syncs any push registrations it already holds, so a registration created before the spam filter existed, or one whose Junk mailbox id went stale, is repaired without the user re-enabling notifications. Each device's subscription can be revoked individually from settings.
 

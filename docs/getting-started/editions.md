@@ -36,7 +36,7 @@ The toggle at the top of every page on this site switches the documentation betw
 | Update notice | Yes, red for security releases | No; re-download the zip |
 | Anonymous telemetry | Opt-in | None (nothing to send it) |
 | Deep links | Yes | Yes, via host rewrite rules or the `404.html` replay |
-| Mail server requirement | Stalwart with JMAP | Stalwart with JMAP and `http.permissive-cors = true` (not needed when Stalwart serves Lite) |
+| Mail server requirement | Stalwart 0.16.6 or newer, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer ([supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions)) | The same, plus `http.permissive-cors = true` (not needed when Stalwart serves Lite) |
 | Release artifact | `ghcr.io/bulwarkmail/webmail`, `bulwark-standalone-<v>-linux-<arch>.tar.gz` | `bulwark-lite-<v>.zip`, `bulwark-lite-stalwart.zip` |
 
 ## How to choose

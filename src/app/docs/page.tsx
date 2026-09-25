@@ -3,6 +3,7 @@ import { editionClass, getDocSections, groupEditionClass } from "@/lib/docs";
 import type { Metadata } from "next";
 import { InstallQuickstart } from "@/components/docs/install-quickstart";
 import { Ed, Tile } from "@/components/ui";
+import { BULWARK_VERSION } from "@/lib/version";
 
 export const metadata: Metadata = {
   title: "Documentation - Bulwark Webmail for Stalwart",
@@ -54,7 +55,8 @@ export default function DocsPage() {
           <li>
             <span className="bw-steps-n">3</span>
             <div>
-              <strong>Point it at Stalwart.</strong> Stalwart is the mail server. The{" "}
+              <strong>Point it at Stalwart.</strong> Stalwart is the mail server: 0.16.6 or newer, or 1.0 from
+              Bulwark {BULWARK_VERSION} on. The{" "}
               <Link href="/docs/getting-started/configuration/stalwart-setup">Stalwart setup</Link> page covers
               installing it first.
             </div>
@@ -77,8 +79,9 @@ export default function DocsPage() {
               <strong>
                 Edit <code>config.json</code>.
               </strong>{" "}
-              Set <code>jmapServerUrl</code> to your Stalwart server, and <code>appName</code> if you like. The file is
-              read at runtime, so later edits need no rebuild.
+              Set <code>jmapServerUrl</code> to your Stalwart server, and <code>appName</code> if you like. Stalwart
+              0.16.6 or newer works, and 1.0 from Lite {BULWARK_VERSION} on. The file is read at runtime, so later
+              edits need no rebuild.
             </div>
           </li>
           <li>

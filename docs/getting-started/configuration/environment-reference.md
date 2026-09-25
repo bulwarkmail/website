@@ -109,7 +109,7 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 ### `STALWART_API_URL` _(deprecated in 1.5.0)_
 
 - **Status** - Deprecated. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP. Bulwark now talks to the JMAP endpoint exclusively, so this variable has no effect.
-- **Migration** - Remove from your `.env.local`. The self-service portal (account settings, app passwords, API keys) requires Stalwart 0.16 or newer.
+- **Migration** - Remove from your `.env.local`. The self-service portal (account settings, app passwords, API keys) requires Stalwart 0.16.6 or newer, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer.
 
 ## OAuth / OpenID Connect
 

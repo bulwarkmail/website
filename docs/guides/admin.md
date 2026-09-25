@@ -122,13 +122,13 @@ See [Plugins](/docs/guides/plugins) for the full architecture.
 - Lock the theme (e.g., enforce a corporate dark theme).
 - Theme API v2, with a token compiler and a skin slot.
 
-### API keys (Stalwart 0.16+)
+### API keys (Stalwart 0.16.6+ and 1.0)
 
 - Create, list, and revoke Stalwart API keys.
 - Each key is shown once at creation; revoke and recreate if you lose it.
 - Used for scripting, monitoring, and anything else that talks to Stalwart directly.
 
-### App password policy (Stalwart 0.16+)
+### App password policy (Stalwart 0.16.6+ and 1.0)
 
 - Manage IP allowlists per app password.
 - Restricts an IMAP/SMTP credential to a specific datacenter or VPN.
@@ -139,7 +139,7 @@ Every admin action - sign in, plugin enable/disable, config change, theme upload
 
 ### Policy sections
 
-Stalwart-specific policy areas surfaced in the dashboard, including authentication policy and OAuth client configuration. Available when `STALWART_FEATURES=true` and Stalwart 0.16+ is connected.
+Stalwart-specific policy areas surfaced in the dashboard, including authentication policy and OAuth client configuration. Available when `STALWART_FEATURES=true` and Stalwart 0.16.6 or newer, or 1.0, is connected.
 
 ### OAuth auto-setup
 
@@ -173,7 +173,7 @@ You haven't mounted a persistent volume for `ADMIN_CONFIG_DIR` (or `ADMIN_DATA_D
 
 ### "Account security / API keys / app password panels missing"
 
-These require Stalwart 0.16+. Older Stalwart versions do not expose the JMAP `x:` methods Bulwark uses for self-service management.
+These require Stalwart 0.16.6 or newer, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer. Stalwart versions before 0.16 do not expose the JMAP `x:` methods Bulwark uses for self-service management.
 
 ### "Admin login fails with correct password"
 

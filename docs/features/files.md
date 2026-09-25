@@ -31,6 +31,7 @@ Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and
 - Clipboard-style cut, copy, paste, and duplicate actions
 - Drop zone fills the available viewport height for easy bulk drops
 - Falls back to `application/octet-stream` for files with unusually long MIME types
+- Names that Stalwart 1.0 refuses are adjusted before the upload, on 0.16 as well: a reserved name such as `con.txt` is stored as `con_.txt`, control characters become `_`, and a name longer than 255 bytes is shortened, keeping its extension
 
 > **Warning**
 > Stalwart's FileNode storage is still maturing. Very large uploads can occasionally cause server instability, and deleted files may not be immediately purged from storage. Use with caution in production deployments.
@@ -53,10 +54,13 @@ Word-processor, spreadsheet and presentation files open for editing in place whe
 
 Files and folders can be shared with other users or groups on the server (JMAP sharing, RFC 9670). Pick the principal, grant read, read/write or manager, and the item shows a shared indicator. Anything shared with you appears under **Shared with me**.
 
+On Stalwart 1.0, picking a principal from the server's directory needs directory queries, which are off by default. An administrator turns them on with **Allow Directory Queries** under **Settings > Files & Sharing > Sharing**; without them the list only offers your groups and the people who have shared something with you.
+
 ## Organization
 
 - Create, rename, move, and delete folders
-- Files are stored as real `FileNode` records in a nested hierarchy; folders are detected as blob-less nodes and listed via `FileNode/get`
+- Files are stored as real `FileNode` records in a nested hierarchy and listed via `FileNode/get`; each node's `nodeType` tells files, folders and links apart
+- Symbolic links, which Stalwart 1.0 can store, show as links: they can be renamed, moved and deleted, but not opened or downloaded
 - Legacy installs that stored files under flat, slash-encoded names are migrated into the proper folder hierarchy automatically on first load
 - Quick metadata visibility for size and modified date
 - Recent files prune themselves automatically when underlying nodes are deleted on the server

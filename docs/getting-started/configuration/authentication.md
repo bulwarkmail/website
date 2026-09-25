@@ -38,7 +38,7 @@ OAuth2/OIDC with PKCE handles single sign-on. Run it alongside basic auth, or se
 
 Plenty of clients never learned OAuth. IMAP and SMTP clients want a username and a password, and so does most CalDAV software. Users generate a separate credential for each of them from Settings → Security → App passwords.
 
-Each app password can carry an optional IP allowlist, so a credential handed to a backup box only works from that box. App passwords go through Stalwart's JMAP `x:` methods and need Stalwart 0.16 or newer.
+Each app password can carry an optional IP allowlist, so a credential handed to a backup box only works from that box. App passwords go through Stalwart's JMAP `x:` methods and need Stalwart 0.16.6 or newer, or 1.0.
 
 ### Configuration
 
@@ -126,7 +126,7 @@ For full details, see [Multi-account Support](/docs/guides/multi-account).
 
 When Stalwart has TOTP enabled, users are asked for a code from their authenticator app after the password step.
 
-Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16+). Recovery codes are generated for account recovery. Session expiry during TOTP setup is handled cleanly so users aren't logged out partway through enrollment.
+Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16.6+ or 1.0). Recovery codes are generated for account recovery. Session expiry during TOTP setup is handled cleanly so users aren't logged out partway through enrollment.
 
 ## Session security
 

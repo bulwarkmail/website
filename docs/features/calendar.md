@@ -67,6 +67,8 @@ Click any time slot, or use the "New Event" button, to create an event:
 - ICS attachments are hidden from the attachment list when the invitation banner is shown
 - Shared calendars across accounts via JMAP sharing, with per-viewer colors so each user can recolor a shared calendar without affecting others (#345)
 
+<div class="bw-note"><b>Note.</b> On Stalwart 1.0, free/busy and the list of people you can share a calendar with depend on directory queries, which are off by default. An administrator turns them on with <b>Allow Directory Queries</b> under <b>Settings &gt; Files &amp; Sharing &gt; Sharing</b> in the web admin. Stalwart 1.0 also accepts at most 20 participants per event; an administrator can change that with <b>Max iCal Attendees</b> under <b>Settings &gt; Calendar &amp; Contacts &gt; Calendar</b>.</div>
+
 ## Pending event preview
 
 While you are creating or moving an event, the calendar grid and the event modal both show it in its pending position, before anything is saved.

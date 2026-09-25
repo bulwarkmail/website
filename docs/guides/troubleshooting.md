@@ -40,15 +40,45 @@ On a brand-new account, Stalwart provisions mailboxes lazily and Bulwark retries
 
 ## Account security panels are missing
 
-The self-service panels (password change, TOTP, app passwords, API keys) need **Stalwart 0.16 or newer**, because they go through JMAP `x:` methods that older versions don't expose. They also need principal permissions enabled per account. [Account security](/docs/guides/account-security) has the permission table.
+The self-service panels (password change, TOTP, app passwords, API keys) need **Stalwart 0.16.6 or newer**, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer, because they go through JMAP `x:` methods that versions before 0.16 don't expose. They also need principal permissions enabled per account. [Account security](/docs/guides/account-security) has the permission table.
 
 If you still have `STALWART_API_URL` set anywhere, delete it. It pointed at a REST API that no longer exists.
+
+## Sharing finds nobody, or free/busy is missing
+
+**The share dialog finds nobody, and free/busy is missing.** The dialog says "No other users or groups found", or that your server doesn't allow browsing its user directory, and the event editor says "Free/busy isn't available on this server". Stalwart 1.0 answers directory lookups only when the administrator allows directory queries, and that setting is off by default. Without it, the share dialog and recipient autocomplete can only offer your groups and the people who have shared something with you. On 0.16 the setting only matters for accounts whose role lacks the principal permissions.
+
+Turn on **Allow Directory Queries** under **Settings > Files & Sharing > Sharing** in Stalwart's web admin, or with the CLI:
+
+```bash
+stalwart-cli update Sharing --field allowDirectoryQueries=true
+stalwart-cli create Action/ReloadSettings
+```
+
+If the reload fails, as it can on the Stalwart 1.0 pre-release, restart Stalwart instead. With the setting on, every signed-in user can list the accounts on the server.
+
+## Sending fails with "There are too many email submissions"
+
+**Sending fails with "There are too many email submissions, please delete some before adding a new one."** Stalwart 1.0 keeps a submission record for every message sent over JMAP and refuses new ones once an account holds 500 (the default limit). Bulwark releases before {{BULWARK_VERSION}} never delete their records, so an account stops sending after about 500 messages. Other JMAP clients can fill the limit the same way.
+
+Upgrade Bulwark to {{BULWARK_VERSION}} or newer: it deletes the records of sent and cancelled messages, and only says "The server has too many sent-message records for this account" when that isn't enough. If an account still reaches the limit, raise it or remove it: **Submissions** under **Settings > Email > Defaults** for every account, or **Maximum number of email submissions** in an account's **Quotas** under **Management > Directory > Accounts** for one. With the CLI (`null` removes the limit):
+
+```bash
+stalwart-cli update Email --field maxSubmissions=5000
+stalwart-cli create Action/ReloadSettings
+```
+
+## The calendar is empty or contact photos are missing
+
+**On Stalwart 1.0 the calendar shows no events, or contacts have lost their photos.** Bulwark releases before {{BULWARK_VERSION}} ask Stalwart 1.0 for calendar events in a way it refuses: the calendar, tasks and reminders stay empty without an error, and creating an event reports a failure although the event was saved, so trying again makes a duplicate. Stalwart 1.0 also returns contact photos in a form those releases can't read, and saving a contact in them removes its photo on the server.
+
+Upgrade Bulwark, or Lite, to {{BULWARK_VERSION}} or newer. Photos an older release has already removed don't come back: restore them from a backup or add them again.
 
 ## Push and notifications
 
 **Nothing updates without a refresh.** JMAP push rides an EventSource connection, which a proxy will happily break by buffering. The connection has to stay open and unbuffered; on Nginx that means `proxy_http_version 1.1` and not buffering the response.
 
-**Web push never arrives.** Keep `/api/push/*` and `/sw.js` reachable through the proxy, and don't let the proxy cache `/sw.js` aggressively. Notifications also only fire on genuine inbox deliveries, so a flag change or a move deliberately produces nothing.
+**Web push never arrives.** Keep `/api/push/*` and `/sw.js` reachable through the proxy, and don't let the proxy cache `/sw.js` aggressively. Notifications also only fire on genuine inbox deliveries, so a flag change or a move deliberately produces nothing, and mailboxes other people share with you never send one.
 
 ## The admin password resets on every restart
 
@@ -57,6 +87,12 @@ If you still have `STALWART_API_URL` set anywhere, delete it. It pointed at a RE
 ## A Lite deep link lands on the wrong page
 
 A URL like `/en/mail/thread/abc` is served by the shell at `/en/mail/index.html`, and the host has to be told so. Netlify and Cloudflare Pages read the shipped `_redirects`; nginx and Caddy have example configs in the zip. On a host with no rewrite rules the shipped `404.html` replays the link in the browser, with one extra page load. Details on the [static hosting](/docs/deployment/static) page.
+
+## The Lite Application disappears after an update
+
+**Lite served by Stalwart answers 404 after "update applications" or a restart.** "Update applications" downloads and unpacks every Application's `resourceUrl` again. If that fails, Stalwart 0.16.23 keeps serving the previous bundle, but older 0.16 releases and the 1.0 pre-release unmount the Application until a later update succeeds. After a restart, once the cached zip has expired (`autoUpdateFrequency`, 90 days by default), an unreachable URL leaves it unmounted on every version. The action still reports success; the failure shows only in Stalwart's log, as a resource error "Failed to unpack application for prefixes: …".
+
+Check that `resourceUrl` downloads a zip, for example with `curl -fsSLo bundle.zip <url> && unzip -tq bundle.zip`, correct or [pin](/docs/deployment/stalwart-app#pinning-a-version) it, and run "update applications" again.
 
 ## Assets 404 under a subpath
 

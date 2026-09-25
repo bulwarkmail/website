@@ -83,7 +83,7 @@ Or the equivalent reverse-proxy rule that allows your Lite origin with the `Auth
 ## Where to get it
 
 - Every [release](https://github.com/bulwarkmail/webmail/releases) attaches `bulwark-lite-<version>.zip`, built for the site root with no server URL baked in. Edit `config.json` and upload.
-- Releases from 1.11 on also attach `bulwark-lite-stalwart.zip`, a bundle Stalwart 0.16 downloads and serves itself. See [Install on Stalwart](/docs/deployment/stalwart-app).
+- Releases from 1.11 on also attach `bulwark-lite-stalwart.zip`, a bundle that Stalwart 0.16.6 or newer downloads and serves itself (Stalwart 1.0 from Lite {{BULWARK_VERSION}} on). See [Install on Stalwart](/docs/deployment/stalwart-app).
 - The **Build Static Lite** workflow in the repository can be dispatched by hand with a fixed server URL, an app name, a sub-path mount, a locale subset, or the demo flag, and produces a zip tailored to one deployment.
 - Or build it locally with `npm run build:lite` in a disposable checkout; the [static hosting](/docs/deployment/static) page has the exact commands.
 

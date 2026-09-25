@@ -121,6 +121,7 @@ The documentation system supports:
 - Auto-generated sidebar navigation
 - Full-text search
 - An `edition: full | lite | both` front-matter field (default `both`). The site-wide "Bulwark | Lite" switch hides pages of the other edition from the sidebar, index and search, and shows a banner on one you land on directly. Inside a page, `<div class="lite-callout">…</div>` renders an inline "not in Lite" note.
+- A `{{BULWARK_VERSION}}` token for the Bulwark release that works with Stalwart 1.0, usable in the body, the title and the description. The value is `BULWARK_VERSION` in `src/lib/version.ts`, which pages written in TSX import directly.
 
 ## Contributing
 

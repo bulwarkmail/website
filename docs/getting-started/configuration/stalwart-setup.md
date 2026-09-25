@@ -9,11 +9,20 @@ edition: both
 
 Bulwark requires a running Stalwart Mail Server with JMAP enabled.
 
-## Version requirement
+## Supported versions
 
-The self-service portal (account settings, app passwords, API keys, password change, vacation responder, Sieve management) requires **Stalwart 0.16 or newer**. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP `x:` methods, and Bulwark only talks to the new JMAP endpoint. The deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
+Bulwark needs **Stalwart 0.16.6 or newer**. Stalwart 1.0 needs **Bulwark {{BULWARK_VERSION}} or newer**. Bulwark Lite has the same version numbers, so the same applies to it.
 
-Older Stalwart versions still work for plain mail/calendar/contacts/files, but Stalwart-specific account and admin features will be unavailable.
+| Stalwart | What it means for Bulwark |
+| --- | --- |
+| 0.16.5 and older | Not supported |
+| 0.16.6 and newer | Supported |
+| 0.16.16 and newer | Web push leaves out spam, through the JMAP `emailPush` delivery filter |
+| 0.16.19 and newer | Lite served by Stalwart can use its own OAuth client id (`oauthClientId`) |
+| 0.16.23 | A Lite Application keeps its running bundle when an update fails to download |
+| 1.0 | Supported from Bulwark {{BULWARK_VERSION}} on |
+
+The self-service portal (account settings, app passwords, API keys, password change) and the admin features use Stalwart's JMAP `x:` methods, which replaced its REST self-service HTTP API in 0.16. Bulwark only talks to the JMAP endpoint, and the deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
 
 ## Installing Stalwart
 
@@ -48,7 +57,7 @@ For env-driven deployments, set `JMAP_SERVER_URL` and the wizard is skipped.
 
 ## Stalwart-specific features
 
-When connected to Stalwart 0.16+, Bulwark enables additional features that depend on Stalwart's JMAP `x:` methods:
+On Stalwart 0.16.6 and newer, 1.0 included, Bulwark enables additional features that depend on Stalwart's JMAP `x:` methods:
 
 - **Password change** - Users can change their password from account settings
 - **TOTP 2FA** - Enable/disable two-factor authentication and generate recovery codes

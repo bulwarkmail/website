@@ -12,8 +12,20 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import GithubSlugger from "github-slugger";
 import { appliesTo, parseEdition, type DocEdition } from "./editions";
+import { BULWARK_VERSION } from "./version";
 
 const docsDirectory = path.join(process.cwd(), "docs");
+
+/** Reads a docs file. {{BULWARK_VERSION}} in the body, title or description becomes the constant. */
+function readDocFile(filePath: string) {
+  const expand = (text: string) => text.replaceAll("{{BULWARK_VERSION}}", BULWARK_VERSION);
+  const { data: raw, content } = matter(fs.readFileSync(filePath, "utf-8"));
+  const data = { ...raw };
+  for (const key of ["title", "description"]) {
+    if (typeof data[key] === "string") data[key] = expand(data[key]);
+  }
+  return { data, content: expand(content) };
+}
 
 export interface DocHeading {
   text: string;
@@ -97,9 +109,7 @@ export function getAllDocs(): DocMeta[] {
 
     for (const entry of entries) {
       if (entry.isFile() && entry.name.endsWith(".md")) {
-        const filePath = path.join(sectionPath, entry.name);
-        const fileContent = fs.readFileSync(filePath, "utf-8");
-        const { data, content } = matter(fileContent);
+        const { data, content } = readDocFile(path.join(sectionPath, entry.name));
 
         docs.push({
           title: data.title ?? entry.name.replace(".md", ""),
@@ -118,9 +128,7 @@ export function getAllDocs(): DocMeta[] {
 
         for (const subFile of subFiles) {
           if (!subFile.endsWith(".md")) continue;
-          const filePath = path.join(subPath, subFile);
-          const fileContent = fs.readFileSync(filePath, "utf-8");
-          const { data, content: subContent } = matter(fileContent);
+          const { data, content: subContent } = readDocFile(path.join(subPath, subFile));
 
           docs.push({
             title: data.title ?? subFile.replace(".md", ""),
@@ -169,8 +177,7 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
 
   if (!fs.existsSync(filePath)) return null;
 
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(fileContent);
+  const { data, content } = readDocFile(filePath);
 
   const result = await unified()
     .use(remarkParse)
@@ -346,9 +353,7 @@ export function searchDocs(query: string, edition?: "full" | "lite"): SearchResu
   const results: SearchResult[] = [];
 
   for (const doc of docs) {
-    const filePath = path.join(docsDirectory, `${doc.slug}.md`);
-    const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { content } = matter(fileContent);
+    const { content } = readDocFile(path.join(docsDirectory, `${doc.slug}.md`));
 
     const titleText = doc.title;
     const descText = doc.description;

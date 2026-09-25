@@ -38,6 +38,7 @@ The license is AGPL v3.
 | Setup | A web wizard on first launch that probes your JMAP server, configures OAuth, generates the session secret, takes your branding, and sets the admin password |
 | Accounts | Several accounts signed in at once, switching instantly, with a unified inbox across all of them |
 | Editions | Bulwark as a Node.js service, or [Bulwark Lite](/docs/getting-started/lite) as static files on any web host |
+| Mail server | Stalwart 0.16.6 or newer, and Stalwart 1.0 from Bulwark {{BULWARK_VERSION}} on ([supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions)) |
 | Identities | Multiple sender identities per account, each with its own signature and signature position, plus sub-addressing with a configurable delimiter |
 | Filters | Server-side Sieve (RFC 9661) through a visual rule builder or a raw editor, and a vacation responder with date ranges |
 | S/MIME | Sign, encrypt, decrypt, verify. Legacy 3DES and password-based key bundles included, per-account key isolation throughout |

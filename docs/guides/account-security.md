@@ -16,9 +16,9 @@ This is the panel where users look after their own account rather than filing a 
 
 ## Stalwart version requirement
 
-Account security management requires **Stalwart 0.16 or newer**. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP `x:` methods. Bulwark talks to the new JMAP endpoint exclusively. The deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
+Account security management requires **Stalwart 0.16.6 or newer**, or Stalwart 1.0 with Bulwark {{BULWARK_VERSION}} or newer. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP `x:` methods. Bulwark talks to the new JMAP endpoint exclusively. The deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
 
-If you see "Account security management is not available for this mail server" with a recent Bulwark, upgrade Stalwart to 0.16+ and check the principal permissions described below.
+If you see "Account security management is not available for this mail server" with a recent Bulwark, upgrade Stalwart to 0.16.6 or newer and check the principal permissions described below.
 
 ## Required Stalwart permissions
 
@@ -88,7 +88,7 @@ If the section is missing or you receive an error, the required Stalwart permiss
 
 This error appears when one or more required permissions are disabled, or when Stalwart predates the JMAP self-service API. To resolve:
 
-1. **Confirm Stalwart is on 0.16 or newer.** Older versions don't expose the required JMAP `x:` methods.
+1. **Confirm Stalwart is on 0.16.6 or newer, or on 1.0 with Bulwark {{BULWARK_VERSION}} or newer.** Versions before 0.16 don't expose the required JMAP `x:` methods.
 2. **Contact your administrator** to verify the permissions in the table above are enabled on the principal.
 3. **For OAuth users**: ensure the OAuth client has been granted scopes sufficient for account management.
 

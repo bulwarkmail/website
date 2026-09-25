@@ -131,7 +131,7 @@ At session creation Bulwark reads the advertised capabilities and turns features
 - `urn:ietf:params:jmap:vacationresponse` - vacation auto-reply
 - `urn:ietf:params:jmap:sieve` - server-side email filters
 - Stalwart's JMAP FileNode extension - cloud file storage
-- Stalwart's `x:` method namespace - admin, API keys, app passwords (Stalwart 0.16+)
+- Stalwart's `x:` method namespace - admin, API keys, app passwords (Stalwart 0.16.6+ and 1.0)
 
 ### Session URL rewriting
 

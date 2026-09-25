@@ -23,7 +23,7 @@ Long mailboxes are virtualised and paginate as you scroll, and the first page of
 
 The order of the list is yours to set. Presets put unread, starred or tagged mail first; or define up to three custom sort levels. The order is applied through the JMAP sort, so the whole folder obeys it rather than the page you have loaded, and it can apply to the Inbox only or to every folder.
 
-Folders can be shared with other users on the same server (`mail:share`). When someone shares a folder with you, a toast says so and the folder appears under their account in your sidebar. Deleting a folder that still holds mail offers to delete the messages with it.
+Folders can be shared with other users on the same server (`mail:share`). On Stalwart 1.0, picking whom to share with needs directory queries, which an administrator turns on with **Allow Directory Queries** under **Settings > Files & Sharing > Sharing**. When someone shares a folder with you, a toast says so and the folder appears under their account in your sidebar. Deleting a folder that still holds mail offers to delete the messages with it.
 
 The rest is the ordinary furniture:
 
@@ -42,6 +42,8 @@ Which address a message leaves from is more flexible than the identity list sugg
 On a reply, the quoted original stays in an editable block that preserves its own layout, so you can trim or annotate it without the formatting collapsing.
 
 Before a message goes out, Bulwark checks the body for words like "attached" and warns you if nothing is attached. After you press send, a configurable delay holds it briefly so you can take it back, or you can schedule it for a specific time instead. Read receipts (MDN, RFC 8098) can be requested here and are answered in the viewer, and so can delivery status notifications (DSN) from the receiving server. A message can also be marked REQUIRETLS, so the server refuses to hand it on over an unencrypted hop.
+
+<div class="bw-note"><b>Note.</b> Stalwart 1.0 limits how many submission records, one per sent message, an account may keep: 500 by default. Bulwark {{BULWARK_VERSION}} and newer deletes the records of sent and cancelled messages, including those other clients left behind; a scheduled message keeps its record until it goes out. If an account still reaches the limit, an administrator can raise it with <b>Submissions</b> under <b>Settings &gt; Email &gt; Defaults</b>. Older Bulwark releases never delete their records and stop sending at the limit.</div>
 
 Replying to someone adds them to your trusted senders, so their images load next time without asking.
 
@@ -65,7 +67,7 @@ Around all of that: reply, reply-all and forward, a quick reply form under the m
 
 There is no query language to learn. The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, message size, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list. Matching text in the results is highlighted with the server's own snippets.
 
-Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. Press `/` to jump to the search bar. Beyond mail, the Pro interface has a global search palette that also covers contacts, calendar and files across every account. [Search and filters](/docs/features/email/search) covers both.
+Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. With Stalwart 1.0's built-in search index, a quoted phrase matches exactly, and `word*` finds words that start with `word` as long as that part is at most 16 bytes long. Bulwark {{BULWARK_VERSION}} and newer sends each quoted phrase and each `word*` as a condition of its own. Press `/` to jump to the search bar. Beyond mail, the Pro interface has a global search palette that also covers contacts, calendar and files across every account. [Search and filters](/docs/features/email/search) covers both.
 
 ## Labels and tags
 
@@ -106,7 +108,7 @@ Out-of-office replies are a JMAP `VacationResponse`, which Bulwark writes and re
 
 Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. Turning on **Formatted message** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what actually goes out before you save.
 
-Like filters, this needs a server that supports Sieve.
+Like filters, this needs a server that supports Sieve. On Stalwart 1.0 the replies go out with an empty envelope sender (<code style="font-variant-ligatures: none">MAIL FROM:&lt;&gt;</code>), as RFC 5230 recommends.
 
 ## Templates
 
