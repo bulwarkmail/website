@@ -43,7 +43,7 @@ stalwart-cli create Action/UpdateApps
 
 ### In the web admin
 
-Under **Settings > Web Applications**, create an entry with the description, the `resourceUrl` and the prefix `/webmail`. Then run the "update applications" action, or restart Stalwart.
+Under **Settings > Web Applications**, create an entry with the description, the `resourceUrl` and the prefix `/webmail`. Then run **Update applications** under **Actions** (the Application Management group), or restart Stalwart.
 
 ### Over JMAP
 
@@ -85,11 +85,13 @@ If your Stalwart requires OAuth clients to be registered, register that client i
 
 Accounts whose directory is an external OpenID provider cannot use the password form, because Stalwart has no password to check. The app asks Stalwart who signs an address in and shows **Sign in with SSO** for those accounts instead: an authorization code flow with PKCE, redeemed in the browser. At the provider:
 
-- Register a public client with the same id (the `oauthClientId`, or `bulwark-webmail`).
+- Register a public client (no secret, PKCE `S256`) with the same id (the `oauthClientId`, or `bulwark-webmail`).
 - Add the redirect URI `https://<your stalwart host>/<prefix>/oauth/callback`. It carries no locale, so you need one per prefix.
 - Allow CORS from the Stalwart host on the token endpoint, as Stalwart's own web admin requires.
 
-Setting `oauthClientId` on the Application also offers SSO next to the password form for everyone.
+Setting `oauthClientId` on the Application also offers SSO next to the password form for everyone. That sign-in goes through Stalwart's own login page and uses the same `.../oauth/callback` redirect URI.
+
+<div class="bw-note bw-note-warning"><b>Warning.</b> Serve Stalwart over HTTPS. On a plain <code>http://</code> address other than <code>localhost</code>, browsers withhold the Web Crypto API that the sign-in needs. The webmail then falls back to a password sign-in that lasts only as long as the tab: "Remember me" has no effect, and single sign-on does not work.</div>
 
 ## Updating
 
@@ -112,7 +114,7 @@ https://github.com/stalwartlabs/webui/releases/latest/download/webui.zip
 A URL that can't be downloaded fails, and so does one that points at an HTML page, a GitHub Actions artifact page or a release listing instead of a zip. What a failure does depends on the Stalwart version:
 
 - **0.16.23** keeps serving the bundle it already had.
-- **Older 0.16 releases and the 1.0 pre-release** unmount that Application until a later "update applications" succeeds.
+- **Older 0.16 releases and the 1.0 pre-release** unmount that Application and drop the cached zip. It stays unmounted, across restarts too, until a later restart or "update applications" downloads `resourceUrl` successfully. Open tabs get Stalwart's 404 response at their next navigation.
 - **Every version** leaves the Application unmounted after a restart if the cached zip has expired and `resourceUrl` can't be downloaded.
 
 The action reports success either way. The failure shows up in Stalwart's log as a resource error, "Failed to unpack application for prefixes: …", with the URL.
@@ -142,7 +144,7 @@ To change the app name, logos or any other [`config.json` key](/docs/deployment/
 
   `NEXT_PUBLIC_BASE_PATH` must stay unset for this target; the prefix comes from `urlPrefix` at runtime.
 
-Then set `resourceUrl` to your zip's URL (a private `http://` address or a `file://` path on the Stalwart host works too) and run "update applications". Stalwart refuses bundles over 100 MB; the release bundle with all 27 locales is about 57 MB, and `LITE_LOCALES` makes it smaller.
+Then set `resourceUrl` to your zip's URL and run "update applications". A private `http://` address works too, and so does a `file://` path the Stalwart process can read. With the Docker image that path is inside the container: put the zip on a mounted volume, because files copied into the container are lost when it is recreated. Stalwart refuses bundles over 100 MB; the release bundle with all 27 locales is about 57 MB, and `LITE_LOCALES` makes it smaller.
 
 ## Security notes
 
