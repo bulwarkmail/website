@@ -83,6 +83,16 @@ Login goes through Stalwart's own token endpoints on the same origin (`/api/auth
 
 If your Stalwart requires OAuth clients to be registered, register that client id with the redirect URI `https://<your stalwart host>/<prefix>/`, one per prefix you mount.
 
+### Single sign-on
+
+Accounts whose directory is an external OpenID provider cannot use the password form, because Stalwart has no password to check. The app asks Stalwart who signs an address in and shows **Sign in with SSO** for those accounts instead: an authorization code flow with PKCE, redeemed in the browser. At the provider:
+
+- Register a public client with the same id (the `oauthClientId`, or `bulwark-webmail`).
+- Add the redirect URI `https://<your stalwart host>/<prefix>/oauth/callback`. It carries no locale, so you need one per prefix.
+- Allow CORS from the Stalwart host on the token endpoint, as Stalwart's own web admin requires.
+
+Setting `oauthClientId` on the Application also offers SSO next to the password form for everyone.
+
 ## Updating
 
 Stalwart caches the downloaded zip for the Application's `autoUpdateFrequency` (90 days by default). This is only an expiry, not a timer: nothing is fetched on a schedule. After the expiry, the next restart or "update applications" run downloads `resourceUrl` again.
