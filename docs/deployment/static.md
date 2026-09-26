@@ -7,7 +7,7 @@ edition: lite
 
 # Static hosting
 
-Bulwark Lite is a folder. This page is about getting that folder built the way you want it, putting it on a host, and making deep links work there. If you haven't read [what Lite is](/docs/getting-started/lite), start there. If your mail server is Stalwart 0.16 or later, you can also skip the web host and let Stalwart serve Lite: see [Install on Stalwart](/docs/deployment/stalwart-app).
+Bulwark Lite is a folder. This page is about getting that folder built the way you want it, putting it on a host, and making deep links work there. If you haven't read [what Lite is](/docs/getting-started/lite), start there. If your mail server is Stalwart 0.16 or later, you can also skip the web host and let Stalwart serve Lite: see [Install on Stalwart](/docs/deployment/stalwart-app). If you run containers anyway, there is a ready-made [Lite image](#container-image).
 
 ## Three steps
 
@@ -163,6 +163,53 @@ Drop the folder in and you are done. Both hosts read the shipped `_redirects`, w
 
 Upload the folder. Deep links go through the `404.html` replay described above. For GitHub Pages under a project path (`https://you.github.io/webmail/`), build with `NEXT_PUBLIC_BASE_PATH=/webmail`.
 
+## Container image
+
+If you would rather run a container than upload a folder, `ghcr.io/bulwarkmail/webmail-lite` is the same export behind an unprivileged nginx: no Node.js at runtime, runs as uid 101, listens on port 8080 over IPv4 and IPv6. Releases are tagged like the main image (`latest`, `1.11.0`, `1.11`, `1`), and `ghcr.io/bulwarkmail/webmail-lite-beta:latest` follows `main`.
+
+Configure it by mounting your own [`config.json`](#configjson) (and `policy.json`, if you need one) over the baked-in file:
+
+```yaml
+services:
+  webmail-lite:
+    image: ghcr.io/bulwarkmail/webmail-lite:latest
+    ports:
+      - "8080:8080"
+    environment:
+      # connect-src of the Content-Security-Policy. Defaults to "*" because the
+      # image cannot know your mail server; pin it once config.json does.
+      - LITE_CSP_CONNECT_SRC=https://mail.example.com
+    volumes:
+      - ./config.json:/usr/share/nginx/html/config.json:ro
+    # Optional hardening: nginx only writes to these two.
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /etc/nginx/conf.d:uid=101,gid=101
+    restart: unless-stopped
+```
+
+```json
+{
+  "appName": "Example Mail",
+  "jmapServerUrl": "https://mail.example.com",
+  "allowCustomJmapEndpoint": false,
+  "rememberMeEnabled": true
+}
+```
+
+The nginx config is generated from the same routing rules as `nginx.conf.example` ([deep links](#deep-links) below a surface fall back to that surface's shell, everything else is a real 404). It also adds what a static host's `_headers` would: the Content-Security-Policy and the other [security headers](#security-headers), immutable caching for `/_next/static/`, revalidation for the shells and `config.json`, and gzip.
+
+- Terminate TLS in the [reverse proxy](/docs/deployment/docker/reverse-proxy) in front of it.
+- The image serves from `/`, so give it a host of its own rather than a sub-path.
+- The browser still talks to the mail server directly, so the [CORS setting](#three-steps) applies as for any static host.
+
+To bake in different defaults or a locale subset, build the image yourself. The build args are the `LITE_*` [build inputs](#build-inputs):
+
+```bash
+docker build -f Dockerfile.lite --build-arg LITE_LOCALES=en,de -t bulwark-lite .
+```
+
 ## Security headers
 
 `_headers` carries the recommended set: `nosniff`, `X-Frame-Options: DENY`, a referrer policy, a permissions policy, and a Content-Security-Policy whose `connect-src` is your JMAP server's origin when the build had one baked in, and `*` otherwise. Tighten it to your server's origin if you prefer a strict policy. The export contains inline hydration scripts, so `script-src` has to allow `'unsafe-inline'`; that is a property of the static export, not a choice.
@@ -170,6 +217,8 @@ Upload the folder. Deep links go through the `404.html` replay described above. 
 ## Updating
 
 There is no update channel in Lite and no in-app notice. Download the new zip, keep your `config.json` (and `policy.json` if you wrote one), and upload over the old folder. `lite-build.json` tells you which version is deployed.
+
+With the [container image](#container-image), pull the new tag and recreate the container; the mounted `config.json` carries over.
 
 ## Related pages
 
