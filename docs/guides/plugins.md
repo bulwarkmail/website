@@ -75,11 +75,50 @@ Beyond hooks, a plugin can call into the host. The main groups, each behind its 
 
 - **Contacts and address books** - `contact.get`, `create`, `update`, `search`, and the address-book list
 - **User** - `user.getAccounts`, `user.getIdentities`, `user.logout`, with `isActive` on each account
-- **Keywords and labels** - read and set JMAP keywords, and read or reorder the user's label definitions
+- **Keywords and labels** - read and set JMAP keywords, and read or reorder the user's label definitions (see [below](#keywords-and-labels))
 - **JMAP blobs** - `jmap.uploadBlob`, and on the privileged tier a byte range of a blob
 - **Keys** - `getPublicKeyFromWKD` looks up an OpenPGP key by Web Key Directory
 - **OAuth** - a callback handler so a plugin can complete its own OAuth flow against a third-party service
 - **UI** - `ui.openDialog` opens a large, clickable dialog rendered by the plugin
+
+### Keywords and labels
+
+Sandboxed plugins that bring in provider-side labels use the `api.keywords` and `api.jmap` keyword facades from `@plugin-host`. The comment on each call names the permission it needs:
+
+```js
+const api = require('@plugin-host');
+
+const known = await api.keywords.list();                 // settings:read
+const scan = await api.jmap.getKeywords();               // email:read
+const providerLabel = scan.labels
+  .find((label) => label.id.startsWith('$label:'));
+if (providerLabel) {
+  await api.keywords.add([{                              // settings:write
+    id: providerLabel.id.slice('$label:'.length),
+    label: providerLabel.name,
+    // color is optional; Bulwark picks a palette colour when omitted
+    visibility: 'show',
+  }]);
+}
+const current = await api.keywords.list();               // settings:read
+await api.keywords.reorder(current.map(({ id }) => id), { // settings:write
+  caseSensitive: false, // default
+});
+const counts = await api.keywords.refreshCounts();        // email:read
+
+// Complete replacement: keywords omitted here are removed from the message.
+await api.jmap.setKeywords('email-id', {                 // email:write
+  '$seen': true,
+  '$label:provider-label-id': true,
+});
+await api.jmap.setKeyword('email-id', '$label:work');     // email:write
+await api.jmap.removeKeyword('email-id', '$label:work');  // email:write
+```
+
+- `jmap.getKeywords()` is a narrow read-only facade, not a general JMAP request API. When the server advertises `https://bulwarkmail.com/ns/jmap/keywords`, it returns every cached keyword with exact total and unread counts and provider-label metadata, empty provider labels included. Without that capability it falls back to a bounded scan of message keywords. `keywords.discover()` keeps its original message-scan response for compatibility.
+- `jmap.setKeywords()` replaces one message's complete keyword map through `Email/set`. Omitted keywords are removed, so use `jmap.setKeyword()` and `jmap.removeKeyword()` for incremental edits. The older `email.setKeyword()` and `email.removeKeyword()` names remain as aliases.
+- `keywords.add()` is append-only and matches ids case-insensitively. It returns the added and skipped definitions and never overwrites the user's existing label name, colour, visibility or order.
+- `keywords.reorder()` takes a complete permutation of the existing label ids and changes only their order. Missing, unknown or duplicate ids are rejected without changing settings. Matching is case-insensitive unless you pass `{ caseSensitive: true }`. Keyword discovery reports whether its bounded scan was complete.
 
 ## HTTP proxy and `http:fetch`
 
