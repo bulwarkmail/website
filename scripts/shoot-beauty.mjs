@@ -185,10 +185,25 @@ async function desktop(browser, theme) {
   await tryClick(page, 'button:has-text("Got it")', 1500);
   await mustClick(page, 'button:has-text("Week")', "calendar week view button");
   await sleep(2000);
-  // The fixtures put most events in the second half of the month, and the
-  // grid opens at midnight: step one week ahead and scroll to working hours.
+  // Fixture events sit at fixed offsets from today, so which week is fuller
+  // depends on the capture date: compare this week with the next and keep the
+  // busier one. The grid opens at midnight, so scroll to working hours after.
+  // The week view keeps neighbouring weeks rendered off-screen, so only count
+  // the events that are inside the viewport horizontally.
+  const countEvents = () =>
+    page.evaluate(() =>
+      [...document.querySelectorAll("[data-calendar-event]")].filter((el) => {
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.left >= 0 && r.right <= window.innerWidth;
+      }).length,
+    );
+  const thisWeek = await countEvents();
   await tryClick(page, 'button:has-text("Today") ~ button:nth-of-type(3)', 3000);
   await sleep(2000);
+  if ((await countEvents()) < thisWeek) {
+    await tryClick(page, 'button:has-text("Today") ~ button:nth-of-type(2)', 3000);
+    await sleep(2000);
+  }
   await page.locator("text=/^07:00$/").first().evaluate((el) => el.scrollIntoView({ block: "start" })).catch(() => {});
   await sleep(1500);
   await shoot(page, theme, "calendar-week", DESKTOP);
