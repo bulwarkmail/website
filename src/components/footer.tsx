@@ -6,7 +6,7 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
   {
     h: "Product",
     links: [
-      { label: "Features", href: "https://github.com/bulwarkmail/webmail/blob/main/FEATURES.md" },
+      { label: "Features", href: "/docs/features/overview" },
       { label: "Editions", href: "/docs/getting-started/editions" },
       { label: "Which edition?", href: "/choose" },
       { label: "Bulwark Lite", href: "/docs/getting-started/lite?edition=lite" },
@@ -29,7 +29,7 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: "GitHub", href: "https://github.com/bulwarkmail" },
       { label: "Discord", href: "https://discord.com/invite/tYCujymGrT" },
-      { label: "Contributing", href: "https://github.com/bulwarkmail/webmail/blob/main/CONTRIBUTING.md" },
+      { label: "Contributing", href: "/docs/development/contributing" },
       { label: "Brand and design", href: "/brand" },
       { label: "Press kit", href: "/press" },
     ],

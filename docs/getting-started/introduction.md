@@ -49,7 +49,7 @@ The license is AGPL v3.
 | Languages | 27, three of them right-to-left, detected from the browser |
 | Operations | JMAP push instead of polling, structured logging, a health endpoint, an update check that flags security releases, and an optional anonymous heartbeat that is off by default |
 
-The exhaustive version, kept in sync with each release, is [FEATURES.md](https://github.com/bulwarkmail/webmail/blob/main/FEATURES.md) in the repository.
+The exhaustive version, kept in sync with each release, is [All features](/docs/features/overview).
 
 ## What it is built on
 
