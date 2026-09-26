@@ -77,7 +77,18 @@ If your JMAP server delegates authentication to an external IdP (e.g., Keycloak,
 OAUTH_ISSUER_URL=https://keycloak.example.com/realms/mail
 ```
 
-When the provider advertises an `end_session_endpoint`, Bulwark performs RP-initiated logout.
+### Signing out
+
+When a user who signed in through the identity provider signs out, Bulwark revokes the refresh token, clears its cookies, and then sends the browser to the provider's `end_session_endpoint` (OpenID Connect RP-initiated logout). That ends the provider's own login session, so the next "Sign in with SSO" asks for credentials instead of signing the same person straight back in. The request carries `client_id` and, when the provider issued one at sign-in, `id_token_hint`. With the hint, Keycloak and most other providers sign the user out without asking to confirm.
+
+- **Coming back to Bulwark** - By default the provider shows its own signed-out page. To send users back, register a post-logout redirect URI with the provider (in Keycloak, the client's "Valid post logout redirect URIs") and set the same value in `OAUTH_POST_LOGOUT_REDIRECT_URI`. A URI the provider doesn't have on file makes it refuse the logout.
+- **Shared providers** - If signing out of Bulwark should not sign users out of other apps on the same provider, set `OAUTH_END_SESSION=false`. Bulwark then only revokes its own tokens.
+- **Several accounts** - Signing out of one account while others stay signed in keeps you in Bulwark and leaves the provider session alone, because the remaining accounts may use it. "Sign out of all accounts" clears every account first, then ends one provider session: the active account's, or else the first account that signed in through a provider. Accounts on the same provider share that session and are signed out with it. Accounts on other providers have their tokens revoked, but those providers' sessions stay open.
+- **Expired sessions** - When Bulwark signs a user out because the session expired or the token was rejected, it leaves the provider session alone, so signing in again stays a single click.
+- **Embedded mode** - Inside an embedding portal, Bulwark leaves the provider to the portal and reports the sign-out through the iframe bridge.
+- **Password sign-ins** - Signing in with a password leaves no provider session behind, so sign-out never visits the provider for those accounts.
+
+After signing out on purpose, the login page doesn't redirect to the provider automatically, even with `AUTO_SSO_ENABLED`.
 
 ### Embedded SSO
 

@@ -166,6 +166,20 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 - **Default** - `false`, as an SSRF guard.
 - **When to set it** - Split-DNS deployments where the issuer's public hostname resolves to an internal IP from the Bulwark container.
 
+### `OAUTH_END_SESSION`
+
+- **Purpose** - Signing out of an SSO account also signs out of the identity provider, through the `end_session_endpoint` it advertises.
+- **Required** - No.
+- **Default** - `true`.
+- **When to set it** - Set to `false` when the provider is shared with other apps that should stay signed in after a Bulwark sign-out.
+
+### `OAUTH_POST_LOGOUT_REDIRECT_URI`
+
+- **Purpose** - Where the identity provider sends the browser after signing the user out.
+- **Required** - No.
+- **Default** - None. The provider shows its own signed-out page.
+- **When to set it** - To bring users back to Bulwark, for example `https://mail.example.com/en/login`. Register the same URI with the provider as a post-logout redirect URI first, or the provider refuses the logout.
+
 ### `OAUTH_SCOPES`
 
 - **Purpose** - Override the OAuth scope string requested at the authorization endpoint.
