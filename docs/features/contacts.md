@@ -49,8 +49,10 @@ Organize contacts across multiple address books:
 - Visual separation of address books in the sidebar
 - Sharing of address books via JMAP
 
+{{#stalwart-1.0}}
 <div class="bw-note"><b>Note.</b> On Stalwart 1.0, the list of people you can share an address book with depends on directory queries, which an administrator turns on with <b>Allow Directory Queries</b> under <b>Settings &gt; Files &amp; Sharing &gt; Sharing</b>. Address books shared as "Read &amp; write" on 0.16 show as read-only on 1.0 until the owner saves the share again.</div>
 
+{{/stalwart-1.0}}
 ## Trusted senders
 
 Trusted senders are stored in a dedicated JMAP address book separate from your personal contacts. When you allow images from a sender or otherwise trust them, the entry is persisted server-side and synced across devices.
@@ -73,7 +75,7 @@ Groups collect contacts you address together:
 
 ## Autocomplete
 
-When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc) from your contacts stored on the JMAP server, and from the server's directory of users and groups. On Stalwart 1.0 the directory part needs directory queries, as for sharing above.
+When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc) from your contacts stored on the JMAP server{{#stalwart-1.0}}, and from the server's directory of users and groups. On Stalwart 1.0 the directory part needs directory queries, as for sharing above.{{else}}.{{/stalwart-1.0}}
 
 ## Import and export
 

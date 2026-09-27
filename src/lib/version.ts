@@ -6,3 +6,17 @@
  * the placeholder out: replace it there by hand.
  */
 export const BULWARK_VERSION = "[BULWARK VERSION]";
+
+/**
+ * Whether the site shows Stalwart 1.0 support: the announcement bar, the
+ * upgrade guide and every 1.0 note in the docs. Off unless the build sets
+ * NEXT_PUBLIC_STALWART_1_0=1, which the beta workflow does and production
+ * doesn't, so bulwarkmail.org keeps describing the released Bulwark until
+ * {@link BULWARK_VERSION} ships. Next.js inlines the value at build time, on
+ * the server as well, so the docs search agrees with the pages.
+ *
+ * Docs markdown gates text with {{#stalwart-1.0}}…{{/stalwart-1.0}}, with an
+ * optional {{else}} for the text production shows instead, and a whole page
+ * with `release: stalwart-1.0` in its front matter.
+ */
+export const STALWART_1_0 = process.env.NEXT_PUBLIC_STALWART_1_0 === "1";

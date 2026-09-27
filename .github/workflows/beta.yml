@@ -72,6 +72,9 @@ jobs:
         env:
           NEXT_OUTPUT_STANDALONE: 1
           NEXT_TELEMETRY_DISABLED: 1
+          # Beta shows the Stalwart 1.0 support that production hides until
+          # that Bulwark release ships (src/lib/version.ts).
+          NEXT_PUBLIC_STALWART_1_0: 1
 
       - name: Assemble the release
         if: env.ACTION == 'deploy'

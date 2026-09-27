@@ -7,7 +7,7 @@ import { CopyButton } from "@/components/copy-button";
 import { Shot } from "@/components/ui";
 import { LogoTile, type LogoAsset } from "@/components/logo-tile";
 import { ICON } from "@/lib/icon";
-import { BULWARK_VERSION } from "@/lib/version";
+import { BULWARK_VERSION, STALWART_1_0 } from "@/lib/version";
 
 export const metadata: Metadata = {
   title: "Press kit",
@@ -57,7 +57,7 @@ const FACTS: [string, React.ReactNode][] = [
   ["Source", "github.com/bulwarkmail/webmail"],
   ["Licence", "GNU AGPL v3"],
   ["Mail server", "Stalwart Mail Server, over JMAP"],
-  ["Stalwart versions", `0.16.6 or newer, and 1.0 with Bulwark ${BULWARK_VERSION} or newer`],
+  ["Stalwart versions", STALWART_1_0 ? `0.16.6 or newer, and 1.0 with Bulwark ${BULWARK_VERSION} or newer` : "0.16.6 or newer"],
   ["Social cards", <><a className="bw-link" href="/og-full.png">Bulwark</a>, <a className="bw-link" href="/og-lite.png">Bulwark Lite</a> (1200 × 630 PNG)</>],
   ["Contact", <a key="mail" className="bw-link" href="mailto:dev@bulwarkmail.org">dev@bulwarkmail.org</a>],
   ["Trademarks", "Stalwart is a trademark of Stalwart Labs. Bulwark is an independent project."],

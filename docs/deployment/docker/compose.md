@@ -65,7 +65,7 @@ volumes:
   stalwart-data:
 ```
 
-<div class="bw-note bw-note-warning"><b>Warning.</b> Keep Stalwart on a release line such as <code>v0.16</code>. With a floating tag like <code>latest</code>, <code>docker compose pull</code> could move a 0.16 data store onto Stalwart 1.0, which can't open it; see <a href="/docs/deployment/updating/stalwart-1-0">Upgrading to Stalwart 1.0</a>.</div>
+<div class="bw-note bw-note-warning"><b>Warning.</b> Keep Stalwart on a release line such as <code>v0.16</code>. With a floating tag like <code>latest</code>, <code>docker compose pull</code> could move a 0.16 data store onto Stalwart 1.0, which can't open it{{#stalwart-1.0}}; see <a href="/docs/deployment/updating/stalwart-1-0">Upgrading to Stalwart 1.0</a>{{/stalwart-1.0}}.</div>
 
 Browsers load mail straight from `JMAP_SERVER_URL`, so it has to be an address they can reach, and Stalwart needs its [permissive CORS policy](/docs/getting-started/configuration/stalwart-setup#cors-configuration) turned on unless the two share an origin. Port 8080 serves Stalwart's first-launch setup; you can drop it once the server is configured.
 

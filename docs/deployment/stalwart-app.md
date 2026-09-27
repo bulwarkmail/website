@@ -7,7 +7,7 @@ edition: lite
 
 # Install on Stalwart
 
-Stalwart 0.16 and 1.0 can both host web apps. An `Application` is a zip that Stalwart downloads, unpacks and serves under a path of its own HTTP listener, the same way it serves its web admin. Bulwark Lite ships a bundle for exactly that, `bulwark-lite-stalwart.zip`, so the webmail can live at `https://mail.example.com/webmail/` with nothing else to run.
+Stalwart 0.16{{#stalwart-1.0}} and 1.0{{/stalwart-1.0}} can{{#stalwart-1.0}} both{{/stalwart-1.0}} host web apps. An `Application` is a zip that Stalwart downloads, unpacks and serves under a path of its own HTTP listener, the same way it serves its web admin. Bulwark Lite ships a bundle for exactly that, `bulwark-lite-stalwart.zip`, so the webmail can live at `https://mail.example.com/webmail/` with nothing else to run.
 
 Compared with putting the [static zip](/docs/deployment/static) on a web server:
 
@@ -20,7 +20,7 @@ What works and what is off is the same as for any [Bulwark Lite](/docs/getting-s
 
 ## Requirements
 
-- Stalwart **0.16.6** or later, or Stalwart **1.0** with Lite **{{BULWARK_VERSION}}** or later (see [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0)). A custom OAuth client id (`oauthClientId`, see below) needs **0.16.19**.
+- Stalwart **0.16.6** or later{{#stalwart-1.0}}, or Stalwart **1.0** with Lite **{{BULWARK_VERSION}}** or later (see [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0)){{/stalwart-1.0}}. A custom OAuth client id (`oauthClientId`, see below) needs **0.16.19**.
 - An administrator account with `sysApplicationCreate` and `actionUpdateApps`. Managing the Application later also needs `sysApplicationGet`, `sysApplicationQuery`, `sysApplicationUpdate` and `sysApplicationDestroy`.
 - Stalwart must be able to fetch the zip from `resourceUrl` (GitHub, or wherever you host your own build).
 
@@ -114,7 +114,7 @@ https://github.com/stalwartlabs/webui/releases/latest/download/webui.zip
 A URL that can't be downloaded fails, and so does one that points at an HTML page, a GitHub Actions artifact page or a release listing instead of a zip. What a failure does depends on the Stalwart version:
 
 - **0.16.23** keeps serving the bundle it already had.
-- **Older 0.16 releases and the 1.0 pre-release** unmount that Application and drop the cached zip. It stays unmounted, across restarts too, until a later restart or "update applications" downloads `resourceUrl` successfully. Open tabs get Stalwart's 404 response at their next navigation.
+- **Older 0.16 releases{{#stalwart-1.0}} and the 1.0 pre-release{{/stalwart-1.0}}** unmount that Application and drop the cached zip. It stays unmounted, across restarts too, until a later restart or "update applications" downloads `resourceUrl` successfully. Open tabs get Stalwart's 404 response at their next navigation.
 - **Every version** leaves the Application unmounted after a restart if the cached zip has expired and `resourceUrl` can't be downloaded.
 
 The action reports success either way. The failure shows up in Stalwart's log as a resource error, "Failed to unpack application for prefixes: …", with the URL.

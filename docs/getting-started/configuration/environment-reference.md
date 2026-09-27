@@ -102,16 +102,22 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 
 ### `STALWART_VERSION`
 
+{{#stalwart-1.0}}
 - **Purpose** - The Stalwart version the anonymous telemetry heartbeat reports as `stalwart_version`.
 - **Required** - No.
 - **Default** - Empty, and the heartbeat reports `null`: Stalwart doesn't publish its version, so Bulwark doesn't look it up. Before {{BULWARK_VERSION}}, Bulwark read the JMAP server's `Server` response header when this was unset. Stalwart sends no such header, so those releases reported `null` or the version of a reverse proxy in front of it.
 - **When to set it** - When telemetry is on and you want the heartbeat to include your Stalwart version, for example `0.16.23`. Change it when you upgrade Stalwart.
 - **See also** - [Telemetry privacy](/docs/legal/privacy/telemetry).
+{{else}}
+- **Purpose** - Report a fixed Stalwart version in the telemetry heartbeat instead of probing the JMAP server's `Server` response header.
+- **Required** - No.
+- **When to set it** - When a proxy in front of Stalwart strips that header.
+{{/stalwart-1.0}}
 
 ### `STALWART_API_URL` _(deprecated in 1.5.0)_
 
 - **Status** - Deprecated. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP. Bulwark now talks to the JMAP endpoint exclusively, so this variable has no effect.
-- **Migration** - Remove from your `.env.local`. The self-service portal (account settings, app passwords, API keys) requires Stalwart 0.16.6 or newer, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer.
+- **Migration** - Remove from your `.env.local`. The self-service portal (account settings, app passwords, API keys) requires Stalwart 0.16.6 or newer{{#stalwart-1.0}}, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer{{/stalwart-1.0}}.
 
 ## OAuth / OpenID Connect
 

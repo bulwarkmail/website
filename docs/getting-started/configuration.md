@@ -120,7 +120,11 @@ JMAP_SERVER_URL=https://mail.example.com
 | `BULWARK_JWT_AUTH_SECRET`     | No              | empty                                     | HS256 key enabling [master-user impersonation](/docs/guides/impersonation); the route 404s while unset |
 | `BULWARK_STALWART_MASTER_USER` / `_PASSWORD` | No | empty                                    | Stalwart `Admin`-role account used for impersonation                                       |
 | `LIBRETRANSLATE_URL` / `_API_KEY` | No          | public MyMemory API                       | Point `/api/translate` at a LibreTranslate instance you control                            |
+{{#stalwart-1.0}}
 | `STALWART_VERSION`            | No              | empty                                     | Stalwart version to report in the telemetry heartbeat, which sends `null` without it       |
+{{else}}
+| `STALWART_VERSION`            | No              | probed from the `Server` header           | Report a fixed Stalwart version when a proxy strips that header                            |
+{{/stalwart-1.0}}
 | `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | -                                         | Legacy build-time fallback for `APP_NAME`                                                  |
 | `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | -                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                           |
 

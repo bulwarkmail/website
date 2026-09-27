@@ -1,5 +1,6 @@
 ---
 title: Upgrading to Stalwart 1.0
+release: stalwart-1.0
 description: What to do on the Bulwark side before Stalwart 1.0, and which server settings to check.
 order: 1
 edition: both

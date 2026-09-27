@@ -42,10 +42,11 @@ On a brand-new account, Stalwart provisions mailboxes lazily and Bulwark retries
 
 ## Account security panels are missing
 
-The self-service panels (password change, TOTP, app passwords, API keys) need **Stalwart 0.16.6 or newer**, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer, because they go through JMAP `x:` methods that versions before 0.16 don't expose. They also need principal permissions enabled per account. [Account security](/docs/guides/account-security) has the permission table.
+The self-service panels (password change, TOTP, app passwords, API keys) need **Stalwart 0.16.6 or newer**, {{#stalwart-1.0}}or 1.0 with Bulwark {{BULWARK_VERSION}} or newer, {{/stalwart-1.0}}because they go through JMAP `x:` methods that versions before 0.16 don't expose. They also need principal permissions enabled per account. [Account security](/docs/guides/account-security) has the permission table.
 
 If you still have `STALWART_API_URL` set anywhere, delete it. It pointed at a REST API that no longer exists.
 
+{{#stalwart-1.0}}
 ## Sharing finds nobody, or free/busy is missing
 
 **The share dialog finds nobody, and free/busy is missing.** The dialog says "No other users or groups found", or that your server doesn't allow browsing its user directory, and the event editor says "Free/busy isn't available on this server". Stalwart 1.0 answers directory lookups only when the administrator allows directory queries, and that setting is off by default. Without it, the share dialog and recipient autocomplete can only offer your groups and the people who have shared something with you. On 0.16 the setting only matters for accounts whose role lacks the principal permissions.
@@ -76,11 +77,12 @@ stalwart-cli create Action/ReloadSettings
 
 Upgrade Bulwark, or Lite, to {{BULWARK_VERSION}} or newer. Photos an older release has already removed don't come back: restore them from a backup or add them again.
 
+{{/stalwart-1.0}}
 ## Push and notifications
 
 **Nothing updates without a refresh.** JMAP push rides an EventSource connection, which a proxy will happily break by buffering. The connection has to stay open and unbuffered; on Nginx that means `proxy_http_version 1.1` and not buffering the response.
 
-**Web push never arrives.** Keep `/api/push/*` and `/sw.js` reachable through the proxy, and don't let the proxy cache `/sw.js` aggressively. Notifications also only fire on genuine inbox deliveries, so a flag change or a move deliberately produces nothing, and mailboxes other people share with you never send one.
+**Web push never arrives.** Keep `/api/push/*` and `/sw.js` reachable through the proxy, and don't let the proxy cache `/sw.js` aggressively. Notifications also only fire on genuine inbox deliveries, so a flag change or a move deliberately produces nothing{{#stalwart-1.0}}, and mailboxes other people share with you never send one{{/stalwart-1.0}}.
 
 ## The admin password resets on every restart
 
@@ -92,7 +94,7 @@ A URL like `/en/mail/thread/abc` is served by the shell at `/en/mail/index.html`
 
 ## The Lite Application disappears after an update
 
-**Lite served by Stalwart answers 404 after "update applications" or a restart.** "Update applications" downloads and unpacks every Application's `resourceUrl` again. If that fails, Stalwart 0.16.23 keeps serving the previous bundle, but older 0.16 releases and the 1.0 pre-release unmount the Application until a later update succeeds. After a restart, once the cached zip has expired (`autoUpdateFrequency`, 90 days by default), an unreachable URL leaves it unmounted on every version. The action still reports success; the failure shows only in Stalwart's log, as a resource error "Failed to unpack application for prefixes: …".
+**Lite served by Stalwart answers 404 after "update applications" or a restart.** "Update applications" downloads and unpacks every Application's `resourceUrl` again. If that fails, Stalwart 0.16.23 keeps serving the previous bundle, but older 0.16 releases{{#stalwart-1.0}} and the 1.0 pre-release{{/stalwart-1.0}} unmount the Application until a later update succeeds. After a restart, once the cached zip has expired (`autoUpdateFrequency`, 90 days by default), an unreachable URL leaves it unmounted on every version. The action still reports success; the failure shows only in Stalwart's log, as a resource error "Failed to unpack application for prefixes: …".
 
 Check that `resourceUrl` downloads a zip, for example with `curl -fsSLo bundle.zip <url> && unzip -tq bundle.zip`, correct or [pin](/docs/deployment/stalwart-app#pinning-a-version) it, and run "update applications" again.
 

@@ -8,7 +8,7 @@ import { Ed, Shot, Tile } from "@/components/ui";
 import { ICON } from "@/lib/icon";
 import type { Metadata } from "next";
 import { OG_IMAGES } from "@/lib/og";
-import { BULWARK_VERSION } from "@/lib/version";
+import { BULWARK_VERSION, STALWART_1_0 } from "@/lib/version";
 
 // =============================================================================
 // Landing page, "Flat fields".
@@ -531,7 +531,7 @@ const FAQS: Faq[] = [
   },
   {
     q: "Does it work with a Stalwart server I already run?",
-    a: (
+    a: STALWART_1_0 ? (
       <>
         Yes, if it runs Stalwart 0.16.6 or newer, or 1.0 with Bulwark {BULWARK_VERSION} or newer. Point Bulwark at the
         JMAP endpoint and sign in with the accounts you have. Nothing migrates, and Stalwart stays the source of truth.
@@ -541,6 +541,8 @@ const FAQS: Faq[] = [
         </EditionLink>
         .
       </>
+    ) : (
+      "Yes, if it runs Stalwart 0.16.6 or newer. Point Bulwark at the JMAP endpoint and sign in with the accounts you have. Nothing migrates, and Stalwart stays the source of truth."
     ),
   },
   {
