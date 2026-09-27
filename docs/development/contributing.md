@@ -150,6 +150,35 @@ feat: add email threading support
 fix: resolve attachment download issue
 ```
 
+## AI-assisted contributions
+
+AI tools are part of how Bulwark is developed, and you're welcome to use them for code, tests, translations and documentation. You don't need to say that you did. You are responsible for what you submit, the same as for anything you wrote by hand: understand it, run it, and be ready to explain it in review.
+
+### Use a capable model
+
+Use a current, capable model, the strongest one your tool offers. Don't use small, heavily quantized or older-generation models. Bulwark is a large codebase built on a protocol that most models know little about, and weaker models fill the gaps with guesses that look right:
+
+- JMAP methods, properties and capabilities that don't exist, or that Stalwart doesn't support.
+- Code that works with one account and breaks with several. Email, mailbox and account ids repeat across accounts and servers, so every write has to name the account it belongs to.
+- Hardcoded English text instead of translations, and physical CSS utilities (`ml-*`, `left-*`) that break right-to-left layouts.
+- Email HTML that skips the sanitizer, or remote content loaded when it should stay blocked.
+
+Reviewing a change like that takes longer than writing it from scratch, so pull requests that show these patterns may be closed without a line-by-line review.
+
+### Before you open the pull request
+
+- Read every line of the diff and remove anything you can't explain.
+- Keep it to the change you meant to make. Drop reformatting, renames and new abstractions the tool added along the way.
+- Run the checks and tests above, then try the change in a browser. If it touches mail sync or several accounts, try it against a real Stalwart server as well as the mock.
+- Check that new tests fail without your change. A test that only records what the code does today doesn't catch anything.
+- In translations, keep placeholders such as `{count}` and plural rules intact, and match the tone of the existing strings in that language.
+- Write the pull request description yourself, or cut it down to what changed and why. Long generated summaries slow the review down.
+- Answer review questions in your own words.
+
+### Issues and security reports
+
+The same applies to issues and vulnerability reports. Reproduce the problem on a running instance before you send it, and include the steps. Reports that describe code or behaviour that doesn't exist in Bulwark are closed.
+
 ## Documentation
 
 The documentation lives in the [website repository](https://github.com/bulwarkmail/website) under `docs/`, one Markdown file per page. If your change alters behaviour a page describes, update that page too, or mention it in your pull request.
@@ -173,4 +202,4 @@ Open an [issue on GitHub](https://github.com/bulwarkmail/webmail/issues) and inc
 
 ## License
 
-By contributing, you agree that your contributions are licensed under the [GNU Affero General Public License v3 (AGPL-3.0-only)](https://www.gnu.org/licenses/agpl-3.0.html).
+By contributing, you agree that your contributions are licensed under the [GNU Affero General Public License v3 (AGPL-3.0-only)](https://www.gnu.org/licenses/agpl-3.0.html), together with the additional permission for app store distribution in the [webmail](https://github.com/bulwarkmail/webmail/blob/main/LICENSE) and [mobile app](https://github.com/bulwarkmail/native/blob/main/LICENSE) LICENSE files.
