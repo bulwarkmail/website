@@ -1,7 +1,7 @@
 ---
 title: Updating
 description: Release channels, how to upgrade each install type, and how the update notice works.
-order: 3
+order: 4
 edition: both
 ---
 
