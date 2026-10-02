@@ -81,6 +81,8 @@ Login goes through Stalwart's own token endpoints on the same origin (`/api/auth
 
 If your Stalwart requires OAuth clients to be registered, register that client id with the redirect URI `https://<your stalwart host>/<prefix>/`, one per prefix you mount.
 
+The app runs entirely in the browser, so its client must be a public client with no secret. Stalwart checks a stored secret even when registration is not required: the password is accepted, then `/auth/token` answers `invalid_client`. A sign-in with a two-factor code then fails, and a password-only sign-in falls back to a session that lasts only as long as the tab. If a server-hosted Bulwark already uses `bulwark-webmail` with a secret, register a separate client for the app, for example `bulwark-lite`, and set it as the Application's `oauthClientId`. That needs Stalwart 0.16.19 and also shows the SSO button, so give the client the `.../oauth/callback` redirect URI from the next section as well.
+
 ### Single sign-on
 
 Accounts whose directory is an external OpenID provider cannot use the password form, because Stalwart has no password to check. The app asks Stalwart who signs an address in and shows **Sign in with SSO** for those accounts instead: an authorization code flow with PKCE, redeemed in the browser. At the provider:
