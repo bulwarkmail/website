@@ -1679,6 +1679,115 @@ a.bw-tile:hover {
   color: var(--bw-success);
 }
 
+/* Diagrams: an SVG from public/diagrams, inlined by lib/docs-figures.ts so
+   that it draws with the tokens. It sits in the same frame as a code block. */
+.bw-diagram {
+  margin: 8px 0 24px;
+  padding: 32px 24px;
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-rule);
+}
+.bw-diagram svg {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* File trees (a ```tree block): a nested list. A level is indented 27px, and
+   lib/docs-figures.ts counts on that number to line the comments up. */
+.bw-tree {
+  margin: 8px 0 24px;
+  padding: 18px 24px;
+  overflow-x: auto;
+  background: var(--bw-surface);
+  border: 1px solid var(--bw-rule);
+}
+.prose-docs .bw-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+.prose-docs .bw-tree li {
+  position: relative;
+  padding: 0;
+}
+.prose-docs .bw-tree ul ul {
+  margin-left: 7px;
+}
+.prose-docs .bw-tree ul ul > li {
+  padding-left: 20px;
+}
+/* The lines: each item draws the rule down its left side and a stub to its
+   name. The last item stops the rule at its stub. */
+.bw-tree ul ul > li::before,
+.bw-tree ul ul > li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.bw-tree ul ul > li::before {
+  bottom: 0;
+  border-left: 1px solid var(--bw-control);
+}
+.bw-tree ul ul > li:last-child::before {
+  bottom: auto;
+  height: 13px;
+}
+.bw-tree ul ul > li::after {
+  top: 13px;
+  width: 14px;
+  border-top: 1px solid var(--bw-control);
+}
+.bw-tree-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 2px 0;
+  line-height: 22px;
+}
+.bw-tree-name {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--bw-mono);
+  font-size: var(--bw-code);
+  white-space: nowrap;
+}
+.bw-tree-name svg {
+  flex: none;
+  color: var(--bw-text-muted);
+}
+.bw-tree-note {
+  font-size: 14px;
+  color: var(--bw-text-muted);
+}
+@media (max-width: 640px) {
+  .bw-diagram {
+    padding: 24px 16px;
+  }
+  .bw-tree {
+    padding: 14px 16px;
+  }
+  /* No room for a second column: the comment goes under its name. */
+  .bw-tree-row {
+    display: block;
+  }
+  .bw-tree-name {
+    min-width: 0 !important;
+  }
+  .bw-tree-note {
+    display: block;
+    padding-left: 22px;
+    line-height: 1.4;
+    padding-bottom: 4px;
+  }
+}
+
 /* Syntax: strings take the link colour, comments the muted colour, and
    everything else stays in the text colour. */
 .hljs-string,

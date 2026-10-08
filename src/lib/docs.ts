@@ -13,6 +13,7 @@ import rehypeRaw from "rehype-raw";
 import GithubSlugger from "github-slugger";
 import { appliesTo, parseEdition, type DocEdition } from "./editions";
 import { BULWARK_VERSION, STALWART_1_0 } from "./version";
+import { rehypeFigures } from "./docs-figures";
 
 const docsDirectory = path.join(process.cwd(), "docs");
 
@@ -203,6 +204,7 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeFigures)
     .use(rehypeRaw)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, { behavior: "wrap" })

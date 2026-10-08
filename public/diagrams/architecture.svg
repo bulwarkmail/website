@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 316" width="600" height="316" role="img" aria-labelledby="bw-dg-arch-title bw-dg-arch-desc">
+  <title id="bw-dg-arch-title">How the browser, the Bulwark server and Stalwart talk to each other</title>
+  <desc id="bw-dg-arch-desc">The browser talks JMAP over HTTP directly to Stalwart. The Bulwark server bootstraps auth and serves config to the browser, and calls Stalwart's JMAP x: admin methods itself.</desc>
+  <!-- The docs pipeline inlines this file (src/lib/docs-figures.ts), so the
+       tokens follow the theme and the edition. The fallbacks are the light
+       values, for when the file is opened on its own. -->
+  <style>
+    .bw-dg-box { fill: var(--bw-page, #ffffff); stroke: var(--bw-control, #7f7f87); stroke-width: 1; }
+    .bw-dg-line { fill: none; stroke: var(--bw-text-muted, #56565d); stroke-width: 1; }
+    .bw-dg-head { fill: var(--bw-text-muted, #56565d); }
+    .bw-dg-line-main { fill: none; stroke: var(--bw-brand, #db2d54); stroke-width: 2; }
+    .bw-dg-head-main { fill: var(--bw-brand, #db2d54); }
+    .bw-dg-name { font: 500 16px var(--bw-font, system-ui, sans-serif); fill: var(--bw-text, #18181b); }
+    .bw-dg-sub { font: 13px var(--bw-font, system-ui, sans-serif); fill: var(--bw-text-muted, #56565d); }
+    .bw-dg-label { font: 500 13px var(--bw-font, system-ui, sans-serif); fill: var(--bw-text, #18181b); }
+    .bw-dg-mono { font-family: var(--bw-mono, ui-monospace, Consolas, monospace); font-size: 12px; }
+  </style>
+
+  <!-- Browser to Stalwart: all normal traffic -->
+  <path class="bw-dg-line-main" d="M200 40H390" />
+  <path class="bw-dg-head-main" d="M400 40l-11-6v12z" />
+  <text class="bw-dg-label" x="300" y="27" text-anchor="middle">JMAP over HTTP</text>
+  <text class="bw-dg-sub" x="300" y="60" text-anchor="middle">mail, calendar, contacts, files</text>
+
+  <!-- Browser and Bulwark server -->
+  <path class="bw-dg-line" d="M100 90V225" />
+  <path class="bw-dg-head" d="M100 80l-5 10h10z" />
+  <path class="bw-dg-head" d="M100 235l-5-10h10z" />
+  <text class="bw-dg-label" x="116" y="153">Bootstraps auth,</text>
+  <text class="bw-dg-label" x="116" y="171">serves config</text>
+
+  <!-- Bulwark server to Stalwart -->
+  <path class="bw-dg-line" d="M200 275H500V90" />
+  <path class="bw-dg-head" d="M500 80l-5 10h10z" />
+  <text class="bw-dg-label" x="350" y="263" text-anchor="middle">JMAP <tspan class="bw-dg-mono">x:</tspan> (admin)</text>
+
+  <rect class="bw-dg-box" x="0.5" y="0.5" width="199" height="79" />
+  <text class="bw-dg-name" x="100" y="37" text-anchor="middle">Browser</text>
+  <text class="bw-dg-sub" x="100" y="58" text-anchor="middle">React, Zustand</text>
+
+  <rect class="bw-dg-box" x="400.5" y="0.5" width="199" height="79" />
+  <text class="bw-dg-name" x="500" y="37" text-anchor="middle">Stalwart</text>
+  <text class="bw-dg-sub" x="500" y="58" text-anchor="middle">Mail server</text>
+
+  <rect class="bw-dg-box" x="0.5" y="235.5" width="199" height="79" />
+  <text class="bw-dg-name" x="100" y="272" text-anchor="middle">Bulwark server</text>
+  <text class="bw-dg-sub" x="100" y="293" text-anchor="middle">Next.js</text>
+</svg>

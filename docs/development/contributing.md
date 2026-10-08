@@ -48,7 +48,7 @@ The integration suite needs Docker and takes several minutes. It has its own set
 
 ## Project structure
 
-```
+```tree
 webmail/
 ├── app/                      # Next.js App Router
 │   ├── (main)/[locale]/     # Locale-aware app pages (mail, calendar, contacts, files, settings)

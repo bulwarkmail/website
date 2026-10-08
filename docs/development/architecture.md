@@ -11,20 +11,7 @@ Where the work happens, and why it was split up this way.
 
 ## The shape of it
 
-```
-┌──────────────┐     JMAP/HTTP      ┌──────────────┐
-│   Browser    │ ─────────────────► │   Stalwart   │
-│ React + Zus. │                    │ Mail Server  │
-└──────────────┘                    └──────────────┘
-       ▲                                    ▲
-       │                                    │
-       │  Bootstraps auth, serves config    │ JMAP `x:` (admin)
-       ▼                                    │
-┌──────────────┐                            │
-│   Bulwark    │ ───────────────────────────┘
-│  (Next.js)   │
-└──────────────┘
-```
+![The browser talks JMAP over HTTP directly to Stalwart. The Bulwark server bootstraps auth and serves config to the browser, and calls Stalwart's JMAP x: admin methods itself.](/diagrams/architecture.svg)
 
 After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the first-launch setup wizard, and the admin dashboard - never as a proxy for normal mail traffic.
 
@@ -32,7 +19,7 @@ That split is what makes Bulwark Lite possible. `npm run build:lite` exports the
 
 ## Project structure
 
-```
+```tree
 webmail/
 ├── app/                       # Next.js App Router
 │   ├── api/                   # API routes (auth, config, health, sso, settings, admin, setup, push, etc.)
