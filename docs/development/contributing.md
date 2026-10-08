@@ -11,6 +11,48 @@ Bulwark is AGPL-licensed and developed in public on [GitHub](https://github.com/
 
 If your dev environment won't start, a bug is hard to pin down or a translation has you stuck, ask on the [Discord server](https://discord.gg/tYCujymGrT). That is also where the maintainers and other contributors talk.
 
+## What fits in Bulwark
+
+Bulwark is a mail, calendar, contacts and files client for [Stalwart](https://stalw.art/). Read this section before you start on a feature. A pull request that doesn't fit is closed however good the code is, and that costs you more time than it costs us.
+
+### Stalwart first, standard JMAP welcome
+
+Bulwark is built and tested against Stalwart. Changes that make Bulwark work with other standards-compliant JMAP servers are welcome when they cost Stalwart users nothing: no slower paths, no lost features, and no branches that only exist for one provider. Test against Stalwart as well, since that is what the maintainers run.
+
+### Core or plugin
+
+Core is for what most people expect from a mail, calendar, contacts and files client. Everything narrower belongs in a [plugin](/docs/guides/plugins) or a [theme](/docs/guides/customization#theming). That covers niche workflows, integrations with other services, and features that only a few deployments want. If a plugin can't do what you need because an API, slot or hook is missing, a pull request that adds that extension point is welcome.
+
+These don't go in core:
+
+- **Other protocols.** IMAP, POP3 and other non-JMAP backends. Bridges such as the [legacy proxy](https://github.com/bulwarkmail/legacy-proxy) are separate projects.
+- **Integrations with other services.** CRMs, chat, cloud storage, AI assistants and the like. Write them as plugins.
+- **Stalwart server administration.** Domains, queues, DNS and server settings stay in Stalwart's own admin interface. Bulwark covers what users manage for their own account and what the webmail's admin dashboard needs.
+- **Personalising the app's look beyond themes.** Per-user fonts, colour pickers and alternative layouts. Changes to the look go through themes.
+
+### Settings
+
+A new behaviour should have one good default. When deployments really do need different behaviour, make it an admin setting in the [admin dashboard](/docs/guides/admin) or the admin policy, not a per-user toggle. A pull request that adds a user setting so that its behaviour can be switched off will usually be asked to choose a default instead.
+
+### Both editions, every screen size
+
+- **[Lite](/docs/getting-started/lite).** Features that run in the browser have to work in Lite. A feature that needs the Node server has to be hidden in Lite, not left broken.
+- **Mobile.** UI changes have to work at phone width and with touch, as well as in the light and dark theme.
+
+### The mobile app
+
+The same scope applies to the [mobile app](https://github.com/bulwarkmail/native). A feature that is out of scope for the webmail is out of scope for the app as well.
+
+## Before you write code
+
+Bug fixes and translations can go straight to a pull request. Open an issue first, and wait until a maintainer agrees to the approach, when a change:
+
+- **is larger than about 500 lines**, not counting locale files and tests,
+- **adds a runtime dependency** to `package.json`, or
+- **touches security-sensitive code**, whatever its size: sign-in, OAuth and sessions, the email HTML sanitizer, the plugin sandbox, outgoing-request guards (`url-guard`), and the admin routes.
+
+Agreement first saves you from building something we can't merge. Large features are then delivered as a series of pull requests, each of which works and can be reviewed on its own. Don't send one large pull request, and don't send a stack where every pull request depends on the next.
+
 ## Development setup
 
 ```bash
@@ -102,6 +144,8 @@ Translation runs through **next-intl**, currently across 27 languages: Arabic, C
 
 4. **Keep navigation locale-aware**: ``router.push(`/${params.locale}/settings`)``.
 
+Translation pull requests don't need an issue first. Keep each one to a single locale.
+
 ### Right-to-left layouts
 
 Arabic, Farsi and Hebrew render right to left (see `i18n/direction.ts`). Use Tailwind's logical utilities (`ms-*`/`me-*`, `ps-*`/`pe-*`, `start-*`/`end-*`) rather than physical ones (`ml-*`, `pl-*`, `left-*`) so layouts flip correctly. Popovers positioned in JavaScript with `getBoundingClientRect()` don't pick up logical utilities, so check `isDocumentRTL()` there.
@@ -128,8 +172,10 @@ In the pull request:
 
 - Keep it to one change.
 - Say what changed and why.
-- Add screenshots for UI changes.
-- Reference the issues it relates to.
+- Add screenshots for UI changes, at desktop and phone width.
+- Reference the issues it relates to, including the one where the approach was agreed if it [needed one](#before-you-write-code).
+
+If review feedback goes unanswered for 30 days, the pull request is closed. Reopen it when you pick the work up again.
 
 ### Commit messages
 
