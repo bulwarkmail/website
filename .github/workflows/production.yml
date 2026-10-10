@@ -79,10 +79,15 @@ jobs:
         run: |
           rm -rf release && mkdir release
           cp -a .next/standalone/. release/
-          mkdir -p release/.next && cp -a .next/static release/.next/static
-          cp -a public release/public
+          # Copy into the directories, not onto them: the standalone output
+          # already holds public/ and docs/ for the files the server reads
+          # from disk, and `cp -a public release/public` then nests the
+          # copy as release/public/public.
+          mkdir -p release/.next/static release/public release/docs
+          cp -a .next/static/. release/.next/static/
+          cp -a public/. release/public/
           # The docs are read from disk at request time (src/lib/docs.ts).
-          cp -a docs release/docs
+          cp -a docs/. release/docs/
           mkdir -p release/deploy && cp deploy/ecosystem.production.config.cjs release/deploy/
           rm -f release/.env*
           tar -czf release.tgz -C release .
@@ -102,6 +107,12 @@ jobs:
             if [ "$path" = /this-page-does-not-exist ]; then [ "$code" = 404 ]; else [ "$code" = 200 ]; fi
           done
           grep -q 'bw-field' <(curl -s http://127.0.0.1:3100/)
+          # Files from public/ and the image optimizer that reads them.
+          for path in /screenshots/light-inbox.webp '/_next/image?url=%2Fscreenshots%2Flight-inbox.webp&w=640&q=75'; do
+            type=$(curl -s -o /dev/null -H 'Accept: image/webp' -w '%{http_code} %{content_type}' "http://127.0.0.1:3100${path}")
+            echo "$path $type"
+            case "$type" in "200 image/"*) ;; *) exit 1 ;; esac
+          done
 
       - name: Show the server log
         if: failure() && env.ACTION == 'deploy'
