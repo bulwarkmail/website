@@ -37,7 +37,7 @@ Click any time slot, or use the "New Event" button, to create an event:
 - Start and end time with automatic timezone detection
 - All-day events
 - Recurrence rules (daily, weekly, monthly, yearly) with client-side recurrence expansion
-- Reminders and alerts with configurable notification sound
+- Reminders as notifications or emails, taken from the calendar's defaults or set per event (see [Reminders](#reminders))
 - Participant scheduling with contact autocomplete
 - Virtual location input for online meetings and video calls
 
@@ -46,6 +46,22 @@ Click any time slot, or use the "New Event" button, to create an event:
 - **Double-click** on an empty time slot for quick inline event creation (1-hour default)
 - **Click-and-drag** on empty slots to create events spanning a custom time range (15-minute snap)
 - Double-click in month view opens the event modal with the date pre-filled
+
+## Reminders
+
+Each reminder fires a set time before the event starts, either as a **notification** in Bulwark or as an **email**.
+
+Notifications are shown by Bulwark itself while it is open, with the sound you pick in the notification settings. Emails are sent by the mail server, so they arrive even when Bulwark is closed. Stalwart sends them; other JMAP servers may store email reminders without ever sending them.
+
+### Calendar default reminders
+
+Every calendar you own can have default reminders, with one list for events with a time and one for all-day events. Set them in **Settings > Calendar > Calendar Management** with the bell button next to the calendar. All-day reminders count from midnight at the start of the day, so "1 day before" fires at midnight the day before.
+
+A new event starts with its calendar's defaults. The event editor shows them read-only and follows the calendar and the all-day switch as you change them. To set the event's own reminders, click **Customize**: the defaults are copied into rows you can edit, remove or add to. **Use calendar defaults** switches back.
+
+When an event is saved with the defaults, Stalwart copies them into the event. Changing a calendar's defaults later doesn't change events that already exist; they keep the reminders they were saved with. To give an existing event the current defaults, open it, click **Customize** and then **Use calendar defaults**, and save.
+
+Reminders that the editor can't show as rows, such as ones at a fixed date and time or after the start (often created by other calendar apps), are kept unchanged when you save the event.
 
 ## Event management
 
@@ -119,7 +135,7 @@ Calendar state changes are pushed in real-time via JMAP push - no manual refresh
 
 ## Event notifications
 
-- Client-side alert evaluation with toast display
+- Notification reminders are evaluated in the browser and shown as toasts; email reminders are left to the server
 - Configurable notification sound
 - Events for the next 24 hours are fetched ahead of time so alerts fire on schedule
 
