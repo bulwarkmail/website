@@ -125,8 +125,11 @@ Things the driver knows that took a while to find out:
   shot shows the grid instead.
 - Closing a dirty composer asks "Save or discard draft?", and the recipient
   autocomplete popover covers the subject field until you Tab past it.
-- The fixture events sit in the second half of the month; the week shot steps
-  one week ahead and scrolls to 07:00.
+- The fixture events sit at offsets from today. The week shot clicks Today,
+  compares this week with the next, keeps the busier one and scrolls to 07:00.
+- The calendar view switcher is a dropdown (`calendar-view-menu`), and the mini
+  month calendar also has "Previous"/"Next" buttons that jump a whole month.
+  Scope week navigation to the buttons right after "Today".
 
 ## Promo
 

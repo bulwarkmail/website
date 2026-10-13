@@ -157,7 +157,9 @@ async function desktop(browser, theme) {
   }
   const body = page.locator(".ProseMirror, [contenteditable='true']").first();
   if (await body.count()) {
-    await body.click().catch(() => {});
+    // Click the empty first line. The middle of the editor is the signature
+    // island; clicking it selects the whole signature and typing replaces it.
+    await page.locator(".ProseMirror > p").first().click().catch(() => body.click());
     await page.keyboard.type("Hi Alice,\n\nI moved the design review to the 14th so it lands after the prototype hand-off, and pulled the launch readiness check forward a week. Everything else stays where it was.\n\nThe updated plan is attached. Shout if the 14th doesn't work for your side.\n\nThanks,\nOlivia", { delay: 3 });
   }
   await sleep(1500);
@@ -183,7 +185,10 @@ async function desktop(browser, theme) {
   await rail(page, "Calendar");
   await sleep(6000);
   await tryClick(page, 'button:has-text("Got it")', 1500);
-  await mustClick(page, 'button:has-text("Week")', "calendar week view button");
+  // The view switcher is a dropdown; a bare "Week" text match also hits the
+  // "Weekly Standup" event chips.
+  await mustClick(page, '[data-testid="calendar-view-menu"]', "calendar view menu");
+  await mustClick(page, '[role="menuitemradio"]:has-text("Week")', "calendar week view item");
   await sleep(2000);
   // Fixture events sit at fixed offsets from today, so which week is fuller
   // depends on the capture date: compare this week with the next and keep the
@@ -197,18 +202,21 @@ async function desktop(browser, theme) {
         return r.width > 0 && r.left >= 0 && r.right <= window.innerWidth;
       }).length,
     );
+  // The view can open on an earlier selected date, so start from today.
+  await tryClick(page, 'button:has-text("Today")', 3000);
+  await sleep(1500);
   const thisWeek = await countEvents();
-  await tryClick(page, 'button:has-text("Today") ~ button:nth-of-type(3)', 3000);
+  await tryClick(page, 'button:has-text("Today") + button + button[aria-label="Next"]', 3000);
   await sleep(2000);
   if ((await countEvents()) < thisWeek) {
-    await tryClick(page, 'button:has-text("Today") ~ button:nth-of-type(2)', 3000);
+    await tryClick(page, 'button:has-text("Today") + button[aria-label="Previous"]', 3000);
     await sleep(2000);
   }
   await page.locator("text=/^07:00$/").first().evaluate((el) => el.scrollIntoView({ block: "start" })).catch(() => {});
   await sleep(1500);
   await shoot(page, theme, "calendar-week", DESKTOP);
   // Docs extra: the event editor (features/calendar.md).
-  if (await tryClick(page, 'button:has-text("Create event")', 4000)) {
+  if (await mustClick(page, 'button[aria-label="Create event"]', "create event button")) {
     await sleep(2500);
     await shoot(page, theme, "calendar-create", DESKTOP);
     await page.keyboard.press("Escape");
