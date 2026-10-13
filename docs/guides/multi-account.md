@@ -13,13 +13,11 @@ There used to be a hard cap of five. It was never really ours: each account hold
 
 ## Requirements
 
-Multi-account requires `SESSION_SECRET` to be set so per-account credentials can be persisted encrypted across browser restarts (Bulwark Lite keeps them in the browser instead, as Stalwart refresh tokens, and needs no secret):
+Multi-account needs a session secret so per-account credentials can be persisted encrypted across browser restarts (Bulwark Lite keeps them in the browser instead, as Stalwart refresh tokens, and needs no secret). Bulwark generates one on first start and keeps it in the admin state directory. To set your own:
 
 ```env
 SESSION_SECRET=your-32-char-secret-here
 ```
-
-Without `SESSION_SECRET`, only the currently active account is held in memory and accounts are lost when the browser closes.
 
 For Docker / Kubernetes secret mounts, use `SESSION_SECRET_FILE` instead:
 
@@ -96,7 +94,7 @@ Identities support sub-addressing (`user+tag@domain.com`). When composing a repl
 
 ### Account is removed unexpectedly
 
-If `SESSION_SECRET` changes between deployments, all encrypted account cookies become unreadable and accounts are dropped. Pick a stable secret and persist it (e.g., via Docker secrets or `SESSION_SECRET_FILE`).
+If the session secret changes between deployments, all encrypted account cookies become unreadable and accounts are dropped. Keep the admin state directory on a persistent volume, or set a stable secret yourself (e.g., via Docker secrets or `SESSION_SECRET_FILE`).
 
 ### "Stale account" warning
 

@@ -35,7 +35,8 @@ The file is read by the browser at runtime, so edits take effect on the next pag
 | `allowCustomJmapEndpoint` | `true` when no server is configured, else `false` | Show a server field on the login page |
 | `jmapServers` | `[]` | A fixed list of servers to offer instead; entries need `id`, `label`, `url` and may carry `domains` |
 | `jmapServerAutoPickByDomain` | `false` | Pick from `jmapServers` by the domain of the typed address |
-| `rememberMeEnabled` | `true` | Offer "remember me" (hidden anyway on servers without Stalwart's token login) |
+| `rememberMeEnabled` | `true` | Remember sign-ins; `false` ends every session with the tab. Servers without Stalwart's token login are never remembered |
+| `loginShowRememberMe` | `false` | Show the "remember me" box so users choose |
 | `demoMode` | `false` | Built-in demo account, no server needed |
 | `faviconUrl`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl` | Bulwark's | Branding images, as URLs or paths under the folder |
 | `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl` | empty | Login page footer |

@@ -65,7 +65,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `OAUTH_ALLOW_PRIVATE_ENDPOINTS` | No            | `false`                                   | Let OAuth discovery resolve to RFC 1918 / loopback addresses (split-DNS setups)            |
 | `OAUTH_SCOPES`                | No              | built-in default                          | Override OAuth scope string                                                                |
 | `OAUTH_EXTRA_SCOPES`          | No              | empty                                     | Additional scopes appended to defaults                                                     |
-| `SESSION_SECRET`              | Feature-gated   | -                                         | Enables encrypted Remember-me, settings sync, multi-account, and embedded SSO              |
+| `SESSION_SECRET`              | No              | generated on first start                  | Encrypts Remember-me, settings sync, multi-account, and embedded SSO                       |
 | `SESSION_SECRET_FILE`         | No              | empty                                     | Path to a file containing the session secret                                               |
 | `COOKIE_SAME_SITE`            | No              | `lax`                                     | Cookie `SameSite` attribute (`lax`, `none`, `strict`)                                      |
 | `COOKIE_SECURE`               | No              | derived from env                          | Force `Secure` flag on cookies                                                             |
@@ -109,6 +109,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                    |
 | `LOGIN_LOGO_MAX_HEIGHT` / `_WIDTH` | No         | natural size                              | Cap the rendered login logo; any CSS length                                                |
 | `LOGIN_SHOW_HEADING` / `_SUBTITLE` / `_TOTP` / `_VERSION` | No | `true`             | Hide individual login page elements                                                        |
+| `LOGIN_SHOW_REMEMBER_ME`      | No              | `false`                                   | Show the "Remember me" box instead of remembering every sign-in                          |
 | `DOMAIN_BRANDING`             | No              | empty                                     | JSON array of per-hostname branding overrides, matched on `Host`; `*.` wildcards allowed   |
 | `NEXT_PUBLIC_DEFAULT_LOCALE`  | Build-time      | `en`                                      | Fallback UI locale when `Accept-Language` matches nothing supported                        |
 | `NEXT_PUBLIC_LOCALE_PREFIX`   | Build-time      | `never`                                   | Locale URL prefix mode: `always`, `as-needed`, or `never`                                  |

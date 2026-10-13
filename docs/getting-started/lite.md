@@ -90,8 +90,8 @@ Or the equivalent reverse-proxy rule that allows your Lite origin with the `Auth
 ## Security notes
 
 - There are no cookies and no server session. Requests to the mail server carry the token or credentials of the signed-in account only.
-- "Remember me" keeps a Stalwart refresh token in the browser's `localStorage` (a token, never the password). Without it the token lives in `sessionStorage` and the session ends with the tab. Both are readable by any script on your Lite origin, so serve Lite from an origin you control and keep the Content-Security-Policy the zip ships in `_headers`.
-- Servers without Stalwart's token login fall back to Basic auth. "Remember me" is then hidden, and the credentials stay in `sessionStorage` for the lifetime of the tab so a reload does not sign you out.
+- A remembered sign-in keeps a Stalwart refresh token in the browser's `localStorage` (a token, never the password). Sign-ins are remembered unless `rememberMeEnabled` is `false`, or `loginShowRememberMe` shows the box and the user leaves it unticked; the token then lives in `sessionStorage` and the session ends with the tab. Both are readable by any script on your Lite origin, so serve Lite from an origin you control and keep the Content-Security-Policy the zip ships in `_headers`.
+- Servers without Stalwart's token login fall back to Basic auth. Nothing is remembered then, and the credentials stay in `sessionStorage` for the lifetime of the tab so a reload does not sign you out.
 - The export contains inline hydration scripts, so `script-src` has to allow `'unsafe-inline'`. Email HTML is still sanitised and rendered in a sandboxed frame, exactly as in the full build.
 
 ## Related pages

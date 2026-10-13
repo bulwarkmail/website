@@ -32,7 +32,7 @@ A `permissive-cors` line in a TOML file does nothing, because Stalwart has not r
 
 **Correct password rejected.** If OAuth is involved, check that the issuer is reachable from the Bulwark container specifically, not just from your laptop. Where the issuer's public hostname resolves to an internal address, discovery is blocked by the SSRF guard until you set `OAUTH_ALLOW_PRIVATE_ENDPOINTS=true`.
 
-**Everyone gets logged out after a deploy.** `SESSION_SECRET` changed. Every encrypted cookie became unreadable at once. Pin the secret and mount it, ideally through `SESSION_SECRET_FILE`.
+**Everyone gets logged out after a deploy.** The session secret changed. Every encrypted cookie became unreadable at once. Without `SESSION_SECRET`, Bulwark generates one in the admin state directory, so that directory needs a persistent volume. Otherwise pin the secret and mount it, ideally through `SESSION_SECRET_FILE`.
 
 **Two-factor prompt loops.** TOTP is enforced by Stalwart, not by Bulwark. Confirm the account's TOTP state on the server.
 

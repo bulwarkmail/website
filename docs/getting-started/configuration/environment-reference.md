@@ -207,8 +207,9 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 ### `SESSION_SECRET`
 
 - **Purpose** - Secret used to encrypt persistent "Remember me" sessions, settings sync data, multi-account state, and server-side OAuth PKCE state.
-- **Required** - Optional for basic login. Required for: encrypted persistent sessions, settings sync, multi-account support, and embedded SSO.
+- **Required** - No. Encrypted persistent sessions, settings sync, multi-account support, and embedded SSO need a secret, but when neither this nor `SESSION_SECRET_FILE` is set, Bulwark generates one on first start and stores it in the admin state directory (`.session-secret` in `data/admin-state`).
 - **Generation** - `openssl rand -base64 32`
+- **When to set it** - When the admin state directory isn't on a persistent volume, or several instances must share one secret. Otherwise each restart or instance gets its own secret and users are signed out.
 - **Validation** - Strict minimum length is enforced.
 
 ### `SESSION_SECRET_FILE`
@@ -529,6 +530,12 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 - **Purpose** - Hide parts of the login page: the heading (the app name), the subtitle, the optional "I have a 2FA code" toggle, and the version number.
 - **Default** - All `true`.
 - **When to set it** - Turn the heading and subtitle off when the logo already reads as the brand. Turn the TOTP toggle off when authentication lives in an external directory with no server-side TOTP; a server that requires TOTP still asks for it. Turn the version off so it isn't disclosed to unauthenticated visitors.
+
+### `LOGIN_SHOW_REMEMBER_ME`
+
+- **Purpose** - Show the "Remember me" checkbox on the login form.
+- **Default** - `false`: every sign-in is remembered without asking.
+- **When to set it** - Set to `true` when users should choose, for example on shared computers. Sessions then end with the browser unless the box is ticked.
 
 ### `DOMAIN_BRANDING`
 

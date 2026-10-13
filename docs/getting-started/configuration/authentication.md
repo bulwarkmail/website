@@ -13,7 +13,7 @@ Users sign in with the email credentials that already exist in Stalwart. There a
 
 Users enter their email address and password, and Bulwark checks them against Stalwart's user database through the JMAP authentication endpoint.
 
-No password is written to disk anywhere on the Bulwark side. The session lives in the browser and dies with it, unless you turn on Remember me below.
+No password is written to disk anywhere on the Bulwark side. Sign-ins are remembered for 30 days in an encrypted cookie; see Remember me below.
 
 ### Changing the password from Bulwark
 
@@ -96,22 +96,24 @@ If you need to embed Bulwark in an iframe with automatic SSO managed by a parent
 
 ## Remember me
 
-By default, sessions end when the browser is closed. To enable persistent sessions for Basic Auth:
+Every sign-in is remembered. Credentials are encrypted with AES-256-GCM and stored in an httpOnly cookie with a 30-day expiry, so users stay signed in after closing the browser.
+
+The cookie is encrypted with the session secret. If you don't set one, Bulwark generates it on first start and keeps it in the admin state directory (`data/admin-state`, a volume in the default `docker-compose.yml`). Keep that directory on a persistent volume, or every restart signs everyone out. To manage the secret yourself, or to share it between several instances, set it explicitly:
 
 ```env
 # Generate with: openssl rand -base64 32
 SESSION_SECRET=your-secret-key-here
 ```
 
-When set, a "Remember me" checkbox appears on the login form. Credentials are encrypted with AES-256-GCM and stored in an httpOnly cookie with a 30-day expiry.
+To let users choose, show the "Remember me" checkbox with `LOGIN_SHOW_REMEMBER_ME=true` or the **Show Remember Me** toggle under Login Page in the admin dashboard. Sessions then end with the browser unless the box is ticked.
 
-The `SESSION_SECRET` is also required for settings sync and multi-account support.
+The session secret is also used by settings sync and multi-account support.
 
 ## Multi-account support
 
 Several accounts can be signed in at once. The historical 5-account cap is lifted on HTTP/2 servers - on HTTP/1.1 the practical limit is set by the browser's per-origin connection pool (typically 6 parallel push streams). Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
 
-Multi-account requires `SESSION_SECRET` to persist sessions for each account:
+Multi-account needs a session secret to persist sessions for each account. Bulwark generates one on first start; to set your own:
 
 ```env
 SESSION_SECRET=your-secret-key-here
