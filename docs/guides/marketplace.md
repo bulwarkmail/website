@@ -25,7 +25,7 @@ EXTENSION_DIRECTORY_URL=https://extensions.bulwarkmail.org
 
 When the URL resolves to a reachable directory, a **Marketplace** tab appears in the admin dashboard's plugin and theme management. When unset (or unreachable), the marketplace is hidden and admins manage plugins via direct ZIP upload only.
 
-**Install and uninstall are restricted to the admin dashboard.** Regular users cannot add or remove plugins or themes.
+**Installing from the marketplace is restricted to the admin dashboard.** Users can't browse it. If the admin allows user uploads, users can still upload a plugin ZIP themselves under Settings > Plugins, and by default it only runs after an admin approved it (see [Plugins](/docs/guides/plugins#lifecycle)).
 
 ## Using the marketplace
 
