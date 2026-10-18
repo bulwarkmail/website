@@ -14,6 +14,9 @@ Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and
 
 ## File browser
 
+<img class="theme-light-only" src="/screenshots/light-files-grid.webp" alt="The file browser in grid view" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-files-grid.webp" alt="The file browser in grid view" width="5120" height="2880" />
+
 - Folder tree navigation with breadcrumb path over a real `FileNode` hierarchy
 - Grid and list views
 - Sorting by name, size, or date
@@ -39,6 +42,9 @@ Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and
 > Stalwart's FileNode storage is still maturing. Very large uploads can occasionally cause server instability, and deleted files may not be immediately purged from storage. Use with caution in production deployments.
 
 ## Preview
+
+<img class="theme-light-only" src="/screenshots/light-file-preview.webp" alt="A PDF opened in the preview" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-file-preview.webp" alt="A PDF opened in the preview" width="5120" height="2880" />
 
 - Images (JPEG, PNG, WebP, GIF, SVG)
 - Text (plaintext, source code with syntax highlighting)

@@ -14,6 +14,9 @@ The composer is a Tiptap rich-text editor. It has a plain-text mode for people w
 
 ## Rich text editor
 
+<img class="theme-light-only" src="/screenshots/light-composer-mention.webp" alt="An @mention in the editor: the chip and the card with the person's details" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-composer-mention.webp" alt="An @mention in the editor: the chip and the card with the person's details" width="5120" height="2880" />
+
 The formatting toolbar stays pinned to the top of the editor while a long message scrolls, and the address and subject fields stay above it. The editor supports full formatting:
 
 - **Bold**, _italic_, ~~strikethrough~~, and underline
@@ -76,6 +79,9 @@ Set up multiple signatures via identity management:
 
 ## Templates
 
+<img class="theme-light-only" src="/screenshots/light-templates.webp" alt="The Templates menu in the composer" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-templates.webp" alt="The Templates menu in the composer" width="5120" height="2880" />
+
 Insert reusable email templates from the compose toolbar:
 
 - Browse templates by category with search and filter
@@ -96,6 +102,9 @@ Insert reusable email templates from the compose toolbar:
 Next to the read-receipt request, the send menu can ask the receiving server for a delivery status notification (DSN), and can mark the message REQUIRETLS so it is never relayed over a connection without TLS. Both ride on the JMAP submission; whether the far end honours them is up to that server.
 
 ## Drafts
+
+<img class="theme-light-only" src="/screenshots/light-scheduled.webp" alt="The Scheduled folder with a message waiting to be sent" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-scheduled.webp" alt="The Scheduled folder with a message waiting to be sent" width="5120" height="2880" />
 
 Drafts save themselves every 60 seconds, and the interval is adjustable in settings. They sync across devices over JMAP, and closing an unsaved draft asks for confirmation first.
 

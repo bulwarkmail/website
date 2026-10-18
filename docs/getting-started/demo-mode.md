@@ -30,7 +30,9 @@ Bulwark Lite has the same switch as a build input: `LITE_DEMO_MODE=true` produce
 
 ## What's in the fixtures
 
-Emails, mailboxes, calendars, tasks, contacts, files (office documents included, so the editor integration has something to open), Sieve filters, identities, and a vacation response. Enough that no screen renders empty, and enough that layout work on the message list or the calendar grid has something realistic to push against.
+One person's week. Nora Lindqvist leads engineering at a small software company in the days before a product launch: her team's mail, a designer's invoice with the prototype attached, a calendar invitation waiting for an answer, a conference trip, receipts, newsletters and some spam. Two accounts are signed in (work and personal) and the company's shared Support mailbox is delegated to her, so the account switcher, the shared section and the merged inbox all have content.
+
+The mail carries the headers a real server would add, so the viewer shows what it shows on a live account: the sender check fails on the phishing mail, newsletters have a one-click unsubscribe, one message asks for a read receipt, and remote images are blocked until you load them. Every attachment and every file in the Files app has real bytes behind it, so previews work, and contacts come with photos, groups and birthdays. Calendars, tasks, Sieve filters, identities, templates and a vacation response round it out. Dates float with the clock, so the inbox always looks like this morning.
 
 ## What it is not
 

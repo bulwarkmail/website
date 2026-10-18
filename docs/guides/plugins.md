@@ -221,6 +221,9 @@ The privileged frame is same-origin with the webmail, which amounts to full acce
 
 ## Admin dashboard
 
+<img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="5120" height="2880" />
+
 The plugin and theme dashboard gives you:
 
 - **Listing** - installed plugins with manifest details in a resizable detail sidebar

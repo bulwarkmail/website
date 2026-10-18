@@ -70,6 +70,9 @@ The full negative list, and what nginx and the collector log (or rather, don't l
 
 ## Default state and inspection
 
+<img class="theme-light-only" src="/screenshots/light-admin-telemetry.webp" alt="The telemetry section of the admin dashboard" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-telemetry.webp" alt="The telemetry section of the admin dashboard" width="5120" height="2880" />
+
 Telemetry is **off on a fresh install**. Consent starts at `off` and is written to `TELEMETRY_DATA_DIR/state.json` on first boot, so an install that is never touched sends nothing, ever. Once you opt in, the first heartbeat fires an hour later.
 
 In **Admin → Settings → Anonymous usage stats** you can:

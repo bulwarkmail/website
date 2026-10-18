@@ -74,20 +74,19 @@ docs/                         # Documentation content (Markdown, front matter `e
 ├── development/              # Architecture, contributing
 ├── branding/                 # Brand guidelines
 └── legal/                    # Privacy, telemetry terms
-scripts/
-├── shoot-beauty.mjs          # Raw beauty captures from a demo instance (Playwright)
-├── frame-beauty.mjs          # Frames them into public/beauty (WebP)
-├── og.mjs                    # Renders the Open Graph cards
-└── lib/render.mjs            # Shared headless-Chromium/sharp helpers
 public/
 ├── branding/                 # Logos, favicons (raspberry and Lite teal)
-├── screenshots/              # Docs screenshots, light-/dark- pairs
-├── beauty/                   # Framed hero shots for the landing page
-├── press/                    # Press kit: logos, beauty shots, cards, boilerplate
+├── screenshots/              # Product screenshots, light-/dark- pairs (docs, landing, press page)
+├── beauty/                   # Framed versions for the press kit
+├── press/                    # Press kit: logos, framed shots, cards, boilerplate
 └── og-full.png, og-lite.png  # Social cards per edition
 ```
 
-See `SCREENSHOTS-TODO.md` for how every image is produced.
+Every image under `public/screenshots`, `public/beauty` and `public/press` is
+generated from a demo instance of the webmail by the scripts in the
+[branding repository](https://github.com/bulwarkmail/branding) (`scripts/README.md`
+there); `node scripts/sync.mjs` copies them into this repo. Nothing is edited
+by hand, so a UI change means running them again, not opening an editor.
 
 ## Tech stack
 

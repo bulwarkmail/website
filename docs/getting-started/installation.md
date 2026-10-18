@@ -18,6 +18,9 @@ If you want no server process at all, skip this page: [Bulwark Lite](/docs/getti
 
 ## Quickest path: Docker + setup wizard
 
+<img class="theme-light-only" src="/screenshots/light-setup-server.webp" alt="The setup wizard's server step, with the connection test passed" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-setup-server.webp" alt="The setup wizard's server step, with the connection test passed" width="5120" height="2880" />
+
 The published Docker image is the shortest route to a working inbox, and there is nothing to write to `.env.local` first.
 
 ```bash

@@ -11,6 +11,9 @@ Press `?` anywhere in the app for the shortcuts overlay. The same list, for refe
 
 Single-letter shortcuts only fire when focus isn't in a text field, so typing a subject line never triggers an archive.
 
+<img class="theme-light-only" src="/screenshots/light-shortcuts.webp" alt="The keyboard shortcuts overlay, opened with ?" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-shortcuts.webp" alt="The keyboard shortcuts overlay, opened with ?" width="5120" height="2880" />
+
 ## Global
 
 | Shortcut  | Action                   |

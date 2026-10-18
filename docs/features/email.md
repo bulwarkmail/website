@@ -35,6 +35,9 @@ The rest is the ordinary furniture:
 
 ## Composing
 
+<img class="theme-light-only" src="/screenshots/light-composer-mention.webp" alt="The composer with an @mention chip and the contact card it opens" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-composer-mention.webp" alt="The composer with an @mention chip and the contact card it opens" width="5120" height="2880" />
+
 The editor is Tiptap: bold, italic, underline, strikethrough, ordered and unordered lists, links, tables, block quotes, and code blocks. Images can be pasted or dragged in and are embedded as data URLs so a dropped image doesn't also become an attachment, and each one can be resized in place. There is a plain-text mode for people who want one.
 
 Which address a message leaves from is more flexible than the identity list suggests. Replies can auto-select the identity the original was addressed to, matching either the exact address or anything on the same domain, whichever you prefer in settings. The From header can be overridden outright, and on a catch-all domain a reply to some arbitrary alias comes back from that alias even though no identity exists for it. Each identity carries its own signature and decides whether it lands above or below the quoted text.
@@ -53,6 +56,9 @@ Press `c` anywhere in the app to open the composer. [Composing emails](/docs/fea
 
 ## Reading
 
+<img class="theme-light-only" src="/screenshots/light-sender-check.webp" alt="A message in Spam whose sender failed the receiving server's checks, with the warning above the body" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-sender-check.webp" alt="A message in Spam whose sender failed the receiving server's checks, with the warning above the body" width="5120" height="2880" />
+
 Messages render in an iframe, sanitised by DOMPurify on the way in. In dark mode the HTML is recolored by luminance so a white newsletter doesn't blind you, while emoji keep their own colors. Mail that survives this badly can be forced to light mode, either per message or globally, and any message with both parts can be flipped between its HTML and plain-text version from the viewer toolbar.
 
 External content is blocked until you trust the sender, and the banner saying so sits above the attachments rather than below them. Next to it, SPF, DKIM and DMARC results are shown with the most severe SPF outcome surfaced first; on spoofed mail the "via" badge is suppressed rather than lending the message credibility.
@@ -67,11 +73,17 @@ Around all of that: reply, reply-all and forward, a quick reply form under the m
 
 ## Search
 
+<img class="theme-light-only" src="/screenshots/light-search.webp" alt="Search results across folders, each row showing the folder it came from" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-search.webp" alt="Search results across folders, each row showing the folder it came from" width="5120" height="2880" />
+
 There is no query language to learn. The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, message size, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list. Matching text in the results is highlighted with the server's own snippets.
 
 Queries run across every mailbox by default, not just the folder you're standing in, and they support wildcards and OR conditions on the fields the server can handle them for. {{#stalwart-1.0}}With Stalwart 1.0's built-in search index, a quoted phrase matches exactly, and `word*` finds words that start with `word` as long as that part is at most 16 bytes long. Bulwark {{BULWARK_VERSION}} and newer sends each quoted phrase and each `word*` as a condition of its own. {{/stalwart-1.0}}Press `/` to jump to the search bar. Beyond mail, the Pro interface has a global search palette that also covers contacts, calendar and files across every account. [Search and filters](/docs/features/email/search) covers both.
 
 ## Labels and tags
+
+<img class="theme-light-only" src="/screenshots/light-tag.webp" alt="The Travel tag selected in the sidebar, with the tagged messages listed" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-tag.webp" alt="The Travel tag selected in the sidebar, with the tagged messages listed" width="5120" height="2880" />
 
 Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in settings, tags can nest under a parent, and each one can be always shown, shown only while it has unread mail, or hidden. The tag view lists tagged mail from every connected account, not just the one whose folder is selected.
 
@@ -95,6 +107,9 @@ The full write-up, including the algorithm table and what each banner means, is 
 
 ## Filters
 
+<img class="theme-light-only" src="/screenshots/light-filters.webp" alt="The filter settings with the active Sieve rules" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-filters.webp" alt="The filter settings with the active Sieve rules" width="5120" height="2880" />
+
 Filtering happens on the server, as Sieve scripts over JMAP (RFC 9661), which means it keeps working while the browser is closed.
 
 Build rules visually (From, To, Subject, Size, Body, Attachment, and so on, each matching against several values) with actions to move, forward, mark read, star, discard, or reject. Reorder them by dragging. An expanded view shows every rule at once for review, and if you'd rather write Sieve directly there's a raw editor with syntax validation. Edits save themselves and roll back if the server rejects the script.
@@ -113,6 +128,9 @@ Set a subject and a plain-text body, and optionally a start and end date; leave 
 Like filters, this needs a server that supports Sieve.{{#stalwart-1.0}} On Stalwart 1.0 the replies go out with an empty envelope sender (<code style="font-variant-ligatures: none">MAIL FROM:&lt;&gt;</code>), as RFC 5230 recommends.{{/stalwart-1.0}}
 
 ## Templates
+
+<img class="theme-light-only" src="/screenshots/light-settings-templates.webp" alt="The template settings" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-settings-templates.webp" alt="The template settings" width="5120" height="2880" />
 
 Templates are reusable message bodies grouped by category (General, Business, Personal, Support, Follow-up, or your own). Placeholders like `{{recipientName}}` and `{{date}}` fill themselves in from whatever the composer already knows; anything custom prompts you on insertion.
 

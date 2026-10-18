@@ -11,6 +11,9 @@ Users sign in with the email credentials that already exist in Stalwart. There a
 
 ## Basic authentication
 
+<img class="theme-light-only" src="/screenshots/light-login.webp" alt="The login page with the password form" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-login.webp" alt="The login page with the password form" width="5120" height="2880" />
+
 Users enter their email address and password, and Bulwark checks them against Stalwart's user database through the JMAP authentication endpoint.
 
 No password is written to disk anywhere on the Bulwark side. Sign-ins are remembered for 30 days in an encrypted cookie; see Remember me below.

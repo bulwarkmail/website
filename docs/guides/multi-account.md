@@ -34,6 +34,9 @@ SESSION_SECRET_FILE=/run/secrets/session_secret
 
 ## Switching accounts
 
+<img class="theme-light-only" src="/screenshots/light-account-switcher.webp" alt="The account switcher with two signed-in accounts" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-account-switcher.webp" alt="The account switcher with two signed-in accounts" width="5120" height="2880" />
+
 Click any account in the account switcher to switch instantly. Per-account state (mailboxes, contacts, calendar, filters, identities) is cached in memory so the switch is immediate. If a per-account store is empty (first switch in a session), it's lazy-loaded on demand.
 
 ## Per-account state
@@ -57,9 +60,15 @@ You can mark one account as the default. The default account loads on initial si
 
 ## Unified inbox
 
+<img class="theme-light-only" src="/screenshots/light-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
+
 A unified mailbox view aggregates new mail from every connected account into a single list. Each row is annotated with the source account so you always know which mailbox an email lives in. The unified inbox is toggleable from the sidebar.
 
 ## Shared folders
+
+<img class="theme-light-only" src="/screenshots/light-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
 
 Folders shared with one account are surfaced under that account in the sidebar. Shared account folder layouts mirror primary folders so navigation stays consistent.
 

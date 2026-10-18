@@ -14,6 +14,9 @@ The calendar speaks JMAP Calendars (RFC 8984). Bulwark reads the capabilities th
 
 ## Views
 
+<img class="theme-light-only" src="/screenshots/light-calendar-week.webp" alt="The week view with events from several calendars and the day's tasks" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar-week.webp" alt="The week view with events from several calendars and the day's tasks" width="5120" height="2880" />
+
 - **Month view** - Overview of the entire month with multi-day event spanning
 - **Week view** - Detailed weekly schedule with column-based overlap layout and time-based event sorting
 - **Day view** - Hour-by-hour daily agenda
@@ -28,8 +31,8 @@ The desktop toolbar carries prev/next buttons, a "Today" button, and a date labe
 
 ## Creating events
 
-<img class="theme-light-only" src="/screenshots/light-calendar-create.webp" alt="Bulwark calendar event creation" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-calendar-create.webp" alt="Bulwark calendar event creation" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-calendar-create.webp" alt="Bulwark calendar event creation" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar-create.webp" alt="Bulwark calendar event creation" width="5120" height="2880" />
 
 Click any time slot, or use the "New Event" button, to create an event:
 
@@ -65,6 +68,9 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 
 ## Event management
 
+<img class="theme-light-only" src="/screenshots/light-calendar-event.webp" alt="An event opened from the week view, with participants and the response buttons" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar-event.webp" alt="An event opened from the week view, with participants and the response buttons" width="5120" height="2880" />
+
 - **Drag-and-drop rescheduling** - Move events between time slots in week/day views or between dates in month view
 - **Resize events** - Drag the top or bottom edge to change duration with 15-minute snap; `utcEnd` is recalculated as duration changes
 - **Duplicate events** - Clone an event with a +1 day offset for editing
@@ -73,6 +79,9 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 - **Timezone-aware formatting** - Event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
 ## Sharing and invitations
+
+<img class="theme-light-only" src="/screenshots/light-invite.webp" alt="An invitation in the mail reading pane with Accept, Maybe and Decline" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-invite.webp" alt="An invitation in the mail reading pane with Accept, Maybe and Decline" width="5120" height="2880" />
 
 - Send iMIP invitations on event create and update (RFC 5545 / 6047), with `calendarAddress` and `replyTo` participants for Stalwart compatibility
 - Accept/decline/tentative RSVP responses with trust assessment
@@ -140,6 +149,9 @@ Calendar state changes are pushed in real-time via JMAP push - no manual refresh
 - Events for the next 24 hours are fetched ahead of time so alerts fire on schedule
 
 ## Tasks
+
+<img class="theme-light-only" src="/screenshots/light-tasks.webp" alt="The task list with due dates and calendars" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-tasks.webp" alt="The task list with due dates and calendars" width="5120" height="2880" />
 
 A dedicated task list view manages tasks with due dates, priority, and completion status. Tasks created by external CalDAV clients (such as Thunderbird) are detected and displayed alongside Bulwark-created tasks. Updates and deletions for synthetic JMAP IDs fall back to destroy-and-recreate when the server can't update them in place.
 

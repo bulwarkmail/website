@@ -29,6 +29,9 @@ When the URL resolves to a reachable directory, a **Marketplace** tab appears in
 
 ## Using the marketplace
 
+<img class="theme-light-only" src="/screenshots/light-admin-marketplace.webp" alt="The marketplace in the admin dashboard" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-marketplace.webp" alt="The marketplace in the admin dashboard" width="5120" height="2880" />
+
 1. Sign in to the admin dashboard.
 2. Open Plugins or Themes.
 3. Click **Browse marketplace**.

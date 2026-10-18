@@ -11,9 +11,15 @@ Search runs on the JMAP server, not in the browser, so it covers the whole mailb
 
 ## Basic search
 
+<img class="theme-light-only" src="/screenshots/light-search.webp" alt="Search results for a word, with the folder of each match" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-search.webp" alt="Search results for a word, with the folder of each match" width="5120" height="2880" />
+
 Type in the search bar or press `/` to focus it. Results appear as you type with debounced queries, and the dropdown under the bar suggests recent searches and matching contacts before you finish typing. Matching text in a result is highlighted using the server's own `SearchSnippet/get` snippets, so the highlight reflects what the server matched rather than a guess. A setting clears the search when you switch folders, for people who expect a folder click to mean a fresh list.
 
 ## Advanced search panel
+
+<img class="theme-light-only" src="/screenshots/light-search-filters.webp" alt="The advanced search panel over the results" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-search-filters.webp" alt="The advanced search panel over the results" width="5120" height="2880" />
 
 Click the filter icon next to the search bar to open the advanced search panel. Use the following fields to build precise queries:
 
@@ -43,6 +49,9 @@ Search operates across all mailboxes by default, not just the currently selected
 Filters combine with AND: every condition has to match. Pairing a text query with structured filters narrows results fastest.
 
 ## Global search
+
+<img class="theme-light-only" src="/screenshots/light-search-palette.webp" alt="The global search palette in the Pro interface" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-search-palette.webp" alt="The global search palette in the Pro interface" width="5120" height="2880" />
 
 Global search lives in the Pro interface (Settings → Layout → Pro Interface). There, the search entry at the top of the navigation rail, or `Ctrl/Cmd+K`, opens a palette that queries mail, contacts, calendar events and files at once, across every account you are signed in to. Results are ranked and grouped by kind, each row carries an avatar or a tinted icon and a structured preview, and opening a hit goes through the login that owns it, so a message in a shared or secondary account opens in the right context. The same server object reached through several logins shows once.
 

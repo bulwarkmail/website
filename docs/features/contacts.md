@@ -67,6 +67,9 @@ Organize contacts with categories:
 
 ## Groups
 
+<img class="theme-light-only" src="/screenshots/light-contact-group.webp" alt="A contact group with its members" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-contact-group.webp" alt="A contact group with its members" width="5120" height="2880" />
+
 Groups collect contacts you address together:
 
 - Create custom contact groups with JMAP members map
