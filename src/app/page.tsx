@@ -129,6 +129,7 @@ function HeroSection() {
             alt="The Bulwark inbox with a message open in the reading pane"
             className="bw-hero-shot"
             sizes="(max-width: 900px) 120vw, 60vw"
+            window
             priority
           />
         </div>
@@ -271,13 +272,14 @@ function AppsSection() {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Text-and-figure rows. The figure is always product UI.
+// SECTION: Text-and-figure rows. The figure is always product UI, shown whole
+// in a browser window rather than cropped to a detail.
 // -----------------------------------------------------------------------------
 type FeatureRowProps = {
   heading: string;
   text: React.ReactNode;
   link: { label: string; href: string };
-  shot: { name: string; alt: string; pos?: string };
+  shot: { name: string; alt: string };
   /** Figure on the left, on the quiet surface band. */
   flip?: boolean;
 };
@@ -286,7 +288,7 @@ function FeatureRow({ heading, text, link, shot, flip }: FeatureRowProps) {
   return (
     <section className={flip ? "bw-sec bw-band" : "bw-sec"}>
       <div className="bw-w">
-        <div className={`bw-split bw-split-center ${flip ? "bw-split-7-5" : "bw-split-5-7"}`}>
+        <div className={`bw-split bw-split-center ${flip ? "bw-split-8-4" : "bw-split-4-8"}`}>
           <div className={flip ? "bw-stack bw-order-last" : "bw-stack"}>
             <h2 className="bw-h2">{heading}</h2>
             <p className="bw-muted">{text}</p>
@@ -294,7 +296,7 @@ function FeatureRow({ heading, text, link, shot, flip }: FeatureRowProps) {
               {link.label} <ArrowRight size={16} {...ICON} />
             </EditionLink>
           </div>
-          <Shot name={shot.name} alt={shot.alt} pos={shot.pos} />
+          <Shot name={shot.name} alt={shot.alt} window />
         </div>
       </div>
     </section>
@@ -727,7 +729,7 @@ export default async function Home() {
           heading="Mail opens as threads, with search across every folder."
           text="The server threads each conversation and a unified inbox covers every account. Sieve filters, templates and S/MIME are built in."
           link={{ label: "Mail features", href: "/docs/features/email" }}
-          shot={{ name: "composer", alt: "The composer with a draft open over the inbox", pos: "100% 100%" }}
+          shot={{ name: "composer", alt: "The composer with a draft open over the inbox" }}
         />
         <FeatureRow
           flip

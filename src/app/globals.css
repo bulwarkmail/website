@@ -16,6 +16,7 @@
   --bw-text: #18181b;
   --bw-text-muted: #56565d;
   --bw-rule: #dddde1; /* tile edges, table rows, image frames */
+  --bw-win-rule: #dddde1; /* the rules inside a window frame; the field does not remap it */
   --bw-control: #7f7f87; /* input, ghost button and edition switch borders */
 
   /* brand. Nothing may hard-code the hex values: use the tokens. */
@@ -90,6 +91,7 @@
   --bw-text: #f2f2f3;
   --bw-text-muted: #ababb2;
   --bw-rule: #36363b;
+  --bw-win-rule: #36363b;
   --bw-control: #85858d;
   --bw-field: #c4264b; /* a step darker so white text reaches 5.6:1 */
   --bw-link: #ff91a8;
@@ -329,6 +331,9 @@ h3 {
   }
   .bw-split-4-8 {
     grid-template-columns: 4fr 8fr;
+  }
+  .bw-split-8-4 {
+    grid-template-columns: 8fr 4fr;
   }
   .bw-split-center {
     align-items: center;
@@ -634,6 +639,69 @@ h3 {
   max-width: none;
   object-fit: cover;
   object-position: var(--pos, 0 0);
+}
+
+/* The window: the same 1px frame with a browser title bar on the quiet
+   surface, and the whole capture below it at its own 16:9. Nothing is cropped,
+   so the figure is the app running. The bar's inner rules use --bw-win-rule
+   because on the field --bw-rule turns into translucent white. */
+.bw-win {
+  aspect-ratio: auto;
+  border-radius: 4px;
+}
+/* The hero window runs off the right and bottom edges, so only its free corner is rounded. */
+.bw-hero-shot.bw-win {
+  border-radius: 4px 0 0 0;
+}
+.bw-win-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 28px;
+  padding: 0 10px;
+  background: var(--bw-surface);
+  border-bottom: 1px solid var(--bw-win-rule);
+  color: var(--bw-text-muted);
+  line-height: 1;
+}
+.bw-field .bw-win-bar {
+  color: var(--bw-ink-muted);
+}
+.dark .bw-field .bw-win-bar {
+  color: var(--bw-text-muted);
+}
+.bw-win-dots {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+.bw-win-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.45;
+}
+/* The address is just text, centred in the bar. The dots on the left are
+   balanced by an empty slot of the same width on the right. */
+.bw-win-url {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-right: 36px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bw-win-body {
+  display: block;
+  line-height: 0;
+}
+.bw-win img {
+  height: auto;
+  object-fit: fill;
+  object-position: 0 0;
 }
 
 /* ----------------------------------------------------------------------

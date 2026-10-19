@@ -13,27 +13,66 @@ type ShotProps = {
   className?: string;
   priority?: boolean;
   sizes?: string;
+  /**
+   * Show the whole capture inside a flat browser window (title bar with the
+   * address below) instead of cropping it into a 16:10 frame.
+   */
+  window?: boolean;
+  /** The address shown in the window bar. */
+  url?: string;
 };
+
+/** A neutral placeholder host: the page says the client talks to your own server. */
+const DEMO_HOST = "mail.example.com";
 
 /**
  * A real product screenshot in a square 1px frame, in the visitor's theme.
- * The frame sets the aspect ratio and the image is cropped into it.
+ * Plain, the frame sets the aspect ratio and the image is cropped into it.
+ * As a window, the frame grows a browser title bar and the capture is shown
+ * whole, so the figure reads as the app running rather than a detail of it.
  */
-export function Shot({ name, alt, pos, className, priority, sizes = "(max-width: 900px) 100vw, 60vw" }: ShotProps) {
+export function Shot({
+  name,
+  alt,
+  pos,
+  className,
+  priority,
+  sizes = "(max-width: 900px) 100vw, 60vw",
+  window,
+  url = DEMO_HOST,
+}: ShotProps) {
+  const image = (
+    <ThemeImage
+      light={`/screenshots/light-${name}.webp`}
+      dark={`/screenshots/dark-${name}.webp`}
+      alt={alt}
+      width={2560}
+      height={1440}
+      sizes={sizes}
+      priority={priority}
+    />
+  );
+  if (window) {
+    return (
+      <span className={["bw-shot bw-win", className].filter(Boolean).join(" ")}>
+        <span className="bw-win-bar" aria-hidden="true">
+          <span className="bw-win-dots">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span className="bw-win-url">{url}</span>
+        </span>
+        <span className="bw-win-body">{image}</span>
+      </span>
+    );
+  }
   return (
     <span
       className={["bw-shot", className].filter(Boolean).join(" ")}
       style={pos ? ({ "--pos": pos } as CSSProperties) : undefined}
     >
-      <ThemeImage
-        light={`/screenshots/light-${name}.webp`}
-        dark={`/screenshots/dark-${name}.webp`}
-        alt={alt}
-        width={2560}
-        height={1440}
-        sizes={sizes}
-        priority={priority}
-      />
+      {image}
     </span>
   );
 }
