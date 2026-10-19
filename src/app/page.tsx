@@ -309,14 +309,16 @@ function FeatureRow({ heading, text, link, shot, flip }: FeatureRowProps) {
 // checkout. If a row here can't be traced to one of those, take it out.
 const EDITION_ROWS: [string, boolean | string, boolean | string][] = [
   ["Mail, calendar, contacts and files", true, true],
-  ["Sign-in with a password", true, true],
+  ["Several accounts at once", true, true],
+  ["Sign-in with a password and TOTP", true, true],
   ["OAuth and single sign-on", true, false],
   ["Plugins and sidebar apps", true, false],
   ["Settings that follow you between devices", true, false],
   ["Admin console and setup wizard", true, false],
   ["Office document editing", true, false],
   ["Web push and the update notice", true, false],
-  ["Runs on", "Docker or Node.js", "Any static web host"],
+  ["Served by Stalwart itself as an Application", false, true],
+  ["Runs on", "Docker or Node.js", "Any static web host, or Stalwart"],
 ];
 
 function YesNo({ value }: { value: boolean | string }) {
