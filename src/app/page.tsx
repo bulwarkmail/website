@@ -607,7 +607,17 @@ const FAQS: Faq[] = [
   },
   {
     q: "Can I try it first?",
-    a: "A demo runs at demo.bulwarkmail.org with a shared mailbox that resets every hour. The container also starts on your own machine in about ten minutes.",
+    a: (
+      <>
+        Yes.{" "}
+        <a href="https://demo.bulwarkmail.org" target="_blank" rel="noopener noreferrer" className="bw-link">
+          demo.bulwarkmail.org
+        </a>{" "}
+        runs the client on sample data with no mail server behind it, so you can click through mail, calendar,
+        contacts and files, but nothing is saved or sent and a reload starts over. Installing the container against
+        your own Stalwart takes about ten minutes.
+      </>
+    ),
   },
 ];
 

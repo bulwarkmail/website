@@ -46,7 +46,7 @@ Never point a public demo at real data by leaving `DEMO_MODE` off and hoping. Th
 
 ## The hosted demo
 
-There is a shared instance at [demo.bulwarkmail.org](https://demo.bulwarkmail.org). Everyone lands in the same mailbox, it is mostly read-only, and it is wiped every hour. Treat it as a screenshot you can click rather than an account.
+There is a public instance at [demo.bulwarkmail.org](https://demo.bulwarkmail.org). It runs in demo mode as described above: everyone sees the same sample mailbox, nothing is saved or sent, and a reload starts over. Treat it as a screenshot you can click rather than an account.
 
 ## Related pages
 
