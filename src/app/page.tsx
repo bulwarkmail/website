@@ -138,6 +138,62 @@ function HeroSection() {
 }
 
 // -----------------------------------------------------------------------------
+// SECTION: Sponsors - one quiet bar under the hero. Logos are masks filled
+// with the text colour, so every brand reads the same in both themes.
+// -----------------------------------------------------------------------------
+type Sponsor = {
+  name: string;
+  href: string;
+  /** Logo path under /public. Rendered through a CSS mask, so only its alpha matters. */
+  logo: string;
+  /** Logo width divided by its height. */
+  ratio: number;
+  /** Rendered height in px. One-line wordmarks sit around 26, two-line ones need more to stay legible. */
+  height: number;
+};
+
+const SPONSORS: Sponsor[] = [
+  { name: "Superspace", href: "https://superspace.nl", logo: "/logos/superspace.svg", ratio: 255 / 42.5, height: 26 },
+  { name: "RBM Systems", href: "https://rbm.systems", logo: "/logos/rbmsys.svg", ratio: 124 / 31.48, height: 30 },
+  { name: "Ingenieurbüro Lepthien", href: "https://lepthien.info/", logo: "/logos/lepthien.svg", ratio: 4, height: 40 },
+];
+
+function SponsorsSection() {
+  return (
+    <section className="bw-band bw-sponsors" aria-label="Sponsors">
+      <div className="bw-w">
+        <div className="bw-sponsors-in">
+          <span className="bw-sponsors-label">Sponsored by</span>
+          {SPONSORS.map(({ name, href, logo, ratio, height }) => (
+            <a
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="bw-sponsor"
+              aria-label={name}
+            >
+              <span
+                className="bw-sponsor-logo"
+                style={{ "--logo": `url(${logo})`, "--ratio": ratio, "--h": `${height}px` } as React.CSSProperties}
+              />
+            </a>
+          ))}
+          <a
+            href="https://github.com/sponsors/bulwarkmail"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bw-link bw-sponsors-cta"
+          >
+            Become a sponsor <ArrowUpRight size={14} {...ICON} />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
 // SECTION: Fact row
 // -----------------------------------------------------------------------------
 function FactsSection({ langs }: { langs: number }) {
@@ -460,50 +516,39 @@ function ProjectsSection() {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Open source - text and buttons left, sponsors as a compact list
+// SECTION: Open source - heading, one paragraph and the two buttons. The
+// sponsors themselves are in the bar under the hero.
 // -----------------------------------------------------------------------------
 function OpenSourceSection({ instances }: { instances: number }) {
   return (
     <section className="bw-sec bw-band">
       <div className="bw-w">
-        <div className="bw-split bw-split-7-5">
-          <div className="bw-stack">
-            <h2 className="bw-h2">Bulwark is open source under AGPL-3.0.</h2>
-            <p className="bw-muted">
-              The code, the issue tracker and the release notes are public, and{" "}
-              <a
-                href="https://grafana.external.bulwarkmail.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bw-link"
-              >
-                {instances.toLocaleString("en-US")} instances
-              </a>{" "}
-              have reported in so far. Sponsors pay for the work.
-            </p>
-            <div className="bw-btns" style={{ marginTop: 8 }}>
-              <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
-                View source on GitHub <ArrowUpRight size={16} {...ICON} />
-              </a>
-              <a
-                href="https://github.com/sponsors/bulwarkmail"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bw-btn bw-btn-ghost"
-              >
-                Become a sponsor <ArrowUpRight size={16} {...ICON} />
-              </a>
-            </div>
-          </div>
-          <div className="bw-tiles bw-tiles-1">
-            <Tile compact href="https://rbm.systems" title="RBM Systems" text="rbm.systems" />
-            <Tile compact href="https://lepthien.info/" title="Ingenieurbüro Lepthien" text="lepthien.info" />
-            <Tile
-              compact
+        <div className="bw-stack" style={{ maxWidth: 720 }}>
+          <h2 className="bw-h2">Bulwark is open source under AGPL-3.0.</h2>
+          <p className="bw-muted">
+            The code, the issue tracker and the release notes are public, and{" "}
+            <a
+              href="https://grafana.external.bulwarkmail.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bw-link"
+            >
+              {instances.toLocaleString("en-US")} instances
+            </a>{" "}
+            have reported in so far. Sponsors pay for the work.
+          </p>
+          <div className="bw-btns" style={{ marginTop: 8 }}>
+            <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
+              View source on GitHub <ArrowUpRight size={16} {...ICON} />
+            </a>
+            <a
               href="https://github.com/sponsors/bulwarkmail"
-              title="Your organisation"
-              text="Sponsor Bulwark on GitHub"
-            />
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bw-btn bw-btn-ghost"
+            >
+              Become a sponsor <ArrowUpRight size={16} {...ICON} />
+            </a>
           </div>
         </div>
       </div>
@@ -663,6 +708,7 @@ export default async function Home() {
 
       <main>
         <HeroSection />
+        <SponsorsSection />
         <FactsSection langs={langs ?? FALLBACK.langs} />
         <AppsSection />
         <FeatureRow

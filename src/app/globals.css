@@ -698,6 +698,61 @@ h3 {
 }
 
 /* ----------------------------------------------------------------------
+   Sponsor bar: one row under the hero. Each logo is a CSS mask painted
+   with the current colour, so a white, a cyan and a black source file all
+   come out in the muted text colour and follow the theme.
+   ---------------------------------------------------------------------- */
+.bw-sponsors-in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 44px;
+  padding-block: 26px;
+}
+.bw-sponsors-label,
+.bw-sponsors-cta {
+  font-size: var(--bw-small);
+  color: var(--bw-text-muted);
+}
+.bw-sponsors-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.bw-sponsor {
+  display: inline-flex;
+  align-items: center;
+  color: var(--bw-text-muted);
+  text-decoration: none;
+  transition: color var(--bw-motion);
+}
+.bw-sponsor:hover {
+  color: var(--bw-text);
+}
+.bw-sponsor-logo {
+  display: block;
+  height: var(--h);
+  width: calc(var(--h) * var(--ratio));
+  background: currentColor;
+  mask: var(--logo) center / contain no-repeat;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+}
+@media (max-width: 640px) {
+  .bw-sponsors-in {
+    gap: 18px 32px;
+  }
+  .bw-sponsor-logo {
+    height: calc(var(--h) * 0.85);
+    width: calc(var(--h) * 0.85 * var(--ratio));
+  }
+  .bw-sponsors-cta {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}
+
+/* ----------------------------------------------------------------------
    Fact row and tiles
    ---------------------------------------------------------------------- */
 .bw-facts {
