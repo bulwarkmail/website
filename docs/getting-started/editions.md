@@ -19,7 +19,8 @@ The toggle at the top of every page on this site switches the documentation betw
 | Install | `docker run`, then a web setup wizard | Unzip, edit `config.json`, upload; or create a Stalwart Application |
 | Configuration | Wizard and admin dashboard, or environment variables | `config.json`, plus `LITE_*` build inputs for baked-in defaults |
 | Mail, calendar, contacts, files | Yes | Yes |
-| Global search, threads, filters, S/MIME, templates | Yes | Yes |
+| Global search, threads, filters, templates | Yes | Yes |
+| S/MIME (plugin) | Yes | No |
 | Several accounts at once | Yes | Yes |
 | Login | Password + TOTP, OAuth / OIDC, SSO, embedded SSO | Password + TOTP |
 | "Remember me" | Encrypted server-side cookie | Stalwart refresh token in the browser |
