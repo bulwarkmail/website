@@ -2522,9 +2522,6 @@ ul.bw-rules > li::before {
    ---------------------------------------------------------------------- */
 .bw-eu-flag {
   flex: none;
-  /* a hairline keeps the blue from sinking into dark grounds */
-  outline: 1px solid color-mix(in srgb, var(--bw-text) 12%, transparent);
-  outline-offset: -1px;
 }
 .bw-eu-field {
   fill: var(--bw-eu-blue);
