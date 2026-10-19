@@ -77,7 +77,6 @@ export function Footer() {
 
         <div className="bw-foot-legal">
           <span>© {year} Bulwark Mail</span>
-          <span>AGPL-3.0</span>
           <a href="mailto:dev@bulwarkmail.org">dev@bulwarkmail.org</a>
           <a href="https://stalw.art" target="_blank" rel="noopener noreferrer">
             Stalwart
