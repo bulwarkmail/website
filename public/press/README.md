@@ -22,6 +22,6 @@ The screenshots are generated, not edited: the scripts in the [branding reposito
 - Source: https://github.com/bulwarkmail/webmail
 - Licence: GNU AGPL v3
 - Mail server: Stalwart Mail Server, over JMAP
-- Stalwart versions: 0.16.6 or newer, and 1.0 with Bulwark [BULWARK VERSION] or newer
+- Stalwart versions: 0.16.6 or newer, and 1.0 with Bulwark 1.18.0 or newer
 - Contact: dev@bulwarkmail.org
 - Trademarks: Stalwart is a trademark of Stalwart Labs. Bulwark is an independent project.
