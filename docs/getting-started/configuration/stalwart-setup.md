@@ -19,7 +19,7 @@ Bulwark needs **Stalwart 0.16.6 or newer**. Stalwart 1.0 needs **Bulwark {{BULWA
 | 0.16.6 and newer | Supported |
 | 0.16.16 and newer | Web push leaves out spam, through the JMAP `emailPush` delivery filter |
 | 0.16.19 and newer | Lite served by Stalwart can use its own OAuth client id (`oauthClientId`) |
-| 0.16.23 | A Lite Application keeps its running bundle when an update fails to download |
+| 0.16.23 and newer | A Lite Application keeps its running bundle when an update fails to download |
 | 1.0 | Supported from Bulwark {{BULWARK_VERSION}} on. Read [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0) first |
 
 The self-service portal (account settings, app passwords, API keys, password change) and the admin features use Stalwart's JMAP `x:` methods, which replaced its REST self-service HTTP API in 0.16. Bulwark only talks to the JMAP endpoint, and the deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
@@ -60,6 +60,24 @@ Or over JMAP as an administrator:
 The change applies once the settings are reloaded or Stalwart restarts.
 
 If CORS is wrong, Bulwark says so on the login screen and names the missing header rather than failing with a generic network error.
+
+## Client address
+
+Sign-in checks and a few other calls go from Bulwark's server to Stalwart, so Stalwart sees Bulwark's address on them. Stalwart counts failed logins per address and bans an address once its allowance is spent. If it bans Bulwark's address, nobody can sign in through the webmail. Bulwark therefore sends the browser's address in an `X-Forwarded-For` header on these calls, but Stalwart ignores that header until you tell it to read it:
+
+- **Stalwart 1.0**: set `clientIpSource` to `xForwardedFor` and `forwardedHops` to the number of `X-Forwarded-For` entries Stalwart should count from the right. That is 1 when Bulwark talks to Stalwart directly, plus one for every proxy between them that appends its own entry.
+- **Stalwart 0.16**: turn on `useXForwarded`. It takes the first `X-Forwarded-For` entry.
+
+Both settings are on Stalwart's `Http` object. On 1.0, with `stalwart-cli`:
+
+```bash
+stalwart-cli update Http --field clientIpSource=xForwardedFor --field forwardedHops=1
+stalwart-cli create Action/ReloadSettings
+```
+
+Stalwart doesn't check where a connection comes from before it believes the header, and Stalwart 1.0 renamed `useXForwarded` to these two settings. Only turn it on when every HTTP client of Stalwart comes through Bulwark or through a proxy that sets the header. Anyone who reaches Stalwart directly could otherwise claim any address.
+
+Bulwark never forwards a loopback address, because Stalwart 1.0 set to read the header answers 400 to a request that names one as the client. A proxy between Bulwark and Stalwart on the same host can still append `127.0.0.1` as the last entry, with the same result: every sign-in check fails. Point Bulwark's `JMAP_SERVER_URL` straight at Stalwart, or stop that proxy from adding its own entry.
 
 ## Configuring with the setup wizard
 

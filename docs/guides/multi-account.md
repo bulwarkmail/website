@@ -105,6 +105,8 @@ Identities support sub-addressing (`user+tag@domain.com`). When composing a repl
 
 If the session secret changes between deployments, all encrypted account cookies become unreadable and accounts are dropped. Keep the admin state directory on a persistent volume, or set a stable secret yourself (e.g., via Docker secrets or `SESSION_SECRET_FILE`).
 
+After the mail server moved from Stalwart 0.16 to 1.0, accounts that signed in with single sign-on or with a two-factor code drop out of the list, because their tokens weren't migrated. Add them again. See [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0#moving-a-016-server-to-10).
+
 ### "Stale account" warning
 
 Bulwark detects accounts whose JMAP session is no longer valid (password changed, OAuth refresh token revoked, account deleted on the server) and prompts re-authentication on next switch.

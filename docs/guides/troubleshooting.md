@@ -28,7 +28,9 @@ A `permissive-cors` line in a TOML file does nothing, because Stalwart has not r
 
 **Bulwark Lite shows a CORS error on every login.** Lite has no server in between, so the mail server itself must allow the Lite origin: the same Permissive CORS policy in Stalwart, or a reverse-proxy rule that allows the origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`. Or let Stalwart serve Lite [as an Application](/docs/deployment/stalwart-app), which avoids CORS entirely.
 
-**The Stalwart Application answers 404.** Creating the Application mounts nothing: run "update applications" (`stalwart-cli create Action/UpdateApps`) or restart Stalwart. If it still answers 404, check that `resourceUrl` downloads a zip (not an HTML page or a `releases/latest/download` URL of a release without the asset), and that the prefix is not one Stalwart routes itself, such as `/mail` or `/calendar`. The [install page](/docs/deployment/stalwart-app#choosing-the-prefix) lists them.
+**The Stalwart Application answers 404.** Creating the Application mounts nothing: run "update applications" (`stalwart-cli create Action/UpdateApps`) or restart Stalwart. If it still answers 404, check that `resourceUrl` downloads a zip (not an HTML page or a `releases/latest/download` URL of a release without the asset), and that the prefix is not one Stalwart routes itself, such as `/mail` or `/calendar`. The [install page](/docs/deployment/stalwart-app#choosing-the-prefix) lists them. On Stalwart 1.0 the zip must be Lite {{BULWARK_VERSION}} or newer: 1.0 refuses a bundle without a `stalwart-app.json` manifest and logs "Application bundle does not contain a manifest".
+
+**Two-factor or SSO sign-in fails after moving to Stalwart 1.0.** Stalwart 1.0 only signs in OAuth clients it knows, and its migration tool drops 0.16's setting that let any client id through. Run **Auto-configure OAuth** on Bulwark's admin **Authentication** page, as [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart) describes. Accounts that signed in with SSO or with a password and a two-factor code before the move have to sign in again in any case, because their tokens aren't migrated.
 
 **Correct password rejected.** If OAuth is involved, check that the issuer is reachable from the Bulwark container specifically, not just from your laptop. Where the issuer's public hostname resolves to an internal address, discovery is blocked by the SSRF guard until you set `OAUTH_ALLOW_PRIVATE_ENDPOINTS=true`.
 
@@ -44,6 +46,8 @@ On a brand-new account, Stalwart provisions mailboxes lazily and Bulwark retries
 
 The self-service panels (password change, TOTP, app passwords, API keys) need **Stalwart 0.16.6 or newer**, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer, because they go through JMAP `x:` methods that versions before 0.16 don't expose. They also need principal permissions enabled per account. [Account security](/docs/guides/account-security) has the permission table.
 
+On Stalwart 1.0 the panels say "Account security management is not available for this mail server" for users who signed in with a two-factor code or SSO until Bulwark is registered as a first-party client. Run **Auto-configure OAuth** on the admin **Authentication** page once ([details](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart)).
+
 If you still have `STALWART_API_URL` set anywhere, delete it. It pointed at a REST API that no longer exists.
 
 ## Sharing finds nobody, or free/busy is missing
@@ -57,7 +61,7 @@ stalwart-cli update Sharing --field allowDirectoryQueries=true
 stalwart-cli create Action/ReloadSettings
 ```
 
-If the reload fails, as it can on the Stalwart 1.0 pre-release, restart Stalwart instead. With the setting on, every signed-in user can list the accounts on the server.
+If the reload reports an error, restart Stalwart instead. With the setting on, every signed-in user can list the accounts on the server.
 
 ## Sending fails with "There are too many email submissions"
 
@@ -92,9 +96,9 @@ A URL like `/en/mail/thread/abc` is served by the shell at `/en/mail/index.html`
 
 ## The Lite Application disappears after an update
 
-**Lite served by Stalwart answers 404 after "update applications" or a restart.** "Update applications" downloads and unpacks every Application's `resourceUrl` again. If that fails, Stalwart 0.16.23 keeps serving the previous bundle, but older 0.16 releases and the 1.0 pre-release unmount the Application until a later update succeeds. After a restart, once the cached zip has expired (`autoUpdateFrequency`, 90 days by default), an unreachable URL leaves it unmounted on every version. The action still reports success; the failure shows only in Stalwart's log, as a resource error "Failed to unpack application for prefixes: …".
+**Lite served by Stalwart answers 404 after "update applications" or a restart.** "Update applications" downloads and unpacks every Application's `resourceUrl` again. If that fails, Stalwart 0.16.23 and later and 1.0 keep serving the previous bundle, but older 0.16 releases unmount the Application until a later update succeeds. After a restart, once the cached zip has expired (`autoUpdateFrequency`, on 1.0 `autoUpdateInterval`, 90 days by default), an unreachable URL leaves it unmounted on every version. The action still reports success; the failure shows only in Stalwart's log, as a resource error "Failed to unpack application for prefixes: …".
 
-Check that `resourceUrl` downloads a zip, for example with `curl -fsSLo bundle.zip <url> && unzip -tq bundle.zip`, correct or [pin](/docs/deployment/stalwart-app#pinning-a-version) it, and run "update applications" again.
+Check that `resourceUrl` downloads a zip, for example with `curl -fsSLo bundle.zip <url> && unzip -tq bundle.zip`, correct or [pin](/docs/deployment/stalwart-app#tagged-release-or-latest) it, and run "update applications" again.
 
 ## Assets 404 under a subpath
 

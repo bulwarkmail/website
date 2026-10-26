@@ -52,7 +52,7 @@ Configuration is read at runtime, so an upgrade never requires rewriting `.env.l
 
 ## Moving to Stalwart 1.0
 
-Upgrade Bulwark to {{BULWARK_VERSION}} or newer before the mail server moves to Stalwart 1.0, and check the server settings some features depend on there. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0) has the order, the settings and the differences.
+Upgrade Bulwark to {{BULWARK_VERSION}} or newer before the mail server moves to Stalwart 1.0, run **Auto-configure OAuth** on the admin **Authentication** page once the server runs 1.0, and check the server settings some features depend on there. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0) has the order, the settings and the differences.
 
 ## What survives an upgrade
 

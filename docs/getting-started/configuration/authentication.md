@@ -72,6 +72,16 @@ OAUTH_ONLY=true
 
 Bulwark discovers the endpoints from `/.well-known/oauth-authorization-server` or `/.well-known/openid-configuration`, so you don't configure them by hand.
 
+### Stalwart 1.0 as the provider
+
+When Stalwart signs users in itself, the quickest setup is **Auto-configure OAuth** on the admin **Authentication** page (see the [admin guide](/docs/guides/admin#oauth-auto-setup)). Stalwart 1.0 is stricter than 0.16 here:
+
+- It only accepts a client id it knows, so the client has to be registered before anyone signs in. 0.16 took any id.
+- Only a **first-party** client reaches the account's Stalwart settings (password, two-factor, app passwords). The auto-setup registers Bulwark that way. A client you create by hand needs `firstParty` turned on, or the scopes `mail`, `contacts`, `calendars` and `files`, in which case the account security settings stay unavailable.
+- Bulwark asks for the scopes the provider lists and leaves out `email` and `profile` where Stalwart doesn't offer them, so you don't need to change `OAUTH_SCOPES` for it.
+
+Sign-ins with a password and a two-factor code also run on OAuth tokens, through the same client. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart) covers what works before the client is registered.
+
 ### External identity providers
 
 If your JMAP server delegates authentication to an external IdP (e.g., Keycloak, Authentik), set the issuer URL:

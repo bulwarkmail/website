@@ -143,7 +143,9 @@ Stalwart-specific policy areas surfaced in the dashboard, including authenticati
 
 ### OAuth auto-setup
 
-Where the Stalwart server supports it, a dialog validates the origin and issuer URLs and configures the OAuth client end to end, which gets SSO working without hand-editing config.
+Where the Stalwart server supports it, a dialog validates the origin and issuer URLs and configures the OAuth client end to end, which gets SSO working without hand-editing config. It is under **Authentication**, **OAuth / OpenID Connect**, as **Set up automagically**, and needs you signed in to the webmail with a Stalwart account that has admin permissions.
+
+On Stalwart 1.0, run it once even if you don't use SSO. It registers Bulwark as a first-party client, which 1.0 requires before users who sign in with a two-factor code can reach their account security settings. Turn **Enabled** off afterwards if you don't want the SSO button. See [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart).
 
 ### Telemetry
 
