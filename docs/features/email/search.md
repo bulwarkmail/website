@@ -48,6 +48,10 @@ Search operates across all mailboxes by default, not just the currently selected
 
 Filters combine with AND: every condition has to match. Pairing a text query with structured filters narrows results fastest.
 
+## Results from plugins
+
+Installed [plugins](/docs/guides/plugins) can add their own results to a search, for example from an archive or a ticket system. They show as a block above the messages, one group per plugin, and the message list doesn't wait for them. A result that names a message opens it in the reader.
+
 ## Global search
 
 <img class="theme-light-only" src="/screenshots/light-search-palette.webp" alt="The global search palette in the Pro interface" width="5120" height="2880" />

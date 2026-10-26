@@ -182,6 +182,8 @@ The Settings page groups user preferences into six sections:
 - **Theme** - Light, dark, or system
 - **Always show emails in light mode** - Avoid dark-mode color transformation for problematic HTML mail
 - **Toolbar position** - Top or below subject
+- **Interface layout** - Default, or Mountain View, which arranges search, navigation and toolbars the way Gmail does
+- **Inbox type** - In Mountain View, **Unread first** shows your 25 newest unread messages in an Unread section above Everything else
 - **Mail layout** - Choose between split (three-pane), focused list, and reading pane at bottom
 - **Hover actions** - Choose which quick-actions appear and their placement (with avatar in Focused list for compact density and above)
 - **Sidebar apps** - Reorder, pin, or hide each app; mobile visibility toggle per app
@@ -217,6 +219,7 @@ The Settings page groups user preferences into six sections:
 - **Sub-addressing delimiter** - Customize the character separating user and tag in plus-addressing (`user+tag@…`)
 - **External content** - Ask, block, or allow by default
 - **Forgotten attachment warning** - Detect attachment-related keywords in the body and warn before send
+- **Quick reply** - Show or hide the quick reply box below messages
 - **Default mail program** - Register Bulwark as the system mail handler
 
 ### Notifications

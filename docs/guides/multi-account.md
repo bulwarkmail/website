@@ -80,6 +80,18 @@ The account switcher shows each account as connected, reconnecting, or errored. 
 
 From the account switcher → account context menu → **Sign out**. Removing an account purges its in-memory state, encrypted cookie, and any per-account settings stored under settings sync.
 
+## Account list backup
+
+When the administrator turns on **Account List Backup** under **Policy** in the admin dashboard, users can keep the list of accounts in their browser on the Bulwark server and bring it back on another device. The list is encrypted in the browser with a backup password the user picks, at least 10 characters long, which can't be recovered. Save, restore and delete it under **Settings → Account → Account list backup**.
+
+Mailbox passwords aren't saved, so after a restore you sign in to each new account from the account list. With **Account List Backup: Passwords** also on, users can include the passwords of accounts that signed in with one, and those accounts then sign in by themselves after a restore. Anyone who learns the backup password gets into every mailbox in that list.
+
+Signing in on a browser that knows no other account, with a list saved for that account, opens a dialog that asks for the backup password and restores the list. **Not now** hides the offer for that account in this browser; the restore stays in Settings.
+
+The lists are stored in `SETTINGS_DATA_DIR/account-archives`, and the feature needs a session secret.
+
+<div class="bw-note bw-note-edition"><b>Not in Lite.</b> The list is stored on the Bulwark server, which Lite doesn't have.</div>
+
 ## Identities versus accounts
 
 Accounts and sender identities are separate:

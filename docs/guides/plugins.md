@@ -56,7 +56,7 @@ Plugin dialogs opened with `api.ui.openDialog` look like the app's own dialogs. 
 A plugin can show up in about 50 places. There are three kinds:
 
 - **Frame** - the plugin renders a React component in its own sandboxed frame. Used for banners, panels, sections and pages.
-- **Action** - the plugin declares buttons or menu entries as data with `api.ui.setActions`, and the host draws them in its own style. A click reaches the plugin's `onAction` hook.
+- **Action** - the plugin declares buttons or menu entries as data with `api.ui.setActions`, and the host draws them in its own style. A click reaches the plugin's `onAction` hook. An action can carry a `badge`, a whole number the host shows as a count on the button, or after the label in a menu; `0` shows none.
 - **Data** - the plugin hands the host plain data to draw, such as labels and dots on calendar days.
 
 | Area | Surfaces | Permission |
@@ -101,6 +101,7 @@ Hooks let a plugin react to what happens in the app, and change or stop some of 
 - **`onBeforeBlobUpload`** - divert an attachment to external storage before it reaches the server
 - **`onRenderEmailBody`** - change how a message body is shown
 - **`onEmailListItemRender`** - add badges to message rows
+- **`onProvideSearchResults`** - add results to a mail search. They show above the message list, grouped per plugin. A click reaches `onAction` with the surface `search-results`, and an entry with `email: { id, accountId }` opens that message instead
 - **`onSieveScriptGenerate`** - add a section to the server-side filter script next to the user's own rules
 - **`onAction`**, **`onNotificationClick`**, **`onOAuthCallback`** - react to clicks on the plugin's actions and notifications, and complete its own OAuth flow
 

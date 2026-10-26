@@ -65,7 +65,7 @@ Two formats other clients tend to give up on are handled here. TNEF (`winmail.da
 
 Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs render in a sandboxed object on desktop and mobile alike, and `.eml` attachments open like mail.
 
-Around all of that: reply, reply-all and forward, a quick reply form under the message, expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars use the sender's domain favicon where one exists, falling back to initials.
+Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars use the sender's domain favicon where one exists, falling back to initials.
 
 <div class="lite-callout">In Bulwark Lite, sender avatars are always initials. The favicon lookup runs on the Node.js server, which Lite doesn't have.</div>
 
