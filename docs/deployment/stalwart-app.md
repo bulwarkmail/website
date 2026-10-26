@@ -21,6 +21,7 @@ What works and what is off is the same as for any [Bulwark Lite](/docs/getting-s
 ## Requirements
 
 - Stalwart **0.16.6** or later, or Stalwart **1.0** with Lite **{{BULWARK_VERSION}}** or later (see [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0)). A custom OAuth client id (`oauthClientId`, see below) needs **0.16.19**.
+- Stalwart 1.0 only installs a bundle that contains a `stalwart-app.json` manifest. `bulwark-lite-stalwart.zip` carries it from {{BULWARK_VERSION}} on; with an older zip, 1.0 logs "Application bundle does not contain a manifest" and serves nothing.
 - An administrator account with `sysApplicationCreate` and `actionUpdateApps`. Managing the Application later also needs `sysApplicationGet`, `sysApplicationQuery`, `sysApplicationUpdate` and `sysApplicationDestroy`.
 - Stalwart must be able to fetch the zip from `resourceUrl` (GitHub, or wherever you host your own build).
 
@@ -28,12 +29,14 @@ What works and what is off is the same as for any [Bulwark Lite](/docs/getting-s
 
 Two steps: create the Application, then ask Stalwart to fetch it. **Creating it alone mounts nothing.** Stalwart only downloads bundles when the "update applications" action runs, or when it restarts.
 
+The examples point `resourceUrl` at release {{BULWARK_VERSION}}. Put in the newest tag from the [releases page](https://github.com/bulwarkmail/webmail/releases) instead. Release tags have no `v` prefix, so a URL with `/download/v{{BULWARK_VERSION}}/` answers 404. [Tagged release or latest](#tagged-release-or-latest) explains why the URL names a release.
+
 ### With stalwart-cli
 
 ```bash
 stalwart-cli create Application \
   --field description='Bulwark Webmail' \
-  --field resourceUrl='https://github.com/bulwarkmail/webmail/releases/latest/download/bulwark-lite-stalwart.zip' \
+  --field resourceUrl='https://github.com/bulwarkmail/webmail/releases/download/{{BULWARK_VERSION}}/bulwark-lite-stalwart.zip' \
   --field 'urlPrefix={"/webmail":true}'
 
 stalwart-cli create Action/UpdateApps
@@ -55,7 +58,7 @@ As an administrator, in one request:
   "methodCalls": [
     ["x:Application/set", { "create": { "webmail": {
       "description": "Bulwark Webmail",
-      "resourceUrl": "https://github.com/bulwarkmail/webmail/releases/latest/download/bulwark-lite-stalwart.zip",
+      "resourceUrl": "https://github.com/bulwarkmail/webmail/releases/download/{{BULWARK_VERSION}}/bulwark-lite-stalwart.zip",
       "urlPrefix": { "/webmail": true }
     } } }, "0"],
     ["x:Action/set", { "create": { "u": { "@type": "UpdateApps" } } }, "1"]
@@ -81,6 +84,8 @@ Login goes through Stalwart's own token endpoints on the same origin (`/api/auth
 
 If your Stalwart requires OAuth clients to be registered, register that client id with the redirect URI `https://<your stalwart host>/<prefix>/`, one per prefix you mount.
 
+Stalwart 1.0 always requires registered clients. When it doesn't know the client id, the app registers a client of its own and signs in with that. Mail, contacts, calendars and files work, but the account's Stalwart settings (password, two-factor authentication, app passwords) don't, because 1.0 only lets a first-party client manage those. For them, create an `OAuthClient` with the client id (`bulwark-webmail`, or the `oauthClientId` you set), `firstParty` turned on, and the redirect URI above.
+
 The app runs entirely in the browser, so its client must be a public client with no secret. Stalwart checks a stored secret even when registration is not required: the password is accepted, then `/auth/token` answers `invalid_client`. A sign-in with a two-factor code then fails, and a password-only sign-in falls back to a session that lasts only as long as the tab. If a server-hosted Bulwark already uses `bulwark-webmail` with a secret, register a separate client for the app, for example `bulwark-lite`, and set it as the Application's `oauthClientId`. That needs Stalwart 0.16.19 and also shows the SSO button, so give the client the `.../oauth/callback` redirect URI from the next section as well.
 
 ### Single sign-on
@@ -97,9 +102,9 @@ Setting `oauthClientId` on the Application also offers SSO next to the password 
 
 ## Updating
 
-Stalwart caches the downloaded zip for the Application's `autoUpdateFrequency` (90 days by default). This is only an expiry, not a timer: nothing is fetched on a schedule. After the expiry, the next restart or "update applications" run downloads `resourceUrl` again.
+Stalwart caches the downloaded zip for the Application's `autoUpdateFrequency` (`autoUpdateInterval` on 1.0, 90 days by default). This is only an expiry, not a timer: nothing is fetched on a schedule. After the expiry, the next restart or "update applications" run downloads `resourceUrl` again.
 
-To update right away, run the action again:
+To move to a new release, point `resourceUrl` at its tag and run the action again:
 
 ```bash
 stalwart-cli create Action/UpdateApps
@@ -115,21 +120,23 @@ https://github.com/stalwartlabs/webui/releases/latest/download/webui.zip
 
 A URL that can't be downloaded fails, and so does one that points at an HTML page, a GitHub Actions artifact page or a release listing instead of a zip. What a failure does depends on the Stalwart version:
 
-- **0.16.23** keeps serving the bundle it already had.
-- **Older 0.16 releases and the 1.0 pre-release** unmount that Application and drop the cached zip. It stays unmounted, across restarts too, until a later restart or "update applications" downloads `resourceUrl` successfully. Open tabs get Stalwart's 404 response at their next navigation.
+- **0.16.23 and later, and 1.0,** keep serving the bundle they already had.
+- **Older 0.16 releases** unmount that Application and drop the cached zip. It stays unmounted, across restarts too, until a later restart or "update applications" downloads `resourceUrl` successfully. Open tabs get Stalwart's 404 response at their next navigation.
 - **Every version** leaves the Application unmounted after a restart if the cached zip has expired and `resourceUrl` can't be downloaded.
 
 The action reports success either way. The failure shows up in Stalwart's log as a resource error, "Failed to unpack application for prefixes: …", with the URL.
 
-## Pinning a version
+## Tagged release or latest
 
-`releases/latest/download/…` follows every stable release. To stay on one version, point `resourceUrl` at that release's asset instead. Release tags have no `v` prefix:
+Point `resourceUrl` at a tagged release. Release tags have no `v` prefix:
 
 ```text
 https://github.com/bulwarkmail/webmail/releases/download/<version>/bulwark-lite-stalwart.zip
 ```
 
-To move to another version, change `resourceUrl` and run "update applications".
+What Stalwart serves then only changes when you change the URL. To move to another version, change `resourceUrl` and run "update applications".
+
+`releases/latest/download/bulwark-lite-stalwart.zip` also works and follows every stable release. The bundle runs as script on your Stalwart origin, next to the web admin, and Stalwart checks no hash or signature when it downloads it. With the `latest` URL, whatever the newest release holds goes live at the next restart or "update applications" after the cache expires, without you looking at it. Use it only if you accept that in exchange for automatic updates. Every release also carries `bulwark-lite-stalwart.zip.sha256`, to check a download with `sha256sum -c` before you switch.
 
 ## Branding and configuration
 
