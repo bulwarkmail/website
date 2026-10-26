@@ -136,6 +136,8 @@ Import `.ics` files with a preview dialog and bulk event creation. Batch event i
 
 Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars appear alongside your own and refresh automatically. Subscription settings can be edited after creation, including URL, refresh interval, and display options.
 
+Bulwark's server fetches the feeds. If it has to go through a proxy to reach the internet, set [`NODE_USE_ENV_PROXY=1`](/docs/getting-started/configuration/environment-reference#node_use_env_proxy) with `HTTPS_PROXY`.
+
 ## Real-time updates
 
 Calendar state changes are pushed in real-time via JMAP push - no manual refresh needed. Push reconnects automatically across network blips and preserves any active search/filter state.

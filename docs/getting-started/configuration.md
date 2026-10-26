@@ -92,6 +92,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `WOPI_CLIENT_URL`             | No              | empty                                     | Base URL of a Collabora Online, OnlyOffice or EuroOffice server; empty turns office editing off |
 | `WOPI_HOST_URL`               | No              | request origin                            | How the editor reaches this webmail when it sees a different host than the browser           |
 | `ICAL_MAX_BYTES`              | No              | built-in cap                              | Size limit for fetched iCalendar subscription feeds                                          |
+| `NODE_USE_ENV_PROXY`          | No              | unset                                     | `1` sends server-side requests through `HTTPS_PROXY` / `HTTP_PROXY`, except hosts in `NO_PROXY` |
 | `LOG_FORMAT`                  | No              | `text`                                    | Log output format: `text` or `json`                                                        |
 | `LOG_LEVEL`                   | No              | `info`                                    | Log verbosity: `error`, `warn`, `info`, or `debug`                                         |
 | `FAVICON_URL`                 | No              | Bulwark favicon                           | Custom browser tab favicon (SVG, PNG, or ICO; 32-512px)                                    |

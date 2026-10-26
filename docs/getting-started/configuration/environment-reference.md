@@ -409,6 +409,23 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 - **Required** - No.
 - **When to set it** - When a legitimate feed is larger than the built-in limit and the calendar shows the size error.
 
+## Outbound proxy
+
+### `NODE_USE_ENV_PROXY`
+
+- **Purpose** - Sends Bulwark's server-side requests through the proxy in `HTTPS_PROXY` / `HTTP_PROXY`: iCal subscriptions, the telemetry heartbeat, branding assets loaded from a URL, plugin requests and calls to the mail server. Hosts in `NO_PROXY` are reached directly. For URLs that come from users or feeds, such as an iCal subscription, Bulwark still resolves the address and checks it against its private-network guard itself, then asks the proxy to connect to exactly that address, so the proxy can't be used to reach an internal host.
+- **Required** - No.
+- **Default** - Unset: the proxy variables are ignored and Bulwark connects directly.
+- **When to set it** - When the server has no direct internet access and has to go through a proxy. Set it to `1`, together with the proxy:
+
+  ```env
+  NODE_USE_ENV_PROXY=1
+  HTTPS_PROXY=http://proxy.internal:3128
+  NO_PROXY=localhost,127.0.0.1,stalwart
+  ```
+
+  List Stalwart in `NO_PROXY` when Bulwark reaches it on an internal address, such as the `stalwart` service name in Docker Compose. `NODE_OPTIONS=--use-env-proxy` does the same as `NODE_USE_ENV_PROXY=1`.
+
 ## Logging
 
 ### `LOG_FORMAT`
