@@ -254,8 +254,10 @@ The [plugins repository](https://github.com/bulwarkmail/plugins) holds the offic
 - **S/MIME** - sign, encrypt, verify and decrypt messages (privileged tier)
 - **Jitsi Meet** - add a meeting link to calendar events
 - **Package tracking**, **Birthday reminders**, **Calendar agenda**, **Time zone helper**, **Translate**, **Quick notes**
-- **External link warning**, **External mail warning**, **Reply-all guardrail**, **Spam score**, **Impersonation notice**
+- **External link warning**, **Reply-all guardrail**, **Spam score**, **Impersonation notice**
 - **Gravatar** and **Libravatar** avatars
+
+The **External mail warning** plugin is retired: Bulwark labels mail from outside the organisation and confirms external recipients itself, see [External mail](/docs/guides/organisation/external-mail).
 
 ## Security summary
 
