@@ -12,7 +12,7 @@ The admin panel's **Organisation** section holds the settings a company or a hos
 | Page | What it sets |
 | --- | --- |
 | [Domains and groups](/docs/guides/organisation/domains-and-groups) | Different settings for some domains or groups, the effective policy of a user, the policy file |
-| Signatures | The organisation signature and the legal disclaimer |
+| [Signatures](/docs/guides/organisation/signatures) | The organisation signature with each user's details, and the legal disclaimer |
 | Templates | The template library every user sees, and what users may keep of their own |
 | Security | External sender label, external recipient warning, [sign-out times](/docs/guides/organisation/sessions), third-party traffic |
 | Sharing | Tags in shared mailboxes, delegates, recovering deleted items |
