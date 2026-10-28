@@ -15,7 +15,7 @@ The admin panel's **Organisation** section holds the settings a company or a hos
 | [Signatures](/docs/guides/organisation/signatures) | The organisation signature with each user's details, and the legal disclaimer |
 | Templates | The template library every user sees, and what users may keep of their own |
 | Security | [External sender label, external recipient warning](/docs/guides/organisation/external-mail), [sign-out times](/docs/guides/organisation/sessions), [third-party traffic](/docs/guides/organisation/third-party-traffic) |
-| Sharing | Tags in shared mailboxes, [delegates](/docs/guides/organisation/delegates), recovering deleted items |
+| Sharing | Tags in shared mailboxes, [delegates](/docs/guides/organisation/delegates), [assignment and status](/docs/guides/organisation/team-inbox), recovering deleted items |
 
 Every setting has a default that works without configuration. An admin who does nothing gets Bulwark as before.
 
