@@ -32,15 +32,14 @@ A `policy.json` that locks one of them anyway is not rejected: the lock works as
 
 ## In the admin dashboard
 
-On **Admin > User policy**, the **Accessibility** category lists the settings you can lock. The same page has an editor for defaults, where every accessibility option can be preset.
+**Admin > User policy** has two sections for this:
 
-<!--
-TODO(AL-12): the value picker for locks and the defaults editor with an Accessibility
-category are being built in the same release. Check the button and section names on
-Admin > User policy against the release and adjust this paragraph.
--->
+- **Locked settings**: the **Accessibility** category lists the three settings above. Tick **Lock** and pick the value next to **Users get**. Notification duration has a list instead, from **No minimum** to **At least 60 seconds**. Confirm before sending can also be hidden with **Hide**.
+- **Defaults**: every setting you can preset, by category. **Accessibility** comes first and lists every option of Settings > Accessibility under the same headings and names users see. Change a value and it gets a **set** badge; the round arrow next to it (**Remove the default**) takes it away again. **Other settings** at the end takes any other setting by its key, as it appears in a settings export.
 
-To give some users different values, add an entry for their domain or group on **Admin > Organisation > Domains and groups** and pick it in **Applies to**. See [Domains and groups](/docs/guides/organisation/domains-and-groups).
+A lock set before this release, or one in `policy.json` without a value, shows "No value: each user keeps the value they had" and a button to lock it to the value shown.
+
+To give some users different values, add an entry for their domain or group on **Admin > Organisation > Domains and groups** and pick it in **Applies to** at the top of either section. See [Domains and groups](/docs/guides/organisation/domains-and-groups).
 
 ## In policy.json
 
@@ -144,10 +143,17 @@ Older files keep working. `small`, `medium` and `large` for `fontSize` are still
 
 Public bodies have to link an accessibility statement, a way to report barriers ("Barriere melden"), and in Germany explanations in Leichte Sprache and German Sign Language (DGS) on their entry page. The same release adds admin settings for these links: an accessibility statement, a feedback link (a URL or an email address), a help page, a Leichte Sprache page and a DGS page. Bulwark shows them in the same place on every page, including the sign-in page. See [accessibility law for operators](/docs/legal/accessibility) for what goes behind them.
 
-<!--
-TODO(OP-01): add the config key names (admin dashboard, environment variables and Lite's
-config.json) once the admin settings for the accessibility links land. Don't guess them.
--->
+Set them on **Admin > Branding** under **Accessibility and help links**, with an environment variable, or in Lite's `config.json`. A link you leave empty doesn't show. Each one can also be set per domain in the Branding page's scope, like the imprint and privacy links.
+
+| Link | Admin > Branding field | Environment variable | `config.json` and domain branding key |
+| --- | --- | --- | --- |
+| Accessibility statement | Accessibility statement URL | `ACCESSIBILITY_STATEMENT_URL` | `accessibilityStatementUrl` |
+| Report a barrier | Report a barrier (URL or email) | `ACCESSIBILITY_FEEDBACK_URL` | `accessibilityFeedbackUrl` |
+| Help | Help URL | `HELP_URL` | `helpUrl` |
+| Easy Read (Leichte Sprache) | Easy Read (Leichte Sprache) URL | `EASY_READ_URL` | `easyReadUrl` |
+| Sign language (DGS) | Sign language (DGS) URL | `SIGN_LANGUAGE_URL` | `signLanguageUrl` |
+
+Only `http` and `https` links are used. The barrier report also takes an email address, which becomes a `mailto:` link. Users see the links in this order in the sign-in page footer, at the bottom of the settings sidebar and in the account menu, labelled in their language ("Barriere melden", "Leichte Sprache" and "Gebärdensprache" in German).
 
 ## Bulwark Lite
 
