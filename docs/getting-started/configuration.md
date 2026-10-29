@@ -108,6 +108,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_IMPRINT_URL`           | No              | empty                                     | Login page imprint / legal notice link                                                     |
 | `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                             |
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                    |
+| `LOGIN_USERNAME_PLACEHOLDER`  | No              | translated example                        | Placeholder of the login email field, in every language                                    |
 | `LOGIN_LOGO_MAX_HEIGHT` / `_WIDTH` | No         | natural size                              | Cap the rendered login logo; any CSS length                                                |
 | `LOGIN_SHOW_HEADING` / `_SUBTITLE` / `_TOTP` / `_VERSION` | No | `true`             | Hide individual login page elements                                                        |
 | `LOGIN_SHOW_REMEMBER_ME`      | No              | `false`                                   | Show the "Remember me" box instead of remembering every sign-in                          |

@@ -530,6 +530,12 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 
 - **Purpose** - Adds a website link to the login page.
 
+### `LOGIN_USERNAME_PLACEHOLDER`
+
+- **Purpose** - The placeholder of the email field on the login page, such as `user@company.example`. It replaces the translated example in every language.
+- **Default** - Unset; each language shows its own translated example.
+- **When to set it** - Show users your own address format instead of a generic example domain.
+
 ### `LOGIN_LOGO_MAX_HEIGHT` / `LOGIN_LOGO_MAX_WIDTH`
 
 - **Purpose** - Cap the rendered size of the login logo. Any CSS length (`96px`, `8rem`).
@@ -551,7 +557,7 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 ### `DOMAIN_BRANDING`
 
 - **Purpose** - Per-hostname overrides for the branding fields above when one deployment serves several hostnames. Matched on the request `Host` (or `X-Forwarded-Host`); `*.example.com` matches any subdomain. Exact matches win over wildcards.
-- **Format** - A JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`.
+- **Format** - A JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`, `loginUsernamePlaceholder`.
 - **When to set it** - Stateless deployments; the admin dashboard manages the same list.
 
 ## Internationalization

@@ -40,6 +40,7 @@ The file is read by the browser at runtime, so edits take effect on the next pag
 | `demoMode` | `false` | Built-in demo account, no server needed |
 | `faviconUrl`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl` | Bulwark's | Branding images, as URLs or paths under the folder |
 | `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl` | empty | Login page footer |
+| `loginUsernamePlaceholder` | translated example | Placeholder of the login email field, in every language |
 | `loginLogoMaxHeight`, `loginLogoMaxWidth` | natural size | Any CSS length |
 | `loginShowHeading`, `loginShowSubtitle`, `loginShowTotp`, `loginShowVersion` | `true` | Hide parts of the login page |
 | `embeddedMode`, `parentOrigin` | `false`, empty | Framing a password login inside another page |
