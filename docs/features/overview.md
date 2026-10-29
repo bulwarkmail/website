@@ -134,7 +134,19 @@ Related pages: [Customization](/docs/guides/customization), [Keyboard shortcuts]
 - Sidebar apps pin and reorder by drag
 - Settings sync between devices, encrypted
 - Storage quota display
-- WCAG AA contrast, reduced-motion support, focus traps, and screen-reader live regions
+
+## Accessibility
+
+Related pages: [Accessibility](/docs/features/accessibility), [Presets and locks for admins](/docs/features/accessibility/admin), [Accessibility law for operators](/docs/legal/accessibility).
+
+- An Accessibility page in Settings with presets for screen readers, low vision, dyslexia, focus, keyboard and motor, motion and seizure safety, and deaf and hard of hearing users
+- Contrast, motion, transparency and large targets follow the device until you choose otherwise; text size scales the browser's own size from 87.5% to 200%
+- A quick panel on Alt+Shift+A, an optional navigation bar button, and a small panel on the sign-in page
+- Single-key shortcuts can be turned off; F6 moves between panes, Ctrl+Z undoes the last mail actions
+- Incoming mail as plain text, with its own text size and minimum, in your fonts and colours, fitted to the window, with animated images paused
+- Image descriptions in the composer and an accessible example template
+- Landmarks, headings, skip links and announcements for screen readers
+- Admins can preset every option and lock single-key shortcuts, confirm before sending and a minimum notification duration
 
 ## Internationalization
 
