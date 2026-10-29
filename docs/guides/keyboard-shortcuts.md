@@ -25,6 +25,19 @@ Single-letter shortcuts only fire when focus isn't in a text field, so typing a 
 | `Ctrl+A`  | Select all               |
 | `Esc`     | Close overlay / deselect |
 
+## Accessibility
+
+| Shortcut                | Action                                         |
+| ----------------------- | ---------------------------------------------- |
+| `Alt+Shift+A`           | Open the accessibility options                 |
+| `Alt+Shift+N`           | Go to the latest notification                  |
+| `F6` / `Shift+F6`       | Next / previous pane                           |
+| `Ctrl+Z` / `z`          | Undo the last action (`z` with single-key shortcuts on) |
+| `Space`                 | Select the message the focus is on             |
+| `Shift+F10`             | Open the actions of the message the focus is on |
+
+Single-key shortcuts can be turned off under Settings > Accessibility, see [Accessibility](/docs/features/accessibility#keyboard).
+
 ## Navigation
 
 | Shortcut      | Action         |

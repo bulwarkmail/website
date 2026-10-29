@@ -12,11 +12,7 @@ Bulwark has its own **Settings > Accessibility** page, in the top group next to 
 This page describes what the software offers. If you run Bulwark for others, the [admin page](/docs/features/accessibility/admin) explains how to preset these options for your users, and [accessibility law for operators](/docs/legal/accessibility) covers your duties under EN 301 549, BITV 2.0 and the BFSG.
 
 <!--
-TODO(OP-02): this page describes features from the accessibility overhaul that were not
-in the a11y worktree when it was written: read aloud, reader view, reading mask, and the
-message list semantics (SR-01/SR-02, list position and j/k announcements). Check each
-against the release before publishing, and add a tested screen reader and browser matrix
-(EN 301 549 12.3) once there is one.
+TODO: add a tested screen reader and browser matrix (EN 301 549 12.3) once there is one.
 -->
 
 ## Presets
@@ -88,6 +84,8 @@ Everything in Bulwark can be reached with the keyboard.
 | `Alt+Shift+A` | Open the accessibility options |
 | `Alt+Shift+N` | Go to the latest notification |
 | `F6` / `Shift+F6` | Next / previous pane |
+| `Space` | Select the message the focus is on (in the message list) |
+| `Shift+F10` | Open the actions of the message the focus is on |
 | `Ctrl+Z` / `⌘Z` | Undo the last action |
 | `?` | Show shortcuts |
 
@@ -166,6 +164,7 @@ Mail comes from other people, and many messages are built with small text, fixed
 
 For screen readers such as NVDA, JAWS, VoiceOver and TalkBack, Bulwark provides:
 
+- The message list is one tab stop. Each message is read in one sentence: unread, sender, subject, date, star, attachment, and the first line if you want it. The screen reader also says where the message is in the list. `j`, `k` and the arrow keys move from message to message and the screen reader follows; `Space` selects a message, `Enter` opens it and `Shift+F10` opens its actions. A conversation says whether it is expanded, and its messages are read a level down.
 - Each app has landmarks, a top-level heading and skip links, and F6 moves between the panes.
 - Notifications are read out. Errors interrupt; other notices wait until the screen reader is done.
 - Bulwark says when a folder or search has loaded and how many results it found, and when the connection drops.
@@ -173,7 +172,7 @@ For screen readers such as NVDA, JAWS, VoiceOver and TalkBack, Bulwark provides:
 - The recipient fields are named, each recipient can be reached and removed with the keyboard, and adding or removing one is announced.
 - The message body has a name, and the formatting toolbar is one tab stop that says which styles are on.
 - Upload progress and failures for attachments are given in words.
-- When an action removes the element that had the focus, the focus goes somewhere sensible instead of the top of the page: back to the message list after a delete, or to the Compose button after the composer closes.
+- When an action removes the element that had the focus, the focus goes somewhere sensible instead of the top of the page: to the next message after a delete, or to the Compose button after the composer closes.
 
 Settings in the Screen readers section:
 
