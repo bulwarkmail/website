@@ -63,6 +63,8 @@ External content is blocked until you trust the sender, and the banner saying so
 
 Two formats other clients tend to give up on are handled here. TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
 
+Booking, shipping and order mail that carries schema.org markup gets a card above the message: route and times for flights and trains, check-in and check-out for hotels, tracking for parcels, status for orders, with an Add to calendar button where it fits. See [Booking and parcel cards](/docs/features/email/booking-cards).
+
 Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs render in a sandboxed object on desktop and mobile alike, and `.eml` attachments open like mail.
 
 Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars use the sender's domain favicon where one exists, falling back to initials.
