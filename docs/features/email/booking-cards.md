@@ -52,4 +52,4 @@ Everything happens in your browser, on the mail you opened. Bulwark doesn't cont
 
 The cards are on by default. **Admin → Policy → Booking and Parcel Cards** turns them off for everyone, for example if mail content shouldn't turn into calendar entries in your organisation. The calendar button also follows the Calendar switch on the same page.
 
-The sender check relies on the Authentication-Results header your mail server writes on receipt. Bulwark only trusts that header when a Received header sits above it, so a header a local user wrote into their own message doesn't count.
+The sender check relies on the Authentication-Results header your mail server writes on receipt, so it can only be as reliable as that header. Mail that your own users send to each other never went through that check.
