@@ -78,6 +78,7 @@ When Stalwart signs users in itself, the quickest setup is **Auto-configure OAut
 
 - It only accepts a client id it knows, so the client has to be registered before anyone signs in. 0.16 took any id.
 - Only a **first-party** client reaches the account's Stalwart settings (password, two-factor, app passwords). The auto-setup registers Bulwark that way. A client you create by hand needs `firstParty` turned on, or the scopes `mail`, `contacts`, `calendars` and `files`, in which case the account security settings stay unavailable.
+- Bulwark Mobile has its own client, `bulwark-mobile`, which the auto-setup registers too: first-party, no secret, redirect URI `org.bulwarkmail.mobile:/auth/callback`. Creating it by hand works the same way.
 - Bulwark asks for the scopes the provider lists and leaves out `email` and `profile` where Stalwart doesn't offer them, so you don't need to change `OAUTH_SCOPES` for it.
 
 Sign-ins with a password and a two-factor code also run on OAuth tokens, through the same client. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart) covers what works before the client is registered.

@@ -147,6 +147,8 @@ Where the Stalwart server supports it, a dialog validates the origin and issuer 
 
 On Stalwart 1.0, run it once even if you don't use SSO. It registers Bulwark as a first-party client, which 1.0 requires before users who sign in with a two-factor code can reach their account security settings. Turn **Enabled** off afterwards if you don't want the SSO button. See [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart).
 
+On Stalwart 1.0 the setup also registers a client for Bulwark Mobile: `bulwark-mobile`, first-party, with no secret and the redirect URI `org.bulwarkmail.mobile:/auth/callback`. The app signs in through it and can then show the account security settings. Without it the app registers a client of its own, which reaches mail, contacts, calendars and files but not those settings. Don't add the app's redirect URI to the `bulwark-webmail` client instead: that client has a secret the app can't send, so its sign-in fails.
+
 ### Telemetry
 
 The **Anonymous usage stats** section shows the exact JSON the next heartbeat would send, lets you toggle telemetry on or off, fire a heartbeat immediately for testing, change the endpoint, and view "Last sent" timestamps. Setting `BULWARK_TELEMETRY` in the environment, to either value, locks the choice and greys out the toggle. See [Anonymous usage stats](/docs/features/telemetry) for the full schema.
