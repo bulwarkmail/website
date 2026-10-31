@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { AnnouncementBar } from "@/components/announcement-bar";
 import { OG_IMAGES } from "@/lib/og";
 
 // One family for everything and a mono for code. Hanken Grotesk is a variable
@@ -123,8 +122,6 @@ export default function RootLayout({
           resolve them on :root. */}
       <body className="antialiased">
         <ThemeProvider>
-          {/* Above the nav of every page, marketing and docs alike */}
-          <AnnouncementBar />
           {children}
         </ThemeProvider>
       </body>
