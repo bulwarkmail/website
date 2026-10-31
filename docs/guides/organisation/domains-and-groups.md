@@ -12,7 +12,7 @@ By default every user gets the same settings. To give some of them different one
 - **Domains** match users by the domain of the address they sign in with. `example.com` matches `anna@example.com`; `*.example.com` matches `anna@eu.example.com` but not `anna@example.com`.
 - **Groups** match the members of a Stalwart group, by the group's address (`sales@example.com`). A user counts as a member when the group's mailbox is in their session, which is the case for every group Stalwart lets them use. Groups without a mailbox are invisible to Bulwark.
 
-Then pick the entry in the **Applies to** bar at the top of any other Organisation page and change the settings there. A value the entry doesn't set comes from **Everyone**; the page shows it as "From Everyone", with a link back to Everyone's value.
+Then pick the entry in the **Applies to** bar at the top of any other Organisation page and change the settings there. A value the entry doesn't set comes from **Everyone**; the page shows it as "From Everyone: …". When the entry sets its own value, the page shows Everyone's value next to it, with **Use Everyone's value** to go back to it.
 
 ## When several apply
 
@@ -38,7 +38,7 @@ Locks from domain entries also hold when settings are saved to the server (setti
 
 ## The policy file
 
-Everything on the Organisation pages and the User policy page is stored in `policy.json` in `ADMIN_CONFIG_DIR`.
+Everything on the Organisation pages and the User policy page is stored in `policy.json` in `ADMIN_CONFIG_DIR`, except the No third-party traffic switch, which is in `config.json`. Export and import don't carry it.
 
 - **Export policy.json** downloads the file as the server uses it.
 - **Import a file** shows what the file would change (entries, organisation settings, locked settings, features, defaults) and replaces the policy only when you confirm. The file goes through the same checks as a `policy.json` read from disk: anything invalid is dropped.
@@ -76,4 +76,4 @@ The entries look like this in the file:
 
 An entry's `policy` takes the same `features`, `restrictions` and `defaults` as the top level of the file, and the `organisation` settings described on the other Organisation pages. `id` is lowercase letters, digits and dashes.
 
-The old `sessionTimeout` restriction did nothing; a locked value of it is moved to `organisation.session.idleMinutes` when the file is loaded.
+The old `sessionTimeout` setting did nothing. When the top level of the file locks or presets it to a number of minutes, that number moves to `organisation.session.idleMinutes` when the file is loaded, unless `idleMinutes` is already set. Inside an entry it isn't moved.
