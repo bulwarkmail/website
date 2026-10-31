@@ -722,6 +722,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 - **Purpose** - Serve fixture data instead of talking to a mail server. Any credentials log in.
 - **Default** - `false`
+- **Note** - Without `JMAP_SERVER_URL` or a finished setup wizard, the wizard still comes first. Set `JMAP_SERVER_URL` to any address; demo mode doesn't use it.
 - **When to set it** - Demos and UI work. See [Demo mode](/docs/getting-started/demo-mode).
 
 ### `DEV_MOCK_JMAP` / `DEV_MOCK_JMAP_BULK` _(development only)_

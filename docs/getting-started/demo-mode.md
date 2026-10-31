@@ -11,18 +11,14 @@ Demo mode swaps the JMAP client for a fixture backend. Every screen has plausibl
 
 ## Turning it on
 
-For development, the shipped dev environment file already enables it:
-
-```bash
-cp .env.dev.example .env.local
-npm run dev
-```
-
-For a container or a deployed instance, set one variable:
+Set `DEMO_MODE=true`. On a fresh install with no `JMAP_SERVER_URL`, the setup wizard comes first, so also set `JMAP_SERVER_URL` to any address (demo mode doesn't use it) or finish the wizard:
 
 ```env
 DEMO_MODE=true
+JMAP_SERVER_URL=https://mail.example.com
 ```
+
+For development, put these two lines in `.env.local` and run `npm run dev`. The shipped `.env.dev.example` starts a different helper: a mock JMAP server that also accepts any password, with its own test data instead of the set described below.
 
 Then log in with anything at all. The credentials are not checked because there is nothing to check them against.
 
