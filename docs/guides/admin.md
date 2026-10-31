@@ -46,7 +46,7 @@ volumes:
   - bulwark-state:/app/data/admin-state       # always rw
 ```
 
-Without a persistent volume a restart loses `admin.json` and `config.json`. Bulwark then takes the password from `ADMIN_PASSWORD` again, or, without it, has no admin password, so only a Stalwart administrator can get in, with `STALWART_ADMIN_ACCESS=auto` (see below). If `JMAP_SERVER_URL` isn't set either, the setup wizard runs again with a new token in the logs. Losing the state dir also loses a session secret Bulwark generated, which signs everyone out.
+Without a persistent volume a restart loses `admin.json` and `config.json`. Bulwark then takes the password from `ADMIN_PASSWORD` again. Without that variable there is no admin password, and only a Stalwart administrator can get in, through `STALWART_ADMIN_ACCESS=auto` (see below). If `JMAP_SERVER_URL` isn't set either, the setup wizard runs again with a new token in the logs. Losing the state dir also loses a session secret Bulwark generated, which signs everyone out.
 
 ## Signing in
 
