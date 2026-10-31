@@ -1131,7 +1131,6 @@ a.bw-tile:hover {
 }
 .bw-faq summary svg {
   flex: none;
-  transition: transform var(--bw-motion);
 }
 .bw-faq details[open] summary svg {
   transform: rotate(45deg);
@@ -2322,25 +2321,11 @@ ul.bw-rules > li::before {
   display: block;
   height: 100%;
   background: var(--bw-brand);
-  transition: width 300ms ease-out;
 }
 .bw-quiz-step {
   display: grid;
   gap: 12px;
   padding-top: 32px;
-  animation: bw-quiz-in 260ms ease-out;
-}
-@keyframes bw-quiz-in {
-  from {
-    opacity: 0;
-    transform: translateX(24px);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bw-quiz-step,
-  .bw-quiz-done {
-    animation: none;
-  }
 }
 .bw-quiz-step h2:focus,
 .bw-quiz-result h2:focus {
@@ -2453,7 +2438,6 @@ ul.bw-rules > li::before {
 /* Result */
 .bw-quiz-done {
   gap: 28px;
-  animation: bw-quiz-in 260ms ease-out;
 }
 .bw-quiz-result {
   display: grid;

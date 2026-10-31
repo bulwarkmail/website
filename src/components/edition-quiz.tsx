@@ -44,7 +44,7 @@ export function EditionQuiz() {
     if (!moved.current) return;
     heading.current?.focus({ preventScroll: true });
     const top = root.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) root.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (top < 0) root.current?.scrollIntoView({ block: "start" });
   }, [step]);
 
   // The site's own switch follows the result, so the result sits in the
@@ -65,7 +65,7 @@ export function EditionQuiz() {
     const selected = answers[q.id] ?? [];
     if (!q.multi) {
       setAnswers((a) => ({ ...a, [q.id]: [id] }));
-      // A short beat so the pick is seen before the next question slides in.
+      // A short beat so the pick is seen before the next question appears.
       window.clearTimeout(advance.current);
       advance.current = window.setTimeout(() => go(step + 1), 220);
       return;
