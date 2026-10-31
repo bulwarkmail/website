@@ -194,6 +194,7 @@ function FactsSection({ langs }: { langs: number }) {
   return (
     <section className="bw-sec-tight">
       <div className="bw-w">
+        <h2 className="sr-only">Bulwark at a glance</h2>
         <div className="bw-facts">
           {facts.map(({ icon: Icon, title, text }) => (
             <div key={title}>
@@ -419,7 +420,7 @@ function OpenSourceSection({ instances }: { instances: number }) {
             >
               {instances.toLocaleString("en-US")} instances
             </a>{" "}
-            have reported in so far. Sponsors pay for the work.
+            whose admins turned on usage stats have reported in so far. Sponsors pay for the work.
           </p>
           <div className="bw-btns" style={{ marginTop: 8 }}>
             <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
@@ -518,8 +519,8 @@ const FAQS: Faq[] = [
       <>
         Fixes ship as new releases, and the project has published 14 GitHub security advisories for fixed
         vulnerabilities so far. Bulwark (not Lite) checks for a new release every hour and shows it on the login page
-        and in the admin console. Every release file has a <code className="bw-icode">.sha256</code> file, and every
-        image and download has a build attestation you can check with{" "}
+        and in the admin console. Every release file has a <code className="bw-icode">.sha256</code> file, and since 1.12.0
+        every image and download has a build attestation you can check with{" "}
         <code className="bw-icode">gh attestation verify</code> (it needs a GitHub login).{" "}
         <Link href="/docs/deployment/security-updates" className="bw-link">
           Security fixes and updates
@@ -647,7 +648,7 @@ export default async function Home() {
           tiles={[
             {
               title: "Organisations",
-              text: "Single sign-on, policies per domain or group, and one signature for everyone.",
+              text: "Single sign-on, policies per domain or group, and accessibility settings for everyone.",
               href: "/organisations",
             },
             {
@@ -700,7 +701,7 @@ export default async function Home() {
           heading="Every account in the house in one window."
           text="Sign in to your own mailbox and the family's at once and switch with one click. Bulwark runs as one container for amd64 or arm64 next to Stalwart, or as Bulwark Lite, static files with no Node process."
           link={{ label: "Bulwark at home", href: "/homelab" }}
-          shot={{ name: "account-switcher", alt: "The account switcher with two signed-in accounts and a shared mailbox" }}
+          shot={{ name: "account-switcher", alt: "The account switcher open, with two signed-in accounts" }}
         />
         <EditionsSection />
         <InstallSection />
