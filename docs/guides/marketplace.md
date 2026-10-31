@@ -7,25 +7,23 @@ edition: full
 
 # Extension marketplace
 
-Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin dashboard. You can point Bulwark at the official directory, at one you run yourself, or at nothing at all.
+Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin dashboard. Bulwark uses the official directory unless you point it at one you run yourself.
 
 <div class="bw-note bw-note-edition"><b>Not in Lite.</b> There is no admin dashboard to browse from, and plugins don't run in Lite at all.</div>
 
 ## Configuration
 
-The extension directory URL defaults to `https://extensions.bulwarkmail.org`. Override only if you run your own directory or want to disable the marketplace:
+`EXTENSION_DIRECTORY_URL` defaults to `https://extensions.bulwarkmail.org`. Point it at your own directory to use that instead:
 
 ```env
-EXTENSION_DIRECTORY_URL=https://extensions.bulwarkmail.org
-# Or override with your own catalog:
-# EXTENSION_DIRECTORY_URL=https://extensions.example.com
-# Or disable entirely:
-# EXTENSION_DIRECTORY_URL=
+EXTENSION_DIRECTORY_URL=https://extensions.example.com
 ```
 
-When the URL resolves to a reachable directory, a **Marketplace** tab appears in the admin dashboard's plugin and theme management. When unset (or unreachable), the marketplace is hidden and admins manage plugins via direct ZIP upload only.
+An empty value also means the official directory. The admin console has a **Marketplace** page under Extensions, next to Plugins and Themes, and it is always there. If the directory can't be reached, the page says it failed to connect and offers **Retry**; direct ZIP uploads keep working.
 
-**Installing from the marketplace is restricted to the admin dashboard.** Users can't browse it. If the admin allows user uploads, users can still upload a plugin ZIP themselves under Settings > Plugins, and by default it only runs after an admin approved it (see [Plugins](/docs/guides/plugins#lifecycle)).
+With `NO_THIRD_PARTY_TRAFFIC` on, Bulwark doesn't contact the official directory, and the Marketplace page says so. Only a self-hosted directory works then.
+
+**Installing from the marketplace is restricted to the admin dashboard.** Users can't browse it. If the admin allows user uploads, users can still upload a plugin ZIP themselves under Settings > Add-ons, and by default it only runs after an admin approved it (see [Plugins](/docs/guides/plugins#lifecycle)).
 
 ## Using the marketplace
 
@@ -33,13 +31,14 @@ When the URL resolves to a reachable directory, a **Marketplace** tab appears in
 <img class="theme-dark-only" src="/screenshots/dark-admin-marketplace.webp" alt="The marketplace in the admin dashboard" width="5120" height="2880" />
 
 1. Sign in to the admin dashboard.
-2. Open Plugins or Themes.
-3. Click **Browse marketplace**.
-4. Select an extension to view its description, schema, screenshots, and required permissions.
-5. Click **Install** - Bulwark fetches the bundle, runs validation (dangerous-pattern detection), and registers the extension.
-6. Newly installed extensions are **disabled by default**. Click **Enable** to activate them.
+2. Open **Marketplace**.
+3. Search, or filter by Plugins or Themes. You can sort by Newest, Most downloaded or Recently updated.
+4. Open an extension to see its description, permissions, changelog and versions.
+5. Choose **Install**, on its card or next to a version on its page.
 
-Installed extensions are subject to the same validation as direct uploads - there is no "trusted directory bypass". If a plugin fails validation, install fails and the failure reason is logged.
+Before installing, Bulwark checks the bundle's directory signature and its SHA-256, refuses a version made for another Bulwark release, asks before installing a version the publisher withdrew, and scans the code for dangerous patterns. When it refuses, the page shows the reason. There is no "trusted directory bypass".
+
+An installed extension is available to users right away; an update keeps its previous settings. Turn it off, or force it on for everyone, on its page under Plugins or Themes. Users only get plugins once plugins are switched on for the instance under Plugins > Plugin policy, which is off by default.
 
 ## Hosting your own directory
 
@@ -49,15 +48,15 @@ The directory protocol is an HTTP API serving JSON manifests. Run your own when 
 - Host private themes restricted to your deployment
 - Air-gap your Bulwark deployment from the public internet
 
-The extension-directory project under the BulwarkMail organization documents the expected endpoints. Point `EXTENSION_DIRECTORY_URL` at your hostname once it serves them.
+The directory is the [extensions-directory](https://github.com/bulwarkmail/extensions-directory) project. Bulwark talks to its `/api/v2` endpoints; run that project and point `EXTENSION_DIRECTORY_URL` at it.
 
 ## Safety model
 
 The marketplace does **not** implicitly trust the directory:
 
-- All installed bundles run through the same JS pattern scanner used for direct uploads.
-- Plugins remain disabled until explicitly enabled by an admin.
-- Plugins must declare permissions; admins can review them before enabling.
+- A bundle needs a valid directory signature whenever Bulwark knows the directory's root keys: they are built in for the official directory, and `EXTENSION_DIRECTORY_ROOT_KEYS` sets them for your own. The bundle must also match the SHA-256 the directory lists.
+- All installed bundles run through the same JS pattern scanner used for direct admin uploads.
+- Plugins must declare permissions; admins see them on the extension's page before installing.
 - The HTTP proxy enforces declared origin allowlists at runtime.
 - `frameOrigins` in the plugin manifest are strictly validated as `https://host` and merged into the host CSP `frame-src` only when the plugin is enabled.
 
@@ -66,10 +65,6 @@ See [Plugins](/docs/guides/plugins) for the full plugin security model.
 ## Updates
 
 When a newer version of an installed plugin is published in the directory, the marketplace surfaces an update prompt. Updates are not automatic - admins approve each update so a malicious or breaking new version can't roll out without review.
-
-## Disabling the marketplace
-
-To hide the marketplace UI, unset `EXTENSION_DIRECTORY_URL` and restart Bulwark. Direct ZIP uploads continue to work.
 
 ## Related pages
 
