@@ -9,7 +9,7 @@ edition: both
 
 Bulwark is an open-source webmail client for [Stalwart](https://stalw.art). Stalwart is the mail server: it stores the mail, calendars, contacts and files, and checks who signs in. Bulwark is what people use in the browser to read and write mail, plan their week, keep their contacts and open their files, all behind one login. The license is AGPL v3.
 
-Bulwark talks to Stalwart over [JMAP](https://jmap.io). Most self-hosted webmail is an IMAP client in a browser, polling each folder and rebuilding threads on every render. With JMAP the server does that work and pushes changes, so the inbox updates without reloading. Bulwark also calls Stalwart's own JMAP methods, so Sieve filters, the vacation responder, account security, file storage and branding are all reachable from the same session instead of somewhere else.
+Bulwark talks to Stalwart over [JMAP](https://jmap.io). With JMAP the server does the threading and search and pushes changes, so the inbox updates without reloading. Bulwark also calls Stalwart's own JMAP methods, so Sieve filters, the vacation responder, account security, file storage and branding are all reachable from the same session instead of somewhere else.
 
 ## Two ways to run it
 

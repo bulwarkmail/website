@@ -52,7 +52,7 @@ Each app password can carry an optional IP allowlist, so a credential handed to 
 
 ### Configuration
 
-Add the following to your `.env.local`:
+Set these in Bulwark's environment (the container's environment, your Compose file, or `.env.local` for a source install):
 
 ```env
 # Enable OAuth login (shows "Sign in with SSO" button)

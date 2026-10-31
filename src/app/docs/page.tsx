@@ -21,7 +21,7 @@ export default function DocsPage() {
     <div className="bw-docs-wide prose-docs">
       <h1>Documentation</h1>
       <p>
-        Three steps take you from a Stalwart server to a working inbox in about five minutes. The rest of the manual is
+        Three steps take you from a Stalwart server to a working inbox. The rest of the manual is
         reference: configuration, features, deployment and the extension API. If you are deciding whether Bulwark
         fits, start with the page written for <Link href="/organisations">organisations</Link>,{" "}
         <Link href="/small-business">small businesses</Link> or <Link href="/homelab">homelabs</Link>.
