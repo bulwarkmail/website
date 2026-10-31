@@ -71,7 +71,7 @@ export default function HomelabPage() {
 
         <FeatureRow
           heading="Stalwart and Bulwark in one Compose file."
-          text="The images are built for amd64 and arm64; a Raspberry Pi needs a 64-bit OS. On the project's amd64 test VM the container used about 70 MiB of memory at idle, signed out. Put Caddy, nginx or Traefik in front for HTTPS."
+          text="The images are built for amd64 and arm64; a Raspberry Pi needs a 64-bit OS. On the project's amd64 test VM the container used about 70 MiB of memory at idle, signed out. Put Caddy, nginx or Traefik in front for HTTPS, and drop the ports the two containers publish once it's there; Run Bulwark at home shows that layout."
           link={{ label: "Compose with Stalwart", href: "/docs/deployment/docker/compose" }}
           code={{ code: COMPOSE, label: "Copy the Compose file" }}
         />
@@ -97,9 +97,15 @@ export default function HomelabPage() {
         />
         <FeatureRow
           heading="Plugins and themes, and your own."
-          text="The admin console installs plugins and themes from the extension directory, such as Paperless-ngx, Nextcloud or a Thunderbird-like theme. Writing your own takes a manifest and some JavaScript, and the plugin guide covers the API."
+          text="The admin console installs plugins and themes from the extension directory, such as Paperless-ngx, Nextcloud or a Thunderbird-like theme. A plugin of your own is a manifest and some JavaScript, a theme a manifest and CSS, and the guides cover both."
           link={{ label: "Plugins", href: "/docs/guides/plugins" }}
           shot={{ name: "admin-marketplace", alt: "The admin console's marketplace listing plugins and themes from the extension directory" }}
+        />
+
+        <TextSection
+          heading="What Bulwark contacts, and the switch that stops it."
+          text="Usage stats are off until you turn them on. Out of the box, Bulwark does check for new releases once an hour, loads sender icons, and uses the project's push relay and extension directory. Set NO_THIRD_PARTY_TRAFFIC=true, or turn on the same switch in the admin console, and all of that stops."
+          links={[{ label: "Third-party traffic", href: "/docs/guides/organisation/third-party-traffic" }]}
         />
 
         <TileSection
@@ -117,7 +123,7 @@ export default function HomelabPage() {
         <TileSection
           heading="More from the Bulwark project."
           tiles={[
-            { title: "Home Assistant", text: "Unread counts and new-mail events from any JMAP server. Pre-1.0, a HACS custom repository.", href: "https://github.com/bulwarkmail/homeassistant-jmap" },
+            { title: "Home Assistant", text: "Unread counts as sensors, automations on new mail, and sending mail from Home Assistant, for any JMAP server. Pre-1.0, a HACS custom repository.", href: "https://github.com/bulwarkmail/homeassistant-jmap" },
             { title: "WordPress plugin", text: "Sends WordPress's mail through a JMAP server.", href: "https://github.com/bulwarkmail/wordpress-jmap" },
             { title: "Legacy Proxy", text: "Lets Bulwark read an existing IMAP account. Pre-1.0, mail and contacts only.", href: "https://github.com/bulwarkmail/legacy-proxy" },
             { title: "Bulwark Mobile", text: "Mail, calendar, contacts and files on Android and iOS, as a beta.", href: "https://github.com/bulwarkmail/native" },
