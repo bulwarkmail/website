@@ -45,11 +45,12 @@ async function fetchLatestVersion(): Promise<string> {
   return FALLBACK.version;
 }
 
-// Counts entries under /locales on the default branch. Each entry represents
-// one translated language (whether it's a JSON file or a per-locale directory).
-async function fetchLocaleCount(): Promise<number | null> {
+// Counts entries under /locales at the latest release tag, not on main, so a
+// language that hasn't shipped yet isn't counted. Each entry is one translated
+// language (whether it's a JSON file or a per-locale directory).
+async function fetchLocaleCount(tag: string): Promise<number | null> {
   try {
-    const res = await fetch(`${GITHUB_API}/contents/locales`, {
+    const res = await fetch(`${GITHUB_API}/contents/locales?ref=${encodeURIComponent(tag)}`, {
       headers: { Accept: "application/vnd.github+json" },
       next: { revalidate: 3600 },
     });
@@ -188,7 +189,7 @@ function FactsSection({ langs }: { langs: number }) {
   const facts = [
     { icon: Code2, title: "Open source", text: "AGPL-3.0, developed in public on GitHub." },
     { icon: Zap, title: "Built on JMAP", text: "Stalwart pushes each change, and the client fetches only the difference." },
-    { icon: Globe, title: `${langs} languages`, text: "Including Arabic, Hebrew and Persian, written right to left." },
+    { icon: Globe, title: `${langs} languages`, text: "Including German, French and Spanish, and Arabic, Hebrew and Persian right to left." },
     { icon: MapPin, title: "Built in the EU", text: "Runs on your hardware. Your mail stays on your Stalwart server." },
   ];
   return (
@@ -420,7 +421,8 @@ function OpenSourceSection({ instances }: { instances: number }) {
             >
               {instances.toLocaleString("en-US")} instances
             </a>{" "}
-            whose admins turned on usage stats have reported in so far. Sponsors pay for the work.
+            whose admins turned on usage stats, which are off by default, have reported in so far. Sponsors pay for
+            the work.
           </p>
           <div className="bw-btns" style={{ marginTop: 8 }}>
             <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
@@ -605,11 +607,8 @@ function FaqSection() {
 // =============================================================================
 
 export default async function Home() {
-  const [version, instances, langs] = await Promise.all([
-    fetchLatestVersion(),
-    fetchBulwarkInstances(),
-    fetchLocaleCount(),
-  ]);
+  const [version, instances] = await Promise.all([fetchLatestVersion(), fetchBulwarkInstances()]);
+  const langs = await fetchLocaleCount(version);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -648,12 +647,12 @@ export default async function Home() {
           tiles={[
             {
               title: "Organisations",
-              text: "Single sign-on, policies per domain or group, and accessibility settings for everyone.",
+              text: "Single sign-on, policies per domain or group, accessibility presets and a statement template.",
               href: "/organisations",
             },
             {
               title: "Small businesses",
-              text: "A shared mailbox and shared calendars, installed as one container.",
+              text: "A shared mailbox, shared calendars and out-of-office replies, installed as one container.",
               href: "/small-business",
             },
             {
@@ -693,7 +692,7 @@ export default async function Home() {
           flip
           band
           heading="A shared mailbox the whole team can work from."
-          text="A group mailbox in Stalwart shows up under Shared for every member. Everyone reads, files and replies from the team's address, and Drafts and Sent stay with the group."
+          text="A group mailbox in Stalwart shows up under Shared for every member. Everyone reads, files and replies from the team's address, and Drafts and Sent stay with the group. Thunderbird and phone mail apps keep working next to it."
           link={{ label: "Bulwark for small businesses", href: "/small-business" }}
           shot={{ name: "shared-mailbox", alt: "A shared Support mailbox under Shared, next to the user's own folders" }}
         />
