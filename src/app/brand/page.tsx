@@ -237,7 +237,8 @@ export default function BrandPage() {
                 </li>
                 <li>
                   <b>One family at regular weight.</b> Hanken Grotesk 400 for headings and body. Hierarchy comes from
-                  size and position. 500 is for buttons and table headers, 600 for the wordmark.
+                  size and position. 500 is for buttons and table headers, 600 for the wordmark, bold text, step
+                  numbers and the small headings in the footer and the docs.
                 </li>
                 <li>
                   <b>Square, with shared edges.</b> Tiles meet on 1px rules with the title top-left and the arrow
@@ -292,7 +293,7 @@ export default function BrandPage() {
             <Guide
               wide
               title="Tokens"
-              text="Fourteen roles as CSS custom properties. Dark changes the grounds, and Bulwark Lite changes brand, field and link."
+              text="Fourteen roles as CSS custom properties. Dark changes every role except brand, on field and ink, and Bulwark Lite changes brand, field and link."
             >
               <div className="bw-table-wrap">
                 <table className="bw-table bw-table-tokens">
@@ -391,7 +392,7 @@ export default function BrandPage() {
         <section id="layout" className="bw-sec">
           <div className="bw-w">
             <div className="bw-head">
-              <h2 className="bw-h2">Pages sit on a 12-column grid with an 8px unit.</h2>
+              <h2 className="bw-h2">Pages sit inside 1120px on an 8px unit.</h2>
             </div>
             <Guide
               title="Spacing"
@@ -408,11 +409,19 @@ export default function BrandPage() {
             </Guide>
             <Guide
               title="Grid"
-              text="12 columns inside 1120px with 32px gaps. The page gutter is 80px, 40px on a tablet and 20px on a phone. Splits are 5 + 7, 4 + 8, 7 + 5 and 6 + 6, and they stack below 900px."
+              text="Content sits inside 1120px. The page gutter is 80px, 40px on a tablet and 20px on a phone. Two-column splits divide the content 5 + 7, 7 + 5, 4 + 8 or 8 + 4 with a 64px gap, and they stack below 900px."
             >
               <div className="bw-griddemo" aria-hidden="true">
-                {Array.from({ length: 12 }, (_, i) => (
-                  <i key={i}>{i + 1}</i>
+                {[
+                  [5, 7],
+                  [7, 5],
+                  [4, 8],
+                  [8, 4],
+                ].map(([a, b]) => (
+                  <div key={`${a}-${b}`} style={{ gridTemplateColumns: `${a}fr ${b}fr` }}>
+                    <i>{a}</i>
+                    <i>{b}</i>
+                  </div>
                 ))}
               </div>
             </Guide>

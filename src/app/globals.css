@@ -2199,15 +2199,19 @@ a.bw-tile:hover {
   height: 16px;
   background: var(--bw-brand);
 }
+/* The four splits, at their ratios and with the real 64px gap where it fits. */
 .bw-griddemo {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: clamp(6px, 2.4vw, 32px);
+  gap: 12px;
+}
+.bw-griddemo > div {
+  display: grid;
+  column-gap: clamp(16px, 4.5vw, 64px);
 }
 .bw-griddemo i {
   display: grid;
   place-items: end center;
-  height: 96px;
+  height: 48px;
   padding-bottom: 8px;
   font-style: normal;
   font-size: 13px;
