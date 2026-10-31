@@ -181,6 +181,27 @@ export function getDocSections(): DocSection[] {
   return sections.sort((a, b) => a.order - b.order);
 }
 
+/**
+ * A section's pages as the sidebar shows them: top-level pages by order, each
+ * followed by its children by order.
+ */
+export function inSidebarOrder(items: DocMeta[]): DocMeta[] {
+  const byOrder = (a: DocMeta, b: DocMeta) => a.order - b.order;
+  const topLevel = items.filter((i) => !i.parent).sort(byOrder);
+  const ordered = topLevel.flatMap((parent) => [
+    parent,
+    ...items.filter((c) => c.parent === parent.slug).sort(byOrder),
+  ]);
+  // Children whose parent page is missing still get a place, at the end.
+  const orphans = items.filter((i) => i.parent && !topLevel.some((p) => p.slug === i.parent)).sort(byOrder);
+  return [...ordered, ...orphans];
+}
+
+/** Every docs page in reading order: sections in order, then each section in sidebar order. */
+export function getReadingOrder(): DocMeta[] {
+  return getDocSections().flatMap((s) => inSidebarOrder(s.items));
+}
+
 export async function getDocBySlug(slug: string): Promise<Doc | null> {
   const filePath = path.join(docsDirectory, `${slug}.md`);
 

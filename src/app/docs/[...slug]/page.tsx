@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getDocBySlug, getAllDocs, getDocSections } from "@/lib/docs";
+import { getDocBySlug, getAllDocs, getDocSections, getReadingOrder } from "@/lib/docs";
 import { CopyableCode } from "@/components/docs/copyable-code";
 import { Pencil } from "@/components/icons";
 import { ICON } from "@/lib/icon";
@@ -40,18 +40,19 @@ export default async function DocPage({ params }: PageProps) {
 
   if (!doc) notFound();
 
-  // Find prev/next among sibling pages (same parent or same section top-level).
+  // Previous and next follow the sidebar from top to bottom, across sections,
+  // so the last page of a section leads into the next one.
   const sections = getDocSections();
-  const allItems = sections.flatMap((s) => s.items);
-  const siblings = doc.parent
-    ? allItems.filter((i) => i.parent === doc.parent)
-    : allItems.filter((i) => i.section === doc.section && !i.parent);
-  const idx = siblings.findIndex((i) => i.slug === slugStr);
-  const prev = idx > 0 ? siblings[idx - 1] : null;
-  const next = idx !== -1 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+  const readingOrder = getReadingOrder();
+  const idx = readingOrder.findIndex((i) => i.slug === slugStr);
+  const prev = idx > 0 ? readingOrder[idx - 1] : null;
+  const next = idx !== -1 && idx < readingOrder.length - 1 ? readingOrder[idx + 1] : null;
 
-  const sectionLabel =
-    sections.find((s) => s.slug === doc.section)?.label ?? doc.section;
+  const labelOf = (section: string) => sections.find((s) => s.slug === section)?.label ?? section;
+  const sectionLabel = labelOf(doc.section);
+  // A neighbour in another section names that section, so the reader sees the jump.
+  const pagerLabel = (word: string, item: { section: string }) =>
+    item.section === doc.section ? word : `${word} in ${labelOf(item.section)}`;
 
   return (
     <article className="bw-docs-article">
@@ -85,13 +86,13 @@ export default async function DocPage({ params }: PageProps) {
         <nav className="bw-pager" aria-label="Previous and next page">
           {prev ? (
             <Link href={`/docs/${prev.slug}`}>
-              <span>Previous</span>
+              <span>{pagerLabel("Previous", prev)}</span>
               {prev.title}
             </Link>
           ) : null}
           {next ? (
             <Link href={`/docs/${next.slug}`} className="bw-pager-next">
-              <span>Next</span>
+              <span>{pagerLabel("Next", next)}</span>
               {next.title}
             </Link>
           ) : null}
