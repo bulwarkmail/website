@@ -7,11 +7,11 @@ edition: both
 
 # Customization
 
-Branding is set in one of three places. Values saved by the wizard or the dashboard win; environment variables fill in whatever they leave unset (in Bulwark Lite the same keys live in `config.json`, camel-cased; see [static hosting](/docs/deployment/static)):
+Branding is set in one of three places. Values saved by the wizard or the admin console win; environment variables fill in whatever they leave unset (in Bulwark Lite the same keys live in `config.json`, camel-cased; see [static hosting](/docs/deployment/static)):
 
 - **Setup wizard** - the first-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
-- **Admin dashboard** - Update branding at any time after setup without restarting.
-- **Environment variables** - Env-driven branding for deployments that never open the dashboard. A value saved in the admin config takes priority over the variable.
+- **Admin console** - Update branding at any time after setup without restarting.
+- **Environment variables** - Env-driven branding for deployments that never open the admin console. A value saved in the admin config takes priority over the variable.
 
 <img class="theme-light-only" src="/screenshots/light-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />

@@ -94,7 +94,7 @@ Encrypted per-account user preferences. Required only when `SETTINGS_SYNC_ENABLE
 
 ### Admin config (`ADMIN_CONFIG_DIR`)
 
-Operator-authored state written by the setup wizard and the admin dashboard: `config.json`, `policy.json`, `admin.json` (passwordHash only), `plugin-config/`, `plugins/`, `themes/`, and uploaded branding assets. Default: `./data/admin` → `/app/data/admin` in the container.
+Operator-authored state written by the setup wizard and the admin console: `config.json`, `policy.json`, `admin.json` (passwordHash only), `plugin-config/`, `plugins/`, `themes/`, and uploaded branding assets. Default: `./data/admin` → `/app/data/admin` in the container.
 
 After the setup wizard completes, this directory can optionally be mounted **read-only** for immutable deployments. For that it needs a volume of its own on top of the `/app/data` one (see the example below). Pair with `ADMIN_CONFIG_READONLY=true` so the app produces a clean error instead of an EROFS halfway through a write.
 

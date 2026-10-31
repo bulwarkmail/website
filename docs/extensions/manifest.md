@@ -32,7 +32,7 @@ Every extension has a `manifest.json` in its folder: the repository root, or for
 | Field         | Description                                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `id`          | Unique slug: 2 to 64 lowercase letters, digits and hyphens, starting and ending with a letter or digit. Used in URLs and install paths. |
-| `name`        | Human-readable name shown in the directory and admin UI.                                                           |
+| `name`        | Human-readable name shown in the directory and the admin console.                                                           |
 | `version`     | A semantic version such as `1.0.0`. A pre-release like `1.1.0-beta.1` is published on the beta channel. Each version can be published once; raise it for every release. |
 | `author`      | Author name or GitHub username.                                                                                    |
 | `description` | Short summary of what the extension does.                                                                          |
@@ -46,7 +46,7 @@ Every extension has a `manifest.json` in its folder: the repository root, or for
 | `permissions`    | The permissions the plugin needs (see [Permissions](#permissions)). Leave it out if it needs none. Requesting more than necessary will be rejected.                                                                          |
 | `tier`           | Either `untrusted` (default) or `privileged`. Declaring `privileged` opts into the same-origin execution tier; it needs `crypto:full` and an admin install (see [Privileged tier](#privileged-tier-and-high-risk-permissions)). Most plugins should omit this. |
 | `settingsSchema` | Per-user settings, drawn automatically in Settings. Keys are letters, digits and `_`, starting with a letter. Each field needs a `type` (`boolean`, `string`, `number` or `select`), a `label` and a `default` of that type, and may have a `description`. A `select` needs `options` (a list of strings that includes the default); a `number` may set `min` and `max`. |
-| `configSchema`   | Settings only the admin sets, on the plugin's page in the admin dashboard. Field types are `string`, `secret`, `boolean`, `number` and `select`; each needs a `label` and may set `description`, `required`, `default` and `placeholder`. `select` options are `{ "label", "value" }` objects. A `string` field with `"multiline": true` gets a full-width text box. A `secret` is kept on the server and never reaches the plugin. |
+| `configSchema`   | Settings only the admin sets, on the plugin's page in the admin console. Field types are `string`, `secret`, `boolean`, `number` and `select`; each needs a `label` and may set `description`, `required`, `default` and `placeholder`. `select` options are `{ "label", "value" }` objects. A `string` field with `"multiline": true` gets a full-width text box. A `secret` is kept on the server and never reaches the plugin. |
 | `credentials`    | Accounts and API keys the plugin uses through `api.proxy.fetch` (needs `http:proxy`). The server adds the secret to the request, so the plugin never sees it. An admin credential points at a `secret` field in `configSchema`; a user credential is one each user connects. See [Accounts and API keys](https://github.com/bulwarkmail/plugins/blob/main/WRITING_PLUGINS.md#accounts-and-api-keys) in the plugin guide. |
 | `locales`        | Bundled translations keyed by BCP-47 locale tag (for example `"en"`, `"de"`, `"fr-CA"`). Registered automatically before `activate()` is called, so `api.i18n.t()` works out of the box.                                      |
 | `frameOrigins`   | Array of strict origins the plugin needs to embed in iframes (for example `https://www.youtube-nocookie.com`; wildcards like `https://*.example.com:8443` are allowed). Validated at install time and merged into the host CSP `frame-src` only while the plugin is enabled. |
@@ -84,7 +84,7 @@ These work for plugins and themes.
 | Field         | Description                                                                                                                                  |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `minAppVersion` | The oldest Bulwark version the extension works with, like `1.15.0`. The directory doesn't offer the version to older Bulwarks, and they refuse to install it. |
-| `icon`        | Relative path to a square brand icon (PNG/SVG/WebP, ≤256 KB, 128×128 or larger recommended). Shown on marketplace cards and in the admin UI. |
+| `icon`        | Relative path to a square brand icon (PNG/SVG/WebP, ≤256 KB, 128×128 or larger recommended). Shown on marketplace cards and in the admin console. |
 | `banner`      | Relative path to a wide promo image (16:9 recommended, ≤512 KB), shown as the hero on the extension detail page.                             |
 | `screenshots` | Up to 6 relative paths to screenshot images (each ≤512 KB, ≤2 MB total). Order is preserved.                                                 |
 

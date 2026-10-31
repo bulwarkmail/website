@@ -56,7 +56,7 @@ The file is read by the browser at runtime, so edits take effect on the next pag
 
 These are the full edition's branding variables, camel-cased. Whatever the file says, the flags that only work with a server behind them are pinned off: OAuth, auto-SSO, settings sync, the Stalwart account features, the JMAP passthrough, dev mode.
 
-An optional `policy.json` next to it carries the same settings policy the admin dashboard would write in the full edition (default settings, restrictions, theme policy). Plugins and sidebar apps stay off regardless of what it says.
+An optional `policy.json` next to it carries the same settings policy the admin console would write in the full edition (default settings, restrictions, theme policy). Plugins and sidebar apps stay off regardless of what it says.
 
 ## Build inputs
 

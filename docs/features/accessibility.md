@@ -9,7 +9,7 @@ edition: both
 
 Bulwark has its own **Settings > Accessibility** page, in the top group next to Appearance. It collects everything that changes how the app looks, reads, sounds and reacts to the keyboard, including settings that also appear on other pages. A setting shown in two places is the same setting, so changing it on one page changes it on the other.
 
-This page describes what the software offers. If you run Bulwark for others, the [admin page](/docs/features/accessibility/admin) explains how to preset these options for your users, and [accessibility law for operators](/docs/legal/accessibility) covers your duties under EN 301 549, BITV 2.0 and the BFSG.
+This page describes what the software offers. If you run Bulwark for others, the [page for admins](/docs/features/accessibility/admin) explains how to preset these options for your users, and [accessibility law for operators](/docs/legal/accessibility) covers your duties under EN 301 549, BITV 2.0 and the BFSG.
 
 <!--
 TODO: add a tested screen reader and browser matrix (EN 301 549 12.3) once there is one.

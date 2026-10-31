@@ -21,7 +21,7 @@ Receiving server: `telemetry.bulwarkmail.org`, operated by the Bulwark project o
 
 Telemetry is **off by default**. On first boot the app writes a state file recording consent as `off`, and no heartbeat is scheduled. An install that nobody touches sends nothing at any point.
 
-When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible verbatim in the admin UI before that happens.
+When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible verbatim in the admin console before that happens.
 
 Enable it in one of three ways:
 
@@ -78,7 +78,7 @@ Total payload size is under 1 KB.
 - Stalwart deployment details (paths, ports, certificates, OAuth client IDs, config keys)
 - Any string typed into the Bulwark UI
 
-If a future schema version adds anything to the "what is sent" list, it will be visible in your admin UI's payload preview before it's sent, and this page will be updated with the "Last updated" date moved forward.
+If a future schema version adds anything to the "what is sent" list, it will be visible in the admin console's payload preview before it's sent, and this page will be updated with the "Last updated" date moved forward.
 
 ## Storage and retention
 

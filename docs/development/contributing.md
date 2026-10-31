@@ -27,12 +27,12 @@ These don't go in core:
 
 - **Other protocols.** IMAP, POP3 and other non-JMAP backends. Bridges such as the [legacy proxy](https://github.com/bulwarkmail/legacy-proxy) are separate projects.
 - **Integrations with other services.** CRMs, chat, cloud storage, AI assistants and the like. Write them as plugins.
-- **Stalwart server administration.** Domains, queues, DNS and server settings stay in Stalwart's own admin interface. Bulwark covers what users manage for their own account and what the webmail's admin dashboard needs.
+- **Stalwart server administration.** Domains, queues, DNS and server settings stay in Stalwart's own admin interface. Bulwark covers what users manage for their own account and what the webmail's admin console needs.
 - **Personalising the app's look beyond themes.** Per-user fonts, colour pickers and alternative layouts. Changes to the look go through themes.
 
 ### Settings
 
-A new behaviour should have one good default. When deployments really do need different behaviour, make it an admin setting in the [admin dashboard](/docs/guides/admin) or the admin policy, not a per-user toggle. A pull request that adds a user setting so that its behaviour can be switched off will usually be asked to choose a default instead.
+A new behaviour should have one good default. When deployments really do need different behaviour, make it an admin setting in the [admin console](/docs/guides/admin) or the admin policy, not a per-user toggle. A pull request that adds a user setting so that its behaviour can be switched off will usually be asked to choose a default instead.
 
 ### Both editions, every screen size
 

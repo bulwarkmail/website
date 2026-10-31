@@ -1,24 +1,24 @@
 ---
-title: Admin dashboard
+title: Admin console
 description: Manage runtime configuration, sign-in, branding, the user policy, plugins and themes in the admin console.
 order: 9
 edition: full
 editionNote: "The admin console is part of Bulwark (not Lite). Lite reads its settings from config.json and policy.json."
 ---
 
-# Admin dashboard
+# Admin console
 
-The admin dashboard runs inside the same process as the user-facing app, and it is where an operator does everything that isn't reading mail. It holds the server and sign-in settings, branding, the user policy, the Organisation pages, plugins, themes, the marketplace, updates, usage stats and the audit log. Each page has its own address under `/admin`.
+The admin console runs inside the same process as the user-facing app, and it is where an operator does everything that isn't reading mail. It holds the server and sign-in settings, branding, the user policy, the Organisation pages, plugins, themes, the marketplace, updates, usage stats and the audit log. Each page has its own address under `/admin`.
 
 API keys and app passwords are not here. Each user manages their own under **Settings > Security**; see [Account security](/docs/guides/account-security).
 
-<div class="bw-note"><b>Note.</b> Bulwark Lite has no admin dashboard and no setup wizard. Its configuration is a <code>config.json</code> file next to <code>index.html</code>, and an optional <code>policy.json</code> for the settings policy. See <a href="/docs/deployment/static">static hosting</a>.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite has no admin console and no setup wizard. Its configuration is a <code>config.json</code> file next to <code>index.html</code>, and an optional <code>policy.json</code> for the settings policy. See <a href="/docs/deployment/static">static hosting</a>.</div>
 
 ## First-time setup
 
 The web setup wizard runs on first launch and sets the initial admin password along with JMAP, OAuth, branding, and the session secret. Point a browser at the running container and follow the steps; nothing needs to be in `.env.local` beforehand.
 
-`ADMIN_PASSWORD` in the environment is a bootstrap value for env-driven deployments: it is read only while `admin.json` does not exist yet, then hashed and written there. Once a password exists, change it from the dashboard.
+`ADMIN_PASSWORD` in the environment is a bootstrap value for env-driven deployments: it is read only while `admin.json` does not exist yet, then hashed and written there. Once a password exists, change it from the admin console.
 
 ### File-based secrets
 
@@ -51,9 +51,9 @@ Without a persistent volume a restart loses `admin.json` and `config.json`. Bulw
 
 ## Signing in
 
-The admin dashboard lives at `/admin` (below the base path if you set one). It uses a separate session from the user app, so you can be signed in as both a regular user and an admin in the same browser.
+The admin console lives at `/admin` (below the base path if you set one). It uses a separate session from the user app, so you can be signed in as both a regular user and an admin in the same browser.
 
-What a Stalwart administrator account is worth here is configurable, under **Authentication** in the dashboard or with `STALWART_ADMIN_ACCESS`:
+What a Stalwart administrator account is worth here is configurable, under **Authentication** in the admin console or with `STALWART_ADMIN_ACCESS`:
 
 | Value | Effect |
 | --- | --- |
@@ -61,7 +61,7 @@ What a Stalwart administrator account is worth here is configurable, under **Aut
 | `password` | Stalwart admins see the shield but must enter the Bulwark admin password like everyone else |
 | `off` | Stalwart admin status is ignored; `/admin` is reachable only through `/admin/login` with the admin password |
 
-`password` and `off` need an admin password to exist, from the wizard or `ADMIN_PASSWORD`, or the dashboard would have no way in.
+`password` and `off` need an admin password to exist, from the wizard or `ADMIN_PASSWORD`, or the admin console would have no way in.
 
 Admin sessions are protected with:
 
@@ -72,8 +72,8 @@ Admin sessions are protected with:
 
 ## Sections
 
-<img class="theme-light-only" src="/screenshots/light-admin-overview.webp" alt="The admin dashboard: server details and enabled features, with the section list on the left" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-admin-overview.webp" alt="The admin dashboard: server details and enabled features, with the section list on the left" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-admin-overview.webp" alt="The admin console: server details and enabled features, with the section list on the left" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-overview.webp" alt="The admin console: server details and enabled features, with the section list on the left" width="2560" height="1440" />
 
 The sidebar starts with Overview, Server, Authentication, Branding and User policy. Under **Organisation** are Domains and groups, Signatures, Templates, Security and Sharing; under **Extensions**, Plugins, Themes and Marketplace; under **System**, Updates, Usage stats and Audit log.
 
@@ -99,7 +99,7 @@ Override runtime config without redeploying. These pages write to `ADMIN_CONFIG_
 - `autoSsoEnabled`
 - `searchEngineIndexing` - allow search engines to index the webmail. Off by default (emits `noindex`/`nofollow` in the page head); recommended off for private deployments. Env override: `SEARCH_ENGINE_INDEXING`.
 
-Order of precedence: **admin config > env var > legacy build-time fallback > built-in default**. A value saved here wins over the same key in `.env.local`; the dashboard shows where each value currently comes from (admin, environment, or default). Changes from the admin UI take effect on the next user session without a restart.
+Order of precedence: **admin config > env var > legacy build-time fallback > built-in default**. A value saved here wins over the same key in `.env.local`; the admin console shows where each value currently comes from (admin, environment, or default). Changes from the admin console take effect on the next user session without a restart.
 
 ### User policy
 
@@ -110,8 +110,8 @@ Which features users get, the push relays they may pick (from your list, rather 
 
 ### Plugins
 
-<img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="2560" height="1440" />
-<img class="theme-dark-only" src="/screenshots/dark-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="2560" height="1440" />
+<img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin console" width="2560" height="1440" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-plugins.webp" alt="The Plugins section of the admin console" width="2560" height="1440" />
 
 - Install plugins from the [marketplace](/docs/guides/marketplace) (the official directory unless `EXTENSION_DIRECTORY_URL` points elsewhere) or upload a ZIP. Plugins installed here are for every user.
 - Plugins as a whole are off until you turn on **Plugins** under **Plugin policy**.
@@ -160,7 +160,7 @@ TRUSTED_PROXY_DEPTH=2   # CDN -> ingress -> app
 
 ## Restricting access
 
-The dashboard is part of the running Bulwark process, so it cannot be turned off. Restrict it instead:
+The admin console is part of the running Bulwark process, so it cannot be turned off. Restrict it instead:
 
 - Block `/admin` and `/api/admin` at your reverse proxy and only allow your management network.
 - Use a strong admin password and change it from time to time with **Change password** in the console. Changing `ADMIN_PASSWORD` later has no effect once `admin.json` exists.
@@ -174,7 +174,7 @@ You haven't mounted a persistent volume for `ADMIN_CONFIG_DIR` (or `ADMIN_DATA_D
 
 ### "Settings > Security missing"
 
-Account security, API keys and app passwords are user settings, not admin pages. They need Stalwart 0.16 or newer, `STALWART_FEATURES` and the JMAP passthrough (`STALWART_JMAP_PASSTHROUGH_ENABLED`) left on (both are on by default), and on Stalwart 1.0 Bulwark {{BULWARK_VERSION}} or newer with [OAuth auto-setup](#oauth-auto-setup) run once. Stalwart versions before 0.16 do not expose the JMAP `x:` methods Bulwark uses for self-service management.
+Account security, API keys and app passwords are user settings, not part of the admin console. They need Stalwart 0.16 or newer, `STALWART_FEATURES` and the JMAP passthrough (`STALWART_JMAP_PASSTHROUGH_ENABLED`) left on (both are on by default), and on Stalwart 1.0 Bulwark {{BULWARK_VERSION}} or newer with [OAuth auto-setup](#oauth-auto-setup) run once. Stalwart versions before 0.16 do not expose the JMAP `x:` methods Bulwark uses for self-service management.
 
 ### "Admin login fails with correct password"
 

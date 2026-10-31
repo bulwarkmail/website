@@ -98,7 +98,7 @@ Both are stored in `organisation` in `policy.json`, at the top level for Everyon
 ```
 
 - `signature.html` and `signature.text`: the templates. Both empty means no organisation signature.
-- `signature.fields`: the details users are asked for, out of `title`, `department`, `phone` and `mobile`. The admin page keeps it in step with the templates. A field a template uses is asked for even when it's missing here.
+- `signature.fields`: the details users are asked for, out of `title`, `department`, `phone` and `mobile`. The Signatures page of the admin console keeps it in step with the templates. A field a template uses is asked for even when it's missing here.
 - `disclaimer.html` and `disclaimer.text`: both empty means no disclaimer.
 - `restrictions.signature`: `{ "locked": true }` or `{ "hidden": true }`.
 

@@ -49,7 +49,7 @@ This is the order to work in when you give Bulwark to a whole organisation. Stal
    ADMIN_CONFIG_READONLY=true
    ```
 
-   Set `ADMIN_STATE_DIR` too: the audit log, the setup token and login times must stay writable. The admin pages then can't save and say why. Make changes on a test instance, export `policy.json` there and commit it. See [admin storage](/docs/guides/admin#admin-storage-split) and [the policy file](/docs/guides/organisation/domains-and-groups#the-policy-file).
+   Set `ADMIN_STATE_DIR` too: the audit log, the setup token and login times must stay writable. The admin console then can't save and says why. Make changes on a test instance, export `policy.json` there and commit it. See [admin storage](/docs/guides/admin#admin-storage-split) and [the policy file](/docs/guides/organisation/domains-and-groups#the-policy-file).
 5. **The user policy.** **Admin > User policy** sets which features users get, the push relays they may pick, the sidebar apps everyone gets and, under **Locked settings**, the settings users can't change. 26 settings can be locked to a value or hidden; users see **Set by your organisation** next to them. Every other setting can be preset, so users start with your value and can change it. See [Organisation settings](/docs/guides/organisation#locking-a-setting).
 
    <img class="theme-light-only" src="/screenshots/light-admin-policy.webp" alt="The User policy page in the admin console, with some features switched off and settings locked to a value" width="5120" height="2880" />

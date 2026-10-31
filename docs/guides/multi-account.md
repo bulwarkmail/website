@@ -62,14 +62,14 @@ You can mark one account as the default. The default account loads on initial si
 <img class="theme-light-only" src="/screenshots/light-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
 
-Turn on **Unified mailbox** in Settings > Appearance > Multiple accounts to get one Inbox, Sent, Drafts and so on for the active account and its shared and group mailboxes. It is off by default. If your admin allows it (**Unified Mailbox: Cross-account** in the admin console, off on new installs), **Across all accounts** adds every signed-in account. Rows show the folder they come from, and **Tell accounts apart** marks each with its account's color.
+Turn on **Unified mailbox** in Settings > Appearance > Multiple accounts to get one Inbox, Sent, Drafts and so on for the active account, its shared mailboxes and the folders shared with it. It is off by default. If your admin allows it (**Unified Mailbox: Cross-account** in the admin console, off on new installs), **Across all accounts** adds every signed-in account. Rows show the folder they come from, and **Tell accounts apart** marks each with its account's color.
 
-## Shared folders
+## Shared mailboxes and folders
 
 <img class="theme-light-only" src="/screenshots/light-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
 
-Folders shared with one account are surfaced under that account in the sidebar. Shared account folder layouts mirror primary folders so navigation stays consistent.
+A [shared mailbox](/docs/features/email#shared-mailboxes), a Stalwart group with its own address, shows under **Shared** in the sidebar. A folder that another person shares with you shows under that person's account. Both mirror the layout of your own folders, so navigation stays the same.
 
 ## Connection status
 

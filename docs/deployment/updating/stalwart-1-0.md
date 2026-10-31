@@ -30,7 +30,7 @@ Then register Bulwark with Stalwart, as in the next section. Calendar and contac
 Stalwart 1.0 only signs in OAuth clients it knows, and only a **first-party** client may manage an account's Stalwart settings. Bulwark is neither until you register it. After the move to 1.0, or on a fresh 1.0 server, do this once:
 
 1. Sign in to the webmail with a Stalwart account that has admin permissions.
-2. In the same browser, open Bulwark's admin dashboard, go to **Authentication**, and under **OAuth / OpenID Connect** click **Set up automagically**.
+2. In the same browser, open Bulwark's admin console, go to **Authentication**, and under **OAuth / OpenID Connect** click **Set up automagically**.
 3. Check the webmail origin and the Stalwart issuer URL in the **Auto-configure OAuth** dialog, and confirm.
 
 Bulwark then registers `bulwark-webmail` with Stalwart as a first-party client with a secret, saves the client id, secret and issuer URL in its own configuration, and turns on single sign-on. If you don't want the **Sign in with SSO** button, turn **Enabled** off again afterwards; two-factor sign-ins keep using the registered client.

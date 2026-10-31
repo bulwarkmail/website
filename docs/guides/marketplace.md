@@ -8,7 +8,7 @@ editionNote: "Lite has no admin console to browse from, and plugins don't run in
 
 # Extension marketplace
 
-Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin dashboard. Bulwark uses the official directory unless you point it at one you run yourself.
+Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin console. Bulwark uses the official directory unless you point it at one you run yourself.
 
 ## Configuration
 
@@ -22,14 +22,14 @@ An empty value also means the official directory. The admin console has a **Mark
 
 With `NO_THIRD_PARTY_TRAFFIC` on, Bulwark doesn't contact the official directory, and the Marketplace page says so. Only a self-hosted directory works then.
 
-**Installing from the marketplace is restricted to the admin dashboard.** Users can't browse it. If the admin allows user uploads, users can still upload a plugin ZIP themselves under Settings > Add-ons, and by default it only runs after an admin approved it (see [Plugins](/docs/guides/plugins#lifecycle)).
+**Installing from the marketplace is restricted to the admin console.** Users can't browse it. If the admin allows user uploads, users can still upload a plugin ZIP themselves under Settings > Add-ons, and by default it only runs after an admin approved it (see [Plugins](/docs/guides/plugins#lifecycle)).
 
 ## Using the marketplace
 
-<img class="theme-light-only" src="/screenshots/light-admin-marketplace.webp" alt="The marketplace in the admin dashboard" width="5120" height="2880" />
-<img class="theme-dark-only" src="/screenshots/dark-admin-marketplace.webp" alt="The marketplace in the admin dashboard" width="5120" height="2880" />
+<img class="theme-light-only" src="/screenshots/light-admin-marketplace.webp" alt="The marketplace in the admin console" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-marketplace.webp" alt="The marketplace in the admin console" width="5120" height="2880" />
 
-1. Sign in to the admin dashboard.
+1. Sign in to the admin console.
 2. Open **Marketplace**.
 3. Search, or filter by Plugins or Themes. You can sort by Newest, Most downloaded or Recently updated.
 4. Open an extension to see its description, permissions, changelog and versions.
@@ -69,4 +69,4 @@ When a newer version of an installed plugin is published in the directory, the m
 
 - [Plugins](/docs/guides/plugins) - plugin architecture, hooks, and security
 - [Customization](/docs/guides/customization) - themes and branding
-- [Admin dashboard](/docs/guides/admin) - admin UI overview
+- [Admin console](/docs/guides/admin) - overview of the admin console

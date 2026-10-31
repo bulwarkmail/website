@@ -30,7 +30,7 @@ A lock on text size, contrast, motion, fonts, spacing or any of the reading aids
 
 A `policy.json` that locks one of them anyway is not rejected: the lock works as a default. Users who haven't chosen a value get yours, and they can still change it. Presets and Reset on the Accessibility page still leave such a setting alone, so put these values in `defaults` instead of `restrictions`.
 
-## In the admin dashboard
+## In the admin console
 
 **Admin > User policy** has two sections for this:
 
@@ -158,6 +158,6 @@ Only `http` and `https` links are used. The barrier report also takes an email a
 
 ## Bulwark Lite
 
-Lite has no admin dashboard, but it reads the same policy. Put `defaults` and `restrictions` in the `policy.json` next to `index.html`; scopes work too. See [static hosting](/docs/deployment/static).
+Lite has no admin console, but it reads the same policy. Put `defaults` and `restrictions` in the `policy.json` next to `index.html`; scopes work too. See [static hosting](/docs/deployment/static).
 
 <div class="bw-note"><b>Note.</b> Lite reads <code>policy.json</code> as a public file, so anyone can read it. That's fine for accessibility defaults, but keep it in mind for scope entries that name customers or groups. Lite has no settings sync: each user's choices stay in their browser, and your defaults apply on every device they sign in from until they change a setting there.</div>

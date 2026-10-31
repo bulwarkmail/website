@@ -53,7 +53,7 @@ PWA_SCREENSHOT_MOBILE_URL=/branding/install-mobile.png    # rendered at 540x720
 PWA_SCREENSHOT_DESKTOP_URL=/branding/install-desktop.png  # rendered at 1280x720
 ```
 
-Both can also be set from the admin dashboard, and overridden **per-domain** through the per-domain branding editor, so each hostname can present its own install screenshots. When unset, Bulwark falls back to its built-in screenshots.
+Both can also be set from the admin console, and overridden **per-domain** through the per-domain branding editor, so each hostname can present its own install screenshots. When unset, Bulwark falls back to its built-in screenshots.
 
 ### Default colors
 

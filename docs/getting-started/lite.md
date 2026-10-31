@@ -21,7 +21,7 @@ Lite is the right pick when:
 - You don't need the admin console, plugins, or settings that follow a user between devices.
 - You want the deployment to be a folder you can diff, back up, and roll back by re-uploading.
 
-The full edition is the right pick when you want any of: the setup wizard and admin dashboard, plugins and sidebar apps, OAuth / OIDC, settings sync, office document editing, web push notifications, or the in-app update notice. The [editions page](/docs/getting-started/editions) lays the two out side by side.
+The full edition is the right pick when you want any of: the setup wizard and admin console, plugins and sidebar apps, OAuth / OIDC, settings sync, office document editing, web push notifications, or the in-app update notice. The [editions page](/docs/getting-started/editions) lays the two out side by side.
 
 ## What works
 

@@ -26,7 +26,7 @@ Both are published on the [Bulwark Extensions directory](https://extensions.bulw
 
 ### Plugins
 
-Plugins need the full edition (not Lite) and are off until an admin turns them on in the admin dashboard. Admins install plugins from the Marketplace or by uploading a ZIP. Users can upload their own under Settings > Add-ons when the admin allows it; by default the admin has to approve such a plugin before it runs. A plugin is a small JavaScript module with a declarative configuration schema, an optional set of UI extension points, and a permission manifest. The [plugin system overview](/docs/guides/plugins) explains how plugins are installed and run. The full authoring guide, with every hook, UI surface and API call, is [Writing plugins for Bulwark](https://github.com/bulwarkmail/plugins/blob/main/WRITING_PLUGINS.md) in the bulwarkmail/plugins repository.
+Plugins need the full edition (not Lite) and are off until an admin turns them on in the admin console. Admins install plugins from the Marketplace or by uploading a ZIP. Users can upload their own under Settings > Add-ons when the admin allows it; by default the admin has to approve such a plugin before it runs. A plugin is a small JavaScript module with a declarative configuration schema, an optional set of UI extension points, and a permission manifest. The [plugin system overview](/docs/guides/plugins) explains how plugins are installed and run. The full authoring guide, with every hook, UI surface and API call, is [Writing plugins for Bulwark](https://github.com/bulwarkmail/plugins/blob/main/WRITING_PLUGINS.md) in the bulwarkmail/plugins repository.
 
 ### Themes
 

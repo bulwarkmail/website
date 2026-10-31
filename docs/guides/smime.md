@@ -14,7 +14,7 @@ S/MIME is a plugin, not part of the core webmail. Until an admin installs it, th
 
 ## Setting it up
 
-1. An admin turns plugins on in the admin dashboard, then installs **S/MIME** from the [marketplace](/docs/guides/marketplace) (or uploads the ZIP from the [plugins repository](https://github.com/bulwarkmail/plugins)). The plugin runs in the [privileged tier](/docs/guides/plugins#privileged-tier), so only an admin can install it; a user upload is refused.
+1. An admin turns plugins on in the admin console, then installs **S/MIME** from the [marketplace](/docs/guides/marketplace) (or uploads the ZIP from the [plugins repository](https://github.com/bulwarkmail/plugins)). The plugin runs in the [privileged tier](/docs/guides/plugins#privileged-tier), so only an admin can install it; a user upload is refused.
 2. Once installed, it is available to users, who turn it on under Settings → Add-ons. The admin can also force it on for everyone on its page under Plugins.
 3. Once it is on for you, **S/MIME** appears in Settings under Add-ons. That page holds the key and certificate import, the defaults for new messages and the plugin's own options.
 
