@@ -16,7 +16,7 @@ It exists because the full edition's server does two different jobs. One is brok
 Lite is the right pick when:
 
 - You already run a web server and would rather not add a Node.js process, a container, or anything with a health check to it.
-- Your users sign in with a password, optionally with TOTP, and nobody needs OAuth or single sign-on.
+- Your users sign in with a password, optionally with TOTP, and you don't need OAuth or single sign-on. (Lite served by Stalwart also signs in accounts that an external OpenID provider handles.)
 - You don't need the admin console, plugins, or settings that follow a user between devices.
 - You want the deployment to be a folder you can diff, back up, and roll back by re-uploading.
 
@@ -26,7 +26,7 @@ The full edition is the right pick when you want any of: the setup wizard and ad
 
 Everything that runs in the browser, which is most of the client:
 
-- Mail, threads, search, compose, drafts, scheduled send, filters and the vacation responder, S/MIME
+- Mail, threads, search, compose, drafts, scheduled send, filters and the vacation responder
 - Calendar, contacts and files, including sharing over JMAP
 - Several accounts at once, each with its own session
 - Password login, with a TOTP code where the server asks for one
@@ -40,9 +40,9 @@ Everything that runs in the browser, which is most of the client:
 These need the Node.js server, so the static build hides or disables them:
 
 - The setup wizard and the admin console. Configuration is a `config.json` file instead.
-- Plugins and sidebar apps. Themes still work.
+- Plugins and sidebar apps, and with them S/MIME, which is a plugin. Themes still work.
 - Settings sync across devices. Settings stay in the browser, and can be exported and imported by hand.
-- OAuth / OIDC and single sign-on, including embedded SSO.
+- OAuth / OIDC configuration and embedded SSO. (Lite served by Stalwart can still send accounts that an external OpenID provider signs in to that provider.)
 - The account security tab: changing the password, enrolling TOTP, app passwords, API keys.
 - iCal / webcal URL subscriptions and CalDAV discovery. Importing an `.ics` file still works.
 - Sender favicons as avatars. Lite shows initials.
@@ -55,17 +55,18 @@ These need the Node.js server, so the static build hides or disables them:
 
 ## How it gets its configuration
 
-The zip ships with `config.json` next to `index.html`. It is read at runtime, so a text editor and a re-upload are the whole change process:
+The zip ships with `config.json` next to `index.html`. It is read at runtime, so a text editor and a re-upload are the whole change process. A minimal `config.json` looks like this:
 
 ```json
 {
   "appName": "Bulwark Webmail",
   "jmapServerUrl": "https://mail.example.com",
-  "allowCustomJmapEndpoint": false,
   "rememberMeEnabled": true,
   "demoMode": false
 }
 ```
+
+The shipped file also holds a `_comment`, `noThirdPartyTraffic`, `loginShowTotp` and `loginShowVersion`. Leave `allowCustomJmapEndpoint` out to show the server field on the login page only while `jmapServerUrl` is empty.
 
 Branding keys (`loginLogoLightUrl`, `loginCompanyName`, the `loginShow*` toggles and so on) use the same names as the full edition's environment variables, camel-cased. The full list, and the `LITE_*` inputs that bake defaults into a build, are on the [static hosting](/docs/deployment/static) page.
 
@@ -78,13 +79,14 @@ stalwart-cli update Http --field usePermissiveCors=true
 stalwart-cli create Action/ReloadSettings
 ```
 
-Or the equivalent reverse-proxy rule that allows your Lite origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`. Without it every login fails with a CORS error, and Bulwark names the missing header on the login screen rather than failing generically.
+Or the equivalent reverse-proxy rule that allows your Lite origin with the `Authorization` and `Content-Type` headers on `/.well-known/*`, `/jmap/*`, `/api/auth` and `/auth/*`. Without it every login fails with a CORS error, and Bulwark names the missing header on the login screen rather than failing generically.
 
 ## Where to get it
 
 - Every [release](https://github.com/bulwarkmail/webmail/releases) attaches `bulwark-lite-<version>.zip`, built for the site root with no server URL baked in. Edit `config.json` and upload.
 - Releases from 1.11 on also attach `bulwark-lite-stalwart.zip`, a bundle that Stalwart 0.16.6 or newer downloads and serves itself (Stalwart 1.0 from Lite {{BULWARK_VERSION}} on). See [Install on Stalwart](/docs/deployment/stalwart-app).
-- The **Build Static Lite** workflow in the repository can be dispatched by hand with a fixed server URL, an app name, a sub-path mount, a locale subset, or the demo flag, and produces a zip tailored to one deployment.
+- A container image, `ghcr.io/bulwarkmail/webmail-lite`, published with every release.
+- The **Lite: Static bundle** workflow in the repository can be dispatched by hand with a fixed server URL, an app name, a sub-path mount, a locale subset, or the demo flag, and produces a zip tailored to one deployment.
 - Or build it locally with `npm run build:lite` in a disposable checkout; the [static hosting](/docs/deployment/static) page has the exact commands.
 
 ## Security notes
