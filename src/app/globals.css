@@ -570,8 +570,9 @@ h3 {
 .bw-switch-wide {
   height: auto;
 }
-/* A tab in a segmented control (the install choice). */
-.bw-switch-option[aria-selected="true"] {
+/* A tab in a segmented control (the install choice). .bw-switch raises it
+   above the wide form's text colour below. */
+.bw-switch .bw-switch-option[aria-selected="true"] {
   background: var(--bw-text);
   color: var(--bw-page);
 }
