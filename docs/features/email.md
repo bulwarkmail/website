@@ -69,7 +69,7 @@ Attachments can be downloaded, previewed inline, or dragged straight out to the 
 
 Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars show the contact's photo if you have one, otherwise the sender's BIMI logo or the website icon of the sender's domain, and initials when there is none of these.
 
-<div class="lite-callout">In Bulwark Lite, BIMI logos and website icons are off, since both are fetched by the Node.js server, which Lite doesn't have. Contact photos still show.</div>
+<div class="bw-note"><b>Note.</b> In Bulwark Lite, BIMI logos and website icons are off, since both are fetched by the Node.js server, which Lite doesn't have. Contact photos still show.</div>
 
 ## Search
 

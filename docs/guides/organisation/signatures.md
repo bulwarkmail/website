@@ -98,7 +98,7 @@ Both are stored in `organisation` in `policy.json`, at the top level for Everyon
 
 The users' details are a synced setting, `signatureDetails`.
 
-<div class="lite-callout">Bulwark Lite applies the signature, the disclaimer and the lock from <code>policy.json</code> the same way. Lite has no settings sync, so the details a user fills in stay in that browser: on another browser or device they fill them in again.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite applies the signature, the disclaimer and the lock from <code>policy.json</code> the same way. Lite has no settings sync, so the details a user fills in stay in that browser: on another browser or device they fill them in again.</div>
 
 ## What isn't possible
 

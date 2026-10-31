@@ -56,7 +56,7 @@ Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and
 
 Word-processor, spreadsheet and presentation files open for editing in place when a WOPI-capable office server is configured. Collabora Online, OnlyOffice and EuroOffice are the ones the integration was written against. Set `WOPI_CLIENT_URL` to the editor's base URL (Bulwark fetches its discovery document from `<url>/hosting/discovery`) and, if the editor reaches the webmail on a different hostname than the browser does, `WOPI_HOST_URL` to the address it should use. Leave `WOPI_CLIENT_URL` empty and the feature is off. You can set the same values in the admin console under **Server > Document editing**; a value saved there overrides the environment variable. The editor has to allow this webmail as a WOPI host. **New file formats** and **Template directory** (`WOPI_NEW_FILE_FORMATS`, `WOPI_TEMPLATE_DIR`) control what **New file** offers. The demo fixtures include office documents so you can see the integration without uploading anything.
 
-<div class="bw-note bw-note-edition"><b>Not in Lite.</b> Office editing relies on the Node.js server to broker the WOPI session, so the edit action is hidden and documents download instead.</div>
+<div class="bw-note bw-note-brand"><b>Not in Lite.</b> Office editing relies on the Node.js server to broker the WOPI session, so the edit action is hidden and documents download instead.</div>
 
 ## Sharing
 

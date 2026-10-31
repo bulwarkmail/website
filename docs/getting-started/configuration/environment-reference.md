@@ -3,6 +3,7 @@ title: Environment reference
 description: Every environment variable Bulwark reads, with defaults and when to set it.
 order: 3
 edition: full
+editionNote: "These variables configure Bulwark (not Lite). Lite reads config.json; see Bulwark Lite."
 ---
 
 # Environment reference
@@ -13,7 +14,7 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
 
 A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/config.json`) wins over the environment, and the environment wins over the built-in default. Two exceptions: `SESSION_SECRET` and `SESSION_SECRET_FILE` win over a session secret saved in the admin config, and `NO_THIRD_PARTY_TRAFFIC=true` in the environment can't be switched off from the admin console.
 
-<div class="lite-callout">None of this applies to Bulwark Lite, which has no server to read an environment. Lite is configured by the <code>LITE_*</code> build inputs and the shipped <code>config.json</code>; both are on the <a href="/docs/deployment/static">static hosting</a> page.</div>
+<div class="bw-note"><b>Note.</b> None of this applies to Bulwark Lite, which has no server to read an environment. Lite is configured by the <code>LITE_*</code> build inputs and the shipped <code>config.json</code>; both are on the <a href="/docs/deployment/static">static hosting</a> page.</div>
 
 > **First-launch tip**
 > Most new installs no longer need to set environment variables by hand - launch the container without `JMAP_SERVER_URL` and the [web setup wizard](/docs/getting-started/installation#quickest-path-docker--setup-wizard) writes the equivalent values to `ADMIN_CONFIG_DIR`. Use env vars when you want env-driven, immutable, or read-only configuration.

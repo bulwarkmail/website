@@ -187,7 +187,7 @@ The Screen reader preset sets the layout most screen reader users prefer.
 
 Everything on this page works in Bulwark Lite: the settings, presets, quick panel, sign-in panel, fonts and Read aloud all run in the browser.
 
-<div class="lite-callout">Lite has no settings sync, so accessibility settings stay on the device and browser where you set them. Use Export and Import under Settings > Backup &amp; reset to move them. In the full edition they follow you to other devices when settings sync is on.</div>
+<div class="bw-note"><b>Note.</b> Lite has no settings sync, so accessibility settings stay on the device and browser where you set them. Use Export and Import under Settings > Backup &amp; reset to move them. In the full edition they follow you to other devices when settings sync is on.</div>
 
 ## Known limits
 

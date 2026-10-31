@@ -3,6 +3,7 @@ title: Anonymous usage stats
 description: The optional daily heartbeat - what it counts, why, and how to turn it on or off.
 order: 7
 edition: full
+editionNote: "Usage stats are sent by Bulwark's server (not Lite). Lite has no server process and sends no heartbeats."
 ---
 
 # Anonymous usage stats
@@ -111,7 +112,7 @@ The change takes effect as soon as you save it. To also reset your `instance_id`
 
 The collector is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you want the same data for your own fleet, point your installs at your own collector with the Collector URL field in the admin console.
 
-<div class="lite-callout">Bulwark Lite has no server process and sends no heartbeat at all. This page only applies to the full edition.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite has no server process and sends no heartbeat at all. This page only applies to the full edition.</div>
 
 ## Public dashboard
 

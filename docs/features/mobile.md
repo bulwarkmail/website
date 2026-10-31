@@ -21,7 +21,7 @@ Installed, it launches without browser chrome, shows an OS splash screen in your
 
 On a phone the mail list gets a search-first header instead of a second toolbar row, and swiping a row left or right runs a quick action (archive, delete, read, star or spam, configurable per direction and mirrored for right-to-left languages).
 
-<div class="lite-callout">Bulwark Lite on a phone is the same layout, minus web push: Lite registers no service worker. The native app below is unaffected, since it talks to the relay on its own.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite on a phone is the same layout, minus web push: Lite registers no service worker. The native app below is unaffected, since it talks to the relay on its own.</div>
 
 [Progressive Web App](/docs/features/pwa) covers the configuration, the reverse-proxy paths that must stay reachable, and what to do when the install option doesn't appear.
 

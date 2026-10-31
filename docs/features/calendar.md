@@ -107,7 +107,7 @@ Hovering an event opens a popover with its time, location, participants, and des
 
 Settings > Calendar > Calendar management has **Copy CalDAV URL** for each calendar, including ones shared with you, so you can add it to a desktop or phone calendar app. Bulwark finds the address on the server for you. The calendars themselves load over JMAP.
 
-<div class="bw-note bw-note-edition"><b>Not in Lite.</b> The CalDAV address lookup and iCal / webcal URL subscriptions both go through the Node.js server. Lite hides them in Settings and in the import dialog, but the calendar's ⋮ menu still shows <b>Subscribe to calendar…</b>, and a subscription made there fails. Importing an <code>.ics</code> file still works, as does everything that is plain JMAP.</div>
+<div class="bw-note bw-note-brand"><b>Not in Lite.</b> The CalDAV address lookup and iCal / webcal URL subscriptions both go through the Node.js server. Lite hides them in Settings and in the import dialog, but the calendar's ⋮ menu still shows <b>Subscribe to calendar…</b>, and a subscription made there fails. Importing an <code>.ics</code> file still works, as does everything that is plain JMAP.</div>
 
 ## Multiple calendars
 

@@ -3,6 +3,7 @@ title: Admin dashboard
 description: Manage runtime configuration, sign-in, branding, the user policy, plugins and themes in the admin console.
 order: 9
 edition: full
+editionNote: "The admin console is part of Bulwark (not Lite). Lite reads its settings from config.json and policy.json."
 ---
 
 # Admin dashboard
@@ -11,7 +12,7 @@ The admin dashboard runs inside the same process as the user-facing app, and it 
 
 API keys and app passwords are not here. Each user manages their own under **Settings > Security**; see [Account security](/docs/guides/account-security).
 
-<div class="lite-callout">Bulwark Lite has no admin dashboard and no setup wizard. Its configuration is a <code>config.json</code> file next to <code>index.html</code>, and an optional <code>policy.json</code> for the settings policy. See <a href="/docs/deployment/static">static hosting</a>.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite has no admin dashboard and no setup wizard. Its configuration is a <code>config.json</code> file next to <code>index.html</code>, and an optional <code>policy.json</code> for the settings policy. See <a href="/docs/deployment/static">static hosting</a>.</div>
 
 ## First-time setup
 

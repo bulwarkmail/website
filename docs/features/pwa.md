@@ -87,7 +87,7 @@ On start, the app re-syncs any push registrations it already holds, so a registr
 
 Push needs two things: Stalwart must be able to reach the push relay over HTTPS, and the browser must reach the relay and Bulwark's `/api/push/preview` (the service worker calls it to fill in sender and subject). Keep `/sw.js` reachable and uncached.
 
-<div class="lite-callout">Bulwark Lite ships a web app manifest, so it can be added to a home screen, but it registers no service worker, so there is no web push. Push previews and generated icons are server routes that a static host cannot serve.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite ships a web app manifest, so it can be added to a home screen, but it registers no service worker, so there is no web push. Push previews and generated icons are server routes that a static host cannot serve.</div>
 
 ## Reverse proxy notes
 

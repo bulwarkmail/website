@@ -89,7 +89,7 @@ Signing in on a browser that knows no other account, with a list saved for that 
 
 The lists are stored in `SETTINGS_DATA_DIR/account-archives`, and the feature needs a session secret.
 
-<div class="bw-note bw-note-edition"><b>Not in Lite.</b> The list is stored on the Bulwark server, which Lite doesn't have.</div>
+<div class="bw-note bw-note-brand"><b>Not in Lite.</b> The list is stored on the Bulwark server, which Lite doesn't have.</div>
 
 ## Identities versus accounts
 

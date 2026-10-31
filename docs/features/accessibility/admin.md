@@ -160,4 +160,4 @@ Only `http` and `https` links are used. The barrier report also takes an email a
 
 Lite has no admin dashboard, but it reads the same policy. Put `defaults` and `restrictions` in the `policy.json` next to `index.html`; scopes work too. See [static hosting](/docs/deployment/static).
 
-<div class="lite-callout">Lite reads <code>policy.json</code> as a public file, so anyone can read it. That's fine for accessibility defaults, but keep it in mind for scope entries that name customers or groups. Lite has no settings sync: each user's choices stay in their browser, and your defaults apply on every device they sign in from until they change a setting there.</div>
+<div class="bw-note"><b>Note.</b> Lite reads <code>policy.json</code> as a public file, so anyone can read it. That's fine for accessibility defaults, but keep it in mind for scope entries that name customers or groups. Lite has no settings sync: each user's choices stay in their browser, and your defaults apply on every device they sign in from until they change a setting there.</div>

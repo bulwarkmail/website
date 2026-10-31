@@ -94,7 +94,7 @@ Domains are bare names like `example.com`; `@example.com` and `*.example.com` ar
 
 Plugins can ask which of these are on through `api.host.features.externalSenderLabel` and `api.host.features.externalRecipientWarning` (see the [plugin guide](https://github.com/bulwarkmail/plugins/blob/main/WRITING_PLUGINS.md#apihost)).
 
-<div class="lite-callout">Bulwark Lite reads the same <code>organisation.externalMail</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The label and the confirm work the same.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite reads the same <code>organisation.externalMail</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The label and the confirm work the same.</div>
 
 ## What isn't possible
 

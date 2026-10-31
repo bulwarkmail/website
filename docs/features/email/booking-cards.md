@@ -46,7 +46,7 @@ A card looks official and a calendar entry outlives the mail, so Bulwark leaves 
 
 Everything happens in your browser, on the mail you opened. Bulwark doesn't contact the airline, the carrier or any tracking service, and the booking data isn't sent anywhere. The time zone table for airports is part of Bulwark and loads from your own server.
 
-<div class="lite-callout">Bulwark Lite shows the same cards; they need no server of their own.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite shows the same cards; they need no server of their own.</div>
 
 ## For administrators
 

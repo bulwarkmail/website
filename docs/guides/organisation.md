@@ -31,4 +31,4 @@ Many more settings can be preset: users start with the admin's value and can cha
 
 All of it, and the User policy page, is stored in one file, `policy.json` in `ADMIN_CONFIG_DIR`. The one exception is the No third-party traffic switch on the Security page, which is a server setting in `config.json`. You can keep that file in git and mount it read-only, export it from one instance and import it on another, or put it next to a [Bulwark Lite](/docs/getting-started/lite) build, which reads the same file. See [the policy file](/docs/guides/organisation/domains-and-groups#the-policy-file).
 
-<div class="lite-callout">Bulwark Lite has no admin panel. Write <code>policy.json</code> by hand, or export it from a full Bulwark, and put it next to <code>index.html</code>. Lite applies the same domain and group settings.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite has no admin panel. Write <code>policy.json</code> by hand, or export it from a full Bulwark, and put it next to <code>index.html</code>. Lite applies the same domain and group settings.</div>
