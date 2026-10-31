@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, type AppIcon } from "@/components/icons";
 import { ThemeImage } from "@/components/theme-image";
-import { EditionLink } from "@/components/edition-link";
+import Link from "next/link";
 import { ICON } from "@/lib/icon";
 
 type ShotProps = {
@@ -105,9 +105,9 @@ export function Tile({ href, title, text, icon: Icon, compact }: TileProps) {
       {body}
     </a>
   ) : (
-    <EditionLink href={href} className={className}>
+    <Link href={href} className={className}>
       {body}
-    </EditionLink>
+    </Link>
   );
 }
 
