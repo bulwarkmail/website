@@ -227,7 +227,7 @@ const LINKS = {
   installFull: { label: "Install Bulwark", href: "/docs/getting-started/installation" },
   installLite: { label: "Set up Bulwark Lite", href: "/docs/getting-started/lite" },
   stalwartApp: { label: "Install on Stalwart", href: "/docs/deployment/stalwart-app" },
-  stalwart: { label: "Setting up Stalwart", href: "/docs/getting-started/configuration/stalwart-setup" },
+  stalwart: { label: "Setting up Stalwart", href: "/docs/getting-started/stalwart-setup" },
   proxy: { label: "Legacy Proxy", href: "https://github.com/bulwarkmail/legacy-proxy" },
   roundcube: { label: "Roundcube", href: "https://roundcube.net" },
   snappymail: { label: "SnappyMail", href: "https://snappymail.eu" },

@@ -33,7 +33,7 @@ export default function DocsPage() {
           <div>
             <strong>Have Stalwart running.</strong> Stalwart is the mail server: 0.16.6 or newer, or 1.0 from Bulwark{" "}
             {BULWARK_VERSION} on. The{" "}
-            <Link href="/docs/getting-started/configuration/stalwart-setup">Stalwart setup</Link> page covers
+            <Link href="/docs/getting-started/stalwart-setup">Stalwart setup</Link> page covers
             installing it first.
           </div>
         </li>

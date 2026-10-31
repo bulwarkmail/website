@@ -697,7 +697,7 @@ export default async function Home() {
         <TableSection
           heading="Stalwart is the mail server. Bulwark is the client."
           text="Install Stalwart first, then point Bulwark at it. Stalwart stores your mail; Bulwark reads and writes it over JMAP and keeps no copy."
-          link={{ label: "Setting up Stalwart", href: "/docs/getting-started/configuration/stalwart-setup" }}
+          link={{ label: "Setting up Stalwart", href: "/docs/getting-started/stalwart-setup" }}
           columns={["Stalwart does", "Bulwark adds"]}
           rows={[
             ["Receives and sends mail, filters spam", "Mail, calendar, contacts and files in one browser window"],

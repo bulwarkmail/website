@@ -78,5 +78,5 @@ Earlier Bulwark versions used `STALWART_API_URL` to reach a separate REST endpoi
 
 - [Stalwart Mail Server Documentation](https://stalw.art/)
 - [Authentication](/docs/getting-started/configuration/authentication)
-- [Stalwart setup](/docs/getting-started/configuration/stalwart-setup)
+- [Stalwart setup](/docs/getting-started/stalwart-setup)
 - [Multi-account support](/docs/guides/multi-account)

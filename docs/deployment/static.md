@@ -264,5 +264,5 @@ With the [container image](#container-image), pull the new tag and recreate the 
 
 - [Bulwark Lite](/docs/getting-started/lite) - what it is and what it leaves out
 - [Install on Stalwart](/docs/deployment/stalwart-app) - the no-web-server alternative
-- [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) - the CORS setting in context
+- [Stalwart setup](/docs/getting-started/stalwart-setup) - the CORS setting in context
 - [Troubleshooting](/docs/guides/troubleshooting) - the CORS and deep-link failures

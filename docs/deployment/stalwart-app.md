@@ -181,4 +181,4 @@ Then set `resourceUrl` to your zip's URL and run "update applications". A privat
 
 - [Bulwark Lite](/docs/getting-started/lite) - what it is and what it leaves out
 - [Static hosting](/docs/deployment/static) - the other way to host Lite, and the build inputs
-- [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) - the mail server side
+- [Stalwart setup](/docs/getting-started/stalwart-setup) - the mail server side
