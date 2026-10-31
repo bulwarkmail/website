@@ -101,7 +101,7 @@ Select several messages and archive, delete, mark read or unread, star, or move 
 
 ## S/MIME
 
-Import PKCS#12 identities and recipient certificates from Settings, bind a certificate to an identity so signing defaults on for it, and toggle signing and encryption per message in the composer. Incoming mail decrypts automatically when the matching key is loaded, signatures are verified in the viewer, and the signer's certificate can be auto-imported so you can encrypt the reply. Older bundles using password-based encryption are supported too.
+S/MIME comes from the S/MIME plugin in the extension directory, which an administrator installs. It isn't available in Bulwark Lite, which has no plugins. With the plugin installed, you import PKCS#12 identities and recipient certificates under Settings > Add-ons, bind a certificate to an identity so signing defaults on for it, and toggle signing and encryption per message in the composer's Options menu. Incoming mail decrypts automatically when the matching key is loaded, signatures are verified in the viewer, and the signer's certificate can be auto-imported so you can encrypt the reply. Older bundles using password-based encryption are supported too.
 
 The full write-up, including the algorithm table and what each banner means, is on the [S/MIME page](/docs/guides/smime).
 

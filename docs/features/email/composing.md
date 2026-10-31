@@ -7,7 +7,7 @@ edition: both
 
 # Composing emails
 
-The composer is a Tiptap rich-text editor. It has a plain-text mode for people who want one, signatures that follow the sending identity, reusable templates, and S/MIME signing and encryption toggles.
+The composer is a Tiptap rich-text editor. It has a plain-text mode for people who want one, signatures that follow the sending identity and reusable templates. With the S/MIME plugin installed, it can also sign and encrypt.
 
 <img class="theme-light-only" src="/screenshots/light-composer.webp" alt="Bulwark email composer" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-composer.webp" alt="Bulwark email composer" width="5120" height="2880" />
@@ -91,6 +91,8 @@ Insert reusable email templates from the compose toolbar:
 - Manage templates from Settings
 
 ## S/MIME compose controls
+
+These controls come from the S/MIME plugin in the extension directory, which an administrator installs. They aren't available in Bulwark Lite. Sign and Encrypt show up as items in the composer's Options menu.
 
 - Enable or disable signing per message when an S/MIME identity certificate is available
 - Enable encryption when every recipient has a known public certificate

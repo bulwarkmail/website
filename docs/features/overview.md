@@ -106,7 +106,7 @@ Related pages: [Account security](/docs/guides/account-security), [S/MIME](/docs
 
 - External content stays blocked until you say otherwise, and trusted senders are remembered
 - HTML sanitized through DOMPurify
-- S/MIME: manage certificates, then sign, encrypt, decrypt, and verify. Legacy 3DES / PBE is supported, and keys stay isolated per account.
+- S/MIME through the S/MIME plugin from the extension directory: manage certificates, then sign, encrypt, decrypt, and verify. Legacy 3DES / PBE is supported, and keys stay separate per account. An administrator has to turn plugins on and install it; Bulwark Lite has no plugins.
 - Add S/MIME or PGP public keys per account, then turn on Stalwart's encryption at rest against one of them. The algorithm, whether new mail is encrypted on upload, and whether spam training runs before encryption are all configurable.
 - SPF / DKIM / DMARC indicators surface the most severe SPF result and drop the "via" badge on spoofed mail
 - OAuth2 / OIDC with PKCE against Keycloak, Authentik, or the built-in provider, plus OAuth-only mode, OAuth app passwords, and non-interactive SSO for embedded deployments
