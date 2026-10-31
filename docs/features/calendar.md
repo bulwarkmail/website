@@ -93,6 +93,9 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 - ICS attachments are hidden from the attachment list when the invitation banner is shown
 - Shared calendars across accounts via JMAP sharing, with per-viewer colors so each user can recolor a shared calendar without affecting others (#345)
 
+<img class="theme-light-only" src="/screenshots/light-calendar-availability.webp" alt="A new event with attendees added, each with their busy times shown next to the chosen slot" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar-availability.webp" alt="A new event with attendees added, each with their busy times shown next to the chosen slot" width="5120" height="2880" />
+
 <div class="bw-note"><b>Note.</b> On Stalwart 1.0, free/busy and the list of people you can share a calendar with depend on directory queries, which are off by default. An administrator turns them on with <b>Allow Directory Queries</b> under <b>Settings &gt; Files &amp; Sharing &gt; Sharing</b> in the web admin. Stalwart 1.0 also accepts at most 20 participants per event; an administrator can change that with <b>Max iCal Attendees</b> under <b>Settings &gt; Calendar &amp; Contacts &gt; Calendar</b>.</div>
 
 ## Pending event preview
@@ -128,6 +131,9 @@ Settings > Calendar > Calendar management lists your calendars to rename, recolo
 ## Shared calendar grouping
 
 Calendars shared with you are grouped separately in the sidebar, below your own.
+
+<img class="theme-light-only" src="/screenshots/light-calendar-shared.webp" alt="The week view with a colleague's shared calendar listed below your own calendars in the sidebar" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-calendar-shared.webp" alt="The week view with a colleague's shared calendar listed below your own calendars in the sidebar" width="5120" height="2880" />
 
 ## iCalendar import
 

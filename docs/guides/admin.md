@@ -105,6 +105,9 @@ Order of precedence: **admin config > env var > legacy build-time fallback > bui
 
 Which features users get, the push relays they may pick (from your list, rather than typed as a free URL), the default sidebar apps every user gets in addition to the ones they pin themselves, and the settings to lock, hide or preset. These are stored in `policy.json`, not `config.json`. The Organisation pages add per-domain and per-group settings; see [Organisation settings](/docs/guides/organisation).
 
+<img class="theme-light-only" src="/screenshots/light-admin-policy.webp" alt="The User policy page in the admin console, with some features switched off and settings locked to a value" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-policy.webp" alt="The User policy page in the admin console, with some features switched off and settings locked to a value" width="5120" height="2880" />
+
 ### Plugins
 
 <img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="2560" height="1440" />
@@ -131,6 +134,9 @@ See [Plugins](/docs/guides/plugins) for the full architecture.
 ### Audit log
 
 Every admin action (sign-in, config and policy changes, plugin and theme changes) is recorded. **Audit log** shows the time, the action, its details (old and new values for config changes) and the client IP (after `TRUSTED_PROXY_DEPTH` resolution).
+
+<img class="theme-light-only" src="/screenshots/light-admin-audit-log.webp" alt="The Audit log in the admin console, listing admin actions with their time, details and client IP" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-audit-log.webp" alt="The Audit log in the admin console, listing admin actions with their time, details and client IP" width="5120" height="2880" />
 
 ### OAuth auto-setup
 

@@ -21,6 +21,9 @@ At the top of the page, a preset changes several settings at once. It is applied
 
 After you apply a preset, the page lists every setting it changed, with an **Undo** button. Settings your organisation has locked are left alone.
 
+<img class="theme-light-only" src="/screenshots/light-settings-accessibility.webp" alt="Settings, Accessibility with a preset chosen and the list of settings it changed" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-settings-accessibility.webp" alt="Settings, Accessibility with a preset chosen and the list of settings it changed" width="5120" height="2880" />
+
 | Preset | What it changes |
 | --- | --- |
 | Screen reader | No reading pane next to the list (Focused list layout), no conversation grouping, the preview read out with each message, new mail announced, an actions button on each message. |

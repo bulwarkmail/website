@@ -68,6 +68,9 @@ The email viewer shows a banner above the message body:
 - **Valid signature by …** - the signature matches the message. A **self-signed** or **signer ≠ From** mark warns you. **Show certificate details** lists subject, issuer and validity, and says that the issuer chain is not checked.
 - **Invalid signature** - the banner names the reason, such as a changed message or an expired certificate.
 
+<img class="theme-light-only" src="/screenshots/light-smime-signed.webp" alt="A signed message with the S/MIME plugin's banner above the body, saying the signature is valid" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-smime-signed.webp" alt="A signed message with the S/MIME plugin's banner above the body, saying the signature is valid" width="5120" height="2880" />
+
 When verification succeeds, Bulwark auto-imports the signer's certificate so you can encrypt your reply without an extra step. You can turn this off in the plugin's settings.
 
 ## Keys and accounts

@@ -13,6 +13,9 @@ Branding is set in one of three places. Values saved by the wizard or the dashbo
 - **Admin dashboard** - Update branding at any time after setup without restarting.
 - **Environment variables** - Env-driven branding for deployments that never open the dashboard. A value saved in the admin config takes priority over the variable.
 
+<img class="theme-light-only" src="/screenshots/light-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />
+
 ## Theming
 
 Colors come from CSS custom properties. Override them and the change propagates through the whole app.

@@ -41,6 +41,9 @@ For JMAP servers that take API tokens instead of passwords, such as Fastmail, th
 
 OAuth2/OIDC with PKCE handles single sign-on. Run it alongside basic auth, or set `OAUTH_ONLY=true` to run it instead.
 
+<img class="theme-light-only" src="/screenshots/light-login-sso.webp" alt="The login page with the Sign in with SSO button above the password form" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-login-sso.webp" alt="The login page with the Sign in with SSO button above the password form" width="5120" height="2880" />
+
 ### App passwords
 
 Plenty of clients never learned OAuth. IMAP and SMTP clients want a username and a password, and so does most CalDAV software. Users generate a separate credential for each of them from Settings → Security → App passwords.
@@ -79,6 +82,9 @@ Bulwark discovers the endpoints from `/.well-known/oauth-authorization-server` o
 ### Stalwart 1.0 as the provider
 
 When Stalwart signs users in itself, the quickest setup is **Auto-configure OAuth** on the admin **Authentication** page (see the [admin guide](/docs/guides/admin#oauth-auto-setup)). Stalwart 1.0 is stricter than 0.16 here:
+
+<img class="theme-light-only" src="/screenshots/light-admin-auth.webp" alt="The Authentication page in the admin console with OAuth / OpenID Connect turned on and the client ID and issuer filled in" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-auth.webp" alt="The Authentication page in the admin console with OAuth / OpenID Connect turned on and the client ID and issuer filled in" width="5120" height="2880" />
 
 - It only accepts a client id it knows, so Bulwark's client id has to be registered before anyone signs in. 0.16 took any id.
 - Only a **first-party** client reaches the account's Stalwart settings (password, two-factor, app passwords). The auto-setup registers Bulwark that way. A client you create by hand needs `firstParty` turned on, or the scopes `mail`, `contacts`, `calendars` and `files`, in which case the account security settings stay unavailable.
