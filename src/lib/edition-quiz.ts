@@ -221,6 +221,8 @@ export type Verdict = {
   options: Card[];
   /** Things to know before you start, shown as notes. */
   caveats: { text: string; link?: Link }[];
+  /** The page written for the reader the answers describe. */
+  audience?: Link;
 };
 
 const LINKS = {
@@ -249,7 +251,29 @@ function servedByStalwart(answers: Answers): boolean {
   return pick(answers, "where") === "stalwart" && pick(answers, "server") !== "other";
 }
 
+/**
+ * The audience page that fits the answers: a team that wants single sign-on
+ * or an admin page is an organisation, any other team a small business, and
+ * one person or a family runs it at home. No answer to "who", no link.
+ */
+function audienceFor(answers: Answers): Link | undefined {
+  const who = pick(answers, "who");
+  if (who === "me" || who === "family") return { label: "Read the page for home and homelab", href: "/homelab" };
+  if (who !== "team") return undefined;
+  const wantsControl = pick(answers, "login") === "sso" || (answers.musthave ?? []).includes("admin");
+  return wantsControl
+    ? { label: "Read the page for organisations", href: "/organisations" }
+    : { label: "Read the page for small businesses", href: "/small-business" };
+}
+
 export function evaluate(answers: Answers): Verdict {
+  const verdict = evaluateEdition(answers);
+  // Not Bulwark at all: no Bulwark page to send the reader to.
+  if (verdict.pick === null && verdict.kind === "classic") return verdict;
+  return { ...verdict, audience: audienceFor(answers) };
+}
+
+function evaluateEdition(answers: Answers): Verdict {
   const reasons: Reason[] = [];
   let score = 0;
   const server = pick(answers, "server");

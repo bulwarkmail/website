@@ -193,7 +193,7 @@ type ResultProps = {
 };
 
 function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps) {
-  const { kind, pick, lead, title, pitch, primary, secondary, reasons, options, caveats } = verdict;
+  const { kind, pick, lead, title, pitch, primary, secondary, reasons, options, caveats, audience } = verdict;
   // A result that isn't Bulwark or Lite sits on a neutral panel, not on the
   // raspberry field.
   const neutral = pick === null;
@@ -221,6 +221,7 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
               ) : null}
             </div>
           ) : null}
+          {audience ? <ResultLink link={audience} className="bw-tlink" /> : null}
         </div>
 
         {reasons.length > 0 ? (
