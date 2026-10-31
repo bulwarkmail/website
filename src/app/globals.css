@@ -1068,6 +1068,14 @@ a.bw-tile:hover {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+/* On a phone every command wraps the same way, inside the right padding that
+   keeps the copy button clear. */
+@media (max-width: 640px) {
+  .bw-code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
 
 .bw-note {
   margin: 0 0 24px;
@@ -1775,6 +1783,22 @@ a.bw-tile:hover {
   border: 0;
   border-radius: 0;
 }
+/* CopyableCode puts each block in a wrapper that holds the copy button, so
+   the button stays in its corner while the code scrolls sideways. The
+   wrapper takes the block's margins. */
+.prose-docs .bw-prewrap {
+  position: relative;
+  margin: 8px 0 24px;
+}
+.prose-docs .bw-prewrap > pre {
+  margin: 0;
+}
+/* A block with lines wider than the box starts its code below the button. */
+@media (min-width: 641px) {
+  .prose-docs .bw-prewrap > pre.bw-pre-scrolls {
+    padding-top: 52px;
+  }
+}
 .copy-btn {
   position: absolute;
   top: 8px;
@@ -2004,6 +2028,14 @@ a.bw-tile:hover {
     margin-inline: calc(-1 * var(--bw-gutter));
     border-inline: 0;
   }
+  .prose-docs .bw-prewrap {
+    margin-inline: calc(-1 * var(--bw-gutter));
+  }
+  /* A phone line is short, so every docs block keeps a strip at the top for
+     the copy button and the code starts below it. */
+  .prose-docs .bw-prewrap > pre {
+    padding: 48px 16px 16px;
+  }
 }
 
 /* ----------------------------------------------------------------------
@@ -2104,6 +2136,8 @@ a.bw-tile:hover {
 }
 .bw-guide-body {
   display: grid;
+  /* minmax(0, 1fr): a long code line scrolls or wraps instead of widening the column. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   min-width: 0;
 }
