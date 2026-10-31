@@ -21,7 +21,7 @@ Type in the search bar or press `/` to focus it, then press Enter. While you typ
 <img class="theme-light-only" src="/screenshots/light-search-filters.webp" alt="The advanced search panel over the results" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-search-filters.webp" alt="The advanced search panel over the results" width="5120" height="2880" />
 
-Click the filter icon next to the search bar to open the advanced search panel. Use the following fields to build precise queries:
+Click the filter icon next to the search bar to open the advanced search panel. It has these fields:
 
 | Filter             | Description                        |
 | ------------------ | ---------------------------------- |

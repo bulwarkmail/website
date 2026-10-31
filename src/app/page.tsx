@@ -218,11 +218,7 @@ function AppsSection() {
     <section id="features" className="bw-sec">
       <div className="bw-w">
         <div className="bw-head">
-          <h2 className="bw-h2">Everything Stalwart stores, in one interface.</h2>
-          <p>
-            Stalwart keeps your messages, calendars, address books and files. Bulwark shows all four in the same
-            window, with a single search across them.
-          </p>
+          <h2 className="bw-h2">What the four apps do.</h2>
         </div>
         <div className="bw-tiles">
           <Tile
@@ -412,7 +408,8 @@ function OpenSourceSection({ instances }: { instances: number }) {
         <div className="bw-stack" style={{ maxWidth: 720 }}>
           <h2 className="bw-h2">Bulwark is open source under AGPL-3.0.</h2>
           <p className="bw-muted">
-            The code, the issue tracker, the release notes and the security advisories are public, and{" "}
+            The code, the issue tracker, the release notes and the security advisories are public. Usage stats are
+            off by default, and so far{" "}
             <a
               href="https://grafana.external.bulwarkmail.org"
               target="_blank"
@@ -421,8 +418,7 @@ function OpenSourceSection({ instances }: { instances: number }) {
             >
               {instances.toLocaleString("en-US")} instances
             </a>{" "}
-            whose admins turned on usage stats, which are off by default, have reported in so far. Sponsors pay for
-            the work.
+            whose admins turned them on have reported in. Sponsors pay for the work.
           </p>
           <div className="bw-btns" style={{ marginTop: 8 }}>
             <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
@@ -641,8 +637,7 @@ export default async function Home() {
         <FactsSection langs={langs ?? FALLBACK.langs} />
         <TileSection
           id="who"
-          heading="Bulwark runs for a family, a small business or a whole organisation."
-          text="Each of them runs Stalwart for the mail. Bulwark is the client their people use every day."
+          heading="Pick the page for your setup."
           columns={3}
           tiles={[
             {
@@ -664,7 +659,7 @@ export default async function Home() {
         />
         <TableSection
           heading="Stalwart is the mail server. Bulwark is the client."
-          text="Install Stalwart first, then point Bulwark at it. Stalwart stores your mail; Bulwark reads and writes it over JMAP and keeps no copy."
+          text="Stalwart stores your mail; Bulwark reads and writes it over JMAP and keeps no copy."
           link={{ label: "Setting up Stalwart", href: "/docs/getting-started/stalwart-setup" }}
           columns={["Stalwart does", "Bulwark adds"]}
           rows={[
@@ -698,7 +693,7 @@ export default async function Home() {
         />
         <FeatureRow
           heading="Every account in the house in one window."
-          text="Sign in to your own mailbox and the family's at once and switch with one click. Bulwark runs as one container for amd64 or arm64 next to Stalwart, or as Bulwark Lite, static files with no Node process."
+          text="Sign in to your own mailbox and the family's at once and switch with one click."
           link={{ label: "Bulwark at home", href: "/homelab" }}
           shot={{ name: "account-switcher", alt: "The account switcher open, with two signed-in accounts" }}
         />

@@ -8,7 +8,7 @@ editionNote: "Plugins and themes from the directory run in Bulwark (not Lite). L
 
 # Publishing and updates
 
-This is the practical end-to-end workflow for getting an extension into the directory and keeping it up to date.
+This is the workflow for getting an extension into the directory and keeping it up to date.
 
 ## Prerequisites
 

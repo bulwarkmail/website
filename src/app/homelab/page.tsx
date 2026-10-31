@@ -65,7 +65,7 @@ export default function HomelabPage() {
 
         <TextSection
           band
-          heading="Stalwart is the server you already run. Bulwark is the client for it."
+          heading="Bulwark is the client for the Stalwart server you already run."
           text="Stalwart handles SMTP, storage, spam filtering and the accounts. Bulwark talks JMAP to it from the browser and puts mail, calendar, contacts and files in one window."
         />
 

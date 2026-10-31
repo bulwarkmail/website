@@ -1,6 +1,6 @@
 ---
 title: Plugins
-description: Plugin system for extending Bulwark with custom functionality.
+description: What plugins can add to Bulwark, and how admins install and control them.
 order: 6
 edition: full
 editionNote: "Plugins and sidebar apps need the sandbox routes and the admin server, so the static export pins both off. Its built-in themes still work."
@@ -266,8 +266,8 @@ The **External mail warning** plugin is retired: Bulwark labels mail from outsid
 - Plugins are off until an admin turns them on, and user uploads need admin approval by default, pinned to the exact package.
 - Network access goes only to declared origins, declared webmail routes and declared credentials. Secrets for credentials stay on the server.
 - HTML a plugin hands the host (message bodies, signatures, templates, compose bodies) is sanitised, and links open in a new tab only.
-- `frameOrigins` are strictly validated and merged into the CSP `frame-src`.
-- All admin-only controls are protected behind admin authentication.
+- `frameOrigins` are validated and merged into the CSP `frame-src`.
+- Only a signed-in admin can use the admin controls.
 
 ## Marketplace
 

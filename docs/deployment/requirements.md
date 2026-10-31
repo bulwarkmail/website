@@ -6,7 +6,7 @@ order: 1
 
 # Requirements and sizing
 
-Bulwark is a mail client, so it needs a Stalwart mail server to talk to and somewhere to run. This page lists both, what the release images and files weigh, how much memory Bulwark used in one measured setup, and which connections have to work between the browser, Bulwark and Stalwart.
+Bulwark is a mail client, so it needs a Stalwart mail server to talk to and somewhere to run.
 
 ## What you need
 

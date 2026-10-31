@@ -129,7 +129,7 @@ webmail/
 
 ## Translations
 
-Translation runs through **next-intl**, currently across 29 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Estonian, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Mongolian, Norwegian Bokmål, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Thai, Traditional Chinese, Turkish and Ukrainian. English (`locales/en/common.json`) is the source of truth.
+Translation runs through next-intl, currently across 29 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Estonian, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Mongolian, Norwegian Bokmål, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Thai, Traditional Chinese, Turkish and Ukrainian. English (`locales/en/common.json`) is the source of truth.
 
 1. **Never hardcode user-facing text.** Always go through a translation:
 

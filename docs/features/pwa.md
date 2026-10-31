@@ -24,7 +24,7 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 
 ## Configuration
 
-The whole manifest is built at request time from configuration, so rebranding the install experience doesn't mean rebuilding the image. Set the values below as environment variables or in the admin console under Branding → Progressive web app; the admin console wins over environment variables, and per-domain branding wins over both.
+Bulwark builds the whole manifest at request time from configuration, so you can rebrand the installed app without rebuilding the image. Set the values below as environment variables or in the admin console under Branding → Progressive web app; the admin console wins over environment variables, and per-domain branding wins over both.
 
 ```env
 APP_NAME=Acme Mail                 # Used in the manifest, browser tab, and SoftwareApplication metadata
@@ -65,7 +65,7 @@ When the browser fires the `beforeinstallprompt` event, Bulwark shows an in-app 
 
 - **Install** - triggers the native install dialog
 - **Not now** - hides the prompt for a week on this browser
-- **Don't remind me again** - persists the dismissal so the prompt won't reappear
+- **Don't remind me again** - remembers the choice, so the prompt doesn't come back
 
 The prompt also shows the app's name and logo so users see your branding (not "Bulwark") when you have customized it.
 
@@ -79,7 +79,7 @@ When the user grants notification permission, Bulwark subscribes the browser to 
 
 - Fire only on new deliveries, not on flag changes or moves. Spam, Junk and muted folders stay quiet; turn on **Inbox only** in the notification settings to skip mail that a filter files into other folders too.
 - Click to open the message, or the account's mail list when several messages are waiting
-- Survive the tab being closed - the service worker handles delivery in the background
+- Survive the tab being closed: the service worker handles delivery in the background
 - Use the longer push verification timeout to avoid spurious unsubscriptions; leftover subscriptions are cleaned up automatically
 - Cover your own mailboxes: mailboxes that other people share with you don't send background notifications, and the notification settings say so
 

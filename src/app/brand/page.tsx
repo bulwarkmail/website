@@ -231,16 +231,16 @@ export default function BrandPage() {
               </div>
               <ol className="bw-rules">
                 <li>
-                  <b>One flat field.</b> The nav and the hero share a single raspberry field, the screenshot leaves it
+                  <b>One flat field:</b> the nav and the hero share a single raspberry field, the screenshot leaves it
                   at the right edge of the page, and the field returns once for install.
                 </li>
                 <li>
-                  <b>One family at regular weight.</b> Hanken Grotesk 400 for headings and body. Hierarchy comes from
+                  <b>One family at regular weight:</b> Hanken Grotesk 400 for headings and body. Hierarchy comes from
                   size and position. 500 is for buttons and table headers, 600 for the wordmark, bold text, step
                   numbers and the small headings in the footer and the docs.
                 </li>
                 <li>
-                  <b>Square, with shared edges.</b> Tiles meet on 1px rules with the title top-left and the arrow
+                  <b>Square, with shared edges:</b> tiles meet on 1px rules with the title top-left and the arrow
                   bottom-right. Radius is 0, and 2px on the things you press or type into.
                 </li>
                 <li>
@@ -252,7 +252,7 @@ export default function BrandPage() {
                   links, the edge of a note.
                 </li>
                 <li>
-                  <b>Plain sentences.</b> A heading says what the thing is or does, with at most one paragraph under
+                  <b>Plain sentences:</b> a heading says what the thing is or does, with at most one paragraph under
                   it and no label above it.
                 </li>
               </ol>
@@ -262,15 +262,15 @@ export default function BrandPage() {
               <h2 className="bw-h2">Three habits bring the generic look back.</h2>
               <ol className="bw-rules">
                 <li>
-                  <b>A heavier headline.</b> Weight above 500, tracking tighter than -0.02em, a size above 72, or an
+                  <b>A heavier headline:</b> weight above 500, tracking tighter than -0.02em, a size above 72, or an
                   accent on one word.
                 </li>
                 <li>
-                  <b>A label.</b> An eyebrow above a heading, a caption above a screenshot, a step numeral used as
+                  <b>A label:</b> an eyebrow above a heading, a caption above a screenshot, a step numeral used as
                   decoration, or anything in uppercase monospace.
                 </li>
                 <li>
-                  <b>Softening.</b> A radius above 4px, a shadow under a screenshot, a gradient inside the field, or a
+                  <b>Softening:</b> a radius above 4px, a shadow under a screenshot, a gradient inside the field, or a
                   dark section between two light ones.
                 </li>
               </ol>
@@ -766,11 +766,11 @@ export default function BrandPage() {
               </div>
               <ol className="bw-rules">
                 <li>
-                  <b>One colourway.</b> Where Bulwark and Lite differ, the text says so. Lite has no colour, mark or
+                  <b>One colourway:</b> where Bulwark and Lite differ, the text says so. Lite has no colour, mark or
                   favicon of its own.
                 </li>
                 <li>
-                  <b>No mode.</b> Nothing switches the site, or the copy across a page, between Bulwark and Lite. Tabs
+                  <b>No mode:</b> nothing switches the site, or the copy across a page, between Bulwark and Lite. Tabs
                   only switch one block in place, like the install steps.
                 </li>
                 <li>
@@ -792,15 +792,15 @@ export default function BrandPage() {
               </div>
               <ul className="bw-rules">
                 <li>
-                  <b>One positive sentence.</b> &ldquo;Webmail for Stalwart Mail Server.&rdquo; &ldquo;Run Bulwark as
+                  <b>One positive sentence:</b> &ldquo;Webmail for Stalwart Mail Server.&rdquo; &ldquo;Run Bulwark as
                   one container.&rdquo; &ldquo;Files sit on the mail server, next to your mail.&rdquo;
                 </li>
                 <li>
-                  <b>One paragraph at most.</b> A section is a heading, up to one paragraph, and up to one link or
+                  <b>One paragraph at most:</b> a section is a heading, up to one paragraph, and up to one link or
                   button.
                 </li>
                 <li>
-                  <b>Two labels a page at most.</b> A label is small text above a heading. Most pages have none, and
+                  <b>Two labels a page at most:</b> a label is small text above a heading. Most pages have none, and
                   the docs have the breadcrumb.
                 </li>
                 <li>

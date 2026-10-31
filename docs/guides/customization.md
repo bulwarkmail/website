@@ -11,7 +11,7 @@ Branding is set in one of three places. Values saved by the wizard or the admin 
 
 - **Setup wizard** - the first-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
 - **Admin console** - Update branding at any time after setup without restarting.
-- **Environment variables** - Env-driven branding for deployments that never open the admin console. A value saved in the admin config takes priority over the variable.
+- **Environment variables** - Env-driven branding for deployments that never open the admin console.
 
 <img class="theme-light-only" src="/screenshots/light-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />
@@ -179,7 +179,7 @@ Settings has its pages in three groups: Account, Security, Sharing, Notification
 - **Account switcher visibility** - Hide or show the account switcher in the sidebar
 - **Account avatars** - Show account avatars on the navigation rail
 - **Junk folder avatars** - Show or hide avatars in the Junk folder (off by default)
-- **Folder expansion** - Folder expansion state is remembered across sessions
+- **Folder expansion** - Remembered across sessions
 
 ### Date and time
 

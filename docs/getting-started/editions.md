@@ -42,11 +42,11 @@ The toggle at the top of every page on this site switches the documentation betw
 
 ## How to choose
 
-Not sure? [A few quick questions](/choose) give you a recommendation.
+If you're not sure, [a few quick questions](/choose) give you a recommendation.
 
 Pick **Lite** if the row that matters to you is the first one: you don't want another process to run. A static folder is easier to host, back up and roll back than a service, and for a password-login deployment nothing is lost.
 
-Pick **Bulwark** the moment you want something from the "No" column. OAuth and SSO, plugins, and settings sync are the usual reasons. The admin console is another: it is where per-hostname branding, the extension marketplace and the settings policy live.
+Pick **Bulwark** the moment you want something from the "No" column. Single sign-on without Stalwart serving the client, plugins and settings sync are the usual reasons. The admin console is another: it is where per-hostname branding, the extension marketplace and the settings policy live.
 
 Both editions build from the same repository and the same commit, so a feature that is browser-side in one is browser-side in the other. Switching later means swapping the deployment, not the data: mail, calendars and contacts live on Stalwart either way, and the only thing you'd carry over is the branding.
 

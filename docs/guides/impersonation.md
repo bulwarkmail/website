@@ -108,7 +108,7 @@ console.log(`https://webmail.example.com/api/auth/impersonate?token=${header}.${
 5. **Cookies are set** with that app password, encrypted with `SESSION_SECRET`, plus a `jmap_impersonation` cookie that remembers the app password so signing out can delete it, and a `jmap_impersonated` marker that lasts 60 seconds. The master password never reaches the browser. Sessions from versions before 1.11.1 that still hold a master password are refused.
 6. **303 redirect to `/?impersonated=1`**, and the webmail opens the mailbox.
 
-The cookies carry no `Max-Age`, so the browser drops them on quit, and the app password behind them expires after 8 hours, so the session ends then at the latest. Impersonation is a temporary support handoff; password logins are what persistent identity is for.
+The cookies carry no `Max-Age`, so the browser drops them on quit, and the app password behind them expires after 8 hours, so the session ends then at the latest. Use impersonation for short support sessions, and password logins for lasting access.
 
 ## Optional: impersonation notice plugin
 

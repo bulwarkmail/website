@@ -17,8 +17,8 @@ Bulwark Lite has the same version numbers and gets the same fixes in the same re
 ## Where fixes are announced
 
 - **The release notes:** every release on [GitHub releases](https://github.com/bulwarkmail/webmail/releases) carries its changelog, security fixes included.
-- **The security advisories page**, [github.com/bulwarkmail/webmail/security/advisories](https://github.com/bulwarkmail/webmail/security/advisories). Published advisories name the affected versions and the release with the fix. Not every fix has a published advisory, so read the release notes as well.
-- **The releases feed**, `https://github.com/bulwarkmail/webmail/releases.atom`, for a feed reader or a chat bot. The advisories page has no feed of its own.
+- **The security advisories page:** [github.com/bulwarkmail/webmail/security/advisories](https://github.com/bulwarkmail/webmail/security/advisories). Published advisories name the affected versions and the release with the fix. Not every fix has a published advisory, so read the release notes as well.
+- **The releases feed:** `https://github.com/bulwarkmail/webmail/releases.atom`, for a feed reader or a chat bot. The advisories page has no feed of its own.
 - **Watching the repository:** on the [webmail repository](https://github.com/bulwarkmail/webmail), choose **Watch > Custom > Releases**, and GitHub notifies you of each release.
 
 The advisories are published on the repository, not in GitHub's global advisory database, so Dependabot doesn't raise alerts for them. Watch the releases instead.

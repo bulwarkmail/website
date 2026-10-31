@@ -10,7 +10,7 @@ editionNote: "Plugins and themes from the directory run in Bulwark (not Lite). L
 
 Third parties can extend Bulwark Webmail two ways:
 
-- **Plugins** - add hooks, UI buttons, sidebar apps, keyboard shortcuts, and whole new workflows that integrate with the JMAP client.
+- **Plugins** - add hooks, UI buttons, sidebar apps, keyboard shortcuts, and new workflows that integrate with the JMAP client.
 - **Themes** - change fonts, colors, and layout.
 
 Both are published on the [Bulwark Extensions directory](https://extensions.bulwarkmail.org/), which lists free and open source extensions that have passed review.

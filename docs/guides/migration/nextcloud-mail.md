@@ -6,7 +6,7 @@ order: 3
 
 # Moving from Nextcloud Mail
 
-Nextcloud Mail is a client for an IMAP server. Your contacts and calendars are in the Nextcloud Contacts and Calendar apps, on Nextcloud's own CardDAV and CalDAV server. Signatures, aliases and text blocks are in Nextcloud's database, and filters are a Sieve script on the mail server. This page moves each of them to Bulwark. The steps were run with Nextcloud 34.0.5, Mail 5.12.6, Contacts 8.9.3 and Calendar 6.6.4 against Stalwart 1.0.1; steps marked "Not tested." were read in Nextcloud's docs or source but not run.
+Nextcloud Mail is a client for an IMAP server. Your contacts and calendars are in the Nextcloud Contacts and Calendar apps, on Nextcloud's own CardDAV and CalDAV server. Signatures, aliases and text blocks are in Nextcloud's database, and filters are a Sieve script on the mail server. The steps were run with Nextcloud 34.0.5, Mail 5.12.6, Contacts 8.9.3 and Calendar 6.6.4 against Stalwart 1.0.1; steps marked "Not tested." were read in Nextcloud's docs or source but not run.
 
 ## Before you start
 

@@ -415,7 +415,7 @@ function evaluateEdition(answers: Answers): Verdict {
       pitch: inStalwart
         ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."
         : webhostOnly
-          ? "An app that needs a server rather than a website host. The machine your mail server runs on can run it too."
+          ? "It needs a server rather than a website host. The machine your mail server runs on can run it too."
           : "An app you run on a server, with an admin page and add-ons, and single sign-on if you want it.",
       primary: LINKS.installFull,
       reasons: [...needs, ...reasons.filter((r) => !r.must && r.toward === "full")],
@@ -474,7 +474,7 @@ function evaluateEdition(answers: Answers): Verdict {
         : "Just files you upload to a website host. There's no app to keep running."
       : inStalwart
         ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."
-        : "An app you run on a server. It tells you about updates and has room to grow: an admin page, add-ons and single sign-on.",
+        : "You run it on a server, and it tells you about updates. The admin page, add-ons and single sign-on are there when you need them.",
     primary: lite ? (inStalwart ? LINKS.stalwartApp : LINKS.installLite) : LINKS.installFull,
     secondary: close ? (lite ? { label: "Or Bulwark", href: LINKS.installFull.href } : { label: "Or Bulwark Lite", href: LINKS.installLite.href }) : undefined,
     reasons: reasons.filter((r) => r.toward === (lite ? "lite" : "full")),

@@ -37,7 +37,7 @@ SESSION_SECRET_FILE=/run/secrets/session_secret
 <img class="theme-light-only" src="/screenshots/light-account-switcher.webp" alt="The account switcher with two signed-in accounts" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-account-switcher.webp" alt="The account switcher with two signed-in accounts" width="5120" height="2880" />
 
-Click any account in the account switcher to switch instantly. Per-account state (mailboxes, contacts, calendar, filters, identities) is cached in memory so the switch is immediate. If a per-account store is empty (first switch in a session), it's lazy-loaded on demand.
+Click any account in the account switcher to switch to it. Per-account state (mailboxes, contacts, calendar, filters, identities) is cached in memory, so the switch is immediate. If a per-account store is empty (first switch in a session), it's lazy-loaded on demand.
 
 ## Per-account state
 
@@ -108,7 +108,7 @@ Identities support sub-addressing (`user+tag@domain.com`). When composing a repl
 
 - **Maximum accounts** - 50 on HTTP/2 or HTTP/3, 5 on HTTP/1.1.
 - **Push connections** - At most two live push streams per tab; further accounts check for changes by polling until a stream frees up.
-- **Session cookie size** - Per-account encrypted state fits within typical cookie size limits; very large refresh tokens may require server-side session storage. Each account gets its own `cookieSlot` so OAuth flows don't clobber each other.
+- **Session cookie size** - Per-account encrypted state fits within the browser's cookie size limit. An access token too large for a cookie isn't cached; Bulwark gets a new one when the page reloads. Each account gets its own `cookieSlot` so OAuth flows don't clobber each other.
 
 ## Troubleshooting
 

@@ -7,7 +7,7 @@ edition: both
 
 # Files
 
-Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and media end up in the same interface as the mail and the calendar, rather than in a separate app you have to remember to open.
+Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and media sit in the same interface as the mail and the calendar.
 
 <img class="theme-light-only" src="/screenshots/light-files.webp" alt="The Bulwark file browser in list view" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-files.webp" alt="The Bulwark file browser in list view" width="5120" height="2880" />
@@ -30,7 +30,7 @@ Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and
 - Folder upload via drag-and-drop or toolbar button (recursive)
 - Uploads go straight from the browser to the mail server's JMAP upload address, with progress and cancel. The file isn't loaded into memory first, so large uploads work, up to the server's upload limit.
 - Download files or entire selections
-- Dynamic upload size limits read from the server's configuration so the UI knows what's allowed before you try
+- Upload size limits come from the server's configuration, so Bulwark knows what's allowed before you try
 - Clipboard-style cut, copy, paste, and duplicate actions
 - Drop zone fills the available viewport height for easy bulk drops
 - Names that Stalwart 1.0 refuses are adjusted before the upload, on 0.16 as well: a reserved name such as `con.txt` is stored as `con_.txt`, control characters become `_`, and a name longer than 255 bytes is shortened, keeping its extension
@@ -73,16 +73,15 @@ On Stalwart 1.0, picking a principal from the server's directory needs directory
 - Deleted files and folders go to the trash, where you can restore them or delete them for good. Empty the trash to free the space.
 - Files are stored as real `FileNode` records in a nested hierarchy and listed via `FileNode/get`; each node's `nodeType` tells files, folders and links apart
 - Symbolic links, which Stalwart 1.0 can store, show as links: they can be renamed, moved and deleted, but not opened or downloaded
-- Legacy installs that stored files under flat, slash-encoded names are migrated into the proper folder hierarchy automatically on first load
-- Quick metadata visibility for size and modified date
+- Files that legacy installs stored under flat, slash-encoded names are moved into folders automatically on first load
+- Each file shows its size and modified date
 - Recent files prune themselves automatically when underlying nodes are deleted on the server
 
 ## Integration
 
-- Native JMAP FileNode support in Stalwart
-- Unified authentication and permissions with the rest of Bulwark
-- Per-account isolation when multiple accounts are connected
-- Attachments and stored files sit one click apart, so moving between them doesn't mean changing apps
+- Files use the same sign-in and permissions as the rest of Bulwark
+- With several accounts connected, each account's files stay separate
+- Attachments and stored files are one click apart
 
 ## Next step
 

@@ -33,7 +33,7 @@ Disable it in one of four ways:
 
 - In the admin console: Usage stats → turn off Send anonymous heartbeats, then Save.
 - By setting `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`) in the environment. Either environment variable wins over the admin switch and greys it out.
-- With the no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=on`, or Organisation → Security → Third-party traffic), which wins over every other setting, `BULWARK_TELEMETRY=on` included.
+- With the no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic), which wins over every other setting, `BULWARK_TELEMETRY=on` included.
 - By blocking `telemetry.bulwarkmail.org` at the network level.
 
 Clearing the endpoint field does not turn telemetry off: Bulwark saves an empty field as the default collector, `https://telemetry.bulwarkmail.org/v1/heartbeat`.
@@ -71,14 +71,14 @@ Total payload size is under 1 KB.
 
 - Email addresses, even hashed (a hashed address is still personally identifiable for a known target)
 - Hostnames, FQDNs, your domain name, your server's hostname
-- IP addresses on the server side - the `telemetry.bulwarkmail.org` nginx vhost has `access_log off`; the collector logs no IPs, no headers, no payload bodies
+- IP addresses on the server side: the `telemetry.bulwarkmail.org` nginx vhost has `access_log off`, and the collector logs no IPs, headers or payload bodies
 - Mail counts, folder counts, message sizes, attachment sizes, anything about message contents
 - Timestamps of user actions (the heartbeat carries only its own send time)
 - The names or slugs of installed marketplace extensions or themes (only the count)
 - Stalwart deployment details (paths, ports, certificates, OAuth client IDs, config keys)
 - Any string typed into the Bulwark UI
 
-If a future schema version adds anything to the "what is sent" list, it will be visible in the admin console's payload preview before it's sent, and this page will be updated with the "Last updated" date moved forward.
+If a future schema version adds anything to the "what is sent" list, it will be visible in the admin console's payload preview before it's sent, and we will update this page and move the "Last updated" date forward.
 
 ## Storage and retention
 
@@ -100,7 +100,7 @@ The receiving service is open source at [github.com/bulwarkmail/dashboard](https
 
 - **In the admin console:** Usage stats → turn off Send anonymous heartbeats, then Save.
 - **By environment variable:** `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`). Either wins over the admin switch.
-- **With the no-third-party switch:** `NO_THIRD_PARTY_TRAFFIC=on`, or Organisation → Security → Third-party traffic. It wins over every other setting.
+- **With the no-third-party switch:** `NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic. It wins over every other setting.
 - **At the network:** block `telemetry.bulwarkmail.org` at your firewall. Each failed heartbeat logs one warning, and Bulwark otherwise works as before.
 
 To also make any future heartbeats from this install look like a brand-new instance to us, delete the `.telemetry-id` file in your telemetry data directory before re-enabling.
@@ -109,8 +109,8 @@ To also make any future heartbeats from this install look like a brand-new insta
 
 You can request:
 
-- **What we hold tied to your `instance_id`** - open a GitHub issue or email us with the `instance_id` from your `.telemetry-id` file. We'll send back the raw rows and confirm what they are.
-- **Deletion** - same channel. We delete all rows tagged with that `instance_id` from `heartbeats` and `instance_meta`. Aggregated data in `daily_rollups` cannot be unwound, because no `instance_id` is stored there.
+- **What we hold tied to your `instance_id`:** open a GitHub issue or email us with the `instance_id` from your `.telemetry-id` file. We'll send back the raw rows and confirm what they are.
+- **Deletion:** same channel. We delete all rows tagged with that `instance_id` from `heartbeats` and `instance_meta`. Aggregated data in `daily_rollups` cannot be unwound, because no `instance_id` is stored there.
 
 We respond within 30 days. If we hold no rows tagged with your `instance_id`, because you never opted in, we'll tell you that. After 90 days only the `instance_meta` row (first day, last day, number of days seen) is left, and it goes too once the instance hasn't reported for 90 days.
 
@@ -120,7 +120,7 @@ The data collected is **instance-level and contains no personal data of any data
 
 Independently of that, collection is **opt-in**. Nothing is sent until an administrator turns it on, having been shown the exact payload first, so the arrangement also satisfies consent under Art. 6(1)(a) if a supervisory authority reads the `instance_id` as a pseudonymous identifier under Art. 4(1). We do not believe it is one, because no link to a natural person exists or can be constructed from the stored fields.
 
-Turning telemetry off stops further collection. Data already received before that does not retroactively vanish; use the deletion request channel above to remove rows tagged with your `instance_id`.
+Turning telemetry off stops further collection but doesn't delete data already received. Use the deletion request channel above to remove rows tagged with your `instance_id`.
 
 ## Contact
 

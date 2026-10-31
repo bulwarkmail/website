@@ -14,9 +14,9 @@ This page covers the services we operate at `bulwarkmail.org`, `extensions.bulwa
 ## TL;DR
 
 - We don't read your mail. The webmail talks to your mail server directly. We never see message contents.
-- We use **self-hosted Umami** for site analytics - no cookies, no cross-site tracking, no Google Analytics.
+- We use **self-hosted Umami** for site analytics. It sets no cookies and does no cross-site tracking, and we don't use Google Analytics.
 - The **push relay** sees your device's or browser's push token, an account label (your sign-in name, usually your email address) and the ids of changed mailboxes and messages. It doesn't see subjects, senders or bodies.
-- We collect GitHub data about our own repositories (stars, issues, traffic, release downloads) for our internal dashboard. No personal data.
+- We collect GitHub data about our own repositories (stars, issues, traffic, release downloads) for our internal dashboard. None of it is personal data.
 - We don't sell data to anyone. We don't share it with anyone except where strictly needed to deliver the service (e.g. Google FCM for push delivery).
 
 ## Who is "we"
@@ -38,7 +38,7 @@ Hosted by us on our own server. Static content plus a thin Next.js layer for doc
 **What is _not_ collected:**
 
 - No advertising or marketing trackers
-- No third-party scripts at all - fonts are self-hosted (downloaded at build time into `/_next/static/media/`, served from `bulwarkmail.org`); the only script the page loads from anywhere is `umami.bulwarkmail.org/script.js`, which is also ours
+- No third-party scripts at all: fonts are self-hosted (downloaded at build time into `/_next/static/media/`, served from `bulwarkmail.org`); the only script the page loads from anywhere is `umami.bulwarkmail.org/script.js`, which is also ours
 - No account or login on this site
 
 You can opt out of analytics by blocking `umami.bulwarkmail.org` in your browser or a content blocker. If your browser sends "Do Not Track", the analytics script on this website and on the extension directory records nothing.
@@ -47,7 +47,7 @@ You can opt out of analytics by blocking `umami.bulwarkmail.org` in your browser
 
 The directory of plugins and themes for Bulwark webmail.
 
-Same self-hosted-everything story as the marketing site: fonts are bundled into the app's static assets, no third-party CDNs. The one exception is **GitHub-hosted avatars** (`avatars.githubusercontent.com`) shown next to author profiles - these are loaded directly by your browser when you view a page that displays an author. We don't proxy them, and GitHub will see the request.
+As on the marketing site, everything is self-hosted: fonts are bundled into the app's static assets, and there are no third-party CDNs. The one exception is **GitHub-hosted avatars** (`avatars.githubusercontent.com`) shown next to author profiles. Your browser loads them directly when you view a page that displays an author. We don't proxy them, and GitHub will see the request.
 
 **Browsing the marketplace** uses the same Umami analytics described above. When a bundle (`.zip`) is downloaded, the directory's server also sends an `extension-download` event to Umami with the bundle path and size, and your browser's user agent and referrer.
 
@@ -86,17 +86,17 @@ The relay accepts a JMAP push from your mail server and passes it on as a Fireba
 
 **Retention:** subscriptions are deleted after 90 days of inactivity, when your device's push token becomes invalid (FCM tells us), or when you uninstall/sign out and the app calls the unregister endpoint.
 
-**Third party:** we hand pushes for the mobile app to **Google Firebase Cloud Messaging** (Android) or Apple's APNs (iOS), browser pushes to your browser vendor's push service, and UnifiedPush messages to the distributor you chose. Their privacy policies apply to that hop. We hand them the change type, the account label, the account id and the ids of changed messages, nothing from the messages themselves. FCM messages are not end-to-end encrypted, so Google can read the account label. Web Push messages, and UnifiedPush messages when the app supplies keys, are encrypted for the receiving browser or app, so the push service in between can't read them.
+**Third party:** we hand pushes for the mobile app to **Google Firebase Cloud Messaging** (Android) or Apple's APNs (iOS), browser pushes to your browser vendor's push service, and UnifiedPush messages to the distributor you chose. Their privacy policies apply to that hop. We hand them the change type, the account label, the account id and the ids of changed messages, but nothing from the messages themselves. FCM messages are not end-to-end encrypted, so Google can read the account label. Web Push messages, and UnifiedPush messages when the app supplies keys, are encrypted for the receiving browser or app, so the push service in between can't read them.
 
 Source code for the relay is at [github.com/bulwarkmail/relay](https://github.com/bulwarkmail/relay). You can run your own relay for the webmail's browser notifications and for UnifiedPush: admins list it under Admin > User policy > Push relays, and the mobile app lets you enter its URL. Push to the published mobile app through Google or Apple only works through ours, because it needs the project's Firebase and Apple keys.
 
 ## Self-hosted Bulwark instances (update check and telemetry)
 
-If you run Bulwark on your own server, it asks `version.telemetry.bulwarkmail.org` once an hour whether a newer release exists, sending only its version number. This is on by default. That server keeps no access logs and doesn't log the version it is asked about. Turn it off with `BULWARK_UPDATE_CHECK=off`. Admin > Marketplace loads plugins and themes from `extensions.bulwarkmail.org`, and browser notifications use our push relay unless the admin lists another. The no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=on`, or Admin > Organisation > Security > Third-party traffic) stops all of these, and telemetry too; see [Third-party traffic](/docs/guides/organisation/third-party-traffic).
+If you run Bulwark on your own server, it asks `version.telemetry.bulwarkmail.org` once an hour whether a newer release exists, sending only its version number. This is on by default. That server keeps no access logs and doesn't log the version it is asked about. Turn it off with `BULWARK_UPDATE_CHECK=off`. Admin > Marketplace loads plugins and themes from `extensions.bulwarkmail.org`, and browser notifications use our push relay unless the admin lists another. The no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=true`, or Admin > Organisation > Security > Third-party traffic) stops all of these, and telemetry too; see [Third-party traffic](/docs/guides/organisation/third-party-traffic).
 
 The install can also send one anonymous usage heartbeat per day to `telemetry.bulwarkmail.org`. This is **opt-in and off by default**: a fresh install sends nothing until an admin turns it on, in admin settings or with `BULWARK_TELEMETRY=on`. Once enabled, the first heartbeat fires an hour later.
 
-Heartbeats contain instance-level information only: version, platform (Docker, bare metal, or Kubernetes), which features are enabled, and bucketed account counts (`0`, `1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`). No email addresses, no hostnames, no IPs (the receiving server's nginx logs are off), no message data, no end-user information. Raw rows are deleted after 90 days. After that we keep daily totals and, per instance id, only the first and last day it was seen and on how many days.
+Heartbeats contain instance-level information only: version, platform (Docker, bare metal, or Kubernetes), which features are enabled, and bucketed account counts (`0`, `1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`). They contain no email addresses, hostnames, IPs (the receiving server's nginx logs are off), message data or end-user information. Raw rows are deleted after 90 days. After that we keep daily totals and, per instance id, only the first and last day it was seen and on how many days.
 
 The full schema, field-by-field intent, retention policy, lawful basis, opt-out instructions, and a public read-only dashboard of the aggregate numbers are on the [telemetry sub-page](/docs/legal/privacy/telemetry).
 

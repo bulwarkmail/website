@@ -17,7 +17,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 <div class="bw-note"><b>Note.</b> None of this applies to Bulwark Lite, which has no server to read an environment. Lite is configured by the <code>LITE_*</code> build inputs and the shipped <code>config.json</code>; both are on the <a href="/docs/deployment/static">static hosting</a> page.</div>
 
 > **First-launch tip**
-> Most new installs no longer need to set environment variables by hand - launch the container without `JMAP_SERVER_URL` and the [web setup wizard](/docs/getting-started/installation#quickest-path-docker--setup-wizard) writes the equivalent values to `ADMIN_CONFIG_DIR`. Use env vars when you want env-driven, immutable, or read-only configuration.
+> Most new installs don't need to set environment variables by hand. Launch the container without `JMAP_SERVER_URL` and the [web setup wizard](/docs/getting-started/installation#quickest-path-docker--setup-wizard) writes the equivalent values to `ADMIN_CONFIG_DIR`. Use env vars when you want env-driven, immutable, or read-only configuration.
 
 ## Server listen address
 
@@ -33,7 +33,6 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose** - Sets the port the server listens on.
 - **Required** - No.
 - **Default** - `3000`
-- **When to set it** - Set this when you need the server to listen on a non-default port.
 
 ## Core settings
 
@@ -42,7 +41,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose** - Sets the application name displayed in the UI, browser tab title, and PWA manifest.
 - **Required** - No.
 - **Default** - `Webmail` (built-in fallback when not set).
-- **When to set it** - Set this if you want your deployment to be branded differently from the default Bulwark name.
+- **When to set it** - Set this to show your own name instead of `Webmail`.
 
 ### `APP_SHORT_NAME`
 
@@ -59,7 +58,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 ### `JMAP_SERVER_URL`
 
 - **Purpose** - Points Bulwark to your JMAP-compatible mail server. Setting this also disables the first-launch setup wizard.
-- **Required** - No - the setup wizard can write this value to admin config instead. Required only when you want env-driven configuration, when `ALLOW_CUSTOM_JMAP_ENDPOINT=true` is not set, or when you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
+- **Required** - No. The setup wizard can write this value to admin config instead. Required only when you want env-driven configuration, when `ALLOW_CUSTOM_JMAP_ENDPOINT=true` is not set, or when you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
 - **Example** - `https://mail.example.com`
 - **When to set it** - For env-driven deployments. A server URL already saved by the wizard or the admin console takes priority over this variable. For several servers, see `JMAP_SERVERS` below.
 
@@ -271,7 +270,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 ### `ADMIN_PASSWORD`
 
 - **Purpose** - Sets the initial admin password for the admin console. The admin console manages plugins, themes, runtime config overrides, and policy.
-- **Required** - No - the setup wizard prompts for an initial password instead.
+- **Required** - No. The setup wizard prompts for an initial password instead.
 - **Default** - None. Without it, and without the setup wizard, the admin console stays disabled.
 - **When to set it** - Env-driven deployments that skip the wizard. It is a bootstrap value: read only while `admin.json` does not exist, then hashed into it.
 
@@ -280,7 +279,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose** - Operator-authored admin state. Holds `config.json`, `policy.json`, `admin.json` (passwordHash only), `plugin-config/`, `plugins/`, `themes/`, and uploaded branding assets. Safe to mount **read-only** after the setup wizard finishes.
 - **Required** - No.
 - **Default** - `./data/admin` (resolves to `/app/data/admin` in Docker). Falls back to `ADMIN_DATA_DIR` for back-compat.
-- **Docker note** - Mount a persistent volume - read/write during initial setup, optionally read-only afterwards:
+- **Docker note** - Mount a persistent volume, read/write during initial setup and optionally read-only afterwards:
   ```yaml
   volumes:
     - bulwark-config:/app/data/admin       # rw during setup
@@ -379,7 +378,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose** - Fail-closed switch that turns off every built-in outside host: the telemetry heartbeat, the update check, the hosted push relay, the official extension directory, the connector, sender favicons, MyMemory translation, map links and WKD key lookup. Plugins that declare network access don't run.
 - **Required** - No.
 - **Default** - `false`. Accepts `true`, `1`, `yes` or `on`.
-- **Precedence** - Also a switch in the admin console (Security > Third-party traffic). Set to on in the environment, the admin console can't turn it off.
+- **Precedence** - Also a switch in the admin console (Security > Third-party traffic). When the environment turns it on, the admin console can't turn it off.
 - **When to set it** - When the server and its users' browsers must not contact anything you don't run yourself. Self-hosted replacements, such as your own extension directory or push relay, keep working.
 
 ### `CONNECTOR_ENABLED`
@@ -702,7 +701,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Required** - No.
 - **Default** - Empty (served from the root).
 - **Build-time** - Unlike most other variables, this is read at **build time** because Next.js bakes it into emitted asset URLs.
-- **When to set it** - Set this when fronting Bulwark with a reverse proxy that exposes it under a subpath. Pair with `NEXT_PUBLIC_LOCALE_PREFIX=always` and **do not** strip the prefix at the proxy - the app expects to receive requests under `/<base-path>/...` and serves all routes (`/<base-path>/api/...`, `/<base-path>/_next/static/...`, `/<base-path>/sw.js`, etc.) accordingly.
+- **When to set it** - Set this when fronting Bulwark with a reverse proxy that exposes it under a subpath. Pair with `NEXT_PUBLIC_LOCALE_PREFIX=always` and **do not** strip the prefix at the proxy. The app expects to receive requests under `/<base-path>/...` and serves all routes (`/<base-path>/api/...`, `/<base-path>/_next/static/...`, `/<base-path>/sw.js`, etc.) accordingly.
 - **Docker note** - To use this with the published image, build your own with the build arg set:
   ```bash
   docker build --build-arg NEXT_PUBLIC_BASE_PATH=/webmail -t bulwark-webmail .

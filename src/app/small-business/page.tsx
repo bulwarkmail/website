@@ -42,7 +42,7 @@ export default function SmallBusinessPage() {
         />
 
         <TextSection
-          heading="Stalwart holds the mail. Bulwark is where the team works with it."
+          heading="The team works in Bulwark, and Stalwart keeps the mail."
           text="Stalwart receives and sends mail, filters spam and holds every mailbox, including the shared ones you create as groups. Bulwark is the browser client on top: mail, calendar, contacts and files, and the settings the team shares."
         />
 
@@ -112,8 +112,8 @@ export default function SmallBusinessPage() {
               <div className="bw-stack">
                 <h2 className="bw-h2">Install it with one container.</h2>
                 <p>
-                  You need Docker and a Stalwart server. Step 3 puts a web server such as Caddy in front of Bulwark. It gets
-                  the HTTPS certificate that phones and sign-ins from home need.{" "}
+                  You need Docker and a Stalwart server. Step 3 puts a web server such as Caddy in front of Bulwark. That
+                  server gets the HTTPS certificate that phones and sign-ins from home need.{" "}
                   <Link href="/docs/deployment/docker/compose" className="bw-link">
                     Compose with Stalwart
                   </Link>{" "}

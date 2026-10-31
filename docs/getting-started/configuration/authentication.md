@@ -8,7 +8,7 @@ editionNote: "This page covers sign-in for Bulwark (not Lite). Lite signs in wit
 
 # Authentication
 
-Users sign in with the email credentials that already exist in Stalwart. There are three ways to do it. Basic auth is the default, OAuth 2.0 / OIDC handles single sign-on, and app passwords cover the clients that understand neither.
+Users sign in with the email credentials that already exist in Stalwart. Basic auth is the default, and OAuth 2.0 / OIDC handles single sign-on. App passwords cover the clients that understand neither.
 
 ## Basic authentication
 
@@ -26,7 +26,7 @@ No password is written to disk anywhere on the Bulwark side. Sign-ins are rememb
 3. Enter the current password, then the new password twice.
 4. Click **Change password**.
 
-If the section is missing or you receive an error, the administrator hasn't enabled the required Stalwart permissions. Required permissions in Stalwart:
+If the section is missing or you receive an error, the administrator hasn't enabled these Stalwart permissions:
 
 - **Settings: Get account password settings** and **Settings: Update account password settings** - password change.
 - **JMAP: Retrieve sender identity details**, **JMAP: Modify existing sender identities** and **JMAP: Track changes to identities since a given state** - identity sync in the composer.
@@ -137,7 +137,7 @@ The session secret is also used by settings sync and multi-account support.
 
 ## Multi-account support
 
-Several accounts can be signed in at once: up to 50 when the server speaks HTTP/2, and 5 over HTTP/1.1, because each account holds a push connection and browsers allow only 6 connections per origin on HTTP/1.1. Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
+Several accounts can be signed in at once: up to 50 when the server speaks HTTP/2, and 5 over HTTP/1.1, because each account holds a push connection and browsers allow only 6 connections per origin on HTTP/1.1. Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them.
 
 Multi-account needs a session secret to persist sessions for each account. Bulwark generates one on first start; to set your own:
 
@@ -146,7 +146,7 @@ SESSION_SECRET=your-secret-key-here
 # Or: SESSION_SECRET_FILE=/run/secrets/session_secret
 ```
 
-Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters, identities) is cached in memory for instant restoration when switching. Accounts can mix authentication methods - for example, one OAuth account and one Basic Auth account.
+Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters, identities) is cached in memory for instant restoration when switching. Accounts can mix authentication methods, for example one OAuth account and one Basic Auth account.
 
 For full details, see [Multi-account Support](/docs/guides/multi-account).
 
@@ -154,7 +154,7 @@ For full details, see [Multi-account Support](/docs/guides/multi-account).
 
 When Stalwart has TOTP enabled, users are asked for a code from their authenticator app after the password step.
 
-Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16.6+ or 1.0). Session expiry during TOTP setup is handled cleanly so users aren't logged out partway through enrollment.
+Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16.6+ or 1.0). A session that expires during TOTP setup doesn't log the user out partway through enrollment.
 
 ## Session security
 

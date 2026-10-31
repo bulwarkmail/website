@@ -16,7 +16,7 @@ The website and documentation for [Bulwark Webmail](https://github.com/bulwarkma
 
 ## What's in here
 
-Two things, both served from one Next.js app: the landing page at `/`, and the documentation at `/docs`, rendered from the Markdown under [`docs/`](docs/).
+One Next.js app serves the landing page at `/`, the pages for organisations, small businesses and homelab users, the /choose quiz, /brand and /press, and the documentation at `/docs`, rendered from the Markdown under [`docs/`](docs/).
 
 ## Quick start
 
@@ -45,6 +45,8 @@ src/
 ├── app/                      # Next.js App Router
 │   ├── layout.tsx            # Fonts, metadata, favicon, theme bootstrap script
 │   ├── page.tsx              # Landing page
+│   ├── organisations/, small-business/, homelab/   # Audience pages
+│   ├── choose/, brand/, press/                     # Quiz, brand page, press kit
 │   ├── docs/                 # Documentation index and [...slug] pages
 │   ├── install/              # curl-able install script redirect
 │   ├── api/docs-search/      # Docs search endpoint
@@ -61,8 +63,9 @@ src/
     ├── editions.ts           # Front matter `edition:` for the page note and search tag
     └── og.ts                 # Open Graph card paths
 docs/                         # Documentation content (Markdown with front matter)
-├── getting-started/          # Introduction, editions, installation, Lite, configuration, demo
-│   └── configuration/        # Stalwart setup, authentication, env reference
+├── getting-started/          # Introduction, Stalwart setup, editions, installation, Lite,
+│   │                         # configuration, demo
+│   └── configuration/        # Authentication, env reference
 ├── features/                 # Email, calendar, contacts, files, PWA, mobile, telemetry
 │   └── email/                # Composing, search
 ├── deployment/               # Static hosting (Lite), Docker, manual, updating
@@ -72,7 +75,6 @@ docs/                         # Documentation content (Markdown with front matte
 │                             # admin, impersonation, troubleshooting
 ├── extensions/               # Extension directory: manifest, API, guidelines, publishing
 ├── development/              # Architecture, contributing
-├── branding/                 # Brand guidelines
 └── legal/                    # Privacy, telemetry terms
 public/
 ├── branding/                 # Logos and favicons
@@ -86,7 +88,7 @@ Every image under `public/screenshots`, `public/beauty` and `public/press` is
 generated from a demo instance of the webmail by the scripts in the
 [branding repository](https://github.com/bulwarkmail/branding) (`scripts/README.md`
 there); `node scripts/sync.mjs` copies them into this repo. Nothing is edited
-by hand, so a UI change means running them again, not opening an editor.
+by hand, so after a UI change you run the scripts again.
 
 ## Tech stack
 
@@ -97,7 +99,6 @@ by hand, so a UI change means running them again, not opening an editor.
 | **Styling**   | [Tailwind CSS v4](https://tailwindcss.com/)       |
 | **Markdown**  | unified / remark / rehype pipeline                |
 | **Icons**     | [Tabler Icons](https://tabler.io/icons)             |
-| **Animation** | [Framer Motion](https://motion.dev/)              |
 
 ## Documentation
 

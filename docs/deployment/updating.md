@@ -48,7 +48,7 @@ npm run build
 pm2 restart bulwark      # or: sudo systemctl restart bulwark
 ```
 
-Configuration is read at runtime, so an upgrade never requires rewriting `.env.local` or rebuilding to change a setting. The one exception is the handful of build-time variables (`NEXT_PUBLIC_BASE_PATH`, `NEXT_PUBLIC_LOCALE_PREFIX`, `NEXT_PUBLIC_DEFAULT_LOCALE`, `NEXT_PUBLIC_PUSH_RELAY_URL`), which need a rebuild if you change them. The Docker build takes the first three as `--build-arg`; for a different push relay, add it under **User policy > Push relays** in the admin console instead.
+Bulwark reads its configuration at runtime, so an upgrade never requires rewriting `.env.local`, and changing a setting needs no rebuild. The one exception is the handful of build-time variables (`NEXT_PUBLIC_BASE_PATH`, `NEXT_PUBLIC_LOCALE_PREFIX`, `NEXT_PUBLIC_DEFAULT_LOCALE`, `NEXT_PUBLIC_PUSH_RELAY_URL`), which need a rebuild if you change them. The Docker build takes the first three as `--build-arg`; for a different push relay, add it under **User policy > Push relays** in the admin console instead.
 
 ## Moving to Stalwart 1.0
 

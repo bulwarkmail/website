@@ -165,7 +165,7 @@ Mail comes from other people, and many messages are built with small text, fixed
 
 ## Screen readers
 
-For screen readers such as NVDA, JAWS, VoiceOver and TalkBack, Bulwark provides:
+With screen readers such as NVDA, JAWS, VoiceOver and TalkBack:
 
 - The message list is one tab stop. Each message is read in one sentence: unread, sender, subject, date, star, attachment, and the first line if you want it. The screen reader also says where the message is in the list. `j`, `k` and the arrow keys move from message to message and the screen reader follows; `Space` selects a message, `Enter` opens it and `Shift+F10` opens its actions. A conversation says whether it is expanded, and its messages are read a level down.
 - Each app has landmarks, a top-level heading and skip links, and F6 moves between the panes.

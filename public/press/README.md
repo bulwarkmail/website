@@ -14,7 +14,7 @@ Bulwark is an open-source webmail client for Stalwart Mail Server, built in Type
 - `github-avatar*.png`, `twitter-avatar*.png`, `twitter-header*.png` - profile pictures and the X/Twitter header, each with a `-guides` version showing the safe area.
 - `launch/` - the Stalwart 1.0 launch images as PNG: 1200×630 link cards in light and dark, a 1600×900 post, a 1080×1080 square and a 1500×500 profile header.
 
-The screenshots are generated, not edited: the scripts in the [branding repository](https://github.com/bulwarkmail/branding) re-create every image here from a running demo instance.
+The screenshots are captured by script, not edited by hand: the scripts in the [branding repository](https://github.com/bulwarkmail/branding) re-create every image here from a running demo instance.
 
 ## Facts
 

@@ -8,7 +8,7 @@ editionNote: "The admin console is part of Bulwark (not Lite). Lite reads its se
 
 # Admin console
 
-The admin console runs inside the same process as the user-facing app, and it is where an operator does everything that isn't reading mail. It holds the server and sign-in settings, branding, the user policy, the Organisation pages, plugins, themes, the marketplace, updates, usage stats and the audit log. Each page has its own address under `/admin`.
+The admin console runs inside the same process as the user-facing app. It holds the server and sign-in settings, branding, the user policy, the Organisation pages, plugins, themes, the marketplace, updates, usage stats and the audit log. Each page has its own address under `/admin`.
 
 API keys and app passwords are not here. Each user manages their own under **Settings > Security**; see [Account security](/docs/guides/account-security).
 
@@ -119,7 +119,7 @@ Which features users get, the push relays they may pick (from your list, rather 
 - Turn an installed plugin on or off, or open it and turn on **Force on for everyone** so users can't turn it off.
 - Settings you save on a plugin's page apply to every user.
 - Review each plugin's manifest, declared permissions, `frameOrigins`, and `httpOrigins`.
-- Inline plugin config panel - configure without leaving the page.
+- Configure a plugin in its inline config panel, without leaving the page.
 - Hot-reload and `PLUGIN_DEV_DIR` dev-folder loading for live plugin development (esbuild bundles `src/` on demand).
 
 See [Plugins](/docs/guides/plugins) for the full architecture.

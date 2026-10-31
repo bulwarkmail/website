@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${doc.title} - Bulwark Webmail Docs`,
     description:
       doc.description ||
-      `${doc.title} - Bulwark webmail documentation for Stalwart Mail Server. Learn about setup, configuration, and usage with the JMAP protocol.`,
+      `${doc.title} - Bulwark webmail documentation for Stalwart Mail Server.`,
     alternates: {
       canonical: `/docs/${slugStr}`,
     },
