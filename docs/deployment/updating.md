@@ -73,7 +73,7 @@ Lose the config volume and Bulwark starts as a fresh install: the setup wizard r
 
 ## The in-app update notice
 
-Bulwark checks for a newer release 30 seconds after it starts and then every hour, and logs the result. When one exists, the version line on the login page turns amber ("New version available") and links to the release notes, and the admin entry in the navigation gets a dot. The admin dashboard's **Version** page shows the details.
+Bulwark checks for a newer release 30 seconds after it starts and then every hour, and logs the result. When one exists, the version line on the login page turns amber ("New version available") and links to the release notes, and the admin entry in the navigation gets a dot. The admin dashboard's **Updates** page shows the details.
 
 The feed marks releases that fix a published security advisory. When the running build is older than one of those, or no longer supported, the version line turns red ("Security update available", "Version no longer supported"), so an operator can tell a routine update from one that should happen today. Signed-in users also see the advisory text in the version details; visitors who aren't signed in never do. Several releases since 1.9 have carried such fixes, the latest in 1.18.0; the details are in the [repository's security advisories](https://github.com/bulwarkmail/webmail/security/advisories).
 
