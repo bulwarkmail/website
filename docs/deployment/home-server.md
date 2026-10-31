@@ -133,9 +133,9 @@ Bulwark's port 3000 and Stalwart's HTTP port stay inside the Compose network in 
 
 These packages are maintained outside the Bulwark project. Report problems with them to their maintainers, and **check which version each one installs before you use it**, because they don't always follow Bulwark's releases.
 
-- **TrueNAS**: the community app [bulwark-webmail](https://github.com/truenas/apps/tree/master/ix-dev/community/bulwark-webmail) in TrueNAS's community train. Community-maintained; check which version it installs.
-- **Kubernetes**: the HelmForge chart `helmforge/bulwark-mail`, described on [Kubernetes](/docs/deployment/kubernetes). Community-maintained; check which version it installs.
-- **NixOS**: the [bulwark package](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/bu/bulwark/package.nix) and the `services.bulwark` module in nixpkgs. Community-maintained; check which version it installs.
+- **TrueNAS**: the community app [bulwark-webmail](https://github.com/truenas/apps/tree/master/ix-dev/community/bulwark-webmail) in TrueNAS's community train.
+- **Kubernetes**: the HelmForge chart `helmforge/bulwark-mail`, described on [Kubernetes](/docs/deployment/kubernetes).
+- **NixOS**: the [bulwark package](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/bu/bulwark/package.nix) and the `services.bulwark` module in nixpkgs.
 
 ## Next step
 

@@ -8,7 +8,7 @@ editionNote: "Lite has no admin console to browse from, and plugins don't run in
 
 # Extension marketplace
 
-Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin console. Bulwark uses the official directory unless you point it at one you run yourself.
+The marketplace lets an admin browse and install plugins and themes from inside the admin console, instead of downloading a ZIP and uploading it. Bulwark uses the official directory unless you point it at one you run yourself.
 
 ## Configuration
 

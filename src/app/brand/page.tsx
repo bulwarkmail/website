@@ -818,7 +818,7 @@ export default function BrandPage() {
               <h2 className="bw-h2">Checks before a page ships</h2>
               <ul className="bw-rules">
                 <li>Count the labels above headings. Two at most, and none is better.</li>
-                <li>Read every heading aloud and rewrite any that sets something up in order to knock it down.</li>
+                <li>Read every heading aloud and rewrite any that sets something up to knock it down.</li>
                 <li>Measure every radius: 0, or 2px on a control.</li>
                 <li>Check light and dark, then a 390px phone.</li>
                 <li>Recheck the contrast table when a colour changes.</li>

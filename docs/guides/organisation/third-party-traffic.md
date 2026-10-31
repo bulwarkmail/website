@@ -119,9 +119,9 @@ add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsaf
 
 ## What isn't possible
 
-- **Per domain or group.** The server's own requests belong to no user, so the switch can't follow the domain and group entries. Settings users can change, like external content, can be locked per domain or group as usual.
-- **Remote images in mail with the switch on.** See above: loading them would contact the sender's servers, which is what the switch stops.
-- **Network-level enforcement.** Bulwark stops its own requests and tells the browser what to refuse; it doesn't filter the network. If you need a guarantee against anything Bulwark doesn't know about, add an egress firewall that lets the server reach only your mail server and lets browsers reach only Bulwark and the mail server.
+- **Per domain or group:** the server's own requests belong to no user, so the switch can't follow the domain and group entries. Settings users can change, like external content, can be locked per domain or group as usual.
+- **Remote images in mail with the switch on:** loading them would contact the sender's servers, which is what the switch stops.
+- **Network-level enforcement:** Bulwark stops its own requests and tells the browser what to refuse; it doesn't filter the network. If you need a guarantee against anything Bulwark doesn't know about, add an egress firewall that lets the server reach only your mail server and lets browsers reach only Bulwark and the mail server.
 
 ## Next step
 

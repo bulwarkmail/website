@@ -101,10 +101,10 @@ Plugins can ask which of these are on through `api.host.features.externalSenderL
 
 ## What isn't possible
 
-- **Users can't turn either off.** They are the organisation's warnings, so there are no user options and nothing to lock.
-- **Only Bulwark warns.** The label and the confirm are part of Bulwark, not of the mail server. Mail read or sent with other apps (phone mail apps, Thunderbird) gets neither. Stalwart doesn't add an External tag to messages, and Bulwark doesn't change the subject or body of mail it receives.
-- **Some sends aren't checked.** Mail a plugin sends itself (through the plugin API, not the composer) and the unsubscribe message Bulwark sends for a newsletter's List-Unsubscribe link go out without the confirm.
-- **No per-user safe lists.** The plugin let each user add domains; core keeps one list per domain or group, set by the admin.
+- **Users can't turn either off:** they are the organisation's warnings, so there are no user options and nothing to lock.
+- **Only Bulwark warns:** the label and the confirm are part of Bulwark, not of the mail server. Mail read or sent with other apps (phone mail apps, Thunderbird) gets neither. Stalwart doesn't add an External tag to messages, and Bulwark doesn't change the subject or body of mail it receives.
+- **Some sends aren't checked:** mail a plugin sends itself (through the plugin API, not the composer) and the unsubscribe message Bulwark sends for a newsletter's List-Unsubscribe link go out without the confirm.
+- **No per-user safe lists:** the plugin let each user add domains; core keeps one list per domain or group, set by the admin.
 
 ## Next step
 

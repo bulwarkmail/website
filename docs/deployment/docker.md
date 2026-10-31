@@ -36,7 +36,7 @@ Open http://localhost:3000. The wizard asks for a setup token first: copy it, or
 
 Afterwards you can remount the config volume read-only; give `/app/data/admin` a volume of its own for that (see [Persistent volumes](#persistent-volumes)). Set `ADMIN_CONFIG_READONLY=true` as well, so the app refuses config writes with a clear message. The wizard's "Lock the configuration after setup" box only leaves a `.config-locked` reminder file; it doesn't lock anything by itself.
 
-Setting `JMAP_SERVER_URL` in the environment skips the wizard - use that path when you want env-driven configuration.
+Setting `JMAP_SERVER_URL` in the environment skips the wizard. Use that path when you want env-driven configuration.
 
 ## Using Docker
 
@@ -69,7 +69,7 @@ docker run -d \
   ghcr.io/bulwarkmail/webmail:latest
 ```
 
-Environment variables are read at runtime - no rebuild is needed when changing configuration.
+Bulwark reads environment variables at runtime, so changing the configuration needs no rebuild.
 
 ### Build from source
 
@@ -96,7 +96,7 @@ Encrypted per-account user preferences. Required only when `SETTINGS_SYNC_ENABLE
 
 Operator-authored state written by the setup wizard and the admin console: `config.json`, `policy.json`, `admin.json` (passwordHash only), `plugin-config/`, `plugins/`, `themes/`, and uploaded branding assets. Default: `./data/admin` → `/app/data/admin` in the container.
 
-After the setup wizard completes, this directory can optionally be mounted **read-only** for immutable deployments. For that it needs a volume of its own on top of the `/app/data` one (see the example below). Pair with `ADMIN_CONFIG_READONLY=true` so the app produces a clean error instead of an EROFS halfway through a write.
+After the setup wizard completes, you can mount this directory **read-only** for immutable deployments. For that it needs a volume of its own on top of the `/app/data` one (see the example below). Pair with `ADMIN_CONFIG_READONLY=true` so the app produces a clean error instead of an EROFS halfway through a write.
 
 ### Admin runtime state (`ADMIN_STATE_DIR`)
 
@@ -116,7 +116,7 @@ Random `instance_id`, admin consent choice, HMAC'd login fingerprints. Default: 
 
 ### Legacy single-volume installs (`ADMIN_DATA_DIR`)
 
-Pre-1.6.4 installs used a single `ADMIN_DATA_DIR` volume containing both config and state. That variable is still honoured when neither split variable is set - existing installs keep working without migration.
+Pre-1.6.4 installs used a single `ADMIN_DATA_DIR` volume containing both config and state. That variable is still honoured when neither split variable is set, so existing installs keep working without migration.
 
 ### Example
 

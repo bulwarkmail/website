@@ -25,10 +25,10 @@ Core is for what most people expect from a mail, calendar, contacts and files cl
 
 These don't go in core:
 
-- **Other protocols.** IMAP, POP3 and other non-JMAP backends. Bridges such as the [legacy proxy](https://github.com/bulwarkmail/legacy-proxy) are separate projects.
-- **Integrations with other services.** CRMs, chat, cloud storage, AI assistants and the like. Write them as plugins.
-- **Stalwart server administration.** Domains, queues, DNS and server settings stay in Stalwart's own admin interface. Bulwark covers what users manage for their own account and what the webmail's admin console needs.
-- **Personalising the app's look beyond themes.** Per-user fonts, colour pickers and alternative layouts. Changes to the look go through themes.
+- **Other protocols:** IMAP, POP3 and other non-JMAP backends. Bridges such as the [legacy proxy](https://github.com/bulwarkmail/legacy-proxy) are separate projects.
+- **Integrations with other services:** CRMs, chat, cloud storage, AI assistants and the like. Write them as plugins.
+- **Stalwart server administration:** domains, queues, DNS and server settings stay in Stalwart's own admin interface. Bulwark covers what users manage for their own account and what the webmail's admin console needs.
+- **Personalising the app's look beyond themes:** per-user fonts, colour pickers and alternative layouts. Changes to the look go through themes.
 
 ### Settings
 
@@ -36,8 +36,8 @@ A new behaviour should have one good default. When deployments really do need di
 
 ### Both editions, every screen size
 
-- **[Lite](/docs/getting-started/lite).** Features that run in the browser have to work in Lite. A feature that needs the Node server has to be hidden in Lite, not left broken.
-- **Mobile.** UI changes have to work at phone width and with touch, as well as in the light and dark theme.
+- **[Lite](/docs/getting-started/lite):** features that run in the browser have to work in Lite. A feature that needs the Node server has to be hidden in Lite, not left broken.
+- **Mobile:** UI changes have to work at phone width and with touch, as well as in the light and dark theme.
 
 ### The mobile app
 

@@ -8,7 +8,7 @@ editionNote: "This page is about Bulwark Lite, the static build. Bulwark with it
 
 # Bulwark Lite
 
-Bulwark Lite is Bulwark Webmail exported as static files. Same mail, calendar, contacts and files client, same themes, same keyboard shortcuts, minus the Node.js server. You upload a folder to any web host, tell it where your Stalwart is, and the browser does the rest. Or you skip the web host too, and let Stalwart serve it [as an Application](/docs/deployment/stalwart-app).
+Bulwark Lite is Bulwark Webmail exported as static files: the same mail, calendar, contacts and files client with the same themes and keyboard shortcuts, minus the Node.js server. You upload a folder to any web host, tell it where your Stalwart is, and the browser does the rest. Or you skip the web host too, and let Stalwart serve it [as an Application](/docs/deployment/stalwart-app).
 
 It exists because the full edition's server does two different jobs. One is brokering things the browser cannot do alone: OAuth, the admin console, plugins, settings sync. The other is just serving files. If you don't need the first job, Lite lets you skip the process entirely and put the second one on the static host you already have.
 

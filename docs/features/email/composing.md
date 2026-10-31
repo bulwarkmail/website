@@ -43,11 +43,11 @@ Give an identity a Reply-To address in Settings > Account > Email addresses, and
 
 ### From-header override and catch-all auto-reply
 
-When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g. `marketing@yourdomain.com`) should come back from the same alias - even when it isn't a configured identity. With "Reply from the address it was sent to" turned on and "Received address matching" set to "Any address on my domains" (Settings > Composing > Replying), Bulwark pre-fills the alias as the From header. You can still override the From header manually before sending.
+When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g. `marketing@yourdomain.com`) should come back from the same alias, even when it isn't a configured identity. With "Reply from the address it was sent to" turned on and "Received address matching" set to "Any address on my domains" (Settings > Composing > Replying), Bulwark pre-fills the alias as the From header. You can still override the From header manually before sending.
 
 ### Signature position
 
-**Signature position** in Settings > Composing > Replying decides whether signatures go **before** or **after** the quoted text on a reply or forward, for all identities. The default is after. The default fallback is the primary identity's signature.
+**Signature position** in Settings > Composing > Replying decides whether signatures go **before** or **after** the quoted text on a reply or forward, for all identities. The default is after. If the identity you send from has no signature, Bulwark uses the primary identity's signature.
 
 ## Composer modes
 
@@ -63,10 +63,10 @@ Turn on "Plain text only" in Settings > Composing to always write plain text, or
 - Drag and drop files onto the compose window
 - Click the attachment button to browse
 - Maximum file size is determined by your Stalwart configuration
-- Each attachment chip shows real byte progress while it uploads, and cancelling aborts the transfer rather than just hiding the chip
+- Each attachment chip shows progress in bytes while it uploads, and cancelling aborts the transfer rather than just hiding the chip
 - Inline images can be pasted directly from the clipboard
-- Resizable image component for adjusting inline image dimensions
-- Direct image upload support in the rich text editor
+- Inline images can be resized in the editor
+- Images can be uploaded straight into the rich text editor
 - **Forgotten-attachment warning** - if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
 
 ## Signatures

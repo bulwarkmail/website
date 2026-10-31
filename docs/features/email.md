@@ -80,7 +80,7 @@ Messages render in an iframe, sanitised by DOMPurify on the way in. In dark mode
 
 External content is blocked until you trust the sender, and the banner saying so sits above the attachments rather than below them. Next to it, SPF, DKIM and DMARC results are shown with the most severe SPF outcome surfaced first; on spoofed mail the "via" badge is suppressed rather than lending the message credibility.
 
-Two formats other clients tend to give up on are handled here. TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
+TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
 
 Booking, shipping and order mail that carries schema.org markup gets a card above the message: route and times for flights and trains, check-in and check-out for hotels, tracking for parcels, status for orders, with an Add to calendar button where it fits. See [Booking and parcel cards](/docs/features/email/booking-cards).
 
@@ -142,7 +142,7 @@ The whole section only appears when the server advertises Sieve support.
 
 Out-of-office replies are a JMAP `VacationResponse`, which the server runs for you, so it keeps answering while nothing of yours is running.
 
-Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. Turning on **Formatted message (HTML)** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what actually goes out before you save.
+Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. Turning on **Formatted message (HTML)** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what goes out before you save.
 
 This needs a server that supports VacationResponse; forwarding and replying only to internal or external senders also need Sieve. On Stalwart 1.0 the replies go out with an empty envelope sender (<code style="font-variant-ligatures: none">MAIL FROM:&lt;&gt;</code>), as RFC 5230 recommends.
 

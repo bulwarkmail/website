@@ -16,15 +16,15 @@ This page is the overview. The full data schema and the formal terms live on the
 
 ## Why we ask for it
 
-We ship Bulwark blind. We don't know whether a feature is used by 5 people or 500, whether the last release got adopted, or whether the deprecated config we're about to remove still has live users. Every roadmap call is a guess.
+We don't know whether a feature is used by 5 people or 500, whether the last release got adopted, or whether the deprecated config we're about to remove still has live users, so every roadmap call is a guess.
 
 The heartbeat answers five questions and nothing else:
 
-1. **How many instances are running.** Are we shipping to a hobby audience or a small business audience?
-2. **What versions are deployed.** How fast does a new release roll out, and which old ones are still in the wild?
-3. **Which features are turned on.** If 4% of installs enable S/MIME, we don't pour weeks into S/MIME UX.
-4. **What deployment shape people use.** Docker, bare metal, or Kubernetes, which decides where the docs effort goes.
-5. **Roughly how big the install is.** A homelab of one and a 200-seat business need different things.
+1. **How many instances are running:** are we shipping to a hobby audience or a small business audience?
+2. **What versions are deployed:** how fast does a new release roll out, and which old ones are still in the wild?
+3. **Which features are turned on:** if 4% of installs enable S/MIME, we don't pour weeks into S/MIME UX.
+4. **What deployment shape people use:** Docker, bare metal, or Kubernetes, which decides where the docs effort goes.
+5. **Roughly how big the install is:** a homelab of one and a 200-seat business need different things.
 
 If a future field can't fill in a sentence about which decision it changes, it doesn't ship.
 
@@ -74,7 +74,7 @@ Account counts are reported as **buckets** (`0`, `1`, `2-5`, `6-10`, `11-50`, `5
 - Timestamps of any user action
 - Anything you typed in the UI
 
-The full negative list, and what nginx and the collector log (or rather, don't log), is on the [privacy sub-page](/docs/legal/privacy/telemetry).
+The full list of what is never sent, and what nginx and the collector don't log, is on the [privacy sub-page](/docs/legal/privacy/telemetry).
 
 ## Default state and inspection
 

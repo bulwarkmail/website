@@ -77,7 +77,7 @@ Lite shows and edits shared tags like full Bulwark, on Stalwart v1.0.0 or later.
 
 ## What isn't possible
 
-- **Servers older than Stalwart v1.0.0.** Stalwart 0.16 keeps no metadata, so there are no shared tags and no editor; Settings says that the server can't keep them. Shared mailboxes show each user's own tag names, and the tags on the messages still show.
-- **About 100 tags per group.** Stalwart keeps at most 8 KB in one metadata entry. Bulwark says so when a new tag doesn't fit.
-- **Folders a person shared.** Only shared mailboxes get shared tags.
+- **Servers older than Stalwart v1.0.0:** Stalwart 0.16 keeps no metadata, so there are no shared tags and no editor; Settings says that the server can't keep them. Shared mailboxes show each user's own tag names, and the tags on the messages still show.
+- **About 100 tags per group:** Stalwart keeps at most 8 KB in one metadata entry. Bulwark says so when a new tag doesn't fit.
+- **Folders a person shared:** only shared mailboxes get shared tags.
 - **Other mail clients** see the keywords (such as `$label:urgent`) but not the shared names and colors.

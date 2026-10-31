@@ -12,10 +12,10 @@ Stalwart 0.16 and 1.0 can both host web apps. An `Application` is a zip that Sta
 
 Compared with putting the [static zip](/docs/deployment/static) on a web server:
 
-- **No web server.** Stalwart serves the files.
-- **No CORS.** The webmail and JMAP share an origin, so Stalwart's permissive CORS policy stays off.
-- **No server URL.** The bundle talks to the Stalwart that serves it; the login page has no server field.
-- **Updates are one action.** Stalwart downloads the zip again, and open tabs pick up the new build on their next navigation.
+- **No web server:** Stalwart serves the files.
+- **No CORS:** the webmail and JMAP share an origin, so Stalwart's permissive CORS policy stays off.
+- **No server URL:** the bundle talks to the Stalwart that serves it; the login page has no server field.
+- **Updates are one action:** Stalwart downloads the zip again, and open tabs pick up the new build on their next navigation.
 
 What works and what is off is the same as for any [Bulwark Lite](/docs/getting-started/lite) install.
 

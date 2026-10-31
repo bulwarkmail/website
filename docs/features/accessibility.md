@@ -99,7 +99,7 @@ Related settings:
 - **Focus outline**: Normal, Thick or Extra thick. The outline also stays visible in Windows contrast themes.
 - **Always show focus**: shows the outline after clicks too, not only when you use the keyboard.
 
-Actions that used to need dragging have a button or menu entry as well: tags, filter rules, apps in the navigation bar, accounts and tabs can be moved up and down, and a recipient can move between To, Cc and Bcc from the chip's menu.
+Actions you can do by dragging also have a button or menu entry: tags, filter rules, apps in the navigation bar, accounts and tabs can be moved up and down, and a recipient can move between To, Cc and Bcc from the chip's menu.
 
 ## Text, colour and pointer
 

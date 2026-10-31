@@ -15,7 +15,7 @@ This page covers the services we operate at `bulwarkmail.org`, `extensions.bulwa
 
 - We don't read your mail. The webmail talks to your mail server directly. We never see message contents.
 - We use **self-hosted Umami** for site analytics - no cookies, no cross-site tracking, no Google Analytics.
-- The **push relay** sees your device's or browser's push token, an account label (your sign-in name, usually your email address) and the ids of changed mailboxes and messages. Not subjects, not senders, not bodies.
+- The **push relay** sees your device's or browser's push token, an account label (your sign-in name, usually your email address) and the ids of changed mailboxes and messages. It doesn't see subjects, senders or bodies.
 - We collect GitHub data about our own repositories (stars, issues, traffic, release downloads) for our internal dashboard. No personal data.
 - We don't sell data to anyone. We don't share it with anyone except where strictly needed to deliver the service (e.g. Google FCM for push delivery).
 
@@ -68,7 +68,7 @@ You can request deletion of your author profile and submissions by opening an is
 
 ## notifications.relay.bulwarkmail.org (the push relay)
 
-When your mail server has something new, the relay wakes your phone or browser. That's the whole job.
+The relay does one thing: when your mail server has something new, it wakes your phone or browser.
 
 The relay accepts a JMAP push from your mail server and passes it on as a Firebase Cloud Messaging or Apple push (mobile app), a Web Push message (browser notifications from the webmail) or a UnifiedPush message (Android phones without Google services), so self-hosters don't need their own Firebase project or push keys.
 

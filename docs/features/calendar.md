@@ -7,7 +7,7 @@ edition: both
 
 # Calendar
 
-The calendar speaks JMAP for Calendars (an IETF draft) and stores events as JSCalendar (RFC 8984). Bulwark reads the capabilities the server advertises at session start and hides whatever that server cannot actually do, so you never click something that fails.
+The calendar speaks JMAP for Calendars (an IETF draft) and stores events as JSCalendar (RFC 8984). Bulwark reads the capabilities the server advertises at session start and hides whatever that server cannot do, so you never click something that fails.
 
 <img class="theme-light-only" src="/screenshots/light-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
@@ -147,7 +147,7 @@ Bulwark's server fetches the feeds. If it has to go through a proxy to reach the
 
 ## Real-time updates
 
-Calendar state changes are pushed in real-time via JMAP push - no manual refresh needed. Push reconnects automatically across network blips and preserves any active search/filter state.
+Calendar changes are pushed in real time over JMAP push, so you don't have to refresh by hand. Push reconnects automatically across network blips and preserves any active search/filter state.
 
 ## Event notifications
 

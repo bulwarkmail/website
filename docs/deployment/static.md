@@ -103,9 +103,9 @@ npm run lite:serve                       # http://localhost:4173/
 
 A URL such as `/en/mail/thread/abc` has no file behind it. It is served by the shell at `/en/mail/index.html`, which reads the path and opens the thread. The host has to know that, in one of three ways:
 
-- **Rewrite rules.** The host serves the owning surface's `index.html` for anything below `/<locale>/<surface>/`. This is what the snippets below do, and what `_redirects` does on Netlify and Cloudflare Pages. One page load, no flash.
-- **The `404.html` replay.** On a host with no rewrite support (GitHub Pages, a plain S3 bucket) the shipped `404.html` parks the requested path in `sessionStorage`, loads the right shell, and the app picks the path up from there. It works, with one extra page load.
-- **A sub-path build.** If Lite is mounted under `/webmail`, build it with `NEXT_PUBLIC_BASE_PATH=/webmail` so the shells and rules carry the prefix.
+- **Rewrite rules:** the host serves the owning surface's `index.html` for anything below `/<locale>/<surface>/`. This is what the snippets below do, and what `_redirects` does on Netlify and Cloudflare Pages. The URL opens in one page load, without a flash.
+- **The `404.html` replay:** on a host with no rewrite support (GitHub Pages, a plain S3 bucket) the shipped `404.html` parks the requested path in `sessionStorage`, loads the right shell, and the app picks the path up from there. It works, with one extra page load.
+- **A sub-path build:** if Lite is mounted under `/webmail`, build it with `NEXT_PUBLIC_BASE_PATH=/webmail` so the shells and rules carry the prefix.
 
 ## Host snippets
 

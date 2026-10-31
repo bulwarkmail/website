@@ -8,7 +8,7 @@ editionNote: "Plugins and sidebar apps need the sandbox routes and the admin ser
 
 # Plugins
 
-A plugin adds something to the interface that isn't in the box. An extra button on a calendar event, a panel down the side of the composer, a bridge to some service you already pay for. Each one ships as a ZIP bundle holding a manifest, optional settings and configuration schemas, translations and the frontend code itself.
+A plugin adds something to the interface that isn't in the box, such as an extra button on a calendar event, a panel down the side of the composer or a bridge to some service you already pay for. Each one ships as a ZIP bundle holding a manifest, optional settings and configuration schemas, translations and the frontend code itself.
 
 This page is the overview for admins and plugin authors. The full reference for writing a plugin, with every hook, surface, API method and the permission each one needs, is [Writing plugins for Bulwark](https://github.com/bulwarkmail/plugins/blob/main/WRITING_PLUGINS.md) in the plugins repository. Its tables are generated from the webmail source.
 

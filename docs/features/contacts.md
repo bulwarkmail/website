@@ -18,8 +18,8 @@ Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they l
 - Multiple email addresses, phone numbers, and addresses per contact
 - Organization and job title fields
 - Names are stored with the RFC 9553 name components (`title`, `given`, `given2`, `surname`, `generation`); QUOTED-PRINTABLE encoded vCard fields are decoded on import
-- Gender handling with `speakToAs` structure
-- Anniversary and birthday fields with non-string date handling
+- Gender and pronouns
+- Birthday and anniversary fields
 - Search and filter contacts list
 - Advanced filters on the list: company, job title, location, email domain, birthday month, and whether a contact has an email, phone or photo
 - Sort by first name or by last name

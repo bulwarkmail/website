@@ -42,7 +42,7 @@ export default function OrganisationsPage() {
 
         <TextSection
           band
-          heading="Stalwart runs the mail. Bulwark runs the client."
+          heading="Stalwart runs the mail. Bulwark is the client."
           text="Stalwart holds the accounts, groups and mailboxes, delivers mail, filters spam, and can be your OpenID Connect provider. Bulwark is what people open in the browser, plus the controls around it: sign-in, policies, signatures, branding and an admin console. It keeps no copy of the mail."
         />
 

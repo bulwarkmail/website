@@ -75,7 +75,7 @@ Themes can go beyond raw CSS by declaring `"apiVersion": 2` and using structured
 | `radii`      | Border-radius scale, emitted as `--radius-*` variables.                                              |
 | `typography` | Font stacks and base size, emitted as `--font-*` variables.                                          |
 
-A v2 theme may additionally ship an optional `skin.css` with component-level overrides on top of the compiled tokens.
+A v2 theme may also ship a `skin.css` with component-level overrides on top of the compiled tokens.
 
 ## Optional metadata
 

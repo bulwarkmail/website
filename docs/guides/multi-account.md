@@ -96,7 +96,7 @@ The lists are stored in `SETTINGS_DATA_DIR/account-archives`, and the feature ne
 Accounts and sender identities are separate:
 
 - **Accounts** are full mailboxes with their own JMAP session.
-- **Identities** are aliases under a single account - for example, a single Stalwart account with `you@personal.com` and `you@work.com` aliases configured. Identities have per-identity signatures and selectable from the composer.
+- **Identities** are aliases under a single account - for example, a single Stalwart account with `you@personal.com` and `you@work.com` aliases configured. Identities have per-identity signatures and are selectable from the composer.
 
 You can use both: multiple accounts, each with multiple identities.
 

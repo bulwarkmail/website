@@ -21,7 +21,7 @@ Receiving server: `telemetry.bulwarkmail.org`, operated by the Bulwark project o
 
 Telemetry is **off by default**. On first boot the app writes a state file recording consent as `off`, and no heartbeat is scheduled. An install that nobody touches sends nothing at any point.
 
-When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible verbatim in the admin console before that happens.
+When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible in the admin console before that happens.
 
 Enable it in one of three ways:
 
@@ -33,7 +33,7 @@ Disable it in one of four ways:
 
 - In the admin console: Usage stats → turn off Send anonymous heartbeats, then Save.
 - By setting `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`) in the environment. Either environment variable wins over the admin switch and greys it out.
-- With the no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=on`, or Admin → Security → Third-party traffic), which wins over every other setting, `BULWARK_TELEMETRY=on` included.
+- With the no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=on`, or Organisation → Security → Third-party traffic), which wins over every other setting, `BULWARK_TELEMETRY=on` included.
 - By blocking `telemetry.bulwarkmail.org` at the network level.
 
 Clearing the endpoint field does not turn telemetry off: Bulwark saves an empty field as the default collector, `https://telemetry.bulwarkmail.org/v1/heartbeat`.
@@ -100,10 +100,10 @@ The receiving service is open source at [github.com/bulwarkmail/dashboard](https
 
 - **In the admin console:** Usage stats → turn off Send anonymous heartbeats, then Save.
 - **By environment variable:** `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`). Either wins over the admin switch.
-- **With the no-third-party switch:** `NO_THIRD_PARTY_TRAFFIC=on`, or Admin → Security → Third-party traffic. It wins over every other setting.
-- **At the network:** block `telemetry.bulwarkmail.org` at your firewall. Heartbeats fail silently with no impact on Bulwark.
+- **With the no-third-party switch:** `NO_THIRD_PARTY_TRAFFIC=on`, or Organisation → Security → Third-party traffic. It wins over every other setting.
+- **At the network:** block `telemetry.bulwarkmail.org` at your firewall. Each failed heartbeat logs one warning, and Bulwark otherwise works as before.
 
-To additionally make any future heartbeats from this install look like a brand-new instance to us, delete the `.telemetry-id` file in your telemetry data directory before re-enabling.
+To also make any future heartbeats from this install look like a brand-new instance to us, delete the `.telemetry-id` file in your telemetry data directory before re-enabling.
 
 ## Your rights
 

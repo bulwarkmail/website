@@ -18,7 +18,7 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 - **Install screenshots** - Browsers that show a richer install dialog (e.g. Chrome on Android) display screenshots from the manifest. Bulwark ships default screenshots and lets you override them globally or per-domain.
 - **Service worker** - Registered automatically. It makes the app installable and shows push notifications; it does not cache pages, so there is no offline mode.
 - **Install prompt** - An in-app prompt offers to install. Users can put it off for a week ("Not now") or turn it off for good ("Don't remind me again").
-- **Web push notifications** - When the user grants permission, Bulwark subscribes to web push through a push relay and surfaces new-mail notifications even when the tab is closed. Clicking the notification opens the message (or the mail list when several are new). New-mail notifications fire on new deliveries only (not flag changes), grouped per account with a "+N more" line instead of one notification per message, and spam is excluded on servers that support the JMAP `emailPush` delivery filter (Stalwart 0.16.16 or newer).
+- **Web push notifications** - When the user grants permission, Bulwark subscribes to web push through a push relay and shows new-mail notifications even when the tab is closed. Clicking the notification opens the message (or the mail list when several are new). New-mail notifications fire on new deliveries only (not flag changes), grouped per account with a "+N more" line instead of one notification per message, and spam is excluded on servers that support the JMAP `emailPush` delivery filter (Stalwart 0.16.16 or newer).
 - **Unread badge** - Where the Badging API exists, the installed app's icon shows the unread count.
 - **Update notice** - The server checks for new Bulwark releases shortly after start and then hourly. When one is out, admins see a dot on the admin button, and the version in the settings About card and on the sign-in page is marked, so admins know to upgrade.
 
@@ -53,7 +53,7 @@ PWA_SCREENSHOT_MOBILE_URL=/branding/install-mobile.png    # rendered at 540x720
 PWA_SCREENSHOT_DESKTOP_URL=/branding/install-desktop.png  # rendered at 1280x720
 ```
 
-Both can also be set from the admin console, and overridden **per-domain** through the per-domain branding editor, so each hostname can present its own install screenshots. When unset, Bulwark falls back to its built-in screenshots.
+Both can also be set from the admin console, and overridden **per-domain** through the per-domain branding editor, so each hostname can show its own install screenshots. When unset, Bulwark falls back to its built-in screenshots.
 
 ### Default colors
 

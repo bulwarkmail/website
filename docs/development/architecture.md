@@ -13,7 +13,7 @@ Where the work happens, and why it was split up this way.
 
 ![The browser talks JMAP over HTTP directly to Stalwart. The Bulwark server bootstraps auth and serves config to the browser, and calls Stalwart's JMAP x: admin methods itself.](/diagrams/architecture.svg)
 
-After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the first-launch setup wizard, and the admin console - never as a proxy for normal mail traffic.
+After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server handles credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the first-launch setup wizard, and the admin console. It does not proxy normal mail traffic.
 
 That split is what makes Bulwark Lite possible. `npm run build:lite` exports the same client with `output: "export"` and `NEXT_PUBLIC_BULWARK_LITE=1`, after deleting the server-only trees (`app/api`, the admin and setup routes, the plugin sandbox, the proxy). What the server provided is either a static file next to `index.html` (`config.json`, `policy.json`), done in the browser against Stalwart's own endpoints (token login, "remember me"), or switched off. `IS_LITE` in `lib/lite.ts` is the build-time constant the feature gates read, and `scripts/lite/verify.mjs` fails the build if a client chunk references a server endpoint that `scripts/lite/lib.mjs` does not list as gated.
 
@@ -161,7 +161,7 @@ The Jitsi Meet plugin in the extension directory is a working example of the cal
 
 ### Push notifications
 
-Real-time updates ride JMAP push: new mail, calendar changes, and filter state all arrive because the server sends them, not because the client asked. A push is resolved with `Email/changes` and `Mailbox/changes` deltas rather than by refetching the list. On HTTP/2 the push streams multiplex over one connection, which is what lifted the old 5-account cap. That cap was never ours; it came from HTTP/1.1 connection pooling in the browser.
+Real-time updates come over JMAP push: the server sends new mail, calendar changes, and filter state without the client asking for them. A push is resolved with `Email/changes` and `Mailbox/changes` deltas rather than by refetching the list. On HTTP/2 the push streams multiplex over one connection. That removed the old 5-account cap, which came from the browser's HTTP/1.1 connection pooling.
 
 Web push notifications build on this. When the user turns them on, the browser registers with a push relay (the project's hosted relay by default, or one the admin sets), and Stalwart sends JMAP push to that relay, which wakes the service worker even when the tab is closed. Users choose whether to be notified for the inbox only or for every folder. Not available in Lite.
 

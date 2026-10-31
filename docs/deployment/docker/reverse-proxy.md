@@ -12,7 +12,7 @@ For production deployments, place Bulwark behind a reverse proxy for TLS termina
 
 ## Caddy
 
-The simplest option - automatic HTTPS with Let's Encrypt:
+The simplest option, with automatic HTTPS from Let's Encrypt:
 
 ```caddy
 mail.example.com {

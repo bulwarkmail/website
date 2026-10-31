@@ -62,9 +62,9 @@ Without a directory and on Stalwart 0.16, other members show as **Assigned** unt
 
 ## What isn't possible
 
-- **No notification to the assignee.** Plugins can't send push notifications or mail on their own. Members see their work with the **Assigned to me** filter.
-- **Shared mailboxes only.** A folder one person shared with another doesn't count. A Stalwart group without a mailbox isn't visible to Bulwark.
-- **No admin settings and no policy keys.** Install and enable it as above. To take it away from everyone, disable or remove the plugin.
+- **No notification to the assignee:** plugins can't send push notifications or mail on their own. Members see their work with the **Assigned to me** filter.
+- **Shared mailboxes only:** a folder one person shared with another doesn't count. A Stalwart group without a mailbox isn't visible to Bulwark.
+- **No admin settings and no policy keys:** install and enable it as above. To take it away from everyone, disable or remove the plugin.
 - **Bulwark Lite** has no plugins, so there is no assignment there. Keywords set elsewhere stay on the messages.
 
 ## Next step

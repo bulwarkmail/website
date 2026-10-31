@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-description: The failures people actually hit, and what each one means.
+description: The failures people hit, and what each one means.
 order: 12
 edition: both
 ---
@@ -52,7 +52,7 @@ If you still have `STALWART_API_URL` set anywhere, delete it. It pointed at a RE
 
 ## Sharing finds nobody, or free/busy is missing
 
-**The share dialog finds nobody, and free/busy is missing.** The dialog says "No other users or groups found", or that your server doesn't allow browsing its user directory, and the event editor says "Free/busy isn't available on this server". Stalwart 1.0 answers directory lookups only when the administrator allows directory queries, and that setting is off by default. Without it, the share dialog and recipient autocomplete can only offer your groups and the people who have shared something with you. On 0.16 the setting only matters for accounts whose role lacks the principal permissions.
+The share dialog says "No other users or groups found", or that your server doesn't allow browsing its user directory, and the event editor says "Free/busy isn't available on this server". Stalwart 1.0 answers directory lookups only when the administrator allows directory queries, and that setting is off by default. Without it, the share dialog and recipient autocomplete can only offer your groups and the people who have shared something with you. On 0.16 the setting only matters for accounts whose role lacks the principal permissions.
 
 Turn on **Allow Directory Queries** under **Settings > Files & Sharing > Sharing** in Stalwart's web admin, or with the CLI:
 
@@ -65,7 +65,7 @@ If the reload reports an error, restart Stalwart instead. With the setting on, e
 
 ## Sending fails with "There are too many email submissions"
 
-**Sending fails with "There are too many email submissions, please delete some before adding a new one."** Stalwart 1.0 keeps a submission record for every message sent over JMAP and refuses new ones once an account holds 500 (the default limit). Bulwark releases before {{BULWARK_VERSION}} never delete their records, so an account stops sending after about 500 messages. Other JMAP clients can fill the limit the same way.
+The full message is "There are too many email submissions, please delete some before adding a new one." Stalwart 1.0 keeps a submission record for every message sent over JMAP and refuses new ones once an account holds 500 (the default limit). Bulwark releases before {{BULWARK_VERSION}} never delete their records, so an account stops sending after about 500 messages. Other JMAP clients can fill the limit the same way.
 
 Upgrade Bulwark to {{BULWARK_VERSION}} or newer: it deletes the records of sent and cancelled messages, and only says "The server has too many sent-message records for this account" when that isn't enough. If an account still reaches the limit, raise it or remove it: **Submissions** under **Settings > Email > Defaults** for every account, or **Maximum number of email submissions** in an account's **Quotas** under **Management > Directory > Accounts** for one. With the CLI (`null` removes the limit):
 
@@ -88,7 +88,7 @@ Upgrade Bulwark, or Lite, to {{BULWARK_VERSION}} or newer. Photos an older relea
 
 ## The setup wizard comes back after every restart
 
-`ADMIN_CONFIG_DIR` isn't on a persistent volume, so the saved configuration and the admin password are lost with the container. Bulwark never generates an admin password: without a saved one and without `ADMIN_PASSWORD` the admin console stays off. If `JMAP_SERVER_URL` isn't set either, the setup wizard comes back and Bulwark prints a new setup token in the log. Mount the directory, then run the wizard once more or set `ADMIN_PASSWORD`.
+`ADMIN_CONFIG_DIR` isn't on a persistent volume, so the saved configuration and the admin password are lost with the container. Bulwark never generates an admin password: without a saved one and without `ADMIN_PASSWORD`, only a Stalwart administrator can open the admin console, and only while `STALWART_ADMIN_ACCESS` is `auto` (the default). If `JMAP_SERVER_URL` isn't set either, the setup wizard comes back and Bulwark prints a new setup token in the log. Mount the directory, then run the wizard once more or set `ADMIN_PASSWORD`.
 
 ## A Lite deep link lands on the wrong page
 

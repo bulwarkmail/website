@@ -55,7 +55,7 @@ It works like this:
 3. The relay forwards a wake-up through the platform's push service.
 4. The device fetches the new mail from Stalwart itself.
 
-The relay holds a push address for each device (an FCM token, a Web Push subscription or a UnifiedPush endpoint), an optional label to tell accounts apart, a one-time verification code while a subscription is set up, and timestamps. What passes through is the account id and either the changed data types with their state strings or the ids of new messages. Subjects, senders, bodies and attachments never reach it. Subscriptions without traffic for 90 days are deleted. The [privacy policy](/docs/legal/privacy) has the details.
+The relay holds a push address for each device (an FCM token, a Web Push subscription or a UnifiedPush endpoint), an optional label to tell accounts apart, a one-time verification code while a subscription is set up, and timestamps. What passes through is the account id and either the changed data types with their state strings or the ids of new messages. Bulwark asks the mail server for message ids only, and if a server sends subjects, senders or other content anyway, the relay drops them. Subscriptions without traffic for 90 days are deleted. The [privacy policy](/docs/legal/privacy) has the details.
 
 ### The hosted relay
 

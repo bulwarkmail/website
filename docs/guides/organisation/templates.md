@@ -112,7 +112,7 @@ The library works the same: Lite reads it from `policy.json`. Team templates and
 
 ## What isn't possible
 
-- **Team templates and templates in the account on older Stalwart versions.** They are stored as JMAP metadata of the Inbox, which Stalwart 0.16 doesn't have. There is no fallback; on those servers users keep their own templates in the browser and settings sync, as before.
-- **Removing one of Everyone's templates for a domain or group.** Entries add templates or replace them; to show a template to some users only, put it in their entry instead of Everyone's.
-- **Other mail apps.** The templates are Bulwark's. Other apps don't show them.
-- **Templates larger than 8 KB in the account.** Stalwart keeps at most 8 KB per template and 64 KB per Inbox for this data. Larger templates stay in the browser they were made in; team templates that large can't be saved.
+- **Team templates and templates in the account on older Stalwart versions:** they are stored as JMAP metadata of the Inbox, which Stalwart 0.16 doesn't have. There is no fallback; on those servers users keep their own templates in the browser and settings sync, as before.
+- **Removing one of Everyone's templates for a domain or group:** entries add templates or replace them; to show a template to some users only, put it in their entry instead of Everyone's.
+- **Other mail apps:** the templates are Bulwark's. Other apps don't show them.
+- **Templates larger than 8 KB in the account:** Stalwart keeps at most 8 KB per template and 64 KB per Inbox for this data. Larger templates stay in the browser they were made in; team templates that large can't be saved.

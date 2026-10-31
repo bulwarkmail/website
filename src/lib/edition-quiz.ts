@@ -470,7 +470,7 @@ function evaluateEdition(answers: Answers): Verdict {
     title: lite ? "Bulwark Lite" : "Bulwark",
     pitch: lite
       ? inStalwart
-        ? "Stalwart serves it itself, next to its admin page. No website host, no extra app, and no setting to switch on."
+        ? "Stalwart serves it itself, next to its admin page, so you don't need a website host, an extra app or a setting switched on."
         : "Just files you upload to a website host. There's no app to keep running."
       : inStalwart
         ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."

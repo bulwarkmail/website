@@ -8,7 +8,7 @@ editionNote: "This Compose file runs Bulwark (not Lite) next to Stalwart. Lite h
 
 # Docker Compose
 
-One compose file brings up Stalwart and Bulwark together: mail server and client, no other moving parts.
+One compose file brings up the mail server (Stalwart) and the client (Bulwark) together; nothing else needs to run.
 
 > **First-launch note**
 > Omit `JMAP_SERVER_URL` from the environment and the web setup wizard runs on first launch, configuring the JMAP endpoint, OAuth, branding, and the admin password through the browser. There is no `.env.local` to author first. The wizard asks for a setup token, which `docker compose logs bulwark` shows in its SETUP REQUIRED block.
@@ -74,7 +74,7 @@ volumes:
 On Stalwart 1.0, open Bulwark's admin **Authentication** page once the server is set up and click **Set up automagically** under **OAuth / OpenID Connect**. With `JMAP_SERVER_URL` set as above, the admin console is off until you also set `ADMIN_PASSWORD`. The button registers Bulwark with Stalwart, which two-factor sign-ins need for the account security settings, and single sign-on needs at all; [Register Bulwark with Stalwart](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart) has the details.
 Browsers load mail straight from `JMAP_SERVER_URL`, so it has to be an address they can reach, and Stalwart needs its [permissive CORS policy](/docs/getting-started/stalwart-setup#cors-configuration) turned on unless the two share an origin. Port 8080 serves Stalwart's first-launch setup; you can drop it once the server is configured.
 
-The `stalwart` service above is a minimal example to get the pair talking. For the authoritative Stalwart setup - image, ports, volumes, and initial configuration - follow the [official Stalwart installation guide](https://stalw.art/docs/install/).
+The `stalwart` service above is a minimal example to get the pair talking. For the authoritative Stalwart setup (image, ports, volumes, and initial configuration), follow the [official Stalwart installation guide](https://stalw.art/docs/install/).
 
 ## Using env_file
 
