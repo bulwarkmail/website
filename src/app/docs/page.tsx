@@ -22,7 +22,9 @@ export default function DocsPage() {
       <h1>Documentation</h1>
       <p>
         Three steps take you from a Stalwart server to a working inbox in about five minutes. The rest of the manual is
-        reference: configuration, features, deployment and the extension API.
+        reference: configuration, features, deployment and the extension API. If you are deciding whether Bulwark
+        fits, start with the page written for <Link href="/organisations">organisations</Link>,{" "}
+        <Link href="/small-business">small businesses</Link> or <Link href="/homelab">homelabs</Link>.
       </p>
 
       {/* The numbers are a real sequence. */}
@@ -72,6 +74,16 @@ export default function DocsPage() {
           text="One container and a setup wizard. The route for most installs."
         />
         <Tile
+          href="/docs/deployment/docker/compose"
+          title="Compose with Stalwart"
+          text="One Compose file brings up Stalwart and Bulwark together, for a new mail server."
+        />
+        <Tile
+          href="/docs/deployment/stalwart-app"
+          title="Install on Stalwart"
+          text="Stalwart serves Bulwark Lite from its own address. No web server to run and no CORS setting."
+        />
+        <Tile
           href="/docs/getting-started/lite"
           title="Bulwark Lite"
           text="The same client as static files, uploaded to any web host."
@@ -80,6 +92,11 @@ export default function DocsPage() {
           href="/docs/deployment/manual"
           title="Manual install"
           text="A standalone tarball or your own build, run under systemd or PM2."
+        />
+        <Tile
+          href="/docs/deployment/kubernetes"
+          title="Kubernetes"
+          text="HelmForge's community Helm chart. Set the image tag yourself, since its default lags behind."
         />
       </div>
 
