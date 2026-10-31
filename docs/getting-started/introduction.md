@@ -21,7 +21,7 @@ The license is AGPL v3.
 
 ## The four apps
 
-**Mail** is the one you'll spend your day in. Threaded conversations, full-text search across the whole account, colored labels that map onto JMAP keywords, and three layouts to choose between: three-pane split, focused list, or reading pane at the bottom. Any message can be read fullscreen, switched between its HTML and plain-text parts, or dragged onto a new browser tab. Folders can be shared with other users on the server. The composer is Tiptap, with inline images, tables, per-identity signatures, templates, scheduled send, delivery notifications, and S/MIME signing and encryption. Awkward mail is handled rather than ignored: `winmail.dat` gets unpacked, embedded `message/rfc822` attachments open like the messages they are, and PDFs preview in place. See [Email](/docs/features/email).
+**Mail** is the one you'll spend your day in. Threaded conversations, full-text search across the whole account, colored labels that map onto JMAP keywords, and three layouts to choose between: three-pane split, focused list, or reading pane at the bottom. Any message can be read fullscreen, switched between its HTML and plain-text parts, or dragged onto a new browser tab. Folders can be shared with other users on the server. The composer is Tiptap, with inline images, tables, per-identity signatures, templates, scheduled send, delivery notifications, and S/MIME signing and encryption with the S/MIME plugin. Awkward mail is handled rather than ignored: `winmail.dat` gets unpacked, embedded `message/rfc822` attachments open like the messages they are, and PDFs preview in place. See [Email](/docs/features/email).
 
 **Calendar** covers month, week, day, agenda, and task views that scroll freely from one period into the next, with drag-to-reschedule, recurring events you can edit by scope, attendee free/busy lookup, and iMIP invitations that Stalwart actually accepts. It subscribes to external iCal and webcal feeds and generates a birthday calendar from your contacts. See [Calendar](/docs/features/calendar).
 
@@ -41,13 +41,13 @@ The license is AGPL v3.
 | Mail server | Stalwart 0.16.6 or newer, and Stalwart 1.0 from Bulwark {{BULWARK_VERSION}} on ([supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions)) |
 | Identities | Multiple sender identities per account, each with its own signature and signature position, plus sub-addressing with a configurable delimiter |
 | Filters | Server-side Sieve (RFC 9661) through a visual rule builder or a raw editor, and a vacation responder with date ranges |
-| S/MIME | Sign, encrypt, decrypt, verify. Legacy 3DES and password-based key bundles included, per-account key isolation throughout |
+| S/MIME | With the S/MIME plugin (full edition only): sign, encrypt, decrypt, verify. Legacy 3DES and password-based key bundles included, per-account key isolation throughout |
 | Authentication | OAuth2/OIDC with PKCE against Keycloak, Authentik, or Stalwart itself; TOTP; app passwords with IP allowlists; encrypted Remember-me |
-| Admin | One tabbed dashboard for config, plugins, themes, API keys, policy, and the audit log |
+| Admin | An admin console for server settings, authentication, branding, user and organisation policy, plugins, themes, the marketplace, updates and the audit log |
 | Extensions | Plugins and themes as ZIP bundles, sandboxed and admin-approved, installable from a marketplace you can point anywhere |
 | Appearance | Light and dark themes that remap HTML email colors by luminance, bundled color themes, and branding down to per-hostname overrides |
 | [Mobile](/docs/features/mobile) | Installable as a PWA with web push for new mail, plus a separate React Native app |
-| Languages | 27, three of them right-to-left, detected from the browser |
+| Languages | 29, three of them right-to-left, detected from the browser |
 | Operations | JMAP push instead of polling, structured logging, a health endpoint, an update check that flags security releases, and an optional anonymous heartbeat that is off by default |
 
 The exhaustive version, kept in sync with each release, is [All features](/docs/features/overview).
