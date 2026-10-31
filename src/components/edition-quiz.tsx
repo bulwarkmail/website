@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import NextLink from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Info } from "@/components/icons";
 import { BulwarkMark } from "@/components/bulwark-mark";
-import { EditionLink } from "@/components/edition-link";
-import { useEdition } from "@/components/edition-provider";
 import {
   NONE,
   QUESTIONS,
   evaluate,
   type Answers,
-  type Edition,
   type Link,
   type Question,
   type Reason,
@@ -20,8 +18,8 @@ import { ICON } from "@/lib/icon";
 
 // =============================================================================
 // "Which Bulwark fits you?" - one question per screen, answered with large
-// tiles, then a result on the field in the picked edition's colour. The
-// questions and the scoring live in @/lib/edition-quiz.
+// tiles, then a result on the field. The questions and the scoring live in
+// @/lib/edition-quiz.
 // =============================================================================
 
 export function EditionQuiz() {
@@ -31,7 +29,6 @@ export function EditionQuiz() {
   const root = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
   const advance = useRef<number | undefined>(undefined);
-  const { setEdition } = useEdition();
 
   const questions = QUESTIONS;
   const shownTotal = QUESTIONS.length;
@@ -46,12 +43,6 @@ export function EditionQuiz() {
     const top = root.current?.getBoundingClientRect().top ?? 0;
     if (top < 0) root.current?.scrollIntoView({ block: "start" });
   }, [step]);
-
-  // The site's own switch follows the result, so the result sits in the
-  // picked edition's colour and every docs link opens that edition.
-  useEffect(() => {
-    if (verdict?.pick) setEdition(verdict.pick);
-  }, [verdict?.pick, setEdition]);
 
   useEffect(() => () => window.clearTimeout(advance.current), []);
 
@@ -178,7 +169,7 @@ const BADGE = (r: Reason) =>
 const LITE_LEAVES_OUT =
   "Lite leaves out add-ons, the admin page, settings sync, Office editing and notifications, and it only offers single sign-on when Stalwart serves it.";
 
-function ResultLink({ link, className, edition }: { link: Link; className: string; edition?: Edition | null }) {
+function ResultLink({ link, className }: { link: Link; className: string }) {
   if (/^https?:\/\//.test(link.href)) {
     return (
       <a href={link.href} target="_blank" rel="noopener noreferrer" className={className}>
@@ -187,9 +178,9 @@ function ResultLink({ link, className, edition }: { link: Link; className: strin
     );
   }
   return (
-    <EditionLink href={link.href} edition={edition ?? undefined} className={className}>
+    <NextLink href={link.href} className={className}>
       {link.label} <ArrowRight size={16} {...ICON} />
-    </EditionLink>
+    </NextLink>
   );
 }
 
@@ -203,11 +194,9 @@ type ResultProps = {
 
 function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps) {
   const { kind, pick, lead, title, pitch, primary, secondary, reasons, options, caveats } = verdict;
-  // A result that isn't one edition sits on a neutral panel, not in either
-  // edition's colour.
+  // A result that isn't Bulwark or Lite sits on a neutral panel, not on the
+  // raspberry field.
   const neutral = pick === null;
-  // The secondary link of a close call is the other edition's docs.
-  const secondaryEdition = kind === "lite" ? "full" : kind === "full" ? "lite" : null;
 
   return (
     <div className="bw-quiz bw-quiz-done" ref={rootRef}>
@@ -226,9 +215,9 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
           </p>
           {primary ? (
             <div className="bw-btns">
-              <ResultLink link={primary} edition={pick} className="bw-btn" />
+              <ResultLink link={primary} className="bw-btn" />
               {secondary ? (
-                <ResultLink link={secondary} edition={secondaryEdition} className="bw-btn bw-btn-ghost" />
+                <ResultLink link={secondary} className="bw-btn bw-btn-ghost" />
               ) : null}
             </div>
           ) : null}
@@ -274,9 +263,9 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
                   {c.link.label}
                 </a>
               ) : (
-                <EditionLink href={c.link.href} className="bw-link">
+                <NextLink href={c.link.href} className="bw-link">
                   {c.link.label}
-                </EditionLink>
+                </NextLink>
               )
             ) : null}
           </span>
@@ -297,9 +286,9 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
         <button type="button" className="bw-tlink" onClick={onRestart}>
           Start over
         </button>
-        <EditionLink href="/docs/getting-started/editions" className="bw-tlink">
+        <NextLink href="/docs/getting-started/editions" className="bw-tlink">
           Compare the two versions
-        </EditionLink>
+        </NextLink>
       </div>
     </div>
   );

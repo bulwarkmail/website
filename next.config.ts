@@ -17,6 +17,16 @@ const nextConfig: NextConfig = {
       // The branding guidelines moved out of the docs into /brand.
       { source: "/docs/branding/guidelines", destination: "/brand", permanent: true },
       { source: "/docs/branding", destination: "/brand", permanent: true },
+      // The site used to have a Lite mode behind /?edition=lite. Those links now
+      // open the Lite guide. ?edition=full and every other page with ?edition=
+      // render as they are: a redirect from /?edition=full to / would loop,
+      // because the query string is kept.
+      {
+        source: "/",
+        has: [{ type: "query", key: "edition", value: "lite" }],
+        destination: "/docs/getting-started/lite",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

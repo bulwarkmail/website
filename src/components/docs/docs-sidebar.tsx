@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronRight, Menu, Search, X } from "@/components/icons";
-import type { DocEdition } from "@/lib/editions";
 import { ICON } from "@/lib/icon";
 import { DocsSearch, OPEN_SEARCH_EVENT } from "./docs-search";
 
@@ -16,14 +15,12 @@ interface SidebarHeading {
 interface SidebarChild {
   title: string;
   slug: string;
-  edition: DocEdition;
   headings?: SidebarHeading[];
 }
 
 interface SidebarItem {
   title: string;
   slug: string;
-  edition: DocEdition;
   headings?: SidebarHeading[];
   children?: SidebarChild[];
 }

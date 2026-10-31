@@ -43,24 +43,24 @@ npm start
 ```
 src/
 ├── app/                      # Next.js App Router
-│   ├── layout.tsx            # Fonts, metadata, theme + edition bootstrap script
-│   ├── page.tsx              # Landing page (edition-aware copy and quick start)
+│   ├── layout.tsx            # Fonts, metadata, favicon, theme bootstrap script
+│   ├── page.tsx              # Landing page
 │   ├── docs/                 # Documentation index and [...slug] pages
 │   ├── install/              # curl-able install script redirect
-│   ├── api/docs-search/      # Docs search endpoint (edition-aware)
+│   ├── api/docs-search/      # Docs search endpoint
 │   ├── sitemap.ts, robots.ts
-│   └── globals.css           # Tokens (raspberry / Lite teal), editorial styles
+│   └── globals.css           # Tokens (raspberry, light and dark), editorial styles
 ├── components/
-│   ├── edition-provider.tsx  # data-edition on <html>, ?edition= deep links
-│   ├── edition-switch.tsx    # "Bulwark | Lite" radiogroup
-│   ├── edition-link.tsx      # Link that carries the edition into the URL
+│   ├── install-choice.tsx    # Docker / static files tabs in the install section
+│   ├── edition-quiz.tsx      # The /choose quiz
 │   ├── theme-provider.tsx, theme-image.tsx
 │   ├── navbar.tsx, footer.tsx, bulwark-mark.tsx
-│   └── docs/                 # Sidebar, search, navbar, edition banner, quickstart
+│   └── docs/                 # Sidebar, search, navbar, quickstart
 └── lib/
-    ├── docs.ts               # Markdown loading, front matter (incl. edition), search
+    ├── docs.ts               # Markdown loading, front matter, search
+    ├── editions.ts           # Front matter `edition:` for the page note and search tag
     └── og.ts                 # Open Graph card paths
-docs/                         # Documentation content (Markdown, front matter `edition:`)
+docs/                         # Documentation content (Markdown with front matter)
 ├── getting-started/          # Introduction, editions, installation, Lite, configuration, demo
 │   └── configuration/        # Stalwart setup, authentication, env reference
 ├── features/                 # Email, calendar, contacts, files, PWA, mobile, telemetry
@@ -75,11 +75,11 @@ docs/                         # Documentation content (Markdown, front matter `e
 ├── branding/                 # Brand guidelines
 └── legal/                    # Privacy, telemetry terms
 public/
-├── branding/                 # Logos, favicons (raspberry and Lite teal)
+├── branding/                 # Logos and favicons
 ├── screenshots/              # Product screenshots, light-/dark- pairs (docs, landing, press page)
 ├── beauty/                   # Framed versions for the press kit
 ├── press/                    # Press kit: logos, framed shots, cards, boilerplate
-└── og-full.png, og-lite.png  # Social cards per edition
+└── og-full.png               # Social card
 ```
 
 Every image under `public/screenshots`, `public/beauty` and `public/press` is
@@ -119,7 +119,7 @@ The documentation system supports:
 - Syntax-highlighted code blocks with copy button
 - Auto-generated sidebar navigation
 - Full-text search
-- An `edition: full | lite | both` front-matter field (default `both`). The site-wide "Bulwark | Lite" switch hides pages of the other edition from the sidebar, index and search, and shows a banner on one you land on directly. Inside a page, `<div class="lite-callout">…</div>` renders an inline "not in Lite" note.
+- An `edition: full | lite | both` front-matter field (default `both`) with an `editionNote:` sentence. Every page is shown to every reader; a page marked `full` or `lite` opens with a "Not in Lite." or "Bulwark Lite." note that carries the sentence, and search results get a small tag. Inside a page, `<div class="bw-note bw-note-brand"><b>Not in Lite.</b> …</div>` is an inline note.
 - A `{{BULWARK_VERSION}}` token for the Bulwark release that works with Stalwart 1.0, usable in the body, the title and the description. The value is `BULWARK_VERSION` in `src/lib/version.ts`, which pages written in TSX import directly.
 
 ## Contributing

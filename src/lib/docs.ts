@@ -33,7 +33,7 @@ export interface DocHeading {
   id: string;
 }
 
-export { parseEdition, editionClass, groupEditionClass } from "./editions";
+export { parseEdition } from "./editions";
 export type { DocEdition } from "./editions";
 
 export interface DocMeta {

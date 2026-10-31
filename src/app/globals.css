@@ -5,8 +5,6 @@
    are documented in local-data/design-system.md of the webmail checkout.
 
    Theme:   .dark on <html>, set before first paint (layout.tsx).
-   Edition: data-edition="lite" on <html>, set by the same script. Lite swaps
-            four tokens to teal and changes nothing else.
    ====================================================================== */
 
 :root {
@@ -17,7 +15,7 @@
   --bw-text-muted: #56565d;
   --bw-rule: #dddde1; /* tile edges, table rows, image frames */
   --bw-win-rule: #dddde1; /* the rules inside a window frame; the field does not remap it */
-  --bw-control: #7f7f87; /* input, ghost button and edition switch borders */
+  --bw-control: #7f7f87; /* input, ghost button and segmented control borders */
 
   /* brand. Nothing may hard-code the hex values: use the tokens. */
   --bw-brand: #db2d54;
@@ -32,7 +30,7 @@
   --bw-on-ink: #f2f2f3;
   --bw-ink-muted: #ababb2;
 
-  /* the flag of Europe (eu-badge.tsx), the same in both themes and editions */
+  /* the flag of Europe (eu-badge.tsx), the same in both themes */
   --bw-eu-blue: #003399;
   --bw-eu-gold: #ffcc00;
 
@@ -100,19 +98,6 @@
   --bw-warning: #e2b341;
   --bw-success: #4cc38a;
   color-scheme: dark;
-}
-
-/* Bulwark Lite: white on teal is 4.5:1, links hold 6.4:1 and 10.4:1. */
-:root[data-edition="lite"] {
-  --bw-brand: #0f8578;
-  --bw-field: #0f8578;
-  --bw-link: #0a6b60;
-  --bw-focus: #0a6b60;
-}
-.dark[data-edition="lite"] {
-  --bw-field: #0c7267;
-  --bw-link: #6fd3c5;
-  --bw-focus: #6fd3c5;
 }
 
 @media (max-width: 1024px) {
@@ -191,8 +176,8 @@ h3 {
   color: var(--bw-text);
 }
 
-/* On the field a brand-tinted selection would be pink on raspberry (or teal on
-   teal), so selected text there turns white with ink text instead. */
+/* On the field a brand-tinted selection would be pink on raspberry, so
+   selected text there turns white with ink text instead. */
 .bw-field::selection,
 .bw-field ::selection {
   background-color: var(--bw-on-field);
@@ -218,17 +203,8 @@ h3 {
   background-color: var(--bw-control);
 }
 
-/* Edition-only and theme-only visibility: both variants are server-rendered
-   and the attribute or class on <html> picks one, so there is no flash. */
-.ed-lite-only {
-  display: none;
-}
-[data-edition="lite"] .ed-lite-only {
-  display: revert;
-}
-[data-edition="lite"] .ed-full-only {
-  display: none;
-}
+/* Theme-only visibility: both variants are server-rendered and the class on
+   <html> picks one, so there is no flash. */
 .theme-dark-only {
   display: none;
 }
@@ -270,7 +246,7 @@ h3 {
   background: var(--bw-surface);
 }
 
-/* Anything on the raspberry (or teal) field remaps the neutral tokens, so
+/* Anything on the raspberry field remaps the neutral tokens, so
    the components inside need no "on field" variants of their own. */
 .bw-field {
   background: var(--bw-field);
@@ -482,7 +458,7 @@ h3 {
 }
 
 /* ----------------------------------------------------------------------
-   Nav and the edition switch. Every control in the nav is 36px high.
+   Nav. Every control in the nav is 36px high.
    ---------------------------------------------------------------------- */
 .bw-nav-in {
   display: flex;
@@ -591,23 +567,12 @@ h3 {
 .bw-switch-option:hover {
   color: var(--bw-text);
 }
-/* Selected state comes from the attribute, not from React, so it is correct
-   on the very first paint. */
-:root:not([data-edition="lite"]) .bw-switch-option[data-value="full"],
-[data-edition="lite"] .bw-switch-option[data-value="lite"] {
-  background: var(--bw-text);
-  color: var(--bw-page);
-}
-:root:not([data-edition="lite"]) .bw-field .bw-switch-option[data-value="full"],
-[data-edition="lite"] .bw-field .bw-switch-option[data-value="lite"] {
-  background: var(--bw-on-field);
-  color: var(--bw-field);
-}
 .bw-switch-wide {
   height: auto;
 }
-/* A tab in a segmented control (the install choice). */
-.bw-switch-option[aria-selected="true"] {
+/* A tab in a segmented control (the install choice). .bw-switch raises it
+   above the wide form's text colour below. */
+.bw-switch .bw-switch-option[aria-selected="true"] {
   background: var(--bw-text);
   color: var(--bw-page);
 }
@@ -1105,8 +1070,7 @@ a.bw-tile:hover {
   font-weight: 600;
 }
 /* "Not in Lite." and "Bulwark Lite." notes: the brand edge. */
-.bw-note-brand,
-.bw-note-edition {
+.bw-note-brand {
   border-left-color: var(--bw-brand);
 }
 .bw-note-warning {
@@ -2008,28 +1972,10 @@ a.bw-tile:hover {
   color: inherit;
   text-decoration: none;
 }
-[data-edition="lite"] .bw-manual > .ed-lite-only {
-  display: grid;
-}
 @media (min-width: 901px) {
   .bw-docs-bar {
     top: 64px;
   }
-}
-
-/* "Not in Lite" note inside docs pages (a <div class="lite-callout"> in the
-   markdown; rehype-raw passes it through). */
-.lite-callout {
-  margin: 0 0 24px;
-  padding: 14px 18px;
-  font-size: 15px;
-  line-height: 1.55;
-  background: var(--bw-surface);
-  border-left: 3px solid var(--bw-brand);
-}
-.lite-callout::before {
-  content: "Not in Lite. ";
-  font-weight: 600;
 }
 
 @media (max-width: 640px) {
@@ -2289,8 +2235,8 @@ ul.bw-rules > li::before {
 }
 
 /* ----------------------------------------------------------------------
-   Edition quiz (/choose). One question per screen, answers as large tiles,
-   then a result on the field in the picked edition's colour.
+   The quiz (/choose). One question per screen, answers as large tiles,
+   then a result on the field.
    ---------------------------------------------------------------------- */
 .bw-quiz-hero {
   padding-block: 64px 72px;
@@ -2583,8 +2529,8 @@ ul.bw-rules > li::before {
     min-height: 0;
   }
 }
-/* A result that isn't one of the two editions (a classic webmail, or no way
-   forward yet) sits on ink, not in either edition's colour. */
+/* A result that isn't Bulwark or Lite (a classic webmail, or no way
+   forward yet) sits on ink, not on the raspberry field. */
 .bw-quiz-result-neutral {
   --bw-field: var(--bw-ink);
   --bw-on-field: var(--bw-on-ink);
@@ -2598,7 +2544,7 @@ ul.bw-rules > li::before {
 /* ----------------------------------------------------------------------
    Made in the EU. The one place the site shows a flag: the right end of the
    footer's legal line. The flag
-   keeps its own colours in both themes and editions; everything around it
+   keeps its own colours in both themes; everything around it
    is set like the footer's legal line, at its right end.
    ---------------------------------------------------------------------- */
 .bw-eu-flag {

@@ -182,7 +182,7 @@ export function DocsSearch({ listen = false }: DocsSearchProps) {
     <button type="button" onClick={() => setOpen(true)} className="bw-searchbtn">
       <Search size={16} {...ICON} />
       <span>
-        Search the <span className="ed-lite-only">Lite </span>docs
+        Search the docs
       </span>
       <kbd className="bw-kbd">/</kbd>
     </button>
