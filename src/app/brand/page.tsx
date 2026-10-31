@@ -53,7 +53,6 @@ const LOCKUPS: LogoAsset[] = [
     height: 56,
   },
   { title: "Favicon, Bulwark", svg: asset("favicon", "Bulwark Favicon.svg"), png: asset("favicon", "Bulwark Favicon.png"), ground: "white", height: 56 },
-  { title: "Favicon, Bulwark Lite", svg: asset("favicon", "Bulwark Favicon Lite.svg"), ground: "white", height: 56 },
 ];
 
 const SECTIONS = [
