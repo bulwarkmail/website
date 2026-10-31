@@ -96,6 +96,10 @@ export function EditionQuiz() {
 
   const q = questions[step];
   const selected = answers[q.id] ?? [];
+  const choices = q.choices.filter((c) => !c.showIf || c.showIf(answers));
+  // Rows of three, or of two when that leaves no gap (four choices).
+  const narrow = choices.filter((c) => !c.wide).length;
+  const cols = narrow % 3 !== 0 && narrow % 2 === 0 ? 2 : 3;
 
   return (
     <div className="bw-quiz" ref={root}>
@@ -127,8 +131,8 @@ export function EditionQuiz() {
         </h2>
         {q.help ? <p className="bw-quiz-help">{q.help}</p> : null}
 
-        <div className="bw-quiz-tiles" role="group" aria-labelledby={`q-${q.id}`}>
-          {q.choices.filter((c) => !c.showIf || c.showIf(answers)).map((c) => {
+        <div className="bw-quiz-tiles" data-cols={cols} role="group" aria-labelledby={`q-${q.id}`}>
+          {choices.map((c) => {
             const on = selected.includes(c.id);
             return (
               <button
