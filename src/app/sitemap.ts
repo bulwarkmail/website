@@ -24,27 +24,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: SITE_URL,
-        changeFrequency: "weekly",
+      changeFrequency: "weekly",
       priority: 1,
     },
+    // One page per kind of reader.
+    ...["organisations", "small-business", "homelab"].map((page) => ({
+      url: `${SITE_URL}/${page}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
     {
       url: `${SITE_URL}/docs`,
-        changeFrequency: "weekly",
+      changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/choose`,
-        changeFrequency: "monthly",
+      changeFrequency: "monthly",
       priority: 0.6,
     },
     {
       url: `${SITE_URL}/brand`,
-        changeFrequency: "monthly",
+      changeFrequency: "monthly",
       priority: 0.5,
     },
     {
       url: `${SITE_URL}/press`,
-        changeFrequency: "monthly",
+      changeFrequency: "monthly",
       priority: 0.4,
     },
     ...sectionPages,
