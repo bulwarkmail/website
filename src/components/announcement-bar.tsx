@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "@/components/icons";
 import { ICON } from "@/lib/icon";
-import { BULWARK_VERSION } from "@/lib/version";
 
 /**
  * The strip above the nav on every page, rendered once by the root layout.
@@ -12,9 +11,9 @@ export function AnnouncementBar() {
   return (
     <section className="bw-announce" aria-label="Announcement">
       <div className="bw-w bw-announce-in">
-        <p>Bulwark {BULWARK_VERSION} works with Stalwart 1.0.</p>
-        <Link href="/docs/deployment/updating/stalwart-1-0" className="bw-announce-link">
-          Read the upgrade notes
+        <p>Bulwark 1.19 adds policies, signatures and templates per domain or group.</p>
+        <Link href="/organisations" className="bw-announce-link">
+          See what organisations get
           <ArrowRight size={16} {...ICON} />
         </Link>
       </div>

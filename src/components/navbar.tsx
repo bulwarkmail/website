@@ -7,12 +7,14 @@ import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";
 import { ICON } from "@/lib/icon";
 
+// One link per kind of reader, then the docs and the extension directory.
+// Install is the Get started button; Sponsor is in the sponsor bar and footer.
 const navLinks = [
-  { label: "Features", href: "/#features" },
-  { label: "Install", href: "/#install" },
+  { label: "Organisations", href: "/organisations" },
+  { label: "Small business", href: "/small-business" },
+  { label: "Homelab", href: "/homelab" },
   { label: "Docs", href: "/docs" },
   { label: "Extensions", href: "https://extensions.bulwarkmail.org/" },
-  { label: "Sponsor", href: "https://github.com/sponsors/bulwarkmail" },
 ];
 
 /**

@@ -4,12 +4,22 @@ import { MadeInEuBadge } from "@/components/eu-badge";
 
 const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
   {
+    h: "Bulwark for",
+    links: [
+      { label: "Organisations", href: "/organisations" },
+      { label: "Small businesses", href: "/small-business" },
+      { label: "Homelab", href: "/homelab" },
+      { label: "Which way to run it?", href: "/choose" },
+      { label: "Try the demo", href: "https://demo.bulwarkmail.org" },
+    ],
+  },
+  {
     h: "Product",
     links: [
-      { label: "Features", href: "/docs/features/overview" },
-      { label: "Editions", href: "/docs/getting-started/editions" },
-      { label: "Which edition?", href: "/choose" },
+      { label: "All features", href: "/docs/features/overview" },
       { label: "Bulwark Lite", href: "/docs/getting-started/lite" },
+      { label: "Security and updates", href: "/docs/deployment/security-updates" },
+      { label: "Extensions", href: "https://extensions.bulwarkmail.org/" },
       { label: "Changelog", href: "https://github.com/bulwarkmail/webmail/releases" },
     ],
   },
@@ -17,29 +27,25 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
     h: "Self-host",
     links: [
       { label: "Docker", href: "/docs/deployment/docker" },
-      { label: "Compose", href: "/docs/deployment/docker/compose" },
+      { label: "Compose with Stalwart", href: "/docs/deployment/docker/compose" },
       { label: "Reverse proxy", href: "/docs/deployment/docker/reverse-proxy" },
-      { label: "Manual install", href: "/docs/deployment/manual" },
       { label: "Static hosting", href: "/docs/deployment/static" },
+      { label: "Install on Stalwart", href: "/docs/deployment/stalwart-app" },
+      { label: "Requirements", href: "/docs/deployment/requirements" },
       { label: "Updating", href: "/docs/deployment/updating" },
     ],
   },
   {
     h: "Project",
     links: [
+      { label: "Documentation", href: "/docs" },
+      { label: "FAQ", href: "/#faq" },
       { label: "GitHub", href: "https://github.com/bulwarkmail" },
       { label: "Discord", href: "https://discord.com/invite/tYCujymGrT" },
+      { label: "Sponsor", href: "https://github.com/sponsors/bulwarkmail" },
       { label: "Contributing", href: "/docs/development/contributing" },
       { label: "Brand and design", href: "/brand" },
       { label: "Press kit", href: "/press" },
-    ],
-  },
-  {
-    h: "Help",
-    links: [
-      { label: "Documentation", href: "/docs" },
-      { label: "FAQ", href: "/#faq" },
-      { label: "Issues", href: "https://github.com/bulwarkmail/webmail/issues" },
       { label: "Privacy", href: "/docs/legal/privacy" },
     ],
   },
