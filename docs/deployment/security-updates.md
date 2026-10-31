@@ -33,7 +33,7 @@ Bulwark's server asks the project's version server whether a newer release exist
 - **The admin console's Updates page:** it shows the running version, the latest release, the severity, when the last check ran and when the next one is due, with a **Check now** button. The Admin entry in the navigation gets a dot for Stalwart administrators.
 - **Settings:** the About card at the bottom of the settings sidebar, shown with **Show advanced settings** on, adds a tag next to the version.
 
-The version server can mark a release as a security update. Bulwark then shows the notice in red ("Security update available") and gives signed-in users the advisory id. Not every release with a security fix is marked this way, so an amber notice can still be one you should install soon. Read the release notes either way. A version below the oldest one the project still supports gets a red "Version no longer supported".
+The version server can mark a release as a security update. Bulwark then shows the notice in red ("Security update available") and gives signed-in users the advisory id. Every release that fixed a published advisory is marked this way. A fix without a published advisory can still arrive with an amber notice, so read the release notes either way. A version below the oldest one the project still supports gets a red "Version no longer supported".
 
 <img class="theme-light-only" src="/screenshots/light-admin-updates.webp" alt="The admin console's Updates page showing that the running version is up to date" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-admin-updates.webp" alt="The admin console's Updates page showing that the running version is up to date" width="5120" height="2880" />
