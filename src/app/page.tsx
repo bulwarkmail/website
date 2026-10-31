@@ -25,21 +25,24 @@ const GITHUB_API = "https://api.github.com/repos/bulwarkmail/webmail";
 
 // Fallbacks for when the live lookups below fail. Refresh them with each
 // release: `ls locales | wc -l` in the webmail checkout.
-const FALLBACK = { instances: 5587, langs: 27 };
+const FALLBACK = { instances: 6457, langs: 29, version: "1.19.1" };
 
+// The latest published release, not main's VERSION file, so the JSON-LD
+// never names a version that hasn't shipped.
 async function fetchLatestVersion(): Promise<string> {
   try {
-    const res = await fetch(
-      "https://raw.githubusercontent.com/bulwarkmail/webmail/refs/heads/main/VERSION",
-      { next: { revalidate: 3600 } }
-    );
+    const res = await fetch(`${GITHUB_API}/releases/latest`, {
+      headers: { Accept: "application/vnd.github+json" },
+      next: { revalidate: 3600 },
+    });
     if (res.ok) {
-      return (await res.text()).trim();
+      const data = (await res.json()) as { tag_name?: string };
+      if (typeof data.tag_name === "string") return data.tag_name.replace(/^v/, "");
     }
   } catch {
     // fall through
   }
-  return "1.10.0";
+  return FALLBACK.version;
 }
 
 // Counts entries under /locales on the default branch. Each entry represents
@@ -96,20 +99,21 @@ function HeroSection() {
           <div className="bw-hero-text">
             <h1 className="bw-h1">Webmail for Stalwart Mail Server.</h1>
             <p className="bw-lead">
-              Bulwark puts mail, calendar, contacts and files in one browser client that talks JMAP to your own server.
+              Bulwark puts mail, calendar, contacts and files in one browser client that talks JMAP to your own server,
+              for a household, a small team or a whole organisation.
             </p>
             <div className="bw-btns">
-              <Link href="/docs" className="bw-btn">
-                Read the docs <ArrowRight size={16} {...ICON} />
+              <Link href="/#install" className="bw-btn">
+                Get started <ArrowRight size={16} {...ICON} />
               </Link>
-              <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn bw-btn-ghost">
-                View source <ArrowUpRight size={16} {...ICON} />
+              <a href="https://demo.bulwarkmail.org" target="_blank" rel="noopener noreferrer" className="bw-btn bw-btn-ghost">
+                Try the demo <ArrowUpRight size={16} {...ICON} />
               </a>
             </div>
           </div>
           <Shot
             name="inbox"
-            alt="The Bulwark inbox with a message open in the reading pane"
+            alt="The Bulwark inbox with a conversation open in the reading pane"
             className="bw-hero-shot"
             sizes="(max-width: 900px) 120vw, 60vw"
             window
@@ -184,8 +188,8 @@ function FactsSection({ langs }: { langs: number }) {
   const facts = [
     { icon: Code2, title: "Open source", text: "AGPL-3.0, developed in public on GitHub." },
     { icon: Zap, title: "Built on JMAP", text: "Stalwart pushes each change, and the client fetches only the difference." },
-    { icon: Globe, title: `${langs} languages`, text: "Translated by the people who use it." },
-    { icon: MapPin, title: "Built in the EU", text: "Runs on your hardware and stores nothing of its own." },
+    { icon: Globe, title: `${langs} languages`, text: "Including Arabic, Hebrew and Persian, written right to left." },
+    { icon: MapPin, title: "Built in the EU", text: "Runs on your hardware. Your mail stays on your Stalwart server." },
   ];
   return (
     <section className="bw-sec-tight">
