@@ -15,14 +15,14 @@ The toggle at the top of every page on this site switches the documentation betw
 
 | | Bulwark | Bulwark Lite |
 | --- | --- | --- |
-| Runs as | Node.js process (Docker image, standalone tarball, or `npm start`) | Static files on any web host, or served by Stalwart itself as an Application |
+| Runs as | Node.js process (Docker image, standalone tarball, or `npm start`) | Static files on any web host, the `webmail-lite` container image, or served by Stalwart itself as an Application |
 | Install | `docker run`, then a web setup wizard | Unzip, edit `config.json`, upload; or create a Stalwart Application |
 | Configuration | Wizard and admin dashboard, or environment variables | `config.json`, plus `LITE_*` build inputs for baked-in defaults |
 | Mail, calendar, contacts, files | Yes | Yes |
 | Global search, threads, filters, templates | Yes | Yes |
 | S/MIME (plugin) | Yes | No |
 | Several accounts at once | Yes | Yes |
-| Login | Password + TOTP, OAuth / OIDC, SSO, embedded SSO | Password + TOTP |
+| Login | Password + TOTP, OAuth / OIDC, SSO, embedded SSO | Password + TOTP; served by Stalwart, also OpenID Connect for accounts an external provider signs in |
 | "Remember me" | Encrypted server-side cookie | Stalwart refresh token in the browser |
 | Themes | Yes, including uploaded ZIP bundles | Yes |
 | Plugins and sidebar apps | Yes | No |
@@ -38,7 +38,7 @@ The toggle at the top of every page on this site switches the documentation betw
 | Anonymous telemetry | Opt-in | None (nothing to send it) |
 | Deep links | Yes | Yes, via host rewrite rules or the `404.html` replay |
 | Mail server requirement | Stalwart 0.16.6 or newer, or 1.0 with Bulwark {{BULWARK_VERSION}} or newer ([supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions)) | The same, plus Stalwart's permissive CORS policy (`usePermissiveCors`; not needed when Stalwart serves Lite) |
-| Release artifact | `ghcr.io/bulwarkmail/webmail`, `bulwark-standalone-<v>-linux-<arch>.tar.gz` | `bulwark-lite-<v>.zip`, `bulwark-lite-stalwart.zip` |
+| Release artifact | `ghcr.io/bulwarkmail/webmail`, `bulwark-standalone-<v>-linux-<arch>.tar.gz` | `bulwark-lite-<v>.zip`, `bulwark-lite-stalwart.zip`, `ghcr.io/bulwarkmail/webmail-lite` |
 
 ## How to choose
 
