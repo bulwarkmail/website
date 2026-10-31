@@ -171,7 +171,8 @@ const BADGE = (r: Reason) =>
       : "Rules out Bulwark"
     : `Points to ${r.toward === "full" ? "Bulwark" : "Lite"}`);
 
-const LITE_LEAVES_OUT = "Lite leaves out add-ons, the admin page, settings sync, Office editing, notifications and single sign-on.";
+const LITE_LEAVES_OUT =
+  "Lite leaves out add-ons, the admin page, settings sync, Office editing and notifications, and it only offers single sign-on when Stalwart serves it.";
 
 function ResultLink({ link, className, edition }: { link: Link; className: string; edition?: Edition | null }) {
   if (/^https?:\/\//.test(link.href)) {
