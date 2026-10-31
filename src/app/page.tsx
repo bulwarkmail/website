@@ -387,7 +387,7 @@ function ProjectsSection() {
           <Tile
             href="https://github.com/bulwarkmail/homeassistant-jmap"
             title="Home Assistant"
-            text="Unread counts and new-mail events from any JMAP server. Pre-1.0."
+            text="Unread counts, automations on new mail, and sending mail from Home Assistant. Pre-1.0."
           />
           <Tile
             href="https://extensions.bulwarkmail.org/"
