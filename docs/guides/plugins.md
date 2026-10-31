@@ -3,7 +3,7 @@ title: Plugins
 description: Plugin system for extending Bulwark with custom functionality.
 order: 6
 edition: full
-editionNote: "Plugins and sidebar apps need the sandbox routes and the admin server, so the static export pins both off. Themes still work."
+editionNote: "Plugins and sidebar apps need the sandbox routes and the admin server, so the static export pins both off. Its built-in themes still work."
 ---
 
 # Plugins
