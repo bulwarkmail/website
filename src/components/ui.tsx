@@ -42,15 +42,7 @@ export function Shot({
   url = DEMO_HOST,
 }: ShotProps) {
   const image = (
-    <ThemeImage
-      light={`/screenshots/light-${name}.webp`}
-      dark={`/screenshots/dark-${name}.webp`}
-      alt={alt}
-      width={2560}
-      height={1440}
-      sizes={sizes}
-      priority={priority}
-    />
+    <ThemeImage light={`light-${name}`} dark={`dark-${name}`} alt={alt} sizes={sizes} priority={priority} />
   );
   if (window) {
     return (

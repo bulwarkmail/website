@@ -9,8 +9,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
-  images: {
-    formats: ['image/avif', 'image/webp'],
+  async headers() {
+    return [
+      {
+        // Screenshot sizes from scripts/build-images.mjs. Their names carry a
+        // hash of the source, so a changed screenshot gets new names.
+        source: "/_img/:file*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
   },
   async redirects() {
     return [

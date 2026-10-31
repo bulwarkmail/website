@@ -214,6 +214,11 @@ h3 {
 .dark .theme-dark-only {
   display: block;
 }
+/* The <picture> around a screenshot adds no box of its own: the <img> inside
+   is laid out (and hidden by the theme classes) as if it stood alone. */
+.bw-pic {
+  display: contents;
+}
 
 .sr-only {
   position: absolute;

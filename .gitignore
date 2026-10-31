@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# screenshot sizes and their index, built by scripts/build-images.mjs
+/public/_img/
+/src/generated/
+
 # production
 /build
 
