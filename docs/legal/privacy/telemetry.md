@@ -9,7 +9,7 @@ edition: both
 
 This sub-page covers the **anonymous usage heartbeat** sent by self-hosted Bulwark webmail instances that opt in. The general project privacy policy is at [/docs/legal/privacy](/docs/legal/privacy). The [feature page](/docs/features/telemetry) is the plain-language version; this page is the formal terms.
 
-Last updated: 25 September 2026. Schema v1; the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
+Last updated: 31 October 2026. Schema v1; the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
 
 ## Scope
 
@@ -23,17 +23,20 @@ Telemetry is **off by default**. On first boot the app writes a state file recor
 
 When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible verbatim in the admin UI before that happens.
 
-Enable it in one of two ways:
+Enable it in one of three ways:
 
-- In the admin UI (Settings → Anonymous usage stats → Enable).
+- In the setup wizard, step Security & sessions: Send anonymous usage stats to help improve Bulwark.
+- In the admin console: Usage stats → Send anonymous heartbeats, then Save.
 - By setting `BULWARK_TELEMETRY=on` in the environment.
 
-Disable it in one of four:
+Disable it in one of four ways:
 
-- In the admin UI (Settings → Anonymous usage stats → Disable).
-- By setting `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`) in the environment. Either environment variable wins over the UI toggle and greys it out.
-- By clearing the endpoint field in the admin UI.
+- In the admin console: Usage stats → turn off Send anonymous heartbeats, then Save.
+- By setting `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`) in the environment. Either environment variable wins over the admin switch and greys it out.
+- With the no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=on`, or Admin → Security → Third-party traffic), which wins over every other setting, `BULWARK_TELEMETRY=on` included.
 - By blocking `telemetry.bulwarkmail.org` at the network level.
+
+Clearing the endpoint field does not turn telemetry off: Bulwark saves an empty field as the default collector, `https://telemetry.bulwarkmail.org/v1/heartbeat`.
 
 ## What is sent
 
@@ -42,22 +45,22 @@ One heartbeat per 24 hours, jittered ± 2 hours, containing exactly the followin
 | Field                         | Type           | Example                            | Purpose                                                                                                                                                                                                                                                     |
 | ----------------------------- | -------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `schema`                      | string         | `"1"`                              | Lets us evolve the schema without breaking old senders.                                                                                                                                                                                                     |
-| `instance_id`                 | uuid v4        | `f0c1...`                          | Distinguishes one install from another over time. Random, generated locally on first boot, stored at `<data-dir>/.telemetry-id`. Reset by deleting that file. Never tied to anything else.                                                                  |
-| `ts`                          | ISO timestamp  | `2026-04-27T17:00:00Z`             | Stored rounded to the day; minute-level precision is discarded.                                                                                                                                                                                             |
+| `instance_id`                 | uuid v4        | `f0c1...`                          | Distinguishes one install from another over time. Random, generated locally the first time someone signs in or the payload is built, stored at `data/telemetry/.telemetry-id` (or in `TELEMETRY_DATA_DIR`). Reset by deleting that file. Never tied to anything else. |
+| `ts`                          | ISO timestamp  | `2026-04-27T17:00:00Z`             | Send time. Rows are keyed by day; the exact time is kept with the raw row for 90 days.                                                                                                                                                                     |
 | `version`                     | string         | `"1.4.8"`                          | Release adoption.                                                                                                                                                                                                                                           |
 | `build`                       | string         | `"a1b2c3d"` or `"release"`         | Distinguishes published releases from local builds.                                                                                                                                                                                                         |
 | `platform`                    | enum           | `docker`, `bare`, `k8s`, `unknown` | Where docs and bug-fix effort go.                                                                                                                                                                                                                           |
 | `node_version`                | string         | `"20.11.0"`                        | Node compatibility horizon.                                                                                                                                                                                                                                 |
-| `os_family`                   | enum           | `linux`, `darwin`, `windows`       | Coarse OS only. No distro, no kernel.                                                                                                                                                                                                                       |
+| `os_family`                   | enum           | `linux`, `darwin`, `windows`, `unknown` | Coarse OS only. No distro, no kernel.                                                                                                                                                                                                                       |
 | `stalwart_version`            | string or null | `"0.16.0"`                         | Stalwart upgrade adoption. The value of the `STALWART_VERSION` environment variable, which only the admin sets; null when it is unset. Bulwark doesn't ask the mail server for it.                                                                          |
 | `features.calendar`           | boolean        | `true`                             | Whether the calendar feature is enabled.                                                                                                                                                                                                                    |
 | `features.contacts`           | boolean        | `true`                             | Whether contacts is enabled.                                                                                                                                                                                                                                |
-| `features.files`              | boolean        | `false`                            | Whether files (WebDAV) is enabled.                                                                                                                                                                                                                          |
-| `features.extensions`         | boolean        | `true`                             | Whether the marketplace integration is enabled.                                                                                                                                                                                                             |
+| `features.files`              | boolean        | `false`                            | Whether the Files app is on.                                                                                                                                                                                                                                |
+| `features.extensions`         | boolean        | `true`                             | Whether plugins are switched on.                                                                                                                                                                                                                            |
 | `features.oauth_enabled`      | boolean        | `false`                            | Whether OAuth is configured.                                                                                                                                                                                                                                |
 | `features.smime_enabled`      | boolean        | `false`                            | Whether S/MIME is enabled.                                                                                                                                                                                                                                  |
-| `counts.accounts`             | bucket string  | `"2-5"`                            | Approximate install size, bucketed (`1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`).                                                                                                                                                                         |
-| `counts.accounts_active_7d`   | bucket string  | `"1"`                              | Approximate active-user count, same buckets.                                                                                                                                                                                                                |
+| `counts.accounts`             | bucket string  | `"2-5"`                            | Accounts that signed in during the last 90 days, bucketed (`0`, `1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`).                                                                                                                                              |
+| `counts.accounts_active_7d`   | bucket string  | `"1"`                              | Accounts that signed in during the last 7 days, same buckets.                                                                                                                                                                                               |
 | `counts.extensions_installed` | small int      | `2`                                | Marketplace traction. Not bucketed.                                                                                                                                                                                                                         |
 | `counts.themes_installed`     | small int      | `0`                                | Same.                                                                                                                                                                                                                                                       |
 | `uptime_days`                 | int            | `17`                               | Stability signal. Capped at 365.                                                                                                                                                                                                                            |
@@ -82,7 +85,7 @@ If a future schema version adds anything to the "what is sent" list, it will be 
 Heartbeats are written to a Postgres database named `telemetry`, separate from the databases backing other Bulwark services. Each row is keyed by `(instance_id, day)` so multiple heartbeats per day collapse into a single row.
 
 - **Raw heartbeats** are retained for **90 days**, then deleted by an automated daily job.
-- After 90 days, only **anonymized daily aggregates** survive - counts grouped by version, platform, feature, and account-count bucket, with no `instance_id` or per-instance grain.
+- After 90 days we keep **daily aggregates** (counts grouped by version, platform, feature, and account-count bucket) without any `instance_id`, and in `instance_meta`, per `instance_id`, only the first and last day it was seen and on how many days.
 - Backups of the telemetry database are kept on the same server, encrypted at rest. There is no off-site replication of telemetry data.
 
 ## Public dashboard
@@ -95,9 +98,9 @@ The receiving service is open source at [github.com/bulwarkmail/dashboard](https
 
 ## How to opt out again
 
-- **In the admin UI:** Settings → Anonymous usage stats → toggle off.
-- **By environment variable:** `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`). Either wins over the UI toggle.
-- **By blanking the endpoint** in the admin UI.
+- **In the admin console:** Usage stats → turn off Send anonymous heartbeats, then Save.
+- **By environment variable:** `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`). Either wins over the admin switch.
+- **With the no-third-party switch:** `NO_THIRD_PARTY_TRAFFIC=on`, or Admin → Security → Third-party traffic. It wins over every other setting.
 - **At the network:** block `telemetry.bulwarkmail.org` at your firewall. Heartbeats fail silently with no impact on Bulwark.
 
 To additionally make any future heartbeats from this install look like a brand-new instance to us, delete the `.telemetry-id` file in your telemetry data directory before re-enabling.
@@ -109,7 +112,7 @@ You can request:
 - **What we hold tied to your `instance_id`** - open a GitHub issue or email us with the `instance_id` from your `.telemetry-id` file. We'll send back the raw rows and confirm what they are.
 - **Deletion** - same channel. We delete all rows tagged with that `instance_id` from `heartbeats` and `instance_meta`. Aggregated data in `daily_rollups` cannot be unwound, because no `instance_id` is stored there.
 
-We respond within 30 days. If we hold no rows tagged with your `instance_id`, because you never opted in or because the rows aged out past 90 days, we'll tell you that.
+We respond within 30 days. If we hold no rows tagged with your `instance_id`, because you never opted in, we'll tell you that. After 90 days only the `instance_meta` row (first day, last day, number of days seen) is left.
 
 ## Lawful basis (GDPR / DSGVO)
 
