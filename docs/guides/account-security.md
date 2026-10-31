@@ -18,94 +18,62 @@ This is the panel where users look after their own account rather than filing a 
 
 Account security management requires **Stalwart 0.16.6 or newer**, or Stalwart 1.0 with Bulwark {{BULWARK_VERSION}} or newer. Stalwart 0.16 dropped its REST self-service HTTP API and replaced it with JMAP `x:` methods. Bulwark talks to the new JMAP endpoint exclusively. The deprecated `STALWART_API_URL` environment variable has no effect from Bulwark 1.5.0 onward.
 
-If you see "Account security management is not available for this mail server" with a recent Bulwark, upgrade Stalwart to 0.16.6 or newer and check the principal permissions described below.
+If you see "Account security management is not available for this mail server" with a recent Bulwark, upgrade Stalwart to 0.16.6 or newer and see [Troubleshooting](#troubleshooting) below.
 
-## Required Stalwart permissions
+## Stalwart permissions
 
-The mail server administrator has to enable these principal permissions in Stalwart before the panel appears:
+Stalwart's default user role already allows everything on this page, so there is nothing to switch on in Stalwart. If an administrator gave an account a custom role, that role needs the account password, app password, API key and public key permissions (`sysAccountPassword*`, `sysAppPassword*`, `sysApiKey*`, `sysPublicKey*`).
 
-### Core security permissions
-
-| Permission                                | Description                                         | Required |
-| ----------------------------------------- | --------------------------------------------------- | -------- |
-| **Manage account passwords**              | Allows users to change their password               | ✓ Yes    |
-| **Retrieve specific account information** | Allows viewing current account details and settings | ✓ Yes    |
-| **Modify user account information**       | Allows updating user profile and account settings   | ✓ Yes    |
-| **Authenticate**                          | Required for authentication operations              | ✓ Yes    |
-| **Manage encryption-at-rest settings**    | Allows managing encryption configuration            | ✓ Yes    |
-
-### JMAP identity permissions, for the composer
-
-| Permission                            | Required for                            |
-| ------------------------------------- | --------------------------------------- |
-| **Modify user identities via JMAP**   | Creating and updating sender identities |
-| **Retrieve user identities via JMAP** | Listing identities in the composer      |
-| **Track identity changes via JMAP**   | Real-time identity sync after edits     |
-
-## Features by permission
+## What users can do
 
 ### Password management
 
-- Requires: `Manage account passwords` + `Modify user account information`
-- Users can update their password from Settings → Security → Change Password.
+- Users change their password in Settings → Security under **Change password**.
 
 ### Two-factor authentication (TOTP)
 
-- Requires: `Authenticate`
-- Users can enable or disable TOTP-based 2FA from Settings → Security.
-- A QR code is rendered for authenticator apps; recovery codes are generated for account recovery.
+- Users turn TOTP-based 2FA on or off in Settings → Security.
+- A QR code and the setup URL are shown for the authenticator app; users confirm with their password and a code from the app.
+
+Users who signed in through single sign-on or with an access token don't see the password and two-factor sections; they change those at their identity provider.
 
 ### App passwords
 
-- Requires: `Authenticate` + `Modify user account information`
 - Users can create per-app credentials for clients that don't support OAuth (IMAP/SMTP, CalDAV).
 - Each app password can carry an optional **IP allowlist**, so a credential only authenticates from approved networks.
 - Existing passwords can be revoked individually.
 
 ### API keys
 
-- Requires: appropriate Stalwart admin permissions
-- Available from the admin panel.
-- Generate, list, and revoke API keys used to access Stalwart programmatically.
+- Users create and delete their own API keys in Settings → Security → Other apps and devices, for scripts and integrations that talk to Stalwart directly.
+- The section appears once **Show advanced settings** is on.
 
 ### Encryption at rest
 
-- Requires: `Manage encryption-at-rest settings`
-- Users can enable encryption for stored mail.
+- In Settings → Security → Encryption (shown with **Show advanced settings**), add your S/MIME or PGP public key and choose **Enable encryption** on it, with the algorithm you want. Stalwart then encrypts new mail with that key.
 
 ## Changing the password from Bulwark
 
 1. Log into Bulwark.
 2. Open Settings → Security.
-3. Under **Change Password**, enter the current password and the new password twice.
-4. Click **Change Password**.
+3. Under **Change password**, enter the current password, the new one twice and, if two-factor is on, a code from your authenticator app.
+4. Choose **Change password**.
 
-If the section is missing or you receive an error, the required Stalwart permissions are likely not enabled.
+If the section is missing, see the next section.
 
 ## Troubleshooting
 
 ### "Account security management is not available for this mail server"
 
-This error appears when one or more required permissions are disabled, or when Stalwart predates the JMAP self-service API. To resolve:
+This message appears when the account doesn't get Stalwart's `urn:stalwart:jmap` capability (the server isn't Stalwart, it is older than 0.16, or on Stalwart 1.0 Bulwark isn't registered as a first-party client), or when the operator set `STALWART_JMAP_PASSTHROUGH_ENABLED=false`. To resolve:
 
 1. **Confirm Stalwart is on 0.16.6 or newer, or on 1.0 with Bulwark {{BULWARK_VERSION}} or newer.** Versions before 0.16 don't expose the required JMAP `x:` methods.
-2. **Contact your administrator** to verify the permissions in the table above are enabled on the principal.
-3. **For OAuth users**: ensure the OAuth client has been granted scopes sufficient for account management.
+2. **On Stalwart 1.0, run Auto-configure OAuth** once on the **Authentication** page of Bulwark's admin console, so Bulwark is a first-party client. Until then, users who signed in with single sign-on or a two-factor code see this message.
+3. **Check that `STALWART_JMAP_PASSTHROUGH_ENABLED`** isn't set to `false`.
 
 ### Bulwark talks to the wrong endpoint
 
 Earlier Bulwark versions used `STALWART_API_URL` to reach a separate REST endpoint. From 1.5.0 onward, all self-service traffic goes through the normal JMAP session URL - there is no separate URL to configure. Remove `STALWART_API_URL` from your environment.
-
-## Admin configuration steps
-
-To enable Account Security as a Stalwart administrator:
-
-1. Log in to Stalwart's admin console.
-2. Navigate to **Accounts** → the principal you want to authorize.
-3. Toggle each permission listed above to **On**.
-4. Save and reload Stalwart's configuration.
-
-Permissions can be applied at the role level for bulk configuration.
 
 ## Related pages
 

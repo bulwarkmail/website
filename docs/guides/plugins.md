@@ -16,10 +16,10 @@ This page is the overview for admins and plugin authors. The full reference for 
 ## Lifecycle
 
 1. **Turn plugins on** - Plugins are off for the whole instance until an admin turns them on in the admin dashboard.
-2. **Install** - An admin uploads a plugin ZIP from the admin dashboard or installs it from the [extension marketplace](/docs/guides/marketplace). If the admin allows user uploads, users can also upload a plugin under Settings > Plugins.
-3. **Validate** - On upload, Bulwark checks the manifest, the file types and sizes in the ZIP, and refuses unknown permissions or a plugin that needs a newer webmail (`minAppVersion`). It warns, but still installs, when the code contains patterns such as `eval(` or `innerHTML =`.
+2. **Install** - An admin uploads a plugin ZIP from the admin dashboard or installs it from the [extension marketplace](/docs/guides/marketplace). If the admin allows user uploads, users can also upload a plugin under Settings > Add-ons.
+3. **Validate** - On upload, Bulwark checks the manifest, the file types and sizes in the ZIP, and refuses unknown permissions or a plugin that needs a newer webmail (`minAppVersion`). When the code contains `eval(`, `new Function(`, `document.cookie`, `document.write` or an `innerHTML` assignment, an admin upload or marketplace install is refused; a user's own upload installs with a warning.
 4. **Consent or approval** - A plugin an admin installed is managed: users aren't asked to consent, and the admin can force it on for everyone or leave it for each user to turn on. A user upload shows the user a consent dialog with the plugin's permissions. When the admin requires approval (the default), a user's plugin only runs after the admin approved that exact package. The approval is pinned to a hash of the manifest and the code, so a changed package needs approving again.
-5. **Configure** - Users set the plugin's own settings in Settings > Plugins, admins set its admin configuration on the plugin's page in the admin dashboard. Both forms are generated from schemas in the manifest.
+5. **Configure** - Users set a plugin's own settings on its page under Settings > Add-ons, admins set its admin configuration on the plugin's page in the admin dashboard. Both forms are generated from schemas in the manifest.
 6. **Run** - The enabled plugin loads in a sandboxed frame, registers its hooks, actions and slots, and talks to the app only through the host API.
 
 ## Development workflow
@@ -66,17 +66,19 @@ A plugin can show up in about 50 places. There are three kinds:
 | | `app-page` (own page with a navigation rail entry) | `ui:app-page` |
 | | `plugin-dialog` | none (opened by the plugin) |
 | Navigation | `navigation-rail-bottom` | `ui:navigation-rail` |
-| | `sidebar-widget`, `sidebar-section` | `ui:sidebar-widget` |
+| | `sidebar-widget`, `sidebar-section`, `sidebar-section-actions` | `ui:sidebar-widget` |
 | | `top-bar-actions` | `ui:toolbar` |
 | Message list | `message-list-header`, `message-list-empty`, `message-row-actions`, `message-bulk-actions` | `ui:message-list` |
 | | `toolbar-actions` | `ui:toolbar` |
 | | `context-menu-email` | `ui:context-menu` |
+| | `search-results` (data) | `email:read` |
 | Reader | `reader-header`, `reader-below-subject`, `email-banner`, `reader-above-quote`, `thread-summary` | `ui:email-banner` |
 | | `email-footer` | `ui:email-footer` |
 | | `reader-actions` | `ui:toolbar` |
 | | `email-detail-sidebar`, `email-details-section` | `ui:email-details` |
 | | `attachment-actions`, `attachment-menu` | `email:read` |
-| Composer | `composer-toolbar`, `composer-toolbar-actions`, `composer-options-menu`, `composer-send-menu`, `composer-attach-menu` | `ui:composer-toolbar` |
+| | `reader-selection-menu` (right-click on selected text) | `ui:context-menu` or `ui:toolbar` |
+| Composer | `composer-toolbar`, `composer-toolbar-actions`, `composer-options-menu`, `composer-send-menu`, `composer-attach-menu`, `composer-selection-menu` | `ui:composer-toolbar` |
 | | `composer-above-body`, `composer-below-body`, `composer-attachment-source` | `ui:composer-toolbar` or `ui:composer-sidebar` |
 | | `composer-sidebar`, `composer-sidebar-right` | `ui:composer-sidebar` |
 | Calendar | `calendar-event-actions`, `calendar-event-detail`, `calendar-event-form`, `calendar-day-header`, `mini-calendar-marks` | `ui:calendar-action` |
@@ -192,9 +194,9 @@ Entries are https origins, optionally with a port or one level of `*.` subdomain
 
 Plugins declare the permissions they need in the manifest. An admin sees that list before enabling anything, and a user sees it in the consent dialog, with high-risk permissions listed first and marked. Without a permission, an API call is refused, a hook isn't registered, a surface isn't drawn, and props or click context that need the permission are left out.
 
-**Mail and composing:** `email:read`, `email:write`, `email:send`, `compose:open`, `compose:read`, `compose:write`.
+**Mail and composing:** `email:read`, `email:write`, `email:send`, `email:forward` (forward a message without the composer; the host asks the user once per address), `compose:open`, `compose:read`, `compose:write`.
 
-**Other data:** `calendar:read/write`, `contacts:read/write`, `files:read/write`, `identity:read/write`, `filters:read/write`, `tasks:read/write`, `templates:read/write`, `vacation:read/write`, `settings:read/write`, `security:read`, `account:read`.
+**Other data:** `calendar:read/write`, `contacts:read/write`, `files:read/write`, `identity:read/write`, `filters:read/write`, `tasks:read/write`, `templates:read/write`, `vacation:read/write`, `settings:read/write`, `security:read`, `account:read`, `directory:read` (look people up in the server's directory).
 
 **Sign-in:** `auth:observe` (be told about sign-in, account switches and session renewal) and `auth:emit` (sign the user out).
 
@@ -204,7 +206,7 @@ Plugins declare the permissions they need in the manifest. An admin sees that li
 
 `ui:observe` and `app:lifecycle` are granted implicitly and don't belong in a manifest.
 
-The consent dialog marks these as high risk: `email:read` (it covers every message in the account, not only the open one), `email:send`, `identity:write`, `filters:write`, `vacation:write`, `http:fetch`, `http:post`, `http:proxy`, and the permissions below.
+The consent dialog marks these as high risk: `email:read` (it covers every message in the account, not only the open one), `email:send`, `email:forward`, `identity:write`, `filters:write`, `vacation:write`, `http:fetch`, `http:post`, `http:proxy`, and the permissions below.
 
 | Permission              | What it grants                                                    |
 | ----------------------- | ----------------------------------------------------------------- |
@@ -227,11 +229,10 @@ The privileged frame is same-origin with the webmail, which amounts to full acce
 
 The plugin and theme dashboard gives you:
 
-- **Listing** - installed plugins with manifest details in a resizable detail sidebar
+- **Listing** - installed plugins, each with its own page for availability, permissions, configuration and earlier versions to roll back to
 - **Instance switches** - turn plugins on for the instance, allow or block user uploads, and require approval for user uploads
 - **Approvals** - review and approve the plugin packages users uploaded
 - **Forced enable / disable** - lock plugins on or off for all users
-- **Admin locks** - pin plugin settings so users cannot override them
 - **Plugin configuration** - each plugin's admin settings, including secrets for admin-scope credentials, and its own admin page if it has one
 - **Audit log** - every plugin enable, disable and config change is recorded
 
@@ -245,7 +246,7 @@ Themes use the same delivery pipeline as plugins:
 
 ## Official plugins
 
-The [plugins repository](https://github.com/bulwarkmail/plugins) holds the official plugins, which are also listed in the [marketplace](/docs/guides/marketplace). Among them:
+The [plugins repository](https://github.com/bulwarkmail/plugins) holds the official plugins. Most of them are in the [marketplace](/docs/guides/marketplace); the team inbox plugin isn't yet, so an admin installs it by uploading its ZIP. Among them:
 
 - **Nextcloud** - attach files from Nextcloud, send large files as share links, save attachments and messages there
 - **Paperless-ngx** - send attachments and messages to Paperless and attach documents from it
@@ -255,7 +256,7 @@ The [plugins repository](https://github.com/bulwarkmail/plugins) holds the offic
 - **Jitsi Meet** - add a meeting link to calendar events
 - **Package tracking**, **Birthday reminders**, **Calendar agenda**, **Time zone helper**, **Translate**, **Quick notes**
 - **External link warning**, **Reply-all guardrail**, **Spam score**, **Impersonation notice**
-- **Gravatar** and **Libravatar** avatars
+- **Gravatar** and **Libravatar** avatars (the Libravatar entry in the marketplace is a community upload, not the repository's plugin)
 
 The **External mail warning** plugin is retired: Bulwark labels mail from outside the organisation and confirms external recipients itself, see [External mail](/docs/guides/organisation/external-mail).
 
