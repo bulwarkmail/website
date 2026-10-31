@@ -6,6 +6,7 @@ import { InstallChoice } from "@/components/install-choice";
 import { DockerSteps, LiteSteps } from "@/components/install-steps";
 import { CodeBlock } from "@/components/code-block";
 import { Shot, Tile } from "@/components/ui";
+import { TableSection, TileSection } from "@/components/sections";
 import { ICON } from "@/lib/icon";
 import { BULWARK_VERSION } from "@/lib/version";
 
@@ -227,7 +228,7 @@ function AppsSection() {
             href="/docs/features/email"
             icon={Mail}
             title="Mail"
-            text="Threaded conversations, a unified inbox, Sieve filters and S/MIME."
+            text="Threaded conversations, a unified inbox, Sieve filters and scheduled send."
           />
           <Tile
             href="/docs/features/calendar"
@@ -592,6 +593,41 @@ export default async function Home() {
         <HeroSection />
         <SponsorsSection />
         <FactsSection langs={langs ?? FALLBACK.langs} />
+        <TileSection
+          id="who"
+          heading="Bulwark runs for a family, a small business or a whole organisation."
+          text="Each of them runs Stalwart for the mail. Bulwark is the client their people use every day."
+          columns={3}
+          tiles={[
+            {
+              title: "Organisations",
+              text: "Single sign-on, policies per domain or group, and one signature for everyone.",
+              href: "/organisations",
+            },
+            {
+              title: "Small businesses",
+              text: "A shared mailbox and shared calendars, installed as one container.",
+              href: "/small-business",
+            },
+            {
+              title: "Home and homelab",
+              text: "One container next to Stalwart, arm64 images, or static files with no Node process.",
+              href: "/homelab",
+            },
+          ]}
+        />
+        <TableSection
+          heading="Stalwart is the mail server. Bulwark is the client."
+          text="Install Stalwart first, then point Bulwark at it. Stalwart stores your mail; Bulwark reads and writes it over JMAP and keeps no copy."
+          link={{ label: "Setting up Stalwart", href: "/docs/getting-started/configuration/stalwart-setup" }}
+          columns={["Stalwart does", "Bulwark adds"]}
+          rows={[
+            ["Receives and sends mail, filters spam", "Mail, calendar, contacts and files in one browser window"],
+            ["Stores mailboxes, calendars, address books and files", "Search across all four, and push updates as they happen"],
+            ["Holds the accounts, groups and shared mailboxes", "Policies, locks and signatures per domain or group"],
+            ["Can be your OpenID Connect provider", "Sign-in through that provider or another one, and an admin console"],
+          ]}
+        />
         <AppsSection />
         <FeatureRow
           heading="Mail opens as threads, with search across every folder."
