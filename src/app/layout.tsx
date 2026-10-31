@@ -115,6 +115,7 @@ export default function RootLayout({
             defer
             src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL ?? 'https://umami.bulwarkmail.org/script.js'}
             data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+            data-do-not-track="true"
           />
         ) : null}
       </head>
