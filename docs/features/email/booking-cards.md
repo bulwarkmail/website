@@ -9,6 +9,9 @@ edition: both
 
 Many airlines, hotels, ticket shops, carriers and online shops put machine-readable data into their mail, the same schema.org markup Gmail and Outlook read. When a message carries it, Bulwark shows a short card above the message with the facts that matter and the one thing you usually want to do next.
 
+<img class="theme-light-only" src="/screenshots/light-booking-cards.webp" alt="A flight booking mail with a card above it showing the route from Lisbon to Berlin, both local times, the seat, the booking reference and buttons to check in and add the flight to the calendar" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-booking-cards.webp" alt="A flight booking mail with a card above it showing the route from Lisbon to Berlin, both local times, the seat, the booking reference and buttons to check in and add the flight to the calendar" width="5120" height="2880" />
+
 ## What the cards show
 
 | Mail | Card |
