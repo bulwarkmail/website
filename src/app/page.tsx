@@ -287,23 +287,24 @@ function FeatureRow({ heading, text, link, shot, flip }: FeatureRowProps) {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Editions
+// SECTION: Two ways to run it
 // -----------------------------------------------------------------------------
 
-// Verified against scripts/lite/lib.mjs and the IS_LITE gates in the webmail
-// checkout. If a row here can't be traced to one of those, take it out.
+// Verified against scripts/lite/lib.mjs, lib/auth/lite-oauth.ts and the IS_LITE
+// gates in the webmail checkout (1.19.1). If a row here can't be traced to one
+// of those, take it out.
 const EDITION_ROWS: [string, boolean | string, boolean | string][] = [
   ["Mail, calendar, contacts and files", true, true],
   ["Several accounts at once", true, true],
   ["Sign-in with a password and TOTP", true, true],
-  ["OAuth and single sign-on", true, false],
-  ["Plugins and sidebar apps", true, false],
-  ["Settings that follow you between devices", true, false],
+  ["Single sign-on (OAuth, OpenID Connect)", true, "Only when Stalwart serves Lite"],
+  ["Policies, locks and organisation signatures", true, "From a policy.json file"],
   ["Admin console and setup wizard", true, false],
+  ["Plugins, such as S/MIME", true, false],
+  ["Settings that follow you between devices", true, false],
   ["Office document editing", true, false],
-  ["Web push and the update notice", true, false],
-  ["Served by Stalwart itself as an Application", false, true],
-  ["Runs on", "Docker or Node.js", "Any static web host, or Stalwart"],
+  ["Web push notifications", true, false],
+  ["Runs on", "Docker or Node.js, amd64 and arm64", "Any static web host, a small nginx container, or Stalwart"],
 ];
 
 function YesNo({ value }: { value: boolean | string }) {
@@ -325,10 +326,11 @@ function EditionsSection() {
       <div className="bw-w">
         <div className="bw-split bw-split-4-8">
           <div className="bw-head">
-            <h2 className="bw-h2">Two editions from the same code.</h2>
+            <h2 className="bw-h2">Run it as a container, or as static files.</h2>
             <p>
-              Bulwark runs as a Node.js container with an admin console. Bulwark Lite is the same client exported as
-              static files, for hosts that only serve HTML.
+              Bulwark runs as a Node.js container with an admin console. Bulwark Lite is the same client built as
+              static files, for any web host or for Stalwart to serve itself. Lite leaves out the admin console,
+              plugins, office editing and web push.
             </p>
             <Link href="/docs/getting-started/editions" className="bw-tlink">
               Compare the two <ArrowRight size={16} {...ICON} />
