@@ -109,7 +109,7 @@ const TYPE: { name: string; spec: string; sample: string; style: React.CSSProper
   { name: "Heading 2", spec: "40 / 28 px · 400 · 1.12 · -0.015em", sample: "Two editions from the same code.", style: { fontSize: "var(--bw-h2)", lineHeight: 1.12, letterSpacing: "-0.015em" } },
   { name: "Heading 3, tile title", spec: "21 / 19 px · 400 · 1.2 · -0.015em", sample: "Bulwark Legacy Proxy", style: { fontSize: "var(--bw-h3)", lineHeight: 1.2, letterSpacing: "-0.015em" } },
   { name: "Lead", spec: "19 / 17 px · 400 · 1.45", sample: "Bulwark puts mail, calendar, contacts and files in one browser client.", style: { fontSize: "var(--bw-lead)", lineHeight: 1.45, color: "var(--bw-text-muted)" } },
-  { name: "Body", spec: "17 / 16 px · 400 · 1.55", sample: "The setup wizard finds your Stalwart server and sets the admin password.", style: { fontSize: "var(--bw-body)" } },
+  { name: "Body", spec: "17 / 16 px · 400 · 1.55", sample: "The setup wizard checks your Stalwart server and sets the admin password.", style: { fontSize: "var(--bw-body)" } },
   { name: "Small, tile text", spec: "15 px · 400 · 1.5", sample: "Several address books, groups, and vCard import and export.", style: { fontSize: "var(--bw-small)", color: "var(--bw-text-muted)" } },
   { name: "Button, label, table header", spec: "15 px · 500 · 1.2", sample: "Read the docs", style: { fontSize: "var(--bw-small)", fontWeight: 500 } },
   { name: "Caption, footer, breadcrumb", spec: "13.5 px · 400 · 1.5", sample: "Docs / Deployment", style: { fontSize: "var(--bw-caption)", color: "var(--bw-text-muted)" } },
@@ -579,7 +579,7 @@ export default function BrandPage() {
                 {[
                   { icon: Mail, title: "Open source", text: "AGPL-3.0, developed in public." },
                   { icon: Calendar, title: "Built on JMAP", text: "The client fetches only the difference." },
-                  { icon: Contact, title: "27 languages", text: "Translated by the people who use it." },
+                  { icon: Contact, title: "29 languages", text: "Including Arabic, Hebrew and Persian, right to left." },
                   { icon: Folder, title: "Built in the EU", text: "Runs on your hardware." },
                 ].map(({ icon: Icon, title, text }) => (
                   <div key={title}>
@@ -655,8 +655,8 @@ export default function BrandPage() {
             >
               <div>
                 <div className="bw-note bw-note-edition">
-                  <b>Not in Lite.</b> OAuth, settings sync and plugins need the Node.js server, so Lite keeps them
-                  switched off.
+                  <b>Not in Lite.</b> Settings sync and plugins need the Node.js server, so Lite keeps them switched
+                  off.
                 </div>
                 <div className="bw-note">
                   <b>Note.</b> The base path is written into every asset URL, so choose it before the build.
@@ -682,7 +682,7 @@ export default function BrandPage() {
                   <div className="bw-search-row" data-active="true">
                     <b>Static hosting</b>
                     <span>
-                      Allow the browser to reach the mail server: permissive-<mark>cors</mark> = true
+                      Allow the browser to reach the mail server: turn on Permissive <mark>CORS</mark> policy
                     </span>
                   </div>
                   <div className="bw-search-row">
