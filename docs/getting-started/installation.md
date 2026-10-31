@@ -24,12 +24,12 @@ If you want no server process at all, skip this page: [Bulwark Lite](/docs/getti
 The published Docker image is the shortest route to a working inbox, and there is nothing to write to `.env.local` first.
 
 ```bash
-docker run -d -p 3000:3000 --name bulwark \
+docker run -d --name bulwark -p 3000:3000 \
   -v bulwark-data:/app/data \
   ghcr.io/bulwarkmail/webmail:latest
 ```
 
-The one volume keeps everything the app writes under `/app/data`: the admin config, its runtime state (session secret, setup token, audit log), synced user settings, the credentials users connect for plugins, the telemetry id and the update-check state. If you plan to mount the admin config read-only after setup (see Review below), give it a volume of its own from the start by adding `-v bulwark-config:/app/data/admin`. The repository's `docker-compose.yml` mounts the directories one by one instead.
+The one volume keeps everything the app writes under `/app/data`: the admin config, its runtime state (session secret, setup token, audit log), synced user settings, the credentials users connect for plugins, the telemetry id and the update-check state. If you plan to mount the admin config read-only after setup (see Review below), give it a volume of its own from the start by adding `-v bulwark-config:/app/data/admin`. The repository's `docker-compose.yml` mounts the directories one by one instead. Docker fills a new named volume from the image, owned by the app's user. If you use a bind mount to a host directory instead, make that directory writable by uid 1001.
 
 The wizard is locked behind a one-time setup token, which the container prints to its log:
 
