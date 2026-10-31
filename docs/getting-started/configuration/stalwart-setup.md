@@ -65,8 +65,8 @@ If CORS is wrong, Bulwark says so on the login screen and names the missing head
 
 Sign-in checks and a few other calls go from Bulwark's server to Stalwart, so Stalwart sees Bulwark's address on them. Stalwart counts failed logins per address and bans an address once its allowance is spent. If it bans Bulwark's address, nobody can sign in through the webmail. Bulwark therefore sends the browser's address in an `X-Forwarded-For` header on these calls, but Stalwart ignores that header until you tell it to read it:
 
-- **Stalwart 1.0**: set `clientIpSource` to `xForwardedFor` and `forwardedHops` to the number of `X-Forwarded-For` entries Stalwart should count from the right. That is 1 when Bulwark talks to Stalwart directly, plus one for every proxy between them that appends its own entry.
-- **Stalwart 0.16**: turn on `useXForwarded`. It takes the first `X-Forwarded-For` entry.
+- **Stalwart 1.0**: set `clientIpSource` to `xForwardedFor` and `forwardedHops` to the number of `X-Forwarded-For` entries Stalwart should count from the right (**Client IP source** and **Trusted proxy hops** under Settings > Network > HTTP > General, section Proxy). That is 1 when Bulwark talks to Stalwart directly, plus one for every proxy between them that appends its own entry.
+- **Stalwart 0.16**: turn on **Obtain remote IP from Forwarded header** (`useXForwarded`). It reads the first `for=` of a `Forwarded` header, or else the first `X-Forwarded-For` entry.
 
 Both settings are on Stalwart's `Http` object. On 1.0, with `stalwart-cli`:
 
@@ -81,28 +81,31 @@ Bulwark never forwards a loopback address, because Stalwart 1.0 set to read the 
 
 ## Configuring with the setup wizard
 
-With no `JMAP_SERVER_URL` set in the environment, the first-launch web setup wizard probes the JMAP server for you. Paste the URL, the wizard validates that `.well-known/jmap` returns a usable session, asks for explicit confirmation when no session is found, and offers an **OAuth auto-setup** dialog that validates origin and issuer URLs against your Stalwart instance end-to-end.
+With no `JMAP_SERVER_URL` set in the environment, the first-launch web setup wizard probes the JMAP server for you. Paste the URL, and the wizard requests `/.well-known/jmap`, `/jmap/session` and `/jmap` without credentials and looks for a JMAP session in the answer. When it finds none, it asks for explicit confirmation. Once setup is done, **Auto-configure OAuth** on the admin console's Authentication page registers Bulwark with Stalwart.
 
 For env-driven deployments, set `JMAP_SERVER_URL` and the wizard is skipped.
 
 ## Stalwart-specific features
 
-On Stalwart 0.16.6 and newer, 1.0 included, Bulwark enables additional features that depend on Stalwart's JMAP `x:` methods:
+On Stalwart 0.16.6 and newer, 1.0 included, Bulwark enables additional features that depend on Stalwart's JMAP `x:` methods. They sit in the Security tab of the settings, apart from deleted-mail recovery:
 
 - **Password change** - Users can change their password from account settings
-- **TOTP 2FA** - Enable/disable two-factor authentication and generate recovery codes
+- **TOTP 2FA** - Enable and disable two-factor authentication
 - **App passwords** - Generate per-app credentials (e.g., for IMAP/SMTP clients), with optional IP allowlist per password
-- **API keys** - Generate, list, and revoke Stalwart API keys from the admin panel
+- **API keys** - Users create, list and revoke their own Stalwart API keys in Settings > Security
+- **Deleted-mail recovery** - Restore deleted items from the server's archive; needs a Stalwart Enterprise licence
+
+These use standard JMAP and work on any server that supports them, Stalwart included:
+
 - **Sieve filters** - Server-side email filtering via Sieve scripts (RFC 9661)
 - **Vacation responder** - JMAP `VacationResponse` management with Sieve generation and parsing
 - **Display name management** - Update display name from settings
 - **Storage quota display** - Show account storage usage
 - **Identity sync** - Identities are kept in sync with the server via JMAP
-- **Admin panel** - Single tabbed page with dedicated policy sections, plugin and theme management with forced enable/disable controls, IP allowlists, OAuth auto-setup, and audit logs
 
 The corresponding Stalwart permissions to enable for these features are documented in [Account Security](/docs/guides/account-security).
 
-To explicitly disable these features (e.g., when using a non-Stalwart JMAP server), set:
+To hide the first group (e.g., when using a non-Stalwart JMAP server), set:
 
 ```env
 STALWART_FEATURES=false
@@ -127,10 +130,10 @@ That creates `user@<domain>` in the domain with that id. `stalwart-cli` reads th
 Verify JMAP is working:
 
 ```bash
-curl -sL https://your-stalwart-server.com/.well-known/jmap | jq .
+curl -sL -u 'user@example.com:password' https://your-stalwart-server.com/.well-known/jmap | jq .
 ```
 
-You should see a JMAP session resource with capabilities listed. The setup wizard performs the same probe and will require explicit confirmation if no session is returned.
+Stalwart redirects `/.well-known/jmap` to `/jmap/session`, which needs a user's credentials. With them, you should see a JMAP session resource with capabilities listed. The setup wizard probes without credentials and asks for explicit confirmation if no session comes back.
 
 ## Multi-server deployments
 

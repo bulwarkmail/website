@@ -14,7 +14,7 @@ If you want no server process at all, skip this page: [Bulwark Lite](/docs/getti
 ## Prerequisites
 
 - A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. Bulwark needs Stalwart 0.16.6 or newer, and Stalwart 1.0 needs Bulwark {{BULWARK_VERSION}} or newer ([supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions)). No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/install/), then [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) for the Bulwark-specific parts.
-- **Node.js 20 or later**, for a manual install only. The Docker image ships its own Node 24 runtime, so ignore this if you're using the container.
+- **Node.js 20.9 or later**, for a manual install only. The Docker image ships its own Node 24 runtime, so ignore this if you're using the container.
 
 ## Quickest path: Docker + setup wizard
 
@@ -24,20 +24,27 @@ If you want no server process at all, skip this page: [Bulwark Lite](/docs/getti
 The published Docker image is the shortest route to a working inbox, and there is nothing to write to `.env.local` first.
 
 ```bash
-docker run -d -p 3000:3000 --name bulwark \
-  -v bulwark-config:/app/data/admin \
-  -v bulwark-state:/app/data/admin-state \
+docker run -d --name bulwark -p 3000:3000 \
+  -v bulwark-data:/app/data \
   ghcr.io/bulwarkmail/webmail:latest
 ```
 
-Open `http://localhost:3000` and the setup wizard takes seven steps:
+The one volume keeps everything the app writes under `/app/data`: the admin config, its runtime state (session secret, setup token, audit log), synced user settings, the credentials users connect for plugins, the telemetry id and the update-check state. If you plan to mount the admin config read-only after setup (see Review below), give it a volume of its own from the start by adding `-v bulwark-config:/app/data/admin`. The repository's `docker-compose.yml` mounts the directories one by one instead. Docker fills a new named volume from the image, owned by the app's user. If you use a bind mount to a host directory instead, make that directory writable by uid 1001.
+
+The wizard is locked behind a one-time setup token, which the container prints to its log:
+
+```bash
+docker logs bulwark
+```
+
+Open the link it prints (`http://<host>:3000/setup#token=…`), or open `http://localhost:3000` and paste the token on the first screen. The token is valid for an hour; restart the container to get a new one. The wizard then takes seven steps:
 
 | Step | What it does |
 | --- | --- |
-| Welcome | Confirms the app can write to its config directory |
-| Server | Probes one or more JMAP endpoints, optionally auto-picking by email domain, and toggles the Stalwart-specific features |
-| Auth | Runs OAuth2 / OIDC discovery and validates it, or falls back to basic auth |
-| Security | Generates or accepts a `SESSION_SECRET` and offers settings sync |
+| Welcome | Asks for the setup token from the container log |
+| Server | Probes the JMAP server URL, takes optional extra servers with auto-pick by email domain, and toggles the Stalwart-specific features |
+| Auth | Turns OAuth2 / OIDC sign-in on or off and takes the client ID, secret and issuer URL; password sign-in stays available unless you make OAuth the only method |
+| Security | Generates or accepts a session secret, offers settings sync, and asks whether to send anonymous usage stats (off by default) |
 | Logging | Text or JSON, and a log level |
 | Branding | Uploads for the favicon, app logos, and login logos, plus company and legal URLs |
 | Review | A grouped summary, the admin password, and an option to drop a `.config-locked` marker so the config volume can be remounted read-only |
@@ -46,7 +53,7 @@ The wizard writes to `ADMIN_CONFIG_DIR` (`/app/data/admin` in the container). Se
 
 ## Script install
 
-An interactive shell installer still ships in the repository for hosts that already run Node and would rather not use Docker. It is no longer the recommended path, and the README no longer documents it, but it works:
+An interactive shell installer still ships in the repository. It installs with Node.js, Docker or Docker Compose, whichever you pick. It is no longer the recommended path, and the README no longer documents it, but it works:
 
 ```bash
 curl -fsSL https://bulwarkmail.org/install | bash
@@ -55,7 +62,7 @@ curl -fsSL https://bulwarkmail.org/install | bash
 Read it before you pipe it into a shell, as you would with any install script. It also has a preview mode that changes nothing:
 
 ```bash
-bash setup.sh --dry-run
+curl -fsSL https://bulwarkmail.org/install | bash -s -- --dry-run
 ```
 
 ## Manual install
@@ -103,14 +110,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. If no `JMAP
 
 ### Developing without a mail server
 
-To work on the UI with no mail server anywhere in sight, use demo mode:
+To work on the UI with no mail server anywhere in sight, copy the development environment. It starts a built-in mock JMAP server:
 
 ```bash
 cp .env.dev.example .env.local
 npm run dev
 ```
 
-Log in with any username and password. Fixture data fills every screen. [Demo mode](/docs/getting-started/demo-mode) covers what's in the fixtures and what it deliberately doesn't do.
+Log in with any username and password. The mock server has its own test data. For the demo data set instead, set `DEMO_MODE=true`; [Demo mode](/docs/getting-started/demo-mode) covers what's in it and what it deliberately doesn't do.
 
 ## Production build
 

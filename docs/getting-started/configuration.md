@@ -12,7 +12,7 @@ Bulwark has two configuration surfaces that work together:
 1. The **web setup wizard** and **admin dashboard**, which is what new installs should use. The wizard runs on first launch when no `JMAP_SERVER_URL` is set in the environment and writes JSON config to `ADMIN_CONFIG_DIR`. The admin dashboard manages the same file afterwards.
 2. **Environment variables** in `.env.local` (or your container's env). Still fully supported, and the right choice for immutable / read-only / env-as-code deployments.
 
-The two layer rather than compete. A value the wizard or the dashboard has saved wins; the environment fills in every key the admin config leaves unset. Setting `JMAP_SERVER_URL` in the environment before the first launch skips the wizard, which is how an env-only deployment stays env-only.
+The two layer rather than compete. A value the wizard or the dashboard has saved wins; the environment fills in every key the admin config leaves unset. The session secret is the exception: `SESSION_SECRET` or `SESSION_SECRET_FILE` in the environment wins over one the wizard saved. Setting `JMAP_SERVER_URL` in the environment before the first launch skips the wizard, which is how an env-only deployment stays env-only.
 
 ## Configuration model
 
@@ -23,6 +23,8 @@ Bulwark supports three configuration layers:
 - **Legacy build-time variables** - `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
 
 The order of precedence is **admin config > env var > build-time fallback > built-in default**. If an environment variable seems to be ignored, look for the same key in `ADMIN_CONFIG_DIR/config.json`: a value saved there, even `false`, takes priority until you remove it.
+
+Besides the session secret (see above), `NO_THIRD_PARTY_TRAFFIC` is the other exception: set to `true` in the environment, it can't be switched off from the admin console.
 
 ## Minimal setup
 
@@ -52,7 +54,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `JMAP_SERVERS`                | No              | empty                                     | JSON array of servers to offer on the login form (`id`, `label`, `url`, optional `domains` and `oauth`) |
 | `JMAP_SERVER_AUTO_PICK_BY_DOMAIN` | No          | `false`                                   | Pick a server from `JMAP_SERVERS` by the domain the user types                             |
 | `ALLOW_CUSTOM_JMAP_ENDPOINT`  | No              | `false`                                   | Show a "JMAP Server" field on the login form so users can specify their own server         |
-| `STALWART_FEATURES`           | No              | `true`                                    | Enables Stalwart-specific features (password change, Sieve, vacation, admin, API keys)     |
+| `STALWART_FEATURES`           | No              | `true`                                    | Enables the Stalwart-only parts: the account Security tab (password, two-factor, app passwords, API keys) and deleted-mail recovery |
 | `STALWART_JMAP_PASSTHROUGH_ENABLED` | No        | `true`                                    | Server-side switch for the credential-bearing Stalwart JMAP passthrough, independent of the UI flag above |
 | `STALWART_ADMIN_ACCESS`       | No              | `auto`                                    | What a Stalwart admin account grants in the admin dashboard: `auto`, `password`, or `off`  |
 | `OAUTH_ENABLED`               | No              | `false`                                   | Enables OAuth2 / OpenID Connect login                                                      |
@@ -62,7 +64,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `OAUTH_CLIENT_SECRET_FILE`    | No              | empty                                     | Path to a file containing the OAuth client secret (Docker / Kubernetes secrets)            |
 | `OAUTH_ISSUER_URL`            | No              | falls back to `JMAP_SERVER_URL` discovery | Explicit issuer URL for external IdPs                                                      |
 | `OAUTH_AUTHORIZE_URL`         | No              | from discovery                            | Override only the user-facing authorize endpoint (per-brand login hosts)                   |
-| `OAUTH_ALLOW_PRIVATE_ENDPOINTS` | No            | `false`                                   | Let OAuth discovery resolve to RFC 1918 / loopback addresses (split-DNS setups)            |
+| `OAUTH_ALLOW_PRIVATE_ENDPOINTS` | No            | `false`                                   | Let OAuth endpoints on other hosts than the issuer resolve to RFC 1918 / loopback addresses |
 | `OAUTH_SCOPES`                | No              | built-in default                          | Override OAuth scope string                                                                |
 | `OAUTH_EXTRA_SCOPES`          | No              | empty                                     | Additional scopes appended to defaults                                                     |
 | `SESSION_SECRET`              | No              | generated on first start                  | Encrypts Remember-me, settings sync, multi-account, and embedded SSO                       |
@@ -71,12 +73,12 @@ JMAP_SERVER_URL=https://mail.example.com
 | `COOKIE_SECURE`               | No              | derived from env                          | Force `Secure` flag on cookies                                                             |
 | `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                    |
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)      |
-| `ADMIN_PASSWORD`              | No              | set via wizard or random on first start   | Bootstrap admin password, read only while `admin.json` does not exist yet                  |
+| `ADMIN_PASSWORD`              | No              | set via wizard; dashboard disabled without one | Bootstrap admin password, read only while `admin.json` does not exist yet             |
 | `ADMIN_CONFIG_DIR`            | No              | `./data/admin`                            | Operator-authored: `config.json`, `policy.json`, `admin.json` (passwordHash), plugins, themes, branding uploads. Safe to mount read-only after setup |
 | `ADMIN_STATE_DIR`             | No              | `./data/admin-state`                      | Runtime: `admin-state.json` (login timestamps), `audit.log`, setup token. Always read-write |
 | `ADMIN_CONFIG_READONLY`       | No              | `false`                                   | Enforce read-only mode at the app layer (pair with `:ro` mount of the config volume)        |
 | `ADMIN_DATA_DIR`              | No              | -                                         | Legacy single dir used by pre-1.6.4 installs. Honoured when neither split var is set        |
-| `ADMIN_SESSION_TTL`           | No              | safe default                              | Admin session lifetime in seconds                                                          |
+| `ADMIN_SESSION_TTL`           | No              | `3600`                                    | Admin session lifetime in seconds                                                          |
 | `BULWARK_TELEMETRY`           | No              | `off`                                     | Set to `on` to enable the anonymous daily heartbeat. Setting it either way locks the admin toggle |
 | `BULWARK_TELEMETRY_DISABLED`  | No              | -                                         | Legacy kill switch, honoured only when `BULWARK_TELEMETRY` is unset                         |
 | `BULWARK_TELEMETRY_ALLOW_PRIVATE` | No          | -                                         | Let heartbeats reach a private or loopback collector (development only)                      |
@@ -86,7 +88,8 @@ JMAP_SERVER_URL=https://mail.example.com
 | `VERSION_CHECK_DATA_DIR`      | No              | `./data/version-check`                    | Where the update check stores its state                                                     |
 | `TRUSTED_PROXY_DEPTH`         | No              | `1`                                       | Number of `X-Forwarded-For` hops to trust                                                  |
 | `SEARCH_ENGINE_INDEXING`      | No              | `false`                                   | Allow search engines to index the app; off emits `noindex`/`nofollow`                      |
-| `EXTENSION_DIRECTORY_URL`     | No              | `https://extensions.bulwarkmail.org`      | Marketplace URL for browsing and installing plugins/themes; clear it to hide the marketplace |
+| `NO_THIRD_PARTY_TRAFFIC`      | No              | `false`                                   | Turn off every built-in outside host: telemetry, update check, hosted push relay, official extension directory, connector, sender favicons, MyMemory translation, map links, WKD |
+| `EXTENSION_DIRECTORY_URL`     | No              | `https://extensions.bulwarkmail.org`      | Marketplace URL for browsing and installing plugins/themes; `NO_THIRD_PARTY_TRAFFIC=true` turns the official one off |
 | `DEMO_MODE`                   | No              | `false`                                   | Serve fixture data instead of talking to a mail server                                      |
 | `PLUGIN_DEV_DIR`              | No              | empty                                     | Load plugins from a source folder with hot reload during development                        |
 | `WOPI_CLIENT_URL`             | No              | empty                                     | Base URL of a Collabora Online, OnlyOffice or EuroOffice server; empty turns office editing off |
@@ -118,8 +121,8 @@ JMAP_SERVER_URL=https://mail.example.com
 | `NEXT_PUBLIC_BASE_PATH`       | Build-time      | empty                                     | Mount Bulwark under a subpath (e.g. `/webmail`) - read at build time by Next.js             |
 | `NEXT_PUBLIC_PUSH_RELAY_URL`  | Build-time      | `https://notifications.relay.bulwarkmail.org` | Push relay used for web push; point at your own to avoid the hosted one                |
 | `AUTO_SSO_ENABLED`            | No              | `false`                                   | Automatically start OAuth flow on login page (for embedded SSO)                            |
-| `ALLOWED_FRAME_ANCESTORS`     | No              | `'none'`                                  | CSP `frame-ancestors` value for iframe embedding                                           |
-| `NEXT_PUBLIC_PARENT_ORIGIN`   | No              | empty                                     | Origin of parent frame for postMessage validation                                          |
+| `ALLOWED_FRAME_ANCESTORS`     | No              | `'self'` (no other site)                  | Other origins allowed to frame the app (CSP `frame-ancestors`); `'self'` is always added   |
+| `NEXT_PUBLIC_PARENT_ORIGIN`   | No              | empty (bridge off)                        | Origin of the parent frame for the postMessage bridge; read at runtime                     |
 | `BULWARK_JWT_AUTH_SECRET`     | No              | empty                                     | HS256 key enabling [master-user impersonation](/docs/guides/impersonation); the route 404s while unset |
 | `BULWARK_STALWART_MASTER_USER` / `_PASSWORD` | No | empty                                    | Stalwart `Admin`-role account used for impersonation                                       |
 | `LIBRETRANSLATE_URL` / `_API_KEY` | No          | public MyMemory API                       | Point `/api/translate` at a LibreTranslate instance you control                            |
@@ -127,11 +130,11 @@ JMAP_SERVER_URL=https://mail.example.com
 | `NEXT_PUBLIC_APP_NAME`        | Legacy fallback | -                                         | Legacy build-time fallback for `APP_NAME`                                                  |
 | `NEXT_PUBLIC_JMAP_SERVER_URL` | Legacy fallback | -                                         | Legacy build-time fallback for `JMAP_SERVER_URL`                                           |
 
-¹ `JMAP_SERVER_URL` is required unless `ALLOW_CUSTOM_JMAP_ENDPOINT=true`, in which case users supply the URL on the login form.
+¹ Needed for env-only deployments. Otherwise the setup wizard stores the URL in the admin config, and with `ALLOW_CUSTOM_JMAP_ENDPOINT=true` users can supply it on the login form.
 
 ## Full reference
 
-The table above is the short version. Every setting in `.env.example` is written up individually, with defaults, dependencies, and the reasoning behind each one, on the [environment reference](/docs/getting-started/configuration/environment-reference) page.
+The table above is the short version. Every variable the server reads is written up individually, with defaults, dependencies, and the reasoning behind each one, on the [environment reference](/docs/getting-started/configuration/environment-reference) page.
 
 `STALWART_API_URL` is the one variable you may still find in old guides. Stalwart 0.16 dropped the REST self-service API it pointed at, Bulwark stopped reading it in 1.5.0, and it has since been removed from `.env.example` entirely. Delete it from your config.
 
@@ -154,14 +157,14 @@ Bulwark uses JMAP's built-in authentication. Users log in with their email crede
 
 - **Basic Auth** - Username and password
 - **OAuth 2.0** - If configured in Stalwart
-- **OAuth App Passwords** - For environments using OAuth as primary auth
+- **App passwords** - Per-client credentials users create in Settings > Security for mail and calendar apps that can't do OAuth. They don't sign in to Bulwark itself.
 
 ## Custom JMAP server endpoints
 
-Users can enter a JMAP server URL on the login page and in settings, so they can connect to a different server without an environment variable change. This is useful for multi-server deployments and for testing.
+With `ALLOW_CUSTOM_JMAP_ENDPOINT=true`, the login page shows a JMAP Server field so users can connect to another server without an environment variable change. It's off by default. For a fixed list of servers, use `JMAP_SERVERS` instead.
 
 ## Theming
 
 Light and dark themes both ship with Bulwark. The preference is stored in the browser's local storage and follows the system setting by default.
 
-To set a default theme, you can customize the CSS variables in your deployment. See the [Customization](/docs/guides/customization) page for details.
+Admins pick the default theme and colour mode for new users on the admin console's Themes page, under Theme policy. The [Customization](/docs/guides/customization) page covers building your own theme.
