@@ -647,11 +647,6 @@ h3 {
    because on the field --bw-rule turns into translucent white. */
 .bw-win {
   aspect-ratio: auto;
-  border-radius: 4px;
-}
-/* The hero window runs off the right and bottom edges, so only its free corner is rounded. */
-.bw-hero-shot.bw-win {
-  border-radius: 4px 0 0 0;
 }
 .bw-win-bar {
   display: flex;
@@ -678,7 +673,6 @@ h3 {
 .bw-win-dots i {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   background: currentColor;
   opacity: 0.45;
 }
