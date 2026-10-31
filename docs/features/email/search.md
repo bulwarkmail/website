@@ -59,3 +59,7 @@ Installed [plugins](/docs/guides/plugins) can add their own results to a search,
 Open "Search everything" from the command palette (`Ctrl/Cmd+K`). In the Pro interface (Settings → Appearance → Experimental → Pro interface (experimental), shown with "Show advanced settings"), `Ctrl/Cmd+K` and the search entry at the top of the navigation rail open it directly. The palette queries mail, contacts, calendar events and files at once, across every account you are signed in to. Results are ranked and grouped by kind, each row carries an avatar or a tinted icon and a structured preview, and opening a hit goes through the login that owns it, so a message in a shared or secondary account opens in the right context. The same server object reached through several logins shows once.
 
 In the Pro interface the palette has a sibling: "Show all results" opens a search tab with facets and scope chips that stays open next to your other Pro tabs, for the searches you keep coming back to.
+
+## Next step
+
+Go on to [Keyboard shortcuts](/docs/guides/keyboard-shortcuts), for searching and moving through mail without the mouse.

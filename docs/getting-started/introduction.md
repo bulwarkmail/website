@@ -7,66 +7,52 @@ edition: both
 
 # Introduction
 
-Bulwark is an open-source webmail client for [Stalwart Mail Server](https://stalw.art). It is written in [Next.js](https://nextjs.org) and talks to the server over [JMAP](https://jmap.io). Email, calendar, contacts and file storage all sit behind the same login.
+Bulwark is an open-source webmail client for [Stalwart](https://stalw.art). Stalwart is the mail server: it stores the mail, calendars, contacts and files, and checks who signs in. Bulwark is what people use in the browser to read and write mail, plan their week, keep their contacts and open their files, all behind one login. The license is AGPL v3.
 
-It ships in two editions. **Bulwark** runs as a Node.js service with a setup wizard, an admin console, plugins and settings sync. **Bulwark Lite** is the same client exported as static files, with the browser talking JMAP to the mail server directly. The [editions page](/docs/getting-started/editions) compares them; most of this manual applies to both.
+Bulwark talks to Stalwart over [JMAP](https://jmap.io). Most self-hosted webmail is an IMAP client in a browser, polling each folder and rebuilding threads on every render. With JMAP the server does that work and pushes changes, so the inbox updates without reloading. Bulwark also calls Stalwart's own JMAP methods, so Sieve filters, the vacation responder, account security, file storage and branding are all reachable from the same session instead of somewhere else.
 
-## What it is for
+## Two ways to run it
 
-Most self-hosted webmail is an IMAP client with a browser bolted onto it. That inheritance shows up as a poll loop, one connection per folder, and threads the browser has to reassemble on every render. JMAP does that work on the server, which lets Bulwark stay thin and still stay in sync.
+**Bulwark** runs as a Node.js service, usually one Docker container, with a setup wizard, an admin console, plugins and settings sync. **Bulwark Lite** is the same client as static files: the browser talks to Stalwart directly, and there is no admin console and no plugins. [Bulwark and Bulwark Lite compared](/docs/getting-started/editions) lists the differences; most of this manual applies to both.
 
-A generic JMAP client would stop there. Bulwark also calls Stalwart's own JMAP methods, so Sieve filters, the vacation responder, account security, FileNode storage and runtime branding are all reachable from the same session, instead of being things you leave the webmail to configure.
+## Who it is for
 
-The license is AGPL v3.
+- [Organisations](/organisations): IT departments, schools and hosters who give Bulwark to many users and decide settings for them
+- [Small businesses](/small-business): a team that shares a support address, calendars and files
+- [Home servers](/homelab): you, your family or a club on your own Stalwart
 
-## The four apps
+## What it does
 
-**Mail** is the one you'll spend your day in. Threaded conversations, full-text search across the whole account, colored labels that map onto JMAP keywords, and three layouts to choose between: three-pane split, focused list, or reading pane at the bottom. Any message can be read fullscreen, switched between its HTML and plain-text parts, or dragged onto a new browser tab. Folders can be shared with other users on the server. The composer is Tiptap, with inline images, tables, per-identity signatures, templates, scheduled send, delivery notifications, and S/MIME signing and encryption with the S/MIME plugin. Awkward mail is handled rather than ignored: `winmail.dat` gets unpacked, embedded `message/rfc822` attachments open like the messages they are, and PDFs preview in place. See [Email](/docs/features/email).
+- **Mail**: threads, full-text search, tags, filters, templates, scheduled send and three layouts. See [Email](/docs/features/email).
+- **Calendar**: month, week, day, agenda and task views, recurring events and invitations. See [Calendar](/docs/features/calendar).
+- **Contacts**: several address books, groups and vCard import and export. See [Contacts](/docs/features/contacts).
+- **Files**: Stalwart's file storage as a folder tree, with previews, sharing, and office editing once you connect Collabora or ONLYOFFICE. See [Files](/docs/features/files).
 
-**Calendar** covers month, week, day, agenda, and task views that scroll freely from one period into the next, with drag-to-reschedule, recurring events you can edit by scope, attendee free/busy lookup, and iMIP invitations that Stalwart actually accepts. It subscribes to external iCal and webcal feeds and generates a birthday calendar from your contacts. See [Calendar](/docs/features/calendar).
+Every feature, with what it needs, is in [All features](/docs/features/overview).
 
-**Contacts** gives you multiple address books with one marked as the default, groups, categories, vCard import and export with duplicate detection, sorting by first or last name, and autocomplete in the composer. Each contact's detail view shows recent mail with that person and their upcoming events. See [Contacts](/docs/features/contacts).
+## What you need
 
-**Files** browses Stalwart's JMAP FileNode storage as a real folder tree, with streamed uploads that don't buffer in memory, folder drag-and-drop, sharing with other users, and previews for images, text, audio, video, and PDF. Point it at a Collabora, OnlyOffice or EuroOffice server and office documents open for editing in place. See [Files](/docs/features/files).
+- **Stalwart** 0.16.6 or newer, or Stalwart 1.0 from Bulwark {{BULWARK_VERSION}} on ([supported versions](/docs/getting-started/stalwart-setup#supported-versions)). A few features need Stalwart 1.0 or a Stalwart Enterprise licence; All features marks them.
+- **For Bulwark**: Docker, or Node.js for a manual install.
+- **For Bulwark Lite**: a web host for static files, or Stalwart itself.
 
-**Search** spans all four. In the Pro interface, the desktop layout with tabs, a search palette and a search tab query mail, contacts, calendar and files across every signed-in account at once; the ordinary mail search has server-side snippets and suggestions. See [Search](/docs/features/email/search).
+[Requirements and sizing](/docs/deployment/requirements) has the details, including memory and the architectures the images are built for.
 
-## Everything around them
+## Words used in these docs
 
-| Area | What's there |
-| --- | --- |
-| Setup | A web wizard on first launch that probes your JMAP server, configures OAuth, generates the session secret, takes your branding, and sets the admin password |
-| Accounts | Several accounts signed in at once, switching instantly, with a unified inbox across all of them |
-| Editions | Bulwark as a Node.js service, or [Bulwark Lite](/docs/getting-started/lite) as static files on any web host |
-| Mail server | Stalwart 0.16.6 or newer, and Stalwart 1.0 from Bulwark {{BULWARK_VERSION}} on ([supported versions](/docs/getting-started/stalwart-setup#supported-versions)) |
-| Identities | Multiple sender identities per account, each with its own signature and signature position, plus sub-addressing with a configurable delimiter |
-| Filters | Server-side Sieve (RFC 9661) through a visual rule builder or a raw editor, and a vacation responder with date ranges |
-| S/MIME | With the S/MIME plugin (full edition only): sign, encrypt, decrypt, verify. Legacy 3DES and password-based key bundles included, per-account key isolation throughout |
-| Authentication | OAuth2/OIDC with PKCE against Keycloak, Authentik, or Stalwart itself; TOTP; app passwords with IP allowlists; encrypted Remember-me |
-| Admin | An admin console for server settings, authentication, branding, user and organisation policy, plugins, themes, the marketplace, updates and the audit log |
-| Extensions | Plugins and themes as ZIP bundles, sandboxed and admin-approved, installable from a marketplace you can point anywhere |
-| Appearance | Light and dark themes that remap HTML email colors by luminance, bundled color themes, and branding down to per-hostname overrides |
-| [Mobile](/docs/features/mobile) | Installable as a PWA with web push for new mail, plus a separate React Native app |
-| Languages | 29, three of them right-to-left, detected from the browser |
-| Operations | JMAP push instead of polling, structured logging, a health endpoint, an update check that flags security releases, and an optional anonymous heartbeat that is off by default |
-
-The exhaustive version, kept in sync with each release, is [All features](/docs/features/overview).
-
-## What it is built on
-
-| Technology      | Purpose                  |
-| --------------- | ------------------------ |
-| Next.js 16      | React framework          |
-| TypeScript      | Type safety              |
-| Tailwind CSS v4 | Styling                  |
-| Zustand         | State management         |
-| JMAP            | Mail protocol (RFC 8620) |
-| next-intl       | Internationalization     |
-| Tabler Icons    | Icon library             |
-| Stalwart        | Mail server              |
+- **Stalwart**: the mail server. It holds the users, groups and mailboxes. Bulwark stores no mail of its own.
+- **JMAP**: the protocol Bulwark and Stalwart speak ([RFC 8620](https://www.rfc-editor.org/rfc/rfc8620)), in place of IMAP and SMTP.
+- **Bulwark**: the webmail as a Node.js service, with the admin console and plugins. Where a page has to set it apart from Lite, it says "Bulwark (not Lite)".
+- **Bulwark Lite**: the same client as static files. It reads its settings from `config.json` and `policy.json` instead of an admin console.
+- **Admin console**: Bulwark's admin area at `/admin`, for server, sign-in, branding, policy, organisation, plugins and themes. It is not Stalwart's own web admin, where you manage users and domains.
+- **Policy** (user policy): what admins decide for users, such as features switched off and settings preset or locked, for everyone or per domain or group. It is stored in `policy.json`.
+- **Identity**: an address a user sends from, with its name and signature. One account can have several.
+- **Shared mailbox**: a Stalwart group with its own address and mailbox, such as `support@example.com`. Its members see it under **Shared**. A folder one person shares with another is a shared folder, not a shared mailbox.
+- **Team inbox**: the Team inbox plugin, which lets members of a shared mailbox assign messages and mark them done.
+- **Extension directory** and **marketplace**: the directory at [extensions.bulwarkmail.org](https://extensions.bulwarkmail.org) lists plugins and themes; the marketplace is the page in the admin console that installs them from it.
 
 ## Where to go next
 
-[Installation](/docs/getting-started/installation) is a container and a wizard, and takes about ten minutes. If you would rather not run a Node.js process at all, [Bulwark Lite](/docs/getting-started/lite) is a folder of static files. Either way, if Stalwart isn't running yet, do [that](/docs/getting-started/stalwart-setup) first: Bulwark is a client and has nothing to talk to without it.
+If Stalwart isn't running yet, [set it up](/docs/getting-started/stalwart-setup) first: Bulwark is a client and has nothing to talk to without it. Then [install Bulwark](/docs/getting-started/installation), a container and a wizard, or put [Bulwark Lite](/docs/getting-started/lite) on a web host.
 
-Questions the docs don't answer belong on the [issue tracker](https://github.com/bulwarkmail/webmail/issues). Anything about the mail server itself is covered better in [Stalwart's own documentation](https://stalw.art/docs), and the protocol underneath both is specified at [jmap.io](https://jmap.io).
+Questions the docs don't answer belong on the [issue tracker](https://github.com/bulwarkmail/webmail/issues). Anything about the mail server itself is covered better in [Stalwart's own documentation](https://stalw.art/docs).

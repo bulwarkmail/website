@@ -9,7 +9,7 @@ edition: both
 
 Bulwark has its own **Settings > Accessibility** page, in the top group next to Appearance. It collects everything that changes how the app looks, reads, sounds and reacts to the keyboard, including settings that also appear on other pages. A setting shown in two places is the same setting, so changing it on one page changes it on the other.
 
-This page describes what the software offers. If you run Bulwark for others, the [admin page](/docs/features/accessibility/admin) explains how to preset these options for your users, and [accessibility law for operators](/docs/legal/accessibility) covers your duties under EN 301 549, BITV 2.0 and the BFSG.
+This page describes what the software offers. If you run Bulwark for others, the [page for admins](/docs/features/accessibility/admin) explains how to preset these options for your users, and [accessibility law for operators](/docs/legal/accessibility) covers your duties under EN 301 549, BITV 2.0 and the BFSG.
 
 <!--
 TODO: add a tested screen reader and browser matrix (EN 301 549 12.3) once there is one.
@@ -199,3 +199,7 @@ Everything on this page works in Bulwark Lite: the settings, presets, quick pane
 - The mobile app has its own settings. The options on this page are for the webmail only for now.
 
 To report a barrier, use the link your provider gives on the sign-in page or in the app, or open an issue on [GitHub](https://github.com/bulwarkmail/webmail/issues).
+
+## Next step
+
+If you run Bulwark for others, [presets and locks for admins](/docs/features/accessibility/admin) shows how to set these options for your users.

@@ -83,3 +83,7 @@ On Stalwart 1.0, picking a principal from the server's directory needs directory
 - Unified authentication and permissions with the rest of Bulwark
 - Per-account isolation when multiple accounts are connected
 - Attachments and stored files sit one click apart, so moving between them doesn't mean changing apps
+
+## Next step
+
+To get mail, calendar, contacts and files on a phone, see [Mobile apps and push](/docs/features/mobile).

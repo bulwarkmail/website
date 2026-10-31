@@ -1,6 +1,6 @@
 ---
 title: Templates
-description: Give every user a library of templates, let teams share templates in their group mailbox, and keep users' own templates in their account.
+description: Give every user a library of templates, let teams share templates in their shared mailbox, and keep users' own templates in their account.
 order: 3
 edition: both
 ---
@@ -10,7 +10,7 @@ edition: both
 Users pick templates in the composer under **Templates > Insert template**, or with the `t` key. They see up to three kinds:
 
 - **Organisation**: the library you set on **Admin > Organisation > Templates**. Users can use and copy these templates, not change them.
-- **Team templates**: the templates of each group mailbox the user is a member of, under the group's address. Any member can add, change and delete them.
+- **Team templates**: the templates of each shared mailbox the user is a member of, under the group's address. Any member can add, change and delete them.
 - **My templates**: the user's own.
 
 <img class="theme-light-only" src="/screenshots/light-templates-org.webp" alt="The template picker in the composer, with the organisation's templates listed under Organisation above the user's own" width="5120" height="2880" />
@@ -42,7 +42,7 @@ To make team templates read-only, lock **Team templates** under **Personal and t
 
 When two members edit the same template, the one who saves second is told that someone else changed it and reloads the list first; nobody's change is overwritten without them seeing it. Team templates keep To and Cc recipients but never Bcc.
 
-Only group mailboxes get team templates. A mailbox another person shared with a user doesn't.
+Only shared mailboxes get team templates. Folders another person shared with a user don't.
 
 ## Users' own templates
 

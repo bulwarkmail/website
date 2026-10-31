@@ -182,3 +182,7 @@ The directory serves no bundles of a suspended extension.
 ## Rate limiting
 
 Reads need no account. The directory limits reports, publishing and the polling of submissions, and answers `429` with a `Retry-After` header when a limit is hit. Integrations that poll the API should cache what they read.
+
+## Next step
+
+To put your own extension in the directory, see [Publishing and updates](/docs/extensions/publishing).

@@ -17,7 +17,7 @@ The mail client talks JMAP. Threading, search and flag changes are all resolved 
 <img class="theme-light-only" src="/screenshots/light-inbox.webp" alt="The Bulwark inbox with tagged messages" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-inbox.webp" alt="The Bulwark inbox with tagged messages" width="5120" height="2880" />
 
-Pick one of three layouts, per user, in settings: **split** (three panes), **focused list**, or **reading pane at bottom**. Any open message can also go fullscreen, and dragging a message from the list onto a new browser tab opens it there on its own. The mailbox tree shows unread counts, filters down to unread only, and accepts messages dragged into it. A unified view merges the inboxes of the active account and its shared and group mailboxes into one list, and an admin can allow it to span every connected account.
+Pick one of three layouts, per user, in settings: **split** (three panes), **focused list**, or **reading pane at bottom**. Any open message can also go fullscreen, and dragging a message from the list onto a new browser tab opens it there on its own. The mailbox tree shows unread counts, filters down to unread only, and accepts messages dragged into it. A unified view merges the inboxes of the active account, its shared mailboxes and the folders shared with it into one list, and an admin can allow it to span every connected account.
 
 Long mailboxes are virtualised and paginate as you scroll, and the first page of message data is prefetched at login so the inbox isn't empty while you wait. Rows show their attachments, and an attachment opens straight from the row without opening the message first.
 
@@ -104,7 +104,7 @@ Queries run across all folders except Spam and Trash by default, not just the fo
 <img class="theme-light-only" src="/screenshots/light-tag.webp" alt="The Travel tag selected in the sidebar, with the tagged messages listed" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-tag.webp" alt="The Travel tag selected in the sidebar, with the tagged messages listed" width="5120" height="2880" />
 
-Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in Settings > Folders & tags, tags can nest under a parent once "Nested tags" is on, and each one can be always shown, shown only while it has unread mail, or hidden. The tag view lists tagged mail from your account and from the shared and group mailboxes you can see, leaving out Trash and Spam.
+Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in Settings > Folders & tags, tags can nest under a parent once "Nested tags" is on, and each one can be always shown, shown only while it has unread mail, or hidden. The tag view lists tagged mail from your account and from the shared mailboxes and shared folders you can see, leaving out Trash and Spam.
 
 ## Time zone
 
@@ -154,3 +154,7 @@ This needs a server that supports VacationResponse; forwarding and replying only
 Templates are reusable messages, each with a category you name yourself. Date placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and your own placeholders are asked for when you insert the template.
 
 In the composer, press `t` (outside a text field) or use Templates > Insert template to open the picker, which searches your templates and groups them by category. Create and edit them under Settings > Composing > Email templates.
+
+## Next step
+
+[Composing emails](/docs/features/email/composing) covers the editor, identities, signatures and attachments in detail.

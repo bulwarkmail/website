@@ -24,7 +24,7 @@ Or turn on **No third-party traffic** on **Admin > Organisation > Security**. Th
 
 The switch is for the whole server, not per domain or group: most of what it stops, such as telemetry and the version check, runs for no particular user. The **Applies to** bar on the page doesn't change it.
 
-The admin page shows where the value comes from. When `NO_THIRD_PARTY_TRAFFIC` is `true`, `1`, `yes` or `on` in the environment, the switch is on and the panel can't turn it off. With `ADMIN_CONFIG_READONLY` set, the panel can't change it at all; set it in `config.json` instead. A string works there too (`"true"`, `"1"`, `"yes"`, `"on"`):
+The Security page of the admin console shows where the value comes from. When `NO_THIRD_PARTY_TRAFFIC` is `true`, `1`, `yes` or `on` in the environment, the switch is on and the admin console can't turn it off. With `ADMIN_CONFIG_READONLY` set, the admin console can't change it at all; set it in `config.json` instead. A string works there too (`"true"`, `"1"`, `"yes"`, `"on"`):
 
 ```json
 {
@@ -47,7 +47,7 @@ Every outside host Bulwark knows about, and what happens to it:
 | `telemetry.bulwarkmail.org` | Anonymous daily heartbeat, sent only after an admin turned telemetry on (server) | Off by default; `BULWARK_TELEMETRY=off` or **Admin > System > Usage stats** | Never sent, whatever the telemetry setting says |
 | `version.telemetry.bulwarkmail.org` | Hourly check for a newer release, shown to admins (server) | `BULWARK_UPDATE_CHECK=off` | Not checked; checks resume when you turn the switch off again |
 | `notifications.relay.bulwarkmail.org` | Built-in Web Push relay that wakes the browser for new mail (browser) | Your own relays under **User policy > Push relays**, choice locked | Not offered; push needs a relay you run |
-| `extensions.bulwarkmail.org` | Marketplace, installs and update checks in the admin panel (server) | `EXTENSION_DIRECTORY_URL` pointing at your own directory | Off, unless `EXTENSION_DIRECTORY_URL` points at another host |
+| `extensions.bulwarkmail.org` | Marketplace, installs and update checks in the admin console (server) | `EXTENSION_DIRECTORY_URL` pointing at your own directory | Off, unless `EXTENSION_DIRECTORY_URL` points at another host |
 | `connector.bulwarkmail.org` | Links in the docs and the directory that open your instance; the connector asks your server what it can open | `CONNECTOR_ENABLED=false` | The capabilities endpoint answers 404 |
 | `icons.duckduckgo.com` | Sender logos next to messages, fetched by your server | Users can turn sender icons off in **Settings > Message list** | Avatars show initials; `/api/favicon` answers 403 |
 | `<sender domain>` (BIMI) | Brand logos for messages that pass DMARC: DNS records at the sender's domain, then the logo and certificate they name (server) | Users can turn sender icons off in **Settings > Message list** | Avatars show no brand logos; `/api/bimi` answers 403 |
@@ -91,7 +91,7 @@ Fonts are part of the Bulwark image: they are downloaded when the image is built
 
 ## Checking it
 
-Bulwark's own tests fail when the source gains an outside host that isn't in this list, and an end-to-end test signs in, reads mail, writes a message, opens settings and the admin pages, and runs the Gravatar plugin with the switch on, and fails on any request to a host other than your Bulwark and your JMAP server.
+Bulwark's own tests fail when the source gains an outside host that isn't in this list, and an end-to-end test signs in, reads mail, writes a message, opens settings and the admin console, and runs the Gravatar plugin with the switch on, and fails on any request to a host other than your Bulwark and your JMAP server.
 
 To check your own deployment, open the browser's developer tools on the Network tab and filter out your hosts. Requests the security policy refused show up in the Console.
 
@@ -122,3 +122,7 @@ add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsaf
 - **Per domain or group.** The server's own requests belong to no user, so the switch can't follow the domain and group entries. Settings users can change, like external content, can be locked per domain or group as usual.
 - **Remote images in mail with the switch on.** See above: loading them would contact the sender's servers, which is what the switch stops.
 - **Network-level enforcement.** Bulwark stops its own requests and tells the browser what to refuse; it doesn't filter the network. If you need a guarantee against anything Bulwark doesn't know about, add an egress firewall that lets the server reach only your mail server and lets browsers reach only Bulwark and the mail server.
+
+## Next step
+
+Go on to [Shared tags](/docs/guides/organisation/shared-tags).

@@ -90,3 +90,7 @@ The entries look like this in the file:
 An entry's `policy` takes the same `features`, `restrictions` and `defaults` as the top level of the file, and the `organisation` settings described on the other Organisation pages. `id` is lowercase letters, digits and dashes.
 
 The old `sessionTimeout` setting did nothing. When the top level of the file locks or presets it to a number of minutes, that number moves to `organisation.session.idleMinutes` when the file is loaded, unless `idleMinutes` is already set. Inside an entry it isn't moved.
+
+## Next step
+
+Go on to [Signatures and disclaimers](/docs/guides/organisation/signatures), which can differ per domain or group too.

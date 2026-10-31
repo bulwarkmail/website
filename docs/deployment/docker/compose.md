@@ -71,7 +71,7 @@ volumes:
 
 <div class="bw-note bw-note-warning"><b>Warning.</b> Keep Stalwart on a release line such as <code>v1.0</code>. With a floating tag like <code>latest</code>, <code>docker compose pull</code> moves the server to whatever Stalwart releases next. A server that still runs 0.16 stays on <code>v0.16</code> until you migrate it: Stalwart 1.0 can't open a 0.16 data store; see <a href="/docs/deployment/updating/stalwart-1-0">Upgrading to Stalwart 1.0</a>.</div>
 
-On Stalwart 1.0, open Bulwark's admin **Authentication** page once the server is set up and click **Set up automagically** under **OAuth / OpenID Connect**. With `JMAP_SERVER_URL` set as above, the admin dashboard is off until you also set `ADMIN_PASSWORD`. The button registers Bulwark with Stalwart, which two-factor sign-ins need for the account security settings, and single sign-on needs at all; [Register Bulwark with Stalwart](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart) has the details.
+On Stalwart 1.0, open Bulwark's admin **Authentication** page once the server is set up and click **Set up automagically** under **OAuth / OpenID Connect**. With `JMAP_SERVER_URL` set as above, the admin console is off until you also set `ADMIN_PASSWORD`. The button registers Bulwark with Stalwart, which two-factor sign-ins need for the account security settings, and single sign-on needs at all; [Register Bulwark with Stalwart](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart) has the details.
 Browsers load mail straight from `JMAP_SERVER_URL`, so it has to be an address they can reach, and Stalwart needs its [permissive CORS policy](/docs/getting-started/stalwart-setup#cors-configuration) turned on unless the two share an origin. Port 8080 serves Stalwart's first-launch setup; you can drop it once the server is configured.
 
 The `stalwart` service above is a minimal example to get the pair talking. For the authoritative Stalwart setup - image, ports, volumes, and initial configuration - follow the [official Stalwart installation guide](https://stalw.art/docs/install/).
@@ -183,3 +183,7 @@ bulwark:
     - stalwart
   restart: unless-stopped
 ```
+
+## Next step
+
+Put a [reverse proxy](/docs/deployment/docker/reverse-proxy) in front of Bulwark so users reach it over HTTPS.

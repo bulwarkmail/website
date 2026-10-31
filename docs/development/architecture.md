@@ -13,9 +13,22 @@ Where the work happens, and why it was split up this way.
 
 ![The browser talks JMAP over HTTP directly to Stalwart. The Bulwark server bootstraps auth and serves config to the browser, and calls Stalwart's JMAP x: admin methods itself.](/diagrams/architecture.svg)
 
-After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the first-launch setup wizard, and the admin dashboard - never as a proxy for normal mail traffic.
+After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bulwark's Next.js server is responsible for credential encryption, OAuth PKCE flows, runtime config, settings sync persistence, the first-launch setup wizard, and the admin console - never as a proxy for normal mail traffic.
 
 That split is what makes Bulwark Lite possible. `npm run build:lite` exports the same client with `output: "export"` and `NEXT_PUBLIC_BULWARK_LITE=1`, after deleting the server-only trees (`app/api`, the admin and setup routes, the plugin sandbox, the proxy). What the server provided is either a static file next to `index.html` (`config.json`, `policy.json`), done in the browser against Stalwart's own endpoints (token login, "remember me"), or switched off. `IS_LITE` in `lib/lite.ts` is the build-time constant the feature gates read, and `scripts/lite/verify.mjs` fails the build if a client chunk references a server endpoint that `scripts/lite/lib.mjs` does not list as gated.
+
+## What it is built on
+
+| Technology      | Purpose                  |
+| --------------- | ------------------------ |
+| Next.js 16      | React framework          |
+| TypeScript      | Type safety              |
+| Tailwind CSS v4 | Styling                  |
+| Zustand         | State management         |
+| JMAP            | Mail protocol (RFC 8620) |
+| next-intl       | Internationalization     |
+| Tabler Icons    | Icon library             |
+| Stalwart        | Mail server              |
 
 ## Project structure
 
@@ -129,7 +142,7 @@ The URLs in the JMAP session resource are rewritten to the origin the client act
 
 The plugin system covers:
 
-- **Schema-driven configuration** - plugins declare a config schema, the admin UI is generated from it inline
+- **Schema-driven configuration** - plugins declare a config schema, the admin console's form is generated from it inline
 - **Render hooks** - plugins can render into named slots (calendar event actions, composer sidebar, email banner/footer, sidebar widget, settings sections, context menus, navigation rail, toolbars)
 - **Intercept hooks** - plugins can intercept user actions like send, reply, archive
 - **`onBeforeEmailSend` hook** - hook into the outgoing send pipeline; `OutgoingEmail` exposes `fromEmail` so plugins can branch on identity
@@ -177,3 +190,7 @@ Web push notifications build on this. When the user turns them on, the browser r
 - PDF iframe sandbox for safe document preview
 - Plugin sandbox with dangerous-pattern detection and admin approval requirement
 - Settings sync stored as one AES-256-GCM encrypted file per account, keyed from the session secret
+
+## Next step
+
+[Contributing](/docs/development/contributing) explains how to set up a development checkout and send a change.

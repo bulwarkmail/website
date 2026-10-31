@@ -14,7 +14,7 @@ S/MIME is a plugin, not part of the core webmail. Until an admin installs it, th
 
 ## Setting it up
 
-1. An admin turns plugins on in the admin dashboard, then installs **S/MIME** from the [marketplace](/docs/guides/marketplace) (or uploads the ZIP from the [plugins repository](https://github.com/bulwarkmail/plugins)). The plugin runs in the [privileged tier](/docs/guides/plugins#privileged-tier), so only an admin can install it; a user upload is refused.
+1. An admin turns plugins on in the admin console, then installs **S/MIME** from the [marketplace](/docs/guides/marketplace) (or uploads the ZIP from the [plugins repository](https://github.com/bulwarkmail/plugins)). The plugin runs in the [privileged tier](/docs/guides/plugins#privileged-tier), so only an admin can install it; a user upload is refused.
 2. Once installed, it is available to users, who turn it on under Settings → Add-ons. The admin can also force it on for everyone on its page under Plugins.
 3. Once it is on for you, **S/MIME** appears in Settings under Add-ons. That page holds the key and certificate import, the defaults for new messages and the plugin's own options.
 
@@ -104,3 +104,7 @@ The plugin isn't installed or isn't enabled for your user. Ask your admin to ins
 ### "No S/MIME key for …"
 
 Import a .p12 / .pfx (not just the public .cer) whose certificate is for the address you send from, in Settings → Add-ons → S/MIME. The message names the path as Settings → Plugins → S/MIME; the page is under Settings → Add-ons.
+
+## Next step
+
+Go on to [Account security](/docs/guides/account-security), where you can also add S/MIME or PGP public keys for Stalwart's encryption at rest.

@@ -48,7 +48,7 @@ npm run build
 pm2 restart bulwark      # or: sudo systemctl restart bulwark
 ```
 
-Configuration is read at runtime, so an upgrade never requires rewriting `.env.local` or rebuilding to change a setting. The one exception is the handful of build-time variables (`NEXT_PUBLIC_BASE_PATH`, `NEXT_PUBLIC_LOCALE_PREFIX`, `NEXT_PUBLIC_DEFAULT_LOCALE`, `NEXT_PUBLIC_PUSH_RELAY_URL`), which need a rebuild if you change them. The Docker build takes the first three as `--build-arg`; for a different push relay, add it under **User policy > Push relays** in the admin dashboard instead.
+Configuration is read at runtime, so an upgrade never requires rewriting `.env.local` or rebuilding to change a setting. The one exception is the handful of build-time variables (`NEXT_PUBLIC_BASE_PATH`, `NEXT_PUBLIC_LOCALE_PREFIX`, `NEXT_PUBLIC_DEFAULT_LOCALE`, `NEXT_PUBLIC_PUSH_RELAY_URL`), which need a rebuild if you change them. The Docker build takes the first three as `--build-arg`; for a different push relay, add it under **User policy > Push relays** in the admin console instead.
 
 ## Moving to Stalwart 1.0
 
@@ -60,7 +60,7 @@ Only what you mounted. Everything Bulwark writes lives under `/app/data`, split 
 
 | Directory            | Variable             | Holds                                              |
 | -------------------- | -------------------- | -------------------------------------------------- |
-| `/app/data/admin`       | `ADMIN_CONFIG_DIR`   | Wizard and dashboard config, plugins, themes, branding |
+| `/app/data/admin`       | `ADMIN_CONFIG_DIR`   | Wizard and admin console config, plugins, themes, branding |
 | `/app/data/admin-state` | `ADMIN_STATE_DIR`    | Audit log, login timestamps, setup token, generated session secret |
 | `/app/data/settings`    | `SETTINGS_DATA_DIR`  | Encrypted per-account user settings                |
 | `/app/data/plugin-secrets` | `PLUGIN_SECRETS_DIR` | Credentials users saved for plugins, encrypted |
@@ -69,11 +69,11 @@ Only what you mounted. Everything Bulwark writes lives under `/app/data`, split 
 
 An install that mounts only some of these directories loses the others when the container is recreated. Older examples in these docs, and the repository's `docker-compose.yml`, mount four volumes and leave out the plugin credentials; add a volume for `/app/data/plugin-secrets`, or move to the one `/app/data` volume.
 
-Lose the config volume and Bulwark starts as a fresh install: the setup wizard runs again (the token is in the log), or, with `JMAP_SERVER_URL` set, the admin dashboard stays off until `ADMIN_PASSWORD` is set. Lose the settings volume and users get defaults back. Neither loses mail, because Bulwark stores no mail.
+Lose the config volume and Bulwark starts as a fresh install: the setup wizard runs again (the token is in the log), or, with `JMAP_SERVER_URL` set, the admin console stays off until `ADMIN_PASSWORD` is set. Lose the settings volume and users get defaults back. Neither loses mail, because Bulwark stores no mail.
 
 ## The in-app update notice
 
-Bulwark checks for a newer release 30 seconds after it starts and then every hour, and logs the result. When one exists, the version line on the login page turns amber ("New version available") and links to the release notes, and the admin entry in the navigation gets a dot. The admin dashboard's **Updates** page shows the details.
+Bulwark checks for a newer release 30 seconds after it starts and then every hour, and logs the result. When one exists, the version line on the login page turns amber ("New version available") and links to the release notes, and the admin entry in the navigation gets a dot. The admin console's **Updates** page shows the details.
 
 The feed can mark a release as a security fix. When the running build is older than a release marked that way, or no longer supported, the version line turns red ("Security update available", "Version no longer supported"), so an operator can tell a routine update from one that should happen today. Signed-in users also see the advisory text in the version details; visitors who aren't signed in never do. Not every release that fixed a published advisory is marked in the feed, so a plain update notice can still carry a security fix. Check the [repository's security advisories](https://github.com/bulwarkmail/webmail/security/advisories), and see [Security fixes and updates](/docs/deployment/security-updates) for how to hear about them.
 
@@ -101,4 +101,4 @@ Pin the earlier tag and restart. Config files are read forwards and backwards fo
 
 - [Docker deployment](/docs/deployment/docker)
 - [Manual deployment](/docs/deployment/manual)
-- [Admin dashboard](/docs/guides/admin)
+- [Admin console](/docs/guides/admin)

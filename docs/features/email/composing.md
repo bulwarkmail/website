@@ -119,3 +119,7 @@ Click a draft in the Drafts folder to resume it: content, recipients, attachment
 | `Ctrl/Cmd+Shift+Enter` | Schedule send        |
 | `t`                    | Open template picker |
 | `Escape`               | Close the composer   |
+
+## Next step
+
+Go on to [Search and filters](/docs/features/email/search).

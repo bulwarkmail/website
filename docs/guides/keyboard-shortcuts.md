@@ -134,3 +134,7 @@ Drafts save themselves two seconds after you stop typing, so there is no save-dr
 | `Del` / `Backspace`     | Delete                         |
 | `Ctrl/Cmd+C` / `X` / `V` | Copy, cut, paste              |
 | `/` / `Ctrl/Cmd+F`      | Search                         |
+
+## Next step
+
+Go on to [Accessibility](/docs/features/accessibility), where single-key shortcuts can be turned off.

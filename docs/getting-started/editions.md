@@ -17,7 +17,7 @@ The toggle at the top of every page on this site switches the documentation betw
 | --- | --- | --- |
 | Runs as | Node.js process (Docker image, standalone tarball, or `npm start`) | Static files on any web host, the `webmail-lite` container image, or served by Stalwart itself as an Application |
 | Install | `docker run`, then a web setup wizard | Unzip, edit `config.json`, upload; or create a Stalwart Application |
-| Configuration | Wizard and admin dashboard, or environment variables | `config.json`, plus `LITE_*` build inputs for baked-in defaults |
+| Configuration | Wizard and admin console, or environment variables | `config.json`, plus `LITE_*` build inputs for baked-in defaults |
 | Mail, calendar, contacts, files | Yes | Yes |
 | Global search, threads, filters, templates | Yes | Yes |
 | S/MIME (plugin) | Yes | No |

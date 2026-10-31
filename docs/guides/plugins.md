@@ -14,11 +14,11 @@ This page is the overview for admins and plugin authors. The full reference for 
 
 ## Lifecycle
 
-1. **Turn plugins on** - Plugins are off for the whole instance until an admin turns them on in the admin dashboard.
-2. **Install** - An admin uploads a plugin ZIP from the admin dashboard or installs it from the [extension marketplace](/docs/guides/marketplace). If the admin allows user uploads, users can also upload a plugin under Settings > Add-ons.
+1. **Turn plugins on** - Plugins are off for the whole instance until an admin turns them on in the admin console.
+2. **Install** - An admin uploads a plugin ZIP from the admin console or installs it from the [extension marketplace](/docs/guides/marketplace). If the admin allows user uploads, users can also upload a plugin under Settings > Add-ons.
 3. **Validate** - On upload, Bulwark checks the manifest, the file types and sizes in the ZIP, and refuses unknown permissions or a plugin that needs a newer webmail (`minAppVersion`). When the code contains `eval(`, `new Function(`, `document.cookie`, `document.write` or an `innerHTML` assignment, an admin upload or marketplace install is refused; a user's own upload installs with a warning.
 4. **Consent or approval** - A plugin an admin installed is managed: users aren't asked to consent, and the admin can force it on for everyone or leave it for each user to turn on. A user upload shows the user a consent dialog with the plugin's permissions. When the admin requires approval (the default), a user's plugin only runs after the admin approved that exact package. The approval is pinned to a hash of the manifest and the code, so a changed package needs approving again.
-5. **Configure** - Users set a plugin's own settings on its page under Settings > Add-ons, admins set its admin configuration on the plugin's page in the admin dashboard. Both forms are generated from schemas in the manifest.
+5. **Configure** - Users set a plugin's own settings on its page under Settings > Add-ons, admins set its admin configuration on the plugin's page in the admin console. Both forms are generated from schemas in the manifest.
 6. **Run** - The enabled plugin loads in a sandboxed frame, registers its hooks, actions and slots, and talks to the app only through the host API.
 
 ## Development workflow
@@ -221,12 +221,12 @@ The privileged tier exists for end-to-end encryption plugins that must run WebCr
 
 The privileged frame is same-origin with the webmail, which amounts to full access. Only install audited code this way. If a submission asks for the privileged tier without an S/MIME or OpenPGP story behind it, that alone is grounds for rejection.
 
-## Admin dashboard
+## Admin console
 
-<img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="5120" height="2880" />
-<img class="theme-dark-only" src="/screenshots/dark-admin-plugins.webp" alt="The Plugins section of the admin dashboard" width="5120" height="2880" />
+<img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin console" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-plugins.webp" alt="The Plugins section of the admin console" width="5120" height="2880" />
 
-The plugin and theme dashboard gives you:
+The Plugins and Themes pages of the admin console give you:
 
 - **Listing** - installed plugins, each with its own page for availability, permissions, configuration and earlier versions to roll back to
 - **Instance switches** - turn plugins on for the instance, allow or block user uploads, and require approval for user uploads

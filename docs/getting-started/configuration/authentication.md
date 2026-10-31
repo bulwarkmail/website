@@ -163,3 +163,7 @@ Users can enable or disable TOTP from Settings → Security within Bulwark (requ
 - CORS misconfiguration is automatically detected with detailed error messages
 - External content is blocked by default to protect privacy
 - CSP, X-Content-Type-Options, X-Frame-Options, and Referrer-Policy headers are set
+
+## Next step
+
+To run Bulwark inside a portal with silent sign-in, see [Embedded SSO](/docs/guides/embedded-sso). Every other setting the server reads is in the [environment reference](/docs/getting-started/configuration/environment-reference).

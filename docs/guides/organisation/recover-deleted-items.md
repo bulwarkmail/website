@@ -79,3 +79,7 @@ To turn it off for everyone, put `"deletedItemsRecovery": { "hidden": true }` in
 ## Bulwark Lite
 
 It works the same in Lite, since Bulwark only talks to Stalwart for it. Put the settings in the `policy.json` next to `index.html`.
+
+## Next step
+
+Go on to [Team inbox](/docs/guides/organisation/team-inbox), for teams that answer a shared mailbox together.

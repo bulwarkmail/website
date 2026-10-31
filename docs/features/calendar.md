@@ -173,3 +173,7 @@ Plugins can add buttons to the event editor. For example, the Jitsi Meet plugin 
 Settings > Calendar has the default view (month, week, day or agenda), **Show time in month view**, **Light event colors**, **Show week numbers**, **Limit visible hours**, **Hide non-working days**, **Free scrolling**, **Event hover preview**, **Contact birthday calendar**, **Organize invitations as**, **Parse email invitations** and the tasks switches. Persisted view preferences are validated so the calendar always falls back to a supported view mode.
 
 First day of week (Monday, Saturday or Sunday), 12- or 24-hour time, time zone and date format are in Settings > General and apply to the whole app, including calendar grids, event cards, popovers and import previews.
+
+## Next step
+
+Go on to [Contacts](/docs/features/contacts), where the birthday calendar gets its dates.

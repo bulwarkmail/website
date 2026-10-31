@@ -114,3 +114,7 @@ If Bulwark serves a PWA, make sure these paths are forwarded as-is and not aggre
 - `/api/pwa-icon/*` - auto-generated PWA icons
 - `/branding/*` - branding assets
 - `/api/push/preview` - fetches the text of a push notification for the service worker
+
+## Next step
+
+With Bulwark on HTTPS, users can install it as a [Progressive Web App](/docs/features/pwa) and get web push. To keep it current, see [Updating](/docs/deployment/updating).

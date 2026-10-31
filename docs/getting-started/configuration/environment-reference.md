@@ -61,7 +61,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose** - Points Bulwark to your JMAP-compatible mail server. Setting this also disables the first-launch setup wizard.
 - **Required** - No - the setup wizard can write this value to admin config instead. Required only when you want env-driven configuration, when `ALLOW_CUSTOM_JMAP_ENDPOINT=true` is not set, or when you rely on the legacy `NEXT_PUBLIC_JMAP_SERVER_URL` fallback.
 - **Example** - `https://mail.example.com`
-- **When to set it** - For env-driven deployments. A server URL already saved by the wizard or the dashboard takes priority over this variable. For several servers, see `JMAP_SERVERS` below.
+- **When to set it** - For env-driven deployments. A server URL already saved by the wizard or the admin console takes priority over this variable. For several servers, see `JMAP_SERVERS` below.
 
 ### `ALLOW_CUSTOM_JMAP_ENDPOINT`
 
@@ -78,7 +78,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Default** - Empty.
 - **Format** - A JSON array. Each entry needs `id`, `label` and `url`, and may carry `domains` (a list of email domains it serves) and its own `oauth` block.
 - **Example** - `[{"id":"eu","label":"Europe","url":"https://eu.example.com","domains":["example.com"]},{"id":"us","label":"US","url":"https://us.example.com"}]`
-- **When to set it** - Deployments sharded across servers, and stateless installs that can't use the admin dashboard, which manages the same list.
+- **When to set it** - Deployments sharded across servers, and stateless installs that can't use the admin console, which manages the same list.
 
 ### `JMAP_SERVER_AUTO_PICK_BY_DOMAIN`
 
@@ -91,7 +91,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 ### `STALWART_FEATURES`
 
-- **Purpose** - Shows the Stalwart-only parts of the app: the Security tab in settings (password, two-factor, app passwords, API keys) and deleted-mail recovery. Off also closes the Stalwart JMAP passthrough. Sieve filters, the vacation responder and the admin dashboard don't depend on it.
+- **Purpose** - Shows the Stalwart-only parts of the app: the Security tab in settings (password, two-factor, app passwords, API keys) and deleted-mail recovery. Off also closes the Stalwart JMAP passthrough. Sieve filters, the vacation responder and the admin console don't depend on it.
 - **Required** - No.
 - **Default** - `true` unless explicitly set to `false`.
 - **When to set it** - Set `STALWART_FEATURES=false` if you are using Bulwark with a non-Stalwart JMAP server and want to hide features that depend on Stalwart-specific JMAP `x:` methods.
@@ -101,7 +101,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose** - Server-side switch for the credential-bearing passthrough route that Stalwart-specific features use to reach the mail server through Bulwark.
 - **Required** - No.
 - **Default** - `true`
-- **When to set it** - Set to `false` to keep the client-side Stalwart features but block the passthrough entirely. Independent of `STALWART_FEATURES`; also editable in the admin dashboard.
+- **When to set it** - Set to `false` to keep the client-side Stalwart features but block the passthrough entirely. Independent of `STALWART_FEATURES`; also editable in the admin console.
 
 ### `STALWART_VERSION`
 
@@ -266,13 +266,13 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
     - bulwark-settings:/app/data/settings
   ```
 
-## Admin dashboard
+## Admin console
 
 ### `ADMIN_PASSWORD`
 
-- **Purpose** - Sets the initial admin password for the local admin dashboard. The dashboard manages plugins, themes, runtime config overrides, and policy.
+- **Purpose** - Sets the initial admin password for the admin console. The admin console manages plugins, themes, runtime config overrides, and policy.
 - **Required** - No - the setup wizard prompts for an initial password instead.
-- **Default** - None. Without it, and without the setup wizard, the admin dashboard stays disabled.
+- **Default** - None. Without it, and without the setup wizard, the admin console stays disabled.
 - **When to set it** - Env-driven deployments that skip the wizard. It is a bootstrap value: read only while `admin.json` does not exist, then hashed into it.
 
 ### `ADMIN_CONFIG_DIR`
@@ -320,11 +320,11 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 ### `STALWART_ADMIN_ACCESS`
 
-- **Purpose** - What a Stalwart admin account grants in the Bulwark admin dashboard.
+- **Purpose** - What a Stalwart admin account grants in the Bulwark admin console.
 - **Allowed values** - `auto` (Stalwart admins see the admin shield and are signed into `/admin` without the Bulwark admin password), `password` (they see the shield but must enter the admin password), `off` (Stalwart admin status is ignored; `/admin` is reachable only via `/admin/login`).
 - **Default** - `auto`
 - **Dependency** - `password` and `off` need an admin password to exist, from the wizard or `ADMIN_PASSWORD`.
-- **When to set it** - For env-driven deployments. Also editable in the dashboard under Authentication, and a value saved there wins.
+- **When to set it** - For env-driven deployments. Also editable in the admin console under Authentication, and a value saved there wins.
 
 ### `SEARCH_ENGINE_INDEXING`
 
@@ -346,7 +346,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 - **Purpose** - Master toggle for the anonymous daily heartbeat. Heartbeats contain no PII (version, platform, feature toggles, bucketed account counts).
 - **Required** - No.
-- **Default** - Off. Nothing is sent until an admin opts in through the admin UI, the installer, or this variable.
+- **Default** - Off. Nothing is sent until an admin opts in through the admin console, the installer, or this variable.
 - **When to set it** - Set to `on` to opt in from the environment, or `off` to lock it off. Setting it to either value greys out the admin toggle.
 - **See also** - [Anonymous Usage Stats](/docs/features/telemetry) and [Telemetry privacy](/docs/legal/privacy/telemetry).
 
@@ -359,7 +359,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 - **Purpose** - Let heartbeats reach a private or loopback collector address.
 - **Default** - Off, as an SSRF guard.
-- **When to set it** - Only while running a collector locally during development. The collector endpoint itself is changed in the admin UI, not by an environment variable.
+- **When to set it** - Only while running a collector locally during development. The collector endpoint itself is changed in the admin console, not by an environment variable.
 
 ### `TELEMETRY_DATA_DIR`
 
@@ -676,7 +676,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 - **Purpose** - Per-hostname overrides for the branding fields above when one deployment serves several hostnames. Matched on the request `Host` (or `X-Forwarded-Host`); `*.example.com` matches any subdomain. Exact matches win over wildcards.
 - **Format** - A JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`, `loginUsernamePlaceholder`, `pwaScreenshotMobileUrl`, `pwaScreenshotDesktopUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `helpUrl`, `easyReadUrl`, `signLanguageUrl`.
-- **When to set it** - Stateless deployments; the admin dashboard manages the same list.
+- **When to set it** - Stateless deployments; the admin console manages the same list.
 
 ## Internationalization
 
@@ -714,7 +714,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 - **Purpose** - The relay that turns JMAP push into web push, so self-hosters need no VAPID keys or Firebase project of their own.
 - **Default** - `https://notifications.relay.bulwarkmail.org`
-- **When to set it** - Point at your own relay ([github.com/bulwarkmail/relay](https://github.com/bulwarkmail/relay)) to avoid the hosted one. The admin dashboard picks the relay from an admin-defined list at runtime; this variable sets the build-time default.
+- **When to set it** - Point at your own relay ([github.com/bulwarkmail/relay](https://github.com/bulwarkmail/relay)) to avoid the hosted one. The admin console picks the relay from an admin-defined list at runtime; this variable sets the build-time default.
 - **Docker note** - Setting it with `-e` on the published image does nothing for browsers, which use the relay the bundle was built with, and the Dockerfile has no build argument for it. Add your relay under User policy > Push relays in the admin console, or add an `ARG`/`ENV` line for this variable before `next build` and build your own image.
 
 ## Demo mode

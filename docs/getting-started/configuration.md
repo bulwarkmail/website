@@ -10,16 +10,16 @@ editionNote: "This page configures Bulwark (not Lite) through environment variab
 
 Bulwark has two configuration surfaces that work together:
 
-1. The **web setup wizard** and **admin dashboard**, which is what new installs should use. The wizard runs on first launch when no `JMAP_SERVER_URL` is set in the environment and writes JSON config to `ADMIN_CONFIG_DIR`. The admin dashboard manages the same file afterwards.
+1. The **web setup wizard** and **admin console**, which is what new installs should use. The wizard runs on first launch when no `JMAP_SERVER_URL` is set in the environment and writes JSON config to `ADMIN_CONFIG_DIR`. The admin console manages the same file afterwards.
 2. **Environment variables** in `.env.local` (or your container's env). Still fully supported, and the right choice for immutable / read-only / env-as-code deployments.
 
-The two layer rather than compete. A value the wizard or the dashboard has saved wins; the environment fills in every key the admin config leaves unset. The session secret is the exception: `SESSION_SECRET` or `SESSION_SECRET_FILE` in the environment wins over one the wizard saved. Setting `JMAP_SERVER_URL` in the environment before the first launch skips the wizard, which is how an env-only deployment stays env-only.
+The two layer rather than compete. A value the wizard or the admin console has saved wins; the environment fills in every key the admin config leaves unset. The session secret is the exception: `SESSION_SECRET` or `SESSION_SECRET_FILE` in the environment wins over one the wizard saved. Setting `JMAP_SERVER_URL` in the environment before the first launch skips the wizard, which is how an env-only deployment stays env-only.
 
 ## Configuration model
 
 Bulwark supports three configuration layers:
 
-- **Admin-managed config** - Written by the setup wizard or the admin dashboard to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
+- **Admin-managed config** - Written by the setup wizard or the admin console to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
 - **Runtime environment variables** - Read by the server at request time. Used for every key the admin config does not set. Work well for Docker and reverse-proxy deployments.
 - **Legacy build-time variables** - `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
 
@@ -57,7 +57,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `ALLOW_CUSTOM_JMAP_ENDPOINT`  | No              | `false`                                   | Show a "JMAP Server" field on the login form so users can specify their own server         |
 | `STALWART_FEATURES`           | No              | `true`                                    | Enables the Stalwart-only parts: the account Security tab (password, two-factor, app passwords, API keys) and deleted-mail recovery |
 | `STALWART_JMAP_PASSTHROUGH_ENABLED` | No        | `true`                                    | Server-side switch for the credential-bearing Stalwart JMAP passthrough, independent of the UI flag above |
-| `STALWART_ADMIN_ACCESS`       | No              | `auto`                                    | What a Stalwart admin account grants in the admin dashboard: `auto`, `password`, or `off`  |
+| `STALWART_ADMIN_ACCESS`       | No              | `auto`                                    | What a Stalwart admin account grants in the admin console: `auto`, `password`, or `off`  |
 | `OAUTH_ENABLED`               | No              | `false`                                   | Enables OAuth2 / OpenID Connect login                                                      |
 | `OAUTH_ONLY`                  | No              | `false`                                   | Hides the username/password login form and requires OAuth                                  |
 | `OAUTH_CLIENT_ID`             | OAuth only      | -                                         | OAuth client ID                                                                            |
@@ -74,7 +74,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `COOKIE_SECURE`               | No              | derived from env                          | Force `Secure` flag on cookies                                                             |
 | `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                    |
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)      |
-| `ADMIN_PASSWORD`              | No              | set via wizard; dashboard disabled without one | Bootstrap admin password, read only while `admin.json` does not exist yet             |
+| `ADMIN_PASSWORD`              | No              | set via wizard; admin console disabled without one | Bootstrap admin password, read only while `admin.json` does not exist yet             |
 | `ADMIN_CONFIG_DIR`            | No              | `./data/admin`                            | Operator-authored: `config.json`, `policy.json`, `admin.json` (passwordHash), plugins, themes, branding uploads. Safe to mount read-only after setup |
 | `ADMIN_STATE_DIR`             | No              | `./data/admin-state`                      | Runtime: `admin-state.json` (login timestamps), `audit.log`, setup token. Always read-write |
 | `ADMIN_CONFIG_READONLY`       | No              | `false`                                   | Enforce read-only mode at the app layer (pair with `:ro` mount of the config volume)        |

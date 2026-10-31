@@ -8,7 +8,7 @@ editionNote: "Usage stats are sent by Bulwark's server (not Lite). Lite has no s
 
 # Anonymous usage stats
 
-Bulwark can send one anonymous heartbeat per day so we can answer basic questions about how the project is used. It is **off until you turn it on**: nothing leaves a fresh install until an admin opts in, and the exact JSON that would be sent is visible in the admin UI before the first ping.
+Bulwark can send one anonymous heartbeat per day so we can answer basic questions about how the project is used. It is **off until you turn it on**: nothing leaves a fresh install until an admin opts in, and the exact JSON that would be sent is visible in the admin console before the first ping.
 
 The data is instance-level only. No email addresses, no hostnames, no IPs, nothing tied to an end user.
 
@@ -78,8 +78,8 @@ The full negative list, and what nginx and the collector log (or rather, don't l
 
 ## Default state and inspection
 
-<img class="theme-light-only" src="/screenshots/light-admin-telemetry.webp" alt="The telemetry section of the admin dashboard" width="5120" height="2880" />
-<img class="theme-dark-only" src="/screenshots/dark-admin-telemetry.webp" alt="The telemetry section of the admin dashboard" width="5120" height="2880" />
+<img class="theme-light-only" src="/screenshots/light-admin-telemetry.webp" alt="The telemetry section of the admin console" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-telemetry.webp" alt="The telemetry section of the admin console" width="5120" height="2880" />
 
 Telemetry is **off on a fresh install**. Consent starts at `off` and is written to `TELEMETRY_DATA_DIR/state.json` on first boot, so an install that is never touched sends nothing, ever. Once you opt in, the first heartbeat fires an hour later.
 
@@ -117,3 +117,7 @@ The collector is open source at [github.com/bulwarkmail/dashboard](https://githu
 ## Public dashboard
 
 The aggregate numbers (active instances, version distribution, feature adoption percentages) are published on a read-only Grafana view linked from the privacy sub-page, so anyone, not just us, can see what we know.
+
+## Next step
+
+[Anonymous usage telemetry](/docs/legal/privacy/telemetry) lists every field the heartbeat sends.

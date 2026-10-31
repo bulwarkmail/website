@@ -21,7 +21,7 @@ Receiving server: `telemetry.bulwarkmail.org`, operated by the Bulwark project o
 
 Telemetry is **off by default**. On first boot the app writes a state file recording consent as `off`, and no heartbeat is scheduled. An install that nobody touches sends nothing at any point.
 
-When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible verbatim in the admin UI before that happens.
+When an admin opts in, the first heartbeat fires **one hour** later, and the exact JSON payload is visible verbatim in the admin console before that happens.
 
 Enable it in one of three ways:
 
@@ -78,7 +78,7 @@ Total payload size is under 1 KB.
 - Stalwart deployment details (paths, ports, certificates, OAuth client IDs, config keys)
 - Any string typed into the Bulwark UI
 
-If a future schema version adds anything to the "what is sent" list, it will be visible in your admin UI's payload preview before it's sent, and this page will be updated with the "Last updated" date moved forward.
+If a future schema version adds anything to the "what is sent" list, it will be visible in the admin console's payload preview before it's sent, and this page will be updated with the "Last updated" date moved forward.
 
 ## Storage and retention
 
@@ -125,3 +125,7 @@ Turning telemetry off stops further collection. Data already received before tha
 ## Contact
 
 For data-protection questions, see the contact details at [github.com/bulwarkmail/webmail?tab=contributing-ov-file](https://github.com/bulwarkmail/webmail?tab=contributing-ov-file) (email is at the bottom).
+
+## Next step
+
+To turn the heartbeat on or off, see [Anonymous usage stats](/docs/features/telemetry).
