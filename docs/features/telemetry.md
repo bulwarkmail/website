@@ -35,27 +35,34 @@ Once enabled: one ping per day, jittered ±2 hours so the timing can't reveal us
 {
   "schema": "1",
   "instance_id": "f0c1...",
-  "ts": "2026-04-27T17:00:00Z",
-  "version": "1.4.8",
+  "ts": "2026-10-31T17:00:00.000Z",
+  "version": "1.19.1",
+  "build": "release",
   "platform": "docker",
+  "node_version": "22.x.x",
   "os_family": "linux",
-  "stalwart_version": "0.16.0",
+  "stalwart_version": null,
   "features": {
     "calendar": true,
     "contacts": true,
     "files": false,
-    "extensions": true
+    "extensions": true,
+    "oauth_enabled": false,
+    "smime_enabled": true
   },
   "counts": {
     "accounts": "2-5",
     "accounts_active_7d": "1",
-    "extensions_installed": 2
+    "extensions_installed": 2,
+    "themes_installed": 0
   },
   "uptime_days": 17
 }
 ```
 
-Account counts are reported as **buckets** (`1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`) so a small instance can't be re-identified by exact size.
+`accounts` is the number of different accounts that signed in during the last 90 days, `accounts_active_7d` those that signed in during the last 7. `uptime_days` is how long the server process has been running, capped at 365. `stalwart_version` stays `null` unless you set `STALWART_VERSION`, because Stalwart doesn't publish its version to clients.
+
+Account counts are reported as **buckets** (`0`, `1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`) so a small instance can't be re-identified by exact size.
 
 ## What we never collect
 
@@ -75,30 +82,34 @@ The full negative list, and what nginx and the collector log (or rather, don't l
 
 Telemetry is **off on a fresh install**. Consent starts at `off` and is written to `TELEMETRY_DATA_DIR/state.json` on first boot, so an install that is never touched sends nothing, ever. Once you opt in, the first heartbeat fires an hour later.
 
-In **Admin → Settings → Anonymous usage stats** you can:
+In the admin console under **System → Usage stats** you can:
 
-- Turn the heartbeat on or off at any time.
-- **Preview payload** - the exact JSON the next heartbeat would send, filled in with your install's current values.
-- **Send now** - fire a heartbeat immediately, for testing or just to see it happen.
-- Change the **endpoint** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector, or clear it to disable. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
+- Turn the heartbeat on or off at any time with **Send anonymous heartbeats**, then press **Save**.
+- See the **Payload preview**: the exact JSON the next heartbeat would send, filled in with your install's current values.
+- **Send now** fires a heartbeat immediately, for testing or just to see it happen (only while heartbeats are on).
+- Change the **Collector URL** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector. Clearing the field restores the default; it does not turn heartbeats off. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
 - See when the last one went out.
 
 ## How to turn it on
 
-Either flip **Anonymous usage stats** on in the admin UI, or set `BULWARK_TELEMETRY=on` in the environment. Setting the environment variable either way locks the choice and greys out the admin toggle.
+Either turn on **Send anonymous heartbeats** under System → Usage stats in the admin console and press Save, or set `BULWARK_TELEMETRY=on` in the environment. Setting the environment variable either way locks the choice and greys out the admin toggle.
+
+You're also asked once during setup: the setup wizard's Security step has a **Send anonymous usage stats to help improve Bulwark** switch (off by default), and the `setup.sh` installer asks the same question. Answering yes in `setup.sh` writes `BULWARK_TELEMETRY=on` to `.env.local`, which locks the admin switch until you remove the line.
 
 ## How to turn it off again
 
-- In the admin UI, flip **Anonymous usage stats** off.
-- Set `BULWARK_TELEMETRY=off` in your environment (`.env`, `docker-compose.yml`, or your systemd unit). This wins over the UI toggle. The older `BULWARK_TELEMETRY_DISABLED=1` still works when `BULWARK_TELEMETRY` is unset.
-- Clear the endpoint in the admin UI, which has the same effect.
-- Block `telemetry.bulwarkmail.org` at your firewall. Heartbeats fail silently and nothing else in Bulwark notices.
+- In the admin console, turn off **Send anonymous heartbeats** under System → Usage stats and press Save.
+- Set `BULWARK_TELEMETRY=off` in your environment (`.env`, `docker-compose.yml`, or your systemd unit). This wins over the admin switch. The older `BULWARK_TELEMETRY_DISABLED=1` still works when `BULWARK_TELEMETRY` is unset.
+- Turn off third-party traffic (`NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic in the admin console). This stops telemetry along with every other outside connection and wins over `BULWARK_TELEMETRY`.
+- Block `telemetry.bulwarkmail.org` at your firewall. Each failed heartbeat logs one warning; nothing else in Bulwark notices.
 
-The toggle takes effect immediately. To also reset your `instance_id`, so future heartbeats from this install look like a brand-new one, delete the `.telemetry-id` file in your telemetry data directory.
+Clearing the Collector URL is not a way to turn it off: an empty field saves the default endpoint again.
+
+The change takes effect as soon as you save it. To also reset your `instance_id`, so future heartbeats from this install look like a brand-new one, delete the `.telemetry-id` file in your telemetry data directory.
 
 ## Run your own collector
 
-The collector is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you want the same data for your own fleet, point your installs at your own collector from the endpoint field in the admin UI.
+The collector is open source at [github.com/bulwarkmail/dashboard](https://github.com/bulwarkmail/dashboard) under `telemetry-collector/`. If you want the same data for your own fleet, point your installs at your own collector with the Collector URL field in the admin console.
 
 <div class="lite-callout">Bulwark Lite has no server process and sends no heartbeat at all. This page only applies to the full edition.</div>
 
