@@ -11,8 +11,12 @@ The official **Team inbox** plugin lets the members of a team mailbox (a Stalwar
 
 ## Set it up
 
-1. In **Admin > Extensions > Plugins**, install **Team inbox** from the directory, or upload its zip.
-2. Turn on **Enabled for everyone**, so every user gets it without being asked. The plugin has no settings.
+Team inbox is coming to the extension directory; it isn't listed there yet. Until then you install it from its ZIP:
+
+1. Download `team-inbox.zip` from the [plugins repository](https://github.com/bulwarkmail/plugins/tree/main/team-inbox).
+2. In **Admin > Extensions > Plugins**, make sure **Plugins** is on under **Plugin policy**. Plugins are off until an admin turns them on.
+3. Click **Upload plugin** and pick the ZIP.
+4. Open **Team inbox** in the plugin list and turn on **Force on for everyone** under **Availability**, so every user gets it without being asked and can't turn it off. The plugin has no settings.
 
 It needs Bulwark 1.19 or later and works with Stalwart 0.16 and 1.0.
 

@@ -36,7 +36,7 @@ With several accounts signed in, each message is judged by its own account: its 
 
 ## What users see
 
-The chip is small and sits next to the sender's name, so it fits next to the **Unverified sender** warning and on a phone's narrow header. It shows when any From address of a message is outside the organisation, and when a From address has no domain at all (`CEO <ceo>`). It goes by the From address: a forged From with an internal address isn't labelled External. Bulwark's own sender check shows **Unverified sender** for that, as it does without these settings.
+The chip is small and sits next to the sender's name, so it fits next to the sender check's warning and on a phone's narrow header. It shows when any From address of a message is outside the organisation, and when a From address has no domain at all (`CEO <ceo>`). It goes by the From address: a forged From with an internal address isn't labelled External. Bulwark's own sender check warns about that with **Sender check failed** or **Unverified sender**, as it does without these settings.
 
 The confirm comes after Bulwark's other checks (missing attachment, empty subject, unfilled placeholders), once per send, with every external recipient in To, Cc and Bcc. The automatic Bcc of an address (set in the account's identities) isn't listed. **Back** returns to the message unsent, with the text of a quick reply kept.
 
@@ -56,7 +56,7 @@ Bulwark does what the External Mail Warning plugin did, so the plugin is retired
 
 The plugin steps back one switch at a time: with **Confirm external recipients** on, it no longer asks before sending; with **Label external senders** on, it shows no banner and no new-mail toast. Version 1.6.0 and later do this themselves; for older copies, Bulwark skips those parts of the plugin. The section says **Update or remove the External Mail Warning plugin** while an older copy is installed.
 
-Two things don't carry over: each user's own safe domains in the plugin's settings, and its banner for failed SPF, DKIM or DMARC checks. Bulwark shows **Unverified sender** for those.
+Two things don't carry over: each user's own safe domains in the plugin's settings, and its banner for failed SPF, DKIM or DMARC checks. Bulwark's sender check shows **Sender check failed** or **Unverified sender** for those.
 
 ## In policy.json
 

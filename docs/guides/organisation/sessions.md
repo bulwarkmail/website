@@ -90,6 +90,6 @@ The settings are stored in `organisation.session` in `policy.json`, and per entr
 | `maxHours` | `0` | Hours after sign-in before signing out. `0` is off. At most 8760 (a year). |
 | `warnSeconds` | `60` | Seconds the countdown shows first. `0` signs out without a warning. At most 600. |
 
-Older versions had a user setting `sessionTimeout` that did nothing. A `policy.json` that locked it to a number of minutes gets that number as `idleMinutes` when Bulwark loads it, unless `idleMinutes` is already set.
+Older versions had a user setting `sessionTimeout` that did nothing. When the top level of a `policy.json` locks or presets it to a number of minutes, Bulwark moves that number to `idleMinutes` when it loads the file, unless `idleMinutes` is already set. A `sessionTimeout` inside a domain or group entry isn't moved.
 
 <div class="lite-callout">Bulwark Lite reads the same <code>organisation.session</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The inactivity limit works the same. Lite has no server, so <strong>the maximum session length in Lite is enforced by the browser only</strong>, for domain and group entries alike: it signs users out on time, but someone with access to the browser's storage could get around it. Use Stalwart's token lifetimes when you need a hard limit.</div>
