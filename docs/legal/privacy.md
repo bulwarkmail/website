@@ -32,7 +32,7 @@ Hosted by us on our own server. Static content plus a thin Next.js layer for doc
 - Standard nginx access logs (IP, user-agent, requested path, response code). Rotated and discarded after 14 days.
 - Anonymous analytics via self-hosted **Umami**:
   - URL path, referrer, browser, OS, country (derived from IP via a local geo lookup; the IP itself is not stored)
-  - A hashed session ID. Umami changes the salt behind it once a month, so visits in the same month can be linked to each other, but not across months
+  - A hashed session ID. Umami changes the salt behind it every day, so visits on the same day can be linked to each other, but not across days
   - No cookies, no fingerprinting, no `localStorage` tracking
 
 **What is _not_ collected:**
@@ -41,7 +41,7 @@ Hosted by us on our own server. Static content plus a thin Next.js layer for doc
 - No third-party scripts at all - fonts are self-hosted (downloaded at build time into `/_next/static/media/`, served from `bulwarkmail.org`); the only script the page loads from anywhere is `umami.bulwarkmail.org/script.js`, which is also ours
 - No account or login on this site
 
-You can opt out of analytics by blocking `umami.bulwarkmail.org` in your browser or a content blocker. The analytics script does not check your browser's "Do Not Track" setting.
+You can opt out of analytics by blocking `umami.bulwarkmail.org` in your browser or a content blocker. If your browser sends "Do Not Track", the analytics script on this website and on the extension directory records nothing.
 
 ## extensions.bulwarkmail.org (the extensions marketplace)
 

@@ -46,7 +46,7 @@ One heartbeat per 24 hours, jittered ± 2 hours, containing exactly the followin
 | ----------------------------- | -------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `schema`                      | string         | `"1"`                              | Lets us evolve the schema without breaking old senders.                                                                                                                                                                                                     |
 | `instance_id`                 | uuid v4        | `f0c1...`                          | Distinguishes one install from another over time. Random, generated locally the first time someone signs in or the payload is built, stored at `data/telemetry/.telemetry-id` (or in `TELEMETRY_DATA_DIR`). Reset by deleting that file. Never tied to anything else. |
-| `ts`                          | ISO timestamp  | `2026-04-27T17:00:00Z`             | Send time. Rows are keyed by day; the exact time is kept with the raw row for 90 days.                                                                                                                                                                     |
+| `ts`                          | ISO timestamp  | `2026-04-27T17:00:00Z`             | Send time, stored rounded to the day. The time the heartbeat arrived is kept with the raw row, which is deleted after 90 days.                                                                                                                                                                     |
 | `version`                     | string         | `"1.4.8"`                          | Release adoption.                                                                                                                                                                                                                                           |
 | `build`                       | string         | `"a1b2c3d"` or `"release"`         | Distinguishes published releases from local builds.                                                                                                                                                                                                         |
 | `platform`                    | enum           | `docker`, `bare`, `k8s`, `unknown` | Where docs and bug-fix effort go.                                                                                                                                                                                                                           |
@@ -85,7 +85,7 @@ If a future schema version adds anything to the "what is sent" list, it will be 
 Heartbeats are written to a Postgres database named `telemetry`, separate from the databases backing other Bulwark services. Each row is keyed by `(instance_id, day)` so multiple heartbeats per day collapse into a single row.
 
 - **Raw heartbeats** are retained for **90 days**, then deleted by an automated daily job.
-- After 90 days we keep **daily aggregates** (counts grouped by version, platform, feature, and account-count bucket) without any `instance_id`, and in `instance_meta`, per `instance_id`, only the first and last day it was seen and on how many days.
+- After 90 days we keep **daily aggregates** (counts grouped by version, platform, feature, and account-count bucket) without any `instance_id`, and in `instance_meta`, per `instance_id`, only the first and last day it was seen and on how many days. An `instance_meta` row is deleted once its instance hasn't been seen for 90 days; only a count of such deleted rows per day stays, with no `instance_id`.
 - Backups of the telemetry database are kept on the same server, encrypted at rest. There is no off-site replication of telemetry data.
 
 ## Public dashboard
@@ -112,7 +112,7 @@ You can request:
 - **What we hold tied to your `instance_id`** - open a GitHub issue or email us with the `instance_id` from your `.telemetry-id` file. We'll send back the raw rows and confirm what they are.
 - **Deletion** - same channel. We delete all rows tagged with that `instance_id` from `heartbeats` and `instance_meta`. Aggregated data in `daily_rollups` cannot be unwound, because no `instance_id` is stored there.
 
-We respond within 30 days. If we hold no rows tagged with your `instance_id`, because you never opted in, we'll tell you that. After 90 days only the `instance_meta` row (first day, last day, number of days seen) is left.
+We respond within 30 days. If we hold no rows tagged with your `instance_id`, because you never opted in, we'll tell you that. After 90 days only the `instance_meta` row (first day, last day, number of days seen) is left, and it goes too once the instance hasn't reported for 90 days.
 
 ## Lawful basis (GDPR / DSGVO)
 
