@@ -190,7 +190,7 @@ function FactsSection({ langs }: { langs: number }) {
     { icon: Code2, title: "Open source", text: "AGPL-3.0, developed in public on GitHub." },
     { icon: Zap, title: "Built on JMAP", text: "Stalwart pushes each change, and the client fetches only the difference." },
     { icon: Globe, title: `${langs} languages`, text: "Including German, French and Spanish, and Arabic, Hebrew and Persian right to left." },
-    { icon: MapPin, title: "Built in the EU", text: "Runs on your hardware. Your mail stays on your Stalwart server." },
+    { icon: MapPin, title: "Built in the EU", text: "Written and maintained in the EU." },
   ];
   return (
     <section className="bw-sec-tight">
