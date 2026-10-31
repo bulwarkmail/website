@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "@/components/icons";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { EditionLink } from "@/components/edition-link";
 import { CopyButton } from "@/components/copy-button";
 import { Shot } from "@/components/ui";
 import { LogoTile, type LogoAsset } from "@/components/logo-tile";
@@ -80,9 +80,9 @@ export default function PressPage() {
                 <a href={PRESS_FOLDER} target="_blank" rel="noopener noreferrer" className="bw-btn">
                   Open the press folder <ArrowUpRight size={16} {...ICON} />
                 </a>
-                <EditionLink href="/brand" className="bw-btn bw-btn-ghost">
+                <Link href="/brand" className="bw-btn bw-btn-ghost">
                   Brand and design system <ArrowRight size={16} {...ICON} />
-                </EditionLink>
+                </Link>
               </div>
             </div>
           </div>

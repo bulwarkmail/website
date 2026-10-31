@@ -5,8 +5,6 @@ import { ArrowRight, Menu, X, Sun, Moon } from "@/components/icons";
 import Link from "next/link";
 import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";
-import { EditionSwitch } from "@/components/edition-switch";
-import { EditionLink } from "@/components/edition-link";
 import { ICON } from "@/lib/icon";
 
 const navLinks = [
@@ -49,14 +47,13 @@ export function Navbar() {
 
           <nav className="bw-nav-links" aria-label="Main">
             {navLinks.map((link) => (
-              <EditionLink key={link.href} href={link.href}>
+              <Link key={link.href} href={link.href}>
                 {link.label}
-              </EditionLink>
+              </Link>
             ))}
           </nav>
 
           <div className="bw-nav-r">
-            <EditionSwitch />
             <button
               type="button"
               onClick={() => setTheme(dark ? "light" : "dark")}
@@ -65,10 +62,10 @@ export function Navbar() {
             >
               {dark ? <Sun size={16} {...ICON} /> : <Moon size={16} {...ICON} />}
             </button>
-            <EditionLink href="/#install" className="bw-btn bw-btn-sm">
+            <Link href="/#install" className="bw-btn bw-btn-sm">
               Get started
               <ArrowRight size={16} {...ICON} />
-            </EditionLink>
+            </Link>
             <button
               type="button"
               className="bw-iconbtn bw-nav-phone"
@@ -84,14 +81,14 @@ export function Navbar() {
         {mobileOpen ? (
           <nav className="bw-nav-menu bw-nav-phone" aria-label="Main">
             {navLinks.map((link) => (
-              <EditionLink key={link.href} href={link.href} onClick={() => setMobileOpen(false)}>
+              <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}>
                 {link.label}
-              </EditionLink>
+              </Link>
             ))}
-            <EditionLink href="/#install" className="bw-btn" onClick={() => setMobileOpen(false)}>
+            <Link href="/#install" className="bw-btn" onClick={() => setMobileOpen(false)}>
               Get started
               <ArrowRight size={16} {...ICON} />
-            </EditionLink>
+            </Link>
           </nav>
         ) : null}
       </div>

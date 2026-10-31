@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { ArrowRight } from "@/components/icons";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { EditionLink } from "@/components/edition-link";
 import { Tile } from "@/components/ui";
 import { ICON } from "@/lib/icon";
 
@@ -24,12 +24,12 @@ export default function NotFound() {
                 Error 404. The address may be mistyped, or the page may have moved when the docs were reorganised.
               </p>
               <div className="bw-btns">
-                <EditionLink href="/" className="bw-btn">
+                <Link href="/" className="bw-btn">
                   Go to the home page <ArrowRight size={16} {...ICON} />
-                </EditionLink>
-                <EditionLink href="/docs" className="bw-btn bw-btn-ghost">
+                </Link>
+                <Link href="/docs" className="bw-btn bw-btn-ghost">
                   Open the docs <ArrowRight size={16} {...ICON} />
-                </EditionLink>
+                </Link>
               </div>
             </div>
           </div>

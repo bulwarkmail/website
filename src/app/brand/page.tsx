@@ -11,10 +11,10 @@ import {
   TriangleAlert,
 } from "@/components/icons";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { EditionLink } from "@/components/edition-link";
-import { EditionSwitch } from "@/components/edition-switch";
+import { InstallChoice } from "@/components/install-choice";
 import { CodeBlock } from "@/components/code-block";
 import { LogoTile, type LogoAsset } from "@/components/logo-tile";
 import { Tile } from "@/components/ui";
@@ -157,9 +157,9 @@ export default function BrandPage() {
                 <a href={BRANDING_REPO} target="_blank" rel="noopener noreferrer" className="bw-btn">
                   Branding repository <ArrowUpRight size={16} {...ICON} />
                 </a>
-                <EditionLink href="/press" className="bw-btn bw-btn-ghost">
+                <Link href="/press" className="bw-btn bw-btn-ghost">
                   Press kit <ArrowRight size={16} {...ICON} />
-                </EditionLink>
+                </Link>
               </div>
             </div>
           </div>
@@ -431,9 +431,9 @@ export default function BrandPage() {
             >
               <p className="bw-muted" style={{ fontSize: "var(--bw-small)" }}>
                 The landing page hero and its three feature rows show the pattern.{" "}
-                <EditionLink href="/" className="bw-link">
+                <Link href="/" className="bw-link">
                   Open the landing page
-                </EditionLink>
+                </Link>
                 .
               </p>
             </Guide>
@@ -543,16 +543,16 @@ export default function BrandPage() {
             </Guide>
 
             <Guide
-              title="Edition switch"
-              text="A two-part segmented control. The active side is filled with the text colour, and on the field it is filled white. The install section uses the wide form with full labels."
+              title="Segmented control"
+              text="Tabs that switch one block of content in place, such as the install steps. The selected tab is filled with the text colour, and on the field it is filled white. It never switches the whole page."
             >
-              <div className="bw-ex">
-                <EditionSwitch />
-                <EditionSwitch wide />
-              </div>
-              <div className="bw-ex bw-ex-field bw-field">
-                <EditionSwitch />
-              </div>
+              <InstallChoice
+                label="Example tabs"
+                choices={[
+                  { id: "docker", label: "With Docker", panel: <p>The steps for the container.</p> },
+                  { id: "static", label: "As static files", panel: <p>The steps for Bulwark Lite.</p> },
+                ]}
+              />
             </Guide>
 
             <Guide
@@ -654,7 +654,7 @@ export default function BrandPage() {
               text="One shape, three kinds, told apart by their first words and the colour of the edge."
             >
               <div>
-                <div className="bw-note bw-note-edition">
+                <div className="bw-note bw-note-brand">
                   <b>Not in Lite.</b> Settings sync and plugins need the Node.js server, so Lite keeps them switched
                   off.
                 </div>
@@ -770,8 +770,6 @@ export default function BrandPage() {
             <div className="bw-split bw-split-4-8">
               <div className="bw-head">
                 <h2 className="bw-h2">Bulwark Lite is the same page in teal.</h2>
-                <p>Use the switch to see this page as Lite.</p>
-                <EditionSwitch wide />
               </div>
               <ol className="bw-rules">
                 <li>

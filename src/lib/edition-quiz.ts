@@ -206,7 +206,7 @@ export type Kind =
 
 export type Verdict = {
   kind: Kind;
-  /** The edition the site switches to, or null to leave it alone. */
+  /** The edition the quiz recommends, or null for neither. */
   pick: Edition | null;
   /** Nothing forced it and the leans are within a point: either would do. */
   close: boolean;

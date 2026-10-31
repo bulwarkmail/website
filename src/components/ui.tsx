@@ -110,13 +110,3 @@ export function Tile({ href, title, text, icon: Icon, compact }: TileProps) {
     </Link>
   );
 }
-
-/** Copy that differs between Bulwark and Bulwark Lite. Both are rendered; data-edition on <html> shows one. */
-export function Ed({ full, lite }: { full: ReactNode; lite: ReactNode }) {
-  return (
-    <>
-      <span className="ed-full-only">{full}</span>
-      <span className="ed-lite-only">{lite}</span>
-    </>
-  );
-}
