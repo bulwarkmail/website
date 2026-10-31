@@ -125,3 +125,7 @@ Bulwark detects accounts whose JMAP session is no longer valid (password changed
 ### Mailbox tree appears empty
 
 On first login Bulwark retries mailbox fetch to handle Stalwart's lazy provisioning of new accounts. If you still see an empty tree, check the JMAP server logs for permission errors.
+
+## Next step
+
+Go on to [Account security](/docs/guides/account-security), for the password, two-factor and app passwords of each account.

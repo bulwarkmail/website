@@ -199,3 +199,7 @@ Everything on this page works in Bulwark Lite: the settings, presets, quick pane
 - The mobile app has its own settings. The options on this page are for the webmail only for now.
 
 To report a barrier, use the link your provider gives on the sign-in page or in the app, or open an issue on [GitHub](https://github.com/bulwarkmail/webmail/issues).
+
+## Next step
+
+If you run Bulwark for others, [presets and locks for admins](/docs/features/accessibility/admin) shows how to set these options for your users.

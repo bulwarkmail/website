@@ -101,3 +101,7 @@ Write a **changelog**. The directory takes a version's notes from a `CHANGELOG.m
 ## Taking your extension down
 
 To take an extension down, open its page in the dashboard. **Archive** hides it from search but keeps the bundles, so installed copies keep working. **Deprecate** keeps it installable, lists it lower, and tells webmails that have it, with your message and a replacement if you name one.
+
+## Next step
+
+Before you submit, check your extension against the [submission guidelines](/docs/extensions/guidelines) and the [manifest.json reference](/docs/extensions/manifest).

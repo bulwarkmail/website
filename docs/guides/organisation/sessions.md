@@ -96,3 +96,7 @@ The settings are stored in `organisation.session` in `policy.json`, and per entr
 Older versions had a user setting `sessionTimeout` that did nothing. When the top level of a `policy.json` locks or presets it to a number of minutes, Bulwark moves that number to `idleMinutes` when it loads the file, unless `idleMinutes` is already set. A `sessionTimeout` inside a domain or group entry isn't moved.
 
 <div class="bw-note"><b>Note.</b> Bulwark Lite reads the same <code>organisation.session</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The inactivity limit works the same. Lite has no server, so <strong>the maximum session length in Lite is enforced by the browser only</strong>, for domain and group entries alike: it signs users out on time, but someone with access to the browser's storage could get around it. Use Stalwart's token lifetimes when you need a hard limit.</div>
+
+## Next step
+
+Go on to [Third-party traffic](/docs/guides/organisation/third-party-traffic).

@@ -179,3 +179,7 @@ Account security, API keys and app passwords are user settings, not part of the 
 ### "Admin login fails with correct password"
 
 Check that `SESSION_SECRET` hasn't changed since you last signed in (which would invalidate stored sessions) and that the admin data directory is on a writable filesystem.
+
+## Next step
+
+For the settings an organisation makes for its users, such as signatures, external mail and sign-out times, go on to [Organisation settings](/docs/guides/organisation).

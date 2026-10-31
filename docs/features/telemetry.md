@@ -117,3 +117,7 @@ The collector is open source at [github.com/bulwarkmail/dashboard](https://githu
 ## Public dashboard
 
 The aggregate numbers (active instances, version distribution, feature adoption percentages) are published on a read-only Grafana view linked from the privacy sub-page, so anyone, not just us, can see what we know.
+
+## Next step
+
+[Anonymous usage telemetry](/docs/legal/privacy/telemetry) lists every field the heartbeat sends.

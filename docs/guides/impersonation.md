@@ -162,3 +162,7 @@ Errors other than the 404 come as JSON, `{"error": "..."}`; the 404 is plain tex
 - **Replay records live in the state directory.** Replicas that don't share `ADMIN_STATE_DIR` keep separate records, so a used token could be redeemed again on another replica. Share the state volume, or route the impersonate endpoint to one replica.
 - **Single master account.** All impersonations go through one master user. Per-tenant master accounts and JWKS-based rotation are not yet supported; open an issue if you need them.
 - **HS256 only.** Nobody has asked for RS256 or EdDSA yet. Open an issue if you would use it.
+
+## Next step
+
+[Running Bulwark for customers](/docs/deployment/hosting-providers) covers the rest of a hosting setup: servers picked by domain, branding per web address and several replicas.

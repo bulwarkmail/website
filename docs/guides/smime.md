@@ -104,3 +104,7 @@ The plugin isn't installed or isn't enabled for your user. Ask your admin to ins
 ### "No S/MIME key for …"
 
 Import a .p12 / .pfx (not just the public .cer) whose certificate is for the address you send from, in Settings → Add-ons → S/MIME. The message names the path as Settings → Plugins → S/MIME; the page is under Settings → Add-ons.
+
+## Next step
+
+Go on to [Account security](/docs/guides/account-security), where you can also add S/MIME or PGP public keys for Stalwart's encryption at rest.

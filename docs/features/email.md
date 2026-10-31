@@ -154,3 +154,7 @@ This needs a server that supports VacationResponse; forwarding and replying only
 Templates are reusable messages, each with a category you name yourself. Date placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and your own placeholders are asked for when you insert the template.
 
 In the composer, press `t` (outside a text field) or use Templates > Insert template to open the picker, which searches your templates and groups them by category. Create and edit them under Settings > Composing > Email templates.
+
+## Next step
+
+[Composing emails](/docs/features/email/composing) covers the editor, identities, signatures and attachments in detail.

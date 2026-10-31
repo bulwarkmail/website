@@ -90,3 +90,7 @@ helm upgrade bulwark-mail helmforge/bulwark-mail \
 ```
 
 If you use wizard mode without a values file, replace `--values values.yaml` with `--set image.tag=<version>-always`; without it the upgrade falls back to the chart's default tag. Review the chart release notes and your saved values before each upgrade.
+
+## Next step
+
+Before people sign in, work through [Roll Bulwark out to an organisation](/docs/guides/organisation/rollout), which lists what to set in Stalwart and in Bulwark.

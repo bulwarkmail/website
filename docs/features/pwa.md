@@ -124,3 +124,7 @@ PWA installs are cached by the OS. Uninstall the existing app and reinstall afte
 ### Splash screen flashes the wrong color
 
 Set `PWA_BACKGROUND_COLOR` to match your initial background and reinstall the PWA.
+
+## Next step
+
+For the native phone app instead of the PWA, see [Mobile apps and push](/docs/features/mobile).

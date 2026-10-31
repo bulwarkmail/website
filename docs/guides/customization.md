@@ -235,3 +235,7 @@ LOG_LEVEL=info    # "debug", "info", "warn", "error"
 `LOG_LEVEL` applies to the whole server. Use `LOG_FORMAT=json` for log collectors such as Loki, Elastic or Splunk.
 
 Set both as environment variables. In 1.19.1 the log format and level that the setup wizard and the admin console's Server page save have no effect.
+
+## Next step
+
+To install a theme from the directory, see the [marketplace](/docs/guides/marketplace). If you brand Bulwark for several customers, [Running Bulwark for customers](/docs/deployment/hosting-providers) covers branding per web address.

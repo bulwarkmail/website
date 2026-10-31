@@ -128,3 +128,7 @@ If you've never logged into the marketplace and don't use a relay-backed Bulwark
 ## Changes
 
 We'll update this page when the answer to "what does Bulwark collect" changes. The "Last updated" date at the top reflects the most recent edit. If a change is material we'll mention it in the project's release notes.
+
+## Next step
+
+[Anonymous usage telemetry](/docs/legal/privacy/telemetry) has the details of the heartbeat an instance can send.

@@ -197,3 +197,7 @@ Completes the server-side OAuth flow. Requires the `sso_pending` cookie set by t
   "expires_in": 3600
 }
 ```
+
+## Next step
+
+[Authentication](/docs/getting-started/configuration/authentication) has the OIDC settings this flow builds on.

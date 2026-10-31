@@ -66,3 +66,7 @@ Without a directory and on Stalwart 0.16, other members show as **Assigned** unt
 - **Shared mailboxes only.** A folder one person shared with another doesn't count. A Stalwart group without a mailbox isn't visible to Bulwark.
 - **No admin settings and no policy keys.** Install and enable it as above. To take it away from everyone, disable or remove the plugin.
 - **Bulwark Lite** has no plugins, so there is no assignment there. Keywords set elsewhere stay on the messages.
+
+## Next step
+
+Back to [Organisation settings](/docs/guides/organisation) for the other settings, or to [Roll Bulwark out to an organisation](/docs/guides/organisation/rollout) for the checklist before go-live.

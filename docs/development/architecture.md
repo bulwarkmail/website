@@ -190,3 +190,7 @@ Web push notifications build on this. When the user turns them on, the browser r
 - PDF iframe sandbox for safe document preview
 - Plugin sandbox with dangerous-pattern detection and admin approval requirement
 - Settings sync stored as one AES-256-GCM encrypted file per account, keyed from the session secret
+
+## Next step
+
+[Contributing](/docs/development/contributing) explains how to set up a development checkout and send a change.

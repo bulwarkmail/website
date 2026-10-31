@@ -94,3 +94,7 @@ Select multiple contacts for batch actions:
 - Bulk delete
 - Bulk add to group
 - Bulk export to vCard
+
+## Next step
+
+Go on to [Files](/docs/features/files), the fourth app.

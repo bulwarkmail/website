@@ -125,3 +125,7 @@ Turning telemetry off stops further collection. Data already received before tha
 ## Contact
 
 For data-protection questions, see the contact details at [github.com/bulwarkmail/webmail?tab=contributing-ov-file](https://github.com/bulwarkmail/webmail?tab=contributing-ov-file) (email is at the bottom).
+
+## Next step
+
+To turn the heartbeat on or off, see [Anonymous usage stats](/docs/features/telemetry).

@@ -183,3 +183,7 @@ bulwark:
     - stalwart
   restart: unless-stopped
 ```
+
+## Next step
+
+Put a [reverse proxy](/docs/deployment/docker/reverse-proxy) in front of Bulwark so users reach it over HTTPS.

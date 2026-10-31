@@ -250,3 +250,7 @@ Open an [issue on GitHub](https://github.com/bulwarkmail/webmail/issues) and inc
 ## License
 
 By contributing, you agree that your contributions are licensed under the [GNU Affero General Public License v3 (AGPL-3.0-only)](https://www.gnu.org/licenses/agpl-3.0.html), together with the additional permission for app store distribution in the [webmail](https://github.com/bulwarkmail/webmail/blob/main/LICENSE) and [mobile app](https://github.com/bulwarkmail/native/blob/main/LICENSE) LICENSE files.
+
+## Next step
+
+Read [Architecture](/docs/development/architecture) to see how the parts fit together before you change them. To add a feature as a plugin instead of a core change, start at [Extensions](/docs/extensions/introduction).

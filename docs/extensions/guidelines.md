@@ -64,3 +64,7 @@ If your extension is rejected, the email carries the reviewer's reason. You may 
 ## Takedown
 
 The directory staff can suspend an extension at any point if it turns out to break these rules, say a new release that slipped tracking code past review. A suspended extension can't be downloaded or updated, and the reason shows on its dashboard page. Only the staff can lift a suspension: fix the problem and ask for it in an issue on [bulwarkmail/extensions-directory](https://github.com/bulwarkmail/extensions-directory).
+
+## Next step
+
+[Publishing and updates](/docs/extensions/publishing) walks through submitting your first version.
