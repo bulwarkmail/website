@@ -10,7 +10,7 @@ SnappyMail keeps your contacts in its own database and your identities, signatur
 
 ## Before you start
 
-- Stalwart runs and has your account. See [Setting up Stalwart](/docs/getting-started/configuration/stalwart-setup).
+- Stalwart runs and has your account. See [Setting up Stalwart](/docs/getting-started/stalwart-setup).
 - Your mail is on Stalwart. If SnappyMail already talked to Stalwart, it's there. If it talked to another server, such as Dovecot, move the account with Stalwart's migration tool, Vandelay ([Stalwart's migration docs](https://stalw.art/docs/migration/)). Not tested.
 - You can sign in to Bulwark with that account.
 

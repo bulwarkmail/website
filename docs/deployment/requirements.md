@@ -17,7 +17,7 @@ Bulwark is a mail client, so it needs a Stalwart mail server to talk to and some
 | Where it runs | Docker on `linux/amd64` or `linux/arm64`, or Node.js 20.9 or later for the standalone build | any web server that serves static files, the Lite container image, or Stalwart itself |
 | A server process | yes, one Node.js process | none |
 
-Bulwark and Bulwark Lite share version numbers, so the Stalwart versions apply to both. [Supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions) lists which Stalwart release adds what. Before you move a running server to Stalwart 1.0, read [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0).
+Bulwark and Bulwark Lite share version numbers, so the Stalwart versions apply to both. [Supported versions](/docs/getting-started/stalwart-setup#supported-versions) lists which Stalwart release adds what. Before you move a running server to Stalwart 1.0, read [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0).
 
 The ways to install are on [Docker deployment](/docs/deployment/docker), [Manual deployment](/docs/deployment/manual) (Node.js), [Static hosting](/docs/deployment/static) and [Install on Stalwart](/docs/deployment/stalwart-app) (both Lite).
 
@@ -109,7 +109,7 @@ The browser loads mail, calendars, contacts and files straight from Stalwart, in
 | From | To | What for |
 | --- | --- | --- |
 | Browser | Bulwark's web address (Lite: the web host) | the app itself |
-| Browser | Stalwart's JMAP address | the mail, calendars, contacts and files. Stalwart needs its [CORS setting](/docs/getting-started/configuration/stalwart-setup#cors-configuration) on unless both share one origin |
+| Browser | Stalwart's JMAP address | the mail, calendars, contacts and files. Stalwart needs its [CORS setting](/docs/getting-started/stalwart-setup#cors-configuration) on unless both share one origin |
 | Bulwark's server | Stalwart's JMAP address (`JMAP_SERVER_URL`) | sign-in, OAuth discovery, the admin console's Stalwart features. Lite has no server, so this row doesn't apply |
 | Bulwark's server | `version.telemetry.bulwarkmail.org` | the hourly [update check](/docs/deployment/security-updates#the-update-notice-in-bulwark). Off with `BULWARK_UPDATE_CHECK=off` |
 | Browser | the push relay, over HTTPS | registering for web push |

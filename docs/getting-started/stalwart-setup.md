@@ -137,4 +137,8 @@ Stalwart redirects `/.well-known/jmap` to `/jmap/session`, which needs a user's 
 
 ## Multi-server deployments
 
-One deployment can point at several JMAP servers, which is what you want if you shard accounts by domain. Add servers from the **Server** step of the setup wizard or the admin dashboard, or set `JMAP_SERVERS` to a JSON list for stateless deployments. With `JMAP_SERVER_AUTO_PICK_BY_DOMAIN=true` the login form picks the server from the domain of the address the user types; users can still pick manually. Bulwark Lite reads the same list from `jmapServers` in `config.json`.
+One deployment can point at several JMAP servers, which is what you want if you shard accounts by domain. Add servers from the **Server** step of the setup wizard or the admin console, or set `JMAP_SERVERS` to a JSON list for stateless deployments. With `JMAP_SERVER_AUTO_PICK_BY_DOMAIN=true` the login form picks the server from the domain of the address the user types; users can still pick manually. Bulwark Lite reads the same list from `jmapServers` in `config.json`. Hosters running one Bulwark for many customers will find more in [Running Bulwark for customers](/docs/deployment/hosting-providers).
+
+## Next step
+
+With Stalwart ready, [install Bulwark](/docs/getting-started/installation), or [Bulwark Lite](/docs/getting-started/lite) if you want static files.

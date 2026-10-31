@@ -66,7 +66,7 @@ webmail.example.com {
 }
 ```
 
-Set `JMAP_SERVER_URL` in the `bulwark` service to `https://mail.example.com`. Bulwark and Stalwart now have different origins, so turn on Stalwart's [CORS setting](/docs/getting-started/configuration/stalwart-setup#cors-configuration).
+Set `JMAP_SERVER_URL` in the `bulwark` service to `https://mail.example.com`. Bulwark and Stalwart now have different origins, so turn on Stalwart's [CORS setting](/docs/getting-started/stalwart-setup#cors-configuration).
 
 Things to know about this setup:
 
@@ -74,7 +74,7 @@ Things to know about this setup:
 - Stalwart still needs its own certificate for SMTP and IMAP. With port 443 taken by Caddy, its ACME TLS-ALPN challenge can't reach it; pick the DNS challenge in Stalwart's ACME settings instead.
 - Port 8080 is the plain HTTP listener a default Stalwart install has. If yours listens somewhere else, change the first `reverse_proxy` line.
 - Caddy passes event streams straight through, so push needs no extra setting. With nginx, see [Reverse proxy](/docs/deployment/docker/reverse-proxy#eventsource-support).
-- Bulwark's sign-in checks now reach Stalwart through Caddy as well. Read [Client address](/docs/getting-started/configuration/stalwart-setup#client-address) before you turn on Stalwart's forwarded-header setting.
+- Bulwark's sign-in checks now reach Stalwart through Caddy as well. Read [Client address](/docs/getting-started/stalwart-setup#client-address) before you turn on Stalwart's forwarded-header setting.
 - Some home routers don't loop a connection to your own public address back into the LAN. If Bulwark's container can't reach `https://mail.example.com`, point the name at the machine Caddy runs on:
 
   ```yaml
