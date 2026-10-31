@@ -43,11 +43,11 @@ export default function NotFound() {
             <div className="bw-tiles">
               <Tile href="/" title="Home" text="What Bulwark is and how to install it." />
               <Tile href="/docs" title="Documentation" text="Configuration, features and deployment." />
-              <Tile href="/docs/deployment/static" title="Static hosting" text="The Bulwark Lite guide." />
+              <Tile href="/docs/deployment/static" title="Static hosting" text="Putting Bulwark Lite on a web host." />
               <Tile
-                href="https://github.com/bulwarkmail/webmail/issues"
+                href="https://github.com/bulwarkmail/website/issues"
                 title="Issues on GitHub"
-                text="Report a broken link or a bug."
+                text="Report a broken link on this site."
               />
             </div>
           </div>
