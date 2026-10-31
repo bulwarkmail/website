@@ -100,7 +100,7 @@ You're also asked once during setup: the setup wizard's Security step has a **Se
 
 - In the admin console, turn off **Send anonymous heartbeats** under System → Usage stats and press Save.
 - Set `BULWARK_TELEMETRY=off` in your environment (`.env`, `docker-compose.yml`, or your systemd unit). This wins over the admin switch. The older `BULWARK_TELEMETRY_DISABLED=1` still works when `BULWARK_TELEMETRY` is unset.
-- Turn off third-party traffic (`NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic in the admin console). This stops telemetry along with every other outside connection and wins over `BULWARK_TELEMETRY`.
+- Turn off third-party traffic (`NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic in the admin console). This stops telemetry along with Bulwark's other connections to outside services, and it wins over `BULWARK_TELEMETRY`.
 - Block `telemetry.bulwarkmail.org` at your firewall. Each failed heartbeat logs one warning; nothing else in Bulwark notices.
 
 Clearing the Collector URL is not a way to turn it off: an empty field saves the default endpoint again.
