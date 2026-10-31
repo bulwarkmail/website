@@ -5,7 +5,7 @@ import Link from "next/link";
 import { InstallChoice } from "@/components/install-choice";
 import { DockerSteps, LiteSteps } from "@/components/install-steps";
 import { Shot, Tile } from "@/components/ui";
-import { TableSection, TileSection } from "@/components/sections";
+import { FeatureRow, TableSection, TileSection } from "@/components/sections";
 import { ICON } from "@/lib/icon";
 import { BULWARK_VERSION } from "@/lib/version";
 
@@ -247,38 +247,6 @@ function AppsSection() {
             title="Files"
             text="Stalwart's file storage with previews and sharing, and office editing with Collabora or ONLYOFFICE."
           />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// -----------------------------------------------------------------------------
-// SECTION: Text-and-figure rows. The figure is always product UI, shown whole
-// in a browser window rather than cropped to a detail.
-// -----------------------------------------------------------------------------
-type FeatureRowProps = {
-  heading: string;
-  text: React.ReactNode;
-  link: { label: string; href: string };
-  shot: { name: string; alt: string };
-  /** Figure on the left, on the quiet surface band. */
-  flip?: boolean;
-};
-
-function FeatureRow({ heading, text, link, shot, flip }: FeatureRowProps) {
-  return (
-    <section className={flip ? "bw-sec bw-band" : "bw-sec"}>
-      <div className="bw-w">
-        <div className={`bw-split bw-split-center ${flip ? "bw-split-8-4" : "bw-split-4-8"}`}>
-          <div className={flip ? "bw-stack bw-order-last" : "bw-stack"}>
-            <h2 className="bw-h2">{heading}</h2>
-            <p className="bw-muted">{text}</p>
-            <Link href={link.href} className="bw-tlink">
-              {link.label} <ArrowRight size={16} {...ICON} />
-            </Link>
-          </div>
-          <Shot name={shot.name} alt={shot.alt} window />
         </div>
       </div>
     </section>
@@ -707,24 +675,32 @@ export default async function Home() {
           ]}
         />
         <AppsSection />
+        {/* One row per kind of reader, each with a screenshot of the thing they came for. */}
         <FeatureRow
-          heading="Mail opens as threads, with search across every folder."
-          text="The server threads each conversation and a unified inbox covers every account. Sieve filters, templates and S/MIME are built in."
-          link={{ label: "Mail features", href: "/docs/features/email" }}
-          shot={{ name: "composer", alt: "The composer with a draft open over the inbox" }}
+          heading="Set the rules once for every mailbox in a domain or group."
+          text={
+            <>
+              Lock a setting and users see &ldquo;Set by your organisation&rdquo; next to it. Each domain or group can
+              get its own signature, templates and external mail label, and people sign in through your identity
+              provider.
+            </>
+          }
+          link={{ label: "Bulwark for organisations", href: "/organisations" }}
+          shot={{ name: "settings-locked", alt: "A setting in Bulwark locked by the administrator, labelled Set by your organisation" }}
         />
         <FeatureRow
           flip
-          heading="The calendar handles invitations and recurring events."
-          text="Scroll freely through month, week, day and agenda views. Invitations arrive as mail and are answered from the message, and shared calendars show who is free."
-          link={{ label: "Calendar features", href: "/docs/features/calendar" }}
-          shot={{ name: "calendar", alt: "The calendar in month view with several events" }}
+          band
+          heading="A shared mailbox the whole team can work from."
+          text="A group mailbox in Stalwart shows up under Shared for every member. Everyone reads, files and replies from the team's address, and Drafts and Sent stay with the group."
+          link={{ label: "Bulwark for small businesses", href: "/small-business" }}
+          shot={{ name: "shared-mailbox", alt: "A shared Support mailbox under Shared, next to the user's own folders" }}
         />
         <FeatureRow
-          heading="Files sit on the mail server, next to your mail."
-          text="Bulwark browses Stalwart's file storage with previews, sharing and folder upload. With Collabora Online or ONLYOFFICE, office documents open for editing in the browser; Bulwark Lite leaves that out."
-          link={{ label: "Files features", href: "/docs/features/files" }}
-          shot={{ name: "files", alt: "The files list with folders and documents" }}
+          heading="Every account in the house in one window."
+          text="Sign in to your own mailbox and the family's at once and switch with one click. Bulwark runs as one container for amd64 or arm64 next to Stalwart, or as Bulwark Lite, static files with no Node process."
+          link={{ label: "Bulwark at home", href: "/homelab" }}
+          shot={{ name: "account-switcher", alt: "The account switcher with two signed-in accounts and a shared mailbox" }}
         />
         <EditionsSection />
         <InstallSection />
