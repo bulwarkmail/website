@@ -253,15 +253,14 @@ function servedByStalwart(answers: Answers): boolean {
 
 /**
  * The audience page that fits the answers: a team that wants single sign-on
- * or an admin page is an organisation, any other team a small business, and
- * one person or a family runs it at home. No answer to "who", no link.
+ * is an organisation, any other team a small business, and one person or a
+ * family runs it at home. No answer to "who", no link.
  */
 function audienceFor(answers: Answers): Link | undefined {
   const who = pick(answers, "who");
   if (who === "me" || who === "family") return { label: "Read the page for home and homelab", href: "/homelab" };
   if (who !== "team") return undefined;
-  const wantsControl = pick(answers, "login") === "sso" || (answers.musthave ?? []).includes("admin");
-  return wantsControl
+  return pick(answers, "login") === "sso"
     ? { label: "Read the page for organisations", href: "/organisations" }
     : { label: "Read the page for small businesses", href: "/small-business" };
 }
@@ -417,7 +416,7 @@ function evaluateEdition(answers: Answers): Verdict {
         ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."
         : webhostOnly
           ? "An app that needs a server rather than a website host. The machine your mail server runs on can run it too."
-          : "An app you run on a server, with an admin page, add-ons and single sign-on.",
+          : "An app you run on a server, with an admin page and add-ons, and single sign-on if you want it.",
       primary: LINKS.installFull,
       reasons: [...needs, ...reasons.filter((r) => !r.must && r.toward === "full")],
       options: [],
