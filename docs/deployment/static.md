@@ -20,7 +20,7 @@ Bulwark Lite is a folder. This page is about getting that folder built the way y
    stalwart-cli create Action/ReloadSettings
    ```
 
-   Or an equivalent reverse-proxy rule that allows your Lite origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth` and `/auth/token`.
+   Or an equivalent reverse-proxy rule that allows your Lite origin with the `Authorization` and `Content-Type` headers on `/.well-known/jmap`, `/jmap/*`, `/api/auth`, `/auth/token` and, for Stalwart 1.0, `/auth/register`.
 
 That is the whole install. The rest of this page is for the cases where the defaults aren't right.
 
@@ -30,7 +30,7 @@ The file is read by the browser at runtime, so edits take effect on the next pag
 
 | Key | Default | Meaning |
 | --- | --- | --- |
-| `appName` | `Bulwark Webmail` | Name in the tab, the login page and the manifest |
+| `appName` | `Bulwark Webmail` in the shipped file (`Webmail` if the key is missing) | Name in the tab, the login page and the manifest |
 | `jmapServerUrl` | empty | Your mail server, e.g. `https://mail.example.com` |
 | `allowCustomJmapEndpoint` | `true` when no server is configured, else `false` | Show a server field on the login page |
 | `jmapServers` | `[]` | A fixed list of servers to offer instead; entries need `id`, `label`, `url` and may carry `domains` |
@@ -43,7 +43,12 @@ The file is read by the browser at runtime, so edits take effect on the next pag
 | `loginUsernamePlaceholder` | translated example | Placeholder of the login email field, in every language |
 | `loginLogoMaxHeight`, `loginLogoMaxWidth` | natural size | Any CSS length |
 | `loginShowHeading`, `loginShowSubtitle`, `loginShowTotp`, `loginShowVersion` | `true` | Hide parts of the login page |
+| `loginShowTokenLogin` | `false` | Show the access token sign-in |
 | `embeddedMode`, `parentOrigin` | `false`, empty | Framing a password login inside another page |
+| `noThirdPartyTraffic` | `false` | `true` keeps the browser off every built-in outside host |
+| `oauthRevokeOnSignOut` | `true` | `false` keeps the refresh token valid at the server on sign-out, so Stalwart 1.0 doesn't ask for consent again |
+| `sourceCodeUrl` | empty | Source code link on the About screen; empty links the upstream repository |
+| `helpUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `easyReadUrl`, `signLanguageUrl` | empty | Help and accessibility links on the login page, in the account menu and in settings |
 
 These are the full edition's branding variables, camel-cased. Whatever the file says, the flags that only work with a server behind them are pinned off: OAuth, auto-SSO, settings sync, the Stalwart account features, the JMAP passthrough, dev mode.
 
@@ -51,7 +56,7 @@ An optional `policy.json` next to it carries the same settings policy the admin 
 
 ## Build inputs
 
-The release zip is built for the site root with no server URL. To bake in different defaults, dispatch the **Build Static Lite** workflow in the repository with its inputs, or build locally. Either way the knobs are environment variables read at build time:
+The release zip is built for the site root with no server URL. To bake in different defaults, dispatch the **Lite: Static bundle** workflow in the repository with its inputs, or build locally. Either way the knobs are environment variables read at build time:
 
 | Variable | Effect |
 | --- | --- |
@@ -60,7 +65,8 @@ The release zip is built for the site root with no server URL. To bake in differ
 | `LITE_ALLOW_CUSTOM_ENDPOINT` | Default `allowCustomJmapEndpoint`; on by default when no server URL is given |
 | `LITE_REMEMBER_ME` | Default `rememberMeEnabled` |
 | `LITE_DEMO_MODE` | `true` builds the static demo, which needs no server |
-| `LITE_LOCALES` | Comma-separated subset of locales to export, e.g. `en,de`. Default: all 27 |
+| `LITE_NO_THIRD_PARTY_TRAFFIC` | Default `noThirdPartyTraffic` |
+| `LITE_LOCALES` | Comma-separated subset of locales to export, e.g. `en,de`. Default: all 29 |
 | `NEXT_PUBLIC_BASE_PATH` | Mount the app under a sub-path, e.g. `/webmail`. Baked into every asset URL, so it can't be changed after the build |
 | `NEXT_PUBLIC_DEFAULT_LOCALE` | Locale the root page falls back to when the browser's languages match nothing exported |
 | `GIT_COMMIT` | Commit shown in `lite-build.json` and the About screen |
@@ -102,19 +108,35 @@ A URL such as `/en/mail/thread/abc` has no file behind it. It is served by the s
 ### nginx
 
 ```nginx
+# Bulwark Lite - nginx example. Unzip the archive into /var/www/bulwark-lite
+# so that /index.html is served at /; deep links below a surface
+# are rewritten to that surface's shell.
 server {
     listen 80;
     server_name webmail.example.com;
     root /var/www/bulwark-lite;
 
     add_header X-Content-Type-Options nosniff always;
-    add_header X-Frame-Options DENY always;
+    add_header X-Frame-Options SAMEORIGIN always;
     add_header Referrer-Policy strict-origin-when-cross-origin always;
-    # See _headers for a Content-Security-Policy that matches your JMAP server.
+    # connect-src names the JMAP server this bundle was built for. Every page
+    # also carries a <meta> policy that allows only its own inline scripts.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' https: data:; connect-src 'self' *; frame-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; media-src 'self' blob:" always;
 
+    # Hashed assets never change. (add_header inside a location replaces the
+    # inherited set, so the security headers are repeated here.)
     location /_next/static/ {
-        expires 1y;
-        add_header Cache-Control "public, max-age=31536000, immutable";
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-Frame-Options SAMEORIGIN always;
+        add_header Referrer-Policy strict-origin-when-cross-origin always;
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' https: data:; connect-src 'self' *; frame-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; media-src 'self' blob:" always;
+    }
+
+    # Older mime.types files do not know the PWA manifest extension.
+    location = /manifest.webmanifest {
+        types { }
+        default_type application/manifest+json;
     }
 
     # /<locale>/<surface>/anything -> /<locale>/<surface>/index.html
@@ -132,30 +154,45 @@ server {
 ### Caddy
 
 ```caddy
+# Bulwark Lite - Caddy example. Unzip the archive into /var/www/bulwark-lite
+# so that /index.html is served at /.
 webmail.example.com {
     root * /var/www/bulwark-lite
     encode gzip
 
     header {
         X-Content-Type-Options nosniff
-        X-Frame-Options DENY
+        X-Frame-Options SAMEORIGIN
         Referrer-Policy strict-origin-when-cross-origin
+        # connect-src names the JMAP server this bundle was built for.
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' https: data:; connect-src 'self' *; frame-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; media-src 'self' blob:"
     }
 
+    @manifest path /manifest.webmanifest
+    header @manifest Content-Type application/manifest+json
+
+    # /<locale>/<surface>/anything -> /<locale>/<surface>/index.html
     @surface path_regexp surface ^/([a-zA-Z-]+)/(mail|calendar|contacts|files|settings)(/.*)?$
     handle @surface {
         try_files {path} {path}/ {path}/index.html /{re.surface.1}/{re.surface.2}/index.html
     }
 
     handle {
-        try_files {path} {path}/ {path}/index.html /404.html
+        try_files {path} {path}/ {path}/index.html
     }
 
     file_server
+
+    # Anything else is a real 404, answered by the shim that replays parked deep links.
+    handle_errors {
+        @notfound expression {http.error.status_code} == 404
+        rewrite @notfound /404.html
+        file_server
+    }
 }
 ```
 
-Both are what the zip ships as `nginx.conf.example` and `Caddyfile.example`, with the sub-path already substituted if you built for one.
+Both are what the 1.19.1 zip ships as `nginx.conf.example` and `Caddyfile.example`, with the sub-path already substituted if you built for one. The release zip has no server URL baked in, so its `connect-src` is `'self' *`; a build with `LITE_JMAP_SERVER_URL` names that origin instead.
 
 ### Netlify and Cloudflare Pages
 
@@ -167,7 +204,7 @@ Upload the folder. Deep links go through the `404.html` replay described above. 
 
 ## Container image
 
-If you would rather run a container than upload a folder, `ghcr.io/bulwarkmail/webmail-lite` is the same export behind an unprivileged nginx: no Node.js at runtime, runs as uid 101, listens on port 8080 over IPv4 and IPv6. Releases are tagged like the main image (`latest`, `1.11.0`, `1.11`, `1`), and `ghcr.io/bulwarkmail/webmail-lite-beta:latest` follows `main`.
+If you would rather run a container than upload a folder, `ghcr.io/bulwarkmail/webmail-lite` is the same export behind an unprivileged nginx: no Node.js at runtime, runs as uid 101, listens on port 8080 over IPv4 and IPv6. Releases are tagged like the main image (`latest`, `1.19.1`, `1.19`, `1`), and `ghcr.io/bulwarkmail/webmail-lite-beta:latest` follows `main`.
 
 Configure it by mounting your own [`config.json`](#configjson) (and `policy.json`, if you need one) over the baked-in file:
 
@@ -214,7 +251,7 @@ docker build -f Dockerfile.lite --build-arg LITE_LOCALES=en,de -t bulwark-lite .
 
 ## Security headers
 
-`_headers` carries the recommended set: `nosniff`, `X-Frame-Options: DENY`, a referrer policy, a permissions policy, and a Content-Security-Policy whose `connect-src` is your JMAP server's origin when the build had one baked in, and `*` otherwise. Tighten it to your server's origin if you prefer a strict policy. The export contains inline hydration scripts, so `script-src` has to allow `'unsafe-inline'`; that is a property of the static export, not a choice.
+`_headers` carries the recommended set: `nosniff`, `X-Frame-Options: SAMEORIGIN` (PDF previews in Safari need it), a referrer policy, a permissions policy, and a Content-Security-Policy whose `connect-src` is `'self'` plus your JMAP server's origin when the build had one baked in, and `'self' *` otherwise. Tighten it to your server's origin if you prefer a strict policy. The export contains inline hydration scripts, so `script-src` has to allow `'unsafe-inline'`; that is a property of the static export, not a choice.
 
 ## Updating
 

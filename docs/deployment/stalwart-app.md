@@ -70,9 +70,9 @@ Then open `https://<your stalwart host>/webmail/` and sign in with a mail accoun
 
 ## Choosing the prefix
 
-`urlPrefix` matches the **first path segment only**, so `/webmail` works and `/apps/webmail` does not. The bundle reads its prefix at runtime, so any free segment works without a rebuild, and one Application may be mounted under several prefixes at once.
+`urlPrefix` matches the **first path segment only**, so `/webmail` works and `/apps/webmail` does not: Stalwart 1.0 refuses a prefix with more than one segment when you create or update the Application, and 0.16 accepts it but never serves it. The bundle reads its prefix at runtime, so any free segment works without a rebuild, and one Application may be mounted under several prefixes at once.
 
-Stalwart routes some segments itself, before it looks at Applications. A bundle mounted on one of them is never reached:
+Stalwart routes some segments itself, before it looks at Applications. Stalwart 1.0 refuses them as a prefix ("This URL prefix is reserved for a built-in server endpoint"); on 0.16 a bundle mounted on one is never reached:
 
 `jmap`, `dav`, `.well-known`, `auth`, `api`, `scim`, `mail`, `calendar`, `autodiscover`, `login`, `device`, `metrics`, `healthz`, `logo`, `form`, `robots.txt`, and the web admin's `admin` and `account`.
 
@@ -112,11 +112,13 @@ stalwart-cli create Action/UpdateApps
 
 It always downloads every Application again. Open tabs switch to the new build on their next navigation, with one full page load. Files the app fetches without a content hash carry the build id, so Stalwart's year-long cache headers never pin an old build.
 
-**Check every `resourceUrl` before running the action.** It downloads and unpacks every Application again, Stalwart's own web admin included, whose bundle comes from:
+**Check every `resourceUrl` before running the action.** It downloads and unpacks every Application again, Stalwart's own web admin included, whose bundle comes from this URL on Stalwart 1.0:
 
 ```text
-https://github.com/stalwartlabs/webui/releases/latest/download/webui.zip
+https://github.com/stalwartlabs/webui/releases/download/v2/webui.zip
 ```
+
+On 0.16 it comes from `https://github.com/stalwartlabs/webui/releases/latest/download/webui.zip`.
 
 A URL that can't be downloaded fails, and so does one that points at an HTML page, a GitHub Actions artifact page or a release listing instead of a zip. What a failure does depends on the Stalwart version:
 
@@ -144,7 +146,7 @@ The bundle is read-only: its `config.json` is inside the zip, so there is nothin
 
 To change the app name, logos or any other [`config.json` key](/docs/deployment/static#configjson), build your own bundle and host it where Stalwart can fetch it:
 
-- Dispatch the **Build Static Lite** workflow in the repository with your inputs; the `stalwart` job produces `bulwark-lite-stalwart.zip`. Leave the server URL empty so it uses the serving Stalwart.
+- Dispatch the **Lite: Static bundle** workflow in the repository with your inputs; the `stalwart` job produces `bulwark-lite-stalwart.zip`. Leave the server URL empty so it uses the serving Stalwart.
 - Or build locally in a disposable checkout, as on the [static hosting](/docs/deployment/static#build-inputs) page, with the Stalwart target:
 
   ```bash
@@ -153,7 +155,7 @@ To change the app name, logos or any other [`config.json` key](/docs/deployment/
 
   `NEXT_PUBLIC_BASE_PATH` must stay unset for this target; the prefix comes from `urlPrefix` at runtime.
 
-Then set `resourceUrl` to your zip's URL and run "update applications". A private `http://` address works too, and so does a `file://` path the Stalwart process can read. With the Docker image that path is inside the container: put the zip on a mounted volume, because files copied into the container are lost when it is recreated. Stalwart refuses bundles over 100 MB; the release bundle with all 27 locales is about 57 MB, and `LITE_LOCALES` makes it smaller.
+Then set `resourceUrl` to your zip's URL and run "update applications". A private `http://` address works too, and so does a `file://` path the Stalwart process can read. With the Docker image that path is inside the container: put the zip on a mounted volume, because files copied into the container are lost when it is recreated. Stalwart refuses bundle downloads over 100 MB; the release zip with all 29 locales is about 19 MB, and `LITE_LOCALES` makes it smaller.
 
 ## Security notes
 
