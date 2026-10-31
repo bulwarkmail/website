@@ -174,7 +174,9 @@ export function getDocSections(): DocSection[] {
       slug,
       label: meta.label,
       order: meta.order,
-      items: items.sort((a, b) => a.order - b.order),
+      // Children carry their own 1, 2, 3, so sorting by order alone would mix
+      // them in with the top-level pages. Keep each child under its parent.
+      items: inSidebarOrder(items),
     });
   }
 
@@ -197,9 +199,9 @@ export function inSidebarOrder(items: DocMeta[]): DocMeta[] {
   return [...ordered, ...orphans];
 }
 
-/** Every docs page in reading order: sections in order, then each section in sidebar order. */
+/** Every docs page in reading order: sections in order, each in sidebar order. */
 export function getReadingOrder(): DocMeta[] {
-  return getDocSections().flatMap((s) => inSidebarOrder(s.items));
+  return getDocSections().flatMap((s) => s.items);
 }
 
 export async function getDocBySlug(slug: string): Promise<Doc | null> {
