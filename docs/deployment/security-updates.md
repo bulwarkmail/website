@@ -96,7 +96,7 @@ Error: HTTP 404: Not Found (.../attestations/sha256:2ab8952f...)
 
 ## Reporting a vulnerability
 
-Report it privately through GitHub's [private vulnerability reporting](https://github.com/bulwarkmail/webmail/security/advisories/new) on the webmail repository, not in a public issue. Use the webmail repository for the other Bulwark projects too: it is the only one with private reporting turned on. The [security policy](https://github.com/bulwarkmail/.github/blob/main/SECURITY.md) lists what to include in a report.
+Report it privately through GitHub's [private vulnerability reporting](https://github.com/bulwarkmail/webmail/security/advisories/new) on the webmail repository, not in a public issue. Every public Bulwark repository takes private reports, so use the repository of the project the problem is in. The [security policy](https://github.com/bulwarkmail/.github/blob/main/SECURITY.md) lists what to include in a report.
 
 ## Next step
 
