@@ -17,13 +17,13 @@ Read these before submitting. The review is strict on purpose: everything the di
 
 ## Technical requirements
 
-1. **Public GitHub repository.** Your extension must be hosted on GitHub in a public repository.
+1. **Public repository.** The source must be in a public repository on GitHub, GitLab or Codeberg. You sign in to the directory with GitHub.
 2. **OSI-approved license.** Use an [OSI-approved license](https://opensource.org/licenses) such as MIT, Apache-2.0, or GPL-3.0. The `LICENSE` file must be present at the repo root.
 3. **Valid `manifest.json`.** Include all required fields. See the [manifest.json reference](/docs/extensions/manifest).
-4. **No minified code.** All JavaScript and TypeScript must be readable. Build output may be minified if the source is included in the repository.
+4. **Readable source.** Commit the source, not only a build. The directory builds the bundle itself: if `package.json` has a `build` script, it runs `npm ci --ignore-scripts` and `npm run build` without network access; otherwise it takes the plain files. A committed `dist/` or ZIP is never used. Files that look minified are flagged for the reviewer.
 5. **No external resources.** Extensions must not load remote scripts, stylesheets, or fonts at runtime. All assets must be bundled.
 6. **Semantic versioning.** Follow [semver](https://semver.org/) (`MAJOR.MINOR.PATCH`).
-7. **Git tags.** Each version must correspond to a git tag in the source repository.
+7. **Releases from a fixed commit.** Submit a tag (recommended), a branch or a commit. The directory builds exactly that commit and shows it on the version's page.
 
 ## Content policy
 
@@ -43,23 +43,23 @@ See the [full permissions list](/docs/extensions/manifest#permissions).
 
 ## Review process
 
-1. **Submit.** Authenticate with GitHub at [extensions.bulwarkmail.org/submit](https://extensions.bulwarkmail.org/submit) and submit your repo URL and version tag.
-2. **Automated checks.** The system verifies the repository is public, has an OSI-approved license, and the manifest is valid. The bundle is scanned for known malware signatures and dangerous JavaScript patterns.
+1. **Submit.** Sign in with GitHub at [extensions.bulwarkmail.org](https://extensions.bulwarkmail.org/) and add the extension in the [dashboard](https://extensions.bulwarkmail.org/dashboard/new): its id, plugin or theme, the repository and, for a repository with several extensions, its folder. Then submit a version from the dashboard or from CI.
+2. **Automated checks.** The directory checks that the repository is public, builds the bundle from source, runs the same install checks a Bulwark runs (manifest, permissions, file types and sizes), and scans the code. Code such as `eval`, `new Function`, `innerHTML =` or `document.write` blocks the submission; other risky patterns, such as hard-coded requests to other sites, are flagged for the reviewer.
 3. **Manual review.** A human admin reviews the code for policy compliance, security, and quality.
-4. **Published.** Once approved, the extension appears in the directory and is installable from inside Bulwark Webmail.
+4. **Published.** Once approved, the directory signs the bundle and publishes it. The extension appears in the directory and is installable from Bulwark's Marketplace.
 
-Reviews usually take a few days. The decision reaches you through GitHub.
+You get an email when the version is built and waiting for review, and another with the decision. If the build or the checks fail, the email says why.
 
 ## Updates
 
-To publish a new version, submit a new git tag from the same repository. Updates go through the same review process. Minor version bumps may receive expedited review if the extension has a good track record and the diff is small.
+To publish a new version, raise `version` in `manifest.json` and submit the new commit or tag, from the dashboard or from CI. Every version is reviewed; the reviewer sees what changed since the previous one.
 
 See [publishing and updates](/docs/extensions/publishing) for the full flow.
 
 ## Rejection and appeals
 
-If your extension is rejected, you will receive a reason through the review system. You may fix the issues and resubmit. If you believe a rejection was made in error, open an issue on the [bulwarkmail/Extensions](https://github.com/bulwarkmail/Extensions) repository and an admin will take a second look.
+If your extension is rejected, the email carries the reviewer's reason. You may fix the issues and resubmit. If you believe a rejection was made in error, open an issue on the [bulwarkmail/extensions-directory](https://github.com/bulwarkmail/extensions-directory) repository and an admin will take a second look.
 
 ## Takedown
 
-An extension can be pulled from the directory at any point if it turns out to break these rules, say a new release that slipped tracking code past review. The author is told why and gets a chance to fix it.
+The directory staff can suspend an extension at any point if it turns out to break these rules, say a new release that slipped tracking code past review. A suspended extension can't be downloaded or updated, and the reason shows on its dashboard page. Only the staff can lift a suspension: fix the problem and ask for it in an issue on [bulwarkmail/extensions-directory](https://github.com/bulwarkmail/extensions-directory).
