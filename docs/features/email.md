@@ -33,6 +33,25 @@ The rest is the ordinary furniture:
 - Answered and forwarded status icons in the list
 - Right-click a folder to manage it or to import an `.eml` file into it; the context menu header elides a long path in the middle rather than truncating it
 
+## Shared mailboxes
+
+A shared mailbox is a Stalwart group with its own address, such as `support@example.com`. Every member of the group sees its folders in the sidebar under **Shared**, next to their own. There is nothing to set up in Bulwark: the admin creates the group and adds its members in Stalwart. A folder that one person shares with another is different; it shows under that person's account.
+
+<img class="theme-light-only" src="/screenshots/light-shared-mailbox.webp" alt="The Support shared mailbox open under Shared in the sidebar, with the team's mail in the list" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-shared-mailbox.webp" alt="The Support shared mailbox open under Shared in the sidebar, with the team's mail in the list" width="5120" height="2880" />
+
+Members read, move, archive and tag mail there as in their own mailbox; the Move menus list the shared mailbox's folders first and the member's own folders after them. Stalwart keeps one read state for the whole group, so when one member opens a message, it is read for everyone.
+
+Replies can go out from the group's address. Stalwart lists that address among each member's identities, so pick it in **From**, or turn on "Reply from the address it was sent to" in Settings > Composing. Since Bulwark 1.19.1 such a message is sent through the group's own identity, so the server also takes the envelope sender from the group and not from one of your own addresses. A draft written as the group is saved in the group's Drafts, and the sent copy goes to the group's Sent folder.
+
+<img class="theme-light-only" src="/screenshots/light-shared-mailbox-reply.webp" alt="The composer replying to a message in the Support mailbox, sending from support@ in the From field" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-shared-mailbox-reply.webp" alt="The composer replying to a message in the Support mailbox, sending from support@ in the From field" width="5120" height="2880" />
+
+For teams that answer a shared mailbox together:
+
+- Assigning a message to a member and marking it done comes from the [team inbox](/docs/guides/organisation/team-inbox) plugin. It is coming to the extension directory; until then an admin uploads its ZIP. Plugins need Bulwark (not Lite).
+- The same tag names and colours for every member ([shared tags](/docs/guides/organisation/shared-tags)) and team templates ([templates](/docs/guides/organisation/templates#team-templates)) need Stalwart 1.0.
+
 ## Composing
 
 <img class="theme-light-only" src="/screenshots/light-composer-mention.webp" alt="The composer with an @mention chip and the contact card it opens" width="5120" height="2880" />
