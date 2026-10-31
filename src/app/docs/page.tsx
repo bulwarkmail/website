@@ -42,11 +42,9 @@ export default function DocsPage() {
           <li>
             <span className="bw-steps-n">2</span>
             <div>
-              <strong>
-                Open <code>localhost:3000</code>.
-              </strong>{" "}
-              The setup wizard finds your JMAP server, chooses OAuth or password sign-in, generates a session secret
-              and sets the admin password. The{" "}
+              <strong>Open the setup link.</strong> <code>docker logs bulwark</code> prints a link with a one-time
+              setup token, valid for an hour. The setup wizard checks your JMAP server, chooses OAuth or password
+              sign-in, generates a session secret and sets the admin password. The{" "}
               <Link href="/docs/getting-started/configuration">configuration</Link> and{" "}
               <Link href="/docs/getting-started/configuration/authentication">authentication</Link> pages cover each
               screen.

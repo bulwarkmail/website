@@ -44,7 +44,7 @@ export function EditionQuiz() {
     if (!moved.current) return;
     heading.current?.focus({ preventScroll: true });
     const top = root.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) root.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (top < 0) root.current?.scrollIntoView({ block: "start" });
   }, [step]);
 
   // The site's own switch follows the result, so the result sits in the
@@ -65,7 +65,7 @@ export function EditionQuiz() {
     const selected = answers[q.id] ?? [];
     if (!q.multi) {
       setAnswers((a) => ({ ...a, [q.id]: [id] }));
-      // A short beat so the pick is seen before the next question slides in.
+      // A short beat so the pick is seen before the next question appears.
       window.clearTimeout(advance.current);
       advance.current = window.setTimeout(() => go(step + 1), 220);
       return;
@@ -96,6 +96,10 @@ export function EditionQuiz() {
 
   const q = questions[step];
   const selected = answers[q.id] ?? [];
+  const choices = q.choices.filter((c) => !c.showIf || c.showIf(answers));
+  // Rows of three, or of two when that leaves no gap (four choices).
+  const narrow = choices.filter((c) => !c.wide).length;
+  const cols = narrow % 3 !== 0 && narrow % 2 === 0 ? 2 : 3;
 
   return (
     <div className="bw-quiz" ref={root}>
@@ -127,8 +131,8 @@ export function EditionQuiz() {
         </h2>
         {q.help ? <p className="bw-quiz-help">{q.help}</p> : null}
 
-        <div className="bw-quiz-tiles" role="group" aria-labelledby={`q-${q.id}`}>
-          {q.choices.filter((c) => !c.showIf || c.showIf(answers)).map((c) => {
+        <div className="bw-quiz-tiles" data-cols={cols} role="group" aria-labelledby={`q-${q.id}`}>
+          {choices.map((c) => {
             const on = selected.includes(c.id);
             return (
               <button
@@ -171,7 +175,8 @@ const BADGE = (r: Reason) =>
       : "Rules out Bulwark"
     : `Points to ${r.toward === "full" ? "Bulwark" : "Lite"}`);
 
-const LITE_LEAVES_OUT = "Lite leaves out add-ons, the admin page, settings sync, Office editing, notifications and single sign-on.";
+const LITE_LEAVES_OUT =
+  "Lite leaves out add-ons, the admin page, settings sync, Office editing and notifications, and it only offers single sign-on when Stalwart serves it.";
 
 function ResultLink({ link, className, edition }: { link: Link; className: string; edition?: Edition | null }) {
   if (/^https?:\/\//.test(link.href)) {
@@ -197,7 +202,7 @@ type ResultProps = {
 };
 
 function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps) {
-  const { kind, pick, eyebrow, title, pitch, primary, secondary, reasons, options, caveats } = verdict;
+  const { kind, pick, lead, title, pitch, primary, secondary, reasons, options, caveats } = verdict;
   // A result that isn't one edition sits on a neutral panel, not in either
   // edition's colour.
   const neutral = pick === null;
@@ -212,11 +217,13 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
       >
         <div className="bw-quiz-result-main">
           {kind !== "classic" ? <BulwarkMark size={72} color="currentColor" /> : null}
-          <span className="bw-quiz-eyebrow">{eyebrow}</span>
           <h2 ref={headingRef} tabIndex={-1} id="quiz-result" className="bw-quiz-name">
             {title}
           </h2>
-          <p className="bw-quiz-pitch">{pitch}</p>
+          <p className="bw-quiz-pitch">
+            {lead ? `${lead} ` : ""}
+            {pitch}
+          </p>
           {primary ? (
             <div className="bw-btns">
               <ResultLink link={primary} edition={pick} className="bw-btn" />
@@ -229,7 +236,7 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
 
         {reasons.length > 0 ? (
           <div className="bw-quiz-why">
-            <span className="bw-quiz-eyebrow">Because you said</span>
+            <h3 className="bw-h3">Because you said</h3>
             <ul>
               {reasons.map((r) => (
                 <li key={r.tag}>

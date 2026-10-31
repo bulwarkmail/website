@@ -664,11 +664,6 @@ h3 {
    because on the field --bw-rule turns into translucent white. */
 .bw-win {
   aspect-ratio: auto;
-  border-radius: 4px;
-}
-/* The hero window runs off the right and bottom edges, so only its free corner is rounded. */
-.bw-hero-shot.bw-win {
-  border-radius: 4px 0 0 0;
 }
 .bw-win-bar {
   display: flex;
@@ -695,7 +690,6 @@ h3 {
 .bw-win-dots i {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   background: currentColor;
   opacity: 0.45;
 }
@@ -1155,7 +1149,6 @@ a.bw-tile:hover {
 }
 .bw-faq summary svg {
   flex: none;
-  transition: transform var(--bw-motion);
 }
 .bw-faq details[open] summary svg {
   transform: rotate(45deg);
@@ -2230,15 +2223,19 @@ a.bw-tile:hover {
   height: 16px;
   background: var(--bw-brand);
 }
+/* The four splits, at their ratios and with the real 64px gap where it fits. */
 .bw-griddemo {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: clamp(6px, 2.4vw, 32px);
+  gap: 12px;
+}
+.bw-griddemo > div {
+  display: grid;
+  column-gap: clamp(16px, 4.5vw, 64px);
 }
 .bw-griddemo i {
   display: grid;
   place-items: end center;
-  height: 96px;
+  height: 48px;
   padding-bottom: 8px;
   font-style: normal;
   font-size: 13px;
@@ -2334,7 +2331,7 @@ ul.bw-rules > li::before {
   visibility: hidden;
 }
 .bw-quiz-count {
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 .bw-quiz-bar {
@@ -2346,25 +2343,11 @@ ul.bw-rules > li::before {
   display: block;
   height: 100%;
   background: var(--bw-brand);
-  transition: width 300ms ease-out;
 }
 .bw-quiz-step {
   display: grid;
   gap: 12px;
   padding-top: 32px;
-  animation: bw-quiz-in 260ms ease-out;
-}
-@keyframes bw-quiz-in {
-  from {
-    opacity: 0;
-    transform: translateX(24px);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bw-quiz-step,
-  .bw-quiz-done {
-    animation: none;
-  }
 }
 .bw-quiz-step h2:focus,
 .bw-quiz-result h2:focus {
@@ -2376,11 +2359,25 @@ ul.bw-rules > li::before {
   color: var(--bw-text-muted);
   max-width: 40em;
 }
+/* The tiles share their edges: each draws a full 1px frame and overlaps its
+   neighbours by 1px, so a rule is never doubled and a short last row stays
+   closed. The component sets data-cols from the number of choices. */
 .bw-quiz-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 24px;
+  padding: 0 1px 1px 0;
+}
+@media (min-width: 640px) {
+  .bw-quiz-tiles[data-cols="2"],
+  .bw-quiz-tiles[data-cols="3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) {
+  .bw-quiz-tiles[data-cols="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 .bw-quiz-tile-wide {
   grid-column: 1 / -1;
@@ -2392,30 +2389,29 @@ ul.bw-rules > li::before {
   align-content: start;
   gap: 6px;
   min-height: 112px;
+  margin: 0 -1px -1px 0;
   padding: 20px 52px 20px 20px;
   font: inherit;
   text-align: left;
   color: var(--bw-text);
   background: var(--bw-page);
   border: 1px solid var(--bw-rule);
-  border-radius: var(--bw-radius-control);
+  border-radius: 0;
   cursor: pointer;
   transition:
     border-color var(--bw-motion),
-    background-color var(--bw-motion),
-    transform var(--bw-motion);
+    background-color var(--bw-motion);
 }
 .bw-quiz-tile:hover {
-  border-color: var(--bw-control);
   background: var(--bw-surface);
 }
-.bw-quiz-tile:active {
-  transform: scale(0.99);
-}
+/* Picked: the brand edge sits over the neighbours' rules. */
 .bw-quiz-tile[data-on] {
+  z-index: 1;
   border-color: var(--bw-brand);
-  box-shadow: inset 0 0 0 1px var(--bw-brand);
-  background: color-mix(in srgb, var(--bw-brand) 7%, var(--bw-page));
+}
+.bw-quiz-tile:focus-visible {
+  z-index: 2;
 }
 .bw-quiz-tick {
   position: absolute;
@@ -2426,7 +2422,7 @@ ul.bw-rules > li::before {
   width: 22px;
   height: 22px;
   border: 1px solid var(--bw-control);
-  border-radius: 50%;
+  border-radius: var(--bw-radius-control);
   transition:
     background-color var(--bw-motion),
     border-color var(--bw-motion);
@@ -2464,7 +2460,6 @@ ul.bw-rules > li::before {
 /* Result */
 .bw-quiz-done {
   gap: 28px;
-  animation: bw-quiz-in 260ms ease-out;
 }
 .bw-quiz-result {
   display: grid;
@@ -2480,12 +2475,6 @@ ul.bw-rules > li::before {
 }
 .bw-quiz-result-main svg {
   margin-bottom: 12px;
-}
-.bw-quiz-eyebrow {
-  font-size: var(--bw-caption);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 .bw-quiz-name {
   font-size: clamp(40px, 5vw, 64px);
@@ -2521,28 +2510,28 @@ ul.bw-rules > li::before {
   flex: none;
   padding: 2px 9px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
   border: 1px solid var(--bw-on-field);
-  border-radius: 999px;
 }
 .bw-quiz-badge[data-hard] {
   background: var(--bw-on-field);
   color: var(--bw-field);
 }
+/* Tiles again: full frames that overlap by 1px. */
 .bw-quiz-fork {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  padding: 0 1px 1px 0;
 }
 .bw-quiz-fork > div {
   display: grid;
   gap: 10px;
   align-content: start;
   justify-items: start;
+  margin: 0 -1px -1px 0;
   padding: var(--bw-tile-pad);
   border: 1px solid var(--bw-rule);
-  border-radius: var(--bw-radius-control);
 }
 .bw-quiz-fork p {
   font-size: var(--bw-small);

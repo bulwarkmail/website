@@ -1,8 +1,9 @@
 import { CodeBlock } from "@/components/code-block";
 
-const INSTALL_COMMAND = `docker run -d -p 3000:3000 --name bulwark \\
-  -v bulwark-config:/app/data/admin \\
-  -v bulwark-state:/app/data/admin-state \\
+// The same command as docs/getting-started/installation.md: one volume for
+// everything the app writes under /app/data.
+const INSTALL_COMMAND = `docker run -d --name bulwark -p 3000:3000 \\
+  -v bulwark-data:/app/data \\
   ghcr.io/bulwarkmail/webmail:latest`;
 
 /** The docker command of the docs quick start. The copy button puts it on one line. */

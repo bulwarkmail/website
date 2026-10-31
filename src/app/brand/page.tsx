@@ -109,7 +109,7 @@ const TYPE: { name: string; spec: string; sample: string; style: React.CSSProper
   { name: "Heading 2", spec: "40 / 28 px · 400 · 1.12 · -0.015em", sample: "Two editions from the same code.", style: { fontSize: "var(--bw-h2)", lineHeight: 1.12, letterSpacing: "-0.015em" } },
   { name: "Heading 3, tile title", spec: "21 / 19 px · 400 · 1.2 · -0.015em", sample: "Bulwark Legacy Proxy", style: { fontSize: "var(--bw-h3)", lineHeight: 1.2, letterSpacing: "-0.015em" } },
   { name: "Lead", spec: "19 / 17 px · 400 · 1.45", sample: "Bulwark puts mail, calendar, contacts and files in one browser client.", style: { fontSize: "var(--bw-lead)", lineHeight: 1.45, color: "var(--bw-text-muted)" } },
-  { name: "Body", spec: "17 / 16 px · 400 · 1.55", sample: "The setup wizard finds your Stalwart server and sets the admin password.", style: { fontSize: "var(--bw-body)" } },
+  { name: "Body", spec: "17 / 16 px · 400 · 1.55", sample: "The setup wizard checks your Stalwart server and sets the admin password.", style: { fontSize: "var(--bw-body)" } },
   { name: "Small, tile text", spec: "15 px · 400 · 1.5", sample: "Several address books, groups, and vCard import and export.", style: { fontSize: "var(--bw-small)", color: "var(--bw-text-muted)" } },
   { name: "Button, label, table header", spec: "15 px · 500 · 1.2", sample: "Read the docs", style: { fontSize: "var(--bw-small)", fontWeight: 500 } },
   { name: "Caption, footer, breadcrumb", spec: "13.5 px · 400 · 1.5", sample: "Docs / Deployment", style: { fontSize: "var(--bw-caption)", color: "var(--bw-text-muted)" } },
@@ -237,7 +237,8 @@ export default function BrandPage() {
                 </li>
                 <li>
                   <b>One family at regular weight.</b> Hanken Grotesk 400 for headings and body. Hierarchy comes from
-                  size and position. 500 is for buttons and table headers, 600 for the wordmark.
+                  size and position. 500 is for buttons and table headers, 600 for the wordmark, bold text, step
+                  numbers and the small headings in the footer and the docs.
                 </li>
                 <li>
                   <b>Square, with shared edges.</b> Tiles meet on 1px rules with the title top-left and the arrow
@@ -292,7 +293,7 @@ export default function BrandPage() {
             <Guide
               wide
               title="Tokens"
-              text="Fourteen roles as CSS custom properties. Dark changes the grounds, and Bulwark Lite changes brand, field and link."
+              text="Fourteen roles as CSS custom properties. Dark changes every role except brand, on field and ink, and Bulwark Lite changes brand, field and link."
             >
               <div className="bw-table-wrap">
                 <table className="bw-table bw-table-tokens">
@@ -391,7 +392,7 @@ export default function BrandPage() {
         <section id="layout" className="bw-sec">
           <div className="bw-w">
             <div className="bw-head">
-              <h2 className="bw-h2">Pages sit on a 12-column grid with an 8px unit.</h2>
+              <h2 className="bw-h2">Pages sit inside 1120px on an 8px unit.</h2>
             </div>
             <Guide
               title="Spacing"
@@ -408,11 +409,19 @@ export default function BrandPage() {
             </Guide>
             <Guide
               title="Grid"
-              text="12 columns inside 1120px with 32px gaps. The page gutter is 80px, 40px on a tablet and 20px on a phone. Splits are 5 + 7, 4 + 8, 7 + 5 and 6 + 6, and they stack below 900px."
+              text="Content sits inside 1120px. The page gutter is 80px, 40px on a tablet and 20px on a phone. Two-column splits divide the content 5 + 7, 7 + 5, 4 + 8 or 8 + 4 with a 64px gap, and they stack below 900px."
             >
               <div className="bw-griddemo" aria-hidden="true">
-                {Array.from({ length: 12 }, (_, i) => (
-                  <i key={i}>{i + 1}</i>
+                {[
+                  [5, 7],
+                  [7, 5],
+                  [4, 8],
+                  [8, 4],
+                ].map(([a, b]) => (
+                  <div key={`${a}-${b}`} style={{ gridTemplateColumns: `${a}fr ${b}fr` }}>
+                    <i>{a}</i>
+                    <i>{b}</i>
+                  </div>
                 ))}
               </div>
             </Guide>
@@ -570,7 +579,7 @@ export default function BrandPage() {
                 {[
                   { icon: Mail, title: "Open source", text: "AGPL-3.0, developed in public." },
                   { icon: Calendar, title: "Built on JMAP", text: "The client fetches only the difference." },
-                  { icon: Contact, title: "27 languages", text: "Translated by the people who use it." },
+                  { icon: Contact, title: "29 languages", text: "Including Arabic, Hebrew and Persian, right to left." },
                   { icon: Folder, title: "Built in the EU", text: "Runs on your hardware." },
                 ].map(({ icon: Icon, title, text }) => (
                   <div key={title}>
@@ -646,8 +655,8 @@ export default function BrandPage() {
             >
               <div>
                 <div className="bw-note bw-note-edition">
-                  <b>Not in Lite.</b> OAuth, settings sync and plugins need the Node.js server, so Lite keeps them
-                  switched off.
+                  <b>Not in Lite.</b> Settings sync and plugins need the Node.js server, so Lite keeps them switched
+                  off.
                 </div>
                 <div className="bw-note">
                   <b>Note.</b> The base path is written into every asset URL, so choose it before the build.
@@ -673,7 +682,7 @@ export default function BrandPage() {
                   <div className="bw-search-row" data-active="true">
                     <b>Static hosting</b>
                     <span>
-                      Allow the browser to reach the mail server: permissive-<mark>cors</mark> = true
+                      Allow the browser to reach the mail server: turn on Permissive <mark>CORS</mark> policy
                     </span>
                   </div>
                   <div className="bw-search-row">

@@ -25,6 +25,8 @@ export type Choice = {
   tag?: string;
   /** Something only Bulwark can do. */
   bulwarkOnly?: boolean;
+  /** Lite can do it too when this returns true for the answers so far. */
+  liteIf?: (answers: Answers) => boolean;
   /** Shown as a full-width tile above the others. */
   wide?: boolean;
   /** Only offered when this returns true for the answers so far. */
@@ -120,6 +122,10 @@ export const QUESTIONS: Question[] = [
         label: "With single sign-on",
         hint: "Through a login service your mail server trusts, like Keycloak or Authentik",
         bulwarkOnly: true,
+        // Lite served by Stalwart sends people to the login service Stalwart
+        // uses for their account (webmail lib/auth/lite-oauth.ts). Lite on a
+        // website host has no single sign-on.
+        liteIf: servedByStalwart,
         tag: "Single sign-on",
       },
       { id: "unsure", label: "Not sure" },
@@ -140,7 +146,15 @@ export const QUESTIONS: Question[] = [
         wide: true,
       },
       { id: "addons", label: "Add-ons", hint: "Extra apps and plugins", bulwarkOnly: true, tag: "Add-ons" },
-      { id: "admin", label: "An admin page", hint: "Your logo and settings for everyone", bulwarkOnly: true, tag: "Admin page" },
+      {
+        // Lite takes the logo from config.json and everyone's settings from
+        // policy.json; only the page to change them in is Bulwark's.
+        id: "admin",
+        label: "An admin page",
+        hint: "Change your logo and everyone's settings in the browser, not in files",
+        bulwarkOnly: true,
+        tag: "Admin page",
+      },
       { id: "sync", label: "Same settings everywhere", hint: "On every device you use", bulwarkOnly: true, tag: "Settings on every device" },
       {
         id: "office",
@@ -148,6 +162,8 @@ export const QUESTIONS: Question[] = [
         hint: "Also needs an office server, such as Collabora",
         bulwarkOnly: true,
         tag: "Office editing",
+        // Files live in Stalwart. Through Legacy Proxy there are none to edit.
+        showIf: (answers) => pick(answers, "server") !== "other",
       },
       {
         id: "notify",
@@ -194,7 +210,8 @@ export type Verdict = {
   pick: Edition | null;
   /** Nothing forced it and the leans are within a point: either would do. */
   close: boolean;
-  eyebrow: string;
+  /** A sentence put in front of the pitch, when the title needs one. */
+  lead?: string;
   title: string;
   pitch: string;
   primary?: Link;
@@ -227,14 +244,27 @@ function pick(answers: Answers, id: string): string | undefined {
   return answers[id]?.[0];
 }
 
+/** Stalwart serving Lite as an Application: only Lite fits there. */
+function servedByStalwart(answers: Answers): boolean {
+  return pick(answers, "where") === "stalwart" && pick(answers, "server") !== "other";
+}
+
 export function evaluate(answers: Answers): Verdict {
   const reasons: Reason[] = [];
   let score = 0;
+  const server = pick(answers, "server");
   for (const q of QUESTIONS) {
     for (const id of answers[q.id] ?? []) {
       const c = q.choices.find((choice) => choice.id === id);
       if (!c?.tag) continue;
-      if (c.bulwarkOnly) reasons.push({ tag: c.tag, toward: "full", must: true });
+      // An answer given before a later change made it unavailable.
+      if (c.showIf && !c.showIf(answers)) continue;
+      // Legacy Proxy signs people in with their mail password; that is said
+      // in a note on the result instead.
+      if (c.id === "sso" && server === "other") continue;
+      if (c.bulwarkOnly && c.liteIf?.(answers)) {
+        reasons.push({ tag: c.tag, toward: "lite", must: false, badge: "Lite has it there" });
+      } else if (c.bulwarkOnly) reasons.push({ tag: c.tag, toward: "full", must: true });
       else if (c.lean) {
         score += c.lean;
         reasons.push({ tag: c.tag, toward: c.lean > 0 ? "full" : "lite", must: false });
@@ -242,18 +272,17 @@ export function evaluate(answers: Answers): Verdict {
     }
   }
 
-  const server = pick(answers, "server");
   const webhostOnly = pick(answers, "where") === "webhost";
-  // Stalwart serving Lite as an Application: only Lite fits there.
-  const inStalwart = pick(answers, "where") === "stalwart" && server !== "other";
+  const inStalwart = servedByStalwart(answers);
   const needs = reasons.filter((r) => r.must);
   const needsList = needs.map((r) => r.tag.toLowerCase()).join(", ");
   const upkeepMinimal = pick(answers, "upkeep") === "minimal";
 
   // --- A mail server other than Stalwart ------------------------------------
-  // Bulwark only talks to Stalwart. Anything else needs Legacy Proxy in
-  // between, and that is an app of its own: it needs a server, and it makes
-  // Lite pointless, since not running an app is Lite's whole point.
+  // Bulwark is built for Stalwart and needs a JMAP server. Anything else
+  // needs Legacy Proxy in between, and that is an app of its own: it needs a
+  // server, and it makes Lite pointless, since not running an app is Lite's
+  // whole point.
   if (server === "other") {
     const why: Reason = { tag: "A mail server other than Stalwart", toward: "full", must: true, badge: "Needs Legacy Proxy" };
     if (webhostOnly) {
@@ -261,10 +290,10 @@ export function evaluate(answers: Answers): Verdict {
         kind: "classic",
         pick: null,
         close: false,
-        eyebrow: "Honestly, Bulwark isn't the right fit here",
+        lead: "Bulwark isn't the right fit here.",
         title: "A classic webmail",
         pitch:
-          "Bulwark only works with Stalwart. Connecting it to your mail server needs Legacy Proxy, and that needs a server of its own. Roundcube and SnappyMail work with your mail server directly and run on ordinary website hosting.",
+          "Bulwark is built for Stalwart, and most other mail servers can't talk to it directly. Connecting it to your mail server needs Legacy Proxy, and that needs a server of its own. Roundcube and SnappyMail work with your mail server directly and run on ordinary website hosting.",
         primary: LINKS.roundcube,
         secondary: LINKS.snappymail,
         reasons: [why, { tag: "A simple website host", toward: "lite", must: true, badge: "Can't run the proxy" }],
@@ -282,15 +311,22 @@ export function evaluate(answers: Answers): Verdict {
       kind: "proxy",
       pick: "full",
       close: false,
-      eyebrow: "Possible, with an extra piece",
+      lead: "Possible, with an extra piece.",
       title: "Bulwark + Legacy Proxy",
       pitch:
-        "Bulwark only works with Stalwart. Legacy Proxy sits between it and your mail server, so you run two apps instead of one. Lite doesn't help here, because the proxy needs a server anyway.",
+        "Bulwark is built for Stalwart, and most other mail servers can't talk to it directly. Legacy Proxy sits between it and your mail server, so you run two apps instead of one. Lite doesn't help here, because the proxy needs a server anyway.",
       primary: LINKS.installFull,
       secondary: LINKS.proxy,
       reasons: [why, ...needs],
       options: [CLASSIC],
-      caveats: [{ text: "Legacy Proxy is newer than the rest of Bulwark. Try it with your mail server before you move everyone over." }],
+      caveats: [
+        {
+          text: "Legacy Proxy is pre-1.0 and has had no outside security audit. It gives you mail, out-of-office replies and contacts (if your mail server has an address book), but no calendar and no files. Try it with your mail server before you move everyone over.",
+        },
+        ...(answers.login?.includes("sso")
+          ? [{ text: "Single sign-on doesn't work through Legacy Proxy. People sign in with their mail server password." }]
+          : []),
+      ],
     };
   }
 
@@ -315,7 +351,7 @@ export function evaluate(answers: Answers): Verdict {
         kind: "stuck",
         pick: null,
         close: false,
-        eyebrow: "Not with this setup as it is",
+        lead: "Not with this setup as it is.",
         title: "Two ways to get there",
         pitch: inStalwart
           ? `Only Bulwark has ${needsList}, and Bulwark is an app of its own that needs a server. Only Lite can live inside Stalwart, and it leaves ${those} out.`
@@ -352,7 +388,6 @@ export function evaluate(answers: Answers): Verdict {
       kind: "full",
       pick: "full",
       close: false,
-      eyebrow: "Your pick",
       title: "Bulwark",
       pitch: inStalwart
         ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."
@@ -378,6 +413,9 @@ export function evaluate(answers: Answers): Verdict {
       });
     } else {
       caveats.push({ text: "It needs Stalwart 0.16.6 or later and an admin account there.", link: LINKS.stalwartApp });
+    }
+    if (answers.login?.includes("sso")) {
+      caveats.push({ text: "In Lite, single sign-on works when Stalwart signs those accounts in through your login service." });
     }
     // With a provider, updating is their job too.
     if (upkeepMinimal && !hosted) {
@@ -405,7 +443,7 @@ export function evaluate(answers: Answers): Verdict {
     kind: lite ? "lite" : "full",
     pick: lite ? "lite" : "full",
     close,
-    eyebrow: close ? "Both would work. We'd pick" : "Your pick",
+    lead: close ? "Both would work, and this one fits a little better." : undefined,
     title: lite ? "Bulwark Lite" : "Bulwark",
     pitch: lite
       ? inStalwart
