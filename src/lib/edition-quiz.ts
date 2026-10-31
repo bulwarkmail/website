@@ -290,7 +290,7 @@ export function evaluate(answers: Answers): Verdict {
         kind: "classic",
         pick: null,
         close: false,
-        lead: "Honestly, Bulwark isn't the right fit here.",
+        lead: "Bulwark isn't the right fit here.",
         title: "A classic webmail",
         pitch:
           "Bulwark is built for Stalwart, and most other mail servers can't talk to it directly. Connecting it to your mail server needs Legacy Proxy, and that needs a server of its own. Roundcube and SnappyMail work with your mail server directly and run on ordinary website hosting.",
