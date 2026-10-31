@@ -248,6 +248,17 @@ Nearly all variables are evaluated at runtime, so Docker deployments can be reco
     - bulwark-settings:/app/data/settings
   ```
 
+### `PLUGIN_SECRETS_DIR`
+
+- **Purpose** - Filesystem location where credentials users save for plugins are stored, encrypted.
+- **Required** - No.
+- **Default** - a `plugin-secrets` folder next to `SETTINGS_DATA_DIR` (resolves to `/app/data/plugin-secrets` in Docker)
+- **Docker note** - Mount a persistent volume there, or users have to enter their plugin credentials again whenever the container is recreated:
+  ```yaml
+  volumes:
+    - bulwark-plugin-secrets:/app/data/plugin-secrets
+  ```
+
 ## Admin dashboard
 
 ### `ADMIN_PASSWORD`

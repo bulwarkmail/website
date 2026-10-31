@@ -97,6 +97,10 @@ Runtime mutations that must always stay writable: `admin-state.json` (login time
 
 Random `instance_id`, admin consent choice, HMAC'd login fingerprints. Default: `./data/telemetry` → `/app/data/telemetry`. Mount this so the consent and instance id survive image upgrades. The heartbeat is off until an admin opts in; `BULWARK_TELEMETRY=off` locks it off and greys out the toggle.
 
+### Plugin secrets (`PLUGIN_SECRETS_DIR`)
+
+Credentials users save for plugins (an API key for a plugin's service, for example), encrypted. Default: a `plugin-secrets` folder next to the settings folder, so `/app/data/plugin-secrets` in the container. Mount it, or users have to enter those credentials again every time the container is recreated.
+
 ### Legacy single-volume installs (`ADMIN_DATA_DIR`)
 
 Pre-1.6.4 installs used a single `ADMIN_DATA_DIR` volume containing both config and state. That variable is still honoured when neither split variable is set - existing installs keep working without migration.
@@ -118,6 +122,7 @@ bulwark:
     # - bulwark-config:/app/data/admin:ro       # ro after setup
     - bulwark-state:/app/data/admin-state
     - bulwark-telemetry:/app/data/telemetry
+    - bulwark-plugin-secrets:/app/data/plugin-secrets
 ```
 
 ## Reverse proxy

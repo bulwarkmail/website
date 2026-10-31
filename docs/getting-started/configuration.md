@@ -71,6 +71,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `COOKIE_SECURE`               | No              | derived from env                          | Force `Secure` flag on cookies                                                             |
 | `SETTINGS_SYNC_ENABLED`       | No              | `false`                                   | Enables encrypted server-side settings sync across devices and accounts                    |
 | `SETTINGS_DATA_DIR`           | No              | `./data/settings`                         | Directory for encrypted settings storage (resolves to `/app/data/settings` in Docker)      |
+| `PLUGIN_SECRETS_DIR`          | No              | `plugin-secrets` next to the settings dir | Credentials users save for plugins, encrypted (`/app/data/plugin-secrets` in Docker)       |
 | `ADMIN_PASSWORD`              | No              | set via wizard or random on first start   | Bootstrap admin password, read only while `admin.json` does not exist yet                  |
 | `ADMIN_CONFIG_DIR`            | No              | `./data/admin`                            | Operator-authored: `config.json`, `policy.json`, `admin.json` (passwordHash), plugins, themes, branding uploads. Safe to mount read-only after setup |
 | `ADMIN_STATE_DIR`             | No              | `./data/admin-state`                      | Runtime: `admin-state.json` (login timestamps), `audit.log`, setup token. Always read-write |

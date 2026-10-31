@@ -118,6 +118,7 @@ services:
       - bulwark-config:/app/data/admin         # wizard / admin-managed config
       - bulwark-state:/app/data/admin-state    # audit log, login timestamps
       - bulwark-telemetry:/app/data/telemetry  # instance_id + consent
+      - bulwark-plugin-secrets:/app/data/plugin-secrets  # credentials users save for plugins
     # ...
 
 volumes:
@@ -125,6 +126,7 @@ volumes:
   bulwark-config:
   bulwark-state:
   bulwark-telemetry:
+  bulwark-plugin-secrets:
 ```
 
 - `SETTINGS_DATA_DIR` defaults to `./data/settings` → `/app/data/settings` in the container.

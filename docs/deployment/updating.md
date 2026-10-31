@@ -56,7 +56,7 @@ Upgrade Bulwark to {{BULWARK_VERSION}} or newer before the mail server moves to 
 
 ## What survives an upgrade
 
-Only what you mounted. Everything Bulwark writes lives under `/app/data`, split into four directories so they can be given different treatment:
+Only what you mounted. Everything Bulwark writes lives under `/app/data`, split into five directories so they can be given different treatment:
 
 | Directory            | Variable             | Holds                                              |
 | -------------------- | -------------------- | -------------------------------------------------- |
@@ -64,6 +64,7 @@ Only what you mounted. Everything Bulwark writes lives under `/app/data`, split 
 | `/app/data/admin-state` | `ADMIN_STATE_DIR`    | Audit log, login timestamps, setup token           |
 | `/app/data/settings`    | `SETTINGS_DATA_DIR`  | Encrypted per-account user settings                |
 | `/app/data/telemetry`   | `TELEMETRY_DATA_DIR` | Instance id and telemetry consent                  |
+| `/app/data/plugin-secrets` | `PLUGIN_SECRETS_DIR` | Credentials users saved for plugins, encrypted  |
 
 Lose the config volume and the next start generates a fresh random admin password and logs it. Lose the settings volume and users get defaults back. Neither loses mail, because Bulwark stores no mail.
 
