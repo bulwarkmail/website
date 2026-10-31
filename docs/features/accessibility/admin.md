@@ -28,16 +28,16 @@ Every accessibility option can have a default. Only these can be locked:
 
 A lock on text size, contrast, motion, fonts, spacing or any of the reading aids could leave someone unable to read or use the app at all. Someone with low vision needs larger text whatever the house style says, and someone with a vestibular disorder needs motion off. So Bulwark accepts these as defaults only.
 
-A `policy.json` that locks one of them anyway is not rejected: the lock works as a default. Users who haven't chosen a value get yours, and they can still change it.
+A `policy.json` that locks one of them anyway is not rejected: the lock works as a default. Users who haven't chosen a value get yours, and they can still change it. Presets and Reset on the Accessibility page still leave such a setting alone, so put these values in `defaults` instead of `restrictions`.
 
 ## In the admin dashboard
 
 **Admin > User policy** has two sections for this:
 
 - **Locked settings**: the **Accessibility** category lists the three settings above. Tick **Lock** and pick the value next to **Users get**. Notification duration has a list instead, from **No minimum** to **At least 60 seconds**. Confirm before sending can also be hidden with **Hide**.
-- **Defaults**: every setting you can preset, by category. **Accessibility** comes first and lists every option of Settings > Accessibility under the same headings and names users see. Change a value and it gets a **set** badge; the round arrow next to it (**Remove the default**) takes it away again. **Other settings** at the end takes any other setting by its key, as it appears in a settings export.
+- **Defaults**: every setting you can preset, by category. **Accessibility** comes first and lists the Accessibility page's own options, under the page's headings and with the names users see. Settings the page shares with other pages, such as density or conversation view, are listed under their own category or can be set by key under **Other settings**. Change a value and it gets a **set** badge; the round arrow next to it (**Remove the default**) takes it away again. **Other settings** at the end takes any other setting by its key, as it appears in a settings export.
 
-A lock set before this release, or one in `policy.json` without a value, shows "No value: each user keeps the value they had" and a button to lock it to the value shown.
+A lock set before Bulwark 1.19.0, or one in `policy.json` without a value, shows "No value: each user keeps the value they had" and a button to lock it to the value shown.
 
 To give some users different values, add an entry for their domain or group on **Admin > Organisation > Domains and groups** and pick it in **Applies to** at the top of either section. See [Domains and groups](/docs/guides/organisation/domains-and-groups).
 
@@ -82,9 +82,9 @@ Defaults go in `defaults`, locks and the minimum in `restrictions`, both keyed b
 
 A lock without `value` uses the value from `defaults`. `toastDuration` also takes `"locked": true` with a `value`, if you want one fixed duration instead of a minimum.
 
-Bulwark checks every value against the list below. A value that isn't on it, such as a misspelled font name, is ignored, as if the file didn't set it.
+Bulwark checks each value against the list below. A value that isn't on it, such as a misspelled font name for `appFont`, is ignored, as if the file didn't set it. The two settings for new messages are the exception: `composeFontFamily` takes any font family list and `composeFontSize` any CSS size such as `15px`.
 
-The user-facing presets (Screen reader, Low vision and so on) are not keys of their own. A preset is a list of values applied once, so to "preset a preset", put its values in `defaults` as in the example above. When a user applies a preset, Bulwark skips the settings you locked and any value below your notification minimum.
+The user-facing presets (Screen reader, Low vision and so on) are not keys of their own. A preset is a list of values applied once, so to "preset a preset", put its values in `defaults` as in the example above. When a user applies a preset, Bulwark skips the settings you locked. Notifications never stay shorter than your minimum, whatever a preset sets.
 
 ### Keys and values
 
@@ -120,8 +120,9 @@ The user-facing presets (Screen reader, Low vision and so on) are not keys of th
 | Use my font and colours in messages | `mailOverrideStyles` | `never`, `high-contrast`, `always` | `never` |
 | Fit wide messages to the window | `mailFitWidth` | `true`, `false` | `false` |
 | Read aloud speed | `readAloudRate` | `0.75`, `1`, `1.25`, `1.5` | `1` |
-| Font for new messages | `composeFontFamily` | `""` (default), `sans-serif`, `serif`, `monospace` | `""` |
-| Text size for new messages | `composeFontSize` | `""` (default) or a size from the list on the page | `""` |
+| Read aloud voice | `readAloudVoice` | `""` (browser default) or a voice URI as the browser reports it | `""` |
+| Font for new messages | `composeFontFamily` | `""` (default), `sans-serif`, `serif`, `monospace`, or a font family list | `""` |
+| Text size for new messages | `composeFontSize` | `""` (default) or a CSS size (the page offers 14px, 16px, 18px, 20px, 24px, 32px) | `""` |
 | Notification duration | `toastDuration` | `5`, `10`, `20`, `60`, `0` (until closed) | `5` |
 | Confirm before sending | `sendConfirmation` | `true`, `false` | `false` |
 | Confirm before deleting | `confirmDelete` | `true`, `false` | `false` |
@@ -132,16 +133,16 @@ The user-facing presets (Screen reader, Low vision and so on) are not keys of th
 | Announce new mail | `announceNewMail` | `true`, `false` | `true` |
 | Read the preview in the list | `announceRowPreview` | `true`, `false` | `false` |
 | Simple mode | `simpleMode` | `true`, `false` | `false` |
-| Page through the message list | `simpleModePagedList` | `true`, `false` | `false` |
+| Page through the message list (needs `simpleMode`) | `simpleModePagedList` | `true`, `false` | `false` |
 | Accessibility button in the navigation bar | `showAccessibilityButton` | `true`, `false` | `false` |
 
-The other settings shown on the Accessibility page, such as density, toolbar labels, always-light mail, conversation view or the plain text mail font, keep the keys they have on their own pages.
+The other settings shown on the Accessibility page, such as density, toolbar labels, always-light mail or conversation view, keep the keys they have on their own pages. Plain text mail font (`plainTextFont`: `sans` or `mono`) is only on the Accessibility page; preset it under **Other settings**.
 
 Older files keep working. `small`, `medium` and `large` for `fontSize` are still valid; they now scale the browser's text size instead of setting a fixed pixel size. A file that presets or locks the old `animationsEnabled` is read as `reduceMotion`: `false` becomes `on`, `true` becomes `system`.
 
 ## Accessibility links
 
-Public bodies have to link an accessibility statement, a way to report barriers ("Barriere melden"), and in Germany explanations in Leichte Sprache and German Sign Language (DGS) on their entry page. The same release adds admin settings for these links: an accessibility statement, a feedback link (a URL or an email address), a help page, a Leichte Sprache page and a DGS page. Bulwark shows them in the same place on every page, including the sign-in page. See [accessibility law for operators](/docs/legal/accessibility) for what goes behind them.
+Public bodies have to link an accessibility statement, a way to report barriers ("Barriere melden"), and in Germany explanations in Leichte Sprache and German Sign Language (DGS) on their entry page. Since 1.19.0 there are admin settings for these links: an accessibility statement, a feedback link (a URL or an email address), a help page, a Leichte Sprache page and a DGS page. Bulwark shows them in the same place on every page, including the sign-in page. See [accessibility law for operators](/docs/legal/accessibility) for what goes behind them.
 
 Set them on **Admin > Branding** under **Accessibility and help links**, with an environment variable, or in Lite's `config.json`. A link you leave empty doesn't show. Each one can also be set per domain in the Branding page's scope, like the imprint and privacy links.
 
