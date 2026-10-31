@@ -71,7 +71,7 @@ When verification succeeds, Bulwark auto-imports the signer's certificate so you
 
 ## Keys and accounts
 
-Keys and recipient certificates are stored per browser, not per account: every account signed in in that browser can use them. The key used is the one whose certificate matches the sender address.
+Keys and recipient certificates are stored per browser, not per account: every account signed in to that browser can use them. The key used is the one whose certificate matches the sender address.
 
 ## Security notes
 
@@ -99,4 +99,4 @@ The plugin isn't installed or isn't enabled for your user. Ask your admin to ins
 
 ### "No S/MIME key for …"
 
-Import a .p12 / .pfx (not just the public .cer) whose certificate is for the address you send from, in Settings → Add-ons → S/MIME. The message itself still says Settings → Plugins → S/MIME; that page is now called Add-ons.
+Import a .p12 / .pfx (not just the public .cer) whose certificate is for the address you send from, in Settings → Add-ons → S/MIME. The message names the path as Settings → Plugins → S/MIME; the page is under Settings → Add-ons.
