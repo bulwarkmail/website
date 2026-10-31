@@ -27,13 +27,13 @@ Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they l
 - Right-click context menu for contact actions
 - Multi-select with checkboxes and selection toolbar
 - Resizable sidebar for browsing contacts alongside details
-- Pagination for large address books via `maxObjectsInGet` capability detection
+- Large address books load in full: Bulwark fetches them in batches as large as the server allows
 
 ## Detail view
 
 The detail view shows:
 
-- Photo display with print support
+- The contact's photo, which also appears when you print the contact on a sheet of its own
 - A **Duplicate** action that copies the contact
 - **Contact activity:** recent mail exchanged with this person and their upcoming calendar events
 
@@ -44,7 +44,7 @@ Organize contacts across multiple address books:
 - Create and manage separate address books (directories)
 - Mark one address book as the default, so new contacts land there unless you pick another
 - Rename existing address books from settings
-- Drag-and-drop contacts between address books with proper ID namespacing for shared address books
+- Drag contacts between address books, shared ones included
 - Address book picker in the contact editor
 - The sidebar lists each address book separately
 - Share address books via JMAP
@@ -70,7 +70,7 @@ Organize contacts with categories:
 
 Groups collect contacts you address together:
 
-- Create custom contact groups with JMAP members map
+- Create your own contact groups, stored on the server with their members
 - Add contacts to multiple groups
 - Address a group and it expands to its members
 

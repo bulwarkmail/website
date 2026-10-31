@@ -36,7 +36,7 @@ Demo mode is not a sandbox around a real account, and it is not a read-only mode
 
 - Changes are lost on reload. There is no persistence layer behind the fixtures.
 - Sending mail does nothing. No SMTP transaction happens.
-- Stalwart-specific panels (account security, API keys, Sieve on the server) have no server to talk to and behave accordingly.
+- Settings > Security (password, two-factor, app passwords, API keys) says account security management isn't available, because no Stalwart is behind the demo. Filters, Sieve scripts included, work on sample data and are reset on reload like everything else.
 
 Never point a public demo at real data by leaving `DEMO_MODE` off and hoping. The two states are unrelated: `DEMO_MODE=true` means fixtures, and anything else means a live mail server.
 

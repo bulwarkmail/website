@@ -80,7 +80,7 @@ When the user grants notification permission, Bulwark subscribes the browser to 
 - Fire only on new deliveries, not on flag changes or moves. Spam, Junk and muted folders stay quiet; turn on **Inbox only** in the notification settings to skip mail that a filter files into other folders too.
 - Click to open the message, or the account's mail list when several messages are waiting
 - Survive the tab being closed: the service worker handles delivery in the background
-- Use the longer push verification timeout to avoid spurious unsubscriptions; leftover subscriptions are cleaned up automatically
+- Wait up to 75 seconds for the mail server to verify a new subscription, longer than the 60 seconds Stalwart leaves between verifications by default, so setup still succeeds when older subscriptions are queued ahead of it; leftover subscriptions are cleaned up automatically
 - Cover your own mailboxes: mailboxes that other people share with you don't send background notifications, and the notification settings say so
 
 On start, the app re-syncs any push registrations it already holds, so a registration created before the spam filter existed, or one whose Junk mailbox id went stale, is repaired without the user re-enabling notifications. Each device's subscription can be revoked individually from settings.

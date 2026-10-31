@@ -184,7 +184,7 @@ Settings in the Screen readers section:
 - **Simple mode**: one column, fewer buttons and no side panels.
 - **Page through the message list** (under Simple mode, shown once Simple mode is on): shows the list in pages of 50 with Next and Previous instead of endless scrolling.
 
-The Screen reader preset sets the layout most screen reader users prefer.
+The Screen reader preset turns on the first two and switches to the Focused list layout without conversation grouping; [Presets](#presets) lists everything it sets.
 
 ## Bulwark Lite
 
