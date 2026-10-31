@@ -86,12 +86,12 @@ export default function HomelabPage() {
           heading="Every account in one window."
           text="Sign in to your own mailbox and the family's at once and switch between them. An admin can allow one merged inbox across all of them."
           link={{ label: "Multiple accounts", href: "/docs/guides/multi-account" }}
-          shot={{ name: "account-switcher", alt: "The account switcher with two signed-in accounts and a shared mailbox" }}
+          shot={{ name: "account-switcher", alt: "The account switcher open, with two signed-in accounts" }}
         />
         <FeatureRow
           flip
           heading="Push to the phone without opening a port for it."
-          text="Stalwart sends push to the Bulwark relay over HTTPS, and the relay wakes the phone, so push needs no inbound connection. Reading mail away from home still needs Stalwart and Bulwark reachable, over HTTPS or a VPN. On Android without Google services, UnifiedPush works with a relay you run yourself at a public HTTPS address; the relay is pre-1.0 and you build it from source. The phone app is a beta."
+          text="Stalwart sends push to the Bulwark relay over HTTPS, and the relay wakes the phone, so push needs no inbound connection. Reading mail away from home still needs Stalwart and Bulwark reachable, over HTTPS or a VPN. On Android without Google services, the app can push through UnifiedPush with a distributor such as ntfy, through the hosted relay or one you run. A relay of your own is pre-1.0, built from source, and needs a public HTTPS address. The phone app is a beta."
           link={{ label: "Mobile apps and push", href: "/docs/features/mobile" }}
           shot={{ name: "settings-notifications", alt: "Notification settings with the push relay chosen" }}
         />
@@ -130,9 +130,10 @@ export default function HomelabPage() {
           rows={[
             ["Lite on a separate host", "The Permissive CORS policy in Stalwart, unless Stalwart serves Lite"],
             ["More than five accounts in one browser", "HTTPS (HTTP/2) between the browser and Bulwark"],
-            ["Installing as an app, web push", "HTTPS and the full edition"],
+            ["Installing as an app", "HTTPS"],
+            ["Web push in the browser", "HTTPS and the full edition"],
             ["Push to the phone", "The beta app, and Stalwart reaching the relay over public HTTPS"],
-            ["UnifiedPush", "Android, a distributor app such as ntfy, and a relay you run"],
+            ["UnifiedPush", "Android and a distributor app such as ntfy"],
             ["Plugins", "The full edition; an admin turns them on"],
           ]}
         />
