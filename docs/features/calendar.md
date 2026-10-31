@@ -7,7 +7,7 @@ edition: both
 
 # Calendar
 
-The calendar speaks JMAP for Calendars (an IETF draft) and stores events as JSCalendar (RFC 8984). Bulwark reads the capabilities the server advertises at session start and hides whatever that server cannot do, so you never click something that fails.
+The calendar speaks JMAP for Calendars (an IETF draft) and stores events as JSCalendar (RFC 8984). Bulwark reads the capabilities the server advertises at session start and hides whatever that server cannot do.
 
 <img class="theme-light-only" src="/screenshots/light-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
@@ -17,17 +17,17 @@ The calendar speaks JMAP for Calendars (an IETF draft) and stores events as JSCa
 <img class="theme-light-only" src="/screenshots/light-calendar-week.webp" alt="The week view with events from several calendars and the day's tasks" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-week.webp" alt="The week view with events from several calendars and the day's tasks" width="5120" height="2880" />
 
-- **Month view** - Overview of the entire month with multi-day event spanning
-- **Week view** - Detailed weekly schedule with column-based overlap layout and time-based event sorting
-- **Day view** - Hour-by-hour daily agenda
-- **Agenda view** - Chronological list of upcoming events, loading more as you scroll
-- **Task list view** - Dedicated task management view with task details, status tracking, and inline editing, once tasks are turned on (see [Tasks](#tasks))
+- **Month view:** the whole month, with multi-day events drawn across the days they span
+- **Week view:** the week's schedule, with overlapping events laid out in columns and sorted by time
+- **Day view:** hour-by-hour agenda for one day
+- **Agenda view:** chronological list of upcoming events, loading more as you scroll
+- **Task list view:** tasks with their details and status, editable inline, once tasks are turned on (see [Tasks](#tasks))
 
-Month, week and day views scroll freely: keep scrolling past the end of the month and the next one follows, rather than snapping a period at a time. The toolbar's date label and the mini-calendar follow the week in view. If you preferred the paged behaviour, **Free scrolling** in calendar settings turns it off.
+Month, week and day views scroll freely: keep scrolling past the end of the month and the next one follows, rather than snapping a period at a time. The toolbar's date label and the mini-calendar follow the week in view. To page a period at a time instead, turn off **Free scrolling** in calendar settings.
 
 ## Toolbar navigation
 
-The desktop toolbar carries prev/next buttons, a "Today" button, and a date label, so moving around the calendar doesn't mean going back to the mini-calendar every time.
+The desktop toolbar has prev/next buttons, a "Today" button, and a date label, so you can move around the calendar without going back to the mini-calendar.
 
 ## Creating events
 
@@ -72,12 +72,12 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 <img class="theme-light-only" src="/screenshots/light-calendar-event.webp" alt="An event opened from the week view, with participants and the response buttons" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-event.webp" alt="An event opened from the week view, with participants and the response buttons" width="5120" height="2880" />
 
-- **Drag-and-drop rescheduling** - Move events between time slots in week/day views or between dates in month view
-- **Resize events** - Drag the top or bottom edge to change the start or the duration, in 15-minute steps
-- **Duplicate events** - Clone an event with a +1 day offset for editing
-- **Recurring event editing** - Choose scope: this event, this and following, or all events. On Stalwart 0.16.20 and later each occurrence is addressed by the synthetic id Stalwart gives it, so an edit to one Tuesday cannot land on another; on older servers Bulwark saves the change as an override on the recurring event
-- **Overlap layout** - Events that overlap are laid out in columns rather than stacked, so none of them gets truncated
-- **Timezone-aware formatting** - Event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
+- **Drag-and-drop rescheduling:** move events between time slots in week/day views or between dates in month view
+- **Resize events:** drag the top or bottom edge to change the start or the duration, in 15-minute steps
+- **Duplicate events:** clone an event with a +1 day offset for editing
+- **Recurring event editing:** choose scope: this event, this and following, or all events. On Stalwart 0.16.20 and later each occurrence is addressed by the synthetic id Stalwart gives it, so an edit to one Tuesday cannot land on another; on older servers Bulwark saves the change as an override on the recurring event
+- **Overlap layout:** events that overlap are laid out in columns rather than stacked, so none of them gets truncated
+- **Timezone-aware formatting:** event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
 ## Sharing and invitations
 
@@ -85,13 +85,13 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 <img class="theme-dark-only" src="/screenshots/dark-invite.webp" alt="An invitation in the mail reading pane with Accept, Maybe and Decline" width="5120" height="2880" />
 
 - When you save an event with participants, Stalwart sends the iMIP invitations and updates (RFC 6047); Bulwark asks it to and sets the organizer with `organizerCalendarAddress`. Saving without invitations is offered when the server refuses to send them.
-- Accept/decline/tentative RSVP responses with trust assessment
+- Accept, decline or tentative RSVP that checks whether the invitation can be trusted
 - Organizer and attendee UI with participant management, including each attendee's free/busy status (`Principal/getAvailability`) while you pick a time
 - Invitations and updates that arrive as `CalendarEventNotification` objects surface in the app, and invitations you send go out under your default `ParticipantIdentity`
-- Inline calendar invitation banner in the email viewer - auto-detects `.ics` attachments and offers RSVP and import-to-calendar actions
+- An invitation banner in the email viewer detects `.ics` attachments and offers RSVP and import-to-calendar actions
 - Collapsible details on the invitation banner
 - ICS attachments are hidden from the attachment list when the invitation banner is shown
-- Shared calendars across accounts via JMAP sharing, with per-viewer colors so each user can recolor a shared calendar without affecting others (#345)
+- Shared calendars across accounts via JMAP sharing, with per-viewer colors so each user can recolor a shared calendar without affecting others
 
 <img class="theme-light-only" src="/screenshots/light-calendar-availability.webp" alt="A new event with attendees added, each with their busy times shown next to the chosen slot" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-availability.webp" alt="A new event with attendees added, each with their busy times shown next to the chosen slot" width="5120" height="2880" />
@@ -137,7 +137,7 @@ Calendars shared with you are grouped separately in the sidebar, below your own.
 
 ## iCalendar import
 
-Import `.ics` files with a preview dialog and bulk event creation. Batch event import is supported for importing large `.ics` files with multiple events.
+Import `.ics` files with a preview dialog. Events are created in bulk, and large `.ics` files with many events are imported in batches.
 
 ## iCal and webcal subscriptions
 
@@ -160,7 +160,7 @@ Calendar changes are pushed in real time over JMAP push, so you don't have to re
 <img class="theme-light-only" src="/screenshots/light-tasks.webp" alt="The task list with due dates and calendars" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-tasks.webp" alt="The task list with due dates and calendars" width="5120" height="2880" />
 
-A dedicated task list view manages tasks with due dates, priority, and completion status. Tasks created by external CalDAV clients (such as Thunderbird) are detected and displayed alongside Bulwark-created tasks. Moving a task to a calendar of another account copies it there and removes the original, since JMAP has no move between accounts.
+The task list view shows tasks with due dates, priority, and completion status. Tasks created in other CalDAV clients (such as Thunderbird) show up alongside the ones made in Bulwark. Moving a task to a calendar of another account copies it there and removes the original, since JMAP has no move between accounts.
 
 Tasks are off by default. Turn on **Enable tasks** in Settings > Calendar to get the Tasks view; **Show tasks on calendar** then also puts them in the month, week and day views. An administrator can hide the switch with the Calendar Tasks policy.
 

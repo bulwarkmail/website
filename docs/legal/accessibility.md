@@ -75,7 +75,7 @@ The software alone is not a product under the BFSG (§1 Abs. 2), so the Bulwark 
 - **BFSG §14 with Anlage 3**: publish how your service meets the requirements, in your terms and conditions (AGB) or in another clearly visible way, for as long as you offer the service. It includes a general description of the service in an accessible format, the explanations needed to use it, how it meets the requirements, and the market surveillance authority. There is a [template below](#bfsg-information-template).
 - **Exceptions**: §§16 and 17 allow exceptions for a disproportionate burden or a fundamental alteration of the service. You have to assess and document them.
 
-The market surveillance authority for all Länder is the **MLBF** (Marktüberwachungsstelle der Länder für die Barrierefreiheit von Produkten und Dienstleistungen), a joint authority based in Magdeburg. A consumer who finds a barrier can also turn to the Schlichtungsstelle nach § 16 BGG (BFSG §34).
+The market surveillance authority for all Länder is the MLBF (Marktüberwachungsstelle der Länder für die Barrierefreiheit von Produkten und Dienstleistungen), a joint authority based in Magdeburg. A consumer who finds a barrier can also turn to the Schlichtungsstelle nach § 16 BGG (BFSG §34).
 
 ## What Bulwark gives you and what stays with you
 

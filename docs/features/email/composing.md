@@ -17,7 +17,7 @@ The composer is a Tiptap rich-text editor. It has a plain-text mode for people w
 <img class="theme-light-only" src="/screenshots/light-composer-mention.webp" alt="An @mention in the editor: the chip and the card with the person's details" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-composer-mention.webp" alt="An @mention in the editor: the chip and the card with the person's details" width="5120" height="2880" />
 
-The formatting toolbar stays pinned to the top of the editor while a long message scrolls, and the address and subject fields stay above it. The editor supports full formatting:
+The formatting toolbar stays pinned to the top of the editor while a long message scrolls, and the address and subject fields stay above it. The editor has:
 
 - **Bold**, _italic_, ~~strikethrough~~, and underline
 - A font-size picker and text and background colors
@@ -53,8 +53,8 @@ When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g
 
 There are two composer modes:
 
-- **Rich text** - Full formatting with the rich text editor (default)
-- **Plain text only** - A simplified plain text composer for users who prefer unformatted emails
+- **Rich text:** full formatting with the rich text editor (default)
+- **Plain text only:** a simplified plain text composer for users who prefer unformatted emails
 
 Turn on "Plain text only" in Settings > Composing to always write plain text, or switch one message with Options > Plain text in the composer.
 
@@ -62,19 +62,17 @@ Turn on "Plain text only" in Settings > Composing to always write plain text, or
 
 - Drag and drop files onto the compose window
 - Click the attachment button to browse
-- Maximum file size is determined by your Stalwart configuration
+- Your Stalwart configuration sets the maximum file size
 - Each attachment chip shows progress in bytes while it uploads, and cancelling aborts the transfer rather than just hiding the chip
-- Inline images can be pasted directly from the clipboard
-- Inline images can be resized in the editor
-- Images can be uploaded straight into the rich text editor
-- **Forgotten-attachment warning** - if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
+- Inline images can be pasted from the clipboard or uploaded straight into the rich text editor, and resized there
+- **Forgotten-attachment warning:** if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
 
 ## Signatures
 
 Set up multiple signatures via identity management:
 
 - Each identity has its own signature
-- Signatures are automatically appended based on the selected identity
+- Bulwark appends the signature of the selected identity
 - Switch identities (and signatures) using the dropdown in the composer
 
 ## Templates
@@ -85,7 +83,7 @@ Set up multiple signatures via identity management:
 Insert reusable email templates from the compose toolbar:
 
 - Search templates, listed by favorites, recently used and category
-- Date placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and custom placeholders are asked for when you insert the template
+- Placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and custom placeholders are asked for when you insert the template
 - Press `t` to open the template picker, as long as focus isn't in a text field
 - Manage templates under Settings > Composing > Email templates
 

@@ -58,7 +58,7 @@ The keywords carry ids, not names. The plugin finds names in three places:
 - With directory lookups allowed in Stalwart, the plugin names the assignees on rows from the directory, and **Assign to…** searches it and can assign any typed address. This uses the plugin's `directory:read` permission. Stalwart 1.0 has directory lookups off by default; 0.16 has them on.
 - On Stalwart 1.0 and later, the plugin keeps a short list of names in the shared mailbox (the Inbox's metadata, entry `org.bulwarkmail.plugin.team-inbox`, under 3.5 KB; the oldest names go first). Every member who uses the plugin adds themselves, and whoever assigns a message adds the assignee.
 
-Without a directory and on Stalwart 0.16, other members show as **Assigned** until their name is known, and **Assign to…** offers the user, and members messages were assigned to lately. To make a colleague assignable there, they assign one message to themselves once.
+Without a directory and on Stalwart 0.16, other members show as **Assigned** until their name is known, and **Assign to…** offers the user and the members that messages were assigned to lately. To make a colleague assignable there, they assign one message to themselves once.
 
 ## What isn't possible
 

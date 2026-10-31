@@ -11,20 +11,20 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 
 ## What you get
 
-- **Installable** - Browsers offer "Add to Home Screen" / "Install app" once the manifest is detected.
-- **Standalone window** - Launches without browser chrome on desktop and mobile.
-- **Splash screen** - OS-rendered splash using your configured background color and icon.
-- **App-name everywhere** - Browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
-- **Install screenshots** - Browsers that show a richer install dialog (e.g. Chrome on Android) display screenshots from the manifest. Bulwark ships default screenshots and lets you override them globally or per-domain.
-- **Service worker** - Registered automatically. It makes the app installable and shows push notifications; it does not cache pages, so there is no offline mode.
-- **Install prompt** - An in-app prompt offers to install. Users can put it off for a week ("Not now") or turn it off for good ("Don't remind me again").
-- **Web push notifications** - When the user grants permission, Bulwark subscribes to web push through a push relay and shows new-mail notifications even when the tab is closed. Clicking the notification opens the message (or the mail list when several are new). New-mail notifications fire on new deliveries only (not flag changes), grouped per account with a "+N more" line instead of one notification per message, and spam is excluded on servers that support the JMAP `emailPush` delivery filter (Stalwart 0.16.16 or newer).
-- **Unread badge** - Where the Badging API exists, the installed app's icon shows the unread count.
-- **Update notice** - The server checks for new Bulwark releases shortly after start and then hourly. When one is out, admins see a dot on the admin button, and the version in the settings About card and on the sign-in page is marked, so admins know to upgrade.
+- **Installable:** browsers offer "Add to Home Screen" / "Install app" once the manifest is detected.
+- **Standalone window:** launches without browser chrome on desktop and mobile.
+- **Splash screen:** OS-rendered splash using your configured background color and icon.
+- **App-name everywhere:** browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
+- **Install screenshots:** browsers that show a richer install dialog (e.g. Chrome on Android) display screenshots from the manifest. Bulwark ships default screenshots and lets you override them globally or per-domain.
+- **Service worker:** registered automatically. It makes the app installable and shows push notifications; it does not cache pages, so there is no offline mode.
+- **Install prompt:** an in-app prompt offers to install. Users can put it off for a week ("Not now") or turn it off for good ("Don't remind me again").
+- **Web push notifications:** when the user grants permission, Bulwark subscribes to web push through a push relay and shows new-mail notifications even when the tab is closed. Clicking the notification opens the message (or the mail list when several are new). New-mail notifications fire on new deliveries only (not flag changes), grouped per account with a "+N more" line instead of one notification per message, and spam is excluded on servers that support the JMAP `emailPush` delivery filter (Stalwart 0.16.16 or newer).
+- **Unread badge:** where the Badging API exists, the installed app's icon shows the unread count.
+- **Update notice:** the server checks for new Bulwark releases shortly after start and then hourly. When one is out, admins see a dot on the admin button, and the version in the settings About card and on the sign-in page is marked, so admins know to upgrade.
 
 ## Configuration
 
-The whole manifest is built at request time from configuration, so rebranding the install experience doesn't mean rebuilding the image. Set the values below as environment variables or in the admin console under Branding → Progressive web app; the admin console wins over environment variables, and per-domain branding wins over both.
+Bulwark builds the whole manifest at request time from configuration, so you can rebrand the installed app without rebuilding the image. Set the values below as environment variables or in the admin console under Branding → Progressive web app; the admin console wins over environment variables, and per-domain branding wins over both.
 
 ```env
 APP_NAME=Acme Mail                 # Used in the manifest, browser tab, and SoftwareApplication metadata
@@ -63,9 +63,9 @@ If you don't set `PWA_THEME_COLOR` and `PWA_BACKGROUND_COLOR`, both default to `
 
 When the browser fires the `beforeinstallprompt` event, Bulwark shows an in-app prompt:
 
-- **Install** - triggers the native install dialog
-- **Not now** - hides the prompt for a week on this browser
-- **Don't remind me again** - persists the dismissal so the prompt won't reappear
+- **Install:** triggers the native install dialog
+- **Not now:** hides the prompt for a week on this browser
+- **Don't remind me again:** remembers the choice, so the prompt doesn't come back
 
 The prompt also shows the app's name and logo so users see your branding (not "Bulwark") when you have customized it.
 
@@ -79,8 +79,8 @@ When the user grants notification permission, Bulwark subscribes the browser to 
 
 - Fire only on new deliveries, not on flag changes or moves. Spam, Junk and muted folders stay quiet; turn on **Inbox only** in the notification settings to skip mail that a filter files into other folders too.
 - Click to open the message, or the account's mail list when several messages are waiting
-- Survive the tab being closed - the service worker handles delivery in the background
-- Use the longer push verification timeout to avoid spurious unsubscriptions; leftover subscriptions are cleaned up automatically
+- Survive the tab being closed: the service worker handles delivery in the background
+- Wait up to 75 seconds for the mail server to verify a new subscription, longer than the 60 seconds Stalwart leaves between verifications by default, so setup still succeeds when older subscriptions are queued ahead of it; leftover subscriptions are cleaned up automatically
 - Cover your own mailboxes: mailboxes that other people share with you don't send background notifications, and the notification settings say so
 
 On start, the app re-syncs any push registrations it already holds, so a registration created before the spam filter existed, or one whose Junk mailbox id went stale, is repaired without the user re-enabling notifications. Each device's subscription can be revoked individually from settings.

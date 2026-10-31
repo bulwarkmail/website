@@ -92,7 +92,7 @@ function extractHeadings(content: string): DocHeading[] {
 // `intro` is the one paragraph on the section's own page, /docs/<section>.
 const SECTION_LABELS: Record<string, { label: string; order: number; intro: string }> = {
   "getting-started": {
-    label: "Getting Started",
+    label: "Getting started",
     order: 1,
     intro:
       "Start here. What Bulwark is, the Stalwart settings it needs, installing Bulwark or Bulwark Lite, and the configuration you set once it runs.",

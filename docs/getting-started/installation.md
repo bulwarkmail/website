@@ -8,13 +8,13 @@ editionNote: "This page installs Bulwark (not Lite). For static files with no No
 
 # Installation
 
-There are two ways to configure Bulwark: the **web setup wizard**, which is right for a fresh install, or environment variables, which is right when the config has to be immutable or checked into a repository. This page covers getting to the point where either one applies.
+You configure Bulwark with the **web setup wizard**, the right choice for a fresh install, or with environment variables, when the config has to be immutable or checked into a repository. This page gets you to the point where either one applies.
 
 If you want no server process at all, skip this page: [Bulwark Lite](/docs/getting-started/lite) is the same client as a folder of static files, and its own install is three steps on the [static hosting](/docs/deployment/static) page.
 
 ## Prerequisites
 
-- A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. Bulwark needs Stalwart 0.16.6 or newer, and Stalwart 1.0 needs Bulwark {{BULWARK_VERSION}} or newer ([supported versions](/docs/getting-started/stalwart-setup#supported-versions)). No Stalwart yet? Follow the [official installation guide](https://stalw.art/docs/install/), then [Stalwart setup](/docs/getting-started/stalwart-setup) for the Bulwark-specific parts.
+- A running **Stalwart Mail Server** with JMAP enabled, or the built-in demo backend if you're only poking at the UI. Bulwark needs Stalwart 0.16.6 or newer, and Stalwart 1.0 needs Bulwark {{BULWARK_VERSION}} or newer ([supported versions](/docs/getting-started/stalwart-setup#supported-versions)). If you don't run Stalwart yet, follow the [official installation guide](https://stalw.art/docs/install/), then [Stalwart setup](/docs/getting-started/stalwart-setup) for the Bulwark-specific parts.
 - **Node.js 20.9 or later**, for a manual install only. The Docker image ships its own Node 24 runtime, so ignore this if you're using the container.
 
 ## Quickest path: Docker + setup wizard
@@ -103,7 +103,7 @@ JMAP_SERVER_URL=https://your-stalwart-server.com
 APP_NAME=Bulwark
 ```
 
-Environment variables are read at runtime, so you can reconfigure Docker deployments without rebuilding. When `JMAP_SERVER_URL` is set, the setup wizard is hidden.
+Bulwark reads environment variables at runtime, so you can reconfigure Docker deployments without rebuilding. When `JMAP_SERVER_URL` is set, the setup wizard is hidden.
 
 ### 4. Start the server
 

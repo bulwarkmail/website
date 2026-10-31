@@ -1,6 +1,6 @@
 ---
 title: Anonymous usage stats
-description: The optional daily heartbeat - what it counts, why, and how to turn it on or off.
+description: What the optional daily heartbeat counts, why, and how to turn it on or off.
 order: 7
 edition: full
 editionNote: "Usage stats are sent by Bulwark's server (not Lite). Lite has no server process and sends no heartbeats."
@@ -10,7 +10,7 @@ editionNote: "Usage stats are sent by Bulwark's server (not Lite). Lite has no s
 
 Bulwark can send one anonymous heartbeat per day so we can answer basic questions about how the project is used. It is **off until you turn it on**: nothing leaves a fresh install until an admin opts in, and the exact JSON that would be sent is visible in the admin console before the first ping.
 
-The data is instance-level only. No email addresses, no hostnames, no IPs, nothing tied to an end user.
+The data is instance-level only. It holds no email addresses, hostnames or IPs, and nothing tied to an end user.
 
 This page is the overview. The full data schema and the formal terms live on the [privacy policy sub-page](/docs/legal/privacy/telemetry).
 
@@ -81,7 +81,7 @@ The full list of what is never sent, and what nginx and the collector don't log,
 <img class="theme-light-only" src="/screenshots/light-admin-telemetry.webp" alt="The telemetry section of the admin console" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-admin-telemetry.webp" alt="The telemetry section of the admin console" width="5120" height="2880" />
 
-Telemetry is **off on a fresh install**. Consent starts at `off` and is written to `TELEMETRY_DATA_DIR/state.json` on first boot, so an install that is never touched sends nothing, ever. Once you opt in, the first heartbeat fires an hour later.
+Telemetry is **off on a fresh install**. Consent starts at `off` and is written to `TELEMETRY_DATA_DIR/state.json` on first boot, so an install that is never touched sends nothing. Once you opt in, the first heartbeat fires an hour later.
 
 In the admin console under **System → Usage stats** you can:
 
@@ -116,7 +116,7 @@ The collector is open source at [github.com/bulwarkmail/dashboard](https://githu
 
 ## Public dashboard
 
-The aggregate numbers (active instances, version distribution, feature adoption percentages) are published on a read-only Grafana view linked from the privacy sub-page, so anyone, not just us, can see what we know.
+The aggregate numbers (active instances, version distribution, feature adoption percentages) are published on a read-only Grafana view linked from the privacy sub-page, so anyone can see what we know.
 
 ## Next step
 

@@ -8,7 +8,7 @@ editionNote: "S/MIME is a plugin, and plugins run in Bulwark (not Lite)."
 
 # S/MIME
 
-The whole S/MIME loop runs inside Bulwark. You import the certificates, sign and encrypt what you send, and read what arrives encrypted without leaving the browser. Current algorithms are covered, and so are older formats such as 3DES and legacy PKCS#12 encryption; RC2 is not.
+Bulwark handles S/MIME in the browser: you import the certificates, sign and encrypt what you send, and read what arrives encrypted. Current algorithms are covered, and so are older formats such as 3DES and legacy PKCS#12 encryption; RC2 is not.
 
 S/MIME is a plugin, not part of the core webmail. Until an admin installs it, there is no S/MIME page in Settings. This is separate from the public-key encryption at rest in Settings → Security, which only stores a public certificate on the server (see [Account security](/docs/guides/account-security)). The mobile app has no S/MIME support.
 
@@ -35,9 +35,9 @@ S/MIME is a plugin, not part of the core webmail. Until an admin installs it, th
 | Signing           | RSA or ECDSA keys, with SHA-256. Verifying uses the algorithms pkijs supports |
 | Encryption, sending | AES-256-GCM, or AES-128-GCM in the plugin settings                |
 | Encryption, reading | AES-CBC (128/192/256), 3DES, DES, AES-GCM (128/256) and ChaCha20-Poly1305. RC2 isn't supported; such mail shows a banner naming the algorithm |
-| **Legacy 3DES**   | 3DES and DES content, and RSA PKCS#1 v1.5 key transport (done in JavaScript, since WebCrypto can't) |
-| **Legacy PBE**    | Password-based encryption for older PKCS#12 bundles                 |
-| Self-signed certs | Detected and reported in the signature status with a clear warning  |
+| Legacy 3DES       | 3DES and DES content, and RSA PKCS#1 v1.5 key transport (done in JavaScript, since WebCrypto can't) |
+| Legacy PBE        | Password-based encryption for older PKCS#12 bundles                 |
+| Self-signed certs | Detected and reported in the signature status with a warning        |
 
 The legacy paths exist because older corporate S/MIME deployments still emit 3DES-encrypted content and PBE-protected key bundles. The plugin bundles pkijs and webcrypto-liner to read these legacy formats in the browser, so you don't have to drop down to a desktop client.
 
@@ -53,8 +53,8 @@ There is nothing to link to a sender identity. The plugin signs with the key who
 
 In the composer's Options menu:
 
-- **Sign (S/MIME)** - signs with the key whose certificate matches the From address.
-- **Encrypt (S/MIME)** - needs a certificate for every recipient. If a recipient has no certificate, the message isn't sent: Bulwark names the recipients without one and keeps the draft.
+- **Sign (S/MIME):** signs with the key whose certificate matches the From address.
+- **Encrypt (S/MIME):** needs a certificate for every recipient. If a recipient has no certificate, the message isn't sent: Bulwark names the recipients without one and keeps the draft.
 
 A password-protected private key is unlocked from the composer itself, so you do not lose the draft.
 
@@ -64,9 +64,9 @@ Set whether new messages start signed or encrypted under **Defaults for new mess
 
 The email viewer shows a banner above the message body:
 
-- **Encrypted** - Bulwark decrypts with your unlocked key. If your key is locked, the banner says "Encrypted — unlock your key to read" and offers **Unlock now**; if none of your keys fits, it says "Encrypted — couldn't be decrypted with your keys". Mail in an algorithm the plugin can't read shows "Encrypted — unsupported encryption algorithm" with its name.
-- **Valid signature by …** - the signature matches the message. A **self-signed** or **signer ≠ From** mark warns you. **Show certificate details** lists subject, issuer and validity, and says that the issuer chain is not checked.
-- **Invalid signature** - the banner names the reason, such as a changed message or an expired certificate.
+- **Encrypted:** Bulwark decrypts with your unlocked key. If your key is locked, the banner says "Encrypted — unlock your key to read" and offers **Unlock now**; if none of your keys fits, it says "Encrypted — couldn't be decrypted with your keys". Mail in an algorithm the plugin can't read shows "Encrypted — unsupported encryption algorithm" with its name.
+- **Valid signature by …:** the signature matches the message. A **self-signed** or **signer ≠ From** mark warns you. **Show certificate details** lists subject, issuer and validity, and says that the issuer chain is not checked.
+- **Invalid signature:** the banner names the reason, such as a changed message or an expired certificate.
 
 <img class="theme-light-only" src="/screenshots/light-smime-signed.webp" alt="A signed message with the S/MIME plugin's banner above the body, saying the signature is valid" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-smime-signed.webp" alt="A signed message with the S/MIME plugin's banner above the body, saying the signature is valid" width="5120" height="2880" />

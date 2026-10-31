@@ -6,7 +6,7 @@ order: 2
 
 # Moving from SnappyMail
 
-SnappyMail keeps your contacts in its own database and your identities, signatures and settings in files in its data folder. Your filters are a Sieve script on the mail server. This page moves each of them to Bulwark. The steps were run with SnappyMail 2.38.2.1 against Stalwart 1.0.1; steps marked "Not tested." were read in SnappyMail's source but not run.
+SnappyMail keeps your contacts in its own database and your identities, signatures and settings in files in its data folder. Your filters are a Sieve script on the mail server. The steps were run with SnappyMail 2.38.2.1 against Stalwart 1.0.1; steps marked "Not tested." were read in SnappyMail's source but not run.
 
 ## Before you start
 

@@ -9,9 +9,9 @@ edition: both
 
 Branding is set in one of three places. Values saved by the wizard or the admin console win; environment variables fill in whatever they leave unset (in Bulwark Lite the same keys live in `config.json`, camel-cased; see [static hosting](/docs/deployment/static)):
 
-- **Setup wizard** - the first-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
-- **Admin console** - Update branding at any time after setup without restarting.
-- **Environment variables** - Env-driven branding for deployments that never open the admin console. A value saved in the admin config takes priority over the variable.
+- **Setup wizard:** the first-launch UI accepts file uploads for favicon, app logos, and login logos, along with company/legal URLs.
+- **Admin console:** update branding at any time after setup without restarting.
+- **Environment variables:** env-driven branding for deployments that never open the admin console.
 
 <img class="theme-light-only" src="/screenshots/light-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-admin-branding.webp" alt="The Branding page in the admin console, with an entry for one web address" width="5120" height="2880" />
@@ -168,59 +168,59 @@ Settings has its pages in three groups: Account, Security, Sharing, Notification
 
 - **Density** (Appearance) - Extra compact, Compact, Regular or Comfortable (the two compact settings hide the preview line)
 - **Text size** and **Reduce motion** - on the Accessibility page; text size goes from 87.5% to 200%
-- **Theme** - Light, dark, or system
-- **Always show emails in light mode** - Avoid dark-mode color transformation for problematic HTML mail
-- **Toolbar position** - Top or below subject
-- **Interface layout** - Default, or Mountain View, which arranges search, navigation and toolbars the way Gmail does
-- **Inbox type** - In Mountain View, **Unread first** shows your 25 newest unread messages in an Unread section above Everything else
-- **Mail layout** - Choose between split (three-pane), focused list, and reading pane at bottom
-- **Hover actions** - Choose which quick-actions appear and their placement (with avatar in Focused list for compact density and above)
+- **Theme:** light, dark, or system
+- **Always show emails in light mode:** avoid dark-mode color transformation for problematic HTML mail
+- **Toolbar position:** top or below subject
+- **Interface layout:** default, or Mountain View, which arranges search, navigation and toolbars the way Gmail does
+- **Inbox type:** in Mountain View, **Unread first** shows your 25 newest unread messages in an Unread section above Everything else
+- **Mail layout:** choose between split (three-pane), focused list, and reading pane at bottom
+- **Hover actions:** choose which quick-actions appear and their placement (with avatar in Focused list for compact density and above)
 - **Sidebar apps** (Add-ons) - Add your own apps and links to the navigation rail, reorder them and choose which show on phones
-- **Account switcher visibility** - Hide or show the account switcher in the sidebar
-- **Account avatars** - Show account avatars on the navigation rail
-- **Junk folder avatars** - Show or hide avatars in the Junk folder (off by default)
-- **Folder expansion** - Folder expansion state is remembered across sessions
+- **Account switcher visibility:** hide or show the account switcher in the sidebar
+- **Account avatars:** show account avatars on the navigation rail
+- **Junk folder avatars:** show or hide avatars in the Junk folder (off by default)
+- **Folder expansion:** remembered across sessions
 
 ### Date and time
 
-- **Date format** - Smart, Relative or Always full date
-- **Date format region** - Automatic, ISO 8601, Day/Month/Year or Month/Day/Year
-- **Time format** - 12-hour or 24-hour, applied consistently across calendar and email
-- **Time zone** - Follow the browser, or pick a zone explicitly
-- **First day of week** - Sunday or Monday
-- **Show time in month view** - Display event start time in the month view
-- **Show week numbers** - In the mini-calendar
-- **Birthday calendar** - Toggle the auto-generated birthday calendar
-- **Hover preview** - Configure calendar event hover preview behavior
+- **Date format:** smart, Relative or Always full date
+- **Date format region:** automatic, ISO 8601, Day/Month/Year or Month/Day/Year
+- **Time format:** 12-hour or 24-hour, applied consistently across calendar and email
+- **Time zone:** follow the browser, or pick a zone explicitly
+- **First day of week:** Sunday or Monday
+- **Show time in month view:** display event start time in the month view
+- **Show week numbers:** in the mini-calendar
+- **Birthday calendar:** toggle the auto-generated birthday calendar
+- **Hover preview:** configure calendar event hover preview behavior
 
 ### Mail behavior
 
-- **Conversation threading** - Enable or disable
-- **Mark as read delay** - Instant, delayed (configurable), or never
-- **Delete action** - Move to trash or permanent delete
-- **Archive mode** - Direct, by year, or by year/month
-- **Attachment position** - Next to sender or Below header
-- **Composer mode** - Rich text or plain text only
-- **Auto-select reply identity** - Match reply identity to original recipient, by exact address or by domain
-- **Message list order** - Unread, starred or tagged first, or custom sort levels, for the Inbox or every folder
-- **Reply-to addresses** - Configure reply-to in the composer
-- **Signature position** - Above or below quoted text, per identity (searchable from settings)
-- **From-header override** - Allow overriding the From header in the composer for catch-all aliases
-- **Sub-addressing delimiter** - Customize the character separating user and tag in plus-addressing (`user+tag@…`)
-- **External content** - Ask, block, or allow by default
-- **Forgotten attachment warning** - Detect attachment-related keywords in the body and warn before send
-- **Quick reply** - Show or hide the quick reply box below messages
-- **Default mail program** - Register Bulwark as the system mail handler
+- **Conversation threading:** enable or disable
+- **Mark as read delay:** instant, delayed (configurable), or never
+- **Delete action:** move to trash or permanent delete
+- **Archive mode:** direct, by year, or by year/month
+- **Attachment position:** next to sender or Below header
+- **Composer mode:** rich text or plain text only
+- **Auto-select reply identity:** match reply identity to original recipient, by exact address or by domain
+- **Message list order:** unread, starred or tagged first, or custom sort levels, for the Inbox or every folder
+- **Reply-to addresses:** configure reply-to in the composer
+- **Signature position:** above or below quoted text, per identity (searchable from settings)
+- **From-header override:** allow overriding the From header in the composer for catch-all aliases
+- **Sub-addressing delimiter:** customize the character separating user and tag in plus-addressing (`user+tag@…`)
+- **External content:** ask, block, or allow by default
+- **Forgotten attachment warning:** detect attachment-related keywords in the body and warn before send
+- **Quick reply:** show or hide the quick reply box below messages
+- **Default mail program:** register Bulwark as the system mail handler
 
 ### Notifications
 
-- **Notification sound picker** - Choose from bundled sounds with preview playback
+- **Notification sound picker:** choose from bundled sounds with preview playback
 
 ### Contacts and calendar
 
-- **Group contacts by first letter** - Toggle A-Z grouping with sticky section headers
-- **Sort contacts by** - First or last name
-- **Free scrolling** - Continuous month, week and day views, or one period at a time
+- **Group contacts by first letter:** toggle A-Z grouping with sticky section headers
+- **Sort contacts by:** first or last name
+- **Free scrolling:** continuous month, week and day views, or one period at a time
 
 
 ## Structured logging

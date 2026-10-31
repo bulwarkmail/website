@@ -59,7 +59,7 @@ For teams that answer a shared mailbox together:
 
 The editor is Tiptap: bold, italic, underline, strikethrough, ordered and unordered lists, links, tables, block quotes, and code blocks. Images can be pasted or dragged in. They go out as inline images in the message, not as separate attachments, and each one can be resized in place. There is a plain-text mode for people who want one.
 
-Which address a message leaves from is more flexible than the identity list suggests. With "Reply from the address it was sent to" turned on in Settings > Composing, a reply picks the identity the original was addressed to, either by exact address or, with "Any address on my domains", any address on your domains. On a catch-all domain that reply then comes back from the alias even though no identity exists for it. The From header can also be overridden by hand. Each identity has its own signature, and one setting decides whether signatures go before or after the quoted text.
+With "Reply from the address it was sent to" turned on in Settings > Composing, a reply picks the identity the original was addressed to, either by exact address or, with "Any address on my domains", any address on your domains. On a catch-all domain that reply then comes back from the alias even though no identity exists for it. The From header can also be overridden by hand. Each identity has its own signature, and one setting decides whether signatures go before or after the quoted text.
 
 On a reply, the quoted original stays in an editable block that preserves its own layout, so you can trim or annotate it without the formatting collapsing.
 
@@ -69,7 +69,7 @@ Before a message goes out, Bulwark checks the body for words like "attached" and
 
 Replying to someone adds them to your trusted senders, so their images load next time without asking.
 
-Press `c` in Mail to open the composer. [Composing emails](/docs/features/email/composing) goes through all of it properly.
+Press `c` in Mail to open the composer. [Composing emails](/docs/features/email/composing) goes through all of it.
 
 ## Reading
 
@@ -95,7 +95,7 @@ Around all of that: reply, reply-all and forward, a quick reply form under the m
 <img class="theme-light-only" src="/screenshots/light-search.webp" alt="Search results across folders, each row showing the folder it came from" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-search.webp" alt="Search results across folders, each row showing the folder it came from" width="5120" height="2880" />
 
-There is no query language to learn. The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, message size, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list. Matching text in the results is highlighted with the server's own snippets.
+The advanced panel builds the query from fields (text, from, to, subject, body, has-attachment, message size, date before and after, read status, starred) and each one you fill in becomes a removable chip above the message list. Matching text in the results is highlighted with the server's own snippets.
 
 Queries run across all folders except Spam and Trash by default, not just the folder you're standing in; "Search in" picks all folders or one folder. Every filter you fill in must match. With Stalwart 1.0's built-in search index, a quoted phrase matches exactly, and `word*` finds words that start with `word` as long as that part is at most 16 bytes long. Bulwark {{BULWARK_VERSION}} and newer sends each quoted phrase and each `word*` as a condition of its own. Press `/` to jump to the search bar. Beyond mail, "Search everything" searches contacts, calendar events and files too, across every account: open it from the command palette (Ctrl/Cmd+K), or in the Pro interface with Ctrl/Cmd+K or the search button on the rail. [Search and filters](/docs/features/email/search) covers both.
 
@@ -151,7 +151,7 @@ This needs a server that supports VacationResponse; forwarding and replying only
 <img class="theme-light-only" src="/screenshots/light-settings-templates.webp" alt="The template settings" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-settings-templates.webp" alt="The template settings" width="5120" height="2880" />
 
-Templates are reusable messages, each with a category you name yourself. Date placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and your own placeholders are asked for when you insert the template.
+Templates are reusable messages, each with a category you name yourself. Placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and your own placeholders are asked for when you insert the template.
 
 In the composer, press `t` (outside a text field) or use Templates > Insert template to open the picker, which searches your templates and groups them by category. Create and edit them under Settings > Composing > Email templates.
 

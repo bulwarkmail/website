@@ -78,13 +78,13 @@ services:
 
 The usual OAuth PKCE flow keeps the `code_verifier` in `sessionStorage`, and that is lost the moment the browser crosses browsing contexts, iframe to top-level and back. Bulwark keeps the PKCE state in an encrypted httpOnly cookie instead:
 
-1. **Start** - The client calls `POST /api/auth/sso/start`. The server generates PKCE parameters, stores them in an encrypted cookie (`sso_pending` with a 5-minute TTL), and returns the OAuth `authorize_url`.
+1. **Start:** the client calls `POST /api/auth/sso/start`. The server generates PKCE parameters, stores them in an encrypted cookie (`sso_pending` with a 5-minute TTL), and returns the OAuth `authorize_url`.
 
-2. **Redirect** - Bulwark sends the browser to the provider's authorize endpoint. In a frame it tries to navigate the top-level window first and uses the frame only when the browser doesn't allow that.
+2. **Redirect:** Bulwark sends the browser to the provider's authorize endpoint. In a frame it tries to navigate the top-level window first and uses the frame only when the browser doesn't allow that.
 
-3. **Callback** - The OAuth provider redirects back to `/<locale>/auth/callback` on Bulwark's own origin (below the base path if you set one) with `code` and `state` parameters. The `redirect_uri` sent to the start endpoint must be on that origin, or the start answers `400 Invalid redirect_uri`.
+3. **Callback:** the OAuth provider redirects back to `/<locale>/auth/callback` on Bulwark's own origin (below the base path if you set one) with `code` and `state` parameters. The `redirect_uri` sent to the start endpoint must be on that origin, or the start answers `400 Invalid redirect_uri`.
 
-4. **Complete** - The client calls `POST /api/auth/sso/complete`. The server reads the encrypted cookie, validates the `state` and TTL, exchanges the authorization code for tokens using the stored `code_verifier`, sets the `refresh_token` cookie, and returns the `access_token`.
+4. **Complete:** the client calls `POST /api/auth/sso/complete`. The server reads the encrypted cookie, validates the `state` and TTL, exchanges the authorization code for tokens using the stored `code_verifier`, sets the `refresh_token` cookie, and returns the `access_token`.
 
 ### Auto-SSO
 

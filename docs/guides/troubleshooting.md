@@ -76,7 +76,7 @@ stalwart-cli create Action/ReloadSettings
 
 ## The calendar is empty or contact photos are missing
 
-**On Stalwart 1.0 the calendar shows no events, or contacts have lost their photos.** Bulwark releases before {{BULWARK_VERSION}} ask Stalwart 1.0 for calendar events in a way it refuses: the calendar, tasks and reminders stay empty without an error, and creating an event reports a failure although the event was saved, so trying again makes a duplicate. Stalwart 1.0 also returns contact photos in a form those releases can't read, and saving a contact in them removes its photo on the server.
+Bulwark releases before {{BULWARK_VERSION}} ask Stalwart 1.0 for calendar events in a way it refuses: the calendar, tasks and reminders stay empty without an error, and creating an event reports a failure although the event was saved, so trying again makes a duplicate. Stalwart 1.0 also returns contact photos in a form those releases can't read, and saving a contact in them removes its photo on the server.
 
 Upgrade Bulwark, or Lite, to {{BULWARK_VERSION}} or newer. Photos an older release has already removed don't come back: restore them from a backup or add them again.
 
@@ -96,7 +96,7 @@ A URL like `/en/mail/thread/abc` is served by the shell at `/en/mail/index.html`
 
 ## The Lite Application disappears after an update
 
-**Lite served by Stalwart answers 404 after "update applications" or a restart.** "Update applications" downloads and unpacks every Application's `resourceUrl` again. If that fails, Stalwart 0.16.23 and later and 1.0 keep serving the previous bundle, but older 0.16 releases unmount the Application until a later update succeeds. After a restart, once the cached zip has expired (`autoUpdateFrequency`, on 1.0 `autoUpdateInterval`, 90 days by default), an unreachable URL leaves it unmounted on every version. The action still reports success; the failure shows only in Stalwart's log, as a resource error "Failed to unpack application for prefixes: …".
+Lite served by Stalwart answers 404 after "update applications" or a restart. "Update applications" downloads and unpacks every Application's `resourceUrl` again. If that fails, Stalwart 0.16.23 and later and 1.0 keep serving the previous bundle, but older 0.16 releases unmount the Application until a later update succeeds. After a restart, once the cached zip has expired (`autoUpdateFrequency`, on 1.0 `autoUpdateInterval`, 90 days by default), an unreachable URL leaves it unmounted on every version. The action still reports success; the failure shows only in Stalwart's log, as a resource error "Failed to unpack application for prefixes: …".
 
 Check that `resourceUrl` downloads a zip, for example with `curl -fsSLo bundle.zip <url> && unzip -tq bundle.zip`, correct or [pin](/docs/deployment/stalwart-app#tagged-release-or-latest) it, and run "update applications" again.
 

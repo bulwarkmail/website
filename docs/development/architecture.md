@@ -142,20 +142,20 @@ The URLs in the JMAP session resource are rewritten to the origin the client act
 
 The plugin system covers:
 
-- **Schema-driven configuration** - plugins declare a config schema, the admin console's form is generated from it inline
-- **Render hooks** - plugins can render into named slots (calendar event actions, composer sidebar, email banner/footer, sidebar widget, settings sections, context menus, navigation rail, toolbars)
-- **Intercept hooks** - plugins can intercept user actions like send, reply, archive
-- **`onBeforeEmailSend` hook** - hook into the outgoing send pipeline; `OutgoingEmail` exposes `fromEmail` so plugins can branch on identity
-- **`onAvatarResolve` hook** - provide custom avatar resolution logic
-- **Plugin i18n API** - plugins ship their own translation bundles
-- **Sandboxed HTTP proxy** - plugins talk to external services through a server-side proxy with origin validation, never exposing user credentials
-- **`http:fetch` + `httpOrigins`** - per-plugin allowlist of outbound origins enforced by the proxy
-- **`frameOrigins` manifest field** - plugins declare which `https://host` origins they need to embed; the proxy reads the union of enabled plugin origins and merges into the host CSP `frame-src`
-- **Hot-reload and dev folder** - `PLUGIN_DEV_DIR` loads plugins from a folder during development, esbuild bundles `src/` on demand
-- **Admin control** - admins install plugins for everyone; users may upload their own only if the admin allows it, and each upload waits for admin approval
-- **Disabled by default + admin approval** - plugins are inert until an admin enables them
-- **Dangerous-pattern detection** - plugins with prohibited JS patterns are blocked at install time
-- **Theme bundles** - themes are uploaded as ZIP packages and managed alongside plugins; theme API v2 includes a token compiler and skin slot
+- **Schema-driven configuration:** plugins declare a config schema, the admin console's form is generated from it inline
+- **Render hooks:** plugins can render into named slots (calendar event actions, composer sidebar, email banner/footer, sidebar widget, settings sections, context menus, navigation rail, toolbars)
+- **Intercept hooks:** plugins can intercept user actions like send, reply, archive
+- **`onBeforeEmailSend` hook:** hook into the outgoing send pipeline; `OutgoingEmail` exposes `fromEmail` so plugins can branch on identity
+- **`onAvatarResolve` hook:** provide custom avatar resolution logic
+- **Plugin i18n API:** plugins ship their own translation bundles
+- **Sandboxed HTTP proxy:** plugins talk to external services through a server-side proxy with origin validation, never exposing user credentials
+- **`http:fetch` + `httpOrigins`:** per-plugin allowlist of outbound origins enforced by the proxy
+- **`frameOrigins` manifest field:** plugins declare which `https://host` origins they need to embed; the proxy reads the union of enabled plugin origins and merges into the host CSP `frame-src`
+- **Hot-reload and dev folder:** `PLUGIN_DEV_DIR` loads plugins from a folder during development, esbuild bundles `src/` on demand
+- **Admin control:** admins install plugins for everyone; users may upload their own only if the admin allows it, and each upload waits for admin approval
+- **Disabled by default + admin approval:** plugins are inert until an admin enables them
+- **Dangerous-pattern detection:** plugins with prohibited JS patterns are blocked at install time
+- **Theme bundles:** themes are uploaded as ZIP packages and managed alongside plugins; theme API v2 includes a token compiler and skin slot
 
 The Jitsi Meet plugin in the extension directory is a working example of the calendar event slot.
 
@@ -167,11 +167,11 @@ Web push notifications build on this. When the user turns them on, the browser r
 
 ## State management
 
-- **Server state** - Managed via JMAP state tokens for efficient incremental sync
-- **UI state** - Zustand stores with optional `persist` middleware
-- **Theme state** - Zustand store persisted in `localStorage` with system preference detection
-- **Settings state** - Zustand store with optional encrypted server-side sync (`SETTINGS_SYNC_ENABLED`)
-- **Per-account state** - Cached in memory while the account is active so account switching is instant; OAuth refresh tokens are stored encrypted in httpOnly cookies
+- **Server state:** managed via JMAP state tokens for efficient incremental sync
+- **UI state:** Zustand stores with optional `persist` middleware
+- **Theme state:** Zustand store persisted in `localStorage` with system preference detection
+- **Settings state:** Zustand store with optional encrypted server-side sync (`SETTINGS_SYNC_ENABLED`)
+- **Per-account state:** cached in memory while the account is active so account switching is instant; OAuth refresh tokens are stored encrypted in httpOnly cookies
 
 ## Security
 

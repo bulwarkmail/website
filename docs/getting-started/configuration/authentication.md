@@ -8,7 +8,7 @@ editionNote: "This page covers sign-in for Bulwark (not Lite). Lite signs in wit
 
 # Authentication
 
-Users sign in with the email credentials that already exist in Stalwart. There are three ways to do it. Basic auth is the default, OAuth 2.0 / OIDC handles single sign-on, and app passwords cover the clients that understand neither.
+Users sign in with the email credentials that already exist in Stalwart. Basic auth is the default, and OAuth 2.0 / OIDC handles single sign-on. App passwords cover the clients that understand neither.
 
 ## Basic authentication
 
@@ -26,7 +26,7 @@ No password is written to disk anywhere on the Bulwark side. Sign-ins are rememb
 3. Enter the current password, then the new password twice.
 4. Click **Change password**.
 
-If the section is missing or you receive an error, the administrator hasn't enabled the required Stalwart permissions. Required permissions in Stalwart:
+If the section is missing or you receive an error, the administrator hasn't enabled these Stalwart permissions:
 
 - **Settings: Get account password settings** and **Settings: Update account password settings** - password change.
 - **JMAP: Retrieve sender identity details**, **JMAP: Modify existing sender identities** and **JMAP: Track changes to identities since a given state** - identity sync in the composer.
@@ -105,14 +105,14 @@ OAUTH_ISSUER_URL=https://keycloak.example.com/realms/mail
 
 When a user who signed in through the identity provider signs out, Bulwark revokes the refresh token, clears its cookies, and then sends the browser to the provider's `end_session_endpoint` (OpenID Connect RP-initiated logout). That ends the provider's own login session, so the next "Sign in with SSO" asks for credentials instead of signing the same person straight back in. The request carries `client_id` and, when the provider issued one at sign-in, `id_token_hint`. With the hint, Keycloak and most other providers sign the user out without asking to confirm.
 
-- **Coming back to Bulwark** - By default the provider shows its own signed-out page. To send users back, register a post-logout redirect URI with the provider (in Keycloak, the client's "Valid post logout redirect URIs") and set the same value in `OAUTH_POST_LOGOUT_REDIRECT_URI`. A URI the provider doesn't have on file makes it refuse the logout.
-- **Shared providers** - If signing out of Bulwark should not sign users out of other apps on the same provider, set `OAUTH_END_SESSION=false`. Bulwark then only revokes its own tokens.
-- **Providers without a logout endpoint** - If the provider's discovery document has no `end_session_endpoint` (Stalwart's own provider, for example), set its logout URL in `OAUTH_END_SESSION_URL`.
-- **Keeping consent** - Signing out revokes the refresh token. With `OAUTH_REVOKE_ON_SIGN_OUT=false`, Bulwark only drops it, so Stalwart 1.0 doesn't ask for consent again on the next sign-in. The token then stays valid at the provider until it expires.
-- **Several accounts** - Signing out of one account while others stay signed in keeps you in Bulwark and leaves the provider session alone, because the remaining accounts may use it. "Sign out of all accounts" clears every account first, then ends one provider session: the active account's, or else the first account that signed in through a provider. Accounts on the same provider share that session and are signed out with it. Accounts on other providers have their tokens revoked, but those providers' sessions stay open.
-- **Expired sessions** - When Bulwark signs a user out because the session expired or the token was rejected, it leaves the provider session alone, so signing in again stays a single click.
-- **Embedded mode** - Inside an embedding portal, Bulwark leaves the provider to the portal and reports the sign-out through the iframe bridge.
-- **Password sign-ins** - Signing in with a password leaves no provider session behind, so sign-out never visits the provider for those accounts.
+- **Coming back to Bulwark:** by default the provider shows its own signed-out page. To send users back, register a post-logout redirect URI with the provider (in Keycloak, the client's "Valid post logout redirect URIs") and set the same value in `OAUTH_POST_LOGOUT_REDIRECT_URI`. A URI the provider doesn't have on file makes it refuse the logout.
+- **Shared providers:** if signing out of Bulwark should not sign users out of other apps on the same provider, set `OAUTH_END_SESSION=false`. Bulwark then only revokes its own tokens.
+- **Providers without a logout endpoint:** if the provider's discovery document has no `end_session_endpoint` (Stalwart's own provider, for example), set its logout URL in `OAUTH_END_SESSION_URL`.
+- **Keeping consent:** signing out revokes the refresh token. With `OAUTH_REVOKE_ON_SIGN_OUT=false`, Bulwark only drops it, so Stalwart 1.0 doesn't ask for consent again on the next sign-in. The token then stays valid at the provider until it expires.
+- **Several accounts:** signing out of one account while others stay signed in keeps you in Bulwark and leaves the provider session alone, because the remaining accounts may use it. "Sign out of all accounts" clears every account first, then ends one provider session: the active account's, or else the first account that signed in through a provider. Accounts on the same provider share that session and are signed out with it. Accounts on other providers have their tokens revoked, but those providers' sessions stay open.
+- **Expired sessions:** when Bulwark signs a user out because the session expired or the token was rejected, it leaves the provider session alone, so signing in again stays a single click.
+- **Embedded mode:** inside an embedding portal, Bulwark leaves the provider to the portal and reports the sign-out through the iframe bridge.
+- **Password sign-ins:** signing in with a password leaves no provider session behind, so sign-out never visits the provider for those accounts.
 
 After signing out on purpose, the login page doesn't redirect to the provider automatically, even with `AUTO_SSO_ENABLED`.
 
@@ -137,7 +137,7 @@ The session secret is also used by settings sync and multi-account support.
 
 ## Multi-account support
 
-Several accounts can be signed in at once: up to 50 when the server speaks HTTP/2, and 5 over HTTP/1.1, because each account holds a push connection and browsers allow only 6 connections per origin on HTTP/1.1. Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them instantly with full state preservation.
+Several accounts can be signed in at once: up to 50 when the server speaks HTTP/2, and 5 over HTTP/1.1, because each account holds a push connection and browsers allow only 6 connections per origin on HTTP/1.1. Users can add accounts via the account switcher in the sidebar (or the **Add account** button on the navigation rail) and switch between them.
 
 Multi-account needs a session secret to persist sessions for each account. Bulwark generates one on first start; to set your own:
 
@@ -146,7 +146,7 @@ SESSION_SECRET=your-secret-key-here
 # Or: SESSION_SECRET_FILE=/run/secrets/session_secret
 ```
 
-Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters, identities) is cached in memory for instant restoration when switching. Accounts can mix authentication methods - for example, one OAuth account and one Basic Auth account.
+Each account maintains its own JMAP session, and per-account state (emails, contacts, calendar, filters, identities) is cached in memory for instant restoration when switching. Accounts can mix authentication methods, for example one OAuth account and one Basic Auth account.
 
 For full details, see [Multi-account Support](/docs/guides/multi-account).
 
@@ -154,7 +154,7 @@ For full details, see [Multi-account Support](/docs/guides/multi-account).
 
 When Stalwart has TOTP enabled, users are asked for a code from their authenticator app after the password step.
 
-Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16.6+ or 1.0). Session expiry during TOTP setup is handled cleanly so users aren't logged out partway through enrollment.
+Users can enable or disable TOTP from Settings → Security within Bulwark (requires Stalwart 0.16.6+ or 1.0). A session that expires during TOTP setup doesn't log the user out partway through enrollment.
 
 ## Session security
 

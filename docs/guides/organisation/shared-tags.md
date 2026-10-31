@@ -14,7 +14,7 @@ Shared tags need Stalwart v1.0.0 or later. There is no fallback for older server
 ## What users see
 
 - **Settings > Folders & tags > Shared tags** lists each shared mailbox the user is a member of, with its tags. Members add, rename, recolor and delete them there.
-- In the sidebar, the group's tags are listed under its folders in **Shared**, each with the number of messages in that shared mailbox that carry it (Trash and Spam not counted). Clicking one lists the shared mailbox's messages with that tag, and only those. The user's own tags further down keep listing their tagged mail across all mailboxes, as before.
+- In the sidebar, the group's tags are listed under its folders in **Shared**, each with the number of messages in that shared mailbox that carry it (Trash and Spam not counted). Clicking one lists the shared mailbox's messages with that tag, and only those. The user's own tags further down list their tagged mail across all mailboxes.
 - When users tag a message in a shared mailbox, the tag list shows the group's tags, marked "Shared with everyone in this mailbox". Their own tags stay in their own mailbox. When several messages from the same shared mailbox are selected, the list shows that group's tags too.
 - Tags that are on the group's messages but have no shared name yet (set by another mail client, or before shared tags existed) are listed too, under a name made from the keyword. Members can give them a proper name in Settings. A tag that is on a message is always shown.
 - In the unified inbox each message shows the tags of its own mailbox.

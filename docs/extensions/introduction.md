@@ -10,17 +10,17 @@ editionNote: "Plugins and themes from the directory run in Bulwark (not Lite). L
 
 Third parties can extend Bulwark Webmail two ways:
 
-- **Plugins** - add hooks, UI buttons, sidebar apps, keyboard shortcuts, and whole new workflows that integrate with the JMAP client.
-- **Themes** - change fonts, colors, and layout.
+- **Plugins:** add hooks, UI buttons, sidebar apps, keyboard shortcuts, and new workflows that integrate with the JMAP client.
+- **Themes:** change fonts, colors, and layout.
 
 Both are published on the [Bulwark Extensions directory](https://extensions.bulwarkmail.org/), which lists free and open source extensions that have passed review.
 
 ## What you'll find in these docs
 
-- **[manifest.json reference](/docs/extensions/manifest)** - required fields, permissions, and metadata.
-- **[REST API reference](/docs/extensions/api)** - the directory's public API (v2), which Bulwark's Marketplace uses to list, install and update extensions.
-- **[Submission guidelines](/docs/extensions/guidelines)** - rules, review process, and content policy for getting your extension published.
-- **[Publishing and updates](/docs/extensions/publishing)** - how the review pipeline works and how to ship new versions.
+- **[manifest.json reference](/docs/extensions/manifest):** required fields, permissions, and metadata.
+- **[REST API reference](/docs/extensions/api):** the directory's public API (v2), which Bulwark's Marketplace uses to list, install and update extensions.
+- **[Submission guidelines](/docs/extensions/guidelines):** rules, review process, and content policy for getting your extension published.
+- **[Publishing and updates](/docs/extensions/publishing):** how the review pipeline works and how to ship new versions.
 
 ## Getting started
 

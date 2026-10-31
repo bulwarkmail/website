@@ -8,20 +8,20 @@ editionNote: "This page configures Bulwark (not Lite) through environment variab
 
 # Configuration
 
-Bulwark has two configuration surfaces that work together:
+Bulwark has two configuration surfaces:
 
 1. The **web setup wizard** and **admin console**, which is what new installs should use. The wizard runs on first launch when no `JMAP_SERVER_URL` is set in the environment and writes JSON config to `ADMIN_CONFIG_DIR`. The admin console manages the same file afterwards.
 2. **Environment variables** in `.env.local` (or your container's env). Still fully supported, and the right choice for immutable / read-only / env-as-code deployments.
 
-The two layer rather than compete. A value the wizard or the admin console has saved wins; the environment fills in every key the admin config leaves unset. The session secret is the exception: `SESSION_SECRET` or `SESSION_SECRET_FILE` in the environment wins over one the wizard saved. Setting `JMAP_SERVER_URL` in the environment before the first launch skips the wizard, which is how an env-only deployment stays env-only.
+A value the wizard or the admin console has saved wins; the environment fills in every key the admin config leaves unset. The session secret is the exception: `SESSION_SECRET` or `SESSION_SECRET_FILE` in the environment wins over one the wizard saved. Setting `JMAP_SERVER_URL` in the environment before the first launch skips the wizard, which is how an env-only deployment stays env-only.
 
 ## Configuration model
 
 Bulwark supports three configuration layers:
 
-- **Admin-managed config** - Written by the setup wizard or the admin console to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
-- **Runtime environment variables** - Read by the server at request time. Used for every key the admin config does not set. Work well for Docker and reverse-proxy deployments.
-- **Legacy build-time variables** - `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
+- **Admin-managed config:** written by the setup wizard or the admin console to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
+- **Runtime environment variables:** read by the server at request time. Used for every key the admin config does not set. Work well for Docker and reverse-proxy deployments.
+- **Legacy build-time variables:** `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
 
 The order of precedence is **admin config > env var > build-time fallback > built-in default**. If an environment variable seems to be ignored, look for the same key in `ADMIN_CONFIG_DIR/config.json`: a value saved there, even `false`, takes priority until you remove it.
 
@@ -46,7 +46,7 @@ JMAP_SERVER_URL=https://mail.example.com
 
 | Variable                      | Required        | Default                                   | Description                                                                                |
 | ----------------------------- | --------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `HOSTNAME`                    | No              | `0.0.0.0`                                 | Address the server binds to - use `::` for IPv6                                            |
+| `HOSTNAME`                    | No              | `0.0.0.0`                                 | Address the server binds to; use `::` for IPv6                                             |
 | `PORT`                        | No              | `3000`                                    | Port the server listens on                                                                 |
 | `APP_NAME`                    | No              | `Webmail`                                 | Application name shown in the UI, browser tab, and PWA manifest                            |
 | `APP_SHORT_NAME`              | No              | falls back to `APP_NAME`                  | Short name for the PWA install prompt and home screen                                      |
@@ -119,7 +119,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `DOMAIN_BRANDING`             | No              | empty                                     | JSON array of per-hostname branding overrides, matched on `Host`; `*.` wildcards allowed   |
 | `NEXT_PUBLIC_DEFAULT_LOCALE`  | Build-time      | `en`                                      | Fallback UI locale when `Accept-Language` matches nothing supported                        |
 | `NEXT_PUBLIC_LOCALE_PREFIX`   | Build-time      | `never`                                   | Locale URL prefix mode: `always`, `as-needed`, or `never`                                  |
-| `NEXT_PUBLIC_BASE_PATH`       | Build-time      | empty                                     | Mount Bulwark under a subpath (e.g. `/webmail`) - read at build time by Next.js             |
+| `NEXT_PUBLIC_BASE_PATH`       | Build-time      | empty                                     | Mount Bulwark under a subpath (e.g. `/webmail`); read at build time by Next.js              |
 | `NEXT_PUBLIC_PUSH_RELAY_URL`  | Build-time      | `https://notifications.relay.bulwarkmail.org` | Push relay used for web push; point at your own to avoid the hosted one                |
 | `AUTO_SSO_ENABLED`            | No              | `false`                                   | Automatically start OAuth flow on login page (for embedded SSO)                            |
 | `ALLOWED_FRAME_ANCESTORS`     | No              | `'self'` (no other site)                  | Other origins allowed to frame the app (CSP `frame-ancestors`); `'self'` is always added   |
@@ -156,9 +156,9 @@ stalwart-cli create Action/ReloadSettings
 
 Bulwark uses JMAP's built-in authentication. Users log in with their email credentials configured in Stalwart. Supported authentication methods:
 
-- **Basic Auth** - Username and password
-- **OAuth 2.0** - If configured in Stalwart
-- **App passwords** - Per-client credentials users create in Settings > Security for mail and calendar apps that can't do OAuth. They don't sign in to Bulwark itself.
+- **Basic Auth:** username and password
+- **OAuth 2.0:** if configured in Stalwart
+- **App passwords:** per-client credentials users create in Settings > Security for mail and calendar apps that can't do OAuth. They don't sign in to Bulwark itself.
 
 ## Custom JMAP server endpoints
 

@@ -27,15 +27,15 @@ Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they l
 - Right-click context menu for contact actions
 - Multi-select with checkboxes and selection toolbar
 - Resizable sidebar for browsing contacts alongside details
-- Pagination for large address books via `maxObjectsInGet` capability detection
+- Large address books load in full: Bulwark fetches them in batches as large as the server allows
 
 ## Detail view
 
 The detail view shows:
 
-- Photo display with print support
+- The contact's photo, which also appears when you print the contact on a sheet of its own
 - A **Duplicate** action that copies the contact
-- **Contact activity** - recent mail exchanged with this person and their upcoming calendar events
+- **Contact activity:** recent mail exchanged with this person and their upcoming calendar events
 
 ## Address book directories
 
@@ -44,16 +44,16 @@ Organize contacts across multiple address books:
 - Create and manage separate address books (directories)
 - Mark one address book as the default, so new contacts land there unless you pick another
 - Rename existing address books from settings
-- Drag-and-drop contacts between address books with proper ID namespacing for shared address books
+- Drag contacts between address books, shared ones included
 - Address book picker in the contact editor
-- Visual separation of address books in the sidebar
-- Sharing of address books via JMAP
+- The sidebar lists each address book separately
+- Share address books via JMAP
 
 <div class="bw-note"><b>Note.</b> On Stalwart 1.0, the list of people you can share an address book with depends on directory queries, which an administrator turns on with <b>Allow Directory Queries</b> under <b>Settings &gt; Files &amp; Sharing &gt; Sharing</b>. Address books shared as "Read &amp; write" on 0.16 show as read-only on 1.0 until the owner saves the share again.</div>
 
 ## Trusted senders
 
-Trusted senders are stored in a dedicated JMAP address book separate from your personal contacts. When you allow images from a sender or otherwise trust them, the entry is persisted server-side and synced across devices.
+Trusted senders are stored in a dedicated JMAP address book separate from your personal contacts. When you allow images from a sender or otherwise trust them, Bulwark saves the entry on the server, so it syncs across devices.
 
 ## Categories
 
@@ -70,9 +70,9 @@ Organize contacts with categories:
 
 Groups collect contacts you address together:
 
-- Create custom contact groups with JMAP members map
+- Create your own contact groups, stored on the server with their members
 - Add contacts to multiple groups
-- Group expansion when addressing emails
+- Address a group and it expands to its members
 
 ## Autocomplete
 
@@ -80,9 +80,9 @@ When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc
 
 ## Import and export
 
-- **Import** - vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
-- **Export** - Download contacts as vCard, accessible from Settings
-- **Sync** - Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
+- **Import:** vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
+- **Export:** download contacts as vCard, accessible from Settings
+- **Sync:** contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
 
 <div class="bw-note bw-note-brand"><b>Also in Lite.</b> Everything on this page works in Bulwark Lite. Contacts are plain JMAP, so nothing here needs the Node.js server.</div>
 

@@ -6,7 +6,7 @@ order: 1
 
 # Moving from Roundcube
 
-Roundcube keeps your contacts, identities, signatures, responses and preferences in its own database. Your filters are a Sieve script on the mail server. This page moves each of them to Bulwark. The steps were run with Roundcube 1.7.5 against Stalwart 1.0.1; steps marked "Not tested." were read in Roundcube's docs or source but not run.
+Roundcube keeps your contacts, identities, signatures, responses and preferences in its own database. Your filters are a Sieve script on the mail server. The steps were run with Roundcube 1.7.5 against Stalwart 1.0.1; steps marked "Not tested." were read in Roundcube's docs or source but not run.
 
 ## Before you start
 
