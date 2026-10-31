@@ -29,7 +29,15 @@ In the folders of a team mailbox:
 - On each row, a chip with the assignee's name and a **Done** mark.
 - **Assigned to me** and **Open** chips in the list header. Tap one to filter the list, tap it again to remove the filter. Both can be on at once.
 
+<img class="theme-light-only" src="/screenshots/light-team-inbox.webp" alt="The Support mailbox with the team inbox plugin: rows with the assignee's name and Done marks, and the Assigned to me and Open filters" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-team-inbox.webp" alt="The Support mailbox with the team inbox plugin: rows with the assignee's name and Done marks, and the Assigned to me and Open filters" width="5120" height="2880" />
+
 Nothing changes in a user's own mailbox, or in a mailbox another person shared with them.
+
+Members answer from the team's address as in any [shared mailbox](/docs/features/email#shared-mailboxes).
+
+<img class="theme-light-only" src="/screenshots/light-shared-mailbox-reply.webp" alt="The composer replying to a message in the Support mailbox, sending from support@ in the From field" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-shared-mailbox-reply.webp" alt="The composer replying to a message in the Support mailbox, sending from support@ in the From field" width="5120" height="2880" />
 
 ## How it is stored
 

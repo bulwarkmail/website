@@ -19,6 +19,9 @@ Shared tags need Stalwart v1.0.0 or later. There is no fallback for older server
 - Tags that are on the group's messages but have no shared name yet (set by another mail client, or before shared tags existed) are listed too, under a name made from the keyword. Members can give them a proper name in Settings. A tag that is on a message is always shown.
 - In the unified inbox each message shows the tags of its own mailbox.
 
+<img class="theme-light-only" src="/screenshots/light-shared-tags.webp" alt="The Support shared mailbox with its shared tags under its folders in the sidebar and on its messages" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-shared-tags.webp" alt="The Support shared mailbox with its shared tags under its folders in the sidebar and on its messages" width="5120" height="2880" />
+
 When a member changes a tag, the others see the change within a few seconds through Stalwart's push, or when they come back to the tab or reload.
 
 Each change is saved for that one tag, so two members editing different tags at the same time both keep their change. Deleting a shared tag removes its name and color for everyone; Bulwark asks first. The tag stays on its messages and shows up again as a tag without a name.
@@ -30,6 +33,9 @@ If the server doesn't take a change, Bulwark says so, keeps the change and sends
 Members change shared tags when Stalwart lets them change the metadata of the group's Inbox. That is the case for every member of a Stalwart group unless you restricted the group's rights. A member without that right sees the tags and can use them, but can't change them.
 
 To keep the list fixed, lock **Shared tags** on **Admin > Organisation > Sharing**. Users can still tag messages with the shared tags, but can't add, rename or delete them, and see **Set by your organisation** in Settings. For example, lock it for Everyone and leave it unlocked for a "Team leads" group entry, so only the leads look after the list. See [domains and groups](/docs/guides/organisation/domains-and-groups) for entries.
+
+<img class="theme-light-only" src="/screenshots/light-admin-shared-tags.webp" alt="The Sharing page in the admin console, with the Shared tags list locked" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-shared-tags.webp" alt="The Sharing page in the admin console, with the Shared tags list locked" width="5120" height="2880" />
 
 Bulwark only shows shared tags for accounts that Stalwart reports as groups. A mailbox another person shared keeps the user's own tags.
 

@@ -11,6 +11,9 @@ When a user empties Trash, or Trash is cleaned up after its retention time, the 
 
 Users get **Settings > Recover deleted items**. The page lists the messages they deleted for good, newest first, with the sender, the subject, the message's date and when it was deleted. They tick the ones they want and click **Restore**. A large archive is read 2000 items at a time, with **Show older** for the rest.
 
+<img class="theme-light-only" src="/screenshots/light-recover-deleted.webp" alt="Settings, Recover deleted items: messages deleted for good, listed with sender, subject and deletion date, one of them just restored" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-recover-deleted.webp" alt="Settings, Recover deleted items: messages deleted for good, listed with sender, subject and deletion date, one of them just restored" width="5120" height="2880" />
+
 Stalwart puts each restored message back in the Inbox, unread, sorted by its original date, so it may land far down the list. It restores in the background, so a message can take a moment to show up.
 
 When the archive holds at least one message inside the days limit, the user's Trash folder also shows a line that leads to the page.

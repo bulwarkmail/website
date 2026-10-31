@@ -16,6 +16,9 @@ Users find **Settings > Sharing > Delegates**. **Give access** opens one dialog 
 
 Bulwark applies it to every folder, calendar and address book in one batch. If the server refuses some of them, the dialog lists those with the server's reason and offers to try them again.
 
+<img class="theme-light-only" src="/screenshots/light-delegates.webp" alt="Settings, Sharing: a colleague listed under Who has access as a delegate for mail, calendars and contacts" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-delegates.webp" alt="Settings, Sharing: a colleague listed under Who has access as a delegate for mail, calendars and contacts" width="5120" height="2880" />
+
 **Who has access** lists everyone the user shared something with from their own account, grouped by person: folders, calendars, address books and files.
 
 - **Change** opens the dialog with what the person has now. A type only starts at a choice when the person's grants match it exactly, for example every folder for "All folders" or exactly the default calendar. Anything else, such as a folder created since, one other folder, free/busy only or manager rights, starts at **Keep as it is**, and Save leaves that type alone. What the user changes on purpose replaces what the person had for that type. Shared files stay as they are.

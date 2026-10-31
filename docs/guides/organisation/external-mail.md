@@ -12,6 +12,9 @@ On **Admin > Organisation > Security**, the **External mail** section has two sw
 - **Label external senders** puts an **External** chip next to the sender of mail from outside the organisation, in the reader and in conversations. Hovering it, or tapping it on a phone, shows the sender's domain.
 - **Confirm external recipients** asks before a message goes to someone outside the organisation. The dialog lists those recipients and offers **Send anyway** or **Back**. It works for the composer, for quick replies and for meeting invitations.
 
+<img class="theme-light-only" src="/screenshots/light-external-mail.webp" alt="A message labelled External next to the sender, and the dialog that lists the outside recipients before sending" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-external-mail.webp" alt="A message labelled External next to the sender, and the dialog that lists the outside recipients before sending" width="5120" height="2880" />
+
 ## Turn it on
 
 1. Pick who it is for in the **Applies to** bar: Everyone, or a domain or group from [Domains and groups](/docs/guides/organisation/domains-and-groups).
