@@ -33,8 +33,6 @@ What it doesn't do yet:
 
 Instead of typing a password on the phone, you can sign the app in from the webmail with a QR code. In the webmail, open **Settings > Security**. Under **Other apps and devices**, **Link the mobile app** has a **Show QR code** button. Bulwark asks for your password first, and your two-factor code if you use one. Where single sign-on is set up, **Use single sign-on instead** confirms it through the identity provider. In the app, tap **Scan a sign-in code** on the sign-in screen, or **Add account** → **Scan a sign-in code** if you're already signed in, and point the camera at the code. Without a camera, **Copy sign-in link** and paste it in the app with **Paste sign-in link**.
 
-<img class="theme-light-only" src="/screenshots/light-link-device.webp" alt="Settings, Security: Link the mobile app with a one-time QR code and the sign-in link below it" width="5120" height="2880" />
-<img class="theme-dark-only" src="/screenshots/dark-link-device.webp" alt="Settings, Security: Link the mobile app with a one-time QR code and the sign-in link below it" width="5120" height="2880" />
 
 The code works once and expires after a short time; **Show a new code** makes another. The phone gets its own sign-in, so signing out in the browser doesn't sign the phone out.
 

@@ -24,6 +24,9 @@ Team templates and keeping users' own templates in their account need Stalwart 1
 2. Under **Organisation library**, click **Add template** and give it a name, a subject and the text. Tick **The text is HTML** for an HTML template. The preview shows what users get.
 3. Click **Save**. Users get the library the next time Bulwark loads.
 
+<img class="theme-light-only" src="/screenshots/light-admin-org-templates.webp" alt="The Templates page of the admin console with two organisation templates, one for Meridian Labs and one for the Support group" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-org-templates.webp" alt="The Templates page of the admin console with two organisation templates, one for Meridian Labs and one for the Support group" width="5120" height="2880" />
+
 Placeholders such as `{{recipient_name}}` or `{{date}}` work as in users' own templates: users fill them in when they pick the template.
 
 ### Per domain or group

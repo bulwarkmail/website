@@ -27,8 +27,11 @@ Bulwark starts with Everyone's settings, applies the matching domain entries, th
 
 **Effective policy** on the same page takes an address and the groups the user belongs to, and lists every setting that isn't at Bulwark's default with the entry that set it. It works on the settings as they are on the page, saved or not, so you can check a change before saving it.
 
-<img class="theme-light-only" src="/screenshots/light-admin-domains.webp" alt="Domains and groups in the admin console, with a group entry and the Effective policy for one address showing where each setting comes from" width="5120" height="2880" />
-<img class="theme-dark-only" src="/screenshots/dark-admin-domains.webp" alt="Domains and groups in the admin console, with a group entry and the Effective policy for one address showing where each setting comes from" width="5120" height="2880" />
+<img class="theme-light-only" src="/screenshots/light-admin-domains-effective.webp" alt="The Effective policy for nora@meridianlabs.example in the Support group, listing each setting with the entry that set it" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-domains-effective.webp" alt="The Effective policy for nora@meridianlabs.example in the Support group, listing each setting with the entry that set it" width="5120" height="2880" />
+
+<img class="theme-light-only" src="/screenshots/light-admin-domains.webp" alt="Domains and groups in the admin console, with an entry for the Meridian Labs domain and one for the Support group" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-domains.webp" alt="Domains and groups in the admin console, with an entry for the Meridian Labs domain and one for the Support group" width="5120" height="2880" />
 
 In Settings, users see each locked value with **Set by your organisation** next to it, in place of a control they can't use.
 
