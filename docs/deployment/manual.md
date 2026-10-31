@@ -3,6 +3,7 @@ title: Manual deployment
 description: Deploy Bulwark manually on a server.
 order: 3
 edition: full
+editionNote: "This page installs Bulwark (not Lite) on Node.js without Docker. Lite needs no Node process; see Static hosting."
 ---
 
 # Manual deployment

@@ -3,6 +3,7 @@ title: Bulwark Lite
 description: The same webmail as static files, with no Node.js process to run.
 order: 3
 edition: lite
+editionNote: "This page is about Bulwark Lite, the static build. Bulwark with its admin console and plugins is covered in Installation."
 ---
 
 # Bulwark Lite

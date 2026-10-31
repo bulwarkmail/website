@@ -3,6 +3,7 @@ title: Installation
 description: How to install and run Bulwark.
 order: 3
 edition: full
+editionNote: "This page installs Bulwark (not Lite). For static files with no Node process, see Bulwark Lite."
 ---
 
 # Installation

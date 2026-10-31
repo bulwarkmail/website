@@ -3,6 +3,7 @@ title: Docker Compose
 description: Run Bulwark alongside Stalwart with Docker Compose.
 order: 1
 edition: full
+editionNote: "This Compose file runs Bulwark (not Lite) next to Stalwart. Lite has its own container image, described under Static hosting."
 ---
 
 # Docker Compose

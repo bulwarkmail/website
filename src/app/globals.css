@@ -1088,6 +1088,8 @@ a.bw-tile:hover {
 .bw-note strong {
   font-weight: 600;
 }
+/* "Not in Lite." and "Bulwark Lite." notes: the brand edge. */
+.bw-note-brand,
 .bw-note-edition {
   border-left-color: var(--bw-brand);
 }

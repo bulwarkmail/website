@@ -3,6 +3,7 @@ title: Submission guidelines
 description: Requirements, review process, and content policy for publishing extensions on the Bulwark directory.
 order: 4
 edition: full
+editionNote: "Plugins and themes from the directory run in Bulwark (not Lite). Lite has its built-in themes but no plugin system."
 ---
 
 # Submission guidelines

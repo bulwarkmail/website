@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { Search } from "@/components/icons";
 import { useRouter } from "next/navigation";
-import { useEdition } from "@/components/edition-provider";
 import { ICON } from "@/lib/icon";
 
 /** Dispatched on window by the phone docs bar to open the dialog. */
@@ -22,8 +21,8 @@ interface SearchResult {
 
 const EDITION_TAGS: Record<SearchResult["edition"], string | null> = {
   both: null,
-  full: "Bulwark only",
-  lite: "Lite only",
+  full: "Not in Lite",
+  lite: "Bulwark Lite",
 };
 
 const SECTION_LABELS: Record<string, string> = {
@@ -66,7 +65,6 @@ export function DocsSearch({ listen = false }: DocsSearchProps) {
   const listRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const router = useRouter();
-  const { edition } = useEdition();
 
   const close = useCallback(() => {
     setOpen(false);
@@ -119,7 +117,7 @@ export function DocsSearch({ listen = false }: DocsSearchProps) {
     debounceRef.current = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/docs-search?q=${encodeURIComponent(query)}&edition=${edition}`);
+        const res = await fetch(`/api/docs-search?q=${encodeURIComponent(query)}`);
         if (res.ok) {
           const data = await res.json();
           setResults(data);
@@ -129,7 +127,7 @@ export function DocsSearch({ listen = false }: DocsSearchProps) {
         setLoading(false);
       }
     }, 150);
-  }, [query, edition]);
+  }, [query]);
 
   // Results are shown grouped by docs section, sections in the order of their
   // best hit. The arrow keys walk the grouped order.

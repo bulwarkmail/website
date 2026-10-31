@@ -3,6 +3,7 @@ title: Extensions overview
 description: Build plugins and themes for Bulwark Webmail and publish them on the Bulwark Extensions directory.
 order: 1
 edition: full
+editionNote: "Plugins and themes from the directory run in Bulwark (not Lite). Lite has its built-in themes but no plugin system."
 ---
 
 # Extensions

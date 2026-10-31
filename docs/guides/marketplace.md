@@ -3,13 +3,12 @@ title: Extension marketplace
 description: Browse and install plugins and themes from a configurable extension directory.
 order: 8
 edition: full
+editionNote: "Lite has no admin console to browse from, and plugins don't run in Lite at all."
 ---
 
 # Extension marketplace
 
 Installing a plugin used to mean finding a ZIP, downloading it, and uploading it again. The marketplace does that from inside the admin dashboard. Bulwark uses the official directory unless you point it at one you run yourself.
-
-<div class="bw-note bw-note-edition"><b>Not in Lite.</b> There is no admin dashboard to browse from, and plugins don't run in Lite at all.</div>
 
 ## Configuration
 

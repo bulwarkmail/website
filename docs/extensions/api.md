@@ -3,6 +3,7 @@ title: REST API reference
 description: The public REST API of the Bulwark Extensions directory.
 order: 3
 edition: full
+editionNote: "Plugins and themes from the directory run in Bulwark (not Lite). Lite has its built-in themes but no plugin system."
 ---
 
 # REST API reference

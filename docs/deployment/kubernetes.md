@@ -3,6 +3,7 @@ title: Kubernetes
 description: Deploy Bulwark on Kubernetes with the community-maintained HelmForge chart.
 order: 2
 edition: full
+editionNote: "This page runs Bulwark (not Lite) on Kubernetes. Lite is static files and needs none of this; see Static hosting."
 ---
 
 # Kubernetes

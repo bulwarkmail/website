@@ -3,6 +3,7 @@ title: Reverse proxy
 description: Set up a reverse proxy in front of Bulwark.
 order: 2
 edition: full
+editionNote: "These examples put a proxy in front of Bulwark (not Lite). The server snippets for Lite are on Static hosting."
 ---
 
 # Reverse proxy

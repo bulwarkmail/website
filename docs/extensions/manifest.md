@@ -3,6 +3,7 @@ title: manifest.json reference
 description: Required fields, permissions, and metadata for Bulwark extensions.
 order: 2
 edition: full
+editionNote: "Plugins and themes from the directory run in Bulwark (not Lite). Lite has its built-in themes but no plugin system."
 ---
 
 # manifest.json reference

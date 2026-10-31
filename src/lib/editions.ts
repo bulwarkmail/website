@@ -24,6 +24,3 @@ export function groupEditionClass(editions: DocEdition[]): string {
   return "";
 }
 
-export function appliesTo(doc: { edition: DocEdition }, edition: "full" | "lite"): boolean {
-  return doc.edition === "both" || doc.edition === edition;
-}

@@ -3,6 +3,7 @@ title: Assignment and status
 description: Let teams assign messages in a team mailbox to a member and mark them done, with the Team inbox plugin.
 order: 10
 edition: full
+editionNote: "The team inbox is a plugin, and plugins run in Bulwark (not Lite)."
 ---
 
 # Assignment and status

@@ -3,6 +3,7 @@ title: Authentication
 description: Authentication methods supported by Bulwark.
 order: 2
 edition: full
+editionNote: "This page covers sign-in for Bulwark (not Lite). Lite signs in with a password and a two-factor code, or with Stalwart's own sign-in when Stalwart serves it."
 ---
 
 # Authentication

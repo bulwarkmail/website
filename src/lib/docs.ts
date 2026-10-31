@@ -11,7 +11,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import GithubSlugger from "github-slugger";
-import { appliesTo, parseEdition, type DocEdition } from "./editions";
+import { parseEdition, type DocEdition } from "./editions";
 import { BULWARK_VERSION } from "./version";
 import { rehypeFigures } from "./docs-figures";
 
@@ -33,7 +33,7 @@ export interface DocHeading {
   id: string;
 }
 
-export { parseEdition, editionClass, groupEditionClass, appliesTo } from "./editions";
+export { parseEdition, editionClass, groupEditionClass } from "./editions";
 export type { DocEdition } from "./editions";
 
 export interface DocMeta {
@@ -44,6 +44,8 @@ export interface DocMeta {
   section: string;
   parent?: string;
   edition: DocEdition;
+  /** One sentence for the note at the top of a page that applies to one edition. */
+  editionNote?: string;
   headings: DocHeading[];
 }
 
@@ -57,6 +59,10 @@ export interface DocSection {
   label: string;
   order: number;
   items: DocMeta[];
+}
+
+function noteOf(data: Record<string, unknown>): string | undefined {
+  return typeof data.editionNote === "string" && data.editionNote.trim() ? data.editionNote.trim() : undefined;
 }
 
 function extractHeadings(content: string): DocHeading[] {
@@ -119,6 +125,7 @@ export function getAllDocs(): DocMeta[] {
           slug: `${section.name}/${entry.name.replace(".md", "")}`,
           section: section.name,
           edition: parseEdition(data.edition),
+          editionNote: noteOf(data),
           headings: extractHeadings(content),
         });
       } else if (entry.isDirectory()) {
@@ -139,6 +146,7 @@ export function getAllDocs(): DocMeta[] {
             section: section.name,
             parent: parentSlug,
             edition: parseEdition(data.edition),
+            editionNote: noteOf(data),
             headings: extractHeadings(subContent),
           });
         }
@@ -203,6 +211,7 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
     section,
     parent: parts.length === 3 ? `${parts[0]}/${parts[1]}` : undefined,
     edition: parseEdition(data.edition),
+    editionNote: noteOf(data),
     content,
     html: result.toString(),
     headings: extractHeadings(content),
@@ -340,18 +349,17 @@ function anyTermMatch(text: string, terms: string[]): boolean {
 }
 
 /**
- * Full-text search over the docs. With `edition` set, pages that exist only
- * in the other edition are left out; every hit carries its page's edition
- * either way so the client can tag it.
+ * Full-text search over every docs page. Each hit carries its page's edition
+ * so the dialog can tag pages that apply to Bulwark or Lite only.
  */
-export function searchDocs(query: string, edition?: "full" | "lite"): SearchResult[] {
+export function searchDocs(query: string): SearchResult[] {
   const trimmed = query.trim();
   if (!trimmed) return [];
 
   const terms = tokenize(trimmed).filter((t) => t.length > 1);
   if (terms.length === 0) return [];
 
-  const docs = getAllDocs().filter((doc) => !edition || appliesTo(doc, edition));
+  const docs = getAllDocs();
   const results: SearchResult[] = [];
 
   for (const doc of docs) {

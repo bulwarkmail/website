@@ -3,6 +3,7 @@ title: S/MIME
 description: Sign, encrypt, decrypt, and verify mail with S/MIME certificates.
 order: 7
 edition: full
+editionNote: "S/MIME is a plugin, and plugins run in Bulwark (not Lite)."
 ---
 
 # S/MIME

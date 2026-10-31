@@ -3,6 +3,7 @@ title: Configuration
 description: Configure Bulwark for your environment.
 order: 4
 edition: full
+editionNote: "This page configures Bulwark (not Lite) through environment variables and the admin console. Lite reads config.json instead; see Bulwark Lite."
 ---
 
 # Configuration

@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getDocBySlug, getAllDocs, getDocSections, appliesTo, type DocMeta } from "@/lib/docs";
+import { getDocBySlug, getAllDocs, getDocSections } from "@/lib/docs";
 import { CopyableCode } from "@/components/docs/copyable-code";
-import { EditionBanner } from "@/components/docs/edition-banner";
 import { Pencil } from "@/components/icons";
 import { ICON } from "@/lib/icon";
 import type { Metadata } from "next";
@@ -41,27 +40,15 @@ export default async function DocPage({ params }: PageProps) {
 
   if (!doc) notFound();
 
-  // Find prev/next only among sibling pages (same parent or same section
-  // top-level). Each edition has its own neighbours, so both pairs are
-  // rendered and the data-edition attribute picks one.
+  // Find prev/next among sibling pages (same parent or same section top-level).
   const sections = getDocSections();
   const allItems = sections.flatMap((s) => s.items);
-  const allSiblings = doc.parent
+  const siblings = doc.parent
     ? allItems.filter((i) => i.parent === doc.parent)
     : allItems.filter((i) => i.section === doc.section && !i.parent);
-  const neighbours = (edition: "full" | "lite"): { prev: DocMeta | null; next: DocMeta | null } => {
-    const siblings = allSiblings.filter((i) => appliesTo(i, edition));
-    const idx = siblings.findIndex((i) => i.slug === slugStr);
-    if (idx === -1) return { prev: null, next: null };
-    return {
-      prev: idx > 0 ? siblings[idx - 1] : null,
-      next: idx < siblings.length - 1 ? siblings[idx + 1] : null,
-    };
-  };
-  const pagers: { edition: "full" | "lite"; className: string; prev: DocMeta | null; next: DocMeta | null }[] = [
-    { edition: "full", className: "ed-full-only", ...neighbours("full") },
-    { edition: "lite", className: "ed-lite-only", ...neighbours("lite") },
-  ];
+  const idx = siblings.findIndex((i) => i.slug === slugStr);
+  const prev = idx > 0 ? siblings[idx - 1] : null;
+  const next = idx !== -1 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
 
   const sectionLabel =
     sections.find((s) => s.slug === doc.section)?.label ?? doc.section;
@@ -84,33 +71,32 @@ export default async function DocPage({ params }: PageProps) {
         </a>
       </div>
 
-      {/* A page that exists only in the other edition says so instead of vanishing */}
-      {doc.edition !== "both" ? <EditionBanner pageEdition={doc.edition} /> : null}
+      {/* Pages that apply to Bulwark or to Bulwark Lite only say so first */}
+      {doc.edition !== "both" && doc.editionNote ? (
+        <div className="bw-note bw-note-brand" role="note">
+          <b>{doc.edition === "full" ? "Not in Lite." : "Bulwark Lite."}</b> {doc.editionNote}
+        </div>
+      ) : null}
 
       {/* Rendered markdown */}
       <CopyableCode html={doc.html} />
 
-      {/* Prev/Next navigation, one pair per edition */}
-      {pagers.map(({ edition, className, prev, next }) =>
-        prev || next ? (
-          <div key={edition} className={className}>
-            <nav className="bw-pager" aria-label="Previous and next page">
-              {prev ? (
-                <Link href={`/docs/${prev.slug}`}>
-                  <span>Previous</span>
-                  {prev.title}
-                </Link>
-              ) : null}
-              {next ? (
-                <Link href={`/docs/${next.slug}`} className="bw-pager-next">
-                  <span>Next</span>
-                  {next.title}
-                </Link>
-              ) : null}
-            </nav>
-          </div>
-        ) : null
-      )}
+      {prev || next ? (
+        <nav className="bw-pager" aria-label="Previous and next page">
+          {prev ? (
+            <Link href={`/docs/${prev.slug}`}>
+              <span>Previous</span>
+              {prev.title}
+            </Link>
+          ) : null}
+          {next ? (
+            <Link href={`/docs/${next.slug}`} className="bw-pager-next">
+              <span>Next</span>
+              {next.title}
+            </Link>
+          ) : null}
+        </nav>
+      ) : null}
     </article>
   );
 }
