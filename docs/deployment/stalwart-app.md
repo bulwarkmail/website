@@ -1,7 +1,7 @@
 ---
 title: Install on Stalwart
 description: Let Stalwart host Bulwark Lite itself as a web Application, on the same origin, with no web server and no CORS.
-order: 1
+order: 5
 edition: lite
 editionNote: "This page is about Bulwark Lite, served by Stalwart itself. The admin console, plugins, office editing and web push are part of Bulwark, not Lite."
 ---

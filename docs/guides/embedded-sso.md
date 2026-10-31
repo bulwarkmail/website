@@ -1,7 +1,7 @@
 ---
 title: Embedded SSO
 description: Embed Bulwark in an iframe with automatic single sign-on managed by a parent portal.
-order: 3
+order: 5
 edition: full
 editionNote: "The server-side SSO flow on this page needs the full edition. Lite installed as a Stalwart Application can sign in through Stalwart's OpenID provider, but not silently in a frame. Lite's config.json accepts embeddedMode and parentOrigin for framing it."
 ---

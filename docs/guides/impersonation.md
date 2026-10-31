@@ -1,7 +1,7 @@
 ---
 title: Master-user impersonation
 description: Land platform admins directly inside a tenant's mailbox via signed JWT handoff, without storing tenant passwords.
-order: 10
+order: 11
 edition: full
 editionNote: "Impersonation goes through Bulwark's server (not Lite). Lite has no way to open another user's mailbox."
 ---

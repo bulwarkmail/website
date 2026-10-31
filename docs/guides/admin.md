@@ -1,7 +1,7 @@
 ---
 title: Admin dashboard
 description: Manage runtime configuration, sign-in, branding, the user policy, plugins and themes in the admin console.
-order: 9
+order: 1
 edition: full
 editionNote: "The admin console is part of Bulwark (not Lite). Lite reads its settings from config.json and policy.json."
 ---

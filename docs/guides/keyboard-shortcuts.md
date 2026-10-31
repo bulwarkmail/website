@@ -1,7 +1,7 @@
 ---
 title: Keyboard shortcuts
 description: All keyboard shortcuts available in Bulwark.
-order: 2
+order: 4
 edition: both
 ---
 

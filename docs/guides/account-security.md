@@ -1,7 +1,7 @@
 ---
 title: Account security
 description: Manage password, 2FA, app passwords, and API keys from within Bulwark.
-order: 5
+order: 7
 edition: full
 editionNote: "The account security tab is hidden, because these calls go through the Node.js server. Logging in with a password and a TOTP code still works in Lite; enrolling or changing them does not."
 ---

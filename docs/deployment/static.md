@@ -1,7 +1,7 @@
 ---
 title: Static hosting
 description: Build inputs, config.json, the CORS setting on Stalwart, and host snippets for Bulwark Lite.
-order: 0
+order: 2
 edition: lite
 editionNote: "This page is about Bulwark Lite on a static web host. Bulwark with its admin console is covered in Installation."
 ---

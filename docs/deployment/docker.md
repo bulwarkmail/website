@@ -1,7 +1,7 @@
 ---
 title: Docker deployment
 description: Deploy Bulwark with Docker and Docker Compose.
-order: 1
+order: 3
 edition: full
 editionNote: "This page runs Bulwark (not Lite) in a container. Lite has its own small container image, described under Static hosting."
 ---
