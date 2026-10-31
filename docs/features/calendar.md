@@ -7,7 +7,7 @@ edition: both
 
 # Calendar
 
-The calendar speaks JMAP Calendars (RFC 8984). Bulwark reads the capabilities the server advertises at session start and hides whatever that server cannot actually do, so you never click something that fails.
+The calendar speaks JMAP for Calendars (an IETF draft) and stores events as JSCalendar (RFC 8984). Bulwark reads the capabilities the server advertises at session start and hides whatever that server cannot actually do, so you never click something that fails.
 
 <img class="theme-light-only" src="/screenshots/light-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar.webp" alt="Bulwark calendar month view" width="5120" height="2880" />
@@ -21,7 +21,7 @@ The calendar speaks JMAP Calendars (RFC 8984). Bulwark reads the capabilities th
 - **Week view** - Detailed weekly schedule with column-based overlap layout and time-based event sorting
 - **Day view** - Hour-by-hour daily agenda
 - **Agenda view** - Chronological list of upcoming events, loading more as you scroll
-- **Task list view** - Dedicated task management view with task details, status tracking, and inline editing
+- **Task list view** - Dedicated task management view with task details, status tracking, and inline editing, once tasks are turned on (see [Tasks](#tasks))
 
 Month, week and day views scroll freely: keep scrolling past the end of the month and the next one follows, rather than snapping a period at a time. The toolbar's date label and the mini-calendar follow the week in view. If you preferred the paged behaviour, **Free scrolling** in calendar settings turns it off.
 
@@ -34,21 +34,22 @@ The desktop toolbar carries prev/next buttons, a "Today" button, and a date labe
 <img class="theme-light-only" src="/screenshots/light-calendar-create.webp" alt="Bulwark calendar event creation" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-create.webp" alt="Bulwark calendar event creation" width="5120" height="2880" />
 
-Click any time slot, or use the "New Event" button, to create an event:
+Click any time slot, or use the **Create event** button, to create an event:
 
 - Title and description
 - Start and end time with automatic timezone detection
 - All-day events
-- Recurrence rules (daily, weekly, monthly, yearly) with client-side recurrence expansion
+- Recurrence rules: daily, weekly, monthly, yearly or a custom rule. Stalwart 0.16.20 and later expand the occurrences on the server; on older servers Bulwark expands them itself.
 - Reminders as notifications or emails, taken from the calendar's defaults or set per event (see [Reminders](#reminders))
 - Participant scheduling with contact autocomplete
 - Virtual location input for online meetings and video calls
 
 ### Quick create
 
-- **Double-click** on an empty time slot for quick inline event creation (1-hour default)
-- **Click-and-drag** on empty slots to create events spanning a custom time range (15-minute snap)
-- Double-click in month view opens the event modal with the date pre-filled
+- **Click** an empty time slot to open a quick editor beside it with a one-hour event; **More options** opens the full editor
+- **Click and drag** over empty time to set the range (snaps to 15 minutes)
+- **Click** a day in the month view, or the all-day row, for an all-day event
+- On phones a tap opens the full editor
 
 ## Reminders
 
@@ -58,7 +59,7 @@ Notifications are shown by Bulwark itself while it is open, with the sound you p
 
 ### Calendar default reminders
 
-Every calendar you own can have default reminders, with one list for events with a time and one for all-day events. Set them in **Settings > Calendar > Calendar Management** with the bell button next to the calendar. All-day reminders count from midnight at the start of the day, so "1 day before" fires at midnight the day before.
+Every calendar you own can have default reminders, with one list for events with a time and one for all-day events. Set them in **Settings > Calendar > Calendar management** with **Default reminders** (the bell next to the calendar, or in its ⋮ menu on a phone). All-day reminders count from midnight at the start of the day, so "1 day before" fires at midnight the day before.
 
 A new event starts with its calendar's defaults. The event editor shows them read-only and follows the calendar and the all-day switch as you change them. To set the event's own reminders, click **Customize**: the defaults are copied into rows you can edit, remove or add to. **Use calendar defaults** switches back.
 
@@ -72,9 +73,9 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 <img class="theme-dark-only" src="/screenshots/dark-calendar-event.webp" alt="An event opened from the week view, with participants and the response buttons" width="5120" height="2880" />
 
 - **Drag-and-drop rescheduling** - Move events between time slots in week/day views or between dates in month view
-- **Resize events** - Drag the top or bottom edge to change duration with 15-minute snap; `utcEnd` is recalculated as duration changes
+- **Resize events** - Drag the top or bottom edge to change the start or the duration, in 15-minute steps
 - **Duplicate events** - Clone an event with a +1 day offset for editing
-- **Recurring event editing** - Choose scope: this event, this and following, or all events. Each occurrence is addressed by the synthetic id Stalwart assigns it, so an edit to one Tuesday cannot land on another
+- **Recurring event editing** - Choose scope: this event, this and following, or all events. On Stalwart 0.16.20 and later each occurrence is addressed by the synthetic id Stalwart gives it, so an edit to one Tuesday cannot land on another; on older servers Bulwark saves the change as an override on the recurring event
 - **Overlap layout** - Events that overlap are laid out in columns rather than stacked, so none of them gets truncated
 - **Timezone-aware formatting** - Event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
@@ -83,7 +84,7 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 <img class="theme-light-only" src="/screenshots/light-invite.webp" alt="An invitation in the mail reading pane with Accept, Maybe and Decline" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-invite.webp" alt="An invitation in the mail reading pane with Accept, Maybe and Decline" width="5120" height="2880" />
 
-- Send iMIP invitations on event create and update (RFC 5545 / 6047), with `calendarAddress` and `replyTo` participants for Stalwart compatibility
+- When you save an event with participants, Stalwart sends the iMIP invitations and updates (RFC 6047); Bulwark asks it to and sets the organizer with `organizerCalendarAddress`. Saving without invitations is offered when the server refuses to send them.
 - Accept/decline/tentative RSVP responses with trust assessment
 - Organizer and attendee UI with participant management, including each attendee's free/busy status (`Principal/getAvailability`) while you pick a time
 - Invitations and updates that arrive as `CalendarEventNotification` objects surface in the app, and invitations you send go out under your default `ParticipantIdentity`
@@ -100,13 +101,13 @@ While you are creating or moving an event, the calendar grid and the event modal
 
 ## Hover preview
 
-Hovering an event opens a popover with its time, location, participants, and description, so you don't have to open the modal to read it. The delay and the trigger are configurable.
+Hovering an event opens a popover with its time, location, participants, and description, so you don't have to open the modal to read it. **Event hover preview** in Settings > Calendar sets the delay (instant to 2 seconds) or turns it off.
 
-## CalDAV discovery
+## CalDAV address
 
-Bulwark includes a CalDAV discovery API that resolves each account's calendar home automatically. In a multi-account setup, every account's calendars are found and loaded without per-account configuration.
+Settings > Calendar > Calendar management has **Copy CalDAV URL** for each calendar, including ones shared with you, so you can add it to a desktop or phone calendar app. Bulwark finds the address on the server for you. The calendars themselves load over JMAP.
 
-<div class="bw-note bw-note-edition"><b>Not in Lite.</b> CalDAV discovery and iCal / webcal URL subscriptions both go through the Node.js server, so Lite hides them. Importing an <code>.ics</code> file still works, as does everything that is plain JMAP.</div>
+<div class="bw-note bw-note-edition"><b>Not in Lite.</b> The CalDAV address lookup and iCal / webcal URL subscriptions both go through the Node.js server. Lite hides them in Settings and in the import dialog, but the calendar's ⋮ menu still shows <b>Subscribe to calendar…</b>, and a subscription made there fails. Importing an <code>.ics</code> file still works, as does everything that is plain JMAP.</div>
 
 ## Multiple calendars
 
@@ -114,15 +115,15 @@ Create and manage multiple calendars with different colors. Toggle visibility of
 
 ## Birthday calendar
 
-Bulwark auto-generates a read-only birthday calendar from your contacts. February 29 birthdays are clamped to a valid day in non-leap years. The birthday calendar can be toggled in calendar settings.
+Bulwark auto-generates a read-only birthday calendar from your contacts. February 29 birthdays are clamped to a valid day in non-leap years. It is off by default; turn on **Contact birthday calendar** in Settings > Calendar.
 
 ### Week numbers
 
-An optional setting allows displaying ISO week numbers in the mini-calendar for quick reference.
+**Show week numbers** in Settings > Calendar adds week numbers to the mini-calendar (ISO numbers when the week starts on Monday).
 
 ### Calendar management
 
-Calendar management settings include mailbox role reassignment controls, letting you change which calendar is the default or reassign special roles between calendars.
+Settings > Calendar > Calendar management lists your calendars to rename, recolour, reorder, share, clear or delete, with default reminders for each. To make a calendar the default, right-click it in the calendar sidebar and choose **Set as default**.
 
 ## Shared calendar grouping
 
@@ -153,18 +154,16 @@ Calendar state changes are pushed in real-time via JMAP push - no manual refresh
 <img class="theme-light-only" src="/screenshots/light-tasks.webp" alt="The task list with due dates and calendars" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-tasks.webp" alt="The task list with due dates and calendars" width="5120" height="2880" />
 
-A dedicated task list view manages tasks with due dates, priority, and completion status. Tasks created by external CalDAV clients (such as Thunderbird) are detected and displayed alongside Bulwark-created tasks. Updates and deletions for synthetic JMAP IDs fall back to destroy-and-recreate when the server can't update them in place.
+A dedicated task list view manages tasks with due dates, priority, and completion status. Tasks created by external CalDAV clients (such as Thunderbird) are detected and displayed alongside Bulwark-created tasks. Moving a task to a calendar of another account copies it there and removes the original, since JMAP has no move between accounts.
+
+Tasks are off by default. Turn on **Enable tasks** in Settings > Calendar to get the Tasks view; **Show tasks on calendar** then also puts them in the month, week and day views. An administrator can hide the switch with the Calendar Tasks policy.
 
 ## Plugin integration
 
-Calendar events support action slots for plugins. For example, the bundled Jitsi Meet plugin adds a "Start Meeting" button on calendar events with virtual locations.
+Plugins can add buttons to the event editor. For example, the Jitsi Meet plugin from the extension directory adds **Add Jitsi meeting**, which fills in the meeting link (it needs its small sidecar service).
 
 ## Settings
 
-- First day of week (Sunday or Monday)
-- Time format (12h or 24h) applied across calendar grids, event cards, popovers, and import previews
-- Default calendar view
-- Show event start time in month view
-- Show week numbers in mini-calendar
-- Locale-aware date formatting
-- Persisted view preferences are validated so the calendar always falls back to a supported view mode
+Settings > Calendar has the default view (month, week, day or agenda), **Show time in month view**, **Light event colors**, **Show week numbers**, **Limit visible hours**, **Hide non-working days**, **Free scrolling**, **Event hover preview**, **Contact birthday calendar**, **Organize invitations as**, **Parse email invitations** and the tasks switches. Persisted view preferences are validated so the calendar always falls back to a supported view mode.
+
+First day of week (Monday, Saturday or Sunday), 12- or 24-hour time, time zone and date format are in Settings > General and apply to the whole app, including calendar grids, event cards, popovers and import previews.
