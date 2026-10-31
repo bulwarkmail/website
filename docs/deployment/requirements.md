@@ -77,7 +77,7 @@ What this doesn't cover:
 - **Signed-in use was not measured.** Mail sync, search and everything else a signed-in user makes Bulwark's server do are not in these numbers.
 - **Nothing was measured on ARM.** The arm64 images are the same code, but no board was tested.
 
-For comparison, Stalwart 0.16.22 on the same VM used about 170 MiB after running for nine days. Leave room above the load figure when you pick a machine; the figures above are not a recommendation for any number of users.
+For comparison, Stalwart 0.16.22 on the same VM used about 170 MiB after running for nine days. Leave room above the load figure when you pick a machine; the figures above are not a recommendation for any number of users. There is no sizing guidance for large installs yet: the project hasn't measured Bulwark with hundreds or thousands of signed-in users, and it hasn't tested more than one replica (see [Several replicas](/docs/deployment/hosting-providers#several-replicas)).
 
 ## HTTPS
 

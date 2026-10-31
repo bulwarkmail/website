@@ -34,7 +34,9 @@ helm upgrade --install bulwark-mail helmforge/bulwark-mail \
   --set image.tag=1.19.1-always
 ```
 
-Set `image.tag` yourself. The chart's default tag lags behind Bulwark's releases: chart 1.2.0 installs `1.15.0-always`. Use the current release with the `-always` suffix the chart's default carries, for example `1.19.1-always`. Stalwart 1.0 needs {{BULWARK_VERSION}} or newer.
+Set `image.tag` yourself. The chart's default tag lags behind Bulwark's releases: chart 1.2.0 installs `1.15.0-always`. Use the current release with the `-always` suffix the chart's default carries, for example `1.19.1-always`. The `-always` images are the same release built so that every URL carries its language prefix (`/en/...`); the plain tags leave it out for the default language. Stalwart 1.0 needs {{BULWARK_VERSION}} or newer.
+
+More than one replica needs the same session secret, shared config and state volumes, and a restart of the other replicas after an admin change; the project hasn't tested it. [Several replicas](/docs/deployment/hosting-providers#several-replicas) lists what the code needs.
 
 The same chart is also published as an OCI artifact at `oci://ghcr.io/helmforgedev/helm/bulwark-mail`.
 
