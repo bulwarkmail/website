@@ -4,7 +4,6 @@ import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { InstallChoice } from "@/components/install-choice";
 import { DockerSteps, LiteSteps } from "@/components/install-steps";
-import { CodeBlock } from "@/components/code-block";
 import { Shot, Tile } from "@/components/ui";
 import { TableSection, TileSection } from "@/components/sections";
 import { ICON } from "@/lib/icon";
@@ -443,7 +442,7 @@ function OpenSourceSection({ instances }: { instances: number }) {
         <div className="bw-stack" style={{ maxWidth: 720 }}>
           <h2 className="bw-h2">Bulwark is open source under AGPL-3.0.</h2>
           <p className="bw-muted">
-            The code, the issue tracker and the release notes are public, and{" "}
+            The code, the issue tracker, the release notes and the security advisories are public, and{" "}
             <a
               href="https://grafana.external.bulwarkmail.org"
               target="_blank"
@@ -484,12 +483,33 @@ const FAQS: Faq[] = [
     a: "Bulwark is the client. Stalwart is the mail server: it holds the messages, speaks SMTP, and owns the accounts and the spam filtering. Install Stalwart first, then point Bulwark at it.",
   },
   {
+    q: "Who is Bulwark for?",
+    a: (
+      <>
+        Anyone who runs Stalwart: one person or a family at home, a small business with a shared mailbox, or an IT
+        department with an identity provider and many domains. The pages for{" "}
+        <Link href="/organisations" className="bw-link">
+          organisations
+        </Link>
+        ,{" "}
+        <Link href="/small-business" className="bw-link">
+          small businesses
+        </Link>{" "}
+        and{" "}
+        <Link href="/homelab" className="bw-link">
+          homelab
+        </Link>{" "}
+        show what each one gets.
+      </>
+    ),
+  },
+  {
     q: "Why JMAP?",
     a: "JMAP moves threading, search and change tracking to the server and returns only what changed. The inbox updates by push, and marking twenty messages as read is one request.",
   },
   {
     q: "Bulwark or Bulwark Lite?",
-    a: "Choose Lite if you already run a web server and your users sign in with a password. Choose Bulwark for OAuth, plugins, settings sync or the admin console. Both build from the same commit and store nothing of their own, so switching is a redeploy.",
+    a: "Choose Lite if you want static files and your users sign in with a password, or with Stalwart's own sign-in when Stalwart serves Lite. Choose Bulwark for single sign-on without Stalwart serving the client, plugins, settings sync, office editing or the admin console. Both build from the same code, and Stalwart keeps the mail either way, so you can switch later. Bulwark's admin settings and synced settings don't carry over to Lite.",
   },
   {
     q: "Does it work with a Stalwart server I already run?",
@@ -506,12 +526,69 @@ const FAQS: Faq[] = [
     ),
   },
   {
+    q: "What does it cost?",
+    a: (
+      <>
+        Nothing. Bulwark is open source under AGPL-3.0 and there is no paid edition. If you change the code and let
+        people use your version over a network, the AGPL asks you to offer them your changed source; the{" "}
+        <code className="bw-icode">SOURCE_CODE_URL</code> setting points Settings &gt; About at it. There is no paid
+        support for Bulwark today. If your organisation would want it, tell us what you need:{" "}
+        <a href="mailto:dev@bulwarkmail.org" className="bw-link">
+          dev@bulwarkmail.org
+        </a>
+        .
+      </>
+    ),
+  },
+  {
     q: "What does deployment look like?",
     a: "One container next to Stalwart, behind the reverse proxy you already use, or Bulwark Lite as a folder on any web host. There are examples for Caddy, Traefik and nginx, a Compose file for Stalwart and Bulwark together, standalone builds on every release for installs without Docker, and the Lite zip.",
   },
   {
+    q: "How do security fixes reach me?",
+    a: (
+      <>
+        Fixes ship as new releases, and the project has published 14 GitHub security advisories for fixed
+        vulnerabilities so far. Bulwark (not Lite) checks for a new release every hour and shows it on the login page
+        and in the admin console. Every release file has a <code className="bw-icode">.sha256</code> file, and every
+        image and download has a build attestation you can check with{" "}
+        <code className="bw-icode">gh attestation verify</code> (it needs a GitHub login).{" "}
+        <Link href="/docs/deployment/security-updates" className="bw-link">
+          Security fixes and updates
+        </Link>{" "}
+        has the details.
+      </>
+    ),
+  },
+  {
     q: "Why does Lite need a CORS setting on the mail server?",
-    a: "In Lite the browser talks to Stalwart directly, from your static host's origin, and browsers only allow that when the mail server says so. One setting in Stalwart allows it: the Permissive CORS policy, under Settings > Network > HTTP > Security in its web admin.",
+    a: "In Lite the browser talks to Stalwart directly, from your web host's address, and browsers only allow that when the mail server says so. Turn on the Permissive CORS policy, under Settings > Network > HTTP > Security in Stalwart's web admin. When Stalwart serves Lite itself, the address is the same and nothing needs changing.",
+  },
+  {
+    q: "Is there a phone app?",
+    a: (
+      <>
+        Bulwark Mobile is a beta for Android and iOS: the Android app comes from GitHub, the iPhone app from
+        TestFlight. In a phone&apos;s browser the webmail itself works too, and over HTTPS it installs as an app.{" "}
+        <Link href="/docs/features/mobile" className="bw-link">
+          Mobile apps and push
+        </Link>{" "}
+        has the links.
+      </>
+    ),
+  },
+  {
+    q: "What does my server need?",
+    a: (
+      <>
+        Stalwart 0.16.6 or 1.0, and for the container Docker on amd64 or arm64. On the project&apos;s test VM the
+        container used about 70 MiB of memory at idle, signed out;{" "}
+        <Link href="/docs/deployment/requirements" className="bw-link">
+          Requirements
+        </Link>{" "}
+        has the method. Lite needs only a web host.
+      </>
+    ),
   },
   {
     q: "Can I try it first?",
@@ -521,9 +598,8 @@ const FAQS: Faq[] = [
         <a href="https://demo.bulwarkmail.org" target="_blank" rel="noopener noreferrer" className="bw-link">
           demo.bulwarkmail.org
         </a>{" "}
-        runs the client on sample data with no mail server behind it, so you can click through mail, calendar,
-        contacts and files, but nothing is saved or sent and a reload starts over. Installing the container against
-        your own Stalwart takes about ten minutes.
+        runs the client on sample data with no mail server behind it. Press Launch demo and click through mail,
+        calendar, contacts and files; nothing is saved or sent, and a reload starts over.
       </>
     ),
   },
@@ -573,7 +649,7 @@ export default async function Home() {
     applicationCategory: "CommunicationApplication",
     operatingSystem: "Web, Docker, Linux",
     description:
-      "A self-hosted webmail client for Stalwart Mail Server, built with Next.js and JMAP. Email, calendar, contacts, and file storage in one interface, running on your own hardware.",
+      "A self-hosted webmail client for Stalwart Mail Server: mail, calendar, contacts and files in one browser interface, running on your own hardware.",
     url: "https://bulwarkmail.org",
     downloadUrl: GITHUB,
     softwareVersion: version,
