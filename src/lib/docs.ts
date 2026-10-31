@@ -58,6 +58,8 @@ export interface DocSection {
   slug: string;
   label: string;
   order: number;
+  /** One paragraph for the section's own page. */
+  intro: string;
   items: DocMeta[];
 }
 
@@ -86,14 +88,49 @@ function extractHeadings(content: string): DocHeading[] {
   return headings;
 }
 
-const SECTION_LABELS: Record<string, { label: string; order: number }> = {
-  "getting-started": { label: "Getting Started", order: 1 },
-  features: { label: "Features", order: 2 },
-  deployment: { label: "Deployment", order: 3 },
-  guides: { label: "Guides", order: 4 },
-  extensions: { label: "Extensions", order: 5 },
-  development: { label: "Development", order: 6 },
-  legal: { label: "Legal", order: 8 },
+// `intro` is the one paragraph on the section's own page, /docs/<section>.
+const SECTION_LABELS: Record<string, { label: string; order: number; intro: string }> = {
+  "getting-started": {
+    label: "Getting Started",
+    order: 1,
+    intro:
+      "Start here. What Bulwark is, the Stalwart settings it needs, installing Bulwark or Bulwark Lite, and the configuration you set once it runs.",
+  },
+  features: {
+    label: "Features",
+    order: 2,
+    intro:
+      "What people can do in Bulwark: mail, calendar, contacts and files, the phone app and the web app, and the accessibility settings.",
+  },
+  deployment: {
+    label: "Deployment",
+    order: 3,
+    intro:
+      "Ways to run Bulwark on your own servers: static files, Docker and Compose, Stalwart's application install, Kubernetes or a manual install, and how to update each one.",
+  },
+  guides: {
+    label: "Guides",
+    order: 4,
+    intro:
+      "Tasks step by step, for the people who use Bulwark and for the admins who run it: the admin console and the organisation settings, sign-in and security, plugins and troubleshooting.",
+  },
+  extensions: {
+    label: "Extensions",
+    order: 5,
+    intro:
+      "Build plugins and themes for Bulwark and publish them in the extension directory: the manifest, the directory's API, the review rules and updates.",
+  },
+  development: {
+    label: "Development",
+    order: 6,
+    intro: "Work on Bulwark itself: set up a development environment, run the tests and find your way around the code.",
+  },
+  legal: {
+    label: "Legal",
+    order: 8,
+    intro:
+      "What the Bulwark project collects and why, what the anonymous usage telemetry sends, and what accessibility law asks of you if you host Bulwark in Germany or the EU.",
+  },
 };
 
 function getSectionMeta(sectionSlug: string) {
@@ -101,6 +138,7 @@ function getSectionMeta(sectionSlug: string) {
     SECTION_LABELS[sectionSlug] ?? {
       label: sectionSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
       order: 99,
+      intro: "",
     }
   );
 }
@@ -174,6 +212,7 @@ export function getDocSections(): DocSection[] {
       slug,
       label: meta.label,
       order: meta.order,
+      intro: meta.intro,
       // Children carry their own 1, 2, 3, so sorting by order alone would mix
       // them in with the top-level pages. Keep each child under its parent.
       items: inSidebarOrder(items),

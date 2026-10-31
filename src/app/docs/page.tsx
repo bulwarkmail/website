@@ -87,7 +87,9 @@ export default function DocsPage() {
       <div className="bw-manual" style={{ marginTop: 16 }}>
         {sections.map((section) => (
           <div key={section.slug}>
-            <h3 style={{ margin: 0 }}>{section.label}</h3>
+            <h3 style={{ margin: 0 }}>
+              <Link href={`/docs/${section.slug}`}>{section.label}</Link>
+            </h3>
             <ul style={{ listStyle: "none", margin: 0, padding: 0, maxWidth: "none" }}>
               {section.items.map((item) => (
                 <li key={item.slug} style={{ padding: 0 }}>

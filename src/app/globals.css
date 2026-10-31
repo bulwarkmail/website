@@ -887,6 +887,13 @@ a.bw-tile:hover {
   bottom: auto;
   margin-top: -10px;
 }
+/* A docs section page lists a child page under its parent, indented. */
+.bw-tile-compact.bw-tile-nested {
+  padding-left: calc(var(--bw-tile-pad) + 24px);
+}
+.bw-tile-nested .bw-tile-title {
+  font-size: var(--bw-body);
+}
 @media (max-width: 1024px) {
   .bw-tiles,
   .bw-tiles-3 {
@@ -901,6 +908,10 @@ a.bw-tile:hover {
   .bw-tile {
     min-height: 0;
     padding-bottom: 56px;
+  }
+  /* The list form centres its arrow, so it needs no room below the text. */
+  .bw-tile-compact {
+    padding-bottom: 18px;
   }
 }
 
@@ -1400,6 +1411,9 @@ a.bw-tile:hover {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
+}
+.bw-side-group h4 a:hover {
+  text-decoration: underline;
 }
 .bw-side-item {
   display: flex;
