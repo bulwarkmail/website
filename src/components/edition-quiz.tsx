@@ -202,7 +202,7 @@ type ResultProps = {
 };
 
 function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps) {
-  const { kind, pick, eyebrow, title, pitch, primary, secondary, reasons, options, caveats } = verdict;
+  const { kind, pick, lead, title, pitch, primary, secondary, reasons, options, caveats } = verdict;
   // A result that isn't one edition sits on a neutral panel, not in either
   // edition's colour.
   const neutral = pick === null;
@@ -217,11 +217,13 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
       >
         <div className="bw-quiz-result-main">
           {kind !== "classic" ? <BulwarkMark size={72} color="currentColor" /> : null}
-          <span className="bw-quiz-eyebrow">{eyebrow}</span>
           <h2 ref={headingRef} tabIndex={-1} id="quiz-result" className="bw-quiz-name">
             {title}
           </h2>
-          <p className="bw-quiz-pitch">{pitch}</p>
+          <p className="bw-quiz-pitch">
+            {lead ? `${lead} ` : ""}
+            {pitch}
+          </p>
           {primary ? (
             <div className="bw-btns">
               <ResultLink link={primary} edition={pick} className="bw-btn" />
@@ -234,7 +236,7 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
 
         {reasons.length > 0 ? (
           <div className="bw-quiz-why">
-            <span className="bw-quiz-eyebrow">Because you said</span>
+            <h3 className="bw-h3">Because you said</h3>
             <ul>
               {reasons.map((r) => (
                 <li key={r.tag}>

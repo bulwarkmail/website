@@ -2309,7 +2309,7 @@ ul.bw-rules > li::before {
   visibility: hidden;
 }
 .bw-quiz-count {
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 .bw-quiz-bar {
@@ -2454,12 +2454,6 @@ ul.bw-rules > li::before {
 .bw-quiz-result-main svg {
   margin-bottom: 12px;
 }
-.bw-quiz-eyebrow {
-  font-size: var(--bw-caption);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
 .bw-quiz-name {
   font-size: clamp(40px, 5vw, 64px);
   line-height: 1;
@@ -2494,7 +2488,7 @@ ul.bw-rules > li::before {
   flex: none;
   padding: 2px 9px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
   border: 1px solid var(--bw-on-field);
 }

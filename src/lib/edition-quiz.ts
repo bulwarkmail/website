@@ -210,7 +210,8 @@ export type Verdict = {
   pick: Edition | null;
   /** Nothing forced it and the leans are within a point: either would do. */
   close: boolean;
-  eyebrow: string;
+  /** A sentence put in front of the pitch, when the title needs one. */
+  lead?: string;
   title: string;
   pitch: string;
   primary?: Link;
@@ -289,7 +290,7 @@ export function evaluate(answers: Answers): Verdict {
         kind: "classic",
         pick: null,
         close: false,
-        eyebrow: "Honestly, Bulwark isn't the right fit here",
+        lead: "Honestly, Bulwark isn't the right fit here.",
         title: "A classic webmail",
         pitch:
           "Bulwark is built for Stalwart, and most other mail servers can't talk to it directly. Connecting it to your mail server needs Legacy Proxy, and that needs a server of its own. Roundcube and SnappyMail work with your mail server directly and run on ordinary website hosting.",
@@ -310,7 +311,7 @@ export function evaluate(answers: Answers): Verdict {
       kind: "proxy",
       pick: "full",
       close: false,
-      eyebrow: "Possible, with an extra piece",
+      lead: "Possible, with an extra piece.",
       title: "Bulwark + Legacy Proxy",
       pitch:
         "Bulwark is built for Stalwart, and most other mail servers can't talk to it directly. Legacy Proxy sits between it and your mail server, so you run two apps instead of one. Lite doesn't help here, because the proxy needs a server anyway.",
@@ -350,7 +351,7 @@ export function evaluate(answers: Answers): Verdict {
         kind: "stuck",
         pick: null,
         close: false,
-        eyebrow: "Not with this setup as it is",
+        lead: "Not with this setup as it is.",
         title: "Two ways to get there",
         pitch: inStalwart
           ? `Only Bulwark has ${needsList}, and Bulwark is an app of its own that needs a server. Only Lite can live inside Stalwart, and it leaves ${those} out.`
@@ -387,7 +388,6 @@ export function evaluate(answers: Answers): Verdict {
       kind: "full",
       pick: "full",
       close: false,
-      eyebrow: "Your pick",
       title: "Bulwark",
       pitch: inStalwart
         ? "An app of its own, so it can't live inside Stalwart the way Lite can. It can run on the same machine, though."
@@ -443,7 +443,7 @@ export function evaluate(answers: Answers): Verdict {
     kind: lite ? "lite" : "full",
     pick: lite ? "lite" : "full",
     close,
-    eyebrow: close ? "Both would work. We'd pick" : "Your pick",
+    lead: close ? "Both would work, and this one fits a little better." : undefined,
     title: lite ? "Bulwark Lite" : "Bulwark",
     pitch: lite
       ? inStalwart
