@@ -17,11 +17,11 @@ The calendar speaks JMAP for Calendars (an IETF draft) and stores events as JSCa
 <img class="theme-light-only" src="/screenshots/light-calendar-week.webp" alt="The week view with events from several calendars and the day's tasks" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-week.webp" alt="The week view with events from several calendars and the day's tasks" width="5120" height="2880" />
 
-- **Month view** - The whole month, with multi-day events drawn across the days they span
-- **Week view** - The week's schedule, with overlapping events laid out in columns and sorted by time
-- **Day view** - Hour-by-hour agenda for one day
-- **Agenda view** - Chronological list of upcoming events, loading more as you scroll
-- **Task list view** - Tasks with their details and status, editable inline, once tasks are turned on (see [Tasks](#tasks))
+- **Month view:** the whole month, with multi-day events drawn across the days they span
+- **Week view:** the week's schedule, with overlapping events laid out in columns and sorted by time
+- **Day view:** hour-by-hour agenda for one day
+- **Agenda view:** chronological list of upcoming events, loading more as you scroll
+- **Task list view:** tasks with their details and status, editable inline, once tasks are turned on (see [Tasks](#tasks))
 
 Month, week and day views scroll freely: keep scrolling past the end of the month and the next one follows, rather than snapping a period at a time. The toolbar's date label and the mini-calendar follow the week in view. To page a period at a time instead, turn off **Free scrolling** in calendar settings.
 
@@ -72,12 +72,12 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 <img class="theme-light-only" src="/screenshots/light-calendar-event.webp" alt="An event opened from the week view, with participants and the response buttons" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-event.webp" alt="An event opened from the week view, with participants and the response buttons" width="5120" height="2880" />
 
-- **Drag-and-drop rescheduling** - Move events between time slots in week/day views or between dates in month view
-- **Resize events** - Drag the top or bottom edge to change the start or the duration, in 15-minute steps
-- **Duplicate events** - Clone an event with a +1 day offset for editing
-- **Recurring event editing** - Choose scope: this event, this and following, or all events. On Stalwart 0.16.20 and later each occurrence is addressed by the synthetic id Stalwart gives it, so an edit to one Tuesday cannot land on another; on older servers Bulwark saves the change as an override on the recurring event
-- **Overlap layout** - Events that overlap are laid out in columns rather than stacked, so none of them gets truncated
-- **Timezone-aware formatting** - Event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
+- **Drag-and-drop rescheduling:** move events between time slots in week/day views or between dates in month view
+- **Resize events:** drag the top or bottom edge to change the start or the duration, in 15-minute steps
+- **Duplicate events:** clone an event with a +1 day offset for editing
+- **Recurring event editing:** choose scope: this event, this and following, or all events. On Stalwart 0.16.20 and later each occurrence is addressed by the synthetic id Stalwart gives it, so an edit to one Tuesday cannot land on another; on older servers Bulwark saves the change as an override on the recurring event
+- **Overlap layout:** events that overlap are laid out in columns rather than stacked, so none of them gets truncated
+- **Timezone-aware formatting:** event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
 ## Sharing and invitations
 

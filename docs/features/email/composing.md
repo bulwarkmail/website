@@ -53,8 +53,8 @@ When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g
 
 There are two composer modes:
 
-- **Rich text** - Full formatting with the rich text editor (default)
-- **Plain text only** - A simplified plain text composer for users who prefer unformatted emails
+- **Rich text:** full formatting with the rich text editor (default)
+- **Plain text only:** a simplified plain text composer for users who prefer unformatted emails
 
 Turn on "Plain text only" in Settings > Composing to always write plain text, or switch one message with Options > Plain text in the composer.
 
@@ -65,7 +65,7 @@ Turn on "Plain text only" in Settings > Composing to always write plain text, or
 - Your Stalwart configuration sets the maximum file size
 - Each attachment chip shows progress in bytes while it uploads, and cancelling aborts the transfer rather than just hiding the chip
 - Inline images can be pasted from the clipboard or uploaded straight into the rich text editor, and resized there
-- **Forgotten-attachment warning** - if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
+- **Forgotten-attachment warning:** if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
 
 ## Signatures
 

@@ -19,9 +19,9 @@ A value the wizard or the admin console has saved wins; the environment fills in
 
 Bulwark supports three configuration layers:
 
-- **Admin-managed config** - Written by the setup wizard or the admin console to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
-- **Runtime environment variables** - Read by the server at request time. Used for every key the admin config does not set. Work well for Docker and reverse-proxy deployments.
-- **Legacy build-time variables** - `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
+- **Admin-managed config:** written by the setup wizard or the admin console to `data/admin/config.json` (or `ADMIN_CONFIG_DIR/config.json`). Changes take effect on the next user session without a restart.
+- **Runtime environment variables:** read by the server at request time. Used for every key the admin config does not set. Work well for Docker and reverse-proxy deployments.
+- **Legacy build-time variables:** `NEXT_PUBLIC_*` fallbacks still supported for older deployments, but new setups should prefer the wizard or runtime variables.
 
 The order of precedence is **admin config > env var > build-time fallback > built-in default**. If an environment variable seems to be ignored, look for the same key in `ADMIN_CONFIG_DIR/config.json`: a value saved there, even `false`, takes priority until you remove it.
 
@@ -156,9 +156,9 @@ stalwart-cli create Action/ReloadSettings
 
 Bulwark uses JMAP's built-in authentication. Users log in with their email credentials configured in Stalwart. Supported authentication methods:
 
-- **Basic Auth** - Username and password
-- **OAuth 2.0** - If configured in Stalwart
-- **App passwords** - Per-client credentials users create in Settings > Security for mail and calendar apps that can't do OAuth. They don't sign in to Bulwark itself.
+- **Basic Auth:** username and password
+- **OAuth 2.0:** if configured in Stalwart
+- **App passwords:** per-client credentials users create in Settings > Security for mail and calendar apps that can't do OAuth. They don't sign in to Bulwark itself.
 
 ## Custom JMAP server endpoints
 

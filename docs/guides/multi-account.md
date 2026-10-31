@@ -106,9 +106,9 @@ Identities support sub-addressing (`user+tag@domain.com`). When composing a repl
 
 ## Limits and performance
 
-- **Maximum accounts** - 50 on HTTP/2 or HTTP/3, 5 on HTTP/1.1.
-- **Push connections** - At most two live push streams per tab; further accounts check for changes by polling until a stream frees up.
-- **Session cookie size** - Per-account encrypted state fits within the browser's cookie size limit. An access token too large for a cookie isn't cached; Bulwark gets a new one when the page reloads. Each account gets its own `cookieSlot` so OAuth flows don't clobber each other.
+- **Maximum accounts:** 50 on HTTP/2 or HTTP/3, 5 on HTTP/1.1.
+- **Push connections:** at most two live push streams per tab; further accounts check for changes by polling until a stream frees up.
+- **Session cookie size:** per-account encrypted state fits within the browser's cookie size limit. An access token too large for a cookie isn't cached; Bulwark gets a new one when the page reloads. Each account gets its own `cookieSlot` so OAuth flows don't clobber each other.
 
 ## Troubleshooting
 

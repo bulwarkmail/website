@@ -89,19 +89,19 @@ For env-driven deployments, set `JMAP_SERVER_URL` and the wizard is skipped.
 
 On Stalwart 0.16.6 and newer, 1.0 included, Bulwark enables additional features that depend on Stalwart's JMAP `x:` methods. They sit in the Security tab of the settings, apart from deleted-mail recovery:
 
-- **Password change** - Users can change their password from account settings
-- **TOTP 2FA** - Enable and disable two-factor authentication
-- **App passwords** - Generate per-app credentials (e.g., for IMAP/SMTP clients), with optional IP allowlist per password
-- **API keys** - Users create, list and revoke their own Stalwart API keys
-- **Deleted-mail recovery** - Restore deleted items from the server's archive; needs a Stalwart Enterprise licence
+- **Password change:** users can change their password from account settings
+- **TOTP 2FA:** enable and disable two-factor authentication
+- **App passwords:** generate per-app credentials (e.g., for IMAP/SMTP clients), with optional IP allowlist per password
+- **API keys:** users create, list and revoke their own Stalwart API keys
+- **Deleted-mail recovery:** restore deleted items from the server's archive; needs a Stalwart Enterprise licence
 
 These use standard JMAP and work on any server that supports them, Stalwart included:
 
-- **Sieve filters** - Server-side email filtering via Sieve scripts (RFC 9661)
-- **Vacation responder** - JMAP `VacationResponse` management with Sieve generation and parsing
-- **Display name management** - Update display name from settings
-- **Storage quota display** - Show account storage usage
-- **Identity sync** - Identities are kept in sync with the server via JMAP
+- **Sieve filters:** server-side email filtering via Sieve scripts (RFC 9661)
+- **Vacation responder:** JMAP `VacationResponse` management with Sieve generation and parsing
+- **Display name management:** update display name from settings
+- **Storage quota display:** show account storage usage
+- **Identity sync:** identities are kept in sync with the server via JMAP
 
 [Account Security](/docs/guides/account-security) lists the Stalwart permissions these features need.
 

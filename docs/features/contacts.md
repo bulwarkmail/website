@@ -35,7 +35,7 @@ The detail view shows:
 
 - Photo display with print support
 - A **Duplicate** action that copies the contact
-- **Contact activity** - recent mail exchanged with this person and their upcoming calendar events
+- **Contact activity:** recent mail exchanged with this person and their upcoming calendar events
 
 ## Address book directories
 
@@ -80,9 +80,9 @@ When composing an email, Bulwark auto-completes recipient addresses (To, Cc, Bcc
 
 ## Import and export
 
-- **Import** - vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
-- **Export** - Download contacts as vCard, accessible from Settings
-- **Sync** - Contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
+- **Import:** vCard (.vcf) files (RFC 6350) with duplicate detection, accessible from Settings
+- **Export:** download contacts as vCard, accessible from Settings
+- **Sync:** contacts sync via JMAP with Stalwart, with local fallback when the server doesn't support contacts
 
 <div class="bw-note bw-note-brand"><b>Also in Lite.</b> Everything on this page works in Bulwark Lite. Contacts are plain JMAP, so nothing here needs the Node.js server.</div>
 

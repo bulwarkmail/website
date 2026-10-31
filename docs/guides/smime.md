@@ -53,8 +53,8 @@ There is nothing to link to a sender identity. The plugin signs with the key who
 
 In the composer's Options menu:
 
-- **Sign (S/MIME)** - signs with the key whose certificate matches the From address.
-- **Encrypt (S/MIME)** - needs a certificate for every recipient. If a recipient has no certificate, the message isn't sent: Bulwark names the recipients without one and keeps the draft.
+- **Sign (S/MIME):** signs with the key whose certificate matches the From address.
+- **Encrypt (S/MIME):** needs a certificate for every recipient. If a recipient has no certificate, the message isn't sent: Bulwark names the recipients without one and keeps the draft.
 
 A password-protected private key is unlocked from the composer itself, so you do not lose the draft.
 
@@ -64,9 +64,9 @@ Set whether new messages start signed or encrypted under **Defaults for new mess
 
 The email viewer shows a banner above the message body:
 
-- **Encrypted** - Bulwark decrypts with your unlocked key. If your key is locked, the banner says "Encrypted — unlock your key to read" and offers **Unlock now**; if none of your keys fits, it says "Encrypted — couldn't be decrypted with your keys". Mail in an algorithm the plugin can't read shows "Encrypted — unsupported encryption algorithm" with its name.
-- **Valid signature by …** - the signature matches the message. A **self-signed** or **signer ≠ From** mark warns you. **Show certificate details** lists subject, issuer and validity, and says that the issuer chain is not checked.
-- **Invalid signature** - the banner names the reason, such as a changed message or an expired certificate.
+- **Encrypted:** Bulwark decrypts with your unlocked key. If your key is locked, the banner says "Encrypted — unlock your key to read" and offers **Unlock now**; if none of your keys fits, it says "Encrypted — couldn't be decrypted with your keys". Mail in an algorithm the plugin can't read shows "Encrypted — unsupported encryption algorithm" with its name.
+- **Valid signature by …:** the signature matches the message. A **self-signed** or **signer ≠ From** mark warns you. **Show certificate details** lists subject, issuer and validity, and says that the issuer chain is not checked.
+- **Invalid signature:** the banner names the reason, such as a changed message or an expired certificate.
 
 <img class="theme-light-only" src="/screenshots/light-smime-signed.webp" alt="A signed message with the S/MIME plugin's banner above the body, saying the signature is valid" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-smime-signed.webp" alt="A signed message with the S/MIME plugin's banner above the body, saying the signature is valid" width="5120" height="2880" />
