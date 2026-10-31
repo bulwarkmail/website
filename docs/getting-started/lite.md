@@ -1,7 +1,7 @@
 ---
 title: Bulwark Lite
 description: The same webmail as static files, with no Node.js process to run.
-order: 3
+order: 4
 edition: lite
 editionNote: "This page is about Bulwark Lite, the static build. Bulwark with its admin console and plugins is covered in Installation."
 ---
@@ -105,4 +105,4 @@ Or the equivalent reverse-proxy rule that allows your Lite origin with the `Auth
 - [Static hosting](/docs/deployment/static) - build inputs, `config.json`, host snippets
 - [Install on Stalwart](/docs/deployment/stalwart-app) - let Stalwart serve Lite itself, no CORS
 - [Editions](/docs/getting-started/editions) - the comparison table
-- [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) - the mail server side
+- [Stalwart setup](/docs/getting-started/stalwart-setup) - the mail server side

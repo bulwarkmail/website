@@ -1,7 +1,7 @@
 ---
 title: Extension marketplace
 description: Browse and install plugins and themes from a configurable extension directory.
-order: 8
+order: 10
 edition: full
 editionNote: "Lite has no admin console to browse from, and plugins don't run in Lite at all."
 ---

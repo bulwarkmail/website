@@ -1,7 +1,7 @@
 ---
 title: Environment reference
 description: Every environment variable Bulwark reads, with defaults and when to set it.
-order: 3
+order: 2
 edition: full
 editionNote: "These variables configure Bulwark (not Lite). Lite reads config.json; see Bulwark Lite."
 ---

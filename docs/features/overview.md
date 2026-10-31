@@ -161,7 +161,7 @@ Related pages: [Environment reference](/docs/getting-started/configuration/envir
 
 ## Identity & multi-account
 
-Related pages: [Multiple accounts](/docs/guides/multi-account), [Stalwart setup](/docs/getting-started/configuration/stalwart-setup).
+Related pages: [Multiple accounts](/docs/guides/multi-account), [Stalwart setup](/docs/getting-started/stalwart-setup).
 
 - Run several accounts at once and switch instantly, each keeping its own session. Up to 5 accounts at once over HTTP/1.1, and up to 50 when the server speaks HTTP/2 or HTTP/3.
 - An account switcher showing connection status, and a default account

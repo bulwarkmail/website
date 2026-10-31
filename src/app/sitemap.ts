@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllDocs } from "@/lib/docs";
+import { getAllDocs, getDocSections } from "@/lib/docs";
 
 const SITE_URL = "https://bulwarkmail.org";
 
@@ -7,6 +7,13 @@ const SITE_URL = "https://bulwarkmail.org";
 // deploy, which is worse than saying nothing.
 export default function sitemap(): MetadataRoute.Sitemap {
   const docs = getAllDocs();
+
+  // Each section has its own page listing its pages, /docs/<section>.
+  const sectionPages = getDocSections().map((section) => ({
+    url: `${SITE_URL}/docs/${section.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
 
   const docPages = docs.map((doc) => ({
     url: `${SITE_URL}/docs/${doc.slug}`,
@@ -40,6 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "monthly",
       priority: 0.4,
     },
+    ...sectionPages,
     ...docPages,
   ];
 }

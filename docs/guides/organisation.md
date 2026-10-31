@@ -1,7 +1,7 @@
 ---
 title: Organisation settings
 description: Signatures, external mail warnings, sign-out times, shared templates and tags, delegates, and settings per domain or group.
-order: 12
+order: 2
 edition: both
 ---
 

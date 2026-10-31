@@ -1,7 +1,7 @@
 ---
 title: Account security
 description: Manage password, 2FA, app passwords, and API keys from within Bulwark.
-order: 5
+order: 7
 edition: full
 editionNote: "The account security tab is hidden, because these calls go through the Node.js server. Logging in with a password and a TOTP code still works in Lite; enrolling or changing them does not."
 ---
@@ -78,5 +78,5 @@ Earlier Bulwark versions used `STALWART_API_URL` to reach a separate REST endpoi
 
 - [Stalwart Mail Server Documentation](https://stalw.art/)
 - [Authentication](/docs/getting-started/configuration/authentication)
-- [Stalwart setup](/docs/getting-started/configuration/stalwart-setup)
+- [Stalwart setup](/docs/getting-started/stalwart-setup)
 - [Multi-account support](/docs/guides/multi-account)

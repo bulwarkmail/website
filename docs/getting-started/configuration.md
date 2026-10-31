@@ -1,7 +1,7 @@
 ---
 title: Configuration
 description: Configure Bulwark for your environment.
-order: 4
+order: 6
 edition: full
 editionNote: "This page configures Bulwark (not Lite) through environment variables and the admin console. Lite reads config.json instead; see Bulwark Lite."
 ---
@@ -141,7 +141,7 @@ The table above is the short version. Every variable the server reads is written
 
 ## Stalwart server setup
 
-Bulwark requires a Stalwart Mail Server with JMAP enabled, which it is by default: a fresh install serves JMAP on its HTTPS listener. [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) covers the supported versions and the server settings Bulwark depends on.
+Bulwark requires a Stalwart Mail Server with JMAP enabled, which it is by default: a fresh install serves JMAP on its HTTPS listener. [Stalwart setup](/docs/getting-started/stalwart-setup) covers the supported versions and the server settings Bulwark depends on.
 
 ### CORS configuration
 

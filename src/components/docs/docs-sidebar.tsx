@@ -134,7 +134,11 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
       {sections.map((section) => {
         return (
           <div key={section.slug} className="bw-side-group">
-            <h4>{section.label}</h4>
+            <h4>
+              <Link href={`/docs/${section.slug}`} onClick={close}>
+                {section.label}
+              </Link>
+            </h4>
             <ul>
               {section.items.map((item) => (
                 <SidebarEntry key={`${item.slug}:${pathname}`} item={item} pathname={pathname} onNavigate={close} />

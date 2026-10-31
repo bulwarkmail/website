@@ -84,12 +84,16 @@ type TileProps = {
   icon?: AppIcon;
   /** The list form: no minimum height, arrow centred. */
   compact?: boolean;
+  /** In the list form, indents a page that sits under the one before it. */
+  nested?: boolean;
 };
 
 /** A shared-edge tile: title top-left, one line of text, arrow bottom-right. */
-export function Tile({ href, title, text, icon: Icon, compact }: TileProps) {
+export function Tile({ href, title, text, icon: Icon, compact, nested }: TileProps) {
   const external = /^https?:\/\//.test(href);
-  const className = compact ? "bw-tile bw-tile-compact" : "bw-tile";
+  const className = [compact ? "bw-tile bw-tile-compact" : "bw-tile", nested ? "bw-tile-nested" : ""]
+    .filter(Boolean)
+    .join(" ");
   const body = (
     <>
       {Icon ? <Icon size={24} className="bw-tile-icon" {...ICON} /> : null}

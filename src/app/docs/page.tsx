@@ -22,7 +22,9 @@ export default function DocsPage() {
       <h1>Documentation</h1>
       <p>
         Three steps take you from a Stalwart server to a working inbox in about five minutes. The rest of the manual is
-        reference: configuration, features, deployment and the extension API.
+        reference: configuration, features, deployment and the extension API. If you are deciding whether Bulwark
+        fits, start with the page written for <Link href="/organisations">organisations</Link>,{" "}
+        <Link href="/small-business">small businesses</Link> or <Link href="/homelab">homelabs</Link>.
       </p>
 
       {/* The numbers are a real sequence. */}
@@ -33,7 +35,7 @@ export default function DocsPage() {
           <div>
             <strong>Have Stalwart running.</strong> Stalwart is the mail server: 0.16.6 or newer, or 1.0 from Bulwark{" "}
             {BULWARK_VERSION} on. The{" "}
-            <Link href="/docs/getting-started/configuration/stalwart-setup">Stalwart setup</Link> page covers
+            <Link href="/docs/getting-started/stalwart-setup">Stalwart setup</Link> page covers
             installing it first.
           </div>
         </li>
@@ -72,6 +74,16 @@ export default function DocsPage() {
           text="One container and a setup wizard. The route for most installs."
         />
         <Tile
+          href="/docs/deployment/docker/compose"
+          title="Compose with Stalwart"
+          text="One Compose file brings up Stalwart and Bulwark together, for a new mail server."
+        />
+        <Tile
+          href="/docs/deployment/stalwart-app"
+          title="Install on Stalwart"
+          text="Stalwart serves Bulwark Lite from its own address. No web server to run and no CORS setting."
+        />
+        <Tile
           href="/docs/getting-started/lite"
           title="Bulwark Lite"
           text="The same client as static files, uploaded to any web host."
@@ -81,13 +93,20 @@ export default function DocsPage() {
           title="Manual install"
           text="A standalone tarball or your own build, run under systemd or PM2."
         />
+        <Tile
+          href="/docs/deployment/kubernetes"
+          title="Kubernetes"
+          text="HelmForge's community Helm chart. Set the image tag yourself, since its default lags behind."
+        />
       </div>
 
       <h2 id="manual">Browse the manual</h2>
       <div className="bw-manual" style={{ marginTop: 16 }}>
         {sections.map((section) => (
           <div key={section.slug}>
-            <h3 style={{ margin: 0 }}>{section.label}</h3>
+            <h3 style={{ margin: 0 }}>
+              <Link href={`/docs/${section.slug}`}>{section.label}</Link>
+            </h3>
             <ul style={{ listStyle: "none", margin: 0, padding: 0, maxWidth: "none" }}>
               {section.items.map((item) => (
                 <li key={item.slug} style={{ padding: 0 }}>

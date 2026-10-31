@@ -1,7 +1,7 @@
 ---
 title: Multi-account support
 description: Manage multiple simultaneous email accounts in Bulwark.
-order: 6
+order: 8
 edition: both
 ---
 

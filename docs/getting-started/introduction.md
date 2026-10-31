@@ -38,7 +38,7 @@ The license is AGPL v3.
 | Setup | A web wizard on first launch that probes your JMAP server, configures OAuth, generates the session secret, takes your branding, and sets the admin password |
 | Accounts | Several accounts signed in at once, switching instantly, with a unified inbox across all of them |
 | Editions | Bulwark as a Node.js service, or [Bulwark Lite](/docs/getting-started/lite) as static files on any web host |
-| Mail server | Stalwart 0.16.6 or newer, and Stalwart 1.0 from Bulwark {{BULWARK_VERSION}} on ([supported versions](/docs/getting-started/configuration/stalwart-setup#supported-versions)) |
+| Mail server | Stalwart 0.16.6 or newer, and Stalwart 1.0 from Bulwark {{BULWARK_VERSION}} on ([supported versions](/docs/getting-started/stalwart-setup#supported-versions)) |
 | Identities | Multiple sender identities per account, each with its own signature and signature position, plus sub-addressing with a configurable delimiter |
 | Filters | Server-side Sieve (RFC 9661) through a visual rule builder or a raw editor, and a vacation responder with date ranges |
 | S/MIME | With the S/MIME plugin (full edition only): sign, encrypt, decrypt, verify. Legacy 3DES and password-based key bundles included, per-account key isolation throughout |
@@ -67,6 +67,6 @@ The exhaustive version, kept in sync with each release, is [All features](/docs/
 
 ## Where to go next
 
-[Installation](/docs/getting-started/installation) is a container and a wizard, and takes about ten minutes. If you would rather not run a Node.js process at all, [Bulwark Lite](/docs/getting-started/lite) is a folder of static files. Either way, if Stalwart isn't running yet, do [that](/docs/getting-started/configuration/stalwart-setup) first: Bulwark is a client and has nothing to talk to without it.
+[Installation](/docs/getting-started/installation) is a container and a wizard, and takes about ten minutes. If you would rather not run a Node.js process at all, [Bulwark Lite](/docs/getting-started/lite) is a folder of static files. Either way, if Stalwart isn't running yet, do [that](/docs/getting-started/stalwart-setup) first: Bulwark is a client and has nothing to talk to without it.
 
 Questions the docs don't answer belong on the [issue tracker](https://github.com/bulwarkmail/webmail/issues). Anything about the mail server itself is covered better in [Stalwart's own documentation](https://stalw.art/docs), and the protocol underneath both is specified at [jmap.io](https://jmap.io).

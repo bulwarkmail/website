@@ -1,7 +1,7 @@
 ---
 title: Install on Stalwart
 description: Let Stalwart host Bulwark Lite itself as a web Application, on the same origin, with no web server and no CORS.
-order: 1
+order: 5
 edition: lite
 editionNote: "This page is about Bulwark Lite, served by Stalwart itself. The admin console, plugins, office editing and web push are part of Bulwark, not Lite."
 ---
@@ -181,4 +181,4 @@ Then set `resourceUrl` to your zip's URL and run "update applications". A privat
 
 - [Bulwark Lite](/docs/getting-started/lite) - what it is and what it leaves out
 - [Static hosting](/docs/deployment/static) - the other way to host Lite, and the build inputs
-- [Stalwart setup](/docs/getting-started/configuration/stalwart-setup) - the mail server side
+- [Stalwart setup](/docs/getting-started/stalwart-setup) - the mail server side

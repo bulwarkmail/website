@@ -782,17 +782,16 @@ h3 {
   mask: var(--logo) center / contain no-repeat;
   -webkit-mask: var(--logo) center / contain no-repeat;
 }
+/* On a phone: the label and two logos on the first row, the third logo and
+   "Become a sponsor" (pushed right) on the second. */
 @media (max-width: 640px) {
   .bw-sponsors-in {
-    gap: 18px 32px;
+    gap: 14px 16px;
+    padding-block: 20px;
   }
   .bw-sponsor-logo {
-    height: calc(var(--h) * 0.85);
-    width: calc(var(--h) * 0.85 * var(--ratio));
-  }
-  .bw-sponsors-cta {
-    margin-left: 0;
-    flex-basis: 100%;
+    height: calc(var(--h) * 0.7);
+    width: calc(var(--h) * 0.7 * var(--ratio));
   }
 }
 
@@ -887,6 +886,13 @@ a.bw-tile:hover {
   bottom: auto;
   margin-top: -10px;
 }
+/* A docs section page lists a child page under its parent, indented. */
+.bw-tile-compact.bw-tile-nested {
+  padding-left: calc(var(--bw-tile-pad) + 24px);
+}
+.bw-tile-nested .bw-tile-title {
+  font-size: var(--bw-body);
+}
 @media (max-width: 1024px) {
   .bw-tiles,
   .bw-tiles-3 {
@@ -901,6 +907,10 @@ a.bw-tile:hover {
   .bw-tile {
     min-height: 0;
     padding-bottom: 56px;
+  }
+  /* The list form centres its arrow, so it needs no room below the text. */
+  .bw-tile-compact {
+    padding-bottom: 18px;
   }
 }
 
@@ -1056,6 +1066,14 @@ a.bw-tile:hover {
 .bw-steps .bw-code {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+/* On a phone every command wraps the same way, inside the right padding that
+   keeps the copy button clear. */
+@media (max-width: 640px) {
+  .bw-code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
 }
 
 .bw-note {
@@ -1400,6 +1418,9 @@ a.bw-tile:hover {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
+}
+.bw-side-group h4 a:hover {
+  text-decoration: underline;
 }
 .bw-side-item {
   display: flex;
@@ -1761,6 +1782,22 @@ a.bw-tile:hover {
   border: 0;
   border-radius: 0;
 }
+/* CopyableCode puts each block in a wrapper that holds the copy button, so
+   the button stays in its corner while the code scrolls sideways. The
+   wrapper takes the block's margins. */
+.prose-docs .bw-prewrap {
+  position: relative;
+  margin: 8px 0 24px;
+}
+.prose-docs .bw-prewrap > pre {
+  margin: 0;
+}
+/* A block with lines wider than the box starts its code below the button. */
+@media (min-width: 641px) {
+  .prose-docs .bw-prewrap > pre.bw-pre-scrolls {
+    padding-top: 52px;
+  }
+}
 .copy-btn {
   position: absolute;
   top: 8px;
@@ -1990,6 +2027,14 @@ a.bw-tile:hover {
     margin-inline: calc(-1 * var(--bw-gutter));
     border-inline: 0;
   }
+  .prose-docs .bw-prewrap {
+    margin-inline: calc(-1 * var(--bw-gutter));
+  }
+  /* A phone line is short, so every docs block keeps a strip at the top for
+     the copy button and the code starts below it. */
+  .prose-docs .bw-prewrap > pre {
+    padding: 48px 16px 16px;
+  }
 }
 
 /* ----------------------------------------------------------------------
@@ -2090,6 +2135,8 @@ a.bw-tile:hover {
 }
 .bw-guide-body {
   display: grid;
+  /* minmax(0, 1fr): a long code line scrolls or wraps instead of widening the column. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   min-width: 0;
 }

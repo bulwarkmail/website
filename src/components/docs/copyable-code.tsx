@@ -15,9 +15,25 @@ export function CopyableCode({ html }: { html: string }) {
     const container = containerRef.current;
     if (!container) return;
 
+    // A block whose lines run wider than the box gets a strip at the top for
+    // the button (bw-pre-scrolls), so no line starts or scrolls under it.
+    const marked = new Set<HTMLPreElement>();
+    const markScrolling = () =>
+      marked.forEach((pre) => pre.classList.toggle("bw-pre-scrolls", pre.scrollWidth > pre.clientWidth));
+    const observer = new ResizeObserver(markScrolling);
+
     const pres = container.querySelectorAll("pre");
     pres.forEach((pre) => {
-      if (pre.querySelector(".copy-btn")) return;
+      marked.add(pre);
+      observer.observe(pre);
+      if (pre.parentElement?.classList.contains("bw-prewrap")) return;
+
+      // The button sits in a wrapper beside the scrolling <pre>, so it stays
+      // in its corner when the code is scrolled sideways.
+      const wrap = document.createElement("div");
+      wrap.className = "bw-prewrap";
+      pre.before(wrap);
+      wrap.appendChild(pre);
 
       const btn = document.createElement("button");
       btn.className = "copy-btn";
@@ -40,8 +56,10 @@ export function CopyableCode({ html }: { html: string }) {
         });
       });
 
-      pre.appendChild(btn);
+      wrap.appendChild(btn);
     });
+    markScrolling();
+    return () => observer.disconnect();
   }, [html]);
 
   return (
