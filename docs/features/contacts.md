@@ -9,18 +9,19 @@ edition: both
 
 Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they live on the mail server alongside the mail rather than in a separate directory you have to keep in sync.
 
-<img class="theme-light-only" src="/screenshots/light-contacts-detail.webp" alt="A contact's detail view, showing recent mail and upcoming events with that person" width="5120" height="2880" />
-<img class="theme-dark-only" src="/screenshots/dark-contacts-detail.webp" alt="A contact's detail view, showing recent mail and upcoming events with that person" width="5120" height="2880" />
+<img class="theme-light-only" src="/screenshots/light-contacts-detail.webp" alt="A contact's detail view" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-contacts-detail.webp" alt="A contact's detail view" width="5120" height="2880" />
 
 ## Managing contacts
 
 - Add, edit, and delete contacts
 - Multiple email addresses, phone numbers, and addresses per contact
 - Organization and job title fields
-- RFC 9553 name kinds (`given`, `surname`, `middle`, `prefix`, `suffix`) emitted on output and decoded on import; QUOTED-PRINTABLE encoded vCard fields are decoded on import
+- Names are stored with the RFC 9553 name components (`title`, `given`, `given2`, `surname`, `generation`); QUOTED-PRINTABLE encoded vCard fields are decoded on import
 - Gender handling with `speakToAs` structure
 - Anniversary and birthday fields with non-string date handling
 - Search and filter contacts list
+- Advanced filters on the list: company, job title, location, email domain, birthday month, and whether a contact has an email, phone or photo
 - Sort by first name or by last name
 - A-Z grouping with sticky section headers (toggleable in settings)
 - Right-click context menu for contact actions
@@ -32,9 +33,8 @@ Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they l
 
 The detail view shows:
 
-- Filters for navigating between detail sections
 - Photo display with print support
-- Duplicate detection and merge actions
+- A **Duplicate** action that copies the contact
 - **Contact activity** - recent mail exchanged with this person and their upcoming calendar events
 
 ## Address book directories
