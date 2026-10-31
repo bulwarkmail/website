@@ -17,6 +17,19 @@ After authentication bootstrap, the browser talks JMAP directly to Stalwart. Bul
 
 That split is what makes Bulwark Lite possible. `npm run build:lite` exports the same client with `output: "export"` and `NEXT_PUBLIC_BULWARK_LITE=1`, after deleting the server-only trees (`app/api`, the admin and setup routes, the plugin sandbox, the proxy). What the server provided is either a static file next to `index.html` (`config.json`, `policy.json`), done in the browser against Stalwart's own endpoints (token login, "remember me"), or switched off. `IS_LITE` in `lib/lite.ts` is the build-time constant the feature gates read, and `scripts/lite/verify.mjs` fails the build if a client chunk references a server endpoint that `scripts/lite/lib.mjs` does not list as gated.
 
+## What it is built on
+
+| Technology      | Purpose                  |
+| --------------- | ------------------------ |
+| Next.js 16      | React framework          |
+| TypeScript      | Type safety              |
+| Tailwind CSS v4 | Styling                  |
+| Zustand         | State management         |
+| JMAP            | Mail protocol (RFC 8620) |
+| next-intl       | Internationalization     |
+| Tabler Icons    | Icon library             |
+| Stalwart        | Mail server              |
+
 ## Project structure
 
 ```tree
