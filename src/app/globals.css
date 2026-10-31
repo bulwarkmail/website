@@ -782,17 +782,16 @@ h3 {
   mask: var(--logo) center / contain no-repeat;
   -webkit-mask: var(--logo) center / contain no-repeat;
 }
+/* On a phone: the label and two logos on the first row, the third logo and
+   "Become a sponsor" (pushed right) on the second. */
 @media (max-width: 640px) {
   .bw-sponsors-in {
-    gap: 18px 32px;
+    gap: 14px 16px;
+    padding-block: 20px;
   }
   .bw-sponsor-logo {
-    height: calc(var(--h) * 0.85);
-    width: calc(var(--h) * 0.85 * var(--ratio));
-  }
-  .bw-sponsors-cta {
-    margin-left: 0;
-    flex-basis: 100%;
+    height: calc(var(--h) * 0.7);
+    width: calc(var(--h) * 0.7 * var(--ratio));
   }
 }
 
