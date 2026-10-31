@@ -37,6 +37,9 @@ A `policy.json` that locks one of them anyway is not rejected: the lock works as
 - **Locked settings**: the **Accessibility** category lists the three settings above. Tick **Lock** and pick the value next to **Users get**. Notification duration has a list instead, from **No minimum** to **At least 60 seconds**. Confirm before sending can also be hidden with **Hide**.
 - **Defaults**: every setting you can preset, by category. **Accessibility** comes first and lists the Accessibility page's own options, under the page's headings and with the names users see. Settings the page shares with other pages, such as density or conversation view, are listed under their own category or can be set by key under **Other settings**. Change a value and it gets a **set** badge; the round arrow next to it (**Remove the default**) takes it away again. **Other settings** at the end takes any other setting by its key, as it appears in a settings export.
 
+<img class="theme-light-only" src="/screenshots/light-admin-accessibility.webp" alt="User policy defaults in the admin console with three Accessibility presets set for everyone and the save bar showing" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-accessibility.webp" alt="User policy defaults in the admin console with three Accessibility presets set for everyone and the save bar showing" width="5120" height="2880" />
+
 A lock set before Bulwark 1.19.0, or one in `policy.json` without a value, shows "No value: each user keeps the value they had" and a button to lock it to the value shown.
 
 To give some users different values, add an entry for their domain or group on **Admin > Organisation > Domains and groups** and pick it in **Applies to** at the top of either section. See [Domains and groups](/docs/guides/organisation/domains-and-groups).

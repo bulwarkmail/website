@@ -44,6 +44,9 @@ Never point a public demo at real data by leaving `DEMO_MODE` off and hoping. Th
 
 There is a public instance at [demo.bulwarkmail.org](https://demo.bulwarkmail.org). It runs in demo mode as described above: everyone sees the same sample mailbox, nothing is saved or sent, and a reload starts over. Treat it as a screenshot you can click rather than an account.
 
+<img class="theme-light-only" src="/screenshots/light-demo-login.webp" alt="The demo's sign-in page with a Launch Demo button and no account fields" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-demo-login.webp" alt="The demo's sign-in page with a Launch Demo button and no account fields" width="5120" height="2880" />
+
 ## Related pages
 
 - [Installation](/docs/getting-started/installation) - the non-demo path
