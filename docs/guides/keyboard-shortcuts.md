@@ -7,7 +7,7 @@ edition: both
 
 # Keyboard shortcuts
 
-Press `?` anywhere in the app for the shortcuts overlay. The same list, for reference.
+Press `?` for the shortcuts of the app you are in; the dialog has a tab for each of Mail, Calendar, Contacts and Files. The same lists, for reference.
 
 Single-letter shortcuts only fire when focus isn't in a text field, so typing a subject line never triggers an archive.
 
@@ -21,8 +21,10 @@ Single-letter shortcuts only fire when focus isn't in a text field, so typing a 
 | `c`       | Compose new email        |
 | `/`       | Focus search             |
 | `?`       | Show keyboard shortcuts  |
+| `Ctrl/Cmd+K` | Open the command palette (in the Pro interface: search everything) |
 | `Shift+G` | Refresh emails           |
 | `Ctrl+A`  | Select all               |
+| `Shift+↓` / `Shift+↑` | Extend the selection down / up |
 | `Esc`     | Close overlay / deselect |
 
 ## Accessibility
@@ -45,6 +47,10 @@ Single-key shortcuts can be turned off under Settings > Accessibility, see [Acce
 | `j` / `↓`     | Next email     |
 | `k` / `↑`     | Previous email |
 | `Enter` / `o` | Open email     |
+| `Esc`         | Close the email / deselect |
+| `n`           | Next unread email |
+
+In the Mountain View layout, `g` then `i`, `s`, `t`, `d` or `a` jumps to Inbox, Starred, Sent, Drafts or All mail.
 
 ## Email actions
 
@@ -55,7 +61,7 @@ Single-key shortcuts can be turned off under Settings > Accessibility, see [Acce
 | `f`          | Forward                  |
 | `s`          | Toggle star              |
 | `e`          | Archive                  |
-| `#` / `Del`  | Delete                   |
+| `#` / `Del` / `Backspace` | Delete      |
 | `u`          | Mark as unread           |
 | `Shift+I`    | Mark as read             |
 | `!`          | Report spam / not spam   |
@@ -66,6 +72,8 @@ Single-key shortcuts can be turned off under Settings > Accessibility, see [Acce
 | -------- | ---------------------- |
 | `x`      | Expand/collapse thread |
 
+In Mountain View, `x` selects the conversation instead.
+
 ## Composer
 
 | Shortcut               | Action               |
@@ -75,6 +83,54 @@ Single-key shortcuts can be turned off under Settings > Accessibility, see [Acce
 | `Ctrl/Cmd+Shift+Enter` | Schedule send        |
 | `Esc`                  | Close the composer   |
 
-Drafts save themselves on a timer (a minute by default, adjustable in settings), so there is no save-draft key to press.
+Drafts save themselves two seconds after you stop typing, so there is no save-draft key to press.
 
-The calendar has no view-switching shortcuts. Use the toolbar or the view picker.
+## Calendar
+
+| Shortcut                | Action                                   |
+| ----------------------- | ---------------------------------------- |
+| `d` / `w` / `m`         | Day, week or month view                  |
+| `a`                     | Agenda                                   |
+| `k`                     | Task list                                |
+| `←` / `→`               | Previous / next day, week or month       |
+| `t`                     | Go to today                              |
+| Arrow keys              | Move between days and hours in the grid  |
+| `/`                     | Search events                            |
+| `n` / `c`               | New event, or a task in Tasks            |
+| `e`                     | Edit event                               |
+| `Ctrl/Cmd+Enter`        | Save                                     |
+| `Esc`                   | Close                                    |
+| `F5` / `Ctrl/Cmd+R`     | Refresh                                  |
+
+## Contacts
+
+| Shortcut                | Action                         |
+| ----------------------- | ------------------------------ |
+| `↓` / `↑`               | Next or previous contact       |
+| `Home` / `End`          | First or last                  |
+| `Shift+↓` / `Shift+↑`   | Extend the selection           |
+| `Enter`                 | Open the contact               |
+| `Space`                 | Select or deselect             |
+| `Ctrl/Cmd+A`            | Select all                     |
+| `Esc`                   | Clear the selection or search  |
+| `Del` / `Backspace`     | Delete                         |
+| `Shift+F10`             | Open the contact's menu        |
+| `/`                     | Search                         |
+
+## Files
+
+| Shortcut                | Action                         |
+| ----------------------- | ------------------------------ |
+| `↓` / `↑`               | Next or previous item          |
+| `←` / `→`               | Item beside it in the grid     |
+| `Home` / `End`          | First or last                  |
+| `Shift+↓` / `Shift+↑`   | Extend the selection           |
+| `Enter`                 | Open                           |
+| `Space`                 | Select or deselect             |
+| `Ctrl/Cmd+A`            | Select all                     |
+| `Esc`                   | Clear the selection or search  |
+| `Alt+↑`                 | Up a folder                    |
+| `F2`                    | Rename                         |
+| `Del` / `Backspace`     | Delete                         |
+| `Ctrl/Cmd+C` / `X` / `V` | Copy, cut, paste              |
+| `/` / `Ctrl/Cmd+F`      | Search                         |
