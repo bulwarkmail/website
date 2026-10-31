@@ -75,7 +75,7 @@ npm run lint        # ESLint
 npm run lint:fix    # ESLint, fixing what it can
 ```
 
-Husky runs these on every commit, and CI runs the unit tests on every push and pull request.
+On every commit, Husky typechecks the project and lints the files you staged. CI runs the unit tests, `npm run typecheck` and `npm run lint` on every push and pull request.
 
 | Suite | Command | What it covers |
 | --- | --- | --- |
@@ -97,7 +97,7 @@ webmail/
 │   ├── (main)/admin/        # Admin dashboard
 │   ├── (main)/setup/        # First-launch setup wizard
 │   ├── (sandbox)/           # Isolated plugin sandbox routes
-│   └── api/                 # Route handlers (auth, admin, jmap, caldav, …)
+│   └── api/                 # Route handlers (auth, admin, setup, push, plugin proxy, wopi, …)
 ├── components/              # React components, by feature
 │   ├── email/               # Email list, viewer, composer
 │   ├── calendar/ contacts/ files/ filters/ templates/
@@ -129,7 +129,7 @@ webmail/
 
 ## Translations
 
-Translation runs through **next-intl**, currently across 27 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Mongolian, Norwegian Bokmål, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Traditional Chinese, Turkish and Ukrainian. English (`locales/en/common.json`) is the source of truth.
+Translation runs through **next-intl**, currently across 29 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Estonian, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Mongolian, Norwegian Bokmål, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Thai, Traditional Chinese, Turkish and Ukrainian. English (`locales/en/common.json`) is the source of truth.
 
 1. **Never hardcode user-facing text.** Always go through a translation:
 
@@ -152,12 +152,13 @@ Arabic, Farsi and Hebrew render right to left (see `i18n/direction.ts`). Use Tai
 
 ### Adding a locale
 
-A new locale takes edits in four places:
+A new locale takes edits in five places:
 
 1. `locales/<code>/common.json`: copy `locales/en/common.json` and translate it.
 2. `i18n/routing.ts`: add the code to `SUPPORTED_LOCALES`.
 3. `i18n/request.ts`: add a `case` to the static-import switch.
 4. `components/ui/language-switcher.tsx`: add `{ value, label }` with the language's **native** name, plus a flag in `components/ui/flag-icons.tsx`.
+5. `components/providers/intl-provider.tsx`: add the code to `LOCALE_LOADERS`.
 
 For a right-to-left language, also add the code to `rtlLocales` in `i18n/direction.ts`. Run `npm run test:translations` afterwards.
 
