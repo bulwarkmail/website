@@ -407,24 +407,24 @@ function ProjectsSection() {
         </div>
         <div className="bw-tiles">
           <Tile
-            href="https://github.com/bulwarkmail/legacy-proxy"
-            title="Bulwark Legacy Proxy"
-            text="Lets a JMAP client read a classic IMAP account, with CardDAV and Sieve behind it."
-          />
-          <Tile
             href="https://github.com/bulwarkmail/native"
             title="Bulwark Mobile"
-            text="Mail, calendar, contacts and files on Android. iOS follows."
+            text="Mail, calendar, contacts and files on Android and iOS, as a beta."
           />
           <Tile
-            href="https://github.com/bulwarkmail/relay"
-            title="Bulwark Relay"
-            text="Turns JMAP push into phone notifications and never sees message content."
+            href="https://github.com/bulwarkmail/legacy-proxy"
+            title="Legacy Proxy"
+            text="Lets Bulwark read an existing IMAP account. Pre-1.0, mail and contacts only."
+          />
+          <Tile
+            href="https://github.com/bulwarkmail/homeassistant-jmap"
+            title="Home Assistant"
+            text="Unread counts and new-mail events from any JMAP server. Pre-1.0."
           />
           <Tile
             href="https://extensions.bulwarkmail.org/"
-            title="Bulwark Extensions"
-            text="Reviewed plugins and themes, installed from a ZIP."
+            title="Extensions"
+            text="Plugins and themes, installed from the admin console."
           />
         </div>
       </div>
