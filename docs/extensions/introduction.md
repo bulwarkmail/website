@@ -29,7 +29,7 @@ Plugins need the full edition (not Lite) and are off until an admin turns them o
 
 ### Themes
 
-A theme is a bundle of CSS overrides that target Bulwark's design tokens (the `--color-*` CSS variables defined in `app/globals.css`). A theme is a `manifest.json` with `"type": "theme"` and a `variants` list, plus a `theme.css` that sets the `--color-*` variables under `:root` (light) and `.dark` (dark). Other rules in `theme.css` are dropped. Theme API v2 themes can also declare tokens in the manifest and add a `skin.css` for component styles. See the [manifest reference](/docs/extensions/manifest#theme-only-fields).
+A theme is a bundle of CSS overrides that target Bulwark's design tokens (the `--color-*` CSS variables defined in `app/globals.css`). It consists of a `manifest.json` with `"type": "theme"` and a `variants` list, plus a `theme.css` that sets the `--color-*` variables under `:root` (light) and `.dark` (dark). Other rules in `theme.css` are dropped. Theme API v2 themes can also declare tokens in the manifest and add a `skin.css` for component styles. See the [manifest reference](/docs/extensions/manifest#theme-only-fields).
 
 ## Design principles
 

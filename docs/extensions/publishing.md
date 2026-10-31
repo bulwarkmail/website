@@ -29,7 +29,9 @@ Before submitting, skim the [submission guidelines](/docs/extensions/guidelines)
 
 You can also submit versions from CI instead of the dashboard. The [directory's publishing page](https://extensions.bulwarkmail.org/publishing) has the full details.
 
-**GitHub Actions (trusted publishing).** On the extension's dashboard page, under **Publish from CI**, add a trusted publisher: the repository, the workflow file and, optionally, a GitHub environment. By default only tags may publish. A workflow with `id-token: write` that runs `bulwarkmail/publish-extension@v1` then submits the commit it runs for, with no secret to store:
+### GitHub Actions (trusted publishing)
+
+On the extension's dashboard page, under **Publish from CI**, add a trusted publisher: the repository, the workflow file and, optionally, a GitHub environment. By default only tags may publish. A workflow with `id-token: write` that runs `bulwarkmail/publish-extension@v1` then submits the commit it runs for, with no secret to store:
 
 ```yaml
 name: Publish to Bulwark Extensions
@@ -51,7 +53,9 @@ jobs:
 
 The job waits for the build and the checks and fails if they fail. With `dry-run: true` it builds and checks without submitting anything, for example on pull requests.
 
-**Other CI (API tokens).** Create an API token on the [tokens page](https://extensions.bulwarkmail.org/dashboard/tokens). A token is limited to the extensions you pick and to what it may do, and it expires. Send it to the publishing endpoint with the slug and the ref:
+### Other CI (API tokens)
+
+Create an API token on the [tokens page](https://extensions.bulwarkmail.org/dashboard/tokens). A token is limited to the extensions you pick and to what it may do, and it expires. Send it to the publishing endpoint with the slug and the ref:
 
 ```bash
 curl -X POST https://extensions.bulwarkmail.org/api/v2/publish \
@@ -84,7 +88,7 @@ Older versions stay downloadable by exact version, so existing installs keep wor
 
 The whole extension can also change state:
 
-- **Suspended:** the directory staff suspended it for breaking the rules. Nothing of it can be downloaded until the suspension is lifted. Installed copies keep running, and the admin sees a notice in the Marketplace.
+- **Suspended:** the directory staff suspended it for breaking the rules. None of its versions can be downloaded until the suspension is lifted. Installed copies keep running, and the admin sees a notice in the Marketplace.
 - **Archived:** removed from search, still available to existing installs.
 
 ## Breaking changes

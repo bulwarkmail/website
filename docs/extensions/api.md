@@ -176,7 +176,7 @@ Response (shortened):
 - `X-Bundle-Yanked`: only on a yanked version, with the reason. Yanked versions can still be downloaded by exact version.
 - `Cache-Control: public, max-age=3600`: bundles may be cached for an hour.
 
-Nothing of a suspended extension is served.
+The directory serves no bundles of a suspended extension.
 
 ## Rate limiting
 
