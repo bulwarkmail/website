@@ -42,6 +42,8 @@ A shared mailbox is a Stalwart group with its own address, such as `support@exam
 
 Members read, move, archive and tag mail there as in their own mailbox; the Move menus list the shared mailbox's folders first and the member's own folders after them. Stalwart keeps one read state for the whole group, so when one member opens a message, it is read for everyone.
 
+With several shared mailboxes the sidebar gets long. Turn on **Compact shared mailboxes** in Settings > Account > Multiple accounts to show each one as a single row: it opens the shared mailbox's inbox and shows its counts, and its folders hang below it, leaving out Drafts, Scheduled, Junk and Trash while they are empty. Your own mailbox stays as it is.
+
 Replies can go out from the group's address. Stalwart lists that address among each member's identities, so pick it in **From**, or turn on "Reply from the address it was sent to" in Settings > Composing. Since Bulwark 1.19.1 such a message is sent through the group's own identity, so the server also takes the envelope sender from the group and not from one of your own addresses. A draft written as the group is saved in the group's Drafts, and the sent copy goes to the group's Sent folder.
 
 <img class="theme-light-only" src="/screenshots/light-shared-mailbox-reply.webp" alt="The composer replying to a message in the Support mailbox, sending from support@ in the From field" width="5120" height="2880" />
