@@ -3,12 +3,13 @@ import { getAllDocs } from "@/lib/docs";
 
 const SITE_URL = "https://bulwarkmail.org";
 
+// No lastModified: the build date would mark every page as changed on each
+// deploy, which is worse than saying nothing.
 export default function sitemap(): MetadataRoute.Sitemap {
   const docs = getAllDocs();
 
   const docPages = docs.map((doc) => ({
     url: `${SITE_URL}/docs/${doc.slug}`,
-    lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
@@ -16,8 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
+        changeFrequency: "weekly",
       priority: 1,
     },
     {
@@ -29,26 +29,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${SITE_URL}/docs`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
+        changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/choose`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+        changeFrequency: "monthly",
       priority: 0.6,
     },
     {
       url: `${SITE_URL}/brand`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+        changeFrequency: "monthly",
       priority: 0.5,
     },
     {
       url: `${SITE_URL}/press`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+        changeFrequency: "monthly",
       priority: 0.4,
     },
     ...docPages,
