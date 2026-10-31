@@ -48,7 +48,7 @@ export default function OrganisationsPage() {
 
         <FeatureRow
           heading="Sign in through your identity provider."
-          text="Bulwark signs people in with OpenID Connect, against Stalwart's own provider or one such as Keycloak or Authentik. You can hide the password form, or skip the login page and send people straight to the provider."
+          text="A Sign in with SSO button sends people to your OpenID Connect provider: Stalwart's own, or one such as Keycloak or Authentik. You can also hide the password form, or skip the login page and send people straight to the provider."
           link={{ label: "Authentication", href: "/docs/getting-started/configuration/authentication" }}
           shot={{ name: "login-sso", alt: "The Bulwark login page with a button to sign in through the organisation's identity provider" }}
         />
@@ -80,8 +80,8 @@ export default function OrganisationsPage() {
         />
         <FeatureRow
           flip
-          heading="Bulwark contacts no outside service unless you allow it."
-          text="Turn on No third-party traffic and Bulwark's own server stops contacting outside services, and the page may only load from the hosts you configured, such as your Stalwart and office server. Telemetry is off until an admin turns it on."
+          heading="One switch stops Bulwark's outside connections."
+          text="Out of the box, Bulwark checks for updates, loads sender icons, and uses the project's push relay, extension directory and link Connector. Turn on No third-party traffic and all of that stops, and the page may only load from the hosts you configured, such as your Stalwart and office server. Usage stats stay off until an admin turns them on."
           link={{ label: "Third-party traffic", href: "/docs/guides/organisation/third-party-traffic" }}
           shot={{ name: "admin-third-party", alt: "The admin console's Security page with No third-party traffic turned on and the list of allowed hosts" }}
         />
@@ -100,10 +100,10 @@ export default function OrganisationsPage() {
             { title: "Session limits", text: "Sign people out after idle time or a maximum session length.", href: "/docs/guides/organisation/sessions" },
             { title: "Audit log", text: "Bulwark's own admin actions, with time, IP address and old and new values.", href: "/docs/guides/admin" },
             { title: "S/MIME", text: "Sign and encrypt with the S/MIME plugin; keys stay in the browser.", href: "/docs/guides/smime" },
-            { title: "Accessibility", text: "Presets for every user, links to your statement, and a statement template in the docs.", href: "/docs/features/accessibility" },
+            { title: "Accessibility", text: "Presets for every user, links to your statement, and templates for a BITV statement and the BFSG.", href: "/docs/legal/accessibility" },
             { title: "Embedded in your portal", text: "Bulwark inside another web app's frame, signed in through the same provider.", href: "/docs/guides/embedded-sso" },
             { title: "Kubernetes", text: "Runs from the same image; a community Helm chart exists.", href: "/docs/deployment/kubernetes" },
-            { title: "Security and updates", text: "Published advisories, and attestations on every download.", href: "/docs/deployment/security-updates" },
+            { title: "Security and updates", text: "Published advisories, and attestations on every release since 1.12.0.", href: "/docs/deployment/security-updates" },
           ]}
         />
 
@@ -132,7 +132,7 @@ export default function OrganisationsPage() {
             { title: "Roll Bulwark out", text: "A checklist for Stalwart, Bulwark and the day people sign in.", href: "/docs/guides/organisation/rollout" },
             { title: "Authentication", text: "OpenID Connect, single sign-on only, and auto sign-in.", href: "/docs/getting-started/configuration/authentication" },
             { title: "Domains and groups", text: "A policy per domain or group, and what one address gets.", href: "/docs/guides/organisation/domains-and-groups" },
-            { title: "Running Bulwark for customers", text: "Servers by domain, branding per address, several replicas.", href: "/docs/deployment/hosting-providers" },
+            { title: "Running Bulwark for customers", text: "Servers by domain, branding per address, and what replicas need.", href: "/docs/deployment/hosting-providers" },
             { title: "Security and updates", text: "Where fixes are announced and how to verify a download.", href: "/docs/deployment/security-updates" },
             { title: "Which way to run it?", text: "A one-minute quiz on Bulwark and Bulwark Lite.", href: "/choose" },
           ]}
