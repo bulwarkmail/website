@@ -25,6 +25,9 @@ Bulwark Lite is a folder. This page is about getting that folder built the way y
 
 That is the whole install. The rest of this page is for the cases where the defaults aren't right.
 
+<img class="theme-light-only" src="/screenshots/light-lite-inbox.webp" alt="The Bulwark Lite inbox served from static files under /webmail" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-lite-inbox.webp" alt="The Bulwark Lite inbox served from static files under /webmail" width="5120" height="2880" />
+
 ## config.json
 
 The file is read by the browser at runtime, so edits take effect on the next page load and never need a rebuild. Keys the app reads; anything else is ignored:

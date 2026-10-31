@@ -36,6 +36,9 @@ Everything that runs in the browser, which is most of the client:
 - Deep links: `/en/mail/thread/<id>`, `/en/calendar/day/2026-08-06` and the rest all open directly
 - Demo mode, with a built-in demo account and no server at all
 
+<img class="theme-light-only" src="/screenshots/light-lite-inbox.webp" alt="The Bulwark Lite inbox served from static files under /webmail" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-lite-inbox.webp" alt="The Bulwark Lite inbox served from static files under /webmail" width="5120" height="2880" />
+
 ## What is off
 
 These need the Node.js server, so the static build hides or disables them:

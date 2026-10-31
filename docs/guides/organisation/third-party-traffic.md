@@ -19,6 +19,9 @@ NO_THIRD_PARTY_TRAFFIC=true
 
 Or turn on **No third-party traffic** on **Admin > Organisation > Security**. The server stops at once; browsers follow the next time Bulwark loads in them.
 
+<img class="theme-light-only" src="/screenshots/light-admin-third-party.webp" alt="Organisation, Security in the admin console: No third-party traffic turned on, with the list of hosts that stay reachable" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-third-party.webp" alt="Organisation, Security in the admin console: No third-party traffic turned on, with the list of hosts that stay reachable" width="5120" height="2880" />
+
 The switch is for the whole server, not per domain or group: most of what it stops, such as telemetry and the version check, runs for no particular user. The **Applies to** bar on the page doesn't change it.
 
 The admin page shows where the value comes from. When `NO_THIRD_PARTY_TRAFFIC` is `true`, `1`, `yes` or `on` in the environment, the switch is on and the panel can't turn it off. With `ADMIN_CONFIG_READONLY` set, the panel can't change it at all; set it in `config.json` instead. A string works there too (`"true"`, `"1"`, `"yes"`, `"on"`):

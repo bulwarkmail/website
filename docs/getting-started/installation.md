@@ -52,6 +52,11 @@ Open the link it prints (`http://<host>:3000/setup#token=…`), or open `http://
 
 The wizard writes to `ADMIN_CONFIG_DIR` (`/app/data/admin` in the container). Setting `JMAP_SERVER_URL` in the environment skips the wizard entirely and hands configuration to the environment.
 
+After that, users sign in on the login page with their Stalwart account.
+
+<img class="theme-light-only" src="/screenshots/light-login.webp" alt="The login page with the email and password fields" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-login.webp" alt="The login page with the email and password fields" width="5120" height="2880" />
+
 ## Script install
 
 An interactive shell installer still ships in the repository. It installs with Node.js, Docker or Docker Compose, whichever you pick. It is no longer the recommended path, and the README no longer documents it, but it works:

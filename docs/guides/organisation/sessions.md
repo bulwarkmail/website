@@ -13,6 +13,9 @@ On **Admin > Organisation > Security**, the **Sessions** section has two limits.
 - **Maximum session length** signs users out this many hours after they signed in, whether they were active or not.
 - **Warning before signing out** is how long a countdown shows before either limit signs users out. The default is 60 seconds.
 
+<img class="theme-light-only" src="/screenshots/light-admin-security.webp" alt="Organisation, Security in the admin console: the Sessions section with an inactivity limit and a maximum session length" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-security.webp" alt="Organisation, Security in the admin console: the Sessions section with an inactivity limit and a maximum session length" width="5120" height="2880" />
+
 ## Set it up
 
 1. Pick who it is for in the **Applies to** bar: Everyone, or a domain or group from [Domains and groups](/docs/guides/organisation/domains-and-groups).

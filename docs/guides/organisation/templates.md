@@ -13,6 +13,9 @@ Users pick templates in the composer under **Templates > Insert template**, or w
 - **Team templates**: the templates of each group mailbox the user is a member of, under the group's address. Any member can add, change and delete them.
 - **My templates**: the user's own.
 
+<img class="theme-light-only" src="/screenshots/light-templates-org.webp" alt="The template picker in the composer, with the organisation's templates listed under Organisation above the user's own" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-templates-org.webp" alt="The template picker in the composer, with the organisation's templates listed under Organisation above the user's own" width="5120" height="2880" />
+
 Team templates and keeping users' own templates in their account need Stalwart 1.0 or later. On older servers users keep their own templates in the browser, as before, and there are no team templates.
 
 ## Set up the library
