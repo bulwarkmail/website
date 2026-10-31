@@ -123,7 +123,7 @@ All servers we operate are in the European Union (Germany). FCM/APNs delivery ho
 
 You have the right to ask what data we hold about you, request its deletion, request correction, and lodge a complaint with a supervisory authority. The fastest path is to open a GitHub issue or email us; we'll respond within 30 days.
 
-If you've never logged into the marketplace and don't use a relay-backed Bulwark client, the only data we hold tied to you is anonymous Umami events, short-lived nginx access logs and, if you downloaded or reported an extension, the directory's records with a salted hash of your IP address. We don't link any of it to a person.
+If you've never logged into the marketplace and don't use a relay-backed Bulwark client, the only data we hold tied to you is anonymous Umami events, short-lived nginx access logs and, if you downloaded or reported an extension, the directory's records with a salted hash of your IP address.
 
 ## Changes
 
