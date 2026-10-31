@@ -606,6 +606,23 @@ h3 {
 .bw-switch-wide {
   height: auto;
 }
+/* A tab in a segmented control (the install choice). */
+.bw-switch-option[aria-selected="true"] {
+  background: var(--bw-text);
+  color: var(--bw-page);
+}
+.bw-field .bw-switch-option[aria-selected="true"] {
+  background: var(--bw-on-field);
+  color: var(--bw-field);
+}
+.bw-choice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+.bw-choice > [role="tablist"] {
+  justify-self: start;
+}
 .bw-switch-wide .bw-switch-option {
   padding: 11px 16px;
   font-size: 14px;
@@ -1075,6 +1092,11 @@ a.bw-tile:hover {
 }
 .bw-steps .bw-codewrap {
   margin-top: 12px;
+}
+/* A one-line command in a step wraps instead of scrolling under the copy button. */
+.bw-steps .bw-code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .bw-note {
