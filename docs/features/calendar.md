@@ -114,6 +114,7 @@ When someone shares their calendar with you with edit access, an invitation in t
 
 - With only read access, or the right to answer their own invitations, you see a note that you can't answer for them and should ask for edit access. Stalwart doesn't allow it with less.
 - In a group mailbox's calendar you answer as the group, without your name: you are a member, not a delegate.
+- The invitation mail in a group mailbox, or in a mailbox someone shared with you, answers the same way from its banner: in that account's calendar, as the group or for the owner.
 - If you are invited too, Stalwart 1.0 shows both: your own answer, sent from your own copy of the event, and the answer for the owner. Stalwart 0.16 can't tell the two answers apart, so there the owner has to answer for themselves.
 
 Stalwart doesn't keep SENT-BY in the organiser's stored copy of the event, and its reply mail doesn't name you. Calendar apps that show "on behalf of" read it from the reply's calendar data.
