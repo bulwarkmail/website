@@ -31,7 +31,7 @@ You can also open Bulwark without a connection: it starts with the mail it kept.
 
 ## The outbox
 
-The line at the top says how many messages wait, and links to the outbox in **Settings > Backup & reset > Offline**. Each message shows its subject, recipients and state:
+The line at the top says how many messages wait; click it to open the outbox. It is also in **Settings > Backup & reset > Offline**. Each message shows its subject, recipients and state:
 
 - **Waiting for a connection:** it goes out by itself when you're online.
 - **Couldn't be sent:** the server refused it, with the reason. Fix what you can and click **Send again**, or **Delete** it.
