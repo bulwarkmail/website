@@ -93,6 +93,16 @@ An empty value for that variable disables the check as well. State is kept in `V
 
 The check is separate from the [anonymous usage heartbeat](/docs/features/telemetry), which is off unless you turn it on.
 
+## Backing up the shared store
+
+With [several instances](/docs/deployment/multi-instance), everything the data volume held lives in the shared store instead, so back that up before an upgrade:
+
+- Valkey or Redis with AOF or RDB: copy the persistence files from its data directory (`BGSAVE` first for an RDB snapshot), or snapshot its volume.
+- A managed service: take a snapshot in its console.
+- Or start one instance with `REDIS_URL` and `SHARED_STORE_EXPORT=1` on an empty volume: it writes everything into the usual file layout and exits. That copy also starts a single instance if you ever need one.
+
+Rolling updates work: replace replicas one at a time. While two versions run side by side a page may need a reload.
+
 ## Downgrading
 
 Pin the earlier tag and restart. Config files are read forwards and backwards for anything within a minor series, but a downgrade across a release that changed the config layout may leave keys the older build ignores. Take a copy of the config volume before a major upgrade.

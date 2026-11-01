@@ -80,6 +80,10 @@ helm upgrade --install bulwark-mail helmforge/bulwark-mail \
 
 See the [HelmForge Bulwark chart documentation](https://helmforge.dev/docs/charts/bulwark-mail) for the complete values reference, secret keys, persistence, Ingress, Gateway API, NetworkPolicy, OAuth and External Secrets options.
 
+## Several replicas
+
+The chart's single-replica setup keeps state on a PersistentVolume. To run more replicas, add a Redis-protocol store and set `REDIS_URL` (from a Secret) and `SESSION_SECRET` on every pod; the replicas then need no volume. Point the readiness probe at `/api/ready` and keep the liveness probe on `/api/health`. [Running several instances](/docs/deployment/multi-instance) has the details, including how to move an existing install over and how to keep config in a ConfigMap.
+
 ## Updates
 
 Set `image.tag` in `values.yaml` to the new release, then refresh the repository index and upgrade:

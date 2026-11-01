@@ -219,7 +219,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose:** secret used to encrypt persistent "Remember me" sessions, settings sync data, multi-account state, and server-side OAuth PKCE state.
 - **Required:** no. Encrypted persistent sessions, settings sync, multi-account support, and embedded SSO need a secret, but when neither this nor `SESSION_SECRET_FILE` is set, Bulwark generates one on first start and stores it in the admin state directory (`.session-secret` in `data/admin-state`).
 - **Generation:** `openssl rand -base64 32`
-- **When to set it:** when the admin state directory isn't on a persistent volume, or several instances must share one secret. Otherwise each restart or instance gets its own secret and users are signed out.
+- **When to set it:** when the admin state directory isn't on a persistent volume, or when you run [several instances](/docs/deployment/multi-instance): set the same value on every replica. With `REDIS_URL` and no secret set, the first replica stores a generated one in the shared store and every replica uses it.
 - **Validation:** at least 32 characters.
 - **Precedence:** unlike other settings, this variable and `SESSION_SECRET_FILE` win over a session secret the setup wizard saved in the admin config.
 
@@ -676,6 +676,36 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose:** per-hostname overrides for the branding fields above when one deployment serves several hostnames. Matched on the request `Host` (or `X-Forwarded-Host`); `*.example.com` matches any subdomain. Exact matches win over wildcards.
 - **Format:** a JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`, `loginUsernamePlaceholder`, `pwaScreenshotMobileUrl`, `pwaScreenshotDesktopUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `helpUrl`, `easyReadUrl`, `signLanguageUrl`.
 - **When to set it:** stateless deployments; the admin console manages the same list.
+
+## Several instances
+
+See [Running several instances](/docs/deployment/multi-instance) for the setup.
+
+### `REDIS_URL`
+
+- **Purpose:** a Redis-protocol server (Valkey, Redis 5+, KeyDB, Dragonfly) that every replica shares: admin config and policy, plugins, themes, branding, synced settings, plugin credentials, sign-in limits, pairing and hand-off codes, admin sessions and the audit log.
+- **Required:** no. Without it Bulwark runs as one instance with its files under `/app/data`, as always.
+- **Format:** `redis://:password@host:6379/0`, or `rediss://` for TLS.
+- **When to set it:** to run two or more replicas behind a load balancer. The server needs `maxmemory-policy noeviction` and persistence (AOF or RDB).
+
+### `REDIS_URL_FILE`
+
+- **Purpose:** path to a file holding the URL, for Docker or Kubernetes secrets. `REDIS_URL` wins if both are set.
+
+### `REDIS_KEY_PREFIX`
+
+- **Purpose:** prefix of every key Bulwark writes.
+- **Default:** `bulwark:`
+- **When to set it:** when several deployments share one store server.
+
+### `SHARED_STORE_EXPORT`
+
+- **Purpose:** set to `1` together with `REDIS_URL` to write everything in the shared store back into the data directories in the usual file layout, then exit. The way back from several instances to one.
+- **Required:** no.
+
+### Readiness check
+
+`GET /api/ready` answers 200 when the instance can serve and 503 while it starts or can't reach the shared store. Use it as the Kubernetes readiness probe and keep `/api/health` as the liveness probe.
 
 ## Internationalization
 
