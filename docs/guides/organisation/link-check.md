@@ -22,7 +22,7 @@ Settings are global: the plugin can't use different settings per domain or group
 ## What users see
 
 - A link to a trusted domain opens as before.
-- Any other link shows "Open external link?" with the domain and the full address. When a check answered, the dialog adds "Checked: no known threats." The user can continue, and is then asked whether to always trust that domain on this device.
+- Any other link shows "Open external link?" with the domain and the full address. When a check answered that the link is safe, the dialog adds "Checked: no known threats." The user can continue, and is then asked whether to always trust that domain on this device.
 - A link a check flags shows "This link may be dangerous" with the domain, the address and the service's reason, and **Open anyway** or **Go back**. With **When a check flags a link** set to **Block**, only **Close**.
 - A Google verdict says what Google suspects, in Google's careful wording ("may be a phishing site"), with the link **Advisory provided by Google**.
 - When the link text looks like an address but the link goes elsewhere, the dialog says "The link text says bank.example.com, but the link goes to login.example.net."
@@ -69,7 +69,9 @@ The answer is HTTP 200 with:
 
 Any other status, a body that isn't such an object, or no answer within 3 seconds counts as a failed check. The token is optional; without one Bulwark sends no `Authorization` header.
 
-The address must use https. A service on a private address or on plain http works only when you list its origin in the server's `PLUGIN_PROXY_PRIVATE_ORIGINS` environment variable, for example `PLUGIN_PROXY_PRIVATE_ORIGINS=http://linkcheck.internal:8080`.
+The address should use https; an https service on your own network works as it is. A service on plain http works only when you list its origin in the server's `PLUGIN_PROXY_PRIVATE_ORIGINS` environment variable, for example `PLUGIN_PROXY_PRIVATE_ORIGINS=http://linkcheck.internal:8080`.
+
+Bulwark hands the service, Google and the dialog the address exactly as the browser reads it, and opens that same address. A link such as `http://evil.example\@bank.example/` is checked, shown and opened as evil.example.
 
 ## Google Safe Browsing
 
@@ -84,7 +86,7 @@ Like every list, Safe Browsing misses some dangerous sites and can be wrong abou
 With [No third-party traffic](/docs/guides/organisation/third-party-traffic) on, the plugin keeps running:
 
 - The trusted-domain warning works as before.
-- The company service still answers, because you entered its address yourself. **Admin > Organisation > Security** lists it under **Still reachable** as "Plugin External Link Warning".
+- The company service still answers, because you typed its address yourself. **Admin > Organisation > Security** lists it under **Still reachable** as "Plugin External Link Warning". An address a plugin brings as its own default doesn't count: only one you typed on the plugin's admin page, and the plugin can't change it itself.
 - Google Safe Browsing is off. That doesn't count as a failed check, so fail closed doesn't block every link because of it. The Security page says that `safebrowsing.googleapis.com` stays off.
 
 ## The policy file

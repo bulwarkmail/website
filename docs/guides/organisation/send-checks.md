@@ -32,7 +32,7 @@ Each rule is **Warn** (the user confirms) or **Block** (the message can't be sen
 | Largest attachment (MB) | `maxSizeMb` | 0 (no limit) | Per file |
 | Attachments: action | `attachmentAction`, `attachmentExternalOnly` | Block | For the three attachment rules |
 
-Patterns that could freeze the browser are skipped: lines over 200 characters, nested repeats such as `(a+)+`, repeated alternatives and back references. The plugin's README lists the rules.
+Patterns that could freeze the browser are refused: lines over 200 characters, a repeat inside a repeated group such as `(a+)+` or `((\w+)\s?)+`, repeats next to each other that can match the same characters such as `\s*\s*x`, repeated alternatives and back references. A refused line counts as a rule that couldn't be checked (see below). In the lists, a line starting with `# ` (hash and space) or `//` is a comment, so `#confidential` works as a keyword.
 
 ## What is scanned
 
@@ -43,7 +43,18 @@ Patterns that could freeze the browser are skipped: lines over 200 characters, n
 - Each attachment's type, by its extension and by its first bytes. Bulwark reads the start of every file and tells the plugin what it is, so a program renamed to `invoice.pdf` is still a program. A Word or Excel file is a ZIP inside; that doesn't count as a `.zip`.
 - Each attachment's size. Images pasted into the text count for the size limit only.
 
-A blocked file type, or a file over the limit, is refused as soon as it is attached when the attachment rule blocks for all recipients. Otherwise it is checked at Send.
+A blocked file type, or a file over the limit, is refused as soon as it is attached when the attachment rule blocks for all recipients. Otherwise it is checked at Send. Blocking any program extension (exe, msi, lnk, sh) blocks every kind of program, also Windows shortcuts, installers, cabinet files and Java and Android apps renamed to a document name.
+
+The files that were checked are the ones that go out: a file added while the check runs isn't sent with that message. If another plugin adds recipients after the check (an automatic Bcc), Bulwark checks the message again for those recipients. Text another plugin adds after the check (a footer) isn't checked.
+
+## When a check can't finish
+
+The plugin fails closed. A blocking rule that couldn't be checked stops the send, and a warning rule that couldn't be checked says so in the warning. That happens when:
+
+- your patterns took longer than 250 ms together (they run in a worker that is stopped then);
+- a pattern line is refused as too slow or invalid (the dialog names it; fix the line);
+- Bulwark couldn't read an attachment;
+- the plugin couldn't load its settings (it keeps the last ones it read; with none, nothing is sent).
 
 ## What users see
 
