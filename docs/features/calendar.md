@@ -98,6 +98,27 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 
 <div class="bw-note"><b>Note.</b> On Stalwart 1.0, free/busy and the list of people you can share a calendar with depend on directory queries, which are off by default. An administrator turns them on with <b>Allow Directory Queries</b> under <b>Settings &gt; Files &amp; Sharing &gt; Sharing</b> in the web admin. Stalwart 1.0 also accepts at most 20 participants per event; an administrator can change that with <b>Max iCal Attendees</b> under <b>Settings &gt; Calendar &amp; Contacts &gt; Calendar</b>.</div>
 
+## Suggest times
+
+When you organise an event with attendees, **Suggest times** under the attendee list proposes up to five free slots in the next ten working days, as long as the event you are planning. Pick one and the event moves there. It uses your working days and day hours from Settings > Calendar and your time zone, and treats tentative time as busy.
+
+Bulwark can only see busy times in calendars that are shared with you, or with a group you are in. People it couldn't check are listed under **Not checked**: outside your organisation, not found on the server, or "busy times unknown" when it sees no busy time at all and can't tell whether they are free or haven't shared. The suggestions are free for everyone else. Your administrator can set up the sharing for everyone; see [Find a time](/docs/guides/organisation/find-a-time).
+
+## Share your free/busy
+
+**Free/busy** in Settings > Calendar shares the busy times of your default calendar, not what your events are, with a group: the one your organisation chose, or one of your own groups. The same button shows under Suggest times when some people's busy times are unknown. Once shared, it says so instead, and the share is listed with your calendar's other shares.
+
+## Answer for someone else
+
+When someone shares their calendar with you with edit access, an invitation in their calendar shows **Answer for** with their name. Your answer goes out as theirs: the organiser gets the reply from them, with your address as the sender on their behalf (SENT-BY). In their own view of the event they see **Answered by** with your address. When they answer themselves later, your name is taken off.
+
+- With only read access, or the right to answer their own invitations, you see a note that you can't answer for them and should ask for edit access. Stalwart doesn't allow it with less.
+- In a group mailbox's calendar you answer as the group, without your name: you are a member, not a delegate.
+- The invitation mail in a group mailbox, or in a mailbox someone shared with you, answers the same way from its banner: in that account's calendar, as the group or for the owner.
+- If you are invited too, Stalwart 1.0 shows both: your own answer, sent from your own copy of the event, and the answer for the owner. Stalwart 0.16 can't tell the two answers apart, so there the owner has to answer for themselves.
+
+Stalwart doesn't keep SENT-BY in the organiser's stored copy of the event, and its reply mail doesn't name you. Calendar apps that show "on behalf of" read it from the reply's calendar data.
+
 ## Pending event preview
 
 While you are creating or moving an event, the calendar grid and the event modal both show it in its pending position, before anything is saved.
@@ -119,6 +140,14 @@ Create and manage multiple calendars with different colors. Toggle visibility of
 ## Birthday calendar
 
 Bulwark auto-generates a read-only birthday calendar from your contacts. February 29 birthdays are clamped to a valid day in non-leap years. It is off by default; turn on **Contact birthday calendar** in Settings > Calendar.
+
+## Company calendars
+
+Calendars your organisation set up, such as holidays or office closures, show under **Organisation** in the sidebar. They are read-only. Click one to hide it, and again to show it (on phones, in the calendar list of the toolbar). With settings sync on, the choice follows you to your other devices. Their events don't make you busy for other people. See [Company calendars](/docs/guides/organisation/company-calendars) for administrators.
+
+## Out-of-office blocks the calendar
+
+When your out-of-office reply in Settings > Out of office has a start and an end, **Block my calendar** under the dates puts a busy event for that time in your calendar, so people don't book you while you are away. It is on by default; your organisation may have set it for you. The event moves when you change the dates and goes away when you switch the reply off before it starts. If you change the event yourself, Bulwark leaves it alone. See [Out-of-office](/docs/guides/organisation/out-of-office) for details.
 
 ### Week numbers
 

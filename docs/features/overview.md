@@ -43,7 +43,7 @@ Related pages: [Email](/docs/features/email), [Composing](/docs/features/email/c
 - **Sender address**: override the From header; with "Reply from the address it was sent to" on, a reply to an alias on your domain uses that alias, even without an identity for it
 - **Booking cards**: bookings, parcels and orders with schema.org markup show as a card ([booking cards](/docs/features/email/booking-cards))
 - **Unsubscribe**: one click for newsletters that offer it (RFC 2369)
-- **`.eml` files**: import them from the folder right-click menu, and forward a message as an `.eml` attachment named by your filename template
+- **Import and export**: bring in `.eml`, ZIP, mbox and Outlook `.pst` files, save a folder or the whole account as mbox or ZIP ([import and export](/docs/features/email/import-export)), and forward a message as an `.eml` attachment named by your filename template
 - **Awkward attachments**: `winmail.dat` (TNEF) is unpacked, and attached messages (`message/rfc822`) open as nested mail
 - **Folders**: icons, nesting and counts in the sidebar
 - **Print** from the viewer, and browser back and forward through mail history
@@ -189,6 +189,10 @@ Related pages: [Organisation settings](/docs/guides/organisation), [Roll Bulwark
 - **Delegates**: users give a colleague read or read-and-write access to their mail, calendars and contacts in one step ([delegates](/docs/guides/organisation/delegates))
 - **Recover deleted items**: users bring back mail deleted for good from Stalwart's archive (Stalwart Enterprise licence, archiving turned on) ([recover deleted items](/docs/guides/organisation/recover-deleted-items))
 - **Team inbox**: assign messages in a shared mailbox to a member and mark them done (plugin, uploaded as a ZIP until it is in the directory; not in Lite) ([team inbox](/docs/guides/organisation/team-inbox))
+- **Announcement**: one message across the top of every app, per language, with a start and an end; users can close it unless the admin says otherwise ([announcements](/docs/guides/organisation/announcements))
+- **Out-of-office templates**: reply texts users fill in with their dates and a deputy ([out-of-office](/docs/guides/organisation/out-of-office#reply-templates))
+- **Retention notice**: a line in Trash and Junk that says how long the server keeps mail there ([announcements](/docs/guides/organisation/announcements#how-long-trash-and-junk-keep-mail))
+- **Device policies**: no downloads, no export, no printing, no install prompt, push without sender and subject, a watermark; weak protection, and the page says why ([device policies](/docs/guides/organisation/device-policies))
 
 ## Admin console
 

@@ -1,6 +1,6 @@
 ---
 title: Organisation settings
-description: Signatures, external mail warnings, sign-out times, shared templates and tags, delegates, and settings per domain or group.
+description: Signatures, external mail warnings, sign-out times, shared templates and tags, delegates, announcements, device policies, and settings per domain or group.
 order: 2
 edition: both
 ---
@@ -13,11 +13,18 @@ The admin console's **Organisation** section holds the settings a company or a h
 | --- | --- |
 | [Domains and groups](/docs/guides/organisation/domains-and-groups) | Different settings for some domains or groups, the effective policy of a user, the policy file |
 | [Signatures](/docs/guides/organisation/signatures) | The organisation signature with each user's details, and the legal disclaimer |
-| [Templates](/docs/guides/organisation/templates) | The template library every user sees, and what users may keep of their own |
-| Security | [External sender label, external recipient warning](/docs/guides/organisation/external-mail), [sign-out times](/docs/guides/organisation/sessions), [third-party traffic](/docs/guides/organisation/third-party-traffic) |
+| Templates | [The template library every user sees, and what users may keep of their own](/docs/guides/organisation/templates), [out-of-office reply templates](/docs/guides/organisation/out-of-office#reply-templates) |
+| Security | [External sender label, external recipient warning](/docs/guides/organisation/external-mail), [sign-out times](/docs/guides/organisation/sessions), [third-party traffic](/docs/guides/organisation/third-party-traffic), [phishing reports](/docs/guides/organisation/phishing-reports) |
+| [Classification](/docs/guides/organisation/classification-labels) | Labels users pick for outgoing mail (Internal, Confidential, VS-NfD), a default, whether a label is required |
 | Sharing | [Tags in shared mailboxes](/docs/guides/organisation/shared-tags), [delegates](/docs/guides/organisation/delegates), [recovering deleted items](/docs/guides/organisation/recover-deleted-items) |
+| Calendars | [Company calendars](/docs/guides/organisation/company-calendars), [free/busy sharing for Suggest times](/docs/guides/organisation/find-a-time), [out-of-office blocks the calendar](/docs/guides/organisation/out-of-office) |
+| [Notices](/docs/guides/organisation/announcements) | An announcement across the top of every app, and how long Trash and Junk keep mail |
+| Devices | [No downloads, no export, no printing, no install prompt, push without sender and subject, a watermark](/docs/guides/organisation/device-policies), [offline mode](/docs/guides/organisation/offline-mode) |
+| [Mail import and export](/docs/guides/organisation/mail-import-export) | Stalwart's upload limit for migrations from mbox, PST and EML files, and turning export off |
 
 Assigning messages in a shared mailbox and marking them done comes from the [Team inbox plugin](/docs/guides/organisation/team-inbox), not from these pages. It isn't in the extension directory yet; you upload its ZIP under Extensions > Plugins.
+
+Two official plugins add checks an organisation sets up under **Extensions > Plugins**, not on these pages: the [link check](/docs/guides/organisation/link-check) of links when users click them (company service or Google Safe Browsing), and [send checks](/docs/guides/organisation/send-checks) for IBANs, card numbers, keywords and attachment types before mail goes out.
 
 Every setting has a default that works without configuration. An admin who does nothing gets Bulwark as before.
 

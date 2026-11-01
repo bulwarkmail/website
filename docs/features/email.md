@@ -28,10 +28,10 @@ Folders can be shared with other users on the same server (`mail:share`). On Sta
 The rest is the ordinary furniture:
 
 - Archive into a single folder, into year folders, or into year/month folders
-- Empty Junk and Trash, with a confirmation first
+- Empty Junk and Trash, with a confirmation first. When your organisation set it up, a line in Trash and Junk says how long mail stays there before the server deletes it ([retention notice](/docs/guides/organisation/announcements#how-long-trash-and-junk-keep-mail))
 - Configurable hover quick-actions, and attachments shown next to the sender or below the message header
 - Answered and forwarded status icons in the list
-- Right-click a folder to manage it or to import an `.eml` file into it; the context menu header elides a long path in the middle rather than truncating it
+- Right-click a folder to manage it, to import mail into it or to export it; the context menu header elides a long path in the middle rather than truncating it
 
 ## Shared mailboxes
 
@@ -69,6 +69,8 @@ Before a message goes out, Bulwark checks the body for words like "attached" and
 
 Replying to someone adds them to your trusted senders, so their images load next time without asking.
 
+When your organisation uses [classification labels](/docs/guides/organisation/classification-labels), the subject line has a label chip, such as Internal or Confidential. A reply or forward starts with the original's label. If a label is required, Send asks for one first. The label goes into the message's headers, and its prefix in front of the subject.
+
 Press `c` in Mail to open the composer. [Composing emails](/docs/features/email/composing) goes through all of it.
 
 ## Reading
@@ -82,9 +84,13 @@ External content is blocked until you trust the sender, and the banner saying so
 
 TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
 
+When your organisation set up [phishing reports](/docs/guides/organisation/phishing-reports), **Report phishing…** in the message menus sends a suspicious message to your security team and moves it to Junk. It asks first and names the address. A reported message shows a banner and its links are turned off. Mail with a classification label of your organisation shows the label next to the sender. If your organisation checks links before they open or messages before they go out, [Link and send checks](/docs/features/email/organisation-checks) explains the dialogs.
+
 Booking, shipping and order mail that carries schema.org markup gets a card above the message: route and times for flights and trains, check-in and check-out for hotels, tracking for parcels, status for orders, with an Add to calendar button where it fits. See [Booking and parcel cards](/docs/features/email/booking-cards).
 
 Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs open in the browser's PDF viewer on desktop and are drawn page by page on phones, and `.eml` attachments open like mail.
+
+Your organisation can [turn some of this off](/docs/guides/organisation/device-policies). With downloads off, attachments only preview: the reader says "Downloads are turned off by your organisation", a file that can't be previewed doesn't open, and PDFs are always drawn page by page. With export or printing off, Export as .eml, View source or Print are gone from the menus, and printing the page with Ctrl+P gives a page that says printing is off. A faint watermark with your address and the date can lie over messages, previews and printouts. In a unified inbox each message follows the settings of its own account.
 
 Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars show the contact's photo if you have one, otherwise the sender's BIMI logo or the website icon of the sender's domain, and initials when there is none of these.
 
@@ -112,7 +118,7 @@ Dates and times follow the browser's zone unless you pick one in settings, which
 
 ## Export and import
 
-Export mail to disk and import it back. Both flows are translated into every language Bulwark ships.
+Import mail from `.eml`, ZIP, mbox and Outlook `.pst` files, and save a folder or your whole account as mbox or a ZIP of `.eml` files. Large imports pause at the server's upload limit and continue by themselves, and a stopped import continues where it left off. See [Import and export mail](/docs/features/email/import-export).
 
 ## Batch operations
 
@@ -142,7 +148,7 @@ The whole section only appears when the server advertises Sieve support.
 
 Out-of-office replies are a JMAP `VacationResponse`, which the server runs for you, so it keeps answering while nothing of yours is running.
 
-Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. Turning on **Formatted message (HTML)** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what goes out before you save.
+Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. The dates are in the time zone you picked in settings, or the browser's when you picked none. If your organisation wrote reply templates, **Use a template** fills one in with your name, the dates and, when the text names one, a colleague's address you type first; you can change the text afterwards ([out-of-office templates](/docs/guides/organisation/out-of-office#reply-templates)). Turning on **Formatted message (HTML)** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what goes out before you save.
 
 This needs a server that supports VacationResponse; forwarding and replying only to internal or external senders also need Sieve. On Stalwart 1.0 the replies go out with an empty envelope sender (<code style="font-variant-ligatures: none">MAIL FROM:&lt;&gt;</code>), as RFC 5230 recommends.
 

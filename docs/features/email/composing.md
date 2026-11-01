@@ -100,6 +100,12 @@ These controls come from the S/MIME plugin in the extension directory, which an 
 
 Next to "Request read receipt", the composer's Options menu has "Delivery notification", which asks the receiving server for a delivery status notification (DSN), and "Require encrypted delivery", which marks the message REQUIRETLS so it is never relayed over a connection without TLS. Both only show when the server supports them. Both ride on the JMAP submission; whether the far end honours them is up to that server.
 
+## Classification labels
+
+When your organisation uses [classification labels](/docs/guides/organisation/classification-labels), the subject line ends in a label chip; on a phone it sits under the subject. Click it to pick a label, or use the arrow keys and Enter. The Options menu lists the labels too. New messages start with the default label, and replies and forwards with the original's. If your organisation requires a label, **Send** asks for one and doesn't send until you pick it. A quick reply keeps the original's label; when there is none to keep and one is required, it opens the full composer.
+
+The label's prefix, such as `[Confidential]`, goes in front of the subject when the message is sent, once. Drafts keep the label you picked.
+
 ## Drafts
 
 <img class="theme-light-only" src="/screenshots/light-scheduled.webp" alt="The Scheduled folder with a message waiting to be sent" width="5120" height="2880" />
