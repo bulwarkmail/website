@@ -23,22 +23,22 @@ Don't use `postmaster@`. Stalwart analyses mail to that address as reports itsel
 
 ## What users see
 
-**Report phishing…** shows in the reader's **More actions** menu (the phone's More panel too), in a message's right-click menu, in the menu of a conversation, and in the selection bar and menu when several messages are selected. It isn't offered in Sent, Drafts or Scheduled, nor for a message reported already. It isn't a swipe, because it sends mail.
+**Report phishing…** shows in the reader's **More actions** menu (the phone's More panel too), in a message's right-click menu, in the menu of a conversation, in Pro tabs, and in the selection bar and menu when several messages are selected (Mountain View's too). It isn't offered for the user's own mail (Sent, Drafts, Scheduled, also when search or All mail shows it), nor for a message reported already. It isn't a swipe, because it sends mail.
 
-Each report asks first: "Report phishing? The message goes to security@example.com and moves to Junk." After **Report**:
+Bulwark asks first, once for a whole selection, and names the address: "Report phishing? The message goes to security@example.com and moves to Junk." When the selected messages belong to accounts with different report addresses, it names each. After **Report**:
 
 - Bulwark sends one report per message, also for a selection. Report desks such as Microsoft Defender drop reports that carry several messages, and RFC 5965 asks for one message per report.
 - No copy lands in Sent. The live phishing message shouldn't sit there to be clicked again; your mailbox is the record.
 - The message moves to Junk with the keywords `$junk` and `$phishing` and is marked read. On Stalwart, `$junk` also trains the spam filter.
-- A toast says "Reported to security@example.com and moved to Junk." with **Undo**. Undo moves the message back and clears the marks. The report was already sent, and the toast says so.
+- A toast says "Reported to security@example.com and moved to Junk." with **Undo**. Undo moves the messages back and clears the marks. The reports were already sent, and the toast says so.
 
-A message with `$phishing` shows a banner, "You reported this message as phishing. Its links are turned off.", and its links can't be clicked or opened. Booking and parcel cards don't show for it either. That holds in the reader, in conversations and in Pro tabs. IMAP clients see the keyword as `$Phishing` (RFC 9051).
+A message with `$phishing` shows a banner, "You reported this message as phishing. Its links are turned off.", and its links can't be clicked or opened. Booking and parcel cards and the unsubscribe banner don't show for it, and links are off in its attachment previews too. That holds in the reader, in conversations and in Pro tabs, from the moment it is reported. IMAP clients see the keyword as `$Phishing` (RFC 9051).
 
 ## The two formats
 
 **Forward as an attachment** (the default) sends a short message with the subject `Phishing: <original subject>` and the original as an `.eml` attachment (`message/rfc822`). Security mailboxes, ticket systems, KnowBe4-style report mailboxes and Microsoft Defender's user-reported mailbox read this. Bulwark attaches the message by its stored copy on the server, so nothing is uploaded and the upload quota isn't touched. Stalwart sends that attachment base64-encoded; mail programs and report tools decode it, and the message inside is byte for byte the one the user received.
 
-**Abuse report (ARF)** sends a feedback report as defined in RFC 5965: `multipart/report` with `report-type=feedback-report`, a short text, a `message/feedback-report` part with `Feedback-Type: fraud`, `User-Agent: Bulwark/<version>`, `Version: 1`, `Arrival-Date`, `Original-Rcpt-To` and `Reported-Domain`, and the original as `message/rfc822`. Use it for abuse desks and tools that parse feedback reports. Bulwark downloads the original and uploads the report, so it counts against the upload quota and Stalwart's maximum upload size.
+**Abuse report (ARF)** sends a feedback report as defined in RFC 5965: `multipart/report` with `report-type=feedback-report`, a short text, a `message/feedback-report` part with `Feedback-Type: fraud`, `User-Agent: Bulwark/<version>`, `Version: 1`, `Arrival-Date`, `Original-Rcpt-To` (the address the message was delivered to, when known) and `Reported-Domain`, and the original as `message/rfc822`, unencoded (7bit, 8bit or binary). Use it for abuse desks and tools that parse feedback reports. Bulwark downloads the original and uploads the report, so it counts against the upload quota; a message bigger than Stalwart's maximum upload size can't be sent as ARF, and the toast says the report failed.
 
 ## What the report skips
 

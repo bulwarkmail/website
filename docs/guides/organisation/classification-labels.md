@@ -34,18 +34,18 @@ Remove every label to turn the feature off. With no labels, the composer shows n
 | Subject prefix | Added in front of the subject when the message goes out, for example `[Confidential]`. |
 | Extra header value | The value of your extra header for this label, when you set one. |
 
-The **Extra header** setting names one header of your own that each label can set, for a mail gateway or DLP rule, for example `X-Classification`. For Microsoft Purview you can name it `msip_labels` and put the tenant's label string in each label's value. Bulwark can't write headers it sets itself (Subject, Sensitivity, SIO-Label and the like).
+The **Extra header** setting names one header of your own that each label can set, for a mail gateway or DLP rule, for example `X-Classification`. For Microsoft Purview you can name it `msip_labels` and put the tenant's label string in each label's value. It can't be a header Bulwark already writes (Subject, Sensitivity, SIO-Label and the like), and not one the server refuses or that says how mail travelled (`Content-*`, `List-*`, `Resent-*`, `ARC-*`, `Auto-Submitted`, `Precedence`).
 
 ## What users see
 
 The composer has a label chip at the end of the subject line; on a phone it sits under the subject. It opens a list of the labels with their descriptions. Arrow keys move the pick, Enter or Escape closes it. The composer's **Options** menu lists the labels too.
 
 - A new message starts with the default label.
-- A reply or forward starts with the original's label, if it is one of yours, else the default.
-- A reopened draft keeps the label it was saved with.
+- A reply or forward starts with the original's label, else the default. The original's label only counts when it is one of yours, came from a sender inside the organisation, and isn't below the default: anyone outside can write these headers. "Below" follows the order of the list, from least to most protected.
+- A reopened draft keeps the label it was saved with, and so does a message brought back by Undo send, Cancel and edit, or edit as new.
 - With **Require a label** on and nothing picked, **Send** doesn't send. It says "Pick a classification label before sending." and opens the list. "No label" isn't offered then.
 
-A quick reply has no picker. It sends with the original's label, else the default. If a label is required and there is neither, **Send** opens the full composer with the typed text, so the user can pick one.
+A quick reply has no picker. It sends with the original's label (by the same rule), else the default. If a label is required and there is neither, **Send** opens the full composer with the typed text, so the user can pick one.
 
 A message from a plugin's forward (`api.email.forward`, used by the e-invoice plugin) gets the original's label or the default the same way. If a label is required and there is neither, the forward isn't sent and the user is told to forward it from the composer.
 
@@ -67,6 +67,8 @@ Sensitivity: Company-Confidential
 - The subject prefix goes in front once. Bulwark takes any known label prefix out of the leading `Re:` and `Fwd:` chain first, so replies don't pile them up and a changed label replaces the old prefix: a reply to `[Confidential] Budget` labelled Strictly confidential goes out as `[Strictly confidential] Re: Budget`.
 
 The label is added after plugins changed the message (`onTransformOutgoingEmail`), so a plugin can't drop it or set these headers itself. With the S/MIME or PGP plugin, the label headers go into the outer header block, outside the signed or encrypted part, and the plugin gets the prefixed subject. Scheduled and delayed sends keep the label.
+
+While labels are on, Bulwark takes label headers out of every raw message a plugin sends (`api.jmap.sendRaw` and `submitRaw`) and writes its own. The composer gives a plugin that takes the send over a `labelToken` in the request; a plugin that passes it back with its raw send gets that message's label. Plugins that don't pass it yet are matched by the sending address, and when two such sends are open at once from the same address, Bulwark refuses rather than guess. A raw send outside the composer gets the default label, or is refused when a label is required.
 
 These don't carry a label: calendar invitations and replies to them, read receipts, unsubscribe mails, and [phishing reports](/docs/guides/organisation/phishing-reports).
 
