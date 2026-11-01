@@ -16,7 +16,7 @@ Bulwark ships as a Progressive Web App (PWA). Users can install it to their home
 - **Splash screen:** OS-rendered splash using your configured background color and icon.
 - **App-name everywhere:** browser tab title, install dialog, home screen label, and PWA manifest all use `APP_NAME` (with `APP_SHORT_NAME` for tight contexts).
 - **Install screenshots:** browsers that show a richer install dialog (e.g. Chrome on Android) display screenshots from the manifest. Bulwark ships default screenshots and lets you override them globally or per-domain.
-- **Service worker:** registered automatically. It makes the app installable and shows push notifications; it does not cache pages, so there is no offline mode.
+- **Service worker:** registered automatically. It makes the app installable and shows push notifications. It caches nothing unless a user turns on [offline mode](/docs/features/email/offline) on that device; then it keeps the app's files so Bulwark also opens without a connection.
 - **Install prompt:** an in-app prompt offers to install. Users can put it off for a week ("Not now") or turn it off for good ("Don't remind me again").
 - **Web push notifications:** when the user grants permission, Bulwark subscribes to web push through a push relay and shows new-mail notifications even when the tab is closed. Clicking the notification opens the message (or the mail list when several are new). New-mail notifications fire on new deliveries only (not flag changes), grouped per account with a "+N more" line instead of one notification per message, and spam is excluded on servers that support the JMAP `emailPush` delivery filter (Stalwart 0.16.16 or newer).
 - **Unread badge:** where the Badging API exists, the installed app's icon shows the unread count.
@@ -71,7 +71,9 @@ The prompt also shows the app's name and logo so users see your branding (not "B
 
 ## Service worker
 
-The service worker is served from `/sw.js` and registered on every load in production. It caches nothing: every page and all mail data come fresh from the server, so a deploy never leaves users on stale code.
+The service worker is served from `/sw.js` and registered on every load in production, as `/sw.js?v=<build id>`. Every build has its own id, so a deploy installs a new worker.
+
+Without offline mode it caches nothing: every page and all mail come fresh from the server. When a user turns on **Keep mail on this device** ([offline mode](/docs/features/email/offline)), the worker keeps the files of the running build in a cache named after that build (`bulwark-shell-<build id>`): pages network first (the kept copy only when the network fails), the content-hashed files under `/_next/static/` from the cache. A tab of an older build still finds that build's files after a deploy, and a build's cache is deleted once no open tab uses it. The mail itself is kept by the page in IndexedDB, encrypted, not by the worker. Signing out deletes both. Admins can forbid offline mode: see [Offline mode](/docs/guides/organisation/offline-mode).
 
 ## Web push notifications
 
@@ -89,14 +91,16 @@ Your organisation can keep sender and subject out of notifications ([device poli
 
 Push needs two things: Stalwart must be able to reach the push relay over HTTPS, and the browser must reach the relay and Bulwark's `/api/push/preview` (the service worker calls it to fill in sender and subject). Keep `/sw.js` reachable and uncached.
 
-<div class="bw-note"><b>Note.</b> Bulwark Lite ships a web app manifest, so it can be added to a home screen, but it registers no service worker, so there is no web push. Push previews and generated icons are server routes that a static host cannot serve.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite ships a web app manifest, so it can be added to a home screen, but it registers no service worker, so there is no web push and no offline mode. Push previews and generated icons are server routes that a static host cannot serve.</div>
 
 ## Reverse proxy notes
 
 If Bulwark sits behind a reverse proxy, make sure these paths are forwarded as-is:
 
 - `/manifest.webmanifest` - dynamic manifest
-- `/sw.js` - service worker (must NOT be cached aggressively at the proxy)
+- `/sw.js` - service worker (must NOT be cached aggressively at the proxy; the query string carries the build id)
+- `/api/version` - the build the server runs, for the reload prompt after a deploy
+- `/api/offline/shell` - the files of the running build, for offline mode
 - `/api/pwa-icon/*` - auto-generated PWA icons
 - `/api/pwa-screenshot/*` - custom install screenshots
 - `/api/push/preview` - sender and subject for push notifications
@@ -106,7 +110,7 @@ The service worker lives at the site root by design. If you serve Bulwark from a
 
 ## Updates
 
-When a new Bulwark version is deployed, users get it on their next page load: the service worker caches nothing and takes over at once, so no cache busting is needed.
+When a new Bulwark version is deployed, users get it on their next page load. Tabs that stay open ask `/api/version` which build the server runs, when they get focus and every 15 minutes, and right away when one of their files fails to load. When it is another build, they show **A new version of Bulwark is ready** with a **Reload** button. Until then such a tab keeps working with its own build's files; with offline mode on they come from the worker's cache, so a deploy never mixes the files of two builds. Lite shows the same prompt, comparing with `lite-build.json`.
 
 Separately, the server checks version.telemetry.bulwarkmail.org about 30 seconds after start and then every hour (turn it off with `BULWARK_UPDATE_CHECK=off`). When a newer release exists, it logs it, admins see a dot on the admin button in the navigation rail, the About card in settings tags the version, and the sign-in page's version line says "New version available" or, in red, "Security update available". Deploying the new version is up to the admin. Lite has no update check.
 

@@ -113,7 +113,7 @@ Web push needs:
 - On iPhone and iPad, the webmail installed to the home screen first (Share → Add to Home Screen). Safari only delivers web push to installed web apps.
 - Bulwark (not Lite). Lite registers no service worker, so it gets no web push and no unread badge.
 
-Installed to the home screen, the webmail opens without browser chrome and shows the unread count on its icon where the browser supports it. It doesn't work offline: the service worker caches nothing, so every page and all mail come from the server. On a phone the mail list has a search-first header, and swiping a row left or right runs a quick action (archive, delete, read, star or spam, set per direction).
+Installed to the home screen, the webmail opens without browser chrome and shows the unread count on its icon where the browser supports it. With [offline mode](/docs/features/email/offline) turned on, it keeps your recent mail on the phone, so you can read and write without a connection; without it, every page and all mail come from the server. On a phone the mail list has a search-first header, and swiping a row left or right runs a quick action (archive, delete, read, star or spam, set per direction).
 
 [Progressive Web App](/docs/features/pwa) covers the install, the branding of the installed app and the reverse-proxy paths push needs.
 
