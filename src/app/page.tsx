@@ -8,6 +8,8 @@ import { Shot, Tile } from "@/components/ui";
 import { FeatureRow, TableSection, TileSection } from "@/components/sections";
 import { ICON } from "@/lib/icon";
 import { BULWARK_VERSION } from "@/lib/version";
+import { JsonLd } from "@/components/json-ld";
+import { ORGANIZATION, ORGANIZATION_ID, SOFTWARE_ID, WEBSITE } from "@/lib/structured-data";
 
 // =============================================================================
 // Landing page, "Flat fields".
@@ -606,9 +608,9 @@ export default async function Home() {
   const [version, instances] = await Promise.all([fetchLatestVersion(), fetchBulwarkInstances()]);
   const langs = await fetchLocaleCount(version);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
+  const software = {
     "@type": "SoftwareApplication",
+    "@id": SOFTWARE_ID,
     name: "Bulwark Webmail",
     applicationCategory: "CommunicationApplication",
     operatingSystem: "Web, Docker, Linux",
@@ -620,15 +622,12 @@ export default async function Home() {
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
     isAccessibleForFree: true,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    author: { "@type": "Organization", name: "Bulwark Mail", url: "https://bulwarkmail.org" },
+    author: { "@id": ORGANIZATION_ID },
   };
 
   return (
     <div className="min-h-screen">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={{ "@context": "https://schema.org", "@graph": [ORGANIZATION, WEBSITE, software] }} />
       <Navbar />
 
       <main>

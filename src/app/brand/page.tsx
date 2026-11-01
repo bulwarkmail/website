@@ -20,13 +20,14 @@ import { LogoTile, type LogoAsset } from "@/components/logo-tile";
 import { Tile } from "@/components/ui";
 import { ICON } from "@/lib/icon";
 import { MadeInEuBadge } from "@/components/eu-badge";
+import { pageMetadata } from "@/lib/og";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Brand and design system",
   description:
     "The Bulwark logos and the rules for using them, and the design system of the Bulwark website: principles, colour, type, layout, components and writing.",
-  alternates: { canonical: "/brand" },
-};
+  path: "/brand",
+});
 
 const BRANDING_REPO = "https://github.com/bulwarkmail/branding";
 const asset = (dir: string, name: string) => `/branding/${dir}/${encodeURIComponent(name)}`;

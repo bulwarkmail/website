@@ -8,13 +8,14 @@ import { Shot } from "@/components/ui";
 import { LogoTile, type LogoAsset } from "@/components/logo-tile";
 import { ICON } from "@/lib/icon";
 import { BULWARK_VERSION } from "@/lib/version";
+import { pageMetadata } from "@/lib/og";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Press kit",
   description:
     "Logos, screenshots and facts for writing about Bulwark Webmail and Bulwark Lite, the open-source JMAP webmail client for Stalwart Mail Server.",
-  alternates: { canonical: "/press" },
-};
+  path: "/press",
+});
 
 const PRESS_FOLDER = "https://github.com/bulwarkmail/website/tree/main/public/press";
 

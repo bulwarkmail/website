@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { AUDIENCE_PAGES } from "@/lib/site";
+import { pageMetadata } from "@/lib/og";
 import Link from "next/link";
 import { DockerSteps } from "@/components/install-steps";
 import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/components/sections";
@@ -11,22 +13,14 @@ import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/
 // never present the plugin as available.
 // =============================================================================
 
-const TITLE = "Bulwark for small businesses";
-const DESCRIPTION =
-  "Shared mailboxes, shared calendars, signatures and out-of-office replies for a small team on Stalwart, installed as one container. Free under AGPL-3.0.";
+const { title: TITLE, description: DESCRIPTION } = AUDIENCE_PAGES.smallBusiness;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/small-business" },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: "https://bulwarkmail.org/small-business",
-    images: [{ url: "/og-small-business.png", width: 1200, height: 630, alt: "Bulwark for small businesses" }],
-  },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og-small-business.png"] },
-};
+  path: "/small-business",
+  image: { url: "/og-small-business.png", width: 1200, height: 630, alt: "Bulwark for small businesses" },
+});
 
 export default function SmallBusinessPage() {
   return (

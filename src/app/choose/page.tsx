@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { EditionQuiz } from "@/components/edition-quiz";
+import { pageMetadata } from "@/lib/og";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Which Bulwark fits you?",
   description:
     "A few quick questions about your mail, where you'd put it and how people log in, and a recommendation between Bulwark and Bulwark Lite.",
-  alternates: { canonical: "/choose" },
-};
+  path: "/choose",
+});
 
 export default function ChoosePage() {
   return (

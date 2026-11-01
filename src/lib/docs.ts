@@ -244,6 +244,12 @@ export function getReadingOrder(): DocMeta[] {
   return getDocSections().flatMap((s) => s.items);
 }
 
+/** A page's markdown with the version filled in, front matter split off. Null for an unknown slug. */
+export function getDocSource(slug: string): { data: Record<string, unknown>; content: string } | null {
+  if (!getAllDocs().some((d) => d.slug === slug)) return null;
+  return readDocFile(path.join(docsDirectory, `${slug}.md`));
+}
+
 export async function getDocBySlug(slug: string): Promise<Doc | null> {
   const filePath = path.join(docsDirectory, `${slug}.md`);
 

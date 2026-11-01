@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // RFC 9116 puts security.txt under /.well-known; some scanners still try the root.
+      { source: "/security.txt", destination: "/.well-known/security.txt", permanent: true },
       // The branding guidelines moved out of the docs into /brand.
       { source: "/docs/branding/guidelines", destination: "/brand", permanent: true },
       { source: "/docs/branding", destination: "/brand", permanent: true },

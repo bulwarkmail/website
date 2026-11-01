@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { AUDIENCE_PAGES } from "@/lib/site";
+import { pageMetadata } from "@/lib/og";
 import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/components/sections";
 
 // =============================================================================
@@ -9,22 +11,14 @@ import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/
 // sibling projects say how mature they are.
 // =============================================================================
 
-const TITLE = "Bulwark at home";
-const DESCRIPTION =
-  "Webmail for the Stalwart server in your home lab: one container for amd64 or arm64, Compose next to Stalwart, or Bulwark Lite as static files with no Node process.";
+const { title: TITLE, description: DESCRIPTION } = AUDIENCE_PAGES.homelab;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/homelab" },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: "https://bulwarkmail.org/homelab",
-    images: [{ url: "/og-homelab.png", width: 1200, height: 630, alt: "Bulwark at home" }],
-  },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og-homelab.png"] },
-};
+  path: "/homelab",
+  image: { url: "/og-homelab.png", width: 1200, height: 630, alt: "Bulwark at home" },
+});
 
 const COMPOSE = `services:
   stalwart:

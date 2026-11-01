@@ -1446,6 +1446,11 @@ a.bw-tile:hover {
   color: var(--bw-text);
   text-decoration: underline;
 }
+.bw-crumb-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
 .bw-crumb-edit {
   display: inline-flex;
   align-items: center;

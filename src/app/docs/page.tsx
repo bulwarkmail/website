@@ -4,15 +4,14 @@ import type { Metadata } from "next";
 import { InstallQuickstart } from "@/components/docs/install-quickstart";
 import { Tile } from "@/components/ui";
 import { BULWARK_VERSION } from "@/lib/version";
+import { pageMetadata } from "@/lib/og";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Documentation - Bulwark Webmail for Stalwart",
   description:
     "Documentation for Bulwark, the open-source JMAP webmail client for Stalwart Mail Server: installation, configuration, features, and Docker deployment.",
-  alternates: {
-    canonical: "/docs",
-  },
-};
+  path: "/docs",
+});
 
 export default function DocsPage() {
   const sections = getDocSections();
