@@ -451,8 +451,8 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 ### `PLUGIN_SIGNING_KEY_FILE`
 
 - **Purpose:** path to an existing PEM PKCS#8 Ed25519 private key that signs managed plugin bundles. Bulwark reads the file and never changes it.
-- **Default:** unset (Bulwark loads `ADMIN_CONFIG_DIR/plugin-signing.key`, or creates it on first start).
-- **When to set it:** when the key should come from a secret mount (systemd credential, Docker secret, Kubernetes Secret), for example with a read-only config volume.
+- **Default:** unset (Bulwark loads `ADMIN_CONFIG_DIR/plugin-signing.key`, or creates it on first start; with `REDIS_URL` the key lives in the shared store and every replica signs with it).
+- **When to set it:** when the key should come from a secret mount (systemd credential, Docker secret, Kubernetes Secret), for example with a read-only config volume. With several replicas, set it on every replica or on none: a replica whose key differs from the others refuses to sign plugins and logs why.
 
 ### `PLUGIN_SECRETS_DIR`
 

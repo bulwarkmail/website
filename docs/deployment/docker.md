@@ -146,6 +146,8 @@ Terminate TLS in front of Bulwark, in Caddy, Nginx, or Traefik, and forward `X-F
 
 `/api/health` answers liveness probes for Docker and orchestrators with `{"status":"healthy"}`. Signed-in users and admins can add `?detailed=true` to get uptime, version and heap usage measured against V8's own limit; the status turns `degraded` from 85 % of that limit. If the handler itself fails, it answers `unhealthy` with a 503. The heap figure is the first thing to look at when a container is being OOM-killed rather than crashing.
 
+`/api/ready` is the readiness check: 200 once the instance can serve, 503 while it is still starting or, with [several instances](/docs/deployment/multi-instance), while it can't reach the shared store. A single instance answers 200 as soon as it is up.
+
 ## Updating
 
 `docker compose pull && docker compose up -d`. Release channels, what survives an upgrade, and the in-app update notice are covered under [Updating](/docs/deployment/updating).

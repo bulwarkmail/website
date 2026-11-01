@@ -34,7 +34,9 @@ A `permissive-cors` line in a TOML file does nothing, because Stalwart has not r
 
 **Correct password rejected.** If OAuth is involved, check that the issuer is reachable from the Bulwark container specifically, not just from your laptop. Where the issuer's public hostname resolves to an internal address, discovery is blocked by the SSRF guard until you set `OAUTH_ALLOW_PRIVATE_ENDPOINTS=true`.
 
-**Everyone gets logged out after a deploy.** The session secret changed. Every encrypted cookie became unreadable at once. Without `SESSION_SECRET`, Bulwark generates one in the admin state directory, so that directory needs a persistent volume. Otherwise pin the secret and mount it, ideally through `SESSION_SECRET_FILE`.
+**Everyone gets logged out after a deploy.** The session secret changed. Every encrypted cookie became unreadable at once. Without `SESSION_SECRET`, Bulwark generates one in the admin state directory, so that directory needs a persistent volume. Otherwise pin the secret and mount it, ideally through `SESSION_SECRET_FILE`. Synced settings and plugin credentials saved under the old secret can't be read either; the next save moves each one aside as `<file>.unreadable-<time>` instead of overwriting it. Nothing is lost: with the old secret back, rename the file to its old name to restore it.
+
+**With several replicas: random sign-outs, settings that apply only sometimes, QR codes that "don't exist".** The replicas don't share a store. Give every replica the same `REDIS_URL` and `SESSION_SECRET`; the admin Overview's **Storage** line shows how many instances checked in. See [Running several instances](/docs/deployment/multi-instance).
 
 **Two-factor prompt loops.** TOTP is enforced by Stalwart, not by Bulwark. Confirm the account's TOTP state on the server.
 

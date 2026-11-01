@@ -79,7 +79,7 @@ The sidebar starts with Overview, Server, Authentication, Branding and User poli
 
 ### Overview
 
-Warnings that need attention, the number of accounts, plugins and themes, the running version, the server details (application, JMAP server, last admin login, whether settings sync, OAuth and the Stalwart integration are on) and the latest admin actions.
+Warnings that need attention, the number of accounts, plugins and themes, the running version, the server details (application, storage, JMAP server, last admin login, whether settings sync, OAuth and the Stalwart integration are on) and the latest admin actions. **Storage** says "Local files on this server" for a single instance, or, with [several instances](/docs/deployment/multi-instance), "Shared store" and how many instances checked in during the last minute.
 
 ### Server, Authentication and Branding
 

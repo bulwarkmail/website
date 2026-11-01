@@ -42,7 +42,7 @@ What it needs:
 - A session secret. Bulwark generates one on first start if `SESSION_SECRET` isn't set; without one the page says linking isn't set up.
 - The **Security** page, which shows while the Stalwart features are on (the default).
 - On Stalwart 1.0, the app signs in through the `bulwark-mobile` client that [Auto-configure OAuth](/docs/guides/admin#oauth-auto-setup) registers.
-- With several Bulwark replicas, sticky sessions: a pending code lives in the memory of the replica that made it.
+- With several Bulwark replicas, a shared store (`REDIS_URL`), so a code made on one replica can be redeemed on another; see [Running several instances](/docs/deployment/multi-instance).
 
 ## Push notifications
 
