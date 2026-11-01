@@ -14,7 +14,8 @@ The admin console's **Organisation** section holds the settings a company or a h
 | [Domains and groups](/docs/guides/organisation/domains-and-groups) | Different settings for some domains or groups, the effective policy of a user, the policy file |
 | [Signatures](/docs/guides/organisation/signatures) | The organisation signature with each user's details, and the legal disclaimer |
 | [Templates](/docs/guides/organisation/templates) | The template library every user sees, and what users may keep of their own |
-| Security | [External sender label, external recipient warning](/docs/guides/organisation/external-mail), [sign-out times](/docs/guides/organisation/sessions), [third-party traffic](/docs/guides/organisation/third-party-traffic) |
+| Security | [External sender label, external recipient warning](/docs/guides/organisation/external-mail), [sign-out times](/docs/guides/organisation/sessions), [third-party traffic](/docs/guides/organisation/third-party-traffic), [phishing reports](/docs/guides/organisation/phishing-reports) |
+| [Classification](/docs/guides/organisation/classification-labels) | Labels users pick for outgoing mail (Internal, Confidential, VS-NfD), a default, whether a label is required |
 | Sharing | [Tags in shared mailboxes](/docs/guides/organisation/shared-tags), [delegates](/docs/guides/organisation/delegates), [recovering deleted items](/docs/guides/organisation/recover-deleted-items) |
 | Calendars | [Company calendars](/docs/guides/organisation/company-calendars), [free/busy sharing for Suggest times](/docs/guides/organisation/find-a-time), [out-of-office blocks the calendar](/docs/guides/organisation/out-of-office) |
 
