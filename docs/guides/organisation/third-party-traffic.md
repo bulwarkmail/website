@@ -44,7 +44,7 @@ Every outside host Bulwark knows about, and what happens to it:
 
 | Host | Used for | Without the switch, turn it off with | With the switch on |
 | --- | --- | --- | --- |
-| `telemetry.bulwarkmail.org` | Anonymous daily heartbeat, sent only after an admin turned telemetry on (server) | Off by default; `BULWARK_TELEMETRY=off` or **Admin > System > Usage stats** | Never sent, whatever the telemetry setting says. The error counts that can ride on it (next release) are off too |
+| `telemetry.bulwarkmail.org` | Anonymous daily heartbeat, sent only after an admin turned telemetry on, and error counts within a minute if an admin chose that too (server) | Off by default; `BULWARK_TELEMETRY=off` or **Admin > System > Usage stats** | Never sent, whatever the telemetry setting says. The error counts that can ride on it (next release) are off too |
 | `version.telemetry.bulwarkmail.org` | Hourly check for a newer release, shown to admins (server) | `BULWARK_UPDATE_CHECK=off` | Not checked; checks resume when you turn the switch off again |
 | `notifications.relay.bulwarkmail.org` | Built-in Web Push relay that wakes the browser for new mail (browser) | Your own relays under **User policy > Push relays**, choice locked | Not offered; push needs a relay you run |
 | `extensions.bulwarkmail.org` | Marketplace, installs and update checks in the admin console (server) | `EXTENSION_DIRECTORY_URL` pointing at your own directory | Off, unless `EXTENSION_DIRECTORY_URL` points at another host |

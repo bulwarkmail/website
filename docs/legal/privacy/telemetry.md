@@ -9,7 +9,7 @@ edition: both
 
 This sub-page covers the **anonymous usage heartbeat** sent by self-hosted Bulwark webmail instances that opt in. The general project privacy policy is at [/docs/legal/privacy](/docs/legal/privacy). The [feature page](/docs/features/telemetry) is the plain-language version; this page is the formal terms.
 
-Last updated: 1 November 2026. Schema v1, and schema v2 with the separately consented error counts from the next release, after 1.19.1 (see [Error counts](#error-counts-schema-2)). Schema v1: the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
+Last updated: 1 November 2026. Schema v1, and schema v2 with the separately consented error counts and the optional instant error counts from the next release, after 1.19.1 (see [Error counts](#error-counts-schema-2) and [Instant error counts](#instant-error-counts)). Schema v1: the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
 
 ## Scope
 
@@ -37,6 +37,8 @@ Disable it in one of four ways:
 - By blocking `telemetry.bulwarkmail.org` at the network level.
 
 Error counts (schema v2) have their own consent, off by default: Usage stats → Also send anonymous error counts, or `BULWARK_TELEMETRY_ERRORS=on`. They are off whenever the heartbeat is off or the no-third-party switch is on, and switching the heartbeat off in the admin console switches them off too. `BULWARK_TELEMETRY_ERRORS=off` locks them off.
+
+Sending error counts right away is a further choice on top, off by default: Usage stats → Send error counts right away, or `BULWARK_TELEMETRY_ERRORS=instant`. See [Instant error counts](#instant-error-counts).
 
 Clearing the endpoint field does not turn telemetry off: Bulwark saves an empty field as the default collector, `https://telemetry.bulwarkmail.org/v1/heartbeat`.
 
@@ -89,13 +91,21 @@ Only with the separate error-count consent. The heartbeat then has `"schema": "2
 
 The collector rejects a schema 2 heartbeat with any other field, with free text where a code or identifier belongs, with a path outside Bulwark's bundles, or with more than 50 errors or 5 frames. Each error adds a few hundred bytes, and the collector refuses a heartbeat over 64 KB.
 
+### Instant error counts
+
+With **Send error counts right away** on (from the next release, after 1.19.1), the install also posts error counts to `/v1/errors` on the collector, at most once a minute. A post holds `schema` (`"1"`), the `instance_id`, `day` (the current UTC day) and `errors`: entries with exactly the fields of the schema 2 errors above, for the errors of that day that are new or reached a higher count bucket since the last post. Nothing is posted when nothing changed.
+
+What this adds: the collector sees roughly when during the day errors happen on an install, to the minute, from when the post arrives. It doesn't store that time; it stores the counts for the day, like the heartbeat's, and the next heartbeat replaces them with the complete day. The first report of an error on a day, from any install, goes to our error tracker at once, without the `instance_id`, stamped with the time it came in.
+
+The collector applies the same checks as for schema 2, refuses a post for any day other than today or yesterday, and accepts one post per install every 30 seconds.
+
 ## What is never sent
 
 - Email addresses, even hashed (a hashed address is still personally identifiable for a known target)
 - Hostnames, FQDNs, your domain name, your server's hostname
 - IP addresses on the server side: the `telemetry.bulwarkmail.org` nginx vhost has `access_log off`, and the collector logs no IPs, headers or payload bodies
 - Mail counts, folder counts, message sizes, attachment sizes, anything about message contents
-- Timestamps of user actions (the heartbeat carries only its own send time; error counts carry no time, only that they are for the previous UTC day)
+- Timestamps of user actions (the heartbeat carries only its own send time; error counts carry no time, only the UTC day they are for. Instant error counts are posted within about a minute, so their arrival tells the collector roughly when an error happened)
 - The names or slugs of installed marketplace extensions or themes (only the count)
 - Stalwart deployment details (paths, ports, certificates, OAuth client IDs, config keys)
 - Any string typed into the Bulwark UI
@@ -116,6 +126,8 @@ Heartbeats are written to a Postgres database named `telemetry`, separate from t
 ### Error counts in the error tracker
 
 Once a day's counts are complete (two days later), the collector forwards each error to an error tracker, Bugsink, that the Bulwark project runs on the same server as the collector. It sends one event per error, version and day, combined across all installs: the error's name, fixed code if any, frames, version, the day, how many installs reported it and their count buckets. **No `instance_id` and no field that could identify an install goes to Bugsink.** Bugsink keeps events for **90 days**. It has no public view; reading it needs an account on it.
+
+Instant error counts add one event per error, version and day: the first time any install reports it that day, with the same fields from that one report and the time it arrived. Again without an `instance_id`. At most 30 such events a minute go out; the rest show up with the daily summary.
 
 ## Public dashboard
 

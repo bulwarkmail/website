@@ -103,6 +103,25 @@ Each entry has the error's class name, a fingerprint that groups the same error,
 
 We forward each error, combined across installs, to an error tracker (Bugsink) that the project runs on the same server as the collector. What goes there has no `instance_id`: per error, version and day only the number of installs that reported it and their count buckets. Without this switch the heartbeat stays exactly schema `"1"`.
 
+### Sending error counts right away
+
+From the next release, after 1.19.1, a third switch, **Send error counts right away**, sends error counts within about a minute instead of only with the next day's heartbeat. It is off by default and needs error counts on; `BULWARK_TELEMETRY_ERRORS=instant` sets it from the environment.
+
+With it on, your install checks its counts once a minute and posts the errors of the current UTC day to the collector's `/v1/errors` (the collector URL with `heartbeat` replaced by `errors`), but only the ones that are new or have reached a higher count bucket since the last post. A known error happening again sends nothing until it moves from `1` to `2-5`, `2-5` to `6-10` and so on. The entries are the same as above:
+
+```json
+{
+  "schema": "1",
+  "instance_id": "8b3c6c4e-2a8f-4e1f-9a91-3d7e9f2c5b10",
+  "day": "2026-11-12",
+  "errors": [
+    { "name": "TypeError", "fingerprint": "3f9a0c71d2e84b65", "frames": [], "version": "1.20.0", "count": "2-5", "days": 1 }
+  ]
+}
+```
+
+The first report of an error on a given day, from any install, goes to the error tracker at once, again without an `instance_id`. The daily heartbeat still carries the complete previous day, and its summary lands in the same error-tracker issue two days later. What this adds over the daily mode: the collector learns roughly when during the day an error happens on your install (to the minute, from when the post arrives), where the daily mode only tells it the day.
+
 ## What we never collect
 
 - Email addresses, even hashed
@@ -126,6 +145,7 @@ In the admin console under **System → Usage stats** you can:
 
 - Turn the heartbeat on or off at any time with **Send anonymous heartbeats**, then press **Save**.
 - From the next release, turn **Also send anonymous error counts** on or off (it needs the heartbeat on). The payload preview switches to schema 2 as soon as you flip it, before you save.
+- From the next release, turn **Send error counts right away** on to also send the current day's counts within about a minute. The preview then also shows the batch that would go out now.
 - See the **Payload preview**: the exact JSON the next heartbeat would send, filled in with your install's current values.
 - **Send now** fires a heartbeat immediately, for testing or just to see it happen (only while heartbeats are on).
 - Change the **Collector URL** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector. Clearing the field restores the default; it does not turn heartbeats off. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
@@ -146,7 +166,7 @@ You're also asked once during setup: the setup wizard's Security step has a **Se
 
 Clearing the Collector URL is not a way to turn it off: an empty field saves the default endpoint again.
 
-To stop only the error counts, turn off **Also send anonymous error counts** or set `BULWARK_TELEMETRY_ERRORS=off`; the heartbeat goes on as schema 1.
+To stop only the error counts, turn off **Also send anonymous error counts** or set `BULWARK_TELEMETRY_ERRORS=off`; the heartbeat goes on as schema 1. To go back from instant to daily, turn off **Send error counts right away** or set `BULWARK_TELEMETRY_ERRORS=on`.
 
 The change takes effect as soon as you save it. With [several instances](/docs/deployment/multi-instance) on a shared store, the consent, the `instance_id` and the account counts are shared, and one instance sends the heartbeat for the whole deployment; another takes over within about 40 seconds if it stops. To also reset your `instance_id`, so future heartbeats from this install look like a brand-new one, delete the `.telemetry-id` file in your telemetry data directory.
 

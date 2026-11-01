@@ -354,8 +354,8 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose:** the separate consent to add anonymous error counts to the heartbeat (schema 2).
 - **Required:** no.
 - **Default:** off. It is also off whenever the heartbeat is off or no third-party traffic is on, whatever this variable says.
-- **When to set it:** `on` to send error counts, `off` to lock them off. Either value greys out **Also send anonymous error counts** in the admin console.
-- **See also:** [Anonymous usage stats](/docs/features/telemetry#error-counts).
+- **When to set it:** `on` to send error counts with the daily heartbeat, `instant` to also send the current day's counts within about a minute, `off` to lock them off. Any value greys out the error-count switches in the admin console.
+- **See also:** [Anonymous usage stats](/docs/features/telemetry#error-counts) and [Sending error counts right away](/docs/features/telemetry#sending-error-counts-right-away).
 
 ### `BULWARK_TELEMETRY_DISABLED` _(legacy)_
 
