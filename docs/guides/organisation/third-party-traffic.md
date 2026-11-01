@@ -74,6 +74,7 @@ Everything you configured yourself stays reachable. **Admin > Organisation > Sec
 - the WOPI document editor (`WOPI_CLIENT_URL`)
 - LibreTranslate (`LIBRETRANSLATE_URL`)
 - branding images on other hosts
+- [company calendars](/docs/guides/organisation/company-calendars) of Everyone and of every domain and group, listed as "Company calendar" (your server fetches them)
 
 The list also shows what users enter themselves, which stays allowed:
 
@@ -108,6 +109,8 @@ Lite reads the switch from `config.json` next to `index.html`:
 If `config.json` is missing or can't be read, Lite behaves as if the switch were on.
 
 Lite has no server, so most of the table doesn't apply: there is no telemetry, version check, marketplace, sender icons, translation route or push. The switch turns off the map links in Lite. Plugins don't run in Lite at all.
+
+[Company calendars](/docs/guides/organisation/company-calendars) are fetched by the browser in Lite, from the address in `policy.json`. The switch doesn't stop them, but the page security policy of a build made with `LITE_NO_THIRD_PARTY_TRAFFIC=true` allows only the JMAP server, so a feed on any other host is refused there.
 
 A static build made with `LITE_NO_THIRD_PARTY_TRAFFIC=true` ships with the switch on, and every page carries a security policy that allows only its own origin and the JMAP server from `LITE_JMAP_SERVER_URL`; the `_headers`, nginx and Caddy examples in the zip carry the same policy. Without a server URL, or with custom servers allowed, the policy lets the browser connect to any host, while images, fonts and media stay limited to the page's own origin. The bundle for installing Lite as a Stalwart Application doesn't get the per-page policy.
 
