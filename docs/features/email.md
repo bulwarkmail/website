@@ -28,7 +28,7 @@ Folders can be shared with other users on the same server (`mail:share`). On Sta
 The rest is the ordinary furniture:
 
 - Archive into a single folder, into year folders, or into year/month folders
-- Empty Junk and Trash, with a confirmation first
+- Empty Junk and Trash, with a confirmation first. When your organisation set it up, a line in Trash and Junk says how long mail stays there before the server deletes it ([retention notice](/docs/guides/organisation/announcements#how-long-trash-and-junk-keep-mail))
 - Configurable hover quick-actions, and attachments shown next to the sender or below the message header
 - Answered and forwarded status icons in the list
 - Right-click a folder to manage it, to import mail into it or to export it; the context menu header elides a long path in the middle rather than truncating it
@@ -90,6 +90,8 @@ Booking, shipping and order mail that carries schema.org markup gets a card abov
 
 Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs open in the browser's PDF viewer on desktop and are drawn page by page on phones, and `.eml` attachments open like mail.
 
+Your organisation can [turn some of this off](/docs/guides/organisation/device-policies). With downloads off, attachments only preview: the reader says "Downloads are turned off by your organisation", a file that can't be previewed doesn't open, and PDFs are always drawn page by page. With export or printing off, Export as .eml, View source or Print are gone from the menus, and printing the page with Ctrl+P gives a page that says printing is off. A faint watermark with your address and the date can lie over messages, previews and printouts. In a unified inbox each message follows the settings of its own account.
+
 Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars show the contact's photo if you have one, otherwise the sender's BIMI logo or the website icon of the sender's domain, and initials when there is none of these.
 
 <div class="bw-note"><b>Note.</b> In Bulwark Lite, BIMI logos and website icons are off, since both are fetched by the Node.js server, which Lite doesn't have. Contact photos still show.</div>
@@ -146,7 +148,7 @@ The whole section only appears when the server advertises Sieve support.
 
 Out-of-office replies are a JMAP `VacationResponse`, which the server runs for you, so it keeps answering while nothing of yours is running.
 
-Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. Turning on **Formatted message (HTML)** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what goes out before you save.
+Set a subject and a plain-text body, and optionally a start and end date; leave either empty for no limit at that end. The dates are in the time zone you picked in settings, or the browser's when you picked none. If your organisation wrote reply templates, **Use a template** fills one in with your name, the dates and, when the text names one, a colleague's address you type first; you can change the text afterwards ([out-of-office templates](/docs/guides/organisation/out-of-office#reply-templates)). Turning on **Formatted message (HTML)** adds an HTML version written in the same rich-text editor as the composer, and recipients whose client won't render it fall back to the plain text. A preview shows what goes out before you save.
 
 This needs a server that supports VacationResponse; forwarding and replying only to internal or external senders also need Sieve. On Stalwart 1.0 the replies go out with an empty envelope sender (<code style="font-variant-ligatures: none">MAIL FROM:&lt;&gt;</code>), as RFC 5230 recommends.
 

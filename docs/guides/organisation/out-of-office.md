@@ -1,11 +1,74 @@
 ---
 title: Out-of-office
-description: Block users' calendars while their out-of-office reply is on.
+description: Reply templates users fill in, and blocking users' calendars while their out-of-office reply is on.
 order: 13
 edition: both
 ---
 
 # Out-of-office
+
+## Reply templates
+
+Give users reply texts to start from, so out-of-office replies say the same things across the company: who to write to instead, when the person is back, the company name.
+
+1. Open **Admin > Organisation > Templates**.
+2. Pick **Everyone**, or a domain or group, in the **Applies to** bar.
+3. Under **Out-of-office replies**, click **Add reply**, give it a name and, if you like, a category or language ("Holiday", "Parental leave", "Deutsch").
+4. Write the subject and the text with placeholders. **Also an HTML version** adds a formatted one.
+5. Click **Save**.
+
+Users then get **Use a template** in **Settings > Out of office**. They pick a template, type their deputy's address if the text names one, and click **Use this text**. Bulwark fills in the placeholders, puts the result into the subject and text below, and saves it like any change on that page. Users can change the text afterwards.
+
+### Placeholders
+
+Placeholders use single braces, like the [organisation signature](/docs/guides/organisation/signatures), not the double braces of mail templates.
+
+| Placeholder | Filled with |
+| --- | --- |
+| `{name}` | The user's name, from their identity |
+| `{email}` | Their address |
+| `{company}` | The company name from Branding |
+| `{start}` | The first day away |
+| `{end}` | The end of the absence |
+| `{deputy}` | The address of a colleague, typed by the user when they pick the template |
+| `{deputy_name}` | That colleague's name, typed by the user |
+
+Dates are written in the user's language and time zone, the day alone when the time is midnight ("Monday 4 January 2027"), else with the time. A line whose placeholders are all empty is left out, so "I am back on {end}." disappears when the user sets no end.
+
+When a template uses `{deputy}` or `{deputy_name}`, nothing changes until the user has typed the deputy. A half-filled reply is never saved.
+
+Stalwart takes at most 511 bytes of subject and 2047 bytes of text (and of HTML). The admin page warns when a template, filled with a typical name and dates, is longer, because users couldn't save it.
+
+For a mailbox the user manages for someone else, the template is filled with that mailbox's address.
+
+### Per domain or group
+
+A scope's replies add to Everyone's. **Change for this scope** on one of Everyone's replies makes a copy that replaces it for that scope only.
+
+### The policy file
+
+Templates are `organisation.vacationTemplates.library`:
+
+```json
+{
+  "organisation": {
+    "vacationTemplates": {
+      "library": [
+        {
+          "id": "holiday",
+          "name": "Holiday",
+          "category": "English",
+          "subject": "Out of office until {end}",
+          "text": "Thank you for your message. I am away until {end}.\nFor urgent matters, please write to {deputy_name} at {deputy}.\n\n{name}\n{company}",
+          "html": ""
+        }
+      ]
+    }
+  }
+}
+```
+
+In Lite the templates come from the `policy.json` next to `index.html`, which anyone can read.
 
 ## Block the calendar
 
