@@ -15,7 +15,7 @@ It is off on every device until the user turns it on there. The switch belongs t
 ## What a device keeps
 
 - The last 30 days of the Inbox, and of the folders the user opened, at most 500 messages from the Inbox and 200 from each other folder (up to 10 folders).
-- The text of those messages, and attachments and inline images up to 5 MB each.
+- The text of those messages, and their attachments and inline images up to 5 MB each. Other files (a folder export, a file opened from the Files app) are never kept.
 - The folder list, the user's sending addresses, and the session details Bulwark needs to start without the server (no password or token).
 - Messages written offline, with their attachments, until they are sent.
 - The app itself (the pages and files of the Bulwark version that runs), so the app also opens without a connection.
@@ -35,7 +35,7 @@ This protects against someone who copies the browser profile's files, for exampl
 | Folder list, kept messages, threads | Yes |
 | Read, unread, flag, tags, move, delete to Trash | Yes, sent in order once online |
 | New message, reply, quick reply, forward from the composer | Yes, through the outbox |
-| S/MIME and PGP | Yes, signed and encrypted when the user clicks Send |
+| S/MIME and PGP | Yes, in a tab that was open before the connection went: signed and encrypted when the user clicks Send. Not after Bulwark was opened without a connection (see below) |
 | Search | No (needs the server) |
 | Delete for good, empty a folder | No, refused with a message |
 | Calendar, contacts, files | No |
@@ -45,14 +45,20 @@ This protects against someone who copies the browser profile's files, for exampl
 
 A message in the outbox has been through everything a normal send does: your [classification labels](/docs/guides/organisation/classification-labels) (a required label still stops it), the external recipient warning, the organisation signature and disclaimer, [send checks](/docs/guides/organisation/send-checks) (a check that isn't running still holds the message back), and S/MIME or PGP with the user present. Only the finished message waits. Sending it later can't skip a check.
 
-When the device is online again, Bulwark first sends the changes (read, flags, moves) in the order they were made, then the outbox. A change the server refuses, for example because the message was deleted meanwhile, is dropped: the server's state wins. A message the server refuses stays in the outbox, marked with the reason, and the user can send it again or delete it. If the connection breaks while a message is on its way, Bulwark can't tell whether it went out. It then marks the message and never sends it again by itself, so nothing goes out twice.
+Plugins only run when the browser could load them. After Bulwark was opened without a connection none can, so no message goes to the outbox while any plugin the user has on isn't running: the composer says "Your signing or encryption plugin isn't running offline. Send this when you're back online." That way a message never goes out unsigned, unencrypted or unchecked.
+
+Before the outbox sends anything, Bulwark fetches the policy again. If your rules got stricter while a message waited (a label is now required and it has none, or a send check is now required), the message isn't sent: it stays in the outbox, marked, and the user deletes it and writes it again.
+
+When the device is online again, Bulwark sends the changes (read, flags, moves) and the messages in the order they were made. A change the server refuses, for example because the message was deleted meanwhile, is dropped: the server's state wins. A message the server refuses stays in the outbox, marked with the reason, and the user can send it again or delete it.
+
+Only one tab sends at a time, and each message is taken for sending once, so two open tabs don't send it twice. A message goes back to waiting only when the connection broke before Bulwark handed it to the server. If it broke while the message was on its way, Bulwark can't tell whether it went out: it marks the message and doesn't send it again by itself. The user checks Sent and then sends it again or deletes it. The same goes for a message whose tab was closed while it was being sent.
 
 An undo-send delay that passed while the message waited is dropped: the message goes at once.
 
 ## When it is deleted
 
 - **Every sign-out.** Signing out of all accounts deletes everything offline mode kept on the device, the outbox included. If messages haven't been sent, Bulwark asks first ("1 message hasn't been sent. Signing out deletes them.").
-- **The automatic sign-out** after inactivity or the maximum session length ([sign-out times](/docs/guides/organisation/sessions)). It doesn't ask. The sign-in page then names the messages that were deleted unsent.
+- **The automatic sign-outs:** after inactivity or the maximum session length ([sign-out times](/docs/guides/organisation/sessions)), and when the server ends a session. They don't ask. The sign-in page then names the messages that were deleted unsent (or a notice does, when another account stays signed in).
 - **Signing out one account** of several deletes that account's data only.
 - **Turning it off** in Settings deletes that account's data. With unsent messages Bulwark asks first.
 - **When you forbid it** (below).
@@ -61,7 +67,7 @@ An undo-send delay that passed while the message waited is dropped: the message 
 
 Open **Admin > Organisation > Devices**, pick **Everyone** or a domain or group in the **Applies to** bar, and turn on **Don't let people keep mail on their devices**. Users in the scope no longer see the switch; Settings says that the organisation doesn't allow it, with **Set by your organisation**.
 
-A device that already keeps mail deletes it, unsent messages included, at its next policy fetch: when the tab is opened, reloaded or focused (at most once a minute), and every 15 minutes while it stays open. The user is told. A device that is offline at that moment deletes it as soon as it fetches the policy again.
+A device that already keeps mail deletes it, unsent messages included, at its next policy fetch: when the tab is opened, reloaded or focused (at most once a minute), every 15 minutes while it stays open, and before the outbox sends anything once the connection is back. The user is told. For an account other than the one shown, Bulwark decides once it knows that account's groups.
 
 With several accounts signed in, each account follows its own scope: forbidding it for one doesn't delete another account's data.
 
@@ -92,7 +98,7 @@ Or for a group only:
 
 ## Started offline
 
-When the browser opens Bulwark without a connection and the account keeps mail on the device, Bulwark starts from what it kept: the app from the service worker, the mail from the device, and the organisation's settings from the last policy it fetched (never the defaults, so a lock can't be lifted by going offline). Changes and new mail wait as usual. When the connection is back, the user is asked to reload, which signs in and sends what waited.
+When the browser opens Bulwark without a connection (or the mail server can't be reached at all) and the account keeps mail on the device, Bulwark starts from what it kept: the app from the service worker, the mail from the device, and the organisation's settings from the last policy it fetched (never the defaults, so a lock can't be lifted by going offline). Changes wait as usual; new mail only when the user has no plugins on (see above). When the server answers again, Bulwark signs in by itself and sends what waited. If a message is being written at that moment, it asks the user to reload instead, so the message isn't lost.
 
 ## Updates
 

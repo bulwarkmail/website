@@ -8,7 +8,7 @@ editionNote: "Offline mode needs Bulwark's service worker. Bulwark Lite doesn't 
 
 # Offline mode
 
-With **Keep mail on this device** turned on, Bulwark keeps your recent mail in the browser. On a train, a plane or a bad connection you can still read it, flag it, move it and write new mail. What you write waits in the outbox and goes out when you're online again.
+With **Keep mail on this device** turned on, Bulwark keeps your recent mail in the browser. Without a connection you can still read it, flag it, move it and write new mail. What you write waits in the outbox and goes out when you're online again.
 
 ## Turn it on
 
@@ -24,10 +24,10 @@ When the connection is gone, a line at the top says you're offline and that you 
 
 - **Read:** messages from the last 30 days of your Inbox and the folders you opened, with their attachments and images.
 - **Flag, mark read or unread, tag, move, delete to Trash:** works at once and is sent when you're online again.
-- **Write:** new messages, replies and quick replies. Your organisation's checks still apply when you click Send: a required classification label, warnings about recipients outside the organisation, and send checks. After Send the message goes to the outbox.
+- **Write:** new messages, replies and quick replies. Your organisation's checks still apply when you click Send: a required classification label, warnings about recipients outside the organisation, and send checks. After Send the message goes to the outbox. If a plugin you use (for signing, encryption or checks) isn't running, the message isn't kept: send it when you're back online.
 - **Not possible offline:** search, deleting for good, emptying a folder, calendar, contacts and files. Bulwark tells you when you try.
 
-You can also open Bulwark without a connection: it starts with the mail it kept. Once you're online again, it asks you to reload, which signs you in and sends what waited.
+You can also open Bulwark without a connection: it starts with the mail it kept. Plugins don't run then. Once the mail server answers again, Bulwark signs you in and sends what waited; if you're writing a message at that moment, it asks you to reload first.
 
 ## The outbox
 
@@ -36,12 +36,13 @@ The line at the top says how many messages wait; click it to open the outbox. It
 - **Waiting for a connection:** it goes out by itself when you're online.
 - **Couldn't be sent:** the server refused it, with the reason. Fix what you can and click **Send again**, or **Delete** it.
 - **The connection broke while sending:** it may have gone out. Check Sent before you click **Send again**.
+- **Your organisation's rules changed while this waited:** for example a label became required. Delete it and write it again.
 
 When you're online again, Bulwark first sends your changes (read, flags, moves), then the messages, oldest first, and tells you about each one it sent.
 
 ## Signing out
 
-Signing out removes everything offline mode kept on this device, the outbox included, and turns the switch off. If messages haven't been sent yet, Bulwark asks first. If you're signed out automatically after a time without activity, it can't ask: the sign-in page then names the messages that were deleted unsent.
+Signing out removes everything offline mode kept on this device, the outbox included, and turns the switch off. If messages haven't been sent yet, Bulwark asks first. If you're signed out automatically (after a time without activity, or when the server ends your session), it can't ask: the sign-in page then names the messages that were deleted unsent.
 
 ## Next step
 
