@@ -86,7 +86,7 @@ The chart's single-replica setup keeps state on a PersistentVolume. To run more 
 
 ## Probes and monitoring
 
-From the release after {{BULWARK_VERSION}}, Bulwark has a liveness and a readiness endpoint of its own. `/api/health/live` answers while the process runs; `/api/health/ready` also checks the configuration, the shared store, writable data directories and that Stalwart answers. Set the probes in the chart's values (see its `values.yaml` for the probe keys) or in your own manifests:
+From the next release, after 1.19.1, Bulwark has a liveness and a readiness endpoint of its own. `/api/health/live` answers while the process runs; `/api/health/ready` also checks the configuration, the shared store, writable data directories and that Stalwart answers. Set the probes in the chart's values (see its `values.yaml` for the probe keys) or in your own manifests:
 
 ```yaml
 livenessProbe:

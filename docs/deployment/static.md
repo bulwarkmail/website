@@ -60,7 +60,7 @@ An optional `policy.json` next to it carries the same settings policy the admin 
 
 ### Error reporting
 
-From the release after {{BULWARK_VERSION}}, `policy.json` can also name an error tracker (Bugsink, GlitchTip, Sentry). Browsers then send their errors straight to it, with mail content removed first:
+From the next release, after 1.19.1, `policy.json` can also name an error tracker (Bugsink, GlitchTip, Sentry). Browsers then send their errors straight to it, with mail content removed first:
 
 ```json
 {

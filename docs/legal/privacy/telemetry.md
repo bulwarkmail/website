@@ -9,7 +9,7 @@ edition: both
 
 This sub-page covers the **anonymous usage heartbeat** sent by self-hosted Bulwark webmail instances that opt in. The general project privacy policy is at [/docs/legal/privacy](/docs/legal/privacy). The [feature page](/docs/features/telemetry) is the plain-language version; this page is the formal terms.
 
-Last updated: 1 November 2026. Schema v1, and schema v2 with the separately consented error counts from the release after {{BULWARK_VERSION}} (see [Error counts](#error-counts-schema-2)). Schema v1: the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
+Last updated: 1 November 2026. Schema v1, and schema v2 with the separately consented error counts from the next release, after 1.19.1 (see [Error counts](#error-counts-schema-2)). Schema v1: the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
 
 ## Scope
 

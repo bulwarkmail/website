@@ -550,7 +550,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 
 ## Monitoring
 
-These ship with the next release after {{BULWARK_VERSION}}. All of them are off until set; the [monitoring guide](/docs/deployment/monitoring) explains what each one sends.
+These ship with the next release, after 1.19.1. All of them are off until set; the [monitoring guide](/docs/deployment/monitoring) explains what each one sends.
 
 ### `ERROR_REPORTING_DSN` _(next release)_
 

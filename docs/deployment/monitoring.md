@@ -8,7 +8,7 @@ editionNote: "Metrics, health checks and tracing come from Bulwark's server (not
 
 # Monitoring
 
-<div class="bw-note bw-note-brand"><b>Next release.</b> Everything on this page ships with the release after {{BULWARK_VERSION}}. {{BULWARK_VERSION}} has only <code>/api/health</code> and <code>/api/ready</code>.</div>
+<div class="bw-note bw-note-brand"><b>Next release.</b> Everything on this page ships with the next release, after 1.19.1. Released versions have only <code>/api/health</code>.</div>
 
 Bulwark can hand four things to the tools you already run:
 

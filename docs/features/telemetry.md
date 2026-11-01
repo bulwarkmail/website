@@ -67,7 +67,7 @@ Account counts are reported as **buckets** (`0`, `1`, `2-5`, `6-10`, `11-50`, `5
 
 ## Error counts
 
-From the release after {{BULWARK_VERSION}}, you can also send anonymous error counts with the heartbeat. They tell us which errors a release causes across installs, so we can fix the ones that hit many people first. This is a **second, separate switch**, off by default:
+From the next release, after 1.19.1, you can also send anonymous error counts with the heartbeat. They tell us which errors a release causes across installs, so we can fix the ones that hit many people first. This is a **second, separate switch**, off by default:
 
 - It only works while the heartbeat is on. Turning the heartbeat off turns error counts off as well, and turning the heartbeat on again doesn't bring them back by itself.
 - No third-party traffic turns it off, whatever else is set.
