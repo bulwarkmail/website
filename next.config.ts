@@ -45,13 +45,23 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return [
+    // The markdown copies of the docs (src/app/docs-md, lib/agent-docs.ts).
+    // They run before the pages, since /docs/<page> is a page of its own.
+    const markdown = [{ type: "header" as const, key: "x-bulwark-markdown", value: "1" }];
+    const beforeFiles = [
+      { source: "/docs.md", destination: "/llms.txt" },
+      { source: "/docs/:slug(.+)\\.md", destination: "/docs-md/:slug" },
+      { source: "/docs", has: markdown, destination: "/llms.txt" },
+      { source: "/docs/:slug+", has: markdown, destination: "/docs-md/:slug+" },
+    ];
+    const afterFiles = [
       {
         source: "/compose.yml",
         destination:
           "https://raw.githubusercontent.com/bulwarkmail/webmail/main/docker-compose.yml",
       },
     ];
+    return { beforeFiles, afterFiles, fallback: [] };
   },
 };
 

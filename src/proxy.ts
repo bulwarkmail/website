@@ -4,6 +4,15 @@ import { NextResponse, type NextRequest } from "next/server";
 // in .md, or when the request prefers text/markdown to text/html, which is
 // what agents such as Claude Code send. Browsers never ask for markdown, so
 // they keep getting the HTML page. /docs itself answers with llms.txt.
+//
+// The .md URLs are plain rewrites in next.config.ts. For the Accept header
+// this only marks the request with MARKDOWN_HEADER, and a rewrite in
+// next.config.ts that requires the mark sends it to the markdown route.
+// The proxy doesn't rewrite itself: behind nginx with HOSTNAME=127.0.0.1 the
+// standalone server saw the rewrite target as another origin (the proxy's
+// URL says localhost) and tried to fetch it over HTTPS, which answered 500.
+
+export const MARKDOWN_HEADER = "x-bulwark-markdown";
 
 /** The highest q the Accept header gives any of the ranges, 0 if it names none. */
 function quality(accept: string, ranges: string[]): number {
@@ -28,16 +37,13 @@ export function prefersMarkdown(accept: string | null): boolean {
 }
 
 export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const asMarkdown = pathname.endsWith(".md");
-  if (!asMarkdown && !prefersMarkdown(request.headers.get("accept"))) return NextResponse.next();
-
-  const path = asMarkdown ? pathname.slice(0, -3) : pathname.replace(/\/$/, "");
-  const url = request.nextUrl.clone();
-  url.pathname = path === "/docs" ? "/llms.txt" : `/docs-md/${path.slice("/docs/".length)}`;
-  return NextResponse.rewrite(url);
+  const headers = new Headers(request.headers);
+  // Only the proxy decides; a client can't set the mark itself.
+  headers.delete(MARKDOWN_HEADER);
+  if (prefersMarkdown(request.headers.get("accept"))) headers.set(MARKDOWN_HEADER, "1");
+  return NextResponse.next({ request: { headers } });
 }
 
 export const config = {
-  matcher: ["/docs", "/docs.md", "/docs/:path+"],
+  matcher: ["/docs", "/docs/:path+"],
 };

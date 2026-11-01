@@ -2,7 +2,7 @@ import { docPageMarkdown, MARKDOWN_HEADERS, sectionMarkdown } from "@/lib/agent-
 import { getAllDocs, getDocSections } from "@/lib/docs";
 import { SITE_URL } from "@/lib/site";
 
-// The markdown copy of a docs page or section. Nobody links here: src/proxy.ts
+// The markdown copy of a docs page or section. Nobody links here: next.config.ts
 // rewrites /docs/<slug>.md, and /docs/<slug> asked for as text/markdown, to it.
 export const dynamic = "force-static";
 export const dynamicParams = false;
