@@ -7,7 +7,7 @@ edition: both
 
 # Company calendars
 
-A company calendar is an ICS feed you list once. Every user it applies to sees it in Calendar under **Organisation**, read-only. Users can hide it by clicking its name in the sidebar, and the choice follows them to other devices. They can't remove it, edit it or add events to it.
+A company calendar is an ICS feed you list once. Every user it applies to sees it in Calendar under **Organisation**, read-only. Users can hide it by clicking its name in the sidebar (on phones, in the calendar list of the toolbar). With settings sync on, the choice follows them to other devices; in Lite or with sync off it stays in that browser. They can't remove it, edit it or add events to it.
 
 ## Set it up
 
@@ -27,7 +27,15 @@ In full Bulwark, Bulwark's server fetches the feed. The browser asks for it by i
 
 The server keeps each feed for its refresh interval, so a hundred users cost one fetch. After the interval it asks the feed host again with `If-None-Match` and `If-Modified-Since`. When the feed host is down, users keep the last copy.
 
-A feed may be on your intranet. Bulwark normally refuses to fetch from private addresses (`localhost`, `.internal`, `10.0.0.0/8` and the like). For a company calendar it lets through exactly the host you entered, and nothing else, also not a redirect to another private host.
+A feed may be on your intranet. Bulwark normally refuses to fetch from private addresses (`localhost`, `.internal`, `10.0.0.0/8` and the like). For a company calendar it makes an exception when the host you entered names the intranet itself:
+
+- an intranet IP address: `10.x`, `172.16.x` to `172.31.x`, `192.168.x`, `100.64.x` to `100.127.x`, or an IPv6 unique local address
+- a name ending in `.local`, `.internal` or `.localdomain`
+- a name without dots, such as `intranet`
+
+Only that host, on that port, gets the exception: not a redirect to another port or host. Loopback (`127.x`, `localhost`), link-local and cloud metadata addresses are never reached. A public name such as `calendar.example.com` gets no exception, also if its DNS points to a private address; give the feed an intranet name instead. The answer must be a calendar (start with `BEGIN:VCALENDAR`), or users get an error.
+
+A feed that can't be fetched keeps showing what it had. A feed that failed and was never fetched answers with its error for a minute before Bulwark asks again. Users whose scope no longer has the feed lose its events the next time their calendar checks it.
 
 The hosts stay reachable with [No third-party traffic](/docs/guides/organisation/third-party-traffic) on, and **Organisation > Security** lists each one under **Still reachable** as "Company calendar".
 
@@ -69,7 +77,7 @@ In `policy.json` the calendars are `organisation.calendars.feeds`. Each has an `
 
 Members of `sales@example.com` see both calendars; everyone else sees the holidays.
 
-The addresses stay on the server only while Bulwark has a session secret (`SESSION_SECRET`, or the one it writes on first start). Without one the server can't tell a user from the admin console, and the policy route answers everyone with the whole policy, addresses included.
+Company calendars need Bulwark's session secret (`SESSION_SECRET`, or the one it writes on first start): the server fetches a feed for the signed-in user it reads from their session. Without a secret, users get the feeds without addresses and can't load them; only the admin console sees the addresses.
 
 ## Bulwark Lite
 

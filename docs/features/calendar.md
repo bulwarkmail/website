@@ -142,7 +142,7 @@ Bulwark auto-generates a read-only birthday calendar from your contacts. Februar
 
 ## Company calendars
 
-Calendars your organisation set up, such as holidays or office closures, show under **Organisation** in the sidebar. They are read-only. Click one to hide it, and again to show it; the choice follows you to your other devices. Their events don't make you busy for other people. See [Company calendars](/docs/guides/organisation/company-calendars) for administrators.
+Calendars your organisation set up, such as holidays or office closures, show under **Organisation** in the sidebar. They are read-only. Click one to hide it, and again to show it (on phones, in the calendar list of the toolbar). With settings sync on, the choice follows you to your other devices. Their events don't make you busy for other people. See [Company calendars](/docs/guides/organisation/company-calendars) for administrators.
 
 ## Out-of-office blocks the calendar
 

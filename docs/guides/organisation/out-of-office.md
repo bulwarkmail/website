@@ -29,9 +29,9 @@ Users then see the checkbox set as you chose, with **Set by your organisation**.
 - Its title is the reply's subject, or "Out of office".
 - It is timed, or all-day when both the start and the end are midnight in the user's time zone.
 
-Bulwark remembers the times it wrote. If the user or another app moved or changed the event, Bulwark leaves it alone from then on.
+The event carries the category `bulwark-out-of-office`, which other calendar apps show. Bulwark treats the event as its own while its times are the ones Bulwark last wrote, or the reply's dates before the change at hand. The second rule covers a reply changed on another device, by a delegate, in Lite or with settings sync off. On a device that has no record yet, an event with the category found when the reply is loaded counts as Bulwark's too. If the user or another app moved or changed the event otherwise, Bulwark leaves it alone.
 
-When the reply's dates change, the event moves with them. When the user switches the reply or the checkbox off, an event that hasn't started is removed and one that has started ends now. A reply that simply runs out leaves its past event in place. An event someone deleted stays deleted until the reply's dates change.
+When the reply's dates change, the event moves with them. When the user switches the reply or the checkbox off, an event that hasn't started is removed and one that has started ends now. A reply that simply runs out leaves its past event in place. An event someone deleted stays deleted until the reply's dates change. On a device that never had a record of it (a new browser, Lite in another browser), Bulwark can't tell a deleted event from one never made, and adds it again once.
 
 For a mailbox the user manages for someone else, the event goes into that account's calendar. The user needs write access to it; without it the checkbox says the calendar can't be blocked.
 

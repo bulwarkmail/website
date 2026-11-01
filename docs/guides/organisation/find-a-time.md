@@ -29,7 +29,7 @@ Attendees outside the organisation can't be checked at all and are listed as "ou
 2. Under **Free/busy sharing**, enter a group everyone is in, for example `staff@example.com`, in **Share free/busy with**.
 3. Click **Save**.
 
-When a user signs in, Bulwark shares their default calendar with that group, free/busy only: the members see when they are busy, not what their events are. It does this once per page load and account. It only adds: shares the user made stay as they are, and if the group already had a share, Bulwark only adds free/busy to it. The share is an ordinary one, so users see it in their calendar's sharing list. A user who removes it gets it back at the next sign-in.
+When a user signs in, Bulwark shares their default calendar with that group, free/busy only: the members see when they are busy, not what their events are. It does this once per page load and account. It only adds: shares the user made stay as they are, and if the group already had a share, Bulwark only adds free/busy to it. The share is an ordinary one, so users see it in their calendar's sharing list. A user who removes it gets it back at the next sign-in. The address must be a group in Stalwart's directory (or one of the user's group accounts); a person's address is ignored, so a typo can't share everyone's free/busy with one person.
 
 Users who never sign in to Bulwark, because they only use phone or desktop calendar apps, aren't covered. Share their calendars in Stalwart, or ask them to sign in once.
 
