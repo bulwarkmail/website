@@ -22,6 +22,8 @@ The admin console's **Organisation** section holds the settings a company or a h
 
 Assigning messages in a shared mailbox and marking them done comes from the [Team inbox plugin](/docs/guides/organisation/team-inbox), not from these pages. It isn't in the extension directory yet; you upload its ZIP under Extensions > Plugins.
 
+Two official plugins add checks an organisation sets up under **Extensions > Plugins**, not on these pages: the [link check](/docs/guides/organisation/link-check) of links when users click them (company service or Google Safe Browsing), and [send checks](/docs/guides/organisation/send-checks) for IBANs, card numbers, keywords and attachment types before mail goes out.
+
 Every setting has a default that works without configuration. An admin who does nothing gets Bulwark as before.
 
 ## Locking a setting

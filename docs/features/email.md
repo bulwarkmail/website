@@ -84,7 +84,7 @@ External content is blocked until you trust the sender, and the banner saying so
 
 TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
 
-When your organisation set up [phishing reports](/docs/guides/organisation/phishing-reports), **Report phishing…** in the message menus sends a suspicious message to your security team and moves it to Junk. It asks first and names the address. A reported message shows a banner and its links are turned off. Mail with a classification label of your organisation shows the label next to the sender.
+When your organisation set up [phishing reports](/docs/guides/organisation/phishing-reports), **Report phishing…** in the message menus sends a suspicious message to your security team and moves it to Junk. It asks first and names the address. A reported message shows a banner and its links are turned off. Mail with a classification label of your organisation shows the label next to the sender. If your organisation checks links before they open or messages before they go out, [Link and send checks](/docs/features/email/organisation-checks) explains the dialogs.
 
 Booking, shipping and order mail that carries schema.org markup gets a card above the message: route and times for flights and trains, check-in and check-out for hotels, tracking for parcels, status for orders, with an Add to calendar button where it fits. See [Booking and parcel cards](/docs/features/email/booking-cards).
 

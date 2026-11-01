@@ -58,6 +58,8 @@ Every outside host Bulwark knows about, and what happens to it:
 
 **Plugins** that declare network access don't run: those with the `http:fetch` or `http:proxy` permission, or with any entry in `httpOrigins` or `frameOrigins`. Plugins you installed aren't sent to browsers, the credential proxy refuses requests, and no plugin frame origins go into the page's security policy. A plugin a user installed in their own browser shows "Not started" with the reason in **Settings > Add-ons**. Every other plugin runs as before. The Security page names the plugins it keeps off.
 
+One kind of plugin keeps running: one whose only network access is the credential proxy with servers you entered on its admin page, such as the company service of the [link check](/docs/guides/organisation/link-check). The proxy still reaches the server you typed there, and refuses the servers the plugin's manifest fixes (Google Safe Browsing), an address the plugin brings as the field's default, and accounts users connect. A plugin can't change that field itself. The Security page lists the server you entered under **Still reachable** ("Plugin External Link Warning") and says which fixed servers stay off. The plugin learns through `api.host.features.noThirdPartyTraffic` that the switch is on, so it can turn those services off.
+
 Avatar plugins such as Gravatar or Libravatar don't declare network access: they hand Bulwark an image address. With the switch on, Bulwark doesn't show an avatar from another host, so those senders get initials. The same goes for a contact card whose photo is a link to another host.
 
 **Push registrations** that users made before you turned the switch on are checked the next time Bulwark loads in their browser. Bulwark remembers which relay each registration points at. If you configured a relay of your own, it makes a new registration on the mail server that points there and removes the old one. Without a relay of your own, it removes the registration, so Stalwart stops sending to the built-in relay. The same happens when you change the relays in the list later.
@@ -75,6 +77,7 @@ Everything you configured yourself stays reachable. **Admin > Organisation > Sec
 - LibreTranslate (`LIBRETRANSLATE_URL`)
 - branding images on other hosts
 - [company calendars](/docs/guides/organisation/company-calendars) of Everyone and of every domain and group, listed as "Company calendar" (your server fetches them)
+- servers you entered on a plugin's admin page for a plugin that runs in the mode, listed as "Plugin" and the plugin's name (your server's plugin proxy reaches them)
 
 The list also shows what users enter themselves, which stays allowed:
 
