@@ -96,7 +96,7 @@ The plugin reference lists the props and click context each surface passes, with
 
 Hooks let a plugin react to what happens in the app, and change or stop some of it. Observer hooks are told after the fact, such as when a message is opened. Intercept hooks can stop an action by returning `false`, and transform hooks return a changed value. Some examples:
 
-- **`onBeforeEmailSend`:** check or change a message before it is sent, or stop the send
+- **`onBeforeEmailSend`:** check or change a message before it is sent, or stop the send (the composer and plugin forwards; not [phishing reports](/docs/guides/organisation/phishing-reports), calendar invitations or read receipts). A [classification label](/docs/guides/organisation/classification-labels) is added after every plugin, so a plugin can't change or drop it
 - **`onAvatarResolve`:** provide an avatar URL for a sender
 - **`onBeforeComposeOpenToReply`** and its siblings - change a message before it fills the composer for a reply or forward
 - **`onBeforeBlobUpload`:** divert an attachment to external storage before it reaches the server

@@ -69,6 +69,8 @@ Before a message goes out, Bulwark checks the body for words like "attached" and
 
 Replying to someone adds them to your trusted senders, so their images load next time without asking.
 
+When your organisation uses [classification labels](/docs/guides/organisation/classification-labels), the subject line has a label chip, such as Internal or Confidential. A reply or forward starts with the original's label. If a label is required, Send asks for one first. The label goes into the message's headers, and its prefix in front of the subject.
+
 Press `c` in Mail to open the composer. [Composing emails](/docs/features/email/composing) goes through all of it.
 
 ## Reading
@@ -81,6 +83,8 @@ Messages render in an iframe, sanitised by DOMPurify on the way in. In dark mode
 External content is blocked until you trust the sender, and the banner saying so sits above the attachments rather than below them. Next to it, SPF, DKIM and DMARC results are shown with the most severe SPF outcome surfaced first; on spoofed mail the "via" badge is suppressed rather than lending the message credibility.
 
 TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
+
+When your organisation set up [phishing reports](/docs/guides/organisation/phishing-reports), **Report phishing…** in the message menus sends a suspicious message to your security team and moves it to Junk. It asks first and names the address. A reported message shows a banner and its links are turned off. Mail with a classification label of your organisation shows the label next to the sender.
 
 Booking, shipping and order mail that carries schema.org markup gets a card above the message: route and times for flights and trains, check-in and check-out for hotels, tracking for parcels, status for orders, with an Add to calendar button where it fits. See [Booking and parcel cards](/docs/features/email/booking-cards).
 
