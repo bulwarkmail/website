@@ -3,6 +3,7 @@ title: Running several instances
 description: Run Bulwark as several replicas behind one load balancer, with a shared Redis-protocol store.
 order: 5
 edition: full
+editionNote: "This page runs Bulwark (not Lite) as several replicas. Lite is static files and runs any number of copies without this; see Static hosting."
 ---
 
 # Running several instances
