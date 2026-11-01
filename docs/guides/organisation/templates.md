@@ -1,6 +1,6 @@
 ---
 title: Templates
-description: Give every user a library of templates, let teams share templates in their group mailbox, and keep users' own templates in their account.
+description: Give every user a library of templates, let teams share templates in their shared mailbox, and keep users' own templates in their account.
 order: 3
 edition: both
 ---
@@ -10,16 +10,22 @@ edition: both
 Users pick templates in the composer under **Templates > Insert template**, or with the `t` key. They see up to three kinds:
 
 - **Organisation**: the library you set on **Admin > Organisation > Templates**. Users can use and copy these templates, not change them.
-- **Team templates**: the templates of each group mailbox the user is a member of, under the group's address. Any member can add, change and delete them.
+- **Team templates**: the templates of each shared mailbox the user is a member of, under the group's address. Any member can add, change and delete them.
 - **My templates**: the user's own.
 
-Team templates and keeping users' own templates in their account need Stalwart 1.0 or later. On older servers users keep their own templates in the browser, as before, and there are no team templates.
+<img class="theme-light-only" src="/screenshots/light-templates-org.webp" alt="The template picker in the composer, with the organisation's templates listed under Organisation above the user's own" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-templates-org.webp" alt="The template picker in the composer, with the organisation's templates listed under Organisation above the user's own" width="5120" height="2880" />
+
+Team templates and keeping users' own templates in their account need Stalwart 1.0 or later. On older servers users keep their own templates in the browser, and there are no team templates.
 
 ## Set up the library
 
 1. Open **Admin > Organisation > Templates**.
 2. Under **Organisation library**, click **Add template** and give it a name, a subject and the text. Tick **The text is HTML** for an HTML template. The preview shows what users get.
 3. Click **Save**. Users get the library the next time Bulwark loads.
+
+<img class="theme-light-only" src="/screenshots/light-admin-org-templates.webp" alt="The Templates page of the admin console with two organisation templates, one for Meridian Labs and one for the Support group" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-org-templates.webp" alt="The Templates page of the admin console with two organisation templates, one for Meridian Labs and one for the Support group" width="5120" height="2880" />
 
 Placeholders such as `{{recipient_name}}` or `{{date}}` work as in users' own templates: users fill them in when they pick the template.
 
@@ -39,7 +45,7 @@ To make team templates read-only, lock **Team templates** under **Personal and t
 
 When two members edit the same template, the one who saves second is told that someone else changed it and reloads the list first; nobody's change is overwritten without them seeing it. Team templates keep To and Cc recipients but never Bcc.
 
-Only group mailboxes get team templates. A mailbox another person shared with a user doesn't.
+Only shared mailboxes get team templates. Folders another person shared with a user don't.
 
 ## Users' own templates
 
@@ -106,7 +112,7 @@ The library works the same: Lite reads it from `policy.json`. Team templates and
 
 ## What isn't possible
 
-- **Team templates and templates in the account on older Stalwart versions.** They are stored as JMAP metadata of the Inbox, which Stalwart 0.16 doesn't have. There is no fallback; on those servers users keep their own templates in the browser and settings sync, as before.
-- **Removing one of Everyone's templates for a domain or group.** Entries add templates or replace them; to show a template to some users only, put it in their entry instead of Everyone's.
-- **Other mail apps.** The templates are Bulwark's. Other apps don't show them.
-- **Templates larger than 8 KB in the account.** Stalwart keeps at most 8 KB per template and 64 KB per Inbox for this data. Larger templates stay in the browser they were made in; team templates that large can't be saved.
+- **Team templates and templates in the account on older Stalwart versions:** they are stored as JMAP metadata of the Inbox, which Stalwart 0.16 doesn't have. There is no fallback; on those servers users keep their own templates in the browser and settings sync.
+- **Removing one of Everyone's templates for a domain or group:** entries add templates or replace them; to show a template to some users only, put it in their entry instead of Everyone's.
+- **Other mail apps:** the templates are Bulwark's. Other apps don't show them.
+- **Templates larger than 8 KB in the account:** Stalwart keeps at most 8 KB per template and 64 KB per Inbox for this data. Larger templates stay in the browser they were made in; team templates that large can't be saved.

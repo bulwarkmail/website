@@ -7,7 +7,7 @@ edition: both
 
 # Composing emails
 
-The composer is a Tiptap rich-text editor. It has a plain-text mode for people who want one, signatures that follow the sending identity, reusable templates, and S/MIME signing and encryption toggles.
+The composer is a Tiptap rich-text editor. It has a plain-text mode for people who want one, signatures that follow the sending identity and reusable templates. With the S/MIME plugin installed, it can also sign and encrypt.
 
 <img class="theme-light-only" src="/screenshots/light-composer.webp" alt="Bulwark email composer" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-composer.webp" alt="Bulwark email composer" width="5120" height="2880" />
@@ -17,7 +17,7 @@ The composer is a Tiptap rich-text editor. It has a plain-text mode for people w
 <img class="theme-light-only" src="/screenshots/light-composer-mention.webp" alt="An @mention in the editor: the chip and the card with the person's details" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-composer-mention.webp" alt="An @mention in the editor: the chip and the card with the person's details" width="5120" height="2880" />
 
-The formatting toolbar stays pinned to the top of the editor while a long message scrolls, and the address and subject fields stay above it. The editor supports full formatting:
+The formatting toolbar stays pinned to the top of the editor while a long message scrolls, and the address and subject fields stay above it. The editor has:
 
 - **Bold**, _italic_, ~~strikethrough~~, and underline
 - A font-size picker and text and background colors
@@ -26,7 +26,7 @@ The formatting toolbar stays pinned to the top of the editor while a long messag
 - Tables (insert and edit)
 - Block quotes
 - Code blocks
-- Inline images with a resizable image component (embedded as data URLs so drops don't duplicate attachments)
+- Inline images you can resize (sent as inline images, so a dropped image doesn't also become an attachment)
 
 ## Identity selection
 
@@ -39,42 +39,40 @@ On a reply, Bulwark can pick the identity matching the address the original was 
 
 ### Reply-to addresses
 
-Configure reply-to addresses in the composer to direct replies to a different address than the sender identity.
+Give an identity a Reply-To address in Settings > Account > Email addresses, and replies to mail sent from it go to that address.
 
 ### From-header override and catch-all auto-reply
 
-When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g. `marketing@yourdomain.com`) should come back from the same alias - even when it isn't a configured identity. Bulwark detects this and pre-fills the alias as the From header in the composer. You can still override the From header manually before sending.
+When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g. `marketing@yourdomain.com`) should come back from the same alias, even when it isn't a configured identity. With "Reply from the address it was sent to" turned on and "Received address matching" set to "Any address on my domains" (Settings > Composing > Replying), Bulwark pre-fills the alias as the From header. You can still override the From header manually before sending.
 
 ### Signature position
 
-Each identity can choose whether its signature appears **above** or **below** quoted text on a reply or forward. The default fallback is the primary identity's signature. The setting is searchable from the email behavior settings.
+**Signature position** in Settings > Composing > Replying decides whether signatures go **before** or **after** the quoted text on a reply or forward, for all identities. The default is after. If the identity you send from has no signature, Bulwark uses the primary identity's signature.
 
 ## Composer modes
 
 There are two composer modes:
 
-- **Rich text** - Full formatting with the rich text editor (default)
-- **Plain text only** - A simplified plain text composer for users who prefer unformatted emails
+- **Rich text:** full formatting with the rich text editor (default)
+- **Plain text only:** a simplified plain text composer for users who prefer unformatted emails
 
-The composer mode can be configured in email settings.
+Turn on "Plain text only" in Settings > Composing to always write plain text, or switch one message with Options > Plain text in the composer.
 
 ## Attachments
 
 - Drag and drop files onto the compose window
 - Click the attachment button to browse
-- Maximum file size is determined by your Stalwart configuration
-- Each attachment chip shows real byte progress while it uploads, and cancelling aborts the transfer rather than just hiding the chip
-- Inline images can be pasted directly from the clipboard
-- Resizable image component for adjusting inline image dimensions
-- Direct image upload support in the rich text editor
-- **Forgotten-attachment warning** - if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
+- Your Stalwart configuration sets the maximum file size
+- Each attachment chip shows progress in bytes while it uploads, and cancelling aborts the transfer rather than just hiding the chip
+- Inline images can be pasted from the clipboard or uploaded straight into the rich text editor, and resized there
+- **Forgotten-attachment warning:** if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
 
 ## Signatures
 
 Set up multiple signatures via identity management:
 
 - Each identity has its own signature
-- Signatures are automatically appended based on the selected identity
+- Bulwark appends the signature of the selected identity
 - Switch identities (and signatures) using the dropdown in the composer
 
 ## Templates
@@ -84,13 +82,14 @@ Set up multiple signatures via identity management:
 
 Insert reusable email templates from the compose toolbar:
 
-- Browse templates by category with search and filter
-- Placeholder variables (e.g. `{{recipientName}}`, `{{date}}`) are auto-filled from composer context
-- Custom placeholders prompt for input on insertion
+- Search templates, listed by favorites, recently used and category
+- Placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and custom placeholders are asked for when you insert the template
 - Press `t` to open the template picker, as long as focus isn't in a text field
-- Manage templates from Settings
+- Manage templates under Settings > Composing > Email templates
 
 ## S/MIME compose controls
+
+These controls come from the S/MIME plugin in the extension directory, which an administrator installs. They aren't available in Bulwark Lite. Sign and Encrypt show up as items in the composer's Options menu.
 
 - Enable or disable signing per message when an S/MIME identity certificate is available
 - Enable encryption when every recipient has a known public certificate
@@ -99,14 +98,14 @@ Insert reusable email templates from the compose toolbar:
 
 ## Delivery options
 
-Next to the read-receipt request, the send menu can ask the receiving server for a delivery status notification (DSN), and can mark the message REQUIRETLS so it is never relayed over a connection without TLS. Both ride on the JMAP submission; whether the far end honours them is up to that server.
+Next to "Request read receipt", the composer's Options menu has "Delivery notification", which asks the receiving server for a delivery status notification (DSN), and "Require encrypted delivery", which marks the message REQUIRETLS so it is never relayed over a connection without TLS. Both only show when the server supports them. Both ride on the JMAP submission; whether the far end honours them is up to that server.
 
 ## Drafts
 
 <img class="theme-light-only" src="/screenshots/light-scheduled.webp" alt="The Scheduled folder with a message waiting to be sent" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-scheduled.webp" alt="The Scheduled folder with a message waiting to be sent" width="5120" height="2880" />
 
-Drafts save themselves every 60 seconds, and the interval is adjustable in settings. They sync across devices over JMAP, and closing an unsaved draft asks for confirmation first.
+Drafts save themselves two seconds after you stop typing. They sync across devices over JMAP, and closing an unsaved draft asks for confirmation first.
 
 Click a draft in the Drafts folder to resume it: content, recipients, attachments, and the identity you had selected all come back.
 
@@ -118,3 +117,7 @@ Click a draft in the Drafts folder to resume it: content, recipients, attachment
 | `Ctrl/Cmd+Shift+Enter` | Schedule send        |
 | `t`                    | Open template picker |
 | `Escape`               | Close the composer   |
+
+## Next step
+
+Go on to [Search and filters](/docs/features/email/search).

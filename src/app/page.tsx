@@ -1,13 +1,12 @@
 import { ArrowRight, ArrowUpRight, Calendar, Check, Code2, Contact, Folder, Globe, Mail, MapPin, Minus, Plus, Zap } from "@/components/icons";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { EditionLink } from "@/components/edition-link";
-import { EditionSwitch } from "@/components/edition-switch";
-import { CodeBlock } from "@/components/code-block";
-import { Ed, Shot, Tile } from "@/components/ui";
+import Link from "next/link";
+import { InstallChoice } from "@/components/install-choice";
+import { DockerSteps, LiteSteps } from "@/components/install-steps";
+import { Shot, Tile } from "@/components/ui";
+import { FeatureRow, TableSection, TileSection } from "@/components/sections";
 import { ICON } from "@/lib/icon";
-import type { Metadata } from "next";
-import { OG_IMAGES } from "@/lib/og";
 import { BULWARK_VERSION } from "@/lib/version";
 
 // =============================================================================
@@ -17,41 +16,41 @@ import { BULWARK_VERSION } from "@/lib/version";
 // edge of the page, and the field returns once for install. Every section is
 // a heading plus at most one paragraph; no section has a label above it.
 //
-// Two editions, one page. Copy that differs between Bulwark and Bulwark Lite
-// is rendered twice through <Ed>, and the data-edition attribute on <html>
-// (set before paint, see layout.tsx) shows one of them. That keeps this a
-// server component with no flash.
+// One page for both ways to run Bulwark. Where Bulwark and Bulwark Lite
+// differ, the text says so.
 // =============================================================================
-
-type Edition = "full" | "lite";
 
 const GITHUB = "https://github.com/bulwarkmail/webmail";
 const GITHUB_API = "https://api.github.com/repos/bulwarkmail/webmail";
 
 // Fallbacks for when the live lookups below fail. Refresh them with each
 // release: `ls locales | wc -l` in the webmail checkout.
-const FALLBACK = { instances: 5587, langs: 27 };
+const FALLBACK = { instances: 6457, langs: 29, version: "1.19.1" };
 
+// The latest published release, not main's VERSION file, so the JSON-LD
+// never names a version that hasn't shipped.
 async function fetchLatestVersion(): Promise<string> {
   try {
-    const res = await fetch(
-      "https://raw.githubusercontent.com/bulwarkmail/webmail/refs/heads/main/VERSION",
-      { next: { revalidate: 3600 } }
-    );
+    const res = await fetch(`${GITHUB_API}/releases/latest`, {
+      headers: { Accept: "application/vnd.github+json" },
+      next: { revalidate: 3600 },
+    });
     if (res.ok) {
-      return (await res.text()).trim();
+      const data = (await res.json()) as { tag_name?: string };
+      if (typeof data.tag_name === "string") return data.tag_name.replace(/^v/, "");
     }
   } catch {
     // fall through
   }
-  return "1.10.0";
+  return FALLBACK.version;
 }
 
-// Counts entries under /locales on the default branch. Each entry represents
-// one translated language (whether it's a JSON file or a per-locale directory).
-async function fetchLocaleCount(): Promise<number | null> {
+// Counts entries under /locales at the latest release tag, not on main, so a
+// language that hasn't shipped yet isn't counted. Each entry is one translated
+// language (whether it's a JSON file or a per-locale directory).
+async function fetchLocaleCount(tag: string): Promise<number | null> {
   try {
-    const res = await fetch(`${GITHUB_API}/contents/locales`, {
+    const res = await fetch(`${GITHUB_API}/contents/locales?ref=${encodeURIComponent(tag)}`, {
       headers: { Accept: "application/vnd.github+json" },
       next: { revalidate: 3600 },
     });
@@ -99,34 +98,23 @@ function HeroSection() {
       <div className="bw-w">
         <div className="bw-hero-in">
           <div className="bw-hero-text">
-            <h1 className="bw-h1">
-              <Ed full="Webmail for Stalwart Mail Server." lite="Webmail for Stalwart, served as static files." />
-            </h1>
+            <h1 className="bw-h1">Webmail for Stalwart Mail Server.</h1>
             <p className="bw-lead">
-              <Ed
-                full="Bulwark puts mail, calendar, contacts and files in one browser client that talks JMAP to your own server."
-                lite="Bulwark Lite is the same client as a folder of HTML and JavaScript. Upload it to any web host and the browser talks JMAP to Stalwart directly."
-              />
+              Bulwark puts mail, calendar, contacts and files in one browser client that talks JMAP to your own server,
+              for a household, a small team or a whole organisation.
             </p>
             <div className="bw-btns">
-              <span className="ed-full-only">
-                <EditionLink href="/docs" className="bw-btn">
-                  Read the docs <ArrowRight size={16} {...ICON} />
-                </EditionLink>
-              </span>
-              <span className="ed-lite-only">
-                <EditionLink href="/docs/getting-started/lite" className="bw-btn">
-                  Read the Lite guide <ArrowRight size={16} {...ICON} />
-                </EditionLink>
-              </span>
-              <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn bw-btn-ghost">
-                View source <ArrowUpRight size={16} {...ICON} />
+              <Link href="/#install" className="bw-btn">
+                Get started <ArrowRight size={16} {...ICON} />
+              </Link>
+              <a href="https://demo.bulwarkmail.org" target="_blank" rel="noopener noreferrer" className="bw-btn bw-btn-ghost">
+                Try the demo <ArrowUpRight size={16} {...ICON} />
               </a>
             </div>
           </div>
           <Shot
             name="inbox"
-            alt="The Bulwark inbox with a message open in the reading pane"
+            alt="The Bulwark inbox with a conversation open in the reading pane"
             className="bw-hero-shot"
             sizes="(max-width: 900px) 120vw, 60vw"
             window
@@ -201,12 +189,13 @@ function FactsSection({ langs }: { langs: number }) {
   const facts = [
     { icon: Code2, title: "Open source", text: "AGPL-3.0, developed in public on GitHub." },
     { icon: Zap, title: "Built on JMAP", text: "Stalwart pushes each change, and the client fetches only the difference." },
-    { icon: Globe, title: `${langs} languages`, text: "Translated by the people who use it." },
-    { icon: MapPin, title: "Built in the EU", text: "Runs on your hardware and stores nothing of its own." },
+    { icon: Globe, title: `${langs} languages`, text: "Including German, French and Spanish, and Arabic, Hebrew and Persian right to left." },
+    { icon: MapPin, title: "Built in the EU", text: "Written and maintained in the EU." },
   ];
   return (
     <section className="bw-sec-tight">
       <div className="bw-w">
+        <h2 className="sr-only">Bulwark at a glance</h2>
         <div className="bw-facts">
           {facts.map(({ icon: Icon, title, text }) => (
             <div key={title}>
@@ -229,18 +218,14 @@ function AppsSection() {
     <section id="features" className="bw-sec">
       <div className="bw-w">
         <div className="bw-head">
-          <h2 className="bw-h2">Everything Stalwart stores, in one interface.</h2>
-          <p>
-            Stalwart keeps your messages, calendars, address books and files. Bulwark shows all four in the same
-            window, with a single search across them.
-          </p>
+          <h2 className="bw-h2">What the four apps do.</h2>
         </div>
         <div className="bw-tiles">
           <Tile
             href="/docs/features/email"
             icon={Mail}
             title="Mail"
-            text="Threaded conversations, a unified inbox, Sieve filters and S/MIME."
+            text="Threaded conversations, a unified inbox, Sieve filters and scheduled send."
           />
           <Tile
             href="/docs/features/calendar"
@@ -258,12 +243,7 @@ function AppsSection() {
             href="/docs/features/files"
             icon={Folder}
             title="Files"
-            text={
-              <Ed
-                full="Stalwart's file storage with previews, sharing and office editing."
-                lite="Stalwart's file storage with previews, sharing and folder upload."
-              />
-            }
+            text="Stalwart's file storage with previews and sharing, and office editing with Collabora or ONLYOFFICE."
           />
         </div>
       </div>
@@ -272,55 +252,24 @@ function AppsSection() {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Text-and-figure rows. The figure is always product UI, shown whole
-// in a browser window rather than cropped to a detail.
-// -----------------------------------------------------------------------------
-type FeatureRowProps = {
-  heading: string;
-  text: React.ReactNode;
-  link: { label: string; href: string };
-  shot: { name: string; alt: string };
-  /** Figure on the left, on the quiet surface band. */
-  flip?: boolean;
-};
-
-function FeatureRow({ heading, text, link, shot, flip }: FeatureRowProps) {
-  return (
-    <section className={flip ? "bw-sec bw-band" : "bw-sec"}>
-      <div className="bw-w">
-        <div className={`bw-split bw-split-center ${flip ? "bw-split-8-4" : "bw-split-4-8"}`}>
-          <div className={flip ? "bw-stack bw-order-last" : "bw-stack"}>
-            <h2 className="bw-h2">{heading}</h2>
-            <p className="bw-muted">{text}</p>
-            <EditionLink href={link.href} className="bw-tlink">
-              {link.label} <ArrowRight size={16} {...ICON} />
-            </EditionLink>
-          </div>
-          <Shot name={shot.name} alt={shot.alt} window />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// -----------------------------------------------------------------------------
-// SECTION: Editions
+// SECTION: Two ways to run it
 // -----------------------------------------------------------------------------
 
-// Verified against scripts/lite/lib.mjs and the IS_LITE gates in the webmail
-// checkout. If a row here can't be traced to one of those, take it out.
+// Verified against scripts/lite/lib.mjs, lib/auth/lite-oauth.ts and the IS_LITE
+// gates in the webmail checkout (1.19.1). If a row here can't be traced to one
+// of those, take it out.
 const EDITION_ROWS: [string, boolean | string, boolean | string][] = [
   ["Mail, calendar, contacts and files", true, true],
   ["Several accounts at once", true, true],
   ["Sign-in with a password and TOTP", true, true],
-  ["OAuth and single sign-on", true, false],
-  ["Plugins and sidebar apps", true, false],
-  ["Settings that follow you between devices", true, false],
+  ["Single sign-on (OAuth, OpenID Connect)", true, "Only when Stalwart serves Lite"],
+  ["Policies, locks and organisation signatures", true, "From a policy.json file"],
   ["Admin console and setup wizard", true, false],
+  ["Plugins, such as S/MIME", true, false],
+  ["Settings that follow you between devices", true, false],
   ["Office document editing", true, false],
-  ["Web push and the update notice", true, false],
-  ["Served by Stalwart itself as an Application", false, true],
-  ["Runs on", "Docker or Node.js", "Any static web host, or Stalwart"],
+  ["Web push notifications", true, false],
+  ["Runs on", "Docker or Node.js, amd64 and arm64", "Any static web host, a small nginx container, or Stalwart"],
 ];
 
 function YesNo({ value }: { value: boolean | string }) {
@@ -342,17 +291,18 @@ function EditionsSection() {
       <div className="bw-w">
         <div className="bw-split bw-split-4-8">
           <div className="bw-head">
-            <h2 className="bw-h2">Two editions from the same code.</h2>
+            <h2 className="bw-h2">Run it as a container, or as static files.</h2>
             <p>
-              Bulwark runs as a Node.js container with an admin console. Bulwark Lite is the same client exported as
-              static files, for hosts that only serve HTML.
+              Bulwark runs as a Node.js container with an admin console. Bulwark Lite is the same client built as
+              static files, for any web host or for Stalwart to serve itself. Lite leaves out the admin console,
+              plugins, office editing and web push.
             </p>
-            <EditionLink href="/docs/getting-started/editions" className="bw-tlink">
-              Compare the editions <ArrowRight size={16} {...ICON} />
-            </EditionLink>
-            <EditionLink href="/choose" className="bw-tlink">
+            <Link href="/docs/getting-started/editions" className="bw-tlink">
+              Compare the two <ArrowRight size={16} {...ICON} />
+            </Link>
+            <Link href="/choose" className="bw-tlink">
               Take the one-minute quiz <ArrowRight size={16} {...ICON} />
-            </EditionLink>
+            </Link>
           </div>
           <div className="bw-table-wrap">
             <table className="bw-table bw-table-compare">
@@ -385,8 +335,8 @@ function EditionsSection() {
 }
 
 // -----------------------------------------------------------------------------
-// SECTION: Install - the field returns once. Three numbered steps per edition;
-// the numbers are a real sequence.
+// SECTION: Install - the field returns once. Three numbered steps for each way
+// to install; the choice between them lives inside this section only.
 // -----------------------------------------------------------------------------
 function InstallSection() {
   return (
@@ -394,88 +344,16 @@ function InstallSection() {
       <div className="bw-w">
         <div className="bw-split bw-split-5-7">
           <div className="bw-stack">
-            <h2 className="bw-h2">
-              <Ed full="Run Bulwark as one container." lite="Upload Bulwark Lite in three steps." />
-            </h2>
-            <p>
-              <Ed
-                full="Docker is the only requirement. There is nothing to clone and no config file to write first."
-                lite="Lite is a folder of HTML, JavaScript and one JSON file. It runs on any host that serves static files, with one setting changed on the mail server."
-              />
-            </p>
-            <EditionSwitch wide />
+            <h2 className="bw-h2">Install Bulwark in three steps.</h2>
+            <p>You need a Stalwart server, and Docker for the container or any web host for Lite.</p>
           </div>
-
-          <div>
-            <div className="ed-full-only">
-              <ol className="bw-steps">
-                <li>
-                  <span className="bw-steps-n">1</span>
-                  <div>
-                    Run the container.
-                    <CodeBlock
-                      prompt
-                      code="docker run -d -p 3000:3000 ghcr.io/bulwarkmail/webmail:latest"
-                      label="Copy the command"
-                    />
-                  </div>
-                </li>
-                <li>
-                  <span className="bw-steps-n">2</span>
-                  <div>
-                    Open <code className="bw-icode">http://localhost:3000</code>. The setup wizard finds your Stalwart
-                    server and sets the admin password.
-                  </div>
-                </li>
-                <li>
-                  <span className="bw-steps-n">3</span>
-                  <div>
-                    Put your{" "}
-                    <EditionLink href="/docs/deployment/docker/reverse-proxy" className="bw-link">
-                      reverse proxy
-                    </EditionLink>{" "}
-                    in front. The docs have examples for Caddy, nginx and Traefik.
-                  </div>
-                </li>
-              </ol>
-            </div>
-            <div className="ed-lite-only">
-              <ol className="bw-steps">
-                <li>
-                  <span className="bw-steps-n">1</span>
-                  <div>
-                    Download <code className="bw-icode">bulwark-lite-&lt;version&gt;.zip</code> from the{" "}
-                    <a
-                      href={`${GITHUB}/releases/latest`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bw-link"
-                    >
-                      latest release
-                    </a>{" "}
-                    and unzip it.
-                  </div>
-                </li>
-                <li>
-                  <span className="bw-steps-n">2</span>
-                  <div>
-                    Set <code className="bw-icode">jmapServerUrl</code> in <code className="bw-icode">config.json</code>{" "}
-                    to your Stalwart server.
-                  </div>
-                </li>
-                <li>
-                  <span className="bw-steps-n">3</span>
-                  <div>
-                    Upload the folder, and turn on the Permissive CORS policy in Stalwart&apos;s HTTP settings. The{" "}
-                    <EditionLink href="/docs/deployment/static" className="bw-link">
-                      static hosting
-                    </EditionLink>{" "}
-                    page has the steps and host snippets.
-                  </div>
-                </li>
-              </ol>
-            </div>
-          </div>
+          <InstallChoice
+            label="How to install"
+            choices={[
+              { id: "docker", label: "With Docker", panel: <DockerSteps /> },
+              { id: "static", label: "As static files", panel: <LiteSteps /> },
+            ]}
+          />
         </div>
       </div>
     </section>
@@ -494,24 +372,24 @@ function ProjectsSection() {
         </div>
         <div className="bw-tiles">
           <Tile
-            href="https://github.com/bulwarkmail/legacy-proxy"
-            title="Bulwark Legacy Proxy"
-            text="Lets a JMAP client read a classic IMAP account, with CardDAV and Sieve behind it."
-          />
-          <Tile
             href="https://github.com/bulwarkmail/native"
             title="Bulwark Mobile"
-            text="Mail, calendar, contacts and files on Android. iOS follows."
+            text="Mail, calendar, contacts and files on Android and iOS, as a beta."
           />
           <Tile
-            href="https://github.com/bulwarkmail/relay"
-            title="Bulwark Relay"
-            text="Turns JMAP push into phone notifications and never sees message content."
+            href="https://github.com/bulwarkmail/legacy-proxy"
+            title="Legacy Proxy"
+            text="Lets Bulwark read an existing IMAP account. Pre-1.0, mail and contacts only."
+          />
+          <Tile
+            href="https://github.com/bulwarkmail/homeassistant-jmap"
+            title="Home Assistant"
+            text="Unread counts, automations on new mail, and sending mail from Home Assistant. Pre-1.0."
           />
           <Tile
             href="https://extensions.bulwarkmail.org/"
-            title="Bulwark Extensions"
-            text="Reviewed plugins and themes, installed from a ZIP."
+            title="Extensions"
+            text="Plugins and themes, installed from the admin console."
           />
         </div>
       </div>
@@ -530,7 +408,8 @@ function OpenSourceSection({ instances }: { instances: number }) {
         <div className="bw-stack" style={{ maxWidth: 720 }}>
           <h2 className="bw-h2">Bulwark is open source under AGPL-3.0.</h2>
           <p className="bw-muted">
-            The code, the issue tracker and the release notes are public, and{" "}
+            The code, the issue tracker, the release notes and the security advisories are public. Usage stats are
+            off by default, and so far{" "}
             <a
               href="https://grafana.external.bulwarkmail.org"
               target="_blank"
@@ -539,7 +418,7 @@ function OpenSourceSection({ instances }: { instances: number }) {
             >
               {instances.toLocaleString("en-US")} instances
             </a>{" "}
-            have reported in so far. Sponsors pay for the work.
+            whose admins turned them on have reported in. Sponsors pay for the work.
           </p>
           <div className="bw-btns" style={{ marginTop: 8 }}>
             <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
@@ -563,7 +442,7 @@ function OpenSourceSection({ instances }: { instances: number }) {
 // -----------------------------------------------------------------------------
 // SECTION: FAQ
 // -----------------------------------------------------------------------------
-type Faq = { q: string; a: React.ReactNode; edition?: Edition };
+type Faq = { q: string; a: React.ReactNode };
 
 const FAQS: Faq[] = [
   {
@@ -571,12 +450,33 @@ const FAQS: Faq[] = [
     a: "Bulwark is the client. Stalwart is the mail server: it holds the messages, speaks SMTP, and owns the accounts and the spam filtering. Install Stalwart first, then point Bulwark at it.",
   },
   {
+    q: "Who is Bulwark for?",
+    a: (
+      <>
+        Anyone who runs Stalwart: one person or a family at home, a small business with a shared mailbox, or an IT
+        department with an identity provider and many domains. The pages for{" "}
+        <Link href="/organisations" className="bw-link">
+          organisations
+        </Link>
+        ,{" "}
+        <Link href="/small-business" className="bw-link">
+          small businesses
+        </Link>{" "}
+        and{" "}
+        <Link href="/homelab" className="bw-link">
+          homelab
+        </Link>{" "}
+        show what each one gets.
+      </>
+    ),
+  },
+  {
     q: "Why JMAP?",
     a: "JMAP moves threading, search and change tracking to the server and returns only what changed. The inbox updates by push, and marking twenty messages as read is one request.",
   },
   {
     q: "Bulwark or Bulwark Lite?",
-    a: "Choose Lite if you already run a web server and your users sign in with a password. Choose Bulwark for OAuth, plugins, settings sync or the admin console. Both build from the same commit and store nothing of their own, so switching is a redeploy.",
+    a: "Choose Lite if you want static files and your users sign in with a password, or with Stalwart's own sign-in when Stalwart serves Lite. Choose Bulwark for single sign-on without Stalwart serving the client, plugins, settings sync, office editing or the admin console. Both build from the same code, and Stalwart keeps the mail either way, so you can switch later. Bulwark's admin settings and synced settings don't carry over to Lite.",
   },
   {
     q: "Does it work with a Stalwart server I already run?",
@@ -585,27 +485,77 @@ const FAQS: Faq[] = [
         Yes, if it runs Stalwart 0.16.6 or newer, or 1.0 with Bulwark {BULWARK_VERSION} or newer. Point Bulwark at the
         JMAP endpoint and sign in with the accounts you have. Nothing migrates, and Stalwart stays the source of truth.
         Before a server moves to 1.0, read the{" "}
-        <EditionLink href="/docs/deployment/updating/stalwart-1-0" className="bw-link">
+        <Link href="/docs/deployment/updating/stalwart-1-0" className="bw-link">
           upgrade guide
-        </EditionLink>
+        </Link>
         .
       </>
     ),
   },
   {
-    edition: "full",
-    q: "What does deployment look like?",
-    a: "One container next to Stalwart, behind the reverse proxy you already use. There are working examples for Caddy, Traefik and nginx, a compose file for the pair, and a standalone tarball on every release for installs without Docker.",
+    q: "What does it cost?",
+    a: (
+      <>
+        Nothing. Bulwark is open source under AGPL-3.0 and there is no paid edition. If you change the code and let
+        people use your version over a network, the AGPL asks you to offer them your changed source; the{" "}
+        <code className="bw-icode">SOURCE_CODE_URL</code> setting points Settings &gt; About at it. There is no paid
+        support for Bulwark today. If your organisation would want it, tell us what you need:{" "}
+        <a href="mailto:dev@bulwarkmail.org" className="bw-link">
+          dev@bulwarkmail.org
+        </a>
+        .
+      </>
+    ),
   },
   {
-    edition: "lite",
     q: "What does deployment look like?",
-    a: "A folder. Unzip the release, set the server URL in config.json, and upload it to whatever already serves your HTML: nginx, Caddy, Netlify, Cloudflare Pages, GitHub Pages or an S3 bucket. Updating means uploading the next zip over it.",
+    a: "One container next to Stalwart, behind the reverse proxy you already use, or Bulwark Lite as a folder on any web host. There are examples for Caddy, Traefik and nginx, a Compose file for Stalwart and Bulwark together, standalone builds on every release for installs without Docker, and the Lite zip.",
   },
   {
-    edition: "lite",
+    q: "How do security fixes reach me?",
+    a: (
+      <>
+        Fixes ship as new releases, and the project has published 14 GitHub security advisories for fixed
+        vulnerabilities so far. Bulwark (not Lite) checks for a new release every hour and shows it on the login page
+        and in the admin console. Every release file has a <code className="bw-icode">.sha256</code> file, and since 1.12.0
+        every image and download has a build attestation you can check with{" "}
+        <code className="bw-icode">gh attestation verify</code> (it needs a GitHub login).{" "}
+        <Link href="/docs/deployment/security-updates" className="bw-link">
+          Security fixes and updates
+        </Link>{" "}
+        has the details.
+      </>
+    ),
+  },
+  {
     q: "Why does Lite need a CORS setting on the mail server?",
-    a: "In Lite the browser talks to Stalwart directly, from your static host's origin, and browsers only allow that when the mail server says so. One setting in Stalwart allows it: the Permissive CORS policy, under Settings > Network > HTTP > Security in its web admin.",
+    a: "In Lite the browser talks to Stalwart directly, from your web host's address, and browsers only allow that when the mail server says so. Turn on the Permissive CORS policy, under Settings > Network > HTTP > Security in Stalwart's web admin. When Stalwart serves Lite itself, the address is the same and nothing needs changing.",
+  },
+  {
+    q: "Is there a phone app?",
+    a: (
+      <>
+        Bulwark Mobile is a beta for Android and iOS: the Android app comes from GitHub, the iPhone app from
+        TestFlight. In a phone&apos;s browser the webmail itself works too, and over HTTPS it installs as an app.{" "}
+        <Link href="/docs/features/mobile" className="bw-link">
+          Mobile apps and push
+        </Link>{" "}
+        has the links.
+      </>
+    ),
+  },
+  {
+    q: "What does my server need?",
+    a: (
+      <>
+        Stalwart 0.16.6 or 1.0, and for the container Docker on amd64 or arm64. On the project&apos;s test VM the
+        container used about 70 MiB of memory at idle, signed out;{" "}
+        <Link href="/docs/deployment/requirements" className="bw-link">
+          Requirements
+        </Link>{" "}
+        has the method. Lite needs only a web host.
+      </>
+    ),
   },
   {
     q: "Can I try it first?",
@@ -615,9 +565,8 @@ const FAQS: Faq[] = [
         <a href="https://demo.bulwarkmail.org" target="_blank" rel="noopener noreferrer" className="bw-link">
           demo.bulwarkmail.org
         </a>{" "}
-        runs the client on sample data with no mail server behind it, so you can click through mail, calendar,
-        contacts and files, but nothing is saved or sent and a reload starts over. Installing the container against
-        your own Stalwart takes about ten minutes.
+        runs the client on sample data with no mail server behind it. Press Launch demo and click through mail,
+        calendar, contacts and files; nothing is saved or sent, and a reload starts over.
       </>
     ),
   },
@@ -632,10 +581,8 @@ function FaqSection() {
           <div className="bw-faq">
             {FAQS.map((f, i) => {
               const open = i === 0;
-              const editionClass =
-                f.edition === "full" ? "ed-full-only" : f.edition === "lite" ? "ed-lite-only" : undefined;
               return (
-                <details key={`${f.edition ?? "both"}-${f.q}`} className={editionClass} open={open}>
+                <details key={f.q} open={open}>
                   <summary>
                     {f.q}
                     <Plus size={18} {...ICON} />
@@ -655,43 +602,9 @@ function FaqSection() {
 // PAGE
 // =============================================================================
 
-// The edition is client state, but a shared link carries it as ?edition=lite,
-// and that is the one place the metadata API can see it: crawlers get the
-// Lite card for Lite links and the Bulwark card otherwise.
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: Promise<{ edition?: string | string[] }>;
-}): Promise<Metadata> {
-  const { edition } = await searchParams;
-  if (edition !== "lite") return {};
-  const title = "Bulwark Lite - webmail for Stalwart, served as static files";
-  const description =
-    "Bulwark Lite is Bulwark Webmail exported as static files: upload a folder to any web host, point it at Stalwart, and the browser talks JMAP directly. No Node.js process.";
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description: "Bulwark Webmail exported as static files. Upload a folder and point config.json at Stalwart.",
-      url: `https://bulwarkmail.org/?edition=lite`,
-      images: [OG_IMAGES.lite],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: "Bulwark Webmail exported as static files. Upload a folder and point config.json at Stalwart.",
-      images: [OG_IMAGES.lite.url],
-    },
-  };
-}
-
 export default async function Home() {
-  const [version, instances, langs] = await Promise.all([
-    fetchLatestVersion(),
-    fetchBulwarkInstances(),
-    fetchLocaleCount(),
-  ]);
+  const [version, instances] = await Promise.all([fetchLatestVersion(), fetchBulwarkInstances()]);
+  const langs = await fetchLocaleCount(version);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -700,7 +613,7 @@ export default async function Home() {
     applicationCategory: "CommunicationApplication",
     operatingSystem: "Web, Docker, Linux",
     description:
-      "A self-hosted webmail client for Stalwart Mail Server, built with Next.js and JMAP. Email, calendar, contacts, and file storage in one interface, running on your own hardware.",
+      "A self-hosted webmail client for Stalwart Mail Server: mail, calendar, contacts and files in one browser interface, running on your own hardware.",
     url: "https://bulwarkmail.org",
     downloadUrl: GITHUB,
     softwareVersion: version,
@@ -722,30 +635,67 @@ export default async function Home() {
         <HeroSection />
         <SponsorsSection />
         <FactsSection langs={langs ?? FALLBACK.langs} />
+        <TileSection
+          id="who"
+          heading="Pick the page for your setup."
+          columns={3}
+          tiles={[
+            {
+              title: "Organisations",
+              text: "Single sign-on, policies per domain or group, accessibility presets and a statement template.",
+              href: "/organisations",
+            },
+            {
+              title: "Small businesses",
+              text: "A shared mailbox, shared calendars and out-of-office replies, installed as one container.",
+              href: "/small-business",
+            },
+            {
+              title: "Home and homelab",
+              text: "One container next to Stalwart, arm64 images, or static files with no Node process.",
+              href: "/homelab",
+            },
+          ]}
+        />
+        <TableSection
+          heading="Stalwart is the mail server. Bulwark is the client."
+          text="Stalwart stores your mail; Bulwark reads and writes it over JMAP and keeps no copy."
+          link={{ label: "Setting up Stalwart", href: "/docs/getting-started/stalwart-setup" }}
+          columns={["Stalwart does", "Bulwark adds"]}
+          rows={[
+            ["Receives and sends mail, filters spam", "Mail, calendar, contacts and files in one browser window"],
+            ["Stores mailboxes, calendars, address books and files", "Search across all four, and push updates as they happen"],
+            ["Holds the accounts, groups and shared mailboxes", "Policies, locks and signatures per domain or group"],
+            ["Can be your OpenID Connect provider", "Sign-in through that provider or another one, and an admin console"],
+          ]}
+        />
         <AppsSection />
+        {/* One row per kind of reader, each with a screenshot of the thing they came for. */}
         <FeatureRow
-          heading="Mail opens as threads, with search across every folder."
-          text="The server threads each conversation and a unified inbox covers every account. Sieve filters, templates and S/MIME are built in."
-          link={{ label: "Mail features", href: "/docs/features/email" }}
-          shot={{ name: "composer", alt: "The composer with a draft open over the inbox" }}
+          heading="Set the rules once for every mailbox in a domain or group."
+          text={
+            <>
+              Lock a setting and users see &ldquo;Set by your organisation&rdquo; next to it. Each domain or group can
+              get its own signature, templates and external mail label, and people sign in through your identity
+              provider.
+            </>
+          }
+          link={{ label: "Bulwark for organisations", href: "/organisations" }}
+          shot={{ name: "settings-locked", alt: "A setting in Bulwark locked by the administrator, labelled Set by your organisation" }}
         />
         <FeatureRow
           flip
-          heading="The calendar handles invitations and recurring events."
-          text="Scroll freely through month, week, day and agenda views. Invitations arrive as mail and are answered from the message, and shared calendars show who is free."
-          link={{ label: "Calendar features", href: "/docs/features/calendar" }}
-          shot={{ name: "calendar", alt: "The calendar in month view with several events" }}
+          band
+          heading="A shared mailbox the whole team can work from."
+          text="A group mailbox in Stalwart shows up under Shared for every member. Everyone reads, files and replies from the team's address, and Drafts and Sent stay with the group. Thunderbird and phone mail apps keep working next to it."
+          link={{ label: "Bulwark for small businesses", href: "/small-business" }}
+          shot={{ name: "shared-mailbox", alt: "A shared Support mailbox under Shared, next to the user's own folders" }}
         />
         <FeatureRow
-          heading="Files sit on the mail server, next to your mail."
-          text={
-            <Ed
-              full="Bulwark browses Stalwart's file storage with previews, sharing and folder upload. Office documents open for editing in the browser."
-              lite="Bulwark Lite browses Stalwart's file storage with previews, sharing and folder upload."
-            />
-          }
-          link={{ label: "Files features", href: "/docs/features/files" }}
-          shot={{ name: "files", alt: "The files list with folders and documents" }}
+          heading="Every account in the house in one window."
+          text="Sign in to your own mailbox and the family's at once and switch with one click."
+          link={{ label: "Bulwark at home", href: "/homelab" }}
+          shot={{ name: "account-switcher", alt: "The account switcher open, with two signed-in accounts" }}
         />
         <EditionsSection />
         <InstallSection />

@@ -39,7 +39,8 @@ jobs:
     name: ${{ inputs.action == 'rollback' && 'Roll back' || 'Build and deploy' }}
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    # The first run without a cached image folder encodes every screenshot.
+    timeout-minutes: 40
     env:
       # A push has no inputs; it always deploys.
       ACTION: ${{ inputs.action || 'deploy' }}
@@ -59,6 +60,21 @@ jobs:
       - name: Install
         if: env.ACTION == 'deploy'
         run: npm ci
+
+      # The screenshot sizes (scripts/build-images.mjs). Their names carry a
+      # hash of the source and the encoder settings, so an older cache is
+      # safe to start from: the script encodes only what is missing.
+      - name: Restore the screenshot sizes
+        if: env.ACTION == 'deploy'
+        uses: actions/cache@v6
+        with:
+          path: public/_img
+          key: screenshot-sizes-${{ hashFiles('public/screenshots/**', 'scripts/build-images.mjs') }}
+          restore-keys: screenshot-sizes-
+
+      - name: Build the screenshot sizes
+        if: env.ACTION == 'deploy'
+        run: npm run images
 
       - name: Lint and typecheck
         if: env.ACTION == 'deploy'
@@ -106,12 +122,15 @@ jobs:
             if [ "$path" = /this-page-does-not-exist ]; then [ "$code" = 404 ]; else [ "$code" = 200 ]; fi
           done
           grep -q 'bw-field' <(curl -s http://127.0.0.1:3100/)
-          # Files from public/ and the image optimizer that reads them.
-          for path in /screenshots/light-inbox.webp '/_next/image?url=%2Fscreenshots%2Flight-inbox.webp&w=640&q=75'; do
-            type=$(curl -s -o /dev/null -H 'Accept: image/webp' -w '%{http_code} %{content_type}' "http://127.0.0.1:3100${path}")
+          # Files from public/, and the built screenshot sizes the pages use.
+          hash=$(node -p 'require("./src/generated/screenshots.json").images["light-inbox"].hash')
+          grep -q "/_img/light-inbox.$hash.1280.avif" <(curl -s http://127.0.0.1:3100/)
+          for path in /screenshots/light-inbox.webp "/_img/light-inbox.$hash.1280.avif" "/_img/light-inbox.$hash.1280.webp"; do
+            type=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "http://127.0.0.1:3100${path}")
             echo "$path $type"
             case "$type" in "200 image/"*) ;; *) exit 1 ;; esac
           done
+          curl -sI "http://127.0.0.1:3100/_img/light-inbox.$hash.1280.avif" | grep -qi '^cache-control: public, max-age=31536000, immutable'
 
       - name: Show the server log
         if: failure() && env.ACTION == 'deploy'

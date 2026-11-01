@@ -1,8 +1,9 @@
 ---
 title: Kubernetes
 description: Deploy Bulwark on Kubernetes with the community-maintained HelmForge chart.
-order: 2
+order: 6
 edition: full
+editionNote: "This page runs Bulwark (not Lite) on Kubernetes. Lite is static files and needs none of this; see Static hosting."
 ---
 
 # Kubernetes
@@ -29,8 +30,13 @@ helm repo add helmforge https://repo.helmforge.dev
 helm repo update helmforge
 helm upgrade --install bulwark-mail helmforge/bulwark-mail \
   --namespace mail \
-  --create-namespace
+  --create-namespace \
+  --set image.tag=1.19.1-always
 ```
+
+Set `image.tag` yourself. The chart's default tag lags behind Bulwark's releases: chart 1.2.0 installs `1.15.0-always`. Use the current release with the `-always` suffix the chart's default carries, for example `1.19.1-always`. The `-always` images are the same release built so that every URL carries its language prefix (`/en/...`); the plain tags leave it out for the default language. Stalwart 1.0 needs {{BULWARK_VERSION}} or newer.
+
+More than one replica needs the same session secret, shared config and state volumes, and a restart of the other replicas after an admin change; the project hasn't tested it. [Several replicas](/docs/deployment/hosting-providers#several-replicas) lists what the code needs.
 
 The same chart is also published as an OCI artifact at `oci://ghcr.io/helmforgedev/helm/bulwark-mail`.
 
@@ -42,13 +48,21 @@ Wizard mode is enabled by default. Forward the service locally:
 kubectl -n mail port-forward service/bulwark-mail 3000:3000
 ```
 
-Open `http://localhost:3000` and enter the public URL of your Stalwart JMAP server. A cluster-local URL normally does not work because users' browsers must also reach and trust the endpoint.
+Get the setup token from the SETUP REQUIRED block in the pod log:
+
+```sh
+kubectl -n mail logs deploy/bulwark-mail
+```
+
+Open `http://localhost:3000`, paste the token, and enter the public URL of your Stalwart JMAP server. A cluster-local URL normally does not work because users' browsers must also reach and trust the endpoint.
 
 ## Configure declaratively
 
 For repeatable deployments, create a `values.yaml` file and switch to declarative mode:
 
 ```yaml
+image:
+  tag: "1.19.1-always"
 config:
   mode: declarative
   jmap:
@@ -68,7 +82,7 @@ See the [HelmForge Bulwark chart documentation](https://helmforge.dev/docs/chart
 
 ## Updates
 
-Refresh the repository index and upgrade the release:
+Set `image.tag` in `values.yaml` to the new release, then refresh the repository index and upgrade:
 
 ```sh
 helm repo update helmforge
@@ -77,4 +91,8 @@ helm upgrade bulwark-mail helmforge/bulwark-mail \
   --values values.yaml
 ```
 
-If you use wizard mode without a values file, omit `--values values.yaml`. Review the chart release notes and your saved values before each upgrade.
+If you use wizard mode without a values file, replace `--values values.yaml` with `--set image.tag=<version>-always`; without it the upgrade falls back to the chart's default tag. Review the chart release notes and your saved values before each upgrade.
+
+## Next step
+
+Before people sign in, work through [Roll Bulwark out to an organisation](/docs/guides/organisation/rollout), which lists what to set in Stalwart and in Bulwark.

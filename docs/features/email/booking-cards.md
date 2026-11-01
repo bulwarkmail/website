@@ -9,6 +9,9 @@ edition: both
 
 Many airlines, hotels, ticket shops, carriers and online shops put machine-readable data into their mail, the same schema.org markup Gmail and Outlook read. When a message carries it, Bulwark shows a short card above the message with the facts that matter and the one thing you usually want to do next.
 
+<img class="theme-light-only" src="/screenshots/light-booking-cards.webp" alt="A flight booking mail with a card above it showing the route from Lisbon to Berlin, both local times, the seat, the booking reference and buttons to check in and add the flight to the calendar" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-booking-cards.webp" alt="A flight booking mail with a card above it showing the route from Lisbon to Berlin, both local times, the seat, the booking reference and buttons to check in and add the flight to the calendar" width="5120" height="2880" />
+
 ## What the cards show
 
 | Mail | Card |
@@ -46,10 +49,14 @@ A card looks official and a calendar entry outlives the mail, so Bulwark leaves 
 
 Everything happens in your browser, on the mail you opened. Bulwark doesn't contact the airline, the carrier or any tracking service, and the booking data isn't sent anywhere. The time zone table for airports is part of Bulwark and loads from your own server.
 
-<div class="lite-callout">Bulwark Lite shows the same cards; they need no server of their own.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite shows the same cards; they need no server of their own.</div>
 
 ## For administrators
 
-The cards are on by default. **Admin → Policy → Booking and Parcel Cards** turns them off for everyone, for example if mail content shouldn't turn into calendar entries in your organisation. The calendar button also follows the Calendar switch on the same page.
+The cards are on by default. **Admin → User policy → Features → Booking and Parcel Cards** turns them off for everyone, for example if mail content shouldn't turn into calendar entries in your organisation. The calendar button also follows the Calendar switch on the same page.
 
 The sender check relies on the Authentication-Results header your mail server writes on receipt, so it can only be as reliable as that header. Mail that your own users send to each other never went through that check.
+
+## Next step
+
+Go on to [Calendar](/docs/features/calendar), where the bookings you add end up.

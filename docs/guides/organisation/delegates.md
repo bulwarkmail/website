@@ -16,6 +16,9 @@ Users find **Settings > Sharing > Delegates**. **Give access** opens one dialog 
 
 Bulwark applies it to every folder, calendar and address book in one batch. If the server refuses some of them, the dialog lists those with the server's reason and offers to try them again.
 
+<img class="theme-light-only" src="/screenshots/light-delegates.webp" alt="Settings, Sharing: a colleague listed under Who has access as a delegate for mail, calendars and contacts" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-delegates.webp" alt="Settings, Sharing: a colleague listed under Who has access as a delegate for mail, calendars and contacts" width="5120" height="2880" />
+
 **Who has access** lists everyone the user shared something with from their own account, grouped by person: folders, calendars, address books and files.
 
 - **Change** opens the dialog with what the person has now. A type only starts at a choice when the person's grants match it exactly, for example every folder for "All folders" or exactly the default calendar. Anything else, such as a folder created since, one other folder, free/busy only or manager rights, starts at **Keep as it is**, and Save leaves that type alone. What the user changes on purpose replaces what the person had for that type. Shared files stay as they are.
@@ -58,9 +61,9 @@ Both settings limit what Bulwark offers. Stalwart doesn't enforce them, so a use
 
 ## Directory lookups on Stalwart 1.0
 
-To pick a person, Bulwark searches Stalwart's directory. Stalwart 1.0 turns directory queries off by default. Then the dialog lists only the user's groups and the people who already shared something with them, and for anyone else it says: "Your administrator has to turn on directory lookups in Stalwart before you can add someone new." Typing a full address doesn't help either, because Stalwart refuses to look it up.
+To pick a person, Bulwark searches Stalwart's directory. Stalwart 1.0 turns directory queries off by default. While they are off, the dialog lists only the user's groups and the people who already shared something with them, and for anyone else it says: "Your administrator has to turn on directory lookups in Stalwart before you can add someone new." Typing a full address doesn't help either, because Stalwart refuses to look it up.
 
-To let users pick anyone, turn on directory queries in Stalwart's sharing settings. Stalwart 0.16 allows them, so the dialog searches everyone and takes a typed address. Note that on 0.16 users then see the users of every domain on the server.
+To let users pick anyone, turn on directory queries in Stalwart's sharing settings. Stalwart 0.16 allows them, so the dialog searches everyone and takes a typed address. On 0.16 that also means users see the users of every domain on the server.
 
 With directory queries off, Stalwart also won't tell Bulwark the name of someone the user shared with. **Who has access** shows the name the user picked in this browser, or the person's address when they share something back; otherwise it shows "Unknown person" and Stalwart's id.
 

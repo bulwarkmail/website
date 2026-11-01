@@ -17,11 +17,11 @@ Upgrade Bulwark, and Bulwark Lite, to {{BULWARK_VERSION}} or newer **before** yo
 
 Stalwart 1.0 can't be installed over 0.16. Its migration tool, `stalwart-migrate`, copies the data of a 0.16 server into a new 1.0 data store, and you then start 1.0 on that store. Stalwart's own upgrade guide has the commands. For Bulwark, keep these in mind:
 
-- **Don't start 1.0 on the 0.16 data store.** It refuses with "You must first upgrade to version 0.15", and before it refuses it may already have changed the RocksDB files, which 0.16 may then not open again. Take a snapshot of the volume or filesystem that holds the data directory (`/var/lib/stalwart` in the Docker image), or a backup of the database if the data store is external. `stalwart-cli snapshot` exports settings only, not mail.
+- **Don't start 1.0 on the 0.16 data store.** It refuses with "The data store was created by a Stalwart version prior to 1.0 and cannot be opened by this version", and before it refuses it may already have changed the RocksDB files, which 0.16 may then not open again. Take a snapshot of the volume or filesystem that holds the data directory (`/var/lib/stalwart` in the Docker image), or a backup of the database if the data store is external. `stalwart-cli snapshot` exports settings only, not mail.
 - **Pin the image until you migrate.** `stalwartlabs/stalwart:latest` is 1.0 now, so a `docker compose pull` on `latest` starts 1.0 on the 0.16 store. Use a release line such as `stalwartlabs/stalwart:v0.16`, and change it when you move.
 - **Keep the same public URL.** Bulwark keys accounts, the cached mailbox, settings sync and push subscriptions on the server URL. The migration keeps ids and the change history, so with the same URL Bulwark carries on where it was, open tabs included, and only shows "Connection lost" while the server is down. With a new URL everyone signs in again, and the old accounts stay in the account list, pointing at a server that is gone.
 - **Sign-ins with tokens end.** OAuth tokens are not migrated. Everyone who signed in with single sign-on, or with a password and a two-factor code, has to sign in again. If such an account was one of several in the account list, it disappears from the list without a message; add it again. Accounts that signed in with a password alone carry on.
-- **Answer the migration's proxy question with the real count.** `stalwart-migrate` turns 0.16's `useXForwarded` into `clientIpSource: xForwardedFor` and asks how many proxies sit in front of Stalwart. [Client address](/docs/getting-started/configuration/stalwart-setup#client-address) explains the setting and the one setup where it locks Bulwark out.
+- **Answer the migration's proxy question with the real count.** `stalwart-migrate` turns 0.16's `useXForwarded` into `clientIpSource: xForwardedFor` and asks how many proxies sit in front of Stalwart. [Client address](/docs/getting-started/stalwart-setup#client-address) explains the setting and the one setup where it locks Bulwark out.
 
 Then register Bulwark with Stalwart, as in the next section. Calendar and contact apps that sync over CalDAV and CardDAV fetch their data once more after the move; Bulwark re-reads calendars and contacts once as well.
 
@@ -30,7 +30,7 @@ Then register Bulwark with Stalwart, as in the next section. Calendar and contac
 Stalwart 1.0 only signs in OAuth clients it knows, and only a **first-party** client may manage an account's Stalwart settings. Bulwark is neither until you register it. After the move to 1.0, or on a fresh 1.0 server, do this once:
 
 1. Sign in to the webmail with a Stalwart account that has admin permissions.
-2. In the same browser, open Bulwark's admin dashboard, go to **Authentication**, and under **OAuth / OpenID Connect** click **Set up automagically**.
+2. In the same browser, open Bulwark's admin console, go to **Authentication**, and under **OAuth / OpenID Connect** click **Set up automagically**.
 3. Check the webmail origin and the Stalwart issuer URL in the **Auto-configure OAuth** dialog, and confirm.
 
 Bulwark then registers `bulwark-webmail` with Stalwart as a first-party client with a secret, saves the client id, secret and issuer URL in its own configuration, and turns on single sign-on. If you don't want the **Sign in with SSO** button, turn **Enabled** off again afterwards; two-factor sign-ins keep using the registered client.

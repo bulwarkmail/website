@@ -11,9 +11,10 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import GithubSlugger from "github-slugger";
-import { appliesTo, parseEdition, type DocEdition } from "./editions";
+import { parseEdition, type DocEdition } from "./editions";
 import { BULWARK_VERSION } from "./version";
 import { rehypeFigures } from "./docs-figures";
+import { rehypeScreenshots } from "./docs-screenshots";
 
 const docsDirectory = path.join(process.cwd(), "docs");
 
@@ -33,7 +34,7 @@ export interface DocHeading {
   id: string;
 }
 
-export { parseEdition, editionClass, groupEditionClass, appliesTo } from "./editions";
+export { parseEdition } from "./editions";
 export type { DocEdition } from "./editions";
 
 export interface DocMeta {
@@ -44,6 +45,8 @@ export interface DocMeta {
   section: string;
   parent?: string;
   edition: DocEdition;
+  /** One sentence for the note at the top of a page that applies to one edition. */
+  editionNote?: string;
   headings: DocHeading[];
 }
 
@@ -56,7 +59,13 @@ export interface DocSection {
   slug: string;
   label: string;
   order: number;
+  /** One paragraph for the section's own page. */
+  intro: string;
   items: DocMeta[];
+}
+
+function noteOf(data: Record<string, unknown>): string | undefined {
+  return typeof data.editionNote === "string" && data.editionNote.trim() ? data.editionNote.trim() : undefined;
 }
 
 function extractHeadings(content: string): DocHeading[] {
@@ -80,14 +89,49 @@ function extractHeadings(content: string): DocHeading[] {
   return headings;
 }
 
-const SECTION_LABELS: Record<string, { label: string; order: number }> = {
-  "getting-started": { label: "Getting Started", order: 1 },
-  features: { label: "Features", order: 2 },
-  deployment: { label: "Deployment", order: 3 },
-  guides: { label: "Guides", order: 4 },
-  extensions: { label: "Extensions", order: 5 },
-  development: { label: "Development", order: 6 },
-  legal: { label: "Legal", order: 8 },
+// `intro` is the one paragraph on the section's own page, /docs/<section>.
+const SECTION_LABELS: Record<string, { label: string; order: number; intro: string }> = {
+  "getting-started": {
+    label: "Getting started",
+    order: 1,
+    intro:
+      "Start here. What Bulwark is, the Stalwart settings it needs, installing Bulwark or Bulwark Lite, and the configuration you set once it runs.",
+  },
+  features: {
+    label: "Features",
+    order: 2,
+    intro:
+      "What people can do in Bulwark: mail, calendar, contacts and files, the phone app and the web app, and the accessibility settings.",
+  },
+  deployment: {
+    label: "Deployment",
+    order: 3,
+    intro:
+      "Ways to run Bulwark on your own servers: static files, Docker and Compose, Stalwart's application install, Kubernetes or a manual install, and how to update each one.",
+  },
+  guides: {
+    label: "Guides",
+    order: 4,
+    intro:
+      "Tasks step by step, for the people who use Bulwark and for the admins who run it: the admin console and the organisation settings, sign-in and security, plugins and troubleshooting.",
+  },
+  extensions: {
+    label: "Extensions",
+    order: 5,
+    intro:
+      "Build plugins and themes for Bulwark and publish them in the extension directory: the manifest, the directory's API, the review rules and updates.",
+  },
+  development: {
+    label: "Development",
+    order: 6,
+    intro: "Work on Bulwark itself: set up a development environment, run the tests and find your way around the code.",
+  },
+  legal: {
+    label: "Legal",
+    order: 8,
+    intro:
+      "What the Bulwark project collects and why, what the anonymous usage telemetry sends, and what accessibility law asks of you if you host Bulwark in Germany or the EU.",
+  },
 };
 
 function getSectionMeta(sectionSlug: string) {
@@ -95,6 +139,7 @@ function getSectionMeta(sectionSlug: string) {
     SECTION_LABELS[sectionSlug] ?? {
       label: sectionSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
       order: 99,
+      intro: "",
     }
   );
 }
@@ -119,6 +164,7 @@ export function getAllDocs(): DocMeta[] {
           slug: `${section.name}/${entry.name.replace(".md", "")}`,
           section: section.name,
           edition: parseEdition(data.edition),
+          editionNote: noteOf(data),
           headings: extractHeadings(content),
         });
       } else if (entry.isDirectory()) {
@@ -139,6 +185,7 @@ export function getAllDocs(): DocMeta[] {
             section: section.name,
             parent: parentSlug,
             edition: parseEdition(data.edition),
+            editionNote: noteOf(data),
             headings: extractHeadings(subContent),
           });
         }
@@ -166,11 +213,35 @@ export function getDocSections(): DocSection[] {
       slug,
       label: meta.label,
       order: meta.order,
-      items: items.sort((a, b) => a.order - b.order),
+      intro: meta.intro,
+      // Children carry their own 1, 2, 3, so sorting by order alone would mix
+      // them in with the top-level pages. Keep each child under its parent.
+      items: inSidebarOrder(items),
     });
   }
 
   return sections.sort((a, b) => a.order - b.order);
+}
+
+/**
+ * A section's pages as the sidebar shows them: top-level pages by order, each
+ * followed by its children by order.
+ */
+export function inSidebarOrder(items: DocMeta[]): DocMeta[] {
+  const byOrder = (a: DocMeta, b: DocMeta) => a.order - b.order;
+  const topLevel = items.filter((i) => !i.parent).sort(byOrder);
+  const ordered = topLevel.flatMap((parent) => [
+    parent,
+    ...items.filter((c) => c.parent === parent.slug).sort(byOrder),
+  ]);
+  // Children whose parent page is missing still get a place, at the end.
+  const orphans = items.filter((i) => i.parent && !topLevel.some((p) => p.slug === i.parent)).sort(byOrder);
+  return [...ordered, ...orphans];
+}
+
+/** Every docs page in reading order: sections in order, each in sidebar order. */
+export function getReadingOrder(): DocMeta[] {
+  return getDocSections().flatMap((s) => s.items);
 }
 
 export async function getDocBySlug(slug: string): Promise<Doc | null> {
@@ -186,6 +257,7 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeFigures)
     .use(rehypeRaw)
+    .use(rehypeScreenshots)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, { behavior: "wrap" })
     .use(rehypeHighlight, { detect: true })
@@ -203,6 +275,7 @@ export async function getDocBySlug(slug: string): Promise<Doc | null> {
     section,
     parent: parts.length === 3 ? `${parts[0]}/${parts[1]}` : undefined,
     edition: parseEdition(data.edition),
+    editionNote: noteOf(data),
     content,
     html: result.toString(),
     headings: extractHeadings(content),
@@ -340,18 +413,17 @@ function anyTermMatch(text: string, terms: string[]): boolean {
 }
 
 /**
- * Full-text search over the docs. With `edition` set, pages that exist only
- * in the other edition are left out; every hit carries its page's edition
- * either way so the client can tag it.
+ * Full-text search over every docs page. Each hit carries its page's edition
+ * so the dialog can tag pages that apply to Bulwark or Lite only.
  */
-export function searchDocs(query: string, edition?: "full" | "lite"): SearchResult[] {
+export function searchDocs(query: string): SearchResult[] {
   const trimmed = query.trim();
   if (!trimmed) return [];
 
   const terms = tokenize(trimmed).filter((t) => t.length > 1);
   if (terms.length === 0) return [];
 
-  const docs = getAllDocs().filter((doc) => !edition || appliesTo(doc, edition));
+  const docs = getAllDocs();
   const results: SearchResult[] = [];
 
   for (const doc of docs) {

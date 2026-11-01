@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import NextLink from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Info } from "@/components/icons";
 import { BulwarkMark } from "@/components/bulwark-mark";
-import { EditionLink } from "@/components/edition-link";
-import { useEdition } from "@/components/edition-provider";
 import {
   NONE,
   QUESTIONS,
   evaluate,
   type Answers,
-  type Edition,
   type Link,
   type Question,
   type Reason,
@@ -20,8 +18,8 @@ import { ICON } from "@/lib/icon";
 
 // =============================================================================
 // "Which Bulwark fits you?" - one question per screen, answered with large
-// tiles, then a result on the field in the picked edition's colour. The
-// questions and the scoring live in @/lib/edition-quiz.
+// tiles, then a result on the field. The questions and the scoring live in
+// @/lib/edition-quiz.
 // =============================================================================
 
 export function EditionQuiz() {
@@ -31,7 +29,6 @@ export function EditionQuiz() {
   const root = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
   const advance = useRef<number | undefined>(undefined);
-  const { setEdition } = useEdition();
 
   const questions = QUESTIONS;
   const shownTotal = QUESTIONS.length;
@@ -44,14 +41,8 @@ export function EditionQuiz() {
     if (!moved.current) return;
     heading.current?.focus({ preventScroll: true });
     const top = root.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) root.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (top < 0) root.current?.scrollIntoView({ block: "start" });
   }, [step]);
-
-  // The site's own switch follows the result, so the result sits in the
-  // picked edition's colour and every docs link opens that edition.
-  useEffect(() => {
-    if (verdict?.pick) setEdition(verdict.pick);
-  }, [verdict?.pick, setEdition]);
 
   useEffect(() => () => window.clearTimeout(advance.current), []);
 
@@ -65,7 +56,7 @@ export function EditionQuiz() {
     const selected = answers[q.id] ?? [];
     if (!q.multi) {
       setAnswers((a) => ({ ...a, [q.id]: [id] }));
-      // A short beat so the pick is seen before the next question slides in.
+      // A short beat so the pick is seen before the next question appears.
       window.clearTimeout(advance.current);
       advance.current = window.setTimeout(() => go(step + 1), 220);
       return;
@@ -96,6 +87,10 @@ export function EditionQuiz() {
 
   const q = questions[step];
   const selected = answers[q.id] ?? [];
+  const choices = q.choices.filter((c) => !c.showIf || c.showIf(answers));
+  // Rows of three, or of two when that leaves no gap (four choices).
+  const narrow = choices.filter((c) => !c.wide).length;
+  const cols = narrow % 3 !== 0 && narrow % 2 === 0 ? 2 : 3;
 
   return (
     <div className="bw-quiz" ref={root}>
@@ -127,8 +122,8 @@ export function EditionQuiz() {
         </h2>
         {q.help ? <p className="bw-quiz-help">{q.help}</p> : null}
 
-        <div className="bw-quiz-tiles" role="group" aria-labelledby={`q-${q.id}`}>
-          {q.choices.filter((c) => !c.showIf || c.showIf(answers)).map((c) => {
+        <div className="bw-quiz-tiles" data-cols={cols} role="group" aria-labelledby={`q-${q.id}`}>
+          {choices.map((c) => {
             const on = selected.includes(c.id);
             return (
               <button
@@ -171,9 +166,10 @@ const BADGE = (r: Reason) =>
       : "Rules out Bulwark"
     : `Points to ${r.toward === "full" ? "Bulwark" : "Lite"}`);
 
-const LITE_LEAVES_OUT = "Lite leaves out add-ons, the admin page, settings sync, Office editing, notifications and single sign-on.";
+const LITE_LEAVES_OUT =
+  "Lite leaves out add-ons, the admin page, settings sync, Office editing and notifications, and it only offers single sign-on when Stalwart serves it.";
 
-function ResultLink({ link, className, edition }: { link: Link; className: string; edition?: Edition | null }) {
+function ResultLink({ link, className }: { link: Link; className: string }) {
   if (/^https?:\/\//.test(link.href)) {
     return (
       <a href={link.href} target="_blank" rel="noopener noreferrer" className={className}>
@@ -182,9 +178,9 @@ function ResultLink({ link, className, edition }: { link: Link; className: strin
     );
   }
   return (
-    <EditionLink href={link.href} edition={edition ?? undefined} className={className}>
+    <NextLink href={link.href} className={className}>
       {link.label} <ArrowRight size={16} {...ICON} />
-    </EditionLink>
+    </NextLink>
   );
 }
 
@@ -197,12 +193,10 @@ type ResultProps = {
 };
 
 function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps) {
-  const { kind, pick, eyebrow, title, pitch, primary, secondary, reasons, options, caveats } = verdict;
-  // A result that isn't one edition sits on a neutral panel, not in either
-  // edition's colour.
+  const { kind, pick, lead, title, pitch, primary, secondary, reasons, options, caveats, audience } = verdict;
+  // A result that isn't Bulwark or Lite sits on a neutral panel, not on the
+  // raspberry field.
   const neutral = pick === null;
-  // The secondary link of a close call is the other edition's docs.
-  const secondaryEdition = kind === "lite" ? "full" : kind === "full" ? "lite" : null;
 
   return (
     <div className="bw-quiz bw-quiz-done" ref={rootRef}>
@@ -212,24 +206,27 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
       >
         <div className="bw-quiz-result-main">
           {kind !== "classic" ? <BulwarkMark size={72} color="currentColor" /> : null}
-          <span className="bw-quiz-eyebrow">{eyebrow}</span>
           <h2 ref={headingRef} tabIndex={-1} id="quiz-result" className="bw-quiz-name">
             {title}
           </h2>
-          <p className="bw-quiz-pitch">{pitch}</p>
+          <p className="bw-quiz-pitch">
+            {lead ? `${lead} ` : ""}
+            {pitch}
+          </p>
           {primary ? (
             <div className="bw-btns">
-              <ResultLink link={primary} edition={pick} className="bw-btn" />
+              <ResultLink link={primary} className="bw-btn" />
               {secondary ? (
-                <ResultLink link={secondary} edition={secondaryEdition} className="bw-btn bw-btn-ghost" />
+                <ResultLink link={secondary} className="bw-btn bw-btn-ghost" />
               ) : null}
             </div>
           ) : null}
+          {audience ? <ResultLink link={audience} className="bw-tlink" /> : null}
         </div>
 
         {reasons.length > 0 ? (
           <div className="bw-quiz-why">
-            <span className="bw-quiz-eyebrow">Because you said</span>
+            <h3 className="bw-h3">Because you said</h3>
             <ul>
               {reasons.map((r) => (
                 <li key={r.tag}>
@@ -267,9 +264,9 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
                   {c.link.label}
                 </a>
               ) : (
-                <EditionLink href={c.link.href} className="bw-link">
+                <NextLink href={c.link.href} className="bw-link">
                   {c.link.label}
-                </EditionLink>
+                </NextLink>
               )
             ) : null}
           </span>
@@ -290,9 +287,9 @@ function Result({ rootRef, verdict, headingRef, onBack, onRestart }: ResultProps
         <button type="button" className="bw-tlink" onClick={onRestart}>
           Start over
         </button>
-        <EditionLink href="/docs/getting-started/editions" className="bw-tlink">
+        <NextLink href="/docs/getting-started/editions" className="bw-tlink">
           Compare the two versions
-        </EditionLink>
+        </NextLink>
       </div>
     </div>
   );

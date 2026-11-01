@@ -6,12 +6,12 @@ const SCRIPT_URL =
 export async function GET(request: NextRequest) {
   const ua = request.headers.get("user-agent")?.toLowerCase() ?? "";
 
-  // Detect CLI tools (curl, wget, httpie, fetch, etc.)
+  // Detect CLI tools (curl, wget, httpie, fetch, etc.). PowerShell is left
+  // out: setup.sh is a bash script, so PowerShell users get the docs instead.
   const isCLI =
     ua.startsWith("curl/") ||
     ua.startsWith("wget/") ||
     ua.startsWith("httpie/") ||
-    ua.includes("powershell") ||
     ua.includes("python-requests") ||
     ua === "";
 

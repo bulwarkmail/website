@@ -52,7 +52,7 @@ What it asks for:
 
 In practice, public bodies often have their deployment checked with the BIK BITV-Test, the common test procedure in Germany. Its test steps are public, so you can also use them for a self-assessment.
 
-Bulwark is adding admin settings for the statement, feedback, help, Leichte Sprache and DGS links, shown in the same place on every page including the sign-in page. See [presets and locks for admins](/docs/features/accessibility/admin#accessibility-links).
+Since 1.19.0, admins can set links to the statement, a barrier report, help, Leichte Sprache and DGS under Admin > Branding > Accessibility and help links ("Accessibility statement URL", "Report a barrier (URL or email)", "Help URL", "Easy Read (Leichte Sprache) URL", "Sign language (DGS) URL"), or with `ACCESSIBILITY_STATEMENT_URL`, `ACCESSIBILITY_FEEDBACK_URL`, `HELP_URL`, `EASY_READ_URL` and `SIGN_LANGUAGE_URL`. Bulwark Lite reads the same links from `config.json`. Bulwark shows them in the same places on every page: on the sign-in page, in the settings sidebar and in the account menu. See [presets and locks for admins](/docs/features/accessibility/admin#accessibility-links).
 
 ## BFSG (consumer email services)
 
@@ -75,7 +75,7 @@ The software alone is not a product under the BFSG (§1 Abs. 2), so the Bulwark 
 - **BFSG §14 with Anlage 3**: publish how your service meets the requirements, in your terms and conditions (AGB) or in another clearly visible way, for as long as you offer the service. It includes a general description of the service in an accessible format, the explanations needed to use it, how it meets the requirements, and the market surveillance authority. There is a [template below](#bfsg-information-template).
 - **Exceptions**: §§16 and 17 allow exceptions for a disproportionate burden or a fundamental alteration of the service. You have to assess and document them.
 
-The market surveillance authority for all Länder is the **MLBF** (Marktüberwachungsstelle der Länder für die Barrierefreiheit von Produkten und Dienstleistungen), a joint authority based in Magdeburg. A consumer who finds a barrier can also turn to the Schlichtungsstelle nach § 16 BGG (BFSG §34).
+The market surveillance authority for all Länder is the MLBF (Marktüberwachungsstelle der Länder für die Barrierefreiheit von Produkten und Dienstleistungen), a joint authority based in Magdeburg. A consumer who finds a barrier can also turn to the Schlichtungsstelle nach § 16 BGG (BFSG §34).
 
 ## What Bulwark gives you and what stays with you
 
@@ -83,7 +83,7 @@ Bulwark provides:
 
 - the accessibility features described on [Accessibility](/docs/features/accessibility), including settings that let users adapt incoming mail they can't otherwise change;
 - admin defaults and locks, for example to preset larger text for a department, see [presets and locks for admins](/docs/features/accessibility/admin);
-- admin settings for the accessibility links, coming in the same release;
+- admin settings for the accessibility statement, barrier report, help, Leichte Sprache and DGS links, shown on the sign-in page, in the settings sidebar and in the account menu;
 - the documentation page EN 301 549 12.3 asks for, and the templates on this page.
 
 We don't publish a conformance report (ACR or VPAT) yet. We'll link it here when there is one.

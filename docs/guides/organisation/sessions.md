@@ -13,6 +13,9 @@ On **Admin > Organisation > Security**, the **Sessions** section has two limits.
 - **Maximum session length** signs users out this many hours after they signed in, whether they were active or not.
 - **Warning before signing out** is how long a countdown shows before either limit signs users out. The default is 60 seconds.
 
+<img class="theme-light-only" src="/screenshots/light-admin-security.webp" alt="Organisation, Security in the admin console: the Sessions section with an inactivity limit and a maximum session length" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-security.webp" alt="Organisation, Security in the admin console: the Sessions section with an inactivity limit and a maximum session length" width="5120" height="2880" />
+
 ## Set it up
 
 1. Pick who it is for in the **Applies to** bar: Everyone, or a domain or group from [Domains and groups](/docs/guides/organisation/domains-and-groups).
@@ -90,6 +93,10 @@ The settings are stored in `organisation.session` in `policy.json`, and per entr
 | `maxHours` | `0` | Hours after sign-in before signing out. `0` is off. At most 8760 (a year). |
 | `warnSeconds` | `60` | Seconds the countdown shows first. `0` signs out without a warning. At most 600. |
 
-Older versions had a user setting `sessionTimeout` that did nothing. A `policy.json` that locked it to a number of minutes gets that number as `idleMinutes` when Bulwark loads it, unless `idleMinutes` is already set.
+Older versions had a user setting `sessionTimeout` that did nothing. When the top level of a `policy.json` locks or presets it to a number of minutes, Bulwark moves that number to `idleMinutes` when it loads the file, unless `idleMinutes` is already set. A `sessionTimeout` inside a domain or group entry isn't moved.
 
-<div class="lite-callout">Bulwark Lite reads the same <code>organisation.session</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The inactivity limit works the same. Lite has no server, so <strong>the maximum session length in Lite is enforced by the browser only</strong>, for domain and group entries alike: it signs users out on time, but someone with access to the browser's storage could get around it. Use Stalwart's token lifetimes when you need a hard limit.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite reads the same <code>organisation.session</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The inactivity limit works the same. Lite has no server, so <strong>the maximum session length in Lite is enforced by the browser only</strong>, for domain and group entries alike: it signs users out on time, but someone with access to the browser's storage could get around it. Use Stalwart's token lifetimes when you need a hard limit.</div>
+
+## Next step
+
+Go on to [Third-party traffic](/docs/guides/organisation/third-party-traffic).

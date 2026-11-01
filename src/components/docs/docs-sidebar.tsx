@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronRight, Menu, Search, X } from "@/components/icons";
-import { editionClass, groupEditionClass, type DocEdition } from "@/lib/editions";
 import { ICON } from "@/lib/icon";
 import { DocsSearch, OPEN_SEARCH_EVENT } from "./docs-search";
 
@@ -16,14 +15,12 @@ interface SidebarHeading {
 interface SidebarChild {
   title: string;
   slug: string;
-  edition: DocEdition;
   headings?: SidebarHeading[];
 }
 
 interface SidebarItem {
   title: string;
   slug: string;
-  edition: DocEdition;
   headings?: SidebarHeading[];
   children?: SidebarChild[];
 }
@@ -89,18 +86,13 @@ function PageLink({
 
 function SidebarEntry({ item, pathname, onNavigate }: { item: SidebarItem; pathname: string; onNavigate: () => void }) {
   const hasChildren = !!item.children && item.children.length > 0;
-  // A parent is hidden only when it and every child belong to the other edition.
-  const liClass = hasChildren
-    ? groupEditionClass([item.edition, ...item.children!.map((c) => c.edition)])
-    : editionClass(item.edition);
-
   return (
-    <li className={liClass || undefined}>
+    <li>
       <PageLink page={hasChildren ? { ...item, headings: undefined } : item} pathname={pathname} onNavigate={onNavigate} />
       {hasChildren ? (
         <ul>
           {item.children!.map((child) => (
-            <li key={`${child.slug}:${pathname}`} className={editionClass(child.edition) || undefined}>
+            <li key={`${child.slug}:${pathname}`}>
               <PageLink page={child} pathname={pathname} child onNavigate={onNavigate} />
             </li>
           ))}
@@ -140,12 +132,13 @@ export function DocsSidebar({ sections }: DocsSidebarProps) {
     <nav aria-label="Documentation pages">
       {withSearch ? <DocsSearch listen /> : null}
       {sections.map((section) => {
-        const sectionClass = groupEditionClass(
-          section.items.flatMap((i) => [i.edition, ...(i.children ?? []).map((c) => c.edition)])
-        );
         return (
-          <div key={section.slug} className={["bw-side-group", sectionClass].filter(Boolean).join(" ")}>
-            <h4>{section.label}</h4>
+          <div key={section.slug} className="bw-side-group">
+            <h4>
+              <Link href={`/docs/${section.slug}`} onClick={close}>
+                {section.label}
+              </Link>
+            </h4>
             <ul>
               {section.items.map((item) => (
                 <SidebarEntry key={`${item.slug}:${pathname}`} item={item} pathname={pathname} onNavigate={close} />

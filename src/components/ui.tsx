@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, type AppIcon } from "@/components/icons";
 import { ThemeImage } from "@/components/theme-image";
-import { EditionLink } from "@/components/edition-link";
+import Link from "next/link";
 import { ICON } from "@/lib/icon";
 
 type ShotProps = {
@@ -42,15 +42,7 @@ export function Shot({
   url = DEMO_HOST,
 }: ShotProps) {
   const image = (
-    <ThemeImage
-      light={`/screenshots/light-${name}.webp`}
-      dark={`/screenshots/dark-${name}.webp`}
-      alt={alt}
-      width={2560}
-      height={1440}
-      sizes={sizes}
-      priority={priority}
-    />
+    <ThemeImage light={`light-${name}`} dark={`dark-${name}`} alt={alt} sizes={sizes} priority={priority} />
   );
   if (window) {
     return (
@@ -84,12 +76,16 @@ type TileProps = {
   icon?: AppIcon;
   /** The list form: no minimum height, arrow centred. */
   compact?: boolean;
+  /** In the list form, indents a page that sits under the one before it. */
+  nested?: boolean;
 };
 
 /** A shared-edge tile: title top-left, one line of text, arrow bottom-right. */
-export function Tile({ href, title, text, icon: Icon, compact }: TileProps) {
+export function Tile({ href, title, text, icon: Icon, compact, nested }: TileProps) {
   const external = /^https?:\/\//.test(href);
-  const className = compact ? "bw-tile bw-tile-compact" : "bw-tile";
+  const className = [compact ? "bw-tile bw-tile-compact" : "bw-tile", nested ? "bw-tile-nested" : ""]
+    .filter(Boolean)
+    .join(" ");
   const body = (
     <>
       {Icon ? <Icon size={24} className="bw-tile-icon" {...ICON} /> : null}
@@ -105,18 +101,8 @@ export function Tile({ href, title, text, icon: Icon, compact }: TileProps) {
       {body}
     </a>
   ) : (
-    <EditionLink href={href} className={className}>
+    <Link href={href} className={className}>
       {body}
-    </EditionLink>
-  );
-}
-
-/** Copy that differs between Bulwark and Bulwark Lite. Both are rendered; data-edition on <html> shows one. */
-export function Ed({ full, lite }: { full: ReactNode; lite: ReactNode }) {
-  return (
-    <>
-      <span className="ed-full-only">{full}</span>
-      <span className="ed-lite-only">{lite}</span>
-    </>
+    </Link>
   );
 }

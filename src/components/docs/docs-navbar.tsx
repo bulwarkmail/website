@@ -5,8 +5,6 @@ import Link from "next/link";
 import { Sun, Moon } from "@/components/icons";
 import { useTheme } from "@/components/theme-provider";
 import { BulwarkMark } from "@/components/bulwark-mark";
-import { EditionSwitch } from "@/components/edition-switch";
-import { EditionLink } from "@/components/edition-link";
 import { ICON } from "@/lib/icon";
 
 const links = [
@@ -49,14 +47,13 @@ export function DocsNavbar() {
 
           <nav className="bw-nav-links" aria-label="Documentation">
             {links.map((link) => (
-              <EditionLink key={link.href} href={link.href}>
+              <Link key={link.href} href={link.href}>
                 {link.label}
-              </EditionLink>
+              </Link>
             ))}
           </nav>
 
           <div className="bw-nav-r">
-            <EditionSwitch />
             <button
               type="button"
               onClick={() => setTheme(dark ? "light" : "dark")}

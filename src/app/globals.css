@@ -5,8 +5,6 @@
    are documented in local-data/design-system.md of the webmail checkout.
 
    Theme:   .dark on <html>, set before first paint (layout.tsx).
-   Edition: data-edition="lite" on <html>, set by the same script. Lite swaps
-            four tokens to teal and changes nothing else.
    ====================================================================== */
 
 :root {
@@ -17,7 +15,7 @@
   --bw-text-muted: #56565d;
   --bw-rule: #dddde1; /* tile edges, table rows, image frames */
   --bw-win-rule: #dddde1; /* the rules inside a window frame; the field does not remap it */
-  --bw-control: #7f7f87; /* input, ghost button and edition switch borders */
+  --bw-control: #7f7f87; /* input, ghost button and segmented control borders */
 
   /* brand. Nothing may hard-code the hex values: use the tokens. */
   --bw-brand: #db2d54;
@@ -32,7 +30,7 @@
   --bw-on-ink: #f2f2f3;
   --bw-ink-muted: #ababb2;
 
-  /* the flag of Europe (eu-badge.tsx), the same in both themes and editions */
+  /* the flag of Europe (eu-badge.tsx), the same in both themes */
   --bw-eu-blue: #003399;
   --bw-eu-gold: #ffcc00;
 
@@ -100,19 +98,6 @@
   --bw-warning: #e2b341;
   --bw-success: #4cc38a;
   color-scheme: dark;
-}
-
-/* Bulwark Lite: white on teal is 4.5:1, links hold 6.4:1 and 10.4:1. */
-:root[data-edition="lite"] {
-  --bw-brand: #0f8578;
-  --bw-field: #0f8578;
-  --bw-link: #0a6b60;
-  --bw-focus: #0a6b60;
-}
-.dark[data-edition="lite"] {
-  --bw-field: #0c7267;
-  --bw-link: #6fd3c5;
-  --bw-focus: #6fd3c5;
 }
 
 @media (max-width: 1024px) {
@@ -191,8 +176,8 @@ h3 {
   color: var(--bw-text);
 }
 
-/* On the field a brand-tinted selection would be pink on raspberry (or teal on
-   teal), so selected text there turns white with ink text instead. */
+/* On the field a brand-tinted selection would be pink on raspberry, so
+   selected text there turns white with ink text instead. */
 .bw-field::selection,
 .bw-field ::selection {
   background-color: var(--bw-on-field);
@@ -218,17 +203,8 @@ h3 {
   background-color: var(--bw-control);
 }
 
-/* Edition-only and theme-only visibility: both variants are server-rendered
-   and the attribute or class on <html> picks one, so there is no flash. */
-.ed-lite-only {
-  display: none;
-}
-[data-edition="lite"] .ed-lite-only {
-  display: revert;
-}
-[data-edition="lite"] .ed-full-only {
-  display: none;
-}
+/* Theme-only visibility: both variants are server-rendered and the class on
+   <html> picks one, so there is no flash. */
 .theme-dark-only {
   display: none;
 }
@@ -237,6 +213,11 @@ h3 {
 }
 .dark .theme-dark-only {
   display: block;
+}
+/* The <picture> around a screenshot adds no box of its own: the <img> inside
+   is laid out (and hidden by the theme classes) as if it stood alone. */
+.bw-pic {
+  display: contents;
 }
 
 .sr-only {
@@ -270,7 +251,7 @@ h3 {
   background: var(--bw-surface);
 }
 
-/* Anything on the raspberry (or teal) field remaps the neutral tokens, so
+/* Anything on the raspberry field remaps the neutral tokens, so
    the components inside need no "on field" variants of their own. */
 .bw-field {
   background: var(--bw-field);
@@ -442,47 +423,7 @@ h3 {
 }
 
 /* ----------------------------------------------------------------------
-   Announcement bar above the nav (announcement-bar.tsx): 48px with its
-   rule. It is in the normal flow, not sticky, so it scrolls away and the
-   docs nav, sidebar and phone bar keep their offsets. On a phone the link
-   wraps under the sentence.
-   ---------------------------------------------------------------------- */
-.bw-announce {
-  background: var(--bw-surface);
-  border-bottom: 1px solid var(--bw-rule);
-  color: var(--bw-text);
-  font-size: var(--bw-small);
-  line-height: 1.4;
-}
-.bw-announce-in {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 4px 16px;
-  min-height: 47px;
-  padding-block: 12px;
-  text-align: center;
-}
-.bw-announce-in p {
-  text-wrap: balance;
-}
-.bw-announce-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-  color: var(--bw-link);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-.bw-announce-link:hover {
-  text-decoration-thickness: 2px;
-}
-
-/* ----------------------------------------------------------------------
-   Nav and the edition switch. Every control in the nav is 36px high.
+   Nav. Every control in the nav is 36px high.
    ---------------------------------------------------------------------- */
 .bw-nav-in {
   display: flex;
@@ -591,20 +532,26 @@ h3 {
 .bw-switch-option:hover {
   color: var(--bw-text);
 }
-/* Selected state comes from the attribute, not from React, so it is correct
-   on the very first paint. */
-:root:not([data-edition="lite"]) .bw-switch-option[data-value="full"],
-[data-edition="lite"] .bw-switch-option[data-value="lite"] {
+.bw-switch-wide {
+  height: auto;
+}
+/* A tab in a segmented control (the install choice). .bw-switch raises it
+   above the wide form's text colour below. */
+.bw-switch .bw-switch-option[aria-selected="true"] {
   background: var(--bw-text);
   color: var(--bw-page);
 }
-:root:not([data-edition="lite"]) .bw-field .bw-switch-option[data-value="full"],
-[data-edition="lite"] .bw-field .bw-switch-option[data-value="lite"] {
+.bw-field .bw-switch-option[aria-selected="true"] {
   background: var(--bw-on-field);
   color: var(--bw-field);
 }
-.bw-switch-wide {
-  height: auto;
+.bw-choice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+.bw-choice > [role="tablist"] {
+  justify-self: start;
 }
 .bw-switch-wide .bw-switch-option {
   padding: 11px 16px;
@@ -647,11 +594,6 @@ h3 {
    because on the field --bw-rule turns into translucent white. */
 .bw-win {
   aspect-ratio: auto;
-  border-radius: 4px;
-}
-/* The hero window runs off the right and bottom edges, so only its free corner is rounded. */
-.bw-hero-shot.bw-win {
-  border-radius: 4px 0 0 0;
 }
 .bw-win-bar {
   display: flex;
@@ -678,7 +620,6 @@ h3 {
 .bw-win-dots i {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   background: currentColor;
   opacity: 0.45;
 }
@@ -806,17 +747,16 @@ h3 {
   mask: var(--logo) center / contain no-repeat;
   -webkit-mask: var(--logo) center / contain no-repeat;
 }
+/* On a phone: the label and two logos on the first row, the third logo and
+   "Become a sponsor" (pushed right) on the second. */
 @media (max-width: 640px) {
   .bw-sponsors-in {
-    gap: 18px 32px;
+    gap: 14px 16px;
+    padding-block: 20px;
   }
   .bw-sponsor-logo {
-    height: calc(var(--h) * 0.85);
-    width: calc(var(--h) * 0.85 * var(--ratio));
-  }
-  .bw-sponsors-cta {
-    margin-left: 0;
-    flex-basis: 100%;
+    height: calc(var(--h) * 0.7);
+    width: calc(var(--h) * 0.7 * var(--ratio));
   }
 }
 
@@ -911,6 +851,13 @@ a.bw-tile:hover {
   bottom: auto;
   margin-top: -10px;
 }
+/* A docs section page lists a child page under its parent, indented. */
+.bw-tile-compact.bw-tile-nested {
+  padding-left: calc(var(--bw-tile-pad) + 24px);
+}
+.bw-tile-nested .bw-tile-title {
+  font-size: var(--bw-body);
+}
 @media (max-width: 1024px) {
   .bw-tiles,
   .bw-tiles-3 {
@@ -925,6 +872,10 @@ a.bw-tile:hover {
   .bw-tile {
     min-height: 0;
     padding-bottom: 56px;
+  }
+  /* The list form centres its arrow, so it needs no room below the text. */
+  .bw-tile-compact {
+    padding-bottom: 18px;
   }
 }
 
@@ -1076,6 +1027,19 @@ a.bw-tile:hover {
 .bw-steps .bw-codewrap {
   margin-top: 12px;
 }
+/* A one-line command in a step wraps instead of scrolling under the copy button. */
+.bw-steps .bw-code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* On a phone every command wraps the same way, inside the right padding that
+   keeps the copy button clear. */
+@media (max-width: 640px) {
+  .bw-code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
 
 .bw-note {
   margin: 0 0 24px;
@@ -1088,7 +1052,8 @@ a.bw-tile:hover {
 .bw-note strong {
   font-weight: 600;
 }
-.bw-note-edition {
+/* "Not in Lite." and "Bulwark Lite." notes: the brand edge. */
+.bw-note-brand {
   border-left-color: var(--bw-brand);
 }
 .bw-note-warning {
@@ -1131,7 +1096,6 @@ a.bw-tile:hover {
 }
 .bw-faq summary svg {
   flex: none;
-  transition: transform var(--bw-motion);
 }
 .bw-faq details[open] summary svg {
   transform: rotate(45deg);
@@ -1419,6 +1383,9 @@ a.bw-tile:hover {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
+}
+.bw-side-group h4 a:hover {
+  text-decoration: underline;
 }
 .bw-side-item {
   display: flex;
@@ -1780,6 +1747,22 @@ a.bw-tile:hover {
   border: 0;
   border-radius: 0;
 }
+/* CopyableCode puts each block in a wrapper that holds the copy button, so
+   the button stays in its corner while the code scrolls sideways. The
+   wrapper takes the block's margins. */
+.prose-docs .bw-prewrap {
+  position: relative;
+  margin: 8px 0 24px;
+}
+.prose-docs .bw-prewrap > pre {
+  margin: 0;
+}
+/* A block with lines wider than the box starts its code below the button. */
+@media (min-width: 641px) {
+  .prose-docs .bw-prewrap > pre.bw-pre-scrolls {
+    padding-top: 52px;
+  }
+}
 .copy-btn {
   position: absolute;
   top: 8px;
@@ -1991,28 +1974,10 @@ a.bw-tile:hover {
   color: inherit;
   text-decoration: none;
 }
-[data-edition="lite"] .bw-manual > .ed-lite-only {
-  display: grid;
-}
 @media (min-width: 901px) {
   .bw-docs-bar {
     top: 64px;
   }
-}
-
-/* "Not in Lite" note inside docs pages (a <div class="lite-callout"> in the
-   markdown; rehype-raw passes it through). */
-.lite-callout {
-  margin: 0 0 24px;
-  padding: 14px 18px;
-  font-size: 15px;
-  line-height: 1.55;
-  background: var(--bw-surface);
-  border-left: 3px solid var(--bw-brand);
-}
-.lite-callout::before {
-  content: "Not in Lite. ";
-  font-weight: 600;
 }
 
 @media (max-width: 640px) {
@@ -2026,6 +1991,14 @@ a.bw-tile:hover {
     padding: 16px 48px 16px 16px;
     margin-inline: calc(-1 * var(--bw-gutter));
     border-inline: 0;
+  }
+  .prose-docs .bw-prewrap {
+    margin-inline: calc(-1 * var(--bw-gutter));
+  }
+  /* A phone line is short, so every docs block keeps a strip at the top for
+     the copy button and the code starts below it. */
+  .prose-docs .bw-prewrap > pre {
+    padding: 48px 16px 16px;
   }
 }
 
@@ -2127,6 +2100,8 @@ a.bw-tile:hover {
 }
 .bw-guide-body {
   display: grid;
+  /* minmax(0, 1fr): a long code line scrolls or wraps instead of widening the column. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   min-width: 0;
 }
@@ -2206,15 +2181,19 @@ a.bw-tile:hover {
   height: 16px;
   background: var(--bw-brand);
 }
+/* The four splits, at their ratios and with the real 64px gap where it fits. */
 .bw-griddemo {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: clamp(6px, 2.4vw, 32px);
+  gap: 12px;
+}
+.bw-griddemo > div {
+  display: grid;
+  column-gap: clamp(16px, 4.5vw, 64px);
 }
 .bw-griddemo i {
   display: grid;
   place-items: end center;
-  height: 96px;
+  height: 48px;
   padding-bottom: 8px;
   font-style: normal;
   font-size: 13px;
@@ -2268,8 +2247,8 @@ ul.bw-rules > li::before {
 }
 
 /* ----------------------------------------------------------------------
-   Edition quiz (/choose). One question per screen, answers as large tiles,
-   then a result on the field in the picked edition's colour.
+   The quiz (/choose). One question per screen, answers as large tiles,
+   then a result on the field.
    ---------------------------------------------------------------------- */
 .bw-quiz-hero {
   padding-block: 64px 72px;
@@ -2310,7 +2289,7 @@ ul.bw-rules > li::before {
   visibility: hidden;
 }
 .bw-quiz-count {
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 .bw-quiz-bar {
@@ -2322,25 +2301,11 @@ ul.bw-rules > li::before {
   display: block;
   height: 100%;
   background: var(--bw-brand);
-  transition: width 300ms ease-out;
 }
 .bw-quiz-step {
   display: grid;
   gap: 12px;
   padding-top: 32px;
-  animation: bw-quiz-in 260ms ease-out;
-}
-@keyframes bw-quiz-in {
-  from {
-    opacity: 0;
-    transform: translateX(24px);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bw-quiz-step,
-  .bw-quiz-done {
-    animation: none;
-  }
 }
 .bw-quiz-step h2:focus,
 .bw-quiz-result h2:focus {
@@ -2352,11 +2317,25 @@ ul.bw-rules > li::before {
   color: var(--bw-text-muted);
   max-width: 40em;
 }
+/* The tiles share their edges: each draws a full 1px frame and overlaps its
+   neighbours by 1px, so a rule is never doubled and a short last row stays
+   closed. The component sets data-cols from the number of choices. */
 .bw-quiz-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 24px;
+  padding: 0 1px 1px 0;
+}
+@media (min-width: 640px) {
+  .bw-quiz-tiles[data-cols="2"],
+  .bw-quiz-tiles[data-cols="3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) {
+  .bw-quiz-tiles[data-cols="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 .bw-quiz-tile-wide {
   grid-column: 1 / -1;
@@ -2368,30 +2347,29 @@ ul.bw-rules > li::before {
   align-content: start;
   gap: 6px;
   min-height: 112px;
+  margin: 0 -1px -1px 0;
   padding: 20px 52px 20px 20px;
   font: inherit;
   text-align: left;
   color: var(--bw-text);
   background: var(--bw-page);
   border: 1px solid var(--bw-rule);
-  border-radius: var(--bw-radius-control);
+  border-radius: 0;
   cursor: pointer;
   transition:
     border-color var(--bw-motion),
-    background-color var(--bw-motion),
-    transform var(--bw-motion);
+    background-color var(--bw-motion);
 }
 .bw-quiz-tile:hover {
-  border-color: var(--bw-control);
   background: var(--bw-surface);
 }
-.bw-quiz-tile:active {
-  transform: scale(0.99);
-}
+/* Picked: the brand edge sits over the neighbours' rules. */
 .bw-quiz-tile[data-on] {
+  z-index: 1;
   border-color: var(--bw-brand);
-  box-shadow: inset 0 0 0 1px var(--bw-brand);
-  background: color-mix(in srgb, var(--bw-brand) 7%, var(--bw-page));
+}
+.bw-quiz-tile:focus-visible {
+  z-index: 2;
 }
 .bw-quiz-tick {
   position: absolute;
@@ -2402,7 +2380,7 @@ ul.bw-rules > li::before {
   width: 22px;
   height: 22px;
   border: 1px solid var(--bw-control);
-  border-radius: 50%;
+  border-radius: var(--bw-radius-control);
   transition:
     background-color var(--bw-motion),
     border-color var(--bw-motion);
@@ -2440,7 +2418,6 @@ ul.bw-rules > li::before {
 /* Result */
 .bw-quiz-done {
   gap: 28px;
-  animation: bw-quiz-in 260ms ease-out;
 }
 .bw-quiz-result {
   display: grid;
@@ -2456,12 +2433,6 @@ ul.bw-rules > li::before {
 }
 .bw-quiz-result-main svg {
   margin-bottom: 12px;
-}
-.bw-quiz-eyebrow {
-  font-size: var(--bw-caption);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 .bw-quiz-name {
   font-size: clamp(40px, 5vw, 64px);
@@ -2497,28 +2468,28 @@ ul.bw-rules > li::before {
   flex: none;
   padding: 2px 9px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
   border: 1px solid var(--bw-on-field);
-  border-radius: 999px;
 }
 .bw-quiz-badge[data-hard] {
   background: var(--bw-on-field);
   color: var(--bw-field);
 }
+/* Tiles again: full frames that overlap by 1px. */
 .bw-quiz-fork {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  padding: 0 1px 1px 0;
 }
 .bw-quiz-fork > div {
   display: grid;
   gap: 10px;
   align-content: start;
   justify-items: start;
+  margin: 0 -1px -1px 0;
   padding: var(--bw-tile-pad);
   border: 1px solid var(--bw-rule);
-  border-radius: var(--bw-radius-control);
 }
 .bw-quiz-fork p {
   font-size: var(--bw-small);
@@ -2570,8 +2541,8 @@ ul.bw-rules > li::before {
     min-height: 0;
   }
 }
-/* A result that isn't one of the two editions (a classic webmail, or no way
-   forward yet) sits on ink, not in either edition's colour. */
+/* A result that isn't Bulwark or Lite (a classic webmail, or no way
+   forward yet) sits on ink, not on the raspberry field. */
 .bw-quiz-result-neutral {
   --bw-field: var(--bw-ink);
   --bw-on-field: var(--bw-on-ink);
@@ -2585,7 +2556,7 @@ ul.bw-rules > li::before {
 /* ----------------------------------------------------------------------
    Made in the EU. The one place the site shows a flag: the right end of the
    footer's legal line. The flag
-   keeps its own colours in both themes and editions; everything around it
+   keeps its own colours in both themes; everything around it
    is set like the footer's legal line, at its right end.
    ---------------------------------------------------------------------- */
 .bw-eu-flag {

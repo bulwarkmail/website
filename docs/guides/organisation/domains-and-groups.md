@@ -12,7 +12,12 @@ By default every user gets the same settings. To give some of them different one
 - **Domains** match users by the domain of the address they sign in with. `example.com` matches `anna@example.com`; `*.example.com` matches `anna@eu.example.com` but not `anna@example.com`.
 - **Groups** match the members of a Stalwart group, by the group's address (`sales@example.com`). A user counts as a member when the group's mailbox is in their session, which is the case for every group Stalwart lets them use. Groups without a mailbox are invisible to Bulwark.
 
-Then pick the entry in the **Applies to** bar at the top of any other Organisation page and change the settings there. A value the entry doesn't set comes from **Everyone**; the page shows it as "From Everyone", with a link back to Everyone's value.
+Then pick the entry in the **Applies to** bar at the top of any other Organisation page and change the settings there. A value the entry doesn't set comes from **Everyone**; the page shows it as "From Everyone: …". When the entry sets its own value, the page shows Everyone's value next to it, with **Use Everyone's value** to go back to it.
+
+The User policy page has the same **Applies to** choice for its locked settings and defaults, once an entry exists.
+
+<img class="theme-light-only" src="/screenshots/light-admin-policy.webp" alt="The User policy page in the admin console, with some features switched off and settings locked to a value" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-policy.webp" alt="The User policy page in the admin console, with some features switched off and settings locked to a value" width="5120" height="2880" />
 
 ## When several apply
 
@@ -21,6 +26,17 @@ Bulwark starts with Everyone's settings, applies the matching domain entries, th
 ## What a user gets
 
 **Effective policy** on the same page takes an address and the groups the user belongs to, and lists every setting that isn't at Bulwark's default with the entry that set it. It works on the settings as they are on the page, saved or not, so you can check a change before saving it.
+
+<img class="theme-light-only" src="/screenshots/light-admin-domains-effective.webp" alt="The Effective policy for nora@meridianlabs.example in the Support group, listing each setting with the entry that set it" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-domains-effective.webp" alt="The Effective policy for nora@meridianlabs.example in the Support group, listing each setting with the entry that set it" width="5120" height="2880" />
+
+<img class="theme-light-only" src="/screenshots/light-admin-domains.webp" alt="Domains and groups in the admin console, with an entry for the Meridian Labs domain and one for the Support group" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-domains.webp" alt="Domains and groups in the admin console, with an entry for the Meridian Labs domain and one for the Support group" width="5120" height="2880" />
+
+In Settings, users see each locked value with **Set by your organisation** next to it, in place of a control they can't use.
+
+<img class="theme-light-only" src="/screenshots/light-settings-locked.webp" alt="A setting in the user's Settings shown at the organisation's value, marked Set by your organisation" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-settings-locked.webp" alt="A setting in the user's Settings shown at the organisation's value, marked Set by your organisation" width="5120" height="2880" />
 
 ## What can't be set per domain or group
 
@@ -38,7 +54,7 @@ Locks from domain entries also hold when settings are saved to the server (setti
 
 ## The policy file
 
-Everything on the Organisation pages and the User policy page is stored in `policy.json` in `ADMIN_CONFIG_DIR`.
+Everything on the Organisation pages and the User policy page is stored in `policy.json` in `ADMIN_CONFIG_DIR`, except the No third-party traffic switch, which is in `config.json`. Export and import don't carry it.
 
 - **Export policy.json** downloads the file as the server uses it.
 - **Import a file** shows what the file would change (entries, organisation settings, locked settings, features, defaults) and replaces the policy only when you confirm. The file goes through the same checks as a `policy.json` read from disk: anything invalid is dropped.
@@ -76,4 +92,8 @@ The entries look like this in the file:
 
 An entry's `policy` takes the same `features`, `restrictions` and `defaults` as the top level of the file, and the `organisation` settings described on the other Organisation pages. `id` is lowercase letters, digits and dashes.
 
-The old `sessionTimeout` restriction did nothing; a locked value of it is moved to `organisation.session.idleMinutes` when the file is loaded.
+The old `sessionTimeout` setting did nothing. When the top level of the file locks or presets it to a number of minutes, that number moves to `organisation.session.idleMinutes` when the file is loaded, unless `idleMinutes` is already set. Inside an entry it isn't moved.
+
+## Next step
+
+Go on to [Signatures and disclaimers](/docs/guides/organisation/signatures), which can differ per domain or group too.

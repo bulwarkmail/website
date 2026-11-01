@@ -6,7 +6,7 @@ import type { Element, ElementContent, Root, RootContent } from "hast";
 // turned into markup here, as raw nodes that rehype-raw parses afterwards:
 //
 //   ![alt](/diagrams/name.svg)   the SVG from public/diagrams, inlined so its
-//                                colour tokens follow the theme and edition
+//                                colour tokens follow the theme
 //   ```tree                      a file tree in the usual box-drawing form,
 //                                rendered as a nested list with drawn lines
 

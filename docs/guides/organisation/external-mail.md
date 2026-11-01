@@ -12,6 +12,9 @@ On **Admin > Organisation > Security**, the **External mail** section has two sw
 - **Label external senders** puts an **External** chip next to the sender of mail from outside the organisation, in the reader and in conversations. Hovering it, or tapping it on a phone, shows the sender's domain.
 - **Confirm external recipients** asks before a message goes to someone outside the organisation. The dialog lists those recipients and offers **Send anyway** or **Back**. It works for the composer, for quick replies and for meeting invitations.
 
+<img class="theme-light-only" src="/screenshots/light-external-mail.webp" alt="A message labelled External next to the sender, and the dialog that lists the outside recipients before sending" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-external-mail.webp" alt="A message labelled External next to the sender, and the dialog that lists the outside recipients before sending" width="5120" height="2880" />
+
 ## Turn it on
 
 1. Pick who it is for in the **Applies to** bar: Everyone, or a domain or group from [Domains and groups](/docs/guides/organisation/domains-and-groups).
@@ -36,7 +39,7 @@ With several accounts signed in, each message is judged by its own account: its 
 
 ## What users see
 
-The chip is small and sits next to the sender's name, so it fits next to the **Unverified sender** warning and on a phone's narrow header. It shows when any From address of a message is outside the organisation, and when a From address has no domain at all (`CEO <ceo>`). It goes by the From address: a forged From with an internal address isn't labelled External. Bulwark's own sender check shows **Unverified sender** for that, as it does without these settings.
+The chip is small and sits next to the sender's name, so it fits next to the sender check's warning and on a phone's narrow header. It shows when any From address of a message is outside the organisation, and when a From address has no domain at all (`CEO <ceo>`). It goes by the From address: a forged From with an internal address isn't labelled External. Bulwark's own sender check warns about that with **Sender check failed** or **Unverified sender**, as it does without these settings.
 
 The confirm comes after Bulwark's other checks (missing attachment, empty subject, unfilled placeholders), once per send, with every external recipient in To, Cc and Bcc. The automatic Bcc of an address (set in the account's identities) isn't listed. **Back** returns to the message unsent, with the text of a quick reply kept.
 
@@ -56,7 +59,7 @@ Bulwark does what the External Mail Warning plugin did, so the plugin is retired
 
 The plugin steps back one switch at a time: with **Confirm external recipients** on, it no longer asks before sending; with **Label external senders** on, it shows no banner and no new-mail toast. Version 1.6.0 and later do this themselves; for older copies, Bulwark skips those parts of the plugin. The section says **Update or remove the External Mail Warning plugin** while an older copy is installed.
 
-Two things don't carry over: each user's own safe domains in the plugin's settings, and its banner for failed SPF, DKIM or DMARC checks. Bulwark shows **Unverified sender** for those.
+Two things don't carry over: each user's own safe domains in the plugin's settings, and its banner for failed SPF, DKIM or DMARC checks. Bulwark's sender check shows **Sender check failed** or **Unverified sender** for those.
 
 ## In policy.json
 
@@ -94,11 +97,15 @@ Domains are bare names like `example.com`; `@example.com` and `*.example.com` ar
 
 Plugins can ask which of these are on through `api.host.features.externalSenderLabel` and `api.host.features.externalRecipientWarning` (see the [plugin guide](https://github.com/bulwarkmail/plugins/blob/main/WRITING_PLUGINS.md#apihost)).
 
-<div class="lite-callout">Bulwark Lite reads the same <code>organisation.externalMail</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The label and the confirm work the same.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite reads the same <code>organisation.externalMail</code> settings from <code>policy.json</code> next to <code>index.html</code>, scopes included. The label and the confirm work the same.</div>
 
 ## What isn't possible
 
-- **Users can't turn either off.** They are the organisation's warnings, so there are no user options and nothing to lock.
-- **Only Bulwark warns.** The label and the confirm are part of Bulwark, not of the mail server. Mail read or sent with other apps (phone mail apps, Thunderbird) gets neither. Stalwart doesn't add an External tag to messages, and Bulwark doesn't change the subject or body of mail it receives.
-- **Some sends aren't checked.** Mail a plugin sends itself (through the plugin API, not the composer) and the unsubscribe message Bulwark sends for a newsletter's List-Unsubscribe link go out without the confirm.
-- **No per-user safe lists.** The plugin let each user add domains; core keeps one list per domain or group, set by the admin.
+- **Users can't turn either off:** they are the organisation's warnings, so there are no user options and nothing to lock.
+- **Only Bulwark warns:** the label and the confirm are part of Bulwark, not of the mail server. Mail read or sent with other apps (phone mail apps, Thunderbird) gets neither. Stalwart doesn't add an External tag to messages, and Bulwark doesn't change the subject or body of mail it receives.
+- **Some sends aren't checked:** mail a plugin sends itself (through the plugin API, not the composer) and the unsubscribe message Bulwark sends for a newsletter's List-Unsubscribe link go out without the confirm.
+- **No per-user safe lists:** the plugin let each user add domains; core keeps one list per domain or group, set by the admin.
+
+## Next step
+
+Go on to [Sign-out times](/docs/guides/organisation/sessions).

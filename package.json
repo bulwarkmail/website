@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "images": "node scripts/build-images.mjs",
+    "predev": "npm run images",
     "dev": "next dev --port 3001",
+    "prebuild": "npm run images",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -11,7 +14,6 @@
   "dependencies": {
     "@tabler/icons-react": "^3.47.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.35.2",
     "gray-matter": "^4.0.3",
     "next": "16.1.6",
     "react": "19.2.3",

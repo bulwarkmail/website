@@ -18,6 +18,9 @@ On **Admin > Organisation > Signatures** you write one signature for the organis
 
 Without a lock, the organisation signature is the default: an address that has no signature of its own gets it, and users can still write their own. To make it the signature of everyone, lock it (see below).
 
+<img class="theme-light-only" src="/screenshots/light-admin-signatures.webp" alt="The Signatures page in the admin console, with the organisation signature, its placeholders and a disclaimer" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-signatures.webp" alt="The Signatures page in the admin console, with the organisation signature, its placeholders and a disclaimer" width="5120" height="2880" />
+
 ### Placeholders
 
 | Placeholder | Filled in with |
@@ -37,6 +40,9 @@ Values are inserted as text, so a user can't put HTML into the signature through
 ### What users fill in
 
 **User details** on the same page lists the details the signature asks for. Users fill them in once under **Settings > Account > Your details**, which shows the fields the signatures and disclaimers of any of their addresses use (a group address can have its group's), with a preview of the signature their main address sends. The details count for every address the user sends from.
+
+<img class="theme-light-only" src="/screenshots/light-composer-org-signature.webp" alt="A new message with the organisation signature filled in with the sender's name, job title, department and phone number" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-composer-org-signature.webp" alt="A new message with the organisation signature filled in with the sender's name, job title, department and phone number" width="5120" height="2880" />
 
 ### Lock or hide it
 
@@ -92,13 +98,13 @@ Both are stored in `organisation` in `policy.json`, at the top level for Everyon
 ```
 
 - `signature.html` and `signature.text`: the templates. Both empty means no organisation signature.
-- `signature.fields`: the details users are asked for, out of `title`, `department`, `phone` and `mobile`. The admin page keeps it in step with the templates. A field a template uses is asked for even when it's missing here.
+- `signature.fields`: the details users are asked for, out of `title`, `department`, `phone` and `mobile`. The Signatures page of the admin console keeps it in step with the templates. A field a template uses is asked for even when it's missing here.
 - `disclaimer.html` and `disclaimer.text`: both empty means no disclaimer.
 - `restrictions.signature`: `{ "locked": true }` or `{ "hidden": true }`.
 
 The users' details are a synced setting, `signatureDetails`.
 
-<div class="lite-callout">Bulwark Lite applies the signature, the disclaimer and the lock from <code>policy.json</code> the same way. Lite has no settings sync, so the details a user fills in stay in that browser: on another browser or device they fill them in again.</div>
+<div class="bw-note"><b>Note.</b> Bulwark Lite applies the signature, the disclaimer and the lock from <code>policy.json</code> the same way. Lite has no settings sync, so the details a user fills in stay in that browser: on another browser or device they fill them in again.</div>
 
 ## What isn't possible
 

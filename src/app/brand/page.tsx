@@ -11,10 +11,10 @@ import {
   TriangleAlert,
 } from "@/components/icons";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { EditionLink } from "@/components/edition-link";
-import { EditionSwitch } from "@/components/edition-switch";
+import { InstallChoice } from "@/components/install-choice";
 import { CodeBlock } from "@/components/code-block";
 import { LogoTile, type LogoAsset } from "@/components/logo-tile";
 import { Tile } from "@/components/ui";
@@ -53,7 +53,6 @@ const LOCKUPS: LogoAsset[] = [
     height: 56,
   },
   { title: "Favicon, Bulwark", svg: asset("favicon", "Bulwark Favicon.svg"), png: asset("favicon", "Bulwark Favicon.png"), ground: "white", height: 56 },
-  { title: "Favicon, Bulwark Lite", svg: asset("favicon", "Bulwark Favicon Lite.svg"), ground: "white", height: 56 },
 ];
 
 const SECTIONS = [
@@ -69,47 +68,47 @@ const SECTIONS = [
 ] as const;
 
 // Kept in step with the token block at the top of globals.css. The chip shows
-// the live token, the hex columns show every theme and edition.
-const COLOURS: { role: string; token: string; light: string; dark: string; liteLight: string; liteDark: string; use: string }[] = [
-  { role: "Page", token: "--bw-page", light: "#ffffff", dark: "#131315", liteLight: "#ffffff", liteDark: "#131315", use: "Page ground" },
-  { role: "Surface", token: "--bw-surface", light: "#f4f4f5", dark: "#1f1f22", liteLight: "#f4f4f5", liteDark: "#1f1f22", use: "Quiet bands, footer, code blocks, notes, tile hover" },
-  { role: "Text", token: "--bw-text", light: "#18181b", dark: "#f2f2f3", liteLight: "#18181b", liteDark: "#f2f2f3", use: "Headings and body" },
-  { role: "Muted text", token: "--bw-text-muted", light: "#56565d", dark: "#ababb2", liteLight: "#56565d", liteDark: "#ababb2", use: "Supporting paragraphs, captions" },
-  { role: "Rule", token: "--bw-rule", light: "#dddde1", dark: "#36363b", liteLight: "#dddde1", liteDark: "#36363b", use: "Tile edges, table rows, image frames" },
-  { role: "Control border", token: "--bw-control", light: "#7f7f87", dark: "#85858d", liteLight: "#7f7f87", liteDark: "#85858d", use: "Inputs, outlined buttons, the edition switch" },
-  { role: "Brand", token: "--bw-brand", light: "#db2d54", dark: "#db2d54", liteLight: "#0f8578", liteDark: "#0f8578", use: "Primary buttons, icons, the mark, note and active edges" },
-  { role: "Field", token: "--bw-field", light: "#db2d54", dark: "#c4264b", liteLight: "#0f8578", liteDark: "#0c7267", use: "Nav, hero, install section" },
-  { role: "On field", token: "--bw-on-field", light: "#ffffff", dark: "#ffffff", liteLight: "#ffffff", liteDark: "#ffffff", use: "Text and buttons on the field" },
-  { role: "Link", token: "--bw-link", light: "#c01f46", dark: "#ff91a8", liteLight: "#0a6b60", liteDark: "#6fd3c5", use: "Text links and the focus ring" },
-  { role: "Ink", token: "--bw-ink", light: "#18181b", dark: "#18181b", liteLight: "#18181b", liteDark: "#18181b", use: "Code and button hover on the field" },
-  { role: "Error", token: "--bw-error", light: "#b42318", dark: "#ff9b8f", liteLight: "#b42318", liteDark: "#ff9b8f", use: "Validation, with an icon and words" },
-  { role: "Warning", token: "--bw-warning", light: "#8a5d00", dark: "#e2b341", liteLight: "#8a5d00", liteDark: "#e2b341", use: "The warning note edge" },
-  { role: "Success", token: "--bw-success", light: "#17784a", dark: "#4cc38a", liteLight: "#17784a", liteDark: "#4cc38a", use: "The copied state" },
+// the live token, the hex columns show both themes.
+const COLOURS: { role: string; token: string; light: string; dark: string; use: string }[] = [
+  { role: "Page", token: "--bw-page", light: "#ffffff", dark: "#131315", use: "Page ground" },
+  { role: "Surface", token: "--bw-surface", light: "#f4f4f5", dark: "#1f1f22", use: "Quiet bands, footer, code blocks, notes, tile hover" },
+  { role: "Text", token: "--bw-text", light: "#18181b", dark: "#f2f2f3", use: "Headings and body" },
+  { role: "Muted text", token: "--bw-text-muted", light: "#56565d", dark: "#ababb2", use: "Supporting paragraphs, captions" },
+  { role: "Rule", token: "--bw-rule", light: "#dddde1", dark: "#36363b", use: "Tile edges, table rows, image frames" },
+  { role: "Control border", token: "--bw-control", light: "#7f7f87", dark: "#85858d", use: "Inputs, outlined buttons, segmented controls" },
+  { role: "Brand", token: "--bw-brand", light: "#db2d54", dark: "#db2d54", use: "Primary buttons, icons, the mark, note and active edges" },
+  { role: "Field", token: "--bw-field", light: "#db2d54", dark: "#c4264b", use: "Nav, hero, install section" },
+  { role: "On field", token: "--bw-on-field", light: "#ffffff", dark: "#ffffff", use: "Text and buttons on the field" },
+  { role: "Link", token: "--bw-link", light: "#c01f46", dark: "#ff91a8", use: "Text links and the focus ring" },
+  { role: "Ink", token: "--bw-ink", light: "#18181b", dark: "#18181b", use: "Code and button hover on the field" },
+  { role: "Error", token: "--bw-error", light: "#b42318", dark: "#ff9b8f", use: "Validation, with an icon and words" },
+  { role: "Warning", token: "--bw-warning", light: "#8a5d00", dark: "#e2b341", use: "The warning note edge" },
+  { role: "Success", token: "--bw-success", light: "#17784a", dark: "#4cc38a", use: "The copied state" },
 ];
 
 // WCAG 2.1 ratios for the token pairs the pages rely on.
-const CONTRAST: [string, string, string, string, string, string][] = [
-  ["Text on page", "4.5", "17.7", "16.6", "17.7", "16.6"],
-  ["Text on surface", "4.5", "16.1", "14.7", "16.1", "14.7"],
-  ["Muted on page", "4.5", "7.3", "8.1", "7.3", "8.1"],
-  ["Muted on surface", "4.5", "6.6", "7.2", "6.6", "7.2"],
-  ["Link on page", "4.5", "6.0", "8.7", "6.4", "10.4"],
-  ["Link on surface", "4.5", "5.4", "7.7", "5.8", "9.2"],
-  ["Button text on brand", "4.5", "4.65", "4.65", "4.52", "4.52"],
-  ["Text on the field", "4.5", "4.65", "5.6", "4.52", "5.8"],
-  ["Ink text on the white field button", "4.5", "17.7", "17.7", "17.7", "17.7"],
-  ["Code on ink", "4.5", "15.8", "15.8", "15.8", "15.8"],
-  ["Control border on page", "3", "4.0", "5.1", "4.0", "5.1"],
-  ["Focus ring on page", "3", "6.0", "8.7", "6.4", "10.4"],
-  ["Error text on page", "4.5", "6.6", "9.1", "6.6", "9.1"],
+const CONTRAST: [string, string, string, string][] = [
+  ["Text on page", "4.5", "17.7", "16.6"],
+  ["Text on surface", "4.5", "16.1", "14.7"],
+  ["Muted on page", "4.5", "7.3", "8.1"],
+  ["Muted on surface", "4.5", "6.6", "7.2"],
+  ["Link on page", "4.5", "6.0", "8.7"],
+  ["Link on surface", "4.5", "5.4", "7.7"],
+  ["Button text on brand", "4.5", "4.65", "4.65"],
+  ["Text on the field", "4.5", "4.65", "5.6"],
+  ["Ink text on the white field button", "4.5", "17.7", "17.7"],
+  ["Code on ink", "4.5", "15.8", "15.8"],
+  ["Control border on page", "3", "4.0", "5.1"],
+  ["Focus ring on page", "3", "6.0", "8.7"],
+  ["Error text on page", "4.5", "6.6", "9.1"],
 ];
 
 const TYPE: { name: string; spec: string; sample: string; style: React.CSSProperties }[] = [
   { name: "Display", spec: "60 / 36 px · 400 · 1.06 · -0.015em", sample: "Webmail for Stalwart", style: { fontSize: "var(--bw-h1)", lineHeight: 1.06, letterSpacing: "-0.015em" } },
-  { name: "Heading 2", spec: "40 / 28 px · 400 · 1.12 · -0.015em", sample: "Two editions from the same code.", style: { fontSize: "var(--bw-h2)", lineHeight: 1.12, letterSpacing: "-0.015em" } },
+  { name: "Heading 2", spec: "40 / 28 px · 400 · 1.12 · -0.015em", sample: "Colour is assigned by role.", style: { fontSize: "var(--bw-h2)", lineHeight: 1.12, letterSpacing: "-0.015em" } },
   { name: "Heading 3, tile title", spec: "21 / 19 px · 400 · 1.2 · -0.015em", sample: "Bulwark Legacy Proxy", style: { fontSize: "var(--bw-h3)", lineHeight: 1.2, letterSpacing: "-0.015em" } },
   { name: "Lead", spec: "19 / 17 px · 400 · 1.45", sample: "Bulwark puts mail, calendar, contacts and files in one browser client.", style: { fontSize: "var(--bw-lead)", lineHeight: 1.45, color: "var(--bw-text-muted)" } },
-  { name: "Body", spec: "17 / 16 px · 400 · 1.55", sample: "The setup wizard finds your Stalwart server and sets the admin password.", style: { fontSize: "var(--bw-body)" } },
+  { name: "Body", spec: "17 / 16 px · 400 · 1.55", sample: "The setup wizard checks your Stalwart server and sets the admin password.", style: { fontSize: "var(--bw-body)" } },
   { name: "Small, tile text", spec: "15 px · 400 · 1.5", sample: "Several address books, groups, and vCard import and export.", style: { fontSize: "var(--bw-small)", color: "var(--bw-text-muted)" } },
   { name: "Button, label, table header", spec: "15 px · 500 · 1.2", sample: "Read the docs", style: { fontSize: "var(--bw-small)", fontWeight: 500 } },
   { name: "Caption, footer, breadcrumb", spec: "13.5 px · 400 · 1.5", sample: "Docs / Deployment", style: { fontSize: "var(--bw-caption)", color: "var(--bw-text-muted)" } },
@@ -157,9 +156,9 @@ export default function BrandPage() {
                 <a href={BRANDING_REPO} target="_blank" rel="noopener noreferrer" className="bw-btn">
                   Branding repository <ArrowUpRight size={16} {...ICON} />
                 </a>
-                <EditionLink href="/press" className="bw-btn bw-btn-ghost">
+                <Link href="/press" className="bw-btn bw-btn-ghost">
                   Press kit <ArrowRight size={16} {...ICON} />
-                </EditionLink>
+                </Link>
               </div>
             </div>
           </div>
@@ -232,15 +231,16 @@ export default function BrandPage() {
               </div>
               <ol className="bw-rules">
                 <li>
-                  <b>One flat field.</b> The nav and the hero share a single raspberry field, the screenshot leaves it
+                  <b>One flat field:</b> the nav and the hero share a single raspberry field, the screenshot leaves it
                   at the right edge of the page, and the field returns once for install.
                 </li>
                 <li>
-                  <b>One family at regular weight.</b> Hanken Grotesk 400 for headings and body. Hierarchy comes from
-                  size and position. 500 is for buttons and table headers, 600 for the wordmark.
+                  <b>One family at regular weight:</b> Hanken Grotesk 400 for headings and body. Hierarchy comes from
+                  size and position. 500 is for buttons and table headers, 600 for the wordmark, bold text, step
+                  numbers and the small headings in the footer and the docs.
                 </li>
                 <li>
-                  <b>Square, with shared edges.</b> Tiles meet on 1px rules with the title top-left and the arrow
+                  <b>Square, with shared edges:</b> tiles meet on 1px rules with the title top-left and the arrow
                   bottom-right. Radius is 0, and 2px on the things you press or type into.
                 </li>
                 <li>
@@ -252,7 +252,7 @@ export default function BrandPage() {
                   links, the edge of a note.
                 </li>
                 <li>
-                  <b>Plain sentences.</b> A heading says what the thing is or does, with at most one paragraph under
+                  <b>Plain sentences:</b> a heading says what the thing is or does, with at most one paragraph under
                   it and no label above it.
                 </li>
               </ol>
@@ -262,15 +262,15 @@ export default function BrandPage() {
               <h2 className="bw-h2">Three habits bring the generic look back.</h2>
               <ol className="bw-rules">
                 <li>
-                  <b>A heavier headline.</b> Weight above 500, tracking tighter than -0.02em, a size above 72, or an
+                  <b>A heavier headline:</b> weight above 500, tracking tighter than -0.02em, a size above 72, or an
                   accent on one word.
                 </li>
                 <li>
-                  <b>A label.</b> An eyebrow above a heading, a caption above a screenshot, a step numeral used as
+                  <b>A label:</b> an eyebrow above a heading, a caption above a screenshot, a step numeral used as
                   decoration, or anything in uppercase monospace.
                 </li>
                 <li>
-                  <b>Softening.</b> A radius above 4px, a shadow under a screenshot, a gradient inside the field, or a
+                  <b>Softening:</b> a radius above 4px, a shadow under a screenshot, a gradient inside the field, or a
                   dark section between two light ones.
                 </li>
               </ol>
@@ -292,7 +292,7 @@ export default function BrandPage() {
             <Guide
               wide
               title="Tokens"
-              text="Fourteen roles as CSS custom properties. Dark changes the grounds, and Bulwark Lite changes brand, field and link."
+              text="Fourteen roles as CSS custom properties. Dark changes every role except brand, on field and ink. There is one colourway, for Bulwark and Lite alike."
             >
               <div className="bw-table-wrap">
                 <table className="bw-table bw-table-tokens">
@@ -302,8 +302,6 @@ export default function BrandPage() {
                       <th scope="col">Token</th>
                       <th scope="col">Light</th>
                       <th scope="col">Dark</th>
-                      <th scope="col">Lite, light</th>
-                      <th scope="col">Lite, dark</th>
                       <th scope="col">Used for</th>
                     </tr>
                   </thead>
@@ -316,8 +314,6 @@ export default function BrandPage() {
                         </td>
                         <Hex value={c.light} />
                         <Hex value={c.dark} />
-                        <Hex value={c.liteLight} />
-                        <Hex value={c.liteDark} />
                         <td>{c.use}</td>
                       </tr>
                     ))}
@@ -338,8 +334,6 @@ export default function BrandPage() {
                       <th scope="col">Minimum</th>
                       <th scope="col">Light</th>
                       <th scope="col">Dark</th>
-                      <th scope="col">Lite, light</th>
-                      <th scope="col">Lite, dark</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -354,7 +348,7 @@ export default function BrandPage() {
                 </table>
               </div>
               <p className="bw-muted" style={{ fontSize: "var(--bw-small)", maxWidth: "46em" }}>
-                White on raspberry and white on teal are the tight pairs. Text on the field is therefore never smaller
+                White on raspberry is the tight pair. Text on the field is therefore never smaller
                 than 17px, never lighter than 400 and never muted, and raspberry itself is never used for text on a
                 grey ground. Raspberry is close to an error red, so errors and warnings have their own colours and
                 always carry an icon and words.
@@ -391,7 +385,7 @@ export default function BrandPage() {
         <section id="layout" className="bw-sec">
           <div className="bw-w">
             <div className="bw-head">
-              <h2 className="bw-h2">Pages sit on a 12-column grid with an 8px unit.</h2>
+              <h2 className="bw-h2">Pages sit inside 1120px on an 8px unit.</h2>
             </div>
             <Guide
               title="Spacing"
@@ -408,11 +402,19 @@ export default function BrandPage() {
             </Guide>
             <Guide
               title="Grid"
-              text="12 columns inside 1120px with 32px gaps. The page gutter is 80px, 40px on a tablet and 20px on a phone. Splits are 5 + 7, 4 + 8, 7 + 5 and 6 + 6, and they stack below 900px."
+              text="Content sits inside 1120px. The page gutter is 80px, 40px on a tablet and 20px on a phone. Two-column splits divide the content 5 + 7, 7 + 5, 4 + 8 or 8 + 4 with a 64px gap, and they stack below 900px."
             >
               <div className="bw-griddemo" aria-hidden="true">
-                {Array.from({ length: 12 }, (_, i) => (
-                  <i key={i}>{i + 1}</i>
+                {[
+                  [5, 7],
+                  [7, 5],
+                  [4, 8],
+                  [8, 4],
+                ].map(([a, b]) => (
+                  <div key={`${a}-${b}`} style={{ gridTemplateColumns: `${a}fr ${b}fr` }}>
+                    <i>{a}</i>
+                    <i>{b}</i>
+                  </div>
                 ))}
               </div>
             </Guide>
@@ -422,9 +424,9 @@ export default function BrandPage() {
             >
               <p className="bw-muted" style={{ fontSize: "var(--bw-small)" }}>
                 The landing page hero and its three feature rows show the pattern.{" "}
-                <EditionLink href="/" className="bw-link">
+                <Link href="/" className="bw-link">
                   Open the landing page
-                </EditionLink>
+                </Link>
                 .
               </p>
             </Guide>
@@ -439,7 +441,7 @@ export default function BrandPage() {
             </div>
             <Guide
               title="Border and radius"
-              text="1px rules in the rule colour, 1px control borders, a 3px edge on notes. Radius is 0, and 2px on buttons, inputs, inline code and the edition switch. There are no shadows, gradients or blurs."
+              text="1px rules in the rule colour, 1px control borders, a 3px edge on notes. Radius is 0, and 2px on buttons, inputs, inline code and segmented controls. There are no shadows, gradients or blurs."
             >
               <div className="bw-ex">
                 <span className="bw-box" style={{ background: "var(--bw-page)" }}>1px rule</span>
@@ -492,7 +494,7 @@ export default function BrandPage() {
           <div className="bw-w">
             <div className="bw-head">
               <h2 className="bw-h2">The pages are built from a small set of components.</h2>
-              <p>They are live here: the theme toggle and the edition switch in the nav change them too.</p>
+              <p>They are live here: the theme toggle in the nav changes them too.</p>
             </div>
 
             <Guide
@@ -534,16 +536,16 @@ export default function BrandPage() {
             </Guide>
 
             <Guide
-              title="Edition switch"
-              text="A two-part segmented control. The active side is filled with the text colour, and on the field it is filled white. The install section uses the wide form with full labels."
+              title="Segmented control"
+              text="Tabs that switch one block of content in place, such as the install steps. The selected tab is filled with the text colour, and on the field it is filled white. It never switches the whole page."
             >
-              <div className="bw-ex">
-                <EditionSwitch />
-                <EditionSwitch wide />
-              </div>
-              <div className="bw-ex bw-ex-field bw-field">
-                <EditionSwitch />
-              </div>
+              <InstallChoice
+                label="Example tabs"
+                choices={[
+                  { id: "docker", label: "With Docker", panel: <p>The steps for the container.</p> },
+                  { id: "static", label: "As static files", panel: <p>The steps for Bulwark Lite.</p> },
+                ]}
+              />
             </Guide>
 
             <Guide
@@ -570,7 +572,7 @@ export default function BrandPage() {
                 {[
                   { icon: Mail, title: "Open source", text: "AGPL-3.0, developed in public." },
                   { icon: Calendar, title: "Built on JMAP", text: "The client fetches only the difference." },
-                  { icon: Contact, title: "27 languages", text: "Translated by the people who use it." },
+                  { icon: Contact, title: "29 languages", text: "Including Arabic, Hebrew and Persian, right to left." },
                   { icon: Folder, title: "Built in the EU", text: "Runs on your hardware." },
                 ].map(({ icon: Icon, title, text }) => (
                   <div key={title}>
@@ -645,9 +647,9 @@ export default function BrandPage() {
               text="One shape, three kinds, told apart by their first words and the colour of the edge."
             >
               <div>
-                <div className="bw-note bw-note-edition">
-                  <b>Not in Lite.</b> OAuth, settings sync and plugins need the Node.js server, so Lite keeps them
-                  switched off.
+                <div className="bw-note bw-note-brand">
+                  <b>Not in Lite.</b> Settings sync and plugins need the Node.js server, so Lite keeps them switched
+                  off.
                 </div>
                 <div className="bw-note">
                   <b>Note.</b> The base path is written into every asset URL, so choose it before the build.
@@ -673,7 +675,7 @@ export default function BrandPage() {
                   <div className="bw-search-row" data-active="true">
                     <b>Static hosting</b>
                     <span>
-                      Allow the browser to reach the mail server: permissive-<mark>cors</mark> = true
+                      Allow the browser to reach the mail server: turn on Permissive <mark>CORS</mark> policy
                     </span>
                   </div>
                   <div className="bw-search-row">
@@ -726,12 +728,12 @@ export default function BrandPage() {
                   </p>
                 </div>
                 <div className="bw-form-field">
-                  <label className="bw-label" htmlFor="brand-f-edition">
-                    Edition
+                  <label className="bw-label" htmlFor="brand-f-signin">
+                    Sign-in
                   </label>
-                  <select className="bw-input" id="brand-f-edition" defaultValue="Bulwark">
-                    <option>Bulwark</option>
-                    <option>Bulwark Lite</option>
+                  <select className="bw-input" id="brand-f-signin" defaultValue="OAuth">
+                    <option>OAuth</option>
+                    <option>Password</option>
                   </select>
                 </div>
                 <div className="bw-form-field" style={{ alignContent: "end" }}>
@@ -744,7 +746,7 @@ export default function BrandPage() {
 
             <Guide
               title="Made in the EU"
-              text="The one place the site shows a flag: once, at the right end of the footer's legal line. The flag keeps its own colours (#039 and #fc0, drawn like Wikimedia's Flag_of_Europe.svg) in both themes and editions; the words beside it take the legal line's type: no box, 13px, muted. Never in the fact row, never recoloured."
+              text="The one place the site shows a flag: once, at the right end of the footer's legal line. The flag keeps its own colours (#039 and #fc0, drawn like Wikimedia's Flag_of_Europe.svg) in both themes; the words beside it take the legal line's type: no box, 13px, muted. Never in the fact row, never recoloured."
             >
               <div className="bw-foot-legal" style={{ marginTop: 0, background: "var(--bw-surface)", padding: "20px 24px" }}>
                 <span>© 2026 Bulwark Mail</span>
@@ -760,22 +762,20 @@ export default function BrandPage() {
           <div className="bw-w">
             <div className="bw-split bw-split-4-8">
               <div className="bw-head">
-                <h2 className="bw-h2">Bulwark Lite is the same page in teal.</h2>
-                <p>Use the switch to see this page as Lite.</p>
-                <EditionSwitch wide />
+                <h2 className="bw-h2">Bulwark Lite is described in the text.</h2>
               </div>
               <ol className="bw-rules">
                 <li>
-                  <b>Four tokens change.</b> Brand, field, link and focus turn teal. Every neutral, the layout, the
-                  type and the radius stay as they are.
+                  <b>One colourway:</b> where Bulwark and Lite differ, the text says so. Lite has no colour, mark or
+                  favicon of its own.
                 </li>
                 <li>
-                  <b>The mark keeps its geometry.</b> It takes the brand token on a page ground and white on the field,
-                  so one asset serves Bulwark, Lite and the field. Lite has its own favicon.
+                  <b>No mode:</b> nothing switches the site, or the copy across a page, between Bulwark and Lite. Tabs
+                  only switch one block in place, like the install steps.
                 </li>
                 <li>
-                  <b>Copy is written per edition.</b> Where the facts differ, both versions are rendered and the
-                  edition shows one. Pages that exist in one edition say so in a note.
+                  <b>Pages for one of them say so first.</b> A docs page that applies only to Bulwark or only to Lite
+                  opens with a &ldquo;Not in Lite.&rdquo; or &ldquo;Bulwark Lite.&rdquo; note.
                 </li>
               </ol>
             </div>
@@ -792,15 +792,15 @@ export default function BrandPage() {
               </div>
               <ul className="bw-rules">
                 <li>
-                  <b>One positive sentence.</b> &ldquo;Webmail for Stalwart Mail Server.&rdquo; &ldquo;Run Bulwark as
+                  <b>One positive sentence:</b> &ldquo;Webmail for Stalwart Mail Server.&rdquo; &ldquo;Run Bulwark as
                   one container.&rdquo; &ldquo;Files sit on the mail server, next to your mail.&rdquo;
                 </li>
                 <li>
-                  <b>One paragraph at most.</b> A section is a heading, up to one paragraph, and up to one link or
+                  <b>One paragraph at most:</b> a section is a heading, up to one paragraph, and up to one link or
                   button.
                 </li>
                 <li>
-                  <b>Two labels a page at most.</b> A label is small text above a heading. Most pages have none, and
+                  <b>Two labels a page at most:</b> a label is small text above a heading. Most pages have none, and
                   the docs have the breadcrumb.
                 </li>
                 <li>
@@ -818,9 +818,9 @@ export default function BrandPage() {
               <h2 className="bw-h2">Checks before a page ships</h2>
               <ul className="bw-rules">
                 <li>Count the labels above headings. Two at most, and none is better.</li>
-                <li>Read every heading aloud and rewrite any that sets something up in order to knock it down.</li>
+                <li>Read every heading aloud and rewrite any that sets something up to knock it down.</li>
                 <li>Measure every radius: 0, or 2px on a control.</li>
-                <li>Check light and dark, Bulwark and Lite, then a 390px phone.</li>
+                <li>Check light and dark, then a 390px phone.</li>
                 <li>Recheck the contrast table when a colour changes.</li>
               </ul>
             </div>

@@ -1,7 +1,7 @@
 ---
 title: Multi-account support
 description: Manage multiple simultaneous email accounts in Bulwark.
-order: 6
+order: 8
 edition: both
 ---
 
@@ -9,7 +9,7 @@ edition: both
 
 Several accounts can be signed in at once in a single browser session. Each keeps its own JMAP session and its own cached state, so switching between them fetches nothing.
 
-There used to be a hard cap of five. It was never really ours: each account holds a push stream open, and HTTP/1.1 browsers only allow about six connections per origin. On an HTTP/2 server those streams multiplex over one connection, so the cap is gone. On HTTP/1.1 the browser's connection pool still sets the ceiling, at roughly six streams across all accounts on the same origin. Bulwark reads the protocol from the initial navigation's timing entry, so a deployment behind an HTTP/2 proxy is recognised without configuration, and it caps the number of live push streams per tab so many logins can't starve ordinary requests.
+On an HTTP/2 server you can add up to 50 accounts; that limit comes from how many cookies a browser keeps per site. On HTTP/1.1 Bulwark stops at 5, which leaves one of the browser's six connections per origin free for ordinary requests. Bulwark reads the protocol from the initial navigation's timing entry, so a deployment behind an HTTP/2 proxy is recognised without configuration. Each tab keeps at most two live push streams; the other accounts check for changes by polling, so many logins can't starve ordinary requests.
 
 ## Requirements
 
@@ -37,7 +37,7 @@ SESSION_SECRET_FILE=/run/secrets/session_secret
 <img class="theme-light-only" src="/screenshots/light-account-switcher.webp" alt="The account switcher with two signed-in accounts" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-account-switcher.webp" alt="The account switcher with two signed-in accounts" width="5120" height="2880" />
 
-Click any account in the account switcher to switch instantly. Per-account state (mailboxes, contacts, calendar, filters, identities) is cached in memory so the switch is immediate. If a per-account store is empty (first switch in a session), it's lazy-loaded on demand.
+Click any account in the account switcher to switch to it. Per-account state (mailboxes, contacts, calendar, filters, identities) is cached in memory, so the switch is immediate. If a per-account store is empty (first switch in a session), it's lazy-loaded on demand.
 
 ## Per-account state
 
@@ -49,7 +49,6 @@ Each account maintains its own:
 - Calendars, events, and tasks
 - Files (FileNode tree, recent files, favorites)
 - Sieve filters, vacation responder, identities, and templates
-- S/MIME certificates and per-account key isolation
 - Settings (when settings sync is enabled, settings are scoped per account)
 
 OAuth refresh tokens are stored encrypted in httpOnly cookies, scoped per account.
@@ -63,26 +62,26 @@ You can mark one account as the default. The default account loads on initial si
 <img class="theme-light-only" src="/screenshots/light-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
 
-A unified mailbox view aggregates new mail from every connected account into a single list. Each row is annotated with the source account so you always know which mailbox an email lives in. The unified inbox is toggleable from the sidebar.
+Turn on **Unified mailbox** in Settings > Appearance > Multiple accounts to get one Inbox, Sent, Drafts and so on for the active account, its shared mailboxes and the folders shared with it. It is off by default. If your admin allows it (**Unified Mailbox: Cross-account** in the admin console, off on new installs), **Across all accounts** adds every signed-in account. Rows show the folder they come from, and **Tell accounts apart** marks each with its account's color.
 
-## Shared folders
+## Shared mailboxes and folders
 
 <img class="theme-light-only" src="/screenshots/light-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
 
-Folders shared with one account are surfaced under that account in the sidebar. Shared account folder layouts mirror primary folders so navigation stays consistent.
+A [shared mailbox](/docs/features/email#shared-mailboxes), a Stalwart group with its own address, shows under **Shared** in the sidebar. A folder that another person shares with you shows under that person's account. Both mirror the layout of your own folders, so navigation stays the same.
 
 ## Connection status
 
-The account switcher shows each account as connected, reconnecting, or errored. When a connection drops, JMAP push reconnects on its own and whatever search or filter you had applied survives the reconnect.
+The account switcher shows a green dot for a connected account and a warning icon when its connection failed. When a connection drops, JMAP push reconnects on its own and whatever search or filter you had applied survives the reconnect.
 
 ## Removing an account
 
-From the account switcher → account context menu → **Sign out**. Removing an account purges its in-memory state, encrypted cookie, and any per-account settings stored under settings sync.
+In the account switcher choose **Sign out of** the account, or **Remove account** on its row. **Sign out of all accounts** signs out every one. Removing an account purges its in-memory state, encrypted cookie, and any per-account settings stored under settings sync.
 
 ## Account list backup
 
-When the administrator turns on **Account List Backup** under **Policy** in the admin dashboard, users can keep the list of accounts in their browser on the Bulwark server and bring it back on another device. The list is encrypted in the browser with a backup password the user picks, at least 10 characters long, which can't be recovered. Save, restore and delete it under **Settings → Account → Account list backup**.
+When the administrator turns on **Account List Backup** under **User policy** in the admin console, users can keep the list of accounts in their browser on the Bulwark server and bring it back on another device. The list is encrypted in the browser with a backup password the user picks, at least 10 characters long, which can't be recovered. Save, restore and delete it under **Settings → Account → Account list backup**.
 
 Mailbox passwords aren't saved, so after a restore you sign in to each new account from the account list. With **Account List Backup: Passwords** also on, users can include the passwords of accounts that signed in with one, and those accounts then sign in by themselves after a restore. Anyone who learns the backup password gets into every mailbox in that list.
 
@@ -90,26 +89,26 @@ Signing in on a browser that knows no other account, with a list saved for that 
 
 The lists are stored in `SETTINGS_DATA_DIR/account-archives`, and the feature needs a session secret.
 
-<div class="bw-note bw-note-edition"><b>Not in Lite.</b> The list is stored on the Bulwark server, which Lite doesn't have.</div>
+<div class="bw-note bw-note-brand"><b>Not in Lite.</b> The list is stored on the Bulwark server, which Lite doesn't have.</div>
 
 ## Identities versus accounts
 
 Accounts and sender identities are separate:
 
 - **Accounts** are full mailboxes with their own JMAP session.
-- **Identities** are aliases under a single account - for example, a single Stalwart account with `you@personal.com` and `you@work.com` aliases configured. Identities have per-identity signatures and selectable from the composer.
+- **Identities** are aliases under a single account - for example, a single Stalwart account with `you@personal.com` and `you@work.com` aliases configured. Identities have per-identity signatures and are selectable from the composer.
 
 You can use both: multiple accounts, each with multiple identities.
 
 ## Sub-addressing
 
-Identities support sub-addressing (`user+tag@domain.com`). When composing a reply, Bulwark suggests contextual tags based on the recipient. Sub-addressing also works with auto-select reply identity. The delimiter character is **configurable** in mail settings (defaults to `+`, supports other commonly used separators like `-` for compatibility with mail servers that don't use `+`).
+Identities support sub-addressing (`user+tag@domain.com`). When composing a reply, Bulwark suggests contextual tags based on the recipient. Sub-addressing also works with auto-select reply identity. Change the delimiter in Settings > Account > Email addresses > **Sub-address delimiter** (defaults to `+`, supports other commonly used separators like `-` for compatibility with mail servers that don't use `+`).
 
 ## Limits and performance
 
-- **Maximum accounts** - No hard cap on HTTP/2 servers; bounded by the browser's per-origin connection pool on HTTP/1.1 (typically 6 parallel push streams).
-- **Push connections** - One JMAP push stream per account, established lazily on first switch and multiplexed when the server supports HTTP/2.
-- **Session cookie size** - Per-account encrypted state fits within typical cookie size limits; very large refresh tokens may require server-side session storage. Each account gets its own `cookieSlot` so OAuth flows don't clobber each other.
+- **Maximum accounts:** 50 on HTTP/2 or HTTP/3, 5 on HTTP/1.1.
+- **Push connections:** at most two live push streams per tab; further accounts check for changes by polling until a stream frees up.
+- **Session cookie size:** per-account encrypted state fits within the browser's cookie size limit. An access token too large for a cookie isn't cached; Bulwark gets a new one when the page reloads. Each account gets its own `cookieSlot` so OAuth flows don't clobber each other.
 
 ## Troubleshooting
 
@@ -126,3 +125,7 @@ Bulwark detects accounts whose JMAP session is no longer valid (password changed
 ### Mailbox tree appears empty
 
 On first login Bulwark retries mailbox fetch to handle Stalwart's lazy provisioning of new accounts. If you still see an empty tree, check the JMAP server logs for permission errors.
+
+## Next step
+
+Go on to [Account security](/docs/guides/account-security), for the password, two-factor and app passwords of each account.

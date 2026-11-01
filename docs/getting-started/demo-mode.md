@@ -1,7 +1,7 @@
 ---
 title: Demo mode
 description: Run Bulwark against fixture data instead of a mail server.
-order: 5
+order: 7
 edition: both
 ---
 
@@ -11,18 +11,14 @@ Demo mode swaps the JMAP client for a fixture backend. Every screen has plausibl
 
 ## Turning it on
 
-For development, the shipped dev environment file already enables it:
-
-```bash
-cp .env.dev.example .env.local
-npm run dev
-```
-
-For a container or a deployed instance, set one variable:
+Set `DEMO_MODE=true`. On a fresh install with no `JMAP_SERVER_URL`, the setup wizard comes first, so also set `JMAP_SERVER_URL` to any address (demo mode doesn't use it) or finish the wizard:
 
 ```env
 DEMO_MODE=true
+JMAP_SERVER_URL=https://mail.example.com
 ```
+
+For development, put these two lines in `.env.local` and run `npm run dev`. The shipped `.env.dev.example` starts a different helper: a mock JMAP server that also accepts any password, with its own test data instead of the set described below.
 
 Then log in with anything at all. The credentials are not checked because there is nothing to check them against.
 
@@ -40,13 +36,16 @@ Demo mode is not a sandbox around a real account, and it is not a read-only mode
 
 - Changes are lost on reload. There is no persistence layer behind the fixtures.
 - Sending mail does nothing. No SMTP transaction happens.
-- Stalwart-specific panels (account security, API keys, Sieve on the server) have no server to talk to and behave accordingly.
+- Settings > Security (password, two-factor, app passwords, API keys) says account security management isn't available, because no Stalwart is behind the demo. Filters, Sieve scripts included, work on sample data and are reset on reload like everything else.
 
 Never point a public demo at real data by leaving `DEMO_MODE` off and hoping. The two states are unrelated: `DEMO_MODE=true` means fixtures, and anything else means a live mail server.
 
 ## The hosted demo
 
 There is a public instance at [demo.bulwarkmail.org](https://demo.bulwarkmail.org). It runs in demo mode as described above: everyone sees the same sample mailbox, nothing is saved or sent, and a reload starts over. Treat it as a screenshot you can click rather than an account.
+
+<img class="theme-light-only" src="/screenshots/light-demo-login.webp" alt="The demo's sign-in page with a Launch Demo button and no account fields" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-demo-login.webp" alt="The demo's sign-in page with a Launch Demo button and no account fields" width="5120" height="2880" />
 
 ## Related pages
 

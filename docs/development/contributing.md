@@ -25,19 +25,19 @@ Core is for what most people expect from a mail, calendar, contacts and files cl
 
 These don't go in core:
 
-- **Other protocols.** IMAP, POP3 and other non-JMAP backends. Bridges such as the [legacy proxy](https://github.com/bulwarkmail/legacy-proxy) are separate projects.
-- **Integrations with other services.** CRMs, chat, cloud storage, AI assistants and the like. Write them as plugins.
-- **Stalwart server administration.** Domains, queues, DNS and server settings stay in Stalwart's own admin interface. Bulwark covers what users manage for their own account and what the webmail's admin dashboard needs.
-- **Personalising the app's look beyond themes.** Per-user fonts, colour pickers and alternative layouts. Changes to the look go through themes.
+- **Other protocols:** IMAP, POP3 and other non-JMAP backends. Bridges such as the [legacy proxy](https://github.com/bulwarkmail/legacy-proxy) are separate projects.
+- **Integrations with other services:** CRMs, chat, cloud storage, AI assistants and the like. Write them as plugins.
+- **Stalwart server administration:** domains, queues, DNS and server settings stay in Stalwart's own admin interface. Bulwark covers what users manage for their own account and what the webmail's admin console needs.
+- **Personalising the app's look beyond themes:** per-user fonts, colour pickers and alternative layouts. Changes to the look go through themes.
 
 ### Settings
 
-A new behaviour should have one good default. When deployments really do need different behaviour, make it an admin setting in the [admin dashboard](/docs/guides/admin) or the admin policy, not a per-user toggle. A pull request that adds a user setting so that its behaviour can be switched off will usually be asked to choose a default instead.
+A new behaviour should have one good default. When deployments really do need different behaviour, make it an admin setting in the [admin console](/docs/guides/admin) or the admin policy, not a per-user toggle. A pull request that adds a user setting so that its behaviour can be switched off will usually be asked to choose a default instead.
 
 ### Both editions, every screen size
 
-- **[Lite](/docs/getting-started/lite).** Features that run in the browser have to work in Lite. A feature that needs the Node server has to be hidden in Lite, not left broken.
-- **Mobile.** UI changes have to work at phone width and with touch, as well as in the light and dark theme.
+- **[Lite](/docs/getting-started/lite):** features that run in the browser have to work in Lite. A feature that needs the Node server has to be hidden in Lite, not left broken.
+- **Mobile:** UI changes have to work at phone width and with touch, as well as in the light and dark theme.
 
 ### The mobile app
 
@@ -75,7 +75,7 @@ npm run lint        # ESLint
 npm run lint:fix    # ESLint, fixing what it can
 ```
 
-Husky runs these on every commit, and CI runs the unit tests on every push and pull request.
+On every commit, Husky typechecks the project and lints the files you staged. CI runs the unit tests, `npm run typecheck` and `npm run lint` on every push and pull request.
 
 | Suite | Command | What it covers |
 | --- | --- | --- |
@@ -97,7 +97,7 @@ webmail/
 │   ├── (main)/admin/        # Admin dashboard
 │   ├── (main)/setup/        # First-launch setup wizard
 │   ├── (sandbox)/           # Isolated plugin sandbox routes
-│   └── api/                 # Route handlers (auth, admin, jmap, caldav, …)
+│   └── api/                 # Route handlers (auth, admin, setup, push, plugin proxy, wopi, …)
 ├── components/              # React components, by feature
 │   ├── email/               # Email list, viewer, composer
 │   ├── calendar/ contacts/ files/ filters/ templates/
@@ -129,7 +129,7 @@ webmail/
 
 ## Translations
 
-Translation runs through **next-intl**, currently across 27 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Mongolian, Norwegian Bokmål, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Traditional Chinese, Turkish and Ukrainian. English (`locales/en/common.json`) is the source of truth.
+Translation runs through next-intl, currently across 29 languages: Arabic, Catalan, Czech, Danish, Dutch, English, Estonian, Farsi, French, German, Hebrew, Hungarian, Italian, Japanese, Korean, Latvian, Mongolian, Norwegian Bokmål, Polish, Portuguese, Romanian, Russian, Simplified Chinese, Slovak, Spanish, Thai, Traditional Chinese, Turkish and Ukrainian. English (`locales/en/common.json`) is the source of truth.
 
 1. **Never hardcode user-facing text.** Always go through a translation:
 
@@ -152,12 +152,13 @@ Arabic, Farsi and Hebrew render right to left (see `i18n/direction.ts`). Use Tai
 
 ### Adding a locale
 
-A new locale takes edits in four places:
+A new locale takes edits in five places:
 
 1. `locales/<code>/common.json`: copy `locales/en/common.json` and translate it.
 2. `i18n/routing.ts`: add the code to `SUPPORTED_LOCALES`.
 3. `i18n/request.ts`: add a `case` to the static-import switch.
 4. `components/ui/language-switcher.tsx`: add `{ value, label }` with the language's **native** name, plus a flag in `components/ui/flag-icons.tsx`.
+5. `components/providers/intl-provider.tsx`: add the code to `LOCALE_LOADERS`.
 
 For a right-to-left language, also add the code to `rtlLocales` in `i18n/direction.ts`. Run `npm run test:translations` afterwards.
 
@@ -249,3 +250,7 @@ Open an [issue on GitHub](https://github.com/bulwarkmail/webmail/issues) and inc
 ## License
 
 By contributing, you agree that your contributions are licensed under the [GNU Affero General Public License v3 (AGPL-3.0-only)](https://www.gnu.org/licenses/agpl-3.0.html), together with the additional permission for app store distribution in the [webmail](https://github.com/bulwarkmail/webmail/blob/main/LICENSE) and [mobile app](https://github.com/bulwarkmail/native/blob/main/LICENSE) LICENSE files.
+
+## Next step
+
+Read [Architecture](/docs/development/architecture) to see how the parts fit together before you change them. To add a feature as a plugin instead of a core change, start at [Extensions](/docs/extensions/introduction).
