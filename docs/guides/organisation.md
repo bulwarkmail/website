@@ -19,7 +19,7 @@ The admin console's **Organisation** section holds the settings a company or a h
 | Sharing | [Tags in shared mailboxes](/docs/guides/organisation/shared-tags), [delegates](/docs/guides/organisation/delegates), [recovering deleted items](/docs/guides/organisation/recover-deleted-items) |
 | Calendars | [Company calendars](/docs/guides/organisation/company-calendars), [free/busy sharing for Suggest times](/docs/guides/organisation/find-a-time), [out-of-office blocks the calendar](/docs/guides/organisation/out-of-office) |
 | [Notices](/docs/guides/organisation/announcements) | An announcement across the top of every app, and how long Trash and Junk keep mail |
-| [Devices](/docs/guides/organisation/device-policies) | No downloads, no export, no printing, no install prompt, push without sender and subject, a watermark |
+| Devices | [No downloads, no export, no printing, no install prompt, push without sender and subject, a watermark](/docs/guides/organisation/device-policies), [offline mode](/docs/guides/organisation/offline-mode) |
 | [Mail import and export](/docs/guides/organisation/mail-import-export) | Stalwart's upload limit for migrations from mbox, PST and EML files, and turning export off |
 
 Assigning messages in a shared mailbox and marking them done comes from the [Team inbox plugin](/docs/guides/organisation/team-inbox), not from these pages. It isn't in the extension directory yet; you upload its ZIP under Extensions > Plugins.
