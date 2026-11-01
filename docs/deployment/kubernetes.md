@@ -82,7 +82,26 @@ See the [HelmForge Bulwark chart documentation](https://helmforge.dev/docs/chart
 
 ## Several replicas
 
-The chart's single-replica setup keeps state on a PersistentVolume. To run more replicas, add a Redis-protocol store and set `REDIS_URL` (from a Secret) and `SESSION_SECRET` on every pod; the replicas then need no volume. Point the readiness probe at `/api/ready` and keep the liveness probe on `/api/health`. [Running several instances](/docs/deployment/multi-instance) has the details, including how to move an existing install over and how to keep config in a ConfigMap.
+The chart's single-replica setup keeps state on a PersistentVolume. To run more replicas, add a Redis-protocol store and set `REDIS_URL` (from a Secret) and `SESSION_SECRET` on every pod; the replicas then need no volume. Point the readiness probe at `/api/ready` and keep the liveness probe on `/api/health` (from the next release, `/api/health/ready` and `/api/health/live`, see below). [Running several instances](/docs/deployment/multi-instance) has the details, including how to move an existing install over and how to keep config in a ConfigMap.
+
+## Probes and monitoring
+
+From the release after {{BULWARK_VERSION}}, Bulwark has a liveness and a readiness endpoint of its own. `/api/health/live` answers while the process runs; `/api/health/ready` also checks the configuration, the shared store, writable data directories and that Stalwart answers. Set the probes in the chart's values (see its `values.yaml` for the probe keys) or in your own manifests:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /api/health/live      # prefix your base path, e.g. /webmail/api/health/live
+    port: 3000
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /api/health/ready
+    port: 3000
+  periodSeconds: 10
+```
+
+A Stalwart outage then takes the pods out of the Service without restarting them. For Prometheus metrics, set `METRICS_TOKEN` from a Secret and scrape every pod (`kubernetes_sd_configs` with `role: pod`); for traces, set `OTEL_EXPORTER_OTLP_ENDPOINT`. See [Monitoring](/docs/deployment/monitoring).
 
 ## Updates
 
