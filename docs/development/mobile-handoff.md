@@ -97,7 +97,7 @@ All responses carry `Cache-Control: no-store`.
 
 ### Deployment note
 
-Parked sign-ins are kept in the webmail process's memory, like QR pairing codes. Run a single instance, or use sticky sessions when you run several.
+Parked sign-ins are kept in the webmail process's memory, like QR pairing codes. With several replicas and a shared store (`REDIS_URL`) they are kept in the store, sealed with the session secret, so any replica can confirm and redeem them; see [Running several instances](/docs/deployment/multi-instance).
 
 ## Organisation policy for the app
 

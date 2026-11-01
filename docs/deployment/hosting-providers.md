@@ -76,12 +76,9 @@ Bulwark can run in an iframe inside your customer portal and sign in silently th
 
 ## Several replicas
 
-The project hasn't tested Bulwark with more than one replica; the code is written for one instance. If you run several behind a load balancer, this is what the code needs:
+Run as many replicas as you like behind any load balancer, round robin included, by giving every replica the same `REDIS_URL`: a Redis-protocol store (Valkey, Redis, KeyDB, Dragonfly) they share. Admin changes reach every replica within seconds, and sign-in limits, QR pairing and hand-off codes, used impersonation tokens, plugins, branding and synced settings are the same everywhere. No sticky sessions and no shared volume are needed. Set the same `SESSION_SECRET` on every replica as well.
 
-- **The same `SESSION_SECRET` on every replica**, at least 32 characters, or `SESSION_SECRET_FILE`. Sessions are encrypted cookies, so any replica with the same secret can read them. Set it yourself instead of letting each replica generate one.
-- **Shared config and state volumes:** `ADMIN_CONFIG_DIR` (`/app/data/admin`) and `ADMIN_STATE_DIR` (`/app/data/admin-state`) need one volume that every replica mounts read-write, such as a `ReadWriteMany` claim in Kubernetes. The state folder holds the used impersonation tokens, so a token used on one replica is refused on the others. Share the settings folder and the plugin credentials folder (`/app/data/settings`, `/app/data/plugin-secrets`) too if you use settings sync or plugins.
-- **Admin changes reach the other replicas only after a restart.** Each replica reads the config once when it starts. A change saved in the admin console on one replica is in the shared file, but the others keep the old values until they restart. To avoid the split, configure from environment variables and mount the config read-only with `ADMIN_CONFIG_READONLY=true`.
-- **Linking the phone app by QR code needs sticky sessions.** The pairing codes live in the memory of the replica that made them, so the phone's request has to reach the same replica.
+[Running several instances](/docs/deployment/multi-instance) has the setup for Docker Compose and Kubernetes, how to move an existing install over, and what stays per replica.
 
 ## Stalwart's side
 

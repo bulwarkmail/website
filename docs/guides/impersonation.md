@@ -128,7 +128,7 @@ The banner takes its colours from the theme, and its return button signs out. Si
 
 - **The signing secret and master password live only in the Bulwark process environment or in the secret files it reads.** Neither is exposed in admin config, the database, or any JWT.
 - **HS256 only:** tokens signed with any other algorithm, `none` included, are rejected before signature verification.
-- **Replay protection:** each `jti` works once. Bulwark records it in memory and as a file in the admin state directory (`ADMIN_STATE_DIR`), so a used link stays refused after a restart and on every replica that shares that directory. If the state directory isn't writable, Bulwark falls back to the in-memory record alone (up to 4096 recent tokens).
+- **Replay protection:** each `jti` works once. Bulwark records it in memory and as a file in the admin state directory (`ADMIN_STATE_DIR`), so a used link stays refused after a restart. With several replicas and a shared store (`REDIS_URL`) the record lives in the store and holds on every replica. If the record can't be written, Bulwark refuses the link with a 503 instead of accepting it unrecorded.
 - **Lifetime ceiling:** `exp - iat` may not exceed 300 seconds regardless of what the signer asks for.
 - **Injection-safe mailbox parsing:** any `%` or `:` in the mailbox claim causes the token to be rejected, since either character would otherwise corrupt the master-user auth string.
 - **Session-only cookies:** the impersonated session does not survive a browser quit, and it ends after 8 hours at the latest.
@@ -159,7 +159,7 @@ Errors other than the 404 come as JSON, `{"error": "..."}`; the 404 is plain tex
 
 ## Limitations
 
-- **Replay records live in the state directory:** replicas that don't share `ADMIN_STATE_DIR` keep separate records, so a used token could be redeemed again on another replica. Share the state volume, or route the impersonate endpoint to one replica.
+- **Several replicas need the shared store:** without `REDIS_URL`, replicas that don't share `ADMIN_STATE_DIR` keep separate records, so a used token could be redeemed again on another replica. Set up [the shared store](/docs/deployment/multi-instance) for more than one replica.
 - **Single master account:** all impersonations go through one master user. Per-tenant master accounts and JWKS-based rotation are not yet supported; open an issue if you need them.
 - **HS256 only:** nobody has asked for RS256 or EdDSA yet. Open an issue if you would use it.
 

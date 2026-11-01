@@ -106,7 +106,7 @@ You're also asked once during setup: the setup wizard's Security step has a **Se
 
 Clearing the Collector URL is not a way to turn it off: an empty field saves the default endpoint again.
 
-The change takes effect as soon as you save it. To also reset your `instance_id`, so future heartbeats from this install look like a brand-new one, delete the `.telemetry-id` file in your telemetry data directory.
+The change takes effect as soon as you save it. With [several instances](/docs/deployment/multi-instance) on a shared store, the consent, the `instance_id` and the account counts are shared, and one instance sends the heartbeat for the whole deployment; another takes over within about 40 seconds if it stops. To also reset your `instance_id`, so future heartbeats from this install look like a brand-new one, delete the `.telemetry-id` file in your telemetry data directory.
 
 ## Run your own collector
 
