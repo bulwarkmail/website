@@ -148,7 +148,7 @@ In the admin console under **System → Usage stats** you can:
 - From the next release, turn **Send error counts right away** on to also send the current day's counts within about a minute. The preview then also shows the batch that would go out now.
 - See the **Payload preview**: the exact JSON the next heartbeat would send, filled in with your install's current values.
 - **Send now** fires a heartbeat immediately, for testing or just to see it happen (only while heartbeats are on).
-- Change the **Collector URL** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector. Clearing the field restores the default; it does not turn heartbeats off. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
+- Change the **Collector URL** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector. Clearing the field stops sending until you enter a URL again. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
 - See when the last one went out.
 
 ## How to turn it on
@@ -164,7 +164,7 @@ You're also asked once during setup: the setup wizard's Security step has a **Se
 - Turn off third-party traffic (`NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic in the admin console). This stops telemetry along with Bulwark's other connections to outside services, and it wins over `BULWARK_TELEMETRY`.
 - Block `telemetry.bulwarkmail.org` at your firewall. Each failed heartbeat logs one warning; nothing else in Bulwark notices.
 
-Clearing the Collector URL is not a way to turn it off: an empty field saves the default endpoint again.
+Clearing the Collector URL also stops sending: with an empty field no heartbeat and no error counts go out until you enter a URL again.
 
 To stop only the error counts, turn off **Also send anonymous error counts** or set `BULWARK_TELEMETRY_ERRORS=off`; the heartbeat goes on as schema 1. To go back from instant to daily, turn off **Send error counts right away** or set `BULWARK_TELEMETRY_ERRORS=on`.
 

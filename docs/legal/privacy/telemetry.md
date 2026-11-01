@@ -40,7 +40,7 @@ Error counts (schema v2) have their own consent, off by default: Usage stats →
 
 Sending error counts right away is a further choice on top, off by default: Usage stats → Send error counts right away, or `BULWARK_TELEMETRY_ERRORS=instant`. See [Instant error counts](#instant-error-counts).
 
-Clearing the endpoint field does not turn telemetry off: Bulwark saves an empty field as the default collector, `https://telemetry.bulwarkmail.org/v1/heartbeat`.
+Clearing the endpoint field stops sending: with no collector URL, no heartbeat and no error counts go out until one is set again.
 
 ## What is sent
 
