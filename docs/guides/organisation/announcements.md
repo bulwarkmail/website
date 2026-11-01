@@ -30,13 +30,13 @@ The text is per language. **Add a language** adds a text for another language, a
 
 ### Closing it
 
-With **Users can close it** on (the default), the strip has a close button. Closed stays closed for that account in that browser until you change the announcement: a new text, severity, start or end shows it again. Turn the switch off for something everyone must see.
+With **Users can close it** on (the default), the strip has a close button. Closed stays closed for that account in that browser until you change its text or severity, which shows it again. Moving the start or end doesn't. Turn the switch off for something everyone must see.
 
 ### When users see a change
 
 Open tabs fetch the policy again every 15 minutes and when the user comes back to the tab, so a new or changed announcement shows up without a reload. An announcement with an end time disappears at that time in open tabs, and one with a start time appears then.
 
-Critical announcements interrupt screen readers once per page load. Information and warnings are read as a status message. Links open through the same link check as links in mail, if your organisation set one up.
+Screen readers read the announcement out once per page load: critical ones interrupt, information and warnings wait for a pause. The Pro interface shows it once above all its tabs. Links open through the same link check as links in mail, if your organisation set one up.
 
 ### Per domain or group
 
@@ -90,7 +90,7 @@ The announcement is `organisation.announcement`, the days are `organisation.rete
 }
 ```
 
-- `id` names the announcement. Bulwark remembers a closed announcement by its id and a hash of its content, so a new id or any edit shows it again. The admin page makes a new id for each new announcement.
+- `id` names the announcement. Bulwark remembers a closed announcement by its id and a hash of its text and severity, so a new id or an edit of either shows it again. The admin page makes a new id for each new announcement.
 - `text` maps a language (`en`, `de`, `pt`, `zh-TW`) to plain text. `{}` shows nothing.
 - `startsAt` and `endsAt` are ISO times, or `""` for no limit.
 - `trashDays` and `junkDays` of 0 show no line.

@@ -85,7 +85,7 @@ When the user grants notification permission, Bulwark subscribes the browser to 
 
 On start, the app re-syncs any push registrations it already holds, so a registration created before the spam filter existed, or one whose Junk mailbox id went stale, is repaired without the user re-enabling notifications. Each device's subscription can be revoked individually from settings.
 
-Your organisation can keep sender and subject out of notifications ([device policies](/docs/guides/organisation/device-policies)): they then say only "New mail" or how many messages are unread, and Bulwark's server doesn't read the sender, subject or text for them at all. It can also hold back the install prompt; the browser's menu can still install Bulwark.
+Your organisation can keep sender and subject out of notifications ([device policies](/docs/guides/organisation/device-policies)): they then say only "New mail" or how many messages are unread, and Bulwark's server doesn't read the sender, subject or text for them at all. This covers the web app, not the Bulwark mobile app yet. It can also hold back the install prompt; the browser's menu can still install Bulwark.
 
 Push needs two things: Stalwart must be able to reach the push relay over HTTPS, and the browser must reach the relay and Bulwark's `/api/push/preview` (the service worker calls it to fill in sender and subject). Keep `/sw.js` reachable and uncached.
 
