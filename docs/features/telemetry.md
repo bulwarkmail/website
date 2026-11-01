@@ -65,6 +65,63 @@ Once enabled: one ping per day, jittered ±2 hours so the timing can't reveal us
 
 Account counts are reported as **buckets** (`0`, `1`, `2-5`, `6-10`, `11-50`, `51-200`, `201+`) so a small instance can't be re-identified by exact size.
 
+## Error counts
+
+From the next release, after 1.19.1, you can also send anonymous error counts with the heartbeat. They tell us which errors a release causes across installs, so we can fix the ones that hit many people first. This is a **second, separate switch**, off by default:
+
+- It only works while the heartbeat is on. Turning the heartbeat off turns error counts off as well, and turning the heartbeat on again doesn't bring them back by itself.
+- No third-party traffic turns it off, whatever else is set.
+- `BULWARK_TELEMETRY_ERRORS=on` or `off` sets it from the environment and greys out the admin switch.
+
+With it on, the heartbeat becomes schema `"2"`: the same fields as above plus `errors`, the errors your install counted on the previous UTC day, at most 50, the most frequent first:
+
+```json
+"errors": [
+  {
+    "name": "TypeError",
+    "fingerprint": "3f9a0c71d2e84b65",
+    "frames": [
+      { "path": "/_next/static/chunks/4821-ab12cd34ef56.js", "line": 1, "col": 20817, "debug_id": "c40c4654-00a8-5efe-b3a3-42818d0ccc15" }
+    ],
+    "version": "1.20.0",
+    "count": "6-10",
+    "days": 3
+  },
+  {
+    "name": "JmapMethodError",
+    "fingerprint": "a07b55e19c3d2f80",
+    "frames": [],
+    "version": "1.20.0",
+    "count": "1",
+    "days": 1,
+    "message": "Email/set: overQuota"
+  }
+]
+```
+
+Each entry has the error's class name, a fingerprint that groups the same error, up to five places in Bulwark's own code where it happened (the bundle file without your host, line, column, and the file's debug ID), the Bulwark version, how often it happened as a bucket, and on how many of the last 7 days it happened. `message` appears only when it is one of Bulwark's fixed error codes, such as `serverFail`, `Email/set: overQuota` or `http:503`; no error message text is sent. Your install counts errors only while error reporting, metrics or this switch is on; see [Monitoring](/docs/deployment/monitoring#errors-today).
+
+We forward each error, combined across installs, to an error tracker (Bugsink) that the project runs on the same server as the collector. What goes there has no `instance_id`: per error, version and day only the number of installs that reported it and their count buckets. Without this switch the heartbeat stays exactly schema `"1"`.
+
+### Sending error counts right away
+
+From the next release, after 1.19.1, a third switch, **Send error counts right away**, sends error counts within about a minute instead of only with the next day's heartbeat. It is off by default and needs error counts on; `BULWARK_TELEMETRY_ERRORS=instant` sets it from the environment.
+
+With it on, your install checks its counts once a minute and posts the errors of the current UTC day to the collector's `/v1/errors` (the collector URL with `heartbeat` replaced by `errors`), but only the ones that are new or have reached a higher count bucket since the last post. A known error happening again sends nothing until it moves from `1` to `2-5`, `2-5` to `6-10` and so on. The entries are the same as above:
+
+```json
+{
+  "schema": "1",
+  "instance_id": "8b3c6c4e-2a8f-4e1f-9a91-3d7e9f2c5b10",
+  "day": "2026-11-12",
+  "errors": [
+    { "name": "TypeError", "fingerprint": "3f9a0c71d2e84b65", "frames": [], "version": "1.20.0", "count": "2-5", "days": 1 }
+  ]
+}
+```
+
+The first report of an error on a given day, from any install, goes to the error tracker at once, again without an `instance_id`. The daily heartbeat still carries the complete previous day, and its summary lands in the same error-tracker issue two days later. What this adds over the daily mode: the collector learns roughly when during the day an error happens on your install (to the minute, from when the post arrives), where the daily mode only tells it the day.
+
 ## What we never collect
 
 - Email addresses, even hashed
@@ -73,6 +130,7 @@ Account counts are reported as **buckets** (`0`, `1`, `2-5`, `6-10`, `11-50`, `5
 - Mail counts, folder counts, message sizes, attachment sizes
 - Timestamps of any user action
 - Anything you typed in the UI
+- Error messages (only Bulwark's fixed error codes), URLs and page addresses
 
 The full list of what is never sent, and what nginx and the collector don't log, is on the [privacy sub-page](/docs/legal/privacy/telemetry).
 
@@ -86,9 +144,11 @@ Telemetry is **off on a fresh install**. Consent starts at `off` and is written 
 In the admin console under **System → Usage stats** you can:
 
 - Turn the heartbeat on or off at any time with **Send anonymous heartbeats**, then press **Save**.
+- From the next release, turn **Also send anonymous error counts** on or off (it needs the heartbeat on). The payload preview switches to schema 2 as soon as you flip it, before you save.
+- From the next release, turn **Send error counts right away** on to also send the current day's counts within about a minute. The preview then also shows the batch that would go out now.
 - See the **Payload preview**: the exact JSON the next heartbeat would send, filled in with your install's current values.
 - **Send now** fires a heartbeat immediately, for testing or just to see it happen (only while heartbeats are on).
-- Change the **Collector URL** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector. Clearing the field restores the default; it does not turn heartbeats off. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
+- Change the **Collector URL** (default `https://telemetry.bulwarkmail.org/v1/heartbeat`) to point at your own collector. Clearing the field stops sending until you enter a URL again. Private and loopback addresses are refused unless `BULWARK_TELEMETRY_ALLOW_PRIVATE=1` is set, which is only useful while developing a collector.
 - See when the last one went out.
 
 ## How to turn it on
@@ -104,7 +164,9 @@ You're also asked once during setup: the setup wizard's Security step has a **Se
 - Turn off third-party traffic (`NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic in the admin console). This stops telemetry along with Bulwark's other connections to outside services, and it wins over `BULWARK_TELEMETRY`.
 - Block `telemetry.bulwarkmail.org` at your firewall. Each failed heartbeat logs one warning; nothing else in Bulwark notices.
 
-Clearing the Collector URL is not a way to turn it off: an empty field saves the default endpoint again.
+Clearing the Collector URL also stops sending: with an empty field no heartbeat and no error counts go out until you enter a URL again.
+
+To stop only the error counts, turn off **Also send anonymous error counts** or set `BULWARK_TELEMETRY_ERRORS=off`; the heartbeat goes on as schema 1. To go back from instant to daily, turn off **Send error counts right away** or set `BULWARK_TELEMETRY_ERRORS=on`.
 
 The change takes effect as soon as you save it. With [several instances](/docs/deployment/multi-instance) on a shared store, the consent, the `instance_id` and the account counts are shared, and one instance sends the heartbeat for the whole deployment; another takes over within about 40 seconds if it stops. To also reset your `instance_id`, so future heartbeats from this install look like a brand-new one, delete the `.telemetry-id` file in your telemetry data directory.
 

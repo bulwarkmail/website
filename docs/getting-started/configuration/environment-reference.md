@@ -349,6 +349,14 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **When to set it:** set to `on` to opt in from the environment, or `off` to lock it off. Setting it to either value greys out the admin toggle.
 - **See also:** [Anonymous Usage Stats](/docs/features/telemetry) and [Telemetry privacy](/docs/legal/privacy/telemetry).
 
+### `BULWARK_TELEMETRY_ERRORS` _(next release)_
+
+- **Purpose:** the separate consent to add anonymous error counts to the heartbeat (schema 2).
+- **Required:** no.
+- **Default:** off. It is also off whenever the heartbeat is off or no third-party traffic is on, whatever this variable says.
+- **When to set it:** `on` to send error counts with the daily heartbeat, `instant` to also send the current day's counts within about a minute, `off` to lock them off. Any value greys out the error-count switches in the admin console.
+- **See also:** [Anonymous usage stats](/docs/features/telemetry#error-counts) and [Sending error counts right away](/docs/features/telemetry#sending-error-counts-right-away).
+
 ### `BULWARK_TELEMETRY_DISABLED` _(legacy)_
 
 - **Purpose:** older kill switch, honoured only when `BULWARK_TELEMETRY` is unset.
@@ -539,6 +547,49 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Allowed values:** `error`, `warn`, `info`, `debug`
 - **Default:** `info`
 - **When to set it:** increase to `debug` during troubleshooting; lower to `warn` or `error` in quieter production environments.
+
+## Monitoring
+
+These ship with the next release, after 1.19.1. All of them are off until set; the [monitoring guide](/docs/deployment/monitoring) explains what each one sends.
+
+### `ERROR_REPORTING_DSN` _(next release)_
+
+- **Purpose:** the address (DSN) of a Sentry-protocol error tracker (Bugsink, GlitchTip, Sentry) for errors from browsers and from this server. Mail content is removed first.
+- **Required:** no.
+- **Default:** empty, which turns error reporting off. A value saved under **System > Monitoring** wins.
+- **See also:** [Error reporting](/docs/deployment/monitoring#error-reporting).
+
+### `ERROR_REPORTING_DSN_FILE` _(next release)_
+
+- **Purpose:** path to a file holding the DSN, for Docker or Kubernetes secrets. `ERROR_REPORTING_DSN` wins when both are set.
+
+### `ERROR_REPORTING_SAMPLE_RATE` _(next release)_
+
+- **Purpose:** share of errors sent to the tracker, from `0` to `1`.
+- **Default:** `1` (every error, within the rate limits).
+
+### `ERROR_REPORTING_ENVIRONMENT` _(next release)_
+
+- **Purpose:** the environment name the tracker shows, such as `staging`.
+- **Default:** `production`.
+
+### `METRICS_TOKEN` _(next release)_
+
+- **Purpose:** turns on Prometheus metrics at `/api/metrics`; the scraper sends it as a bearer token.
+- **Required:** no.
+- **Default:** unset, and `/api/metrics` answers 404.
+- **When to set it:** when Prometheus should scrape Bulwark. Scrape every replica. Read at startup.
+- **See also:** [Metrics](/docs/deployment/monitoring#metrics).
+
+### `METRICS_TOKEN_FILE` _(next release)_
+
+- **Purpose:** path to a file holding the metrics token. `METRICS_TOKEN` wins when both are set.
+
+### `OTEL_EXPORTER_OTLP_ENDPOINT` and the other `OTEL_*` variables _(next release)_
+
+- **Purpose:** OpenTelemetry tracing over OTLP/HTTP. Tracing starts when `OTEL_EXPORTER_OTLP_ENDPOINT` or `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` is set, unless `OTEL_SDK_DISABLED=true` or `OTEL_TRACES_EXPORTER` leaves out `otlp`. `OTEL_SERVICE_NAME` defaults to `bulwark-webmail`; the exporter and the SDK read the other standard variables (`OTEL_EXPORTER_OTLP_HEADERS`, `OTEL_RESOURCE_ATTRIBUTES`, `OTEL_TRACES_SAMPLER`, ...).
+- **Default:** unset; the OpenTelemetry SDK isn't loaded.
+- **See also:** [Tracing](/docs/deployment/monitoring#tracing).
 
 ## Branding: icons and favicon
 
@@ -915,7 +966,7 @@ TRUSTED_PROXY_DEPTH=2
 
 ## Using `*_FILE` variables with Docker secrets
 
-Several variables that hold secrets accept a corresponding `*_FILE` variant pointing at a file containing the value: `SESSION_SECRET_FILE`, `OAUTH_CLIENT_SECRET_FILE`, `LIBRETRANSLATE_API_KEY_FILE`, `BULWARK_JWT_AUTH_SECRET_FILE`, `BULWARK_STALWART_MASTER_USER_FILE` and `BULWARK_STALWART_MASTER_PASSWORD_FILE`. `PLUGIN_SIGNING_KEY_FILE` works the same way for the plugin signing key, which has no plain variant. This is the recommended pattern when running under Docker Swarm, Kubernetes, or any orchestration platform that mounts secrets as files:
+Several variables that hold secrets accept a corresponding `*_FILE` variant pointing at a file containing the value: `SESSION_SECRET_FILE`, `OAUTH_CLIENT_SECRET_FILE`, `LIBRETRANSLATE_API_KEY_FILE`, `BULWARK_JWT_AUTH_SECRET_FILE`, `BULWARK_STALWART_MASTER_USER_FILE` and `BULWARK_STALWART_MASTER_PASSWORD_FILE`, and from the next release `ERROR_REPORTING_DSN_FILE` and `METRICS_TOKEN_FILE`. `PLUGIN_SIGNING_KEY_FILE` works the same way for the plugin signing key, which has no plain variant. This is the recommended pattern when running under Docker Swarm, Kubernetes, or any orchestration platform that mounts secrets as files:
 
 ```yaml
 services:
@@ -944,6 +995,8 @@ These aren't configuration, but the code reads them:
 
 - `GIT_COMMIT` - Read at build time (a Docker build argument). The commit shown in the login footer and Settings > About; without it, the build asks `git`.
 - `BULWARK_BUILD` - Build label in the telemetry heartbeat. Default `release`.
+- `BULWARK_SOURCE_MAPS` _(next release)_ - Read at build time (a Docker build argument). `1` builds browser source maps with debug IDs for an error tracker; the build moves them out of what ships (the Docker `sourcemaps` stage, or `SOURCEMAPS_OUT` for the Lite build) and fails if one would ship. Default off. See [Readable stack traces](/docs/deployment/monitoring#readable-stack-traces).
+- `BULWARK_BASE_PATH` _(next release)_ - Set in the image from the `NEXT_PUBLIC_BASE_PATH` build argument, for the Docker health check. Don't set it.
 - `KUBERNETES_SERVICE_HOST` - Set by Kubernetes. The telemetry heartbeat reports the platform as `k8s` when it's present.
 - `NODE_ENV` - `production` in the image. Decides the `COOKIE_SECURE` default.
 - `NEXT_TURBOPACK_ROOT` - Overrides the Turbopack root folder for `next build` and `next dev`. Default: the project folder.

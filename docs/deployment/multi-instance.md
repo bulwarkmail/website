@@ -18,6 +18,8 @@ Every replica then sees the same admin configuration, plugins, branding, user se
 
 Without `REDIS_URL` nothing changes: the same files on disk, the same behaviour.
 
+Several instances need a Bulwark release newer than 1.19.1.
+
 <div class="lite-callout">Bulwark Lite has no server and runs any number of copies without this.</div>
 
 ## The store
@@ -91,7 +93,9 @@ Put `.env.local`'s `SESSION_SECRET`, `ADMIN_PASSWORD` and `JMAP_SERVER_URL` ther
 
 ## Kubernetes
 
-Run the Deployment with as many replicas as you like and a Redis-protocol service next to it (a Valkey StatefulSet, a Helm chart, or a managed service). Per pod:
+Bulwark's own manifests in [`deploy/kubernetes`](https://github.com/bulwarkmail/webmail/tree/main/deploy/kubernetes) set all of this up: three replicas, a Valkey StatefulSet, the probes below and an overlay for config kept in git. They are tested on a kind cluster in Bulwark's CI. [Kubernetes](/docs/deployment/kubernetes#bulwarks-manifests) walks through them.
+
+To build your own, run the Deployment with as many replicas as you like and a Redis-protocol service next to it (a Valkey StatefulSet, a Helm chart, or a managed service). Per pod:
 
 - `REDIS_URL` from a Secret (or `REDIS_URL_FILE` pointing at a mounted Secret), and `SESSION_SECRET` from a Secret.
 - `readinessProbe` on `/api/ready`, `livenessProbe` on `/api/health`. `/api/ready` answers 503 while a pod starts and while it can't reach the store, so the Service sends no traffic to it; `/api/health` keeps answering, so the pod isn't restarted for a store outage and comes back on its own.

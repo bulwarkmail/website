@@ -58,6 +58,22 @@ These are the full edition's branding variables, camel-cased. Whatever the file 
 
 An optional `policy.json` next to it carries the same settings policy the admin console would write in the full edition (default settings, restrictions, theme policy). Plugins and sidebar apps stay off regardless of what it says.
 
+### Error reporting
+
+From the next release, after 1.19.1, `policy.json` can also name an error tracker (Bugsink, GlitchTip, Sentry). Browsers then send their errors straight to it, with mail content removed first:
+
+```json
+{
+  "errorReporting": {
+    "dsn": "https://<key>@errors.example.com/1",
+    "sampleRate": 1,
+    "environment": "production"
+  }
+}
+```
+
+`sampleRate` (0 to 1, default 1) and `environment` (default `production`) are optional; without a valid `dsn` nothing is sent. Lite has no server, so there are no per-day error counts and no admin page for them. Add the tracker's origin to `connect-src` wherever your host sets the [security headers](#security-headers): the generated `_headers`, nginx and Caddy examples allow only the JMAP server when one was baked in, and in the [container image](#container-image) it goes into `LITE_CSP_CONNECT_SRC`. A build made with `LITE_NO_THIRD_PARTY_TRAFFIC=true` carries a per-page policy that allows only the JMAP server, so it can't send error reports. In the Stalwart bundle, `policy.json` is part of the read-only zip. What is removed and sent is on [Monitoring](/docs/deployment/monitoring#error-reporting-in-lite).
+
 ## Build inputs
 
 The release zip is built for the site root with no server URL. To bake in different defaults, dispatch the **Lite: Static bundle** workflow in the repository with its inputs, or build locally. Either way the knobs are environment variables read at build time:
