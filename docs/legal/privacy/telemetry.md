@@ -9,7 +9,7 @@ edition: both
 
 This sub-page covers the **anonymous usage heartbeat** sent by self-hosted Bulwark webmail instances that opt in. The general project privacy policy is at [/docs/legal/privacy](/docs/legal/privacy). The [feature page](/docs/features/telemetry) is the plain-language version; this page is the formal terms.
 
-Last updated: 31 October 2026. Schema v1; the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
+Last updated: 1 November 2026. Schema v1, and schema v2 with the separately consented error counts from the release after {{BULWARK_VERSION}} (see [Error counts](#error-counts-schema-2)). Schema v1: the `push_relay` and `webdav_enabled` feature booleans were removed in an earlier revision (`push_relay` was always reported false, `webdav_enabled` duplicated `files`). From Bulwark {{BULWARK_VERSION}} on, `stalwart_version` is only what the admin sets in the `STALWART_VERSION` environment variable. Earlier releases, when it was unset, read it from the JMAP server's `Server` response header, which Stalwart doesn't send, so they reported null or the version of a reverse proxy in front of Stalwart.
 
 ## Scope
 
@@ -35,6 +35,8 @@ Disable it in one of four ways:
 - By setting `BULWARK_TELEMETRY=off` (or the legacy `BULWARK_TELEMETRY_DISABLED=1`) in the environment. Either environment variable wins over the admin switch and greys it out.
 - With the no-third-party switch (`NO_THIRD_PARTY_TRAFFIC=true`, or Organisation → Security → Third-party traffic), which wins over every other setting, `BULWARK_TELEMETRY=on` included.
 - By blocking `telemetry.bulwarkmail.org` at the network level.
+
+Error counts (schema v2) have their own consent, off by default: Usage stats → Also send anonymous error counts, or `BULWARK_TELEMETRY_ERRORS=on`. They are off whenever the heartbeat is off or the no-third-party switch is on, and switching the heartbeat off in the admin console switches them off too. `BULWARK_TELEMETRY_ERRORS=off` locks them off.
 
 Clearing the endpoint field does not turn telemetry off: Bulwark saves an empty field as the default collector, `https://telemetry.bulwarkmail.org/v1/heartbeat`.
 
@@ -65,7 +67,27 @@ One heartbeat per 24 hours, jittered ± 2 hours, containing exactly the followin
 | `counts.themes_installed`     | small int      | `0`                                | Same.                                                                                                                                                                                                                                                       |
 | `uptime_days`                 | int            | `17`                               | Stability signal. Capped at 365.                                                                                                                                                                                                                            |
 
-Total payload size is under 1 KB.
+Total payload size is under 1 KB for schema v1.
+
+### Error counts (schema 2)
+
+Only with the separate error-count consent. The heartbeat then has `"schema": "2"`, every field above unchanged, and one more:
+
+| Field | Type | Example | Purpose |
+| --- | --- | --- | --- |
+| `errors` | list, at most 50 | | The errors the install counted on the last complete UTC day (the day before the heartbeat), the most frequent first. |
+| `errors[].name` | identifier | `"TypeError"` | The error's class name in the code. |
+| `errors[].fingerprint` | 16 hex digits | `"3f9a0c71d2e84b65"` | Groups the same error: a hash of the name, the top frames and the version. |
+| `errors[].frames` | list, at most 5 | | Where in Bulwark's code it happened. |
+| `errors[].frames[].path` | string | `"/_next/static/chunks/4821-ab12.js"` | The file inside Bulwark's bundle (`/_next/static/...` or `/.next/server/...`), without host, base path or query. Frames outside Bulwark's own files are left out. |
+| `errors[].frames[].line`, `col` | int or null | `1`, `20817` | Position in that file. |
+| `errors[].frames[].debug_id` | uuid or null | `c40c4654-...` | Identifies the file's source map, so the position can be read as source code. |
+| `errors[].version` | string | `"1.20.0"` | The Bulwark version the error happened in. |
+| `errors[].count` | bucket string | `"6-10"` | How often, in the same buckets as the account counts (`1` to `201+`). |
+| `errors[].days` | int, 1-7 | `3` | On how many of the last 7 days it happened. |
+| `errors[].message` | string, optional | `"Email/set: overQuota"` | Only one of Bulwark's fixed error codes (a JMAP error type, optionally with the method name, or `http:<status>`). Never other message text. |
+
+The collector rejects a schema 2 heartbeat with any other field, with free text where a code or identifier belongs, with a path outside Bulwark's bundles, or with more than 50 errors or 5 frames. Each error adds a few hundred bytes, and the collector refuses a heartbeat over 64 KB.
 
 ## What is never sent
 
@@ -73,10 +95,12 @@ Total payload size is under 1 KB.
 - Hostnames, FQDNs, your domain name, your server's hostname
 - IP addresses on the server side: the `telemetry.bulwarkmail.org` nginx vhost has `access_log off`, and the collector logs no IPs, headers or payload bodies
 - Mail counts, folder counts, message sizes, attachment sizes, anything about message contents
-- Timestamps of user actions (the heartbeat carries only its own send time)
+- Timestamps of user actions (the heartbeat carries only its own send time; error counts carry no time, only that they are for the previous UTC day)
 - The names or slugs of installed marketplace extensions or themes (only the count)
 - Stalwart deployment details (paths, ports, certificates, OAuth client IDs, config keys)
 - Any string typed into the Bulwark UI
+- Error message text: an error count carries a message only when it is one of Bulwark's fixed error codes
+- URLs, page addresses and query strings: frames name files inside Bulwark's bundle, without host or path prefix
 
 If a future schema version adds anything to the "what is sent" list, it will be visible in the admin console's payload preview before it's sent, and we will update this page and move the "Last updated" date forward.
 
@@ -86,7 +110,12 @@ Heartbeats are written to a Postgres database named `telemetry`, separate from t
 
 - **Raw heartbeats** are retained for **90 days**, then deleted by an automated daily job.
 - After 90 days we keep **daily aggregates** (counts grouped by version, platform, feature, and account-count bucket) without any `instance_id`, and in `instance_meta`, per `instance_id`, only the first and last day it was seen and on how many days. An `instance_meta` row is deleted once its instance hasn't been seen for 90 days; only a count of such deleted rows per day stays, with no `instance_id`.
+- **Error counts** (schema v2) are stored per `(instance_id, day, fingerprint, version)` in a table of their own and deleted after **90 days**, like the raw heartbeats.
 - Backups of the telemetry database are kept on the same server, encrypted at rest. There is no off-site replication of telemetry data.
+
+### Error counts in the error tracker
+
+Once a day's counts are complete (two days later), the collector forwards each error to an error tracker, Bugsink, that the Bulwark project runs on the same server as the collector. It sends one event per error, version and day, combined across all installs: the error's name, fixed code if any, frames, version, the day, how many installs reported it and their count buckets. **No `instance_id` and no field that could identify an install goes to Bugsink.** Bugsink keeps events for **90 days**. It has no public view; reading it needs an account on it.
 
 ## Public dashboard
 
@@ -110,7 +139,7 @@ To also make any future heartbeats from this install look like a brand-new insta
 You can request:
 
 - **What we hold tied to your `instance_id`:** open a GitHub issue or email us with the `instance_id` from your `.telemetry-id` file. We'll send back the raw rows and confirm what they are.
-- **Deletion:** same channel. We delete all rows tagged with that `instance_id` from `heartbeats` and `instance_meta`. Aggregated data in `daily_rollups` cannot be unwound, because no `instance_id` is stored there.
+- **Deletion:** same channel. We delete all rows tagged with that `instance_id` from `heartbeats`, `instance_meta` and the error counts. Aggregated data in `daily_rollups` and the events already forwarded to Bugsink cannot be unwound, because no `instance_id` is stored there.
 
 We respond within 30 days. If we hold no rows tagged with your `instance_id`, because you never opted in, we'll tell you that. After 90 days only the `instance_meta` row (first day, last day, number of days seen) is left, and it goes too once the instance hasn't reported for 90 days.
 
