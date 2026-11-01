@@ -29,7 +29,7 @@ Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and
 - Upload individual files with progress tracking
 - Folder upload via drag-and-drop or toolbar button (recursive)
 - Uploads go straight from the browser to the mail server's JMAP upload address, with progress and cancel. The file isn't loaded into memory first, so large uploads work, up to the server's upload limit.
-- Download files or entire selections
+- Download files or entire selections, unless your organisation turned downloads off ([device policies](/docs/guides/organisation/device-policies)); files then only preview
 - Upload size limits come from the server's configuration, so Bulwark knows what's allowed before you try
 - Clipboard-style cut, copy, paste, and duplicate actions
 - Drop zone fills the available viewport height for easy bulk drops
