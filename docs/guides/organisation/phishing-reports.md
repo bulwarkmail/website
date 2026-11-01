@@ -36,7 +36,7 @@ A message with `$phishing` shows a banner, "You reported this message as phishin
 
 ## The two formats
 
-**Forward as an attachment** (the default) sends a short message with the subject `Phishing: <original subject>` and the original as an `.eml` attachment (`message/rfc822`). Security mailboxes, ticket systems, KnowBe4-style report mailboxes and Microsoft Defender's user-reported mailbox read this. Bulwark attaches the message by its stored copy on the server, so nothing is uploaded and the upload quota isn't touched.
+**Forward as an attachment** (the default) sends a short message with the subject `Phishing: <original subject>` and the original as an `.eml` attachment (`message/rfc822`). Security mailboxes, ticket systems, KnowBe4-style report mailboxes and Microsoft Defender's user-reported mailbox read this. Bulwark attaches the message by its stored copy on the server, so nothing is uploaded and the upload quota isn't touched. Stalwart sends that attachment base64-encoded; mail programs and report tools decode it, and the message inside is byte for byte the one the user received.
 
 **Abuse report (ARF)** sends a feedback report as defined in RFC 5965: `multipart/report` with `report-type=feedback-report`, a short text, a `message/feedback-report` part with `Feedback-Type: fraud`, `User-Agent: Bulwark/<version>`, `Version: 1`, `Arrival-Date`, `Original-Rcpt-To` and `Reported-Domain`, and the original as `message/rfc822`. Use it for abuse desks and tools that parse feedback reports. Bulwark downloads the original and uploads the report, so it counts against the upload quota and Stalwart's maximum upload size.
 
