@@ -43,7 +43,7 @@ Related pages: [Email](/docs/features/email), [Composing](/docs/features/email/c
 - **Sender address**: override the From header; with "Reply from the address it was sent to" on, a reply to an alias on your domain uses that alias, even without an identity for it
 - **Booking cards**: bookings, parcels and orders with schema.org markup show as a card ([booking cards](/docs/features/email/booking-cards))
 - **Unsubscribe**: one click for newsletters that offer it (RFC 2369)
-- **`.eml` files**: import them from the folder right-click menu, and forward a message as an `.eml` attachment named by your filename template
+- **Import and export**: bring in `.eml`, ZIP, mbox and Outlook `.pst` files, save a folder or the whole account as mbox or ZIP ([import and export](/docs/features/email/import-export)), and forward a message as an `.eml` attachment named by your filename template
 - **Awkward attachments**: `winmail.dat` (TNEF) is unpacked, and attached messages (`message/rfc822`) open as nested mail
 - **Folders**: icons, nesting and counts in the sidebar
 - **Print** from the viewer, and browser back and forward through mail history

@@ -31,7 +31,7 @@ The rest is the ordinary furniture:
 - Empty Junk and Trash, with a confirmation first
 - Configurable hover quick-actions, and attachments shown next to the sender or below the message header
 - Answered and forwarded status icons in the list
-- Right-click a folder to manage it or to import an `.eml` file into it; the context menu header elides a long path in the middle rather than truncating it
+- Right-click a folder to manage it, to import mail into it or to export it; the context menu header elides a long path in the middle rather than truncating it
 
 ## Shared mailboxes
 
@@ -116,7 +116,7 @@ Dates and times follow the browser's zone unless you pick one in settings, which
 
 ## Export and import
 
-Export mail to disk and import it back. Both flows are translated into every language Bulwark ships.
+Import mail from `.eml`, ZIP, mbox and Outlook `.pst` files, and save a folder or your whole account as mbox or a ZIP of `.eml` files. Large imports pause at the server's upload limit and continue by themselves, and a stopped import continues where it left off. See [Import and export mail](/docs/features/email/import-export).
 
 ## Batch operations
 
