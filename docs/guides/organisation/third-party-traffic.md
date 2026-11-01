@@ -44,7 +44,7 @@ Every outside host Bulwark knows about, and what happens to it:
 
 | Host | Used for | Without the switch, turn it off with | With the switch on |
 | --- | --- | --- | --- |
-| `telemetry.bulwarkmail.org` | Anonymous daily heartbeat, sent only after an admin turned telemetry on (server) | Off by default; `BULWARK_TELEMETRY=off` or **Admin > System > Usage stats** | Never sent, whatever the telemetry setting says |
+| `telemetry.bulwarkmail.org` | Anonymous daily heartbeat, sent only after an admin turned telemetry on (server) | Off by default; `BULWARK_TELEMETRY=off` or **Admin > System > Usage stats** | Never sent, whatever the telemetry setting says. The error counts that can ride on it (next release) are off too |
 | `version.telemetry.bulwarkmail.org` | Hourly check for a newer release, shown to admins (server) | `BULWARK_UPDATE_CHECK=off` | Not checked; checks resume when you turn the switch off again |
 | `notifications.relay.bulwarkmail.org` | Built-in Web Push relay that wakes the browser for new mail (browser) | Your own relays under **User policy > Push relays**, choice locked | Not offered; push needs a relay you run |
 | `extensions.bulwarkmail.org` | Marketplace, installs and update checks in the admin console (server) | `EXTENSION_DIRECTORY_URL` pointing at your own directory | Off, unless `EXTENSION_DIRECTORY_URL` points at another host |
@@ -74,6 +74,7 @@ Everything you configured yourself stays reachable. **Admin > Organisation > Sec
 - the WOPI document editor (`WOPI_CLIENT_URL`)
 - LibreTranslate (`LIBRETRANSLATE_URL`)
 - branding images on other hosts
+- from the next release, the error tracker (`ERROR_REPORTING_DSN`, which browsers and the server send to) and the OpenTelemetry endpoint (`OTEL_EXPORTER_OTLP_ENDPOINT` or `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`, which only the server sends to); see [Monitoring](/docs/deployment/monitoring)
 
 The list also shows what users enter themselves, which stays allowed:
 
@@ -106,6 +107,8 @@ Lite reads the switch from `config.json` next to `index.html`:
 ```
 
 If `config.json` is missing or can't be read, Lite behaves as if the switch were on.
+
+An error tracker set in `policy.json` (`errorReporting`, next release) is your own host and stays allowed by the in-app switch. The per-page policy of a build made with `LITE_NO_THIRD_PARTY_TRAFFIC=true` allows only the JMAP server, though, so in such a build browsers can't reach the tracker.
 
 Lite has no server, so most of the table doesn't apply: there is no telemetry, version check, marketplace, sender icons, translation route or push. The switch turns off the map links in Lite. Plugins don't run in Lite at all.
 
