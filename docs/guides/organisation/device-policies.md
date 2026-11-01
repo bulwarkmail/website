@@ -1,7 +1,7 @@
 ---
 title: Device policies
 description: Make copying mail out of Bulwark harder with no downloads, no export, no printing, no install prompt, push without sender and subject, and a watermark. Weak protection, and why.
-order: 15
+order: 19
 edition: both
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Offline mode
 description: What Bulwark keeps on a device when users turn on offline mode, how it is protected, when it is deleted, and how to forbid it.
-order: 16
+order: 20
 edition: full
 editionNote: "Offline mode needs Bulwark's service worker, which Bulwark Lite doesn't register. Lite has no offline mode."
 ---

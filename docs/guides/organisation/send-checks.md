@@ -1,7 +1,7 @@
 ---
 title: Send checks
 description: Warn or stop users before mail with bank account or card numbers, keywords, your own patterns or disallowed attachments goes out.
-order: 15
+order: 14
 edition: full
 ---
 

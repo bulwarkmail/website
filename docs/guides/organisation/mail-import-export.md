@@ -1,7 +1,7 @@
 ---
 title: Mail import and export
 description: What to set on Stalwart so users can move their mail in from mbox, PST or EML files, and how export can be turned off.
-order: 11
+order: 21
 edition: both
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Announcements and retention notice
 description: Show users a message across the top of every app, and tell them how long Trash and Junk keep mail.
-order: 14
+order: 18
 edition: both
 ---
 

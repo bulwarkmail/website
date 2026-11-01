@@ -1,7 +1,7 @@
 ---
 title: Link check
 description: Check links when users click them, with your company's own service or Google Safe Browsing, and always show where a link really goes.
-order: 14
+order: 13
 edition: full
 ---
 

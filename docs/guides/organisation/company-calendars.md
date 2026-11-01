@@ -1,7 +1,7 @@
 ---
 title: Company calendars
 description: Give every user in a domain or group read-only calendars such as holidays, office closures or company events.
-order: 11
+order: 15
 edition: both
 ---
 

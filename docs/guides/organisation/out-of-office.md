@@ -1,7 +1,7 @@
 ---
 title: Out-of-office
 description: Reply templates users fill in, and blocking users' calendars while their out-of-office reply is on.
-order: 13
+order: 17
 edition: both
 ---
 

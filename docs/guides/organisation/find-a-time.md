@@ -1,7 +1,7 @@
 ---
 title: Find a time
 description: What Suggest times needs from Stalwart, and how to share every user's free/busy with a group.
-order: 12
+order: 16
 edition: both
 ---
 
