@@ -20,7 +20,7 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
       { label: "Bulwark Lite", href: "/docs/getting-started/lite" },
       { label: "Security and updates", href: "/docs/deployment/security-updates" },
       { label: "Extensions", href: "https://extensions.bulwarkmail.org/" },
-      { label: "Changelog", href: "https://github.com/bulwarkmail/webmail/releases" },
+      { label: "Changelog", href: "/changelog" },
     ],
   },
   {
@@ -32,12 +32,14 @@ const COLUMNS: { h: string; links: { label: string; href: string }[] }[] = [
       { label: "Static hosting", href: "/docs/deployment/static" },
       { label: "Install on Stalwart", href: "/docs/deployment/stalwart-app" },
       { label: "Requirements", href: "/docs/deployment/requirements" },
+      { label: "Troubleshooting", href: "/docs/guides/troubleshooting" },
       { label: "Updating", href: "/docs/deployment/updating" },
     ],
   },
   {
     h: "Project",
     links: [
+      { label: "About and contact", href: "/about" },
       { label: "Documentation", href: "/docs" },
       { label: "FAQ", href: "/#faq" },
       { label: "GitHub", href: "https://github.com/bulwarkmail" },

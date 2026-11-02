@@ -7,6 +7,10 @@ export const GITHUB_REPO = "https://github.com/bulwarkmail/webmail";
 export const DEMO_URL = "https://demo.bulwarkmail.org";
 export const EXTENSIONS_URL = "https://extensions.bulwarkmail.org/";
 export const DISCORD_URL = "https://discord.com/invite/tYCujymGrT";
+export const CONTACT_EMAIL = "dev@bulwarkmail.org";
+/** The public iPhone beta. The same link is in docs/features/mobile.md. */
+export const TESTFLIGHT_URL = "https://testflight.apple.com/join/rumcjNSp";
+export const ANDROID_RELEASES = "https://github.com/bulwarkmail/native/releases";
 
 /** The pages written for one kind of reader. Their metadata and llms.txt both read this. */
 export const AUDIENCE_PAGES = {

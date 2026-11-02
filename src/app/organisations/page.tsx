@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AUDIENCE_PAGES } from "@/lib/site";
+import { BULWARK_VERSION } from "@/lib/version";
 import { pageMetadata } from "@/lib/og";
+import { EDITIONS_NOTE, FullEdition } from "@/components/edition-link";
 import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/components/sections";
 
 // =============================================================================
 // For IT departments, schools, the public sector and hosters. Every row is
 // one thing they evaluate, shown in a real screenshot; requirements such as
-// Stalwart 1.0, an Enterprise licence or the full edition are stated where
+// Stalwart 1.0, an Enterprise licence or Bulwark (full) are stated where
 // they apply and again in the table at the end.
 // =============================================================================
 
@@ -79,6 +81,17 @@ export default function OrganisationsPage() {
           link={{ label: "Third-party traffic", href: "/docs/guides/organisation/third-party-traffic" }}
           shot={{ name: "admin-third-party", alt: "The admin console's Security page with No third-party traffic turned on and the list of allowed hosts" }}
         />
+        {/* Every claim here is in docs/legal/privacy.md or the third-party traffic guide. */}
+        <TextSection
+          band
+          id="gdpr"
+          heading="GDPR: the mail stays on servers you run."
+          text="Bulwark and Stalwart both run on your own servers, so mail, contacts and calendars never pass through the Bulwark project, and Bulwark keeps no copy of the mail. What the project's own services see is small and documented: the push relay gets a device token, an account label and the ids of changed messages, never subjects, senders or bodies, and every server the project operates is in Germany. Usage stats stay off until an admin turns them on, and No third-party traffic ends every outside connection. Bulwark is written and maintained in the EU."
+          links={[
+            { label: "What the project's services collect", href: "/docs/legal/privacy" },
+            { label: "Third-party traffic", href: "/docs/guides/organisation/third-party-traffic" },
+          ]}
+        />
         <FeatureRow
           heading="One Bulwark for many customers."
           text="For hosters and service providers: branding follows the web address Bulwark is opened on, the login page picks the customer's Stalwart server from the address people type, and your panel can open a mailbox for support through a signed link."
@@ -103,19 +116,19 @@ export default function OrganisationsPage() {
 
         <TableSection
           heading="What each part needs."
-          text="Bulwark runs against Stalwart 0.16.6 or 1.0. These parts need more."
+          text={`Bulwark runs against Stalwart 0.16.6 or newer; Stalwart 1.0 needs Bulwark ${BULWARK_VERSION} or newer. These parts need more. ${EDITIONS_NOTE}`}
           columns={["Feature", "Needs"]}
           rows={[
-            ["Sign-in with OpenID Connect", "The full edition, or Lite served by Stalwart, and a provider Stalwart accepts. Stalwart's own provider needs nothing extra; another one needs an OpenID directory in Stalwart, and several directories per domain need a Stalwart Enterprise licence."],
+            ["Sign-in with OpenID Connect", <><FullEdition />, or Lite served by Stalwart, and a provider Stalwart accepts. Stalwart&apos;s own provider needs nothing extra; another one needs an OpenID directory in Stalwart, and several directories per domain need a Stalwart Enterprise licence.</>],
             ["Policies, signatures, templates, External label", "Nothing extra. In Lite, a policy.json file you write."],
             ["Team templates and shared tag names", "Stalwart 1.0"],
             ["Recover deleted items", "A Stalwart Enterprise licence with archiving turned on"],
-            ["S/MIME", "The S/MIME plugin from the extension directory, and the full edition"],
-            ["Opening a mailbox from your panel", "A Stalwart account with the Impersonate permission, and the full edition"],
-            ["Office editing", "Collabora Online, ONLYOFFICE or EuroOffice, and the full edition"],
-            ["Branding per web address", "The full edition"],
+            ["S/MIME", <>The S/MIME plugin from the extension directory, and <FullEdition /></>],
+            ["Opening a mailbox from your panel", <>A Stalwart account with the Impersonate permission, and <FullEdition /></>],
+            ["Office editing", <>Collabora Online, ONLYOFFICE or EuroOffice, and <FullEdition /></>],
+            ["Branding per web address", <FullEdition key="branding" />],
             ["Delegates, free/busy and people pickers", "On Stalwart 1.0, an admin turns on directory queries"],
-            ["Admin console", "The full edition, not Lite"],
+            ["Admin console", <><FullEdition />, not Lite</>],
           ]}
         />
 

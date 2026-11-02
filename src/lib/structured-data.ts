@@ -1,4 +1,4 @@
-import { GITHUB_ORG, SITE_URL } from "./site";
+import { CONTACT_EMAIL, GITHUB_ORG, SITE_URL } from "./site";
 
 // schema.org data (JSON-LD) that search engines and AI tools read to tell what
 // a page is and who publishes it. Pages refer to the organisation and the
@@ -15,6 +15,7 @@ export const ORGANIZATION = {
   url: SITE_URL,
   logo: `${SITE_URL}/branding/logo/${encodeURIComponent("Bulwark Logo Color.png")}`,
   sameAs: [GITHUB_ORG],
+  contactPoint: { "@type": "ContactPoint", contactType: "customer support", email: CONTACT_EMAIL, url: `${SITE_URL}/about#contact` },
 };
 
 export const WEBSITE = {
@@ -32,10 +33,13 @@ export function docsPageData({
   description,
   path,
   crumbs,
+  updated,
 }: {
   title: string;
   description: string;
   path: string;
+  /** The ISO date the page last changed, from git. */
+  updated?: string;
   /** Docs, then the section, as on the page. */
   crumbs: { name: string; path: string }[];
 }) {
@@ -54,6 +58,7 @@ export function docsPageData({
         isPartOf: { "@id": WEBSITE_ID },
         publisher: { "@id": ORGANIZATION_ID },
         about: { "@id": SOFTWARE_ID },
+        ...(updated ? { dateModified: updated } : {}),
       },
       {
         "@type": "BreadcrumbList",

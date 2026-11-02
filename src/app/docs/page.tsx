@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { getDocSections } from "@/lib/docs";
 import type { Metadata } from "next";
 import { InstallQuickstart } from "@/components/docs/install-quickstart";
 import { Tile } from "@/components/ui";
-import { BULWARK_VERSION } from "@/lib/version";
+import { VersionTable } from "@/components/version-table";
 import { pageMetadata } from "@/lib/og";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,8 +13,6 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function DocsPage() {
-  const sections = getDocSections();
-
   return (
     <div className="bw-docs-wide prose-docs">
       <h1>Documentation</h1>
@@ -32,10 +29,10 @@ export default function DocsPage() {
         <li>
           <span className="bw-steps-n">1</span>
           <div>
-            <strong>Have Stalwart running.</strong> Stalwart is the mail server: 0.16.6 or newer, or 1.0 from Bulwark{" "}
-            {BULWARK_VERSION} on. The{" "}
-            <Link href="/docs/getting-started/stalwart-setup">Stalwart setup</Link> page covers
-            installing it first.
+            <strong>Have Stalwart running.</strong> Stalwart is the mail server. The{" "}
+            <Link href="/docs/getting-started/stalwart-setup">Stalwart setup</Link> page covers installing it
+            first. Which versions work together:
+            <VersionTable link={false} />
           </div>
         </li>
         <li>
@@ -99,23 +96,14 @@ export default function DocsPage() {
         />
       </div>
 
-      <h2 id="manual">Browse the manual</h2>
-      <div className="bw-manual" style={{ marginTop: 16 }}>
-        {sections.map((section) => (
-          <div key={section.slug}>
-            <h3 style={{ margin: 0 }}>
-              <Link href={`/docs/${section.slug}`}>{section.label}</Link>
-            </h3>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0, maxWidth: "none" }}>
-              {section.items.map((item) => (
-                <li key={item.slug} style={{ padding: 0 }}>
-                  <Link href={`/docs/${item.slug}`}>{item.title}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <h2 id="help">When something doesn&apos;t work</h2>
+      <p>
+        <Link href="/docs/guides/troubleshooting">Troubleshooting</Link> collects the problems people run into most:
+        sign-in failures, an empty mailbox tree, sending limits, push, a setup wizard that comes back, and plugins
+        that do nothing. The{" "}
+        <Link href="/docs/guides">guides</Link> walk through the admin console, sign-in, plugins and the
+        organisation settings step by step.
+      </p>
     </div>
   );
 }

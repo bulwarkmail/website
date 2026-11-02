@@ -20,6 +20,16 @@ Two GHCR packages carry the images:
 
 Every release tag also has an `-always` variant (for example `1.19.1-always` or `latest-always`), built with `NEXT_PUBLIC_LOCALE_PREFIX=always` so every URL carries the locale. The old `webmail:dev` tag is no longer built; don't use it.
 
+### Which tag to run
+
+The examples on these pages use `:latest`, which moves to each release as it ships. For a server you don't watch closely, pin a line instead:
+
+- `:1` takes every 1.x release, fixes and features, and never a 2.0 with breaking changes.
+- `:1.19` takes only the fixes for 1.19 until you move it on yourself.
+- `:1.19.1` never changes, for deploys that have to be reproducible. You then upgrade by hand, so watch the [releases](/changelog) for security fixes.
+
+Bulwark (not Lite) shows a notice in the admin console when a newer release is out, whatever tag you run.
+
 ## First-launch setup wizard
 
 There is no `.env.local` to write before the first start. Launch the container with a volume on `/app/data`:

@@ -12,6 +12,9 @@ const links = [
   { label: "Getting started", href: "/docs/getting-started/introduction" },
   { label: "Deployment", href: "/docs/deployment/docker" },
   { label: "Features", href: "/docs/features/email" },
+  { label: "Guides", href: "/docs/guides" },
+  // The page people look for when something is broken, one click from every docs page.
+  { label: "Troubleshooting", href: "/docs/guides/troubleshooting" },
   { label: "GitHub", href: "https://github.com/bulwarkmail/webmail" },
 ];
 

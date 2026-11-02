@@ -3,6 +3,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AUDIENCE_PAGES } from "@/lib/site";
 import { pageMetadata } from "@/lib/og";
+import { EDITIONS_NOTE, FullEdition } from "@/components/edition-link";
 import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/components/sections";
 
 // =============================================================================
@@ -30,7 +31,7 @@ const COMPOSE = `services:
     restart: unless-stopped
 
   bulwark:
-    image: ghcr.io/bulwarkmail/webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:1
     ports: ["3000:3000"]
     environment:
       JMAP_SERVER_URL: https://mail.example.com
@@ -52,7 +53,7 @@ export default function HomelabPage() {
         <PageHero
           title="Webmail for the Stalwart server in your home lab."
           lead="Run Bulwark as one container next to Stalwart on a NAS, a VM or a 64-bit ARM board, or put Bulwark Lite on a web server you already run and skip the Node process. It works for one person, a family or a club."
-          primary={{ label: "Compose with Stalwart", href: "/docs/deployment/docker/compose" }}
+          primary={{ label: "Run Bulwark at home", href: "/docs/deployment/home-server" }}
           secondary={{ label: "Try the demo", href: "https://demo.bulwarkmail.org" }}
           shot={{ name: "unified-inbox", alt: "One inbox showing mail from two accounts and a shared mailbox together" }}
         />
@@ -65,7 +66,7 @@ export default function HomelabPage() {
 
         <FeatureRow
           heading="Stalwart and Bulwark in one Compose file."
-          text="The images are built for amd64 and arm64; a Raspberry Pi needs a 64-bit OS. On the project's amd64 test VM the container used about 70 MiB of memory at idle, signed out. Put Caddy, nginx or Traefik in front for HTTPS, and drop the ports the two containers publish once it's there; Run Bulwark at home shows that layout."
+          text="The images are built for amd64 and arm64; a Raspberry Pi needs a 64-bit OS. On the project's amd64 test VM the container used about 70 MiB of memory at idle, signed out. Both images are pinned to a major version, so a pull brings fixes and features but never a breaking upgrade; pin webmail:1.19 or an exact release to hold still. Put Caddy, nginx or Traefik in front for HTTPS, and drop the ports the two containers publish once it's there; Run Bulwark at home shows that layout."
           link={{ label: "Compose with Stalwart", href: "/docs/deployment/docker/compose" }}
           code={{ code: COMPOSE, label: "Copy the Compose file" }}
         />
@@ -126,15 +127,16 @@ export default function HomelabPage() {
 
         <TableSection
           heading="What each part needs."
+          text={EDITIONS_NOTE}
           columns={["Feature", "Needs"]}
           rows={[
             ["Lite on a separate host", "The Permissive CORS policy in Stalwart, unless Stalwart serves Lite"],
             ["More than five accounts in one browser", "HTTPS (HTTP/2) between the browser and Bulwark"],
             ["Installing as an app", "HTTPS"],
-            ["Web push in the browser", "HTTPS and the full edition"],
+            ["Web push in the browser", <>HTTPS and <FullEdition /></>],
             ["Push to the phone", "The beta app, and Stalwart reaching the relay over public HTTPS"],
             ["UnifiedPush", "Android and a distributor app such as ntfy"],
-            ["Plugins", "The full edition; an admin turns them on"],
+            ["Plugins", <><FullEdition />; an admin turns them on</>],
           ]}
         />
 

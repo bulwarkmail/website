@@ -1,6 +1,7 @@
 import manifest from "@/generated/screenshots.json";
 import { getAllDocs, getDocSections, getDocSource, getReadingOrder, type DocMeta, type DocSection } from "./docs";
 import { BULWARK_VERSION } from "./version";
+import { docUpdated } from "./doc-dates";
 import { AUDIENCE_PAGES, DEMO_URL, DISCORD_URL, EXTENSIONS_URL, GITHUB_ORG, GITHUB_REPO, SITE_URL } from "./site";
 
 // The docs as plain markdown for AI tools: llms.txt, llms-full.txt and a .md
@@ -116,7 +117,9 @@ export function docPageMarkdown(slug: string): string | null {
   const meta = getAllDocs().find((d) => d.slug === slug);
   if (!source || !meta) return null;
 
-  const intro = [`Source: ${SITE_URL}/docs/${slug}`];
+  const updated = docUpdated(slug);
+  const intro = [`Source: ${SITE_URL}/docs/${slug}${updated ? `
+Last updated: ${updated.slice(0, 10)}` : ""}`];
   if (meta.description) intro.push(`> ${meta.description}`);
   if (meta.edition !== "both" && meta.editionNote) {
     intro.push(`**${meta.edition === "full" ? "Not in Lite." : "Bulwark Lite."}** ${meta.editionNote}`);
@@ -166,7 +169,8 @@ export function llmsTxt(): string {
     audience,
     `- [Which way to run it?](${SITE_URL}/choose): a short quiz that recommends Bulwark or Bulwark Lite`,
     `- [Live demo](${DEMO_URL}): the client on sample data with no mail server behind it; nothing is saved or sent`,
-    `- [Source code and releases](${GITHUB_REPO}): the webmail repository, release notes and security advisories`,
+    `- [Changelog](${SITE_URL}/changelog.md): the current version and the notes for every release`,
+    `- [Source code](${GITHUB_REPO}): the webmail repository, issue tracker and security advisories`,
   ].join("\n");
 
   const sections = getDocSections()
@@ -175,6 +179,7 @@ export function llmsTxt(): string {
 
   const optional = [
     `- [Extension directory](${EXTENSIONS_URL}): plugins and themes for Bulwark`,
+    `- [About and contact](${SITE_URL}/about): who builds Bulwark, how it is paid for, and where to send questions, bugs and security reports`,
     `- [Press kit](${SITE_URL}/press): logos, screenshots and a boilerplate description`,
     `- [Brand and design system](${SITE_URL}/brand): the logos and the rules for using them`,
     `- [All Bulwark projects on GitHub](${GITHUB_ORG}): the phone app, the relay for push notifications and other tools`,

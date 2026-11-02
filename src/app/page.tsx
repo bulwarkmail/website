@@ -10,6 +10,7 @@ import { ICON } from "@/lib/icon";
 import { BULWARK_VERSION } from "@/lib/version";
 import { JsonLd } from "@/components/json-ld";
 import { ORGANIZATION, ORGANIZATION_ID, SOFTWARE_ID, WEBSITE } from "@/lib/structured-data";
+import { ANDROID_RELEASES, TESTFLIGHT_URL } from "@/lib/site";
 
 // =============================================================================
 // Landing page, "Flat fields".
@@ -162,12 +163,13 @@ function SponsorsSection() {
               target="_blank"
               rel="noopener noreferrer sponsored"
               className="bw-sponsor"
-              aria-label={name}
             >
               <span
                 className="bw-sponsor-logo"
+                aria-hidden="true"
                 style={{ "--logo": `url(${logo})`, "--ratio": ratio, "--h": `${height}px` } as React.CSSProperties}
               />
+              <span className="sr-only">{name}</span>
             </a>
           ))}
           <a
@@ -411,7 +413,7 @@ function OpenSourceSection({ instances }: { instances: number }) {
           <h2 className="bw-h2">Bulwark is open source under AGPL-3.0.</h2>
           <p className="bw-muted">
             The code, the issue tracker, the release notes and the security advisories are public. Usage stats are
-            off by default, and so far{" "}
+            off by default; an admin can turn on an anonymous report. So far{" "}
             <a
               href="https://grafana.external.bulwarkmail.org"
               target="_blank"
@@ -420,7 +422,8 @@ function OpenSourceSection({ instances }: { instances: number }) {
             >
               {instances.toLocaleString("en-US")} instances
             </a>{" "}
-            whose admins turned them on have reported in. Sponsors pay for the work.
+            have sent it at least once. That counts every install that ever reported, not the ones running today,
+            and installs with the report off aren&apos;t counted at all. Sponsors pay for the work.
           </p>
           <div className="bw-btns" style={{ marginTop: 8 }}>
             <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="bw-btn">
@@ -484,7 +487,8 @@ const FAQS: Faq[] = [
     q: "Does it work with a Stalwart server I already run?",
     a: (
       <>
-        Yes, if it runs Stalwart 0.16.6 or newer, or 1.0 with Bulwark {BULWARK_VERSION} or newer. Point Bulwark at the
+        Yes, if it runs Stalwart 0.16.6 or newer. Stalwart 0.16 works with any current Bulwark; Stalwart 1.0 needs
+        Bulwark {BULWARK_VERSION} or newer. Point Bulwark at the
         JMAP endpoint and sign in with the accounts you have. Nothing migrates, and Stalwart stays the source of truth.
         Before a server moves to 1.0, read the{" "}
         <Link href="/docs/deployment/updating/stalwart-1-0" className="bw-link">
@@ -537,8 +541,15 @@ const FAQS: Faq[] = [
     q: "Is there a phone app?",
     a: (
       <>
-        Bulwark Mobile is a beta for Android and iOS: the Android app comes from GitHub, the iPhone app from
-        TestFlight. In a phone&apos;s browser the webmail itself works too, and over HTTPS it installs as an app.{" "}
+        Bulwark Mobile is a beta for Android and iOS: the Android app comes from{" "}
+        <a href={ANDROID_RELEASES} target="_blank" rel="noopener noreferrer" className="bw-link">
+          GitHub releases
+        </a>
+        , the iPhone app from{" "}
+        <a href={TESTFLIGHT_URL} target="_blank" rel="noopener noreferrer" className="bw-link">
+          TestFlight
+        </a>
+        . In a phone&apos;s browser the webmail itself works too, and over HTTPS it installs as an app.{" "}
         <Link href="/docs/features/mobile" className="bw-link">
           Mobile apps and push
         </Link>{" "}
@@ -550,7 +561,8 @@ const FAQS: Faq[] = [
     q: "What does my server need?",
     a: (
       <>
-        Stalwart 0.16.6 or 1.0, and for the container Docker on amd64 or arm64. On the project&apos;s test VM the
+        Stalwart 0.16.6 or newer, or 1.0 with Bulwark {BULWARK_VERSION} or newer, and for the container Docker on
+        amd64 or arm64. On the project&apos;s test VM the
         container used about 70 MiB of memory at idle, signed out;{" "}
         <Link href="/docs/deployment/requirements" className="bw-link">
           Requirements
@@ -619,6 +631,7 @@ export default async function Home() {
     url: "https://bulwarkmail.org",
     downloadUrl: GITHUB,
     softwareVersion: version,
+    releaseNotes: "https://bulwarkmail.org/changelog",
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
     isAccessibleForFree: true,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

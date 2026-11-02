@@ -8,6 +8,7 @@ import { JsonLd } from "@/components/json-ld";
 import { ICON } from "@/lib/icon";
 import { pageMetadata } from "@/lib/og";
 import { docsPageData } from "@/lib/structured-data";
+import { docUpdated, formatDocDate } from "@/lib/doc-dates";
 import type { Metadata } from "next";
 
 const GITHUB_EDIT_URL = "https://github.com/bulwarkmail/website/edit/main/docs";
@@ -81,10 +82,12 @@ export default async function DocPage({ params }: PageProps) {
   const pagerLabel = (word: string, item: { section: string }) =>
     item.section === doc.section ? word : `${word} in ${labelOf(item.section)}`;
 
+  const updated = docUpdated(slugStr);
   const structuredData = docsPageData({
     title: doc.title,
     description: describe(doc),
     path: `/docs/${slugStr}`,
+    updated,
     crumbs: [
       { name: "Docs", path: "/docs" },
       { name: sectionLabel, path: `/docs/${doc.section}` },
@@ -100,6 +103,12 @@ export default async function DocPage({ params }: PageProps) {
           <Link href="/docs">Docs</Link> / <Link href={`/docs/${doc.section}`}>{sectionLabel}</Link>
         </span>
         <span className="bw-crumb-actions">
+          {/* The last commit that changed the page, so a reader can tell how current it is. */}
+          {updated ? (
+            <span>
+              Updated <time dateTime={updated}>{formatDocDate(updated)}</time>
+            </span>
+          ) : null}
           {/* The page as plain markdown, to paste into an AI tool. A plain <a>:
               the .md URL is a file, not a page the router knows. */}
           <a href={`/docs/${slugStr}.md`} className="bw-crumb-edit">

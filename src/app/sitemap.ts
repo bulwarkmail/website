@@ -1,10 +1,12 @@
 import type { MetadataRoute } from "next";
 import { getAllDocs, getDocSections } from "@/lib/docs";
+import { docUpdated } from "@/lib/doc-dates";
 
 const SITE_URL = "https://bulwarkmail.org";
 
-// No lastModified: the build date would mark every page as changed on each
-// deploy, which is worse than saying nothing.
+// lastModified only where git knows when the page changed (lib/doc-dates.ts).
+// The build date would mark every page as changed on each deploy, which is
+// worse than saying nothing.
 export default function sitemap(): MetadataRoute.Sitemap {
   const docs = getAllDocs();
 
@@ -17,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const docPages = docs.map((doc) => ({
     url: `${SITE_URL}/docs/${doc.slug}`,
+    ...(docUpdated(doc.slug) ? { lastModified: docUpdated(doc.slug) } : {}),
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
@@ -45,6 +48,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${SITE_URL}/brand`,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/changelog`,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/about`,
       changeFrequency: "monthly",
       priority: 0.5,
     },
