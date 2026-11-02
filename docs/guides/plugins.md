@@ -207,6 +207,8 @@ Plugins declare the permissions they need in the manifest. An admin sees that li
 
 `ui:observe` and `app:lifecycle` are granted implicitly and don't belong in a manifest.
 
+From 1.20 a manifest can also list `optionalPermissions`: permissions the plugin uses when the webmail offers them. A webmail that knows them grants them like the others, consent dialog included, and leaves out the ones it doesn't know with a warning; older webmails ignore the field. A plugin built this way installs on older webmails too and checks `api.host.features` before it uses the newer calls. A permission an older webmail doesn't know in `permissions` itself refuses the install there.
+
 The consent dialog marks these as high risk: `email:read` (it covers every message in the account, not only the open one), `email:send`, `email:forward`, `identity:write`, `filters:write`, `vacation:write`, `http:fetch`, `http:post`, `http:proxy`, and the permissions below.
 
 | Permission              | What it grants                                                    |
