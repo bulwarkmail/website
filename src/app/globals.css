@@ -1106,6 +1106,26 @@ a.bw-tile:hover {
   color: var(--bw-text-muted);
 }
 
+/* The changelog: one release per FAQ-style row, the notes rendered as docs. */
+.bw-changelog-h {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.bw-changelog-h time {
+  margin-left: 12px;
+  font-size: var(--bw-small);
+  font-weight: 400;
+  color: var(--bw-text-muted);
+}
+.bw-changelog details p {
+  max-width: none;
+  color: inherit;
+}
+.bw-changelog-body {
+  margin-top: 12px;
+}
+
 .bw-foot {
   background: var(--bw-surface);
   padding-block: 56px 28px;
@@ -1445,6 +1465,11 @@ a.bw-tile:hover {
 .bw-crumb a:hover {
   color: var(--bw-text);
   text-decoration: underline;
+}
+.bw-crumb-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
 }
 .bw-crumb-edit {
   display: inline-flex;

@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "images": "node scripts/build-images.mjs",
-    "predev": "npm run images",
+    "dates": "node scripts/doc-dates.mjs",
+    "predev": "npm run images && npm run dates",
     "dev": "next dev --port 3001",
-    "prebuild": "npm run images",
+    "prebuild": "npm run images && npm run dates",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

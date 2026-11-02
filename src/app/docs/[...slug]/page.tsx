@@ -3,8 +3,12 @@ import Link from "next/link";
 import { getDocBySlug, getAllDocs, getDocSections, getReadingOrder, type DocSection } from "@/lib/docs";
 import { CopyableCode } from "@/components/docs/copyable-code";
 import { Tile } from "@/components/ui";
-import { Pencil } from "@/components/icons";
+import { Markdown, Pencil } from "@/components/icons";
+import { JsonLd } from "@/components/json-ld";
 import { ICON } from "@/lib/icon";
+import { pageMetadata } from "@/lib/og";
+import { docsPageData } from "@/lib/structured-data";
+import { docUpdated, formatDocDate } from "@/lib/doc-dates";
 import type { Metadata } from "next";
 
 const GITHUB_EDIT_URL = "https://github.com/bulwarkmail/website/edit/main/docs";
@@ -32,23 +36,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const slugStr = slug.join("/");
   const section = findSection(slug);
   if (section) {
-    return {
+    return pageMetadata({
       title: `${section.label} - Bulwark Webmail Docs`,
       description: section.intro,
-      alternates: { canonical: `/docs/${section.slug}` },
-    };
+      path: `/docs/${section.slug}`,
+      markdown: `/docs/${section.slug}.md`,
+    });
   }
   const doc = await getDocBySlug(slugStr);
   if (!doc) return {};
-  return {
+  return pageMetadata({
     title: `${doc.title} - Bulwark Webmail Docs`,
-    description:
-      doc.description ||
-      `${doc.title} - Bulwark webmail documentation for Stalwart Mail Server.`,
-    alternates: {
-      canonical: `/docs/${slugStr}`,
-    },
-  };
+    description: describe(doc),
+    path: `/docs/${slugStr}`,
+    type: "article",
+    markdown: `/docs/${slugStr}.md`,
+  });
+}
+
+function describe(doc: { title: string; description: string }) {
+  return doc.description || `${doc.title} - Bulwark webmail documentation for Stalwart Mail Server.`;
 }
 
 export default async function DocPage({ params }: PageProps) {
@@ -75,22 +82,49 @@ export default async function DocPage({ params }: PageProps) {
   const pagerLabel = (word: string, item: { section: string }) =>
     item.section === doc.section ? word : `${word} in ${labelOf(item.section)}`;
 
+  const updated = docUpdated(slugStr);
+  const structuredData = docsPageData({
+    title: doc.title,
+    description: describe(doc),
+    path: `/docs/${slugStr}`,
+    updated,
+    crumbs: [
+      { name: "Docs", path: "/docs" },
+      { name: sectionLabel, path: `/docs/${doc.section}` },
+    ],
+  });
+
   return (
     <article className="bw-docs-article">
+      <JsonLd data={structuredData} />
       {/* The breadcrumb is the only label on a docs page */}
       <div className="bw-crumb">
         <span>
           <Link href="/docs">Docs</Link> / <Link href={`/docs/${doc.section}`}>{sectionLabel}</Link>
         </span>
-        <a
-          href={`${GITHUB_EDIT_URL}/${slugStr}.md`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bw-crumb-edit"
-        >
-          <Pencil size={14} {...ICON} />
-          Edit on GitHub
-        </a>
+        <span className="bw-crumb-actions">
+          {/* The last commit that changed the page, so a reader can tell how current it is. */}
+          {updated ? (
+            <span>
+              Updated <time dateTime={updated}>{formatDocDate(updated)}</time>
+            </span>
+          ) : null}
+          {/* The page as plain markdown, to paste into an AI tool. A plain <a>:
+              the .md URL is a file, not a page the router knows. */}
+          <a href={`/docs/${slugStr}.md`} className="bw-crumb-edit">
+            <Markdown size={14} {...ICON} />
+            Markdown
+          </a>
+          <a
+            href={`${GITHUB_EDIT_URL}/${slugStr}.md`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bw-crumb-edit"
+          >
+            <Pencil size={14} {...ICON} />
+            Edit on GitHub
+          </a>
+        </span>
       </div>
 
       {/* Pages that apply to Bulwark or to Bulwark Lite only say so first */}

@@ -34,7 +34,7 @@ services:
     restart: unless-stopped
 
   bulwark:
-    image: ghcr.io/bulwarkmail/webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:1 # the 1.x line; :1.19.1 to hold still
     container_name: bulwark
     ports:
       - "3000:3000"
@@ -83,7 +83,7 @@ For more complex configurations (OAuth, session secret, branding, etc.), use an 
 ```yaml
 services:
   bulwark:
-    image: ghcr.io/bulwarkmail/webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:1 # the 1.x line; :1.19.1 to hold still
     container_name: bulwark
     ports:
       - "3000:3000"
@@ -118,7 +118,7 @@ Everything Bulwark writes lives under `/app/data`, so one volume there keeps all
 ```yaml
 services:
   bulwark:
-    image: ghcr.io/bulwarkmail/webmail:latest
+    image: ghcr.io/bulwarkmail/webmail:1 # the 1.x line; :1.19.1 to hold still
     environment:
       # JMAP_SERVER_URL set here skips the setup wizard
       JMAP_SERVER_URL: https://mail.example.com

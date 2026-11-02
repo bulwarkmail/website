@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { ANDROID_RELEASES, AUDIENCE_PAGES, TESTFLIGHT_URL } from "@/lib/site";
+import { pageMetadata } from "@/lib/og";
+import { EDITIONS_NOTE, FullEdition } from "@/components/edition-link";
 import Link from "next/link";
 import { DockerSteps } from "@/components/install-steps";
 import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/components/sections";
@@ -11,22 +14,14 @@ import { FeatureRow, PageHero, TableSection, TextSection, TileSection } from "@/
 // never present the plugin as available.
 // =============================================================================
 
-const TITLE = "Bulwark for small businesses";
-const DESCRIPTION =
-  "Shared mailboxes, shared calendars, signatures and out-of-office replies for a small team on Stalwart, installed as one container. Free under AGPL-3.0.";
+const { title: TITLE, description: DESCRIPTION } = AUDIENCE_PAGES.smallBusiness;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/small-business" },
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: "https://bulwarkmail.org/small-business",
-    images: [{ url: "/og-small-business.png", width: 1200, height: 630, alt: "Bulwark for small businesses" }],
-  },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: ["/og-small-business.png"] },
-};
+  path: "/small-business",
+  image: { url: "/og-small-business.png", width: 1200, height: 630, alt: "Bulwark for small businesses" },
+});
 
 export default function SmallBusinessPage() {
   return (
@@ -127,15 +122,16 @@ export default function SmallBusinessPage() {
 
         <TableSection
           heading="What each part needs."
+          text={EDITIONS_NOTE}
           columns={["Feature", "Needs"]}
           rows={[
             ["Shared mailbox", "A group with a mailbox in Stalwart"],
             ["Shared templates and tag names", "Stalwart 1.0"],
             ["Free/busy and people pickers", "On Stalwart 1.0, an admin turns on directory queries, the Stalwart setting that lets people look each other up"],
-            ["Office editing", "Collabora Online, ONLYOFFICE or EuroOffice, and the full edition"],
-            ["Team inbox (coming)", "The team inbox plugin, uploaded in the admin console, and the full edition"],
+            ["Office editing", <>Collabora Online, ONLYOFFICE or EuroOffice, and <FullEdition /></>],
+            ["Team inbox (coming)", <>The team inbox plugin, uploaded in the admin console, and <FullEdition /></>],
             ["E-invoices (coming)", "The e-invoice plugin and Bulwark 1.20"],
-            ["Phone app", "The beta app, from GitHub or TestFlight; not yet for your main mail. Until then, the webmail in the phone's browser, installed to the home screen over HTTPS"],
+            ["Phone app", <>The beta app, from <a href={ANDROID_RELEASES} className="bw-link">GitHub</a> for Android or <a href={TESTFLIGHT_URL} className="bw-link">TestFlight</a> for iPhone; not yet for your main mail. Until then, the webmail in the phone&apos;s browser, installed to the home screen over HTTPS</>],
           ]}
         />
 

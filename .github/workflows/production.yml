@@ -47,6 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         if: env.ACTION == 'deploy'
+        with:
+          # The full history: the docs pages show when each last changed (scripts/doc-dates.mjs).
+          fetch-depth: 0
 
       - uses: actions/setup-node@v7
         if: env.ACTION == 'deploy'
@@ -72,6 +75,10 @@ jobs:
       - name: Build the screenshot sizes
         if: env.ACTION == 'deploy'
         run: npm run images
+
+      - name: Date the docs pages
+        if: env.ACTION == 'deploy'
+        run: npm run dates
 
       - name: Lint and typecheck
         if: env.ACTION == 'deploy'

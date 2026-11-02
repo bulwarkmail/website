@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -92,6 +92,14 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+};
+
+// The browser chrome takes the colour of the navigation field (--bw-field).
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#db2d54" },
+    { media: "(prefers-color-scheme: dark)", color: "#c4264b" },
+  ],
 };
 
 export default function RootLayout({

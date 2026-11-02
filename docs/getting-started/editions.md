@@ -9,7 +9,7 @@ edition: both
 
 There is one client and two ways to ship it. **Bulwark** runs as a Node.js service, usually in a container, and its server does the things a browser cannot do on its own. **Bulwark Lite** is the same client exported as static files, served by whatever already serves your HTML, with the browser talking JMAP to Stalwart directly.
 
-The toggle at the top of every page on this site switches the documentation between the two. Pages that apply to one edition only are hidden in the other, and say so if you land on one.
+Pages that apply to one edition only say so at the top. Elsewhere on this site, **Bulwark (full)** means the edition that runs as a server, to tell it apart from Lite.
 
 ## Side by side
 

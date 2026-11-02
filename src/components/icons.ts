@@ -20,6 +20,7 @@ export {
   IconInfoCircle as Info,
   IconMail as Mail,
   IconMapPin as MapPin,
+  IconMarkdown as Markdown,
   IconMenu2 as Menu,
   IconMinus as Minus,
   IconMoon as Moon,
