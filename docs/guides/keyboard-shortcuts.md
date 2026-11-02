@@ -81,6 +81,8 @@ In Mountain View, `x` selects the conversation instead.
 | `t`                    | Open template picker |
 | `Ctrl/Cmd+Enter`       | Send                 |
 | `Ctrl/Cmd+Shift+Enter` | Schedule send        |
+| `Ctrl/Cmd+'`           | Next spelling or grammar issue (with a [proofreading](/docs/features/email/composing#proofreading) plugin) |
+| `Ctrl/Cmd+;`           | Previous spelling or grammar issue |
 | `Esc`                  | Close the composer   |
 
 Drafts save themselves two seconds after you stop typing, so there is no save-draft key to press.

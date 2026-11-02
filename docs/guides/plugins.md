@@ -116,6 +116,7 @@ Beyond hooks, a plugin calls into the host through `api`, which `activate` recei
 - **Mail:** `api.email`, `api.mailboxes` and `api.drafts` read, move and archive messages and save drafts; `api.jmap` handles keywords and blob uploads
 - **Composing:** `api.compose.open` opens a new message filled in, and `api.compose.reply` opens a reply to the open message with text to start from
 - **The message being written:** from the release after 1.14.2, `api.composer` reads the text or selection of the message the user is writing and replaces it. It only works in the composer that handed the plugin its id (a click on one of the plugin's composer actions or a composer slot), leaves the signature and the quoted message alone, and each change is one undo step. `api.composer.attach` adds a file through the composer's usual checks.
+- **Proofreading:** from 1.20, `api.composer.registerChecker` makes the plugin a text checker: Bulwark sends it what users write while they type and draws its answers as underlines with a popup (see [text checkers](#text-checkers))
 - **Calendar, tasks, contacts:** `api.calendar`, `api.tasks`, `api.contacts` and `api.addressBooks`
 - **Account data:** `api.templates`, `api.identities`, `api.vacation`, `api.user` and `api.sieve`
 - **Keywords and labels:** read and set message keywords, and add or reorder the user's label definitions (see [below](#keywords-and-labels))
@@ -125,6 +126,66 @@ Beyond hooks, a plugin calls into the host through `api`, which `activate` recei
 - **Host:** `api.host.features` says which of Bulwark's own features are on: the External label and recipient warning, and from 1.20 `noThirdPartyTraffic`, so a plugin can turn an outside service off when the admin turned [third-party traffic](/docs/guides/organisation/third-party-traffic) off
 - **Network:** `api.http`, `api.proxy` and `api.oauth` (see [Network access](#network-access))
 - **Encryption:** `api.crypto` and the raw blob and send methods, for privileged plugins only (see [Privileged tier](#privileged-tier))
+
+### Text checkers
+
+From 1.20 a plugin with `compose:check` can check what users write, as they write it: spelling, grammar, style. Bulwark sends it the text and draws its answers as underlines, with a popup of suggestions, a list in the composer's toolbar, keyboard access and plain-text mode handled by the host. The [LanguageTool plugin](/docs/guides/organisation/proofreading) is built on it.
+
+Register a checker once, from `activate`, in the background frame:
+
+```js
+export async function activate(api) {
+  const checker = await api.composer.registerChecker({
+    id: 'spell',                      // lowercase letters, digits, dashes
+    label: 'My checker',              // shown in the popup and the status control
+    kinds: ['spelling', 'grammar'],   // of spelling, grammar, style, other
+    debounceMs: 800,                  // after typing stops; 300 to 5000
+    languages: ['de-DE', 'en-GB'],    // optional: offered as writing languages
+    warnBeforeSend: false,            // the host asks before sending with open issues
+    async check(request) {
+      // request: { composerId, revision, language, full, order, segments, objectReplacement }
+      const annotations = [];
+      for (const { id, text } of request.segments) {
+        // ... find mistakes in text ...
+        annotations.push({
+          segmentId: id, offset: 9, length: 3, kind: 'grammar',
+          message: 'Use the accusative here.', shortMessage: 'Case',
+          replacements: ['den'], ruleId: 'DEM_DEN', ruleLabel: 'dem/den',
+        });
+      }
+      return annotations;   // or { annotations, status: 'ok' | 'unavailable' | 'paused', message, retryAfterMs }
+    },
+    onAction({ composerId, annotation, action }) {
+      // action: 'ignore' | 'dictionary' | 'disable-rule'; the host already hid the issue
+    },
+  });
+  // Later: checker.update({ warnBeforeSend: true }), checker.recheck(), checker.dispose()
+}
+```
+
+What the host sends:
+
+- **`composerId`** is a name for the composer that only this checker gets. It is not the id the other `api.composer` calls take, so a checker can't reach the message through them.
+- **Segments** are the paragraphs of what the user wrote, without the signature, the quoted message or code blocks. A hard line break is `\n`; a mention or inline image is one `\uFFFC` (`objectReplacement`), which a checker skips. Each character is one position in the editor, so offsets need no mapping.
+- **Only what changed.** `order` lists every paragraph id in the message; `segments` carries the text of the paragraphs the checker hasn't seen yet. An id stands for one exact text, so cache answers by id. `full: true` means start over for this composer: the first request, after `recheck()`, and after the user changed the writing language.
+- **Offsets** are UTF-16 code units into the segment text, as JavaScript strings count (LanguageTool counts the same way). An emoji outside the basic plane is 2.
+- `language` is the user's writing language: `auto` or a language tag.
+
+What the host does with the answer:
+
+- It sends a long message in several requests of at most 20,000 characters of new text. It keeps at most 300 annotations per checker and composer and 5 replacements each, drops ranges outside their segment, over a line break or an inline object, or through the middle of a character, and checks that the text is still there before drawing.
+- An answer for a paragraph the user changed in the meantime is dropped; answers for paragraphs that didn't change stay.
+- One request per composer and checker at a time; edits made meanwhile go in the next one. Requests time out after 15 seconds. A checker that fails, times out or answers `status: 'unavailable'` shows "Checking unavailable" once and is asked again after 30 seconds of typing; `status: 'paused'` with `retryAfterMs` waits that long (for a rate-limited service). These don't count as plugin errors, so a server that is down doesn't turn the plugin off.
+- Applying a replacement is the host's edit, made because the user clicked it: no `compose:write` needed, one undo step. A replacement must be text a user could type: no control, zero-width or bidi characters, no line breaks.
+
+When the host sends nothing:
+
+- Proofreading is off for the user, for that message, or locked off by the admin ([Organisation > Proofreading](/docs/guides/organisation/proofreading)). The admin can lock it per plugin id.
+- The message is set to be signed or encrypted. A crypto plugin tells the host by publishing its Sign and Encrypt entries in the composer's Options menu with `protects: 'sign'` or `protects: 'encrypt'` (plugins with `crypto:full` or `email:raw-send` only). While a `crypto:full` plugin runs that publishes no such entries, or is still starting, nothing is checked anywhere. Text typed before the user ticked Sign or Encrypt may already have been checked.
+- The composer opened less than a second ago, or the policy hasn't loaded from the server (or a copy of it the browser kept).
+- No plugin can hold up the user turning proofreading off (`onBeforeSettingChange` isn't asked).
+
+A checker that checks only when asked (an assistant's "Check spelling" button) needs only `compose:read`, not `compose:check`. It registers with `mode: 'on-demand'` and no `check`, gets the text with `api.composer.getCheckText(composerId, checkerId)` from a user action that handed it the composer id, and draws its results with `api.composer.setAnnotations(composerId, checkerId, request.revision, annotations)`.
 
 ### Keywords and labels
 
@@ -195,7 +256,7 @@ Entries are https origins, optionally with a port or one level of `*.` subdomain
 
 Plugins declare the permissions they need in the manifest. An admin sees that list before enabling anything, and a user sees it in the consent dialog, with high-risk permissions listed first and marked. Without a permission, an API call is refused, a hook isn't registered, a surface isn't drawn, and props or click context that need the permission are left out.
 
-**Mail and composing:** `email:read`, `email:write`, `email:send`, `email:forward` (forward a message without the composer; the host asks the user once per address), `compose:open`, `compose:read`, `compose:write`.
+**Mail and composing:** `email:read`, `email:write`, `email:send`, `email:forward` (forward a message without the composer; the host asks the user once per address), `compose:open`, `compose:read`, `compose:write`, `compose:check` (from 1.20: get the text of every message being written while proofreading is on, see [text checkers](#text-checkers); shown as high risk at install).
 
 **Other data:** `calendar:read/write`, `contacts:read/write`, `files:read/write`, `identity:read/write`, `filters:read/write`, `tasks:read/write`, `templates:read/write`, `vacation:read/write`, `settings:read/write`, `security:read`, `account:read`, `directory:read` (look people up in the server's directory).
 

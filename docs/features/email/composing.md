@@ -96,6 +96,18 @@ These controls come from the S/MIME plugin in the extension directory, which an 
 - Unlock protected keys on demand from the composer without leaving the draft
 - Keep default signing and encryption preferences in the S/MIME settings panel
 
+## Proofreading
+
+When your organisation installed a proofreading plugin, such as Proofreading (LanguageTool), the composer underlines mistakes while you type: spelling with a wavy line, grammar with a double line, style with a dotted one. Click or tap an underline, or right-click it, to see what is wrong and up to five suggestions. Picking one replaces the word; `Ctrl+Z` takes it back. **Ignore** hides that one, **Add to dictionary** stops a word being flagged, **Turn off this rule** stops that kind of hint.
+
+From the keyboard, `Ctrl+'` goes to the next issue and `Ctrl+;` to the previous one (`Cmd` on a Mac; on a German keyboard the keys are `Ä` and `Ö`). The popup opens with the first suggestion selected: `Enter` takes it, the arrow keys move between the choices, `Esc` goes back to the text.
+
+The control in the composer's toolbar shows how many issues there are. It opens a list of them, each one a button that jumps to the word, and a switch to stop checking the message you are writing. In plain-text mode there are no underlines; the list has the suggestions instead.
+
+Proofreading is off until you turn it on under **Settings > Composing > Proofreading** or in that control, which first says where your text goes. The text you write goes to the plugin and the service it uses, without your signature or the quoted message. Nothing is sent while a message is set to be signed or encrypted. Your organisation can turn proofreading on for everyone; then the control says **Required by your organisation**.
+
+**Writing language** in the same settings section tells the proofreading plugin and your browser's spell check which language you write in. While a proofreading plugin checks spelling, the browser's own red underlines step back, so there is one set.
+
 ## Delivery options
 
 Next to "Request read receipt", the composer's Options menu has "Delivery notification", which asks the receiving server for a delivery status notification (DSN), and "Require encrypted delivery", which marks the message REQUIRETLS so it is never relayed over a connection without TLS. Both only show when the server supports them. Both ride on the JMAP submission; whether the far end honours them is up to that server.
@@ -122,7 +134,9 @@ Click a draft in the Drafts folder to resume it: content, recipients, attachment
 | `Ctrl/Cmd+Enter`       | Send                 |
 | `Ctrl/Cmd+Shift+Enter` | Schedule send        |
 | `t`                    | Open template picker |
-| `Escape`               | Close the composer   |
+| `Ctrl/Cmd+'`           | Next proofreading issue |
+| `Ctrl/Cmd+;`           | Previous proofreading issue |
+| `Escape`               | Close the composer (or the proofreading popup) |
 
 ## Next step
 
