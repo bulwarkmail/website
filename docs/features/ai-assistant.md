@@ -79,7 +79,21 @@ Settings > AI Assistant has a switch for each group: answer invitations, change 
 
 ## Files
 
-<!-- TODO(D) -->
+From 1.20, where the webmail has Files, the assistant can look in them when your question needs it: find files and folders by name, kind or date, list a folder, read a file (PDF, Word, Excel, PowerPoint, OpenDocument, text and the other kinds it reads in attachments) or look at a picture. It sees your own files and the ones others shared with you, never the Files trash. Type `@` and part of a name to add a file to the chat; it shows as a chip. With More context off, Files has its own @ menu, "Mention a file". In Files, **Summarize this file** works on one selected file.
+
+Pictures from Files go to the model as images only with More context on, **Read attachments** and **Look at images** switched on, and a model that can see images; otherwise it gets the name only. A photo's date and place also need **Send a photo's date and place**.
+
+With actions on it can also:
+
+- **attach files** to the message you write or to a new message. This always asks first, and the card names the files and the recipients. When it can't read the open draft's recipients, it stops. Files the composer turns down, too big or stopped by another plugin, are named, and when none are left no new message opens.
+- **save attachments** of the open message into a folder
+- **create a note**, a Markdown or plain text file, and **create folders**. A name that is taken gets a number, so nothing is overwritten.
+- **replace a text file**: always asks first. The old version goes to the Files trash, where Restore brings it back.
+- **move and rename** files and folders: always asks first, and Undo puts them back.
+
+It acts only on files it found with a lookup or that you mentioned with @ in the same chat; a new chat forgets them. It only changes your own files, never a folder you share with others or a drive someone shared with you, and it can't delete or share a file: the webmail offers no such call. When it can't tell whether a folder is shared, it leaves it alone. Another plugin that checks uploads, moves or renames in Files sees these changes too and can stop them.
+
+Settings > AI Assistant > Files has two switches, **Find and read files** (attaching included) and **Save and create files**, both on by default.
 
 ## More context
 
@@ -89,7 +103,7 @@ From 1.20, next to an open message the assistant can read more than the message'
 - **Pictures**: attached images and pictures in the message go to the model as images when the model can see them. They are made smaller in the webmail first. Tracking pixels and tiny images are left out, and remote images are never loaded. A model that can't see images only gets the file name and the picture's description. The date and place a photo was taken go along only when you ask for them and have switched on **Send a photo's date and place** (off by default).
 - **This conversation**: every message of the open conversation, without the quoted earlier mail, up to 50.
 - **Messages selected in the list**: tick two or more messages and the panel shows a chip like "3 messages". The Actions menu then offers Summarize these, What do I have to do? and, with actions on, One reply to all: a new message to everyone who wrote them, which always asks first. Up to 50 messages are read.
-- **@ mentions**: type `@` and a few letters to add a message or a contact to the chat.
+- **@ mentions**: type `@` and a few letters to add a message, a contact or (with [Files](#files) on) a file to the chat.
 
 One request reads at most 60,000 characters and 8 pictures (4 per message) in all. You can switch reading attachments, looking at pictures and reading whole conversations off in the plugin's settings.
 
@@ -145,8 +159,10 @@ Only what a request needs, and only when you ask something. The privacy notice b
 | Tag messages, or file or tag many at once | The names of your tags and folders, and how many messages changed |
 | Change a setting (when allowed) | The setting's name and its old and new value, or why it can't be changed |
 | Change an event or a contact, or answer an invitation | The event's title and time, the contact's name, addresses, phones, company and postal address, the invitation's title and organiser |
+| Ask about your files, or mention a file with @ | The names, folder paths, kinds, sizes and dates of the files and folders a search or a folder list finds, and for a file someone shared with you, whose drive it is in; the same for the files and folders you mention with @; the contents of a file it reads (with the same limits as attachments); a picture, made smaller, under the conditions in [Files](#files), and its date and place only with **Send a photo's date and place** |
+| Let it save, create, move or rename a file | The file and folder names it used and the folder the file ended up in |
 
-<!-- TODO(D): rows for Files -->
+Everything one request reads, attachments and files together, shares the limit of 60,000 characters and 8 pictures.
 
 Earlier chats are not sent; only the running chat's last turns are. Mail text goes to the model between tags, and the model is told it is data, not instructions, so a message that says "ignore your instructions" gets summarised, not obeyed. Very long texts are cut at 30,000 characters.
 
@@ -160,7 +176,7 @@ The API keys stay on the webmail server. The plugin asks the server to send each
 - It never shares a file, a folder or a calendar, and never makes a public link.
 - It never moves your data out of your account.
 
-From 1.20 the webmail holds part of this for every plugin, not only the assistant: no plugin may switch the out-of-office reply on while it forwards mail (or while the webmail can't tell), no plugin filter can forward, redirect, reject or discard mail, and a plugin's batch move, archive or filter never files mail into a folder shared with other people. When the webmail can't read whether a folder is shared, it refuses.
+From 1.20 the webmail holds part of this for every plugin, not only the assistant: no plugin may switch the out-of-office reply on while it forwards mail (or while the webmail can't tell), no plugin filter can forward, redirect, reject or discard mail, a plugin's batch move, archive or filter never files mail into a folder shared with other people, and a plugin writes files only into the user's own drive, never into a shared folder. There is no plugin call that deletes or shares a file or makes a public link. When the webmail can't read whether a folder is shared, it refuses.
 
 ## Settings for users
 
@@ -172,6 +188,7 @@ Settings > AI Assistant shows which service and model you use. There you can:
 - turn actions on, as ask first or automatic, as far as your admin allows, and switch each group of the [more actions](#more-actions) on or off
 - add standing instructions of your own ("I am a teacher, keep my emails short and warm"); they come after the admin's, so yours win when the two disagree
 - under **More context** (from 1.20): Read attachments, Look at images, Send a photo's date and place (off by default), Read the whole conversation
+- under **Files** (from 1.20): Find and read files, Save and create files
 - under **Chat**: your saved prompts, your notes and the switch to stop using them
 - under **Other views and Catch me up** (from 1.20): Show in Calendar, Contacts, Files and Settings, Offer Catch me up, Look for mail waiting for a reply
 - connect your own API key, when your admin allows it. You type the key into the webmail's own dialog, so the plugin never sees it; it is stored encrypted on the server. With your own key you also set **My model can see images**.
@@ -198,7 +215,7 @@ Install the plugin in the admin console under Plugins, from the [marketplace](/d
 | More actions | `allowMoreActions` | Answer invitations, change and delete events, tag messages, set the out-of-office reply, create filters, act on many messages at once, change contacts, and the out-of-office and filter lookups. All but changing an event and tags always ask the user first. Off hides them and their switches. On by default |
 | Most messages per batch | `batchLimit` | How many messages one batch action may change, 1 to 200, default 50. A larger batch is refused before the user is asked |
 | Change settings | `allowSettingsChanges` | Let users allow the assistant to change their app settings (appearance, reading, composing, list, notifications, calendar view). Never account, security, sharing, forwarding or plugin settings, and never one your policy locks. Each change asks first and can be undone. Off by default |
-| Files | `allowFiles` | Find and read the user's files, attach them to drafts, save attachments to Files, create files and folders. Never deletes or shares. On by default |
+| Files | `allowFiles` | Find and read the user's files, attach them to drafts, save attachments to Files, create text files and folders, replace a text file, move and rename. Never deletes or shares. Off hides the lookups, the actions, @ files and the user's Files settings. On by default. The webmail's own Files switch and the server's Files support decide whether there are files at all |
 | Chat tools | `allowChatTools` | Earlier chats, saved prompts, `/` commands, Edit and Answer again, notes and templates. Off switches all of them off, notes and templates included, and the reader keeps one chat that never moves to Earlier chats. On by default |
 | Prompts for everyone | `prompts` | Saved prompts every user gets, one per line: `Name: what to ask`. Lines without a name, empty lines and lines starting with `#` are left out; at most 30 |
 | Remember notes | `allowMemory` | Let users have the assistant keep short notes about them, which go with every request. Off: no remember action, no notes sent, the settings hide them. On by default |
@@ -220,11 +237,10 @@ The plugin needs Bulwark 1.17.0 or newer. It checks what the webmail offers and 
 - the panel in Calendar, Contacts, Files and Settings, Alt+A there, and Catch me up in that panel
 - the check for sent mail waiting for a reply in Catch me up
 - answering invitations, deleting events, the out-of-office reply, filters, many messages at once and changing settings
+- everything in [Files](#files): finding, reading, attaching and saving files
 - several lines in the instructions field
 
-<!-- TODO(D): the webmail version Files needs -->
-
-The panel in the other views needs the `ui:side-panel` permission, answering invitations `calendar:respond`, and changing settings `settings:change`. The plugin asks for these three as optional permissions, so older webmails, which don't know them, still install it. The consent dialog marks `calendar:respond` and `settings:change` as high risk. The templates tools need `templates:read` and `templates:write`, the out-of-office and filters `vacation:read`, `vacation:write`, `filters:read` and `filters:write`.
+The panel in the other views needs the `ui:side-panel` permission, answering invitations `calendar:respond`, and changing settings `settings:change`. The plugin asks for these three as optional permissions, so older webmails, which don't know them, still install it. The consent dialog marks `calendar:respond` and `settings:change` as high risk. The templates tools need `templates:read` and `templates:write`, the out-of-office and filters `vacation:read`, `vacation:write`, `filters:read` and `filters:write`, and Files `files:read` and `files:write`.
 
 A plugin that was turned on before an update added a permission doesn't have it yet, and the assistant hides those parts until the user turns the plugin off and on in Settings > Add-ons, or you install it again. For the panel in the other views its settings say so.
 
