@@ -1,6 +1,6 @@
 ---
 title: AI assistant
-description: The AI Assistant plugin: a chat next to your mail, calendar, contacts and files, what it can do for you, what it sends to the AI service, and how admins set it up.
+description: "The AI Assistant plugin: a chat next to your mail, calendar, contacts and files, what it can do for you, what it sends to the AI service, and how admins set it up."
 order: 9
 edition: full
 editionNote: "The assistant is a plugin, and plugins don't run in Bulwark Lite."
