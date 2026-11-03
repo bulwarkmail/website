@@ -64,6 +64,7 @@ A plugin can show up in about 50 places. There are three kinds:
 | | `command-palette` | `ui:commands` |
 | | `app-page` (own page with a navigation rail entry) | `ui:app-page` |
 | | `plugin-dialog` | none (opened by the plugin) |
+| | `app-side-panel` (a side panel next to Calendar, Contacts, Files and Settings, from 1.20) | `ui:side-panel` |
 | Navigation | `navigation-rail-bottom` | `ui:navigation-rail` |
 | | `sidebar-widget`, `sidebar-section`, `sidebar-section-actions` | `ui:sidebar-widget` |
 | | `top-bar-actions` | `ui:toolbar` |
@@ -87,6 +88,8 @@ A plugin can show up in about 50 places. There are three kinds:
 | Files | `file-actions`, `file-preview-section` | `ui:files` |
 | Settings | `settings-section`, `settings-page` | `ui:settings-section` |
 | Admin | `admin-plugin-page` | `ui:admin-page` or `admin:config` |
+
+From 1.20 the side panel that sits next to the open message (`email-detail-sidebar`) has a sibling in the other views: `app-side-panel` shows next to Calendar, Contacts, Files and Settings, under a button at the end of each view's toolbar row. The plugin learns which view it is in and what the view shows (the open event, the open contact, the selected files and folder, or the settings page), each part only with the matching read permission. Phones and Settings below 1024 px have no room for it: there the panel button asks the plugin to open a dialog instead. Plugins ask for `ui:side-panel` as an optional permission, so older webmails still install them.
 
 The composer's buttons, Options menu and Send menu are actions, so plugin entries look like the app's own. Options entries can be check items, and a composer button can have a keyboard shortcut that works while the composer has focus. When the composer is too narrow for its buttons, plugin buttons move into the Options menu.
 
@@ -114,16 +117,24 @@ There are hooks for the message list, reading, writing, sending, organising, fol
 Beyond hooks, a plugin calls into the host through `api`, which `activate` receives and `require('@plugin-host')` returns. The main groups, each behind its own permission:
 
 - **Mail:** `api.email`, `api.mailboxes` and `api.drafts` read, move and archive messages and save drafts; `api.jmap` handles keywords and blob uploads
+- **Attachment text and images:** from 1.20, `api.email.getAttachmentText` (`email:blob-read`) returns the text of a message's attachment, read in the webmail: PDF (up to 50 pages), Word, Excel, PowerPoint, OpenDocument, text, CSV, HTML, calendar and contact files, at most 100,000 characters, with a status for files that are too big, encrypted, scanned or of a kind it can't read. `api.email.getAttachmentImage` (`email:blob-read`) returns an image attachment or inline image made smaller (1,568 px on the long edge by default, at most 1.5 MB) as base64, skips tracking pixels and tiny images, never fetches remote images, and adds a photo's date and place only when the plugin asks. Inline images in a message view now carry their `cid` and alt text. Both 30 calls a minute
+- **Conversations:** from 1.20, `api.email.getThread` (`email:read`) returns every message of a message's conversation, oldest first, at most the newest 50, and `api.email.getThreadCount` (`email:read`) says how many messages it has without reading them. `api.email.search` takes a `position` to page through results
+- **List selection:** from 1.20 the panel next to the open message (`email-detail-sidebar`) gets a `listSelection` prop with `email:read`: the messages ticked in the list when two or more are, at most 50 by id and account, and how many in all
 - **Composing:** `api.compose.open` opens a new message filled in, and `api.compose.reply` opens a reply to the open message with text to start from
 - **The message being written:** from the release after 1.14.2, `api.composer` reads the text or selection of the message the user is writing and replaces it. It only works in the composer that handed the plugin its id (a click on one of the plugin's composer actions or a composer slot), leaves the signature and the quoted message alone, and each change is one undo step. `api.composer.attach` adds a file through the composer's usual checks.
 - **Proofreading:** from 1.20, `api.composer.registerChecker` makes the plugin a text checker: Bulwark sends it what users write while they type and draws its answers as underlines with a popup (see [text checkers](#text-checkers))
 - **Calendar, tasks, contacts:** `api.calendar`, `api.tasks`, `api.contacts` and `api.addressBooks`
 - **Account data:** `api.templates`, `api.identities`, `api.vacation`, `api.user` and `api.sieve`
 - **Keywords and labels:** read and set message keywords, and add or reorder the user's label definitions (see [below](#keywords-and-labels))
-- **UI:** `api.ui` opens confirm, prompt and plugin dialogs, sets actions, calendar day labels and pages, titles the plugin's sidebar section, offers files for download and opens external links in a new tab
+- **UI:** `api.ui` opens confirm, prompt and plugin dialogs, sets actions, calendar day labels and pages, titles the plugin's sidebar section, offers files for download and opens external links in a new tab. From 1.20 `api.ui.openDialog({ fill: true })` opens a dialog as tall as the window allows, with the plugin's frame filling it, for a chat whose input stays at the bottom
+- **Side panel in other views:** from 1.20 the `app-side-panel` slot (`ui:side-panel`) shows next to Calendar, Contacts, Files and Settings. `api.ui.openPanel`, `closePanel` and `togglePanel` open and close it, as they do the composer's and the reader's panels. Its props name the view and what it shows, each part only with its read permission (`calendar:read`, `contacts:read`, `files:read`)
 - **Notifications:** `api.toast` shows toasts; `api.notifications.show` shows a system notification (or a toast, when the user hasn't allowed them) that names the plugin and is listed in the notifications panel. A notification can carry a link, but only to a server the plugin already talks to.
 - **Storage and settings:** `api.storage` keeps up to 1 MB per account, `api.plugin.settings` holds the user's settings and `api.config.get` the admin's non-secret configuration. `api.admin.getConfig` returns no secret fields either, also when the user is signed in to the admin console: secrets are for the [credential proxy](#network-access) only
 - **Host:** `api.host.features` says which of Bulwark's own features are on: the External label and recipient warning, and from 1.20 `noThirdPartyTraffic`, so a plugin can turn an outside service off when the admin turned [third-party traffic](/docs/guides/organisation/third-party-traffic) off
+- **Invitations, filters, batches and settings:** from 1.20 `api.calendar.respond` (`calendar:respond`) answers an invitation in the user's own mail the way the reader's banner does, so the server sends the reply to the organiser; it refuses invitations whose sender doesn't check out, events the user organises and mail of shared mailboxes. `api.calendar.deleteEvent` returns an undo token for a single event of the user's own calendars, for `api.calendar.undoDelete`. `api.filters.list` and `api.filters.create` (`filters:read`, `filters:write`) read and add rules of Settings > Filters; a plugin's rule can move, copy, mark read, star, tag or stop, never forward, redirect, reject or discard. `api.email.batch` (`email:write`) archives, moves, marks or tags up to 200 messages in one change with one undo. `api.app.describeSettings` (`settings:read`) and `api.app.setSettings` (`settings:change`) describe and change settings from an allow-list of about 150, never ones the admin locked; `senderFavicons` and `showAvatarsInJunk` may only be switched off. Each change returns an undo token that works once, for 30 minutes, for that plugin only
+- **Files:** from 1.20 `api.files` reaches the user's [Files](/docs/features/files). With `files:read`, `find` searches the user's own drive and the drives shared with them by name, kind and date, `list` shows a folder, `getText` and `getImage` read a file the way the attachment calls do (30 a minute, stopping past 20 MB), and `attach` puts files into the open draft (`compose:write`) or a new one (`compose:open`) by blob, through the attachment checks and other plugins' `onBeforeAttachmentUpload`. With `files:write`, `saveAttachments`, `create` (text and Markdown files, up to 512 KB; replacing one keeps the old version in the Files trash), `createFolder`, `move` and `rename` change the user's own drive only, never a folder shared with others or a drive shared with the user, at most 20 changes a minute. The Files app's hooks run on every write. There is no call that deletes or shares a file, makes a public link or moves a file to another account
+- **Rules for every plugin:** from 1.20 `api.vacation.set` refuses to switch the out-of-office reply on while it forwards mail, or while the webmail can't read whether it does; `api.vacation.get` says which (`forwardActive`). Batch moves and archives, a filter's move or copy, and file writes never go into a folder shared with other people; when the webmail can't read a folder's sharing, it refuses
+- **Host feature flags for the newer calls:** from 1.20 `api.host.features` also says which of the calls above the webmail offers: `attachmentText`, `attachmentImages`, `threads` (`getThread` and `getThreadCount`), `listSelection`, `sidePanel`, `answerInvitation`, `filterRules` (the server has filters), `batchMail`, `changeSettings` and `files` (the server has Files and the admin left it on). `sidePanel`, `answerInvitation` and `changeSettings` are per plugin: `true` only once the plugin holds `ui:side-panel`, `calendar:respond` or `settings:change`, so a plugin turned on before an update added the permission sees `false` until the user turns it off and on. Older webmails don't send these flags, so a plugin reads them as `=== true` and hides what isn't there. The [AI assistant](/docs/features/ai-assistant) works this way
 - **Network:** `api.http`, `api.proxy` and `api.oauth` (see [Network access](#network-access))
 - **Encryption:** `api.crypto` and the raw blob and send methods, for privileged plugins only (see [Privileged tier](#privileged-tier))
 
@@ -258,15 +269,17 @@ Plugins declare the permissions they need in the manifest. An admin sees that li
 
 **Mail and composing:** `email:read`, `email:write`, `email:send`, `email:forward` (forward a message without the composer; the host asks the user once per address), `compose:open`, `compose:read`, `compose:write`, `compose:check` (from 1.20: get the text of every message being written while proofreading is on, see [text checkers](#text-checkers); shown as high risk at install).
 
-**Other data:** `calendar:read/write`, `contacts:read/write`, `files:read/write`, `identity:read/write`, `filters:read/write`, `tasks:read/write`, `templates:read/write`, `vacation:read/write`, `settings:read/write`, `security:read`, `account:read`, `directory:read` (look people up in the server's directory).
+**Other data:** `calendar:read/write`, `contacts:read/write`, `files:read/write`, `identity:read/write`, `filters:read/write`, `tasks:read/write`, `templates:read/write`, `vacation:read/write`, `settings:read/write`, `security:read`, `account:read`, `directory:read` (look people up in the server's directory). From 1.20 also `calendar:respond` (answer invitations; the answer goes to the organiser) and `settings:change` (change the user's settings from the allow-list). The consent dialog now names `settings:write` "Change your tags": it adds, renames and reorders tags and can stop settings changes, but changes no other settings.
 
 **Sign-in:** `auth:observe` (be told about sign-in, account switches and session renewal) and `auth:emit` (sign the user out).
 
-**UI:** `ui:toolbar`, `ui:app-top-banner`, `ui:email-banner`, `ui:email-footer`, `ui:email-details`, `ui:message-list`, `ui:message-list-tabs`, `ui:composer-toolbar`, `ui:composer-sidebar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:calendar-action`, `ui:contacts`, `ui:contact-cryptokeys`, `ui:tasks`, `ui:files`, `ui:commands`, `ui:app-page`, `ui:admin-page`, `ui:keyboard`, `ui:download-file`, `ui:notifications`.
+**UI:** `ui:toolbar`, `ui:app-top-banner`, `ui:email-banner`, `ui:email-footer`, `ui:email-details`, `ui:message-list`, `ui:message-list-tabs`, `ui:composer-toolbar`, `ui:composer-sidebar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:calendar-action`, `ui:contacts`, `ui:contact-cryptokeys`, `ui:tasks`, `ui:files`, `ui:commands`, `ui:app-page`, `ui:admin-page`, `ui:keyboard`, `ui:download-file`, `ui:notifications`, and from 1.20 `ui:side-panel` (a panel next to Calendar, Contacts, Files and Settings).
 
 **Network and admin:** `http:fetch`, `http:post`, `http:proxy`, `admin:config`.
 
 `ui:observe` and `app:lifecycle` are granted implicitly and don't belong in a manifest.
+
+From 1.20 a manifest can also list `optionalPermissions`: permissions the plugin uses when the webmail offers them. A webmail that knows them grants them like the others, consent dialog included, and leaves out the ones it doesn't know with a warning; older webmails ignore the field. A plugin built this way installs on older webmails too and checks `api.host.features` before it uses the newer calls. A permission an older webmail doesn't know in `permissions` itself refuses the install there.
 
 The consent dialog marks these as high risk: `email:read` (it covers every message in the account, not only the open one), `email:send`, `email:forward`, `identity:write`, `filters:write`, `vacation:write`, `http:fetch`, `http:post`, `http:proxy`, and the permissions below.
 
@@ -277,6 +290,8 @@ The consent dialog marks these as high risk: `email:read` (it covers every messa
 | `email:blob-read`       | Read attachments and the full source of messages the user acts on, and files the user attaches |
 | `email:blob-write`      | Upload files and replace an attachment before the message is sent |
 | `email:render-takeover` | Replace the shown text of opened messages and of the message list, for example with decrypted content |
+| `calendar:respond`      | Answer calendar invitations; the answer goes to the organiser by email (from 1.20) |
+| `settings:change`       | Change how the app looks and works, such as the theme or the time format; settings the organisation set stay as they are (from 1.20) |
 
 ### Privileged tier
 
@@ -313,7 +328,7 @@ The [plugins repository](https://github.com/bulwarkmail/plugins) holds the offic
 - **Nextcloud:** attach files from Nextcloud, send large files as share links, save attachments and messages there
 - **Paperless-ngx:** send attachments and messages to Paperless and attach documents from it
 - **Email to task:** turn a message into a task in Bulwark, Vikunja, Todoist or a CalDAV task list
-- **AI Writing Assistant:** write, rewrite, translate and proofread with an OpenAI-compatible service
+- **AI Assistant:** a chat next to your mail, calendar, contacts and files that writes, summarises, looks things up and does small tasks, with an OpenAI-compatible service or Anthropic (see [AI assistant](/docs/features/ai-assistant))
 - **S/MIME:** sign, encrypt, verify and decrypt messages (privileged tier)
 - **Jitsi Meet:** add a meeting link to calendar events
 - **Package tracking**, **Birthday reminders**, **Calendar agenda**, **Time zone helper**, **Translate**, **Quick notes**
