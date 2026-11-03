@@ -145,6 +145,7 @@ type Sponsor = {
 };
 
 const SPONSORS: Sponsor[] = [
+  { name: "Monarobase", href: "https://monarobase.net", logo: "/logos/monarobase.svg", ratio: 483 / 79, height: 26 },
   { name: "Superspace", href: "https://superspace.nl", logo: "/logos/superspace.svg", ratio: 255 / 42.5, height: 26 },
   { name: "RBM Systems", href: "https://rbm.systems", logo: "/logos/rbmsys.svg", ratio: 124 / 31.48, height: 30 },
   { name: "Ingenieurbüro Lepthien", href: "https://lepthien.info/", logo: "/logos/lepthien.svg", ratio: 4, height: 40 },

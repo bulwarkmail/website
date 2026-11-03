@@ -747,8 +747,8 @@ h3 {
   mask: var(--logo) center / contain no-repeat;
   -webkit-mask: var(--logo) center / contain no-repeat;
 }
-/* On a phone: the label and two logos on the first row, the third logo and
-   "Become a sponsor" (pushed right) on the second. */
+/* On a phone the bar wraps to three rows at most, with "Become a sponsor"
+   pushed right on the last one. Four logos don't fit two rows at a legible size. */
 @media (max-width: 640px) {
   .bw-sponsors-in {
     gap: 14px 16px;
