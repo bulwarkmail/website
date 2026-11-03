@@ -208,13 +208,14 @@ Related pages: [Admin console](/docs/guides/admin), [Configuration](/docs/gettin
 
 ## Plugins and themes
 
-Related pages: [Plugins](/docs/guides/plugins), [Marketplace](/docs/guides/marketplace), [Extensions](/docs/extensions/introduction). None of this is in Lite.
+Related pages: [Plugins](/docs/guides/plugins), [Marketplace](/docs/guides/marketplace), [Extensions](/docs/extensions/introduction), [AI assistant](/docs/features/ai-assistant). None of this is in Lite.
 
 - **Plugins**: add buttons, panels, banners, hooks and settings to mail, calendar and contacts, run in a sandbox, and are off until an admin turns them on; the hooks, surfaces and APIs are on the [Plugins](/docs/guides/plugins) page
 - **Marketplace**: browse and install plugins and themes from a directory in the admin console, the official one or your own (`EXTENSION_DIRECTORY_URL`)
 - **Users' own plugins**: users upload them in Settings → Add-ons when the admin allows it, and an admin approves each one
 - **Themes**: uploaded as ZIP bundles, and admins can enforce one
 - **Plugins from the directory**: such as Jitsi Meet for video calls in calendar events
+- **AI assistant**: a chat next to the reader and the composer that writes, summarises, looks things up in your mail, calendar and contacts, and does small tasks for you, with an OpenAI-compatible service or Anthropic; from 1.20 also next to Calendar, Contacts, Files and Settings, and it reads attachments, pictures and whole conversations (plugin) ([AI assistant](/docs/features/ai-assistant))
 - **Plugin development**: load a plugin from a dev folder (`PLUGIN_DEV_DIR`), rebuilt from `src/` on each page load; the [extension docs](/docs/extensions/introduction) cover the manifest and publishing
 
 ## Operations
