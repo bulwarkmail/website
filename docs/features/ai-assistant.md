@@ -55,11 +55,27 @@ Each action shows as a card with what it will do ("Move “Invoice 42” to Proj
 - **Ask me first**: the card waits with Do it and Skip, and nothing happens until you click Do it.
 - **Automatic**: the action runs at once and the card offers **Undo**. Archive, move and marks go back; an event, task or contact is deleted again. After five actions in one answer the assistant asks first anyway.
 
-Actions are off until you turn them on, and your admin decides how far you may go. Some actions always ask first, whatever the mode: One reply to all (see [More context](#more-context)), a note it should remember, and a template it fills in or saves. The model is told to act only when you ask or agree, never because a message tells it to. For mailboxes that get mail from strangers, ask first is the safer mode.
+Actions are off until you turn them on, and your admin decides how far you may go. Some actions always ask first, whatever the mode: a new message to an address you never typed in the chat and that isn't in the open message, One reply to all (see [More context](#more-context)), a note it should remember, a template it fills in or saves, and most of the [more actions](#more-actions) below. The model is told to act only when you ask or agree, never because a message tells it to. For mailboxes that get mail from strangers, ask first is the safer mode.
 
 ## More actions
 
-<!-- TODO(C) -->
+With actions on, the assistant can do more for you on a webmail that offers it:
+
+- **Answer an invitation**: accept, maybe or decline the invitation in the open message, or one it found in your mail. Bulwark sends your answer to the organiser at once, so there is no Undo; answer again to change it. The card says which address the answer goes to.
+- **Change an event**: its title, start and end, place, description, or whether it lasts all day. It never changes who is invited. Undo writes the old values back.
+- **Delete an event**: only a single event you created. Repeating events, one occurrence of them and events someone invited you to stay for you to delete in the calendar. Undo brings the event back.
+- **Tags**: put one of your tags on a message or take it off, by the tag's name.
+- **Out-of-office reply**: turn it on with a subject, a text and, if you like, the first and last day, or turn it off. While your out-of-office forwards mail to another address, the assistant leaves it alone and points you to Settings > Out of office. Undo puts the old reply back.
+- **Create a filter** for new mail: when the sender, a recipient, Cc, the subject, the text, a header, the size or an attachment matches, move or copy the message to a folder, mark it read, star it, tag it, or stop other filters. The card shows the rule in plain words ("If the sender is “newsletter@shop.example”: move to “Newsletters”, mark as read"). There is no filter that forwards, redirects, rejects or deletes mail, and none that moves mail to the trash or into a folder shared with other people. Undo removes the filter.
+- **Many messages at once**: archive, move, mark read or unread, tag or untag the messages of a search or a list. The card shows how many and the first five subjects. More than your admin's limit (50 unless set) is refused. Undo puts them back.
+- **Change a setting** of the app ("Change Time format: 12-hour → 24-hour?"), only when your admin allows it and you turn it on. A setting your organisation set stays as it is. Some settings the assistant can never change: account, security, sharing and forwarding settings, anything that would delete or send mail, and remote content. Sender favicons and avatars in Junk it may only switch off. Undo writes the old value back.
+- **Change a contact**: name, email addresses, phone numbers, company and postal address. The card marks each new address or phone number you didn't type yourself. Undo puts the old card back.
+
+It also looks up your out-of-office reply and your filters when it needs them, with lookups on.
+
+Answering an invitation, deleting an event, the out-of-office reply, filters, many messages at once, settings and contacts **always ask you first**, even in automatic mode. Changing an event and tags follow your mode; changing the description of an event with other participants asks first too.
+
+Settings > AI Assistant has a switch for each group: answer invitations, change and delete events, tag messages, out-of-office reply, create filters, act on many messages at once, change my settings, change contacts. All are on except changing settings, which stays off until you turn it on, and is greyed out unless your admin allows it. Switches for what your webmail doesn't offer are hidden.
 
 ## Files
 
@@ -90,7 +106,7 @@ When the browser storage is full, New chat and the 8-hour split first drop the o
 
 ## Catch me up
 
-From 1.20, **Catch me up** is in the Actions menu and a button in the empty panel whenever no message is open, as in Calendar, Contacts, Files and Settings. It needs lookups on. It lists what came in and what is due:
+**Catch me up** is in the Actions menu and a button in the empty panel whenever no message is open: in Mail with no message open, and from 1.20 in Calendar, Contacts, Files and Settings. It needs lookups on. It lists what came in and what is due:
 
 - unread mail in the inbox since your last visit, sorted into what needs an answer and what is for your information
 - today's events
@@ -124,8 +140,12 @@ Only what a request needs, and only when you ask something. The privacy notice b
 | Mention a message or contact with @ | The message's sender, date and subject (its text when the model reads it), or the contact's name, addresses and company |
 | Ask in Calendar, Contacts, Files or Settings | What you have open there: the event (title, time, place, participants, description), the contact (name, addresses, phones, company, dates, notes) and how many contacts are ticked, the names, types, sizes and dates of up to 20 selected files and the folder's path, or the settings page's name |
 | Use Catch me up | Your unread inbox mail since your last visit (sender, recipients, date, subject, preview, message id), today's events (time, title, place), your open tasks due today or earlier (title, due date), and the sent mail of the last week that is waiting for a reply (the same fields as the unread mail). They go with that one request; the chat keeps only the answer and its cards |
+| Ask about or change your out-of-office reply | Whether it is on, its dates, subject and text, and whether it forwards mail |
+| Ask about or create a filter | Your filter rules: names, conditions and what they do (folder and tag names, and the address of a forwarding rule) |
+| Tag messages, or file or tag many at once | The names of your tags and folders, and how many messages changed |
+| Change a setting (when allowed) | The setting's name and its old and new value, or why it can't be changed |
+| Change an event or a contact, or answer an invitation | The event's title and time, the contact's name, addresses, phones, company and postal address, the invitation's title and organiser |
 
-<!-- TODO(C): rows for More actions -->
 <!-- TODO(D): rows for Files -->
 
 Earlier chats are not sent; only the running chat's last turns are. Mail text goes to the model between tags, and the model is told it is data, not instructions, so a message that says "ignore your instructions" gets summarised, not obeyed. Very long texts are cut at 30,000 characters.
@@ -140,6 +160,8 @@ The API keys stay on the webmail server. The plugin asks the server to send each
 - It never shares a file, a folder or a calendar, and never makes a public link.
 - It never moves your data out of your account.
 
+From 1.20 the webmail holds part of this for every plugin, not only the assistant: no plugin may switch the out-of-office reply on while it forwards mail (or while the webmail can't tell), no plugin filter can forward, redirect, reject or discard mail, and a plugin's batch move, archive or filter never files mail into a folder shared with other people. When the webmail can't read whether a folder is shared, it refuses.
+
 ## Settings for users
 
 Settings > AI Assistant shows which service and model you use. There you can:
@@ -147,7 +169,7 @@ Settings > AI Assistant shows which service and model you use. There you can:
 - pick another model, or the other service when both are set up
 - hide the assistant next to messages
 - turn lookups off
-- turn actions on, as ask first or automatic, as far as your admin allows
+- turn actions on, as ask first or automatic, as far as your admin allows, and switch each group of the [more actions](#more-actions) on or off
 - add standing instructions of your own ("I am a teacher, keep my emails short and warm"); they come after the admin's, so yours win when the two disagree
 - under **More context** (from 1.20): Read attachments, Look at images, Send a photo's date and place (off by default), Read the whole conversation
 - under **Chat**: your saved prompts, your notes and the switch to stop using them
@@ -173,8 +195,8 @@ Install the plugin in the admin console under Plugins, from the [marketplace](/d
 | More context | `allowContext` | Attachments and pictures of the open message, the whole conversation, the messages selected in the list, and @ mentions. On by default |
 | Anthropic: images | `anthropicImages` | Whether the Anthropic model gets images: `auto` (default; yes), `yes` or `no` (file name only) |
 | OpenAI-compatible: images | `openaiImages` | The same for the OpenAI-compatible model. `auto`: yes for api.openai.com apart from text-only models (o3-mini, gpt-oss, gpt-3.5), no for other servers such as Ollama, vLLM or LM Studio |
-| More actions | `allowMoreActions` | Answer invitations, change and delete events, tag messages, set the out-of-office reply, create filters, act on many messages at once. Each asks the user first. On by default |
-| Most messages per batch | `batchLimit` | How many messages one batch action may change, 1 to 200, default 50 |
+| More actions | `allowMoreActions` | Answer invitations, change and delete events, tag messages, set the out-of-office reply, create filters, act on many messages at once, change contacts, and the out-of-office and filter lookups. All but changing an event and tags always ask the user first. Off hides them and their switches. On by default |
+| Most messages per batch | `batchLimit` | How many messages one batch action may change, 1 to 200, default 50. A larger batch is refused before the user is asked |
 | Change settings | `allowSettingsChanges` | Let users allow the assistant to change their app settings (appearance, reading, composing, list, notifications, calendar view). Never account, security, sharing, forwarding or plugin settings, and never one your policy locks. Each change asks first and can be undone. Off by default |
 | Files | `allowFiles` | Find and read the user's files, attach them to drafts, save attachments to Files, create files and folders. Never deletes or shares. On by default |
 | Chat tools | `allowChatTools` | Earlier chats, saved prompts, `/` commands, Edit and Answer again, notes and templates. Off switches all of them off, notes and templates included, and the reader keeps one chat that never moves to Earlier chats. On by default |
@@ -192,18 +214,19 @@ PLUGIN_PROXY_PRIVATE_ORIGINS=http://ollama:11434
 
 ### Webmail versions
 
-The plugin needs Bulwark 1.17.0 or newer. It checks what the webmail offers and shows only what works there. On 1.19.1 you get the composer and reader panels, quick actions, lookups, actions, chat tools and @ mentions. These need the next release after 1.19.1 (1.20):
+The plugin needs Bulwark 1.17.0 or newer. It checks what the webmail offers and shows only what works there. On 1.19.1 you get the composer and reader panels, quick actions, lookups, actions, chat tools, @ mentions, Catch me up in Mail, and of the more actions changing events, tags and contacts. These need the next release after 1.19.1 (1.20):
 
 - reading attachments and pictures, whole conversations and the messages selected in the list
 - the panel in Calendar, Contacts, Files and Settings, Alt+A there, and Catch me up in that panel
+- the check for sent mail waiting for a reply in Catch me up
+- answering invitations, deleting events, the out-of-office reply, filters, many messages at once and changing settings
 - several lines in the instructions field
 
-<!-- TODO(C): the webmail version More actions needs -->
 <!-- TODO(D): the webmail version Files needs -->
 
-The panel in the other views needs the `ui:side-panel` permission, which the plugin asks for as an optional permission so that older webmails install it without. The templates tools need `templates:read` and `templates:write`. A plugin that was turned on before an update added a permission doesn't have it yet, and the assistant hides those parts until the user turns the plugin off and on in Settings > Add-ons, or you install it again. For the panel in the other views its settings say so.
+The panel in the other views needs the `ui:side-panel` permission, answering invitations `calendar:respond`, and changing settings `settings:change`. The plugin asks for these three as optional permissions, so older webmails, which don't know them, still install it. The consent dialog marks `calendar:respond` and `settings:change` as high risk. The templates tools need `templates:read` and `templates:write`, the out-of-office and filters `vacation:read`, `vacation:write`, `filters:read` and `filters:write`.
 
-<!-- TODO(C): calendar:respond and settings:change -->
+A plugin that was turned on before an update added a permission doesn't have it yet, and the assistant hides those parts until the user turns the plugin off and on in Settings > Add-ons, or you install it again. For the panel in the other views its settings say so.
 
 Every permission and what the plugin uses it for is listed in the plugin's [README](https://github.com/bulwarkmail/plugins/tree/main/ai-assistant).
 

@@ -130,11 +130,12 @@ Beyond hooks, a plugin calls into the host through `api`, which `activate` recei
 - **Notifications:** `api.toast` shows toasts; `api.notifications.show` shows a system notification (or a toast, when the user hasn't allowed them) that names the plugin and is listed in the notifications panel. A notification can carry a link, but only to a server the plugin already talks to.
 - **Storage and settings:** `api.storage` keeps up to 1 MB per account, `api.plugin.settings` holds the user's settings and `api.config.get` the admin's non-secret configuration. `api.admin.getConfig` returns no secret fields either, also when the user is signed in to the admin console: secrets are for the [credential proxy](#network-access) only
 - **Host:** `api.host.features` says which of Bulwark's own features are on: the External label and recipient warning, and from 1.20 `noThirdPartyTraffic`, so a plugin can turn an outside service off when the admin turned [third-party traffic](/docs/guides/organisation/third-party-traffic) off
-- **Host feature flags for the newer calls:** from 1.20 `api.host.features` also says which of the calls above the webmail offers: `attachmentText`, `attachmentImages`, `threads` (`getThread` and `getThreadCount`), `listSelection` and `sidePanel`. `sidePanel` is per plugin: `true` when the plugin may show the side panel, `false` when the webmail has it but the plugin lacks `ui:side-panel`. Older webmails don't send these flags, so a plugin reads them as `=== true` and hides what isn't there. The [AI assistant](/docs/features/ai-assistant) works this way
+- **Invitations, filters, batches and settings:** from 1.20 `api.calendar.respond` (`calendar:respond`) answers an invitation in the user's own mail the way the reader's banner does, so the server sends the reply to the organiser; it refuses invitations whose sender doesn't check out, events the user organises and mail of shared mailboxes. `api.calendar.deleteEvent` returns an undo token for a single event of the user's own calendars, for `api.calendar.undoDelete`. `api.filters.list` and `api.filters.create` (`filters:read`, `filters:write`) read and add rules of Settings > Filters; a plugin's rule can move, copy, mark read, star, tag or stop, never forward, redirect, reject or discard. `api.email.batch` (`email:write`) archives, moves, marks or tags up to 200 messages in one change with one undo. `api.app.describeSettings` (`settings:read`) and `api.app.setSettings` (`settings:change`) describe and change settings from an allow-list of about 150, never ones the admin locked; `senderFavicons` and `showAvatarsInJunk` may only be switched off. Each change returns an undo token that works once, for 30 minutes, for that plugin only
+- **Rules for every plugin:** from 1.20 `api.vacation.set` refuses to switch the out-of-office reply on while it forwards mail, or while the webmail can't read whether it does; `api.vacation.get` says which (`forwardActive`). Batch moves and archives, and a filter's move or copy, never go into a folder shared with other people; when the webmail can't read a folder's sharing, it refuses
+- **Host feature flags for the newer calls:** from 1.20 `api.host.features` also says which of the calls above the webmail offers: `attachmentText`, `attachmentImages`, `threads` (`getThread` and `getThreadCount`), `listSelection`, `sidePanel`, `answerInvitation`, `filterRules` (the server has filters), `batchMail` and `changeSettings`. `sidePanel`, `answerInvitation` and `changeSettings` are per plugin: `true` only once the plugin holds `ui:side-panel`, `calendar:respond` or `settings:change`, so a plugin turned on before an update added the permission sees `false` until the user turns it off and on. Older webmails don't send these flags, so a plugin reads them as `=== true` and hides what isn't there. The [AI assistant](/docs/features/ai-assistant) works this way
 - **Network:** `api.http`, `api.proxy` and `api.oauth` (see [Network access](#network-access))
 - **Encryption:** `api.crypto` and the raw blob and send methods, for privileged plugins only (see [Privileged tier](#privileged-tier))
 
-<!-- TODO(C): host calls and flags of More actions -->
 <!-- TODO(D): host calls and flags of Files -->
 
 ### Keywords and labels
@@ -208,14 +209,11 @@ Plugins declare the permissions they need in the manifest. An admin sees that li
 
 **Mail and composing:** `email:read`, `email:write`, `email:send`, `email:forward` (forward a message without the composer; the host asks the user once per address), `compose:open`, `compose:read`, `compose:write`.
 
-**Other data:** `calendar:read/write`, `contacts:read/write`, `files:read/write`, `identity:read/write`, `filters:read/write`, `tasks:read/write`, `templates:read/write`, `vacation:read/write`, `settings:read/write`, `security:read`, `account:read`, `directory:read` (look people up in the server's directory).
+**Other data:** `calendar:read/write`, `contacts:read/write`, `files:read/write`, `identity:read/write`, `filters:read/write`, `tasks:read/write`, `templates:read/write`, `vacation:read/write`, `settings:read/write`, `security:read`, `account:read`, `directory:read` (look people up in the server's directory). From 1.20 also `calendar:respond` (answer invitations; the answer goes to the organiser) and `settings:change` (change the user's settings from the allow-list). The consent dialog now names `settings:write` "Change your tags": it adds, renames and reorders tags and can stop settings changes, but changes no other settings.
 
 **Sign-in:** `auth:observe` (be told about sign-in, account switches and session renewal) and `auth:emit` (sign the user out).
 
 **UI:** `ui:toolbar`, `ui:app-top-banner`, `ui:email-banner`, `ui:email-footer`, `ui:email-details`, `ui:message-list`, `ui:message-list-tabs`, `ui:composer-toolbar`, `ui:composer-sidebar`, `ui:sidebar-widget`, `ui:settings-section`, `ui:context-menu`, `ui:navigation-rail`, `ui:calendar-action`, `ui:contacts`, `ui:contact-cryptokeys`, `ui:tasks`, `ui:files`, `ui:commands`, `ui:app-page`, `ui:admin-page`, `ui:keyboard`, `ui:download-file`, `ui:notifications`, and from 1.20 `ui:side-panel` (a panel next to Calendar, Contacts, Files and Settings).
-
-<!-- TODO(C): calendar:respond and settings:change -->
-
 
 **Network and admin:** `http:fetch`, `http:post`, `http:proxy`, `admin:config`.
 
@@ -232,6 +230,8 @@ The consent dialog marks these as high risk: `email:read` (it covers every messa
 | `email:blob-read`       | Read attachments and the full source of messages the user acts on, and files the user attaches |
 | `email:blob-write`      | Upload files and replace an attachment before the message is sent |
 | `email:render-takeover` | Replace the shown text of opened messages and of the message list, for example with decrypted content |
+| `calendar:respond`      | Answer calendar invitations; the answer goes to the organiser by email (from 1.20) |
+| `settings:change`       | Change how the app looks and works, such as the theme or the time format; settings the organisation set stay as they are (from 1.20) |
 
 ### Privileged tier
 
