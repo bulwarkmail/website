@@ -746,7 +746,14 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 
 - **Purpose:** show the "Remember me" checkbox on the login form.
 - **Default:** `false` (every sign-in is remembered without asking).
-- **When to set it:** set to `true` when users should choose, for example on shared computers. Sessions then end with the browser unless the box is ticked.
+- **When to set it:** set to `true` when users should choose, for example on shared computers. A sign-in with the box unticked then ends at the next reload, or when the browser closes with `BROWSER_SESSION_SIGN_IN`.
+
+### `BROWSER_SESSION_SIGN_IN`
+
+- **Purpose:** with the "Remember me" box shown, a sign-in made with it unticked lasts until the browser closes instead of ending at the next reload. It survives reloads and new tabs. Its cookies have no expiry, so the browser drops them when it closes. Applies to password, two-factor, access token and SSO sign-ins.
+- **Default:** `false` (an unticked sign-in ends at the next reload or in a new tab).
+- **Accepted values:** `true` or `false`. Has no effect without `SESSION_SECRET`.
+- **When to set it:** when users expect the box to work as in most webmail, where unticked means "until I close the browser". A browser set to restore the last session on start may keep session cookies.
 
 ### `DOMAIN_BRANDING`
 
