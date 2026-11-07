@@ -40,7 +40,9 @@
   --bw-success: #17784a;
 
   /* type */
-  --bw-font: var(--font-hanken), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bw-font: var(--font-hanken-ext), var(--font-hanken), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bw-font-heading: var(--font-hanken-ext), var(--font-hanken-heading), var(--font-hanken), system-ui,
+    -apple-system, "Segoe UI", sans-serif;
   --bw-mono: var(--font-jetbrains), ui-monospace, Consolas, monospace;
   --bw-h1: clamp(36px, 4.7vw, 60px);
   --bw-h2: clamp(28px, 3.2vw, 40px);
@@ -163,9 +165,15 @@ body {
   overflow-x: clip;
 }
 
+/* The heading face reports a smaller ascent (see layout.tsx), which lifts
+   the text by (1 - 0.303 - 0.8 + 0.3) / 2 em inside each line. The offset
+   puts it back where the regular face draws it. */
 h1,
 h2,
 h3 {
+  font-family: var(--bw-font-heading);
+  position: relative;
+  top: 0.0985em;
   font-weight: var(--bw-heading-weight);
   letter-spacing: var(--bw-heading-tracking);
   text-wrap: balance;
