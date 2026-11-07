@@ -698,6 +698,13 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 - **Accepted values:** http(s) URLs. The feedback link may also be an email address.
 - **When to set it:** public bodies in Germany need the statement and a way to report barriers on every page (BITV 2.0 §7). Easy-read and sign-language pages are for the same audience.
 
+### `ACCOUNT_MANAGEMENT_URL` / `ACCOUNT_MANAGEMENT_LABEL`
+
+- **Purpose:** a link under Authentication in Settings > Account to the mail server's own account page, where users turn on 2FA and make app passwords. `ACCOUNT_MANAGEMENT_LABEL` sets the link text.
+- **Default:** unset hides the link. Without a label the link reads "Manage account security (2FA, app passwords)", translated.
+- **Accepted values:** an http(s) URL, or a path on the webmail's own host such as `/account/`.
+- **When to set it:** mostly for Bulwark Lite, which has no Security tab. Stalwart's Account Manager at `/account/` works on the webmail's host once that host has its own OAuth client for the Account Manager.
+
 ### `LOGIN_LOGO_MAX_HEIGHT` / `LOGIN_LOGO_MAX_WIDTH`
 
 - **Purpose:** cap the rendered size of the login logo. Any CSS length (`96px`, `8rem`).

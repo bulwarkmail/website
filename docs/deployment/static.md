@@ -53,6 +53,7 @@ The file is read by the browser at runtime, so edits take effect on the next pag
 | `oauthRevokeOnSignOut` | `true` | `false` keeps the refresh token valid at the server on sign-out, so Stalwart 1.0 doesn't ask for consent again |
 | `sourceCodeUrl` | empty | Source code link on the About screen; empty links the upstream repository |
 | `helpUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `easyReadUrl`, `signLanguageUrl` | empty | Help and accessibility links on the login page, in the account menu and in settings |
+| `accountManagementUrl`, `accountManagementLabel` | empty | Link under Authentication in Settings > Account to the mail server's account page (2FA, app passwords), and its text. An http(s) URL or a path on this host, such as `/account/`, so one bundle serves every host |
 
 These are the full edition's branding variables, camel-cased. Whatever the file says, the flags that only work with a server behind them are pinned off: OAuth, auto-SSO, settings sync, the Stalwart account features, the JMAP passthrough, dev mode.
 
