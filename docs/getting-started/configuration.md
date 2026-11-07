@@ -115,6 +115,9 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                    |
 | `LOGIN_USERNAME_PLACEHOLDER`  | No              | translated example                        | Placeholder of the login email field, in every language                                    |
 | `LOGIN_LOGO_MAX_HEIGHT` / `_WIDTH` | No         | natural size                              | Cap the rendered login logo; any CSS length                                                |
+| `LOGIN_LAYOUT`                | No              | `centered`                                | `centered` (card over the background) or `split` (form in a side panel)                   |
+| `LOGIN_BACKGROUND_LIGHT_URL` / `_DARK_URL` | No | none                                     | Picture behind the login form; dark mode falls back to the light one                       |
+| `LOGIN_BACKGROUND_DIM` / `_BLUR` | No           | `0`                                       | Darken (0-80 %) and blur (0-24 px) the login background                                    |
 | `LOGIN_SHOW_HEADING` / `_SUBTITLE` / `_TOTP` / `_VERSION` | No | `true`             | Hide individual login page elements                                                        |
 | `LOGIN_SHOW_REMEMBER_ME`      | No              | `false`                                   | Show the "Remember me" box instead of remembering every sign-in                          |
 | `DOMAIN_BRANDING`             | No              | empty                                     | JSON array of per-hostname branding overrides, matched on `Host`; `*.` wildcards allowed   |

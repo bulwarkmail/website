@@ -711,6 +711,25 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 - **Default:** unset; the logo renders at its natural size inside a 64×64 box.
 - **When to set it:** a wide wordmark, which otherwise renders about 13px tall.
 
+### `LOGIN_LAYOUT`
+
+- **Purpose:** how the login form sits on the page. `centered` puts it in a card over the background; `split` puts it in a panel at the side and lets the background fill the rest of the screen.
+- **Default:** `centered`.
+- **Accepted values:** `centered`, `split`. Screens narrower than 1024px always get the card.
+- **When to set it:** `split` with a background picture, for a sign-in page that shows off the picture.
+
+### `LOGIN_BACKGROUND_LIGHT_URL` / `LOGIN_BACKGROUND_DARK_URL`
+
+- **Purpose:** a picture behind the login form, one for light and one for dark mode. Also set and uploaded in Admin > Branding > Login page, per domain if needed.
+- **Default:** unset; the page uses the app's sidebar colour with a faint wash of the brand colour.
+- **Accepted values:** a path on this site or an http(s) URL. Dark mode falls back to the light picture.
+
+### `LOGIN_BACKGROUND_DIM` / `LOGIN_BACKGROUND_BLUR`
+
+- **Purpose:** darken and blur the login background so a bright or busy picture doesn't compete with the form.
+- **Default:** `0`.
+- **Accepted values:** dim 0 to 80 (percent), blur 0 to 24 (px). Larger values are capped.
+
 ### `LOGIN_SHOW_HEADING` / `LOGIN_SHOW_SUBTITLE` / `LOGIN_SHOW_TOTP` / `LOGIN_SHOW_VERSION`
 
 - **Purpose:** hide parts of the login page: the heading (the app name), the subtitle, the optional "I have a 2FA code" toggle, and the version number.

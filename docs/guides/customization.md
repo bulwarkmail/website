@@ -160,6 +160,23 @@ LOGIN_IMPRINT_URL=https://yourcompany.com/imprint
 LOGIN_PRIVACY_POLICY_URL=https://yourcompany.com/privacy
 ```
 
+### Layout and background
+
+Without further settings the form sits in a card on the app's own sidebar colour. You can put a picture behind it and choose how the form sits on the page. Set it in **Admin > Branding > Login page**, where you can also upload the pictures, see a preview and set all of it per domain, or in the environment:
+
+```env
+# "centered" (default): the form in a card over the background.
+# "split": the form in a panel at the side, the picture fills the rest (screens 1024px and wider).
+LOGIN_LAYOUT=split
+LOGIN_BACKGROUND_LIGHT_URL=https://yourcompany.com/login-day.jpg
+LOGIN_BACKGROUND_DARK_URL=https://yourcompany.com/login-night.jpg
+# Darken (0-80, percent) and blur (0-24, px) the picture.
+LOGIN_BACKGROUND_DIM=30
+LOGIN_BACKGROUND_BLUR=8
+```
+
+Dark mode uses the light picture when it has none of its own. Uploaded backgrounds can be JPEG, PNG, WebP or SVG up to 5 MB. On phones the split layout falls back to the card.
+
 ## In-app settings
 
 Settings has its pages in three groups: Account, Security, Sharing, Notifications, General, Appearance and Accessibility; then Message list, Reading, Composing, Folders & tags, Filters, Out of office and Recover deleted items for mail; then Calendar, Contacts, Files and Add-ons. Backup & reset comes last. Some pages only show when the server supports the feature or the admin turned it on, and the search box at the top finds any option. The main preferences, by topic:
