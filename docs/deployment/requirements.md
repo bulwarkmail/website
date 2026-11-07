@@ -98,6 +98,18 @@ sudo mkdir -p /srv/bulwark/data
 sudo chown -R 1001:1001 /srv/bulwark/data
 ```
 
+Images newer than 1.20.0 also run as another uid, as long as the group is 0. The image's data folders and Next's cache are writable for group 0, the same way OpenShift runs images under a random uid. The app needs no Linux capabilities, so you can drop them all:
+
+```yaml
+services:
+  webmail:
+    user: "1500:0"
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+```
+
+A bind mount still has to be writable by the uid you pick. A named volume that an older image filled keeps uid 1001 and gid 1001, so change its owner once (`chown -R 1500:0`) before you switch.
+
 The Lite image runs as uid 101 and listens on port 8080. It only reads the `config.json` (and `policy.json`) you mount into it, read-only is fine, and it writes nothing you need to keep.
 
 The standalone build runs as whatever user your service file names. Its data folders have to be writable by that user; [Manual deployment](/docs/deployment/manual) shows the systemd unit.
