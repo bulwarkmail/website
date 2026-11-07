@@ -106,9 +106,18 @@ console.log(`https://webmail.example.com/api/auth/impersonate?token=${header}.${
 3. **Bulwark verifies** the signature, claims, mailbox sanity and `jti` (replay-rejected on second use).
 4. **Bulwark creates an app password.** It signs in to Stalwart once as `<mailbox>%<master>` with the master password and creates an app password on the target mailbox that expires after 8 hours.
 5. **Cookies are set** with that app password, encrypted with `SESSION_SECRET`, plus a `jmap_impersonation` cookie that remembers the app password so signing out can delete it, and a `jmap_impersonated` marker that lasts 60 seconds. The master password never reaches the browser. Sessions from versions before 1.11.1 that still hold a master password are refused.
-6. **303 redirect to `/?impersonated=1`**, and the webmail opens the mailbox.
+6. **The admin's own session is kept for the way back.** If the browser was signed in before the handoff, Bulwark keeps that sign-in on the server, sealed with `SESSION_SECRET`, in the shared store (or in memory without `REDIS_URL`), and the page sends its account list there before it clears it. The browser gets only a random handle in the httpOnly `jmap_impersonation_restore` cookie.
+7. **303 redirect to `/?impersonated=1`**, and the webmail opens the mailbox.
 
 The cookies carry no `Max-Age`, so the browser drops them on quit, and the app password behind them expires after 8 hours, so the session ends then at the latest. Use impersonation for short support sessions, and password logins for lasting access.
+
+## Returning to your own account
+
+When the browser was signed in before the handoff, a strip at the top of the app says which mailbox you opened through impersonation and has a **Return to my account** button. It ends the impersonation the way signing out does, deleting the app password at Stalwart, and signs you back in to the accounts you had open, with the same account list.
+
+The way back works once, in the browser that opened the handoff, while that impersonation is open, and for at most 8 hours. Signing out of the impersonation gives it up. A second handoff in the same browser keeps it, so returning still leads to the account you started from. Without a sign-in before the handoff, after a restart without a shared store, or in Bulwark Lite, there is no button, and the way back is to sign out and sign in again.
+
+With the Impersonation Notice plugin (1.5.0 or later) the button is in the plugin's banner instead, and Bulwark's own strip stays away.
 
 ## Optional: impersonation notice plugin
 
@@ -132,7 +141,8 @@ The banner takes its colours from the theme, and its return button signs out. Si
 - **Lifetime ceiling:** `exp - iat` may not exceed 300 seconds regardless of what the signer asks for.
 - **Injection-safe mailbox parsing:** any `%` or `:` in the mailbox claim causes the token to be rejected, since either character would otherwise corrupt the master-user auth string.
 - **Session-only cookies:** the impersonated session does not survive a browser quit, and it ends after 8 hours at the latest.
-- **Server log line** per accepted handoff (`impersonation_granted`), with `jti`, `mailbox`, `tenant_id`, `actor_user_id`, `iss`, the expiry, client IP, referer and user agent. It doesn't appear in the admin console's audit log.
+- **Server log line** per accepted handoff (`impersonation_granted`), with `jti`, `mailbox`, `tenant_id`, `actor_user_id`, `iss`, the expiry, client IP, referer, user agent and whether a way back was kept (`restorable`). Returning is logged as `impersonation_returned`. Neither appears in the admin console's audit log.
+- **Return handle:** the kept session never reaches the browser. The handle in `jmap_impersonation_restore` only opens it together with the same impersonation's `jmap_impersonation` cookie, works once, and expires with the impersonation. A copy tried in another browser is refused and leaves the way back intact.
 
 ## Negative test cases
 
@@ -160,6 +170,7 @@ Errors other than the 404 come as JSON, `{"error": "..."}`; the 404 is plain tex
 ## Limitations
 
 - **Several replicas need the shared store:** without `REDIS_URL`, replicas that don't share `ADMIN_STATE_DIR` keep separate records, so a used token could be redeemed again on another replica. Set up [the shared store](/docs/deployment/multi-instance) for more than one replica.
+- **Way back after a restart:** without `REDIS_URL` the kept session lives in the process's memory, so after a restart during an impersonation you sign in again.
 - **Single master account:** all impersonations go through one master user. Per-tenant master accounts and JWKS-based rotation are not yet supported; open an issue if you need them.
 - **HS256 only:** nobody has asked for RS256 or EdDSA yet. Open an issue if you would use it.
 
