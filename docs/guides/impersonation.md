@@ -121,9 +121,9 @@ With the Impersonation Notice plugin (1.5.0 or later) the button is in the plugi
 
 ## Optional: impersonation notice plugin
 
-The [Impersonation Notice](https://extensions.bulwarkmail.org/extension/impersonation-notice) plugin (1.4.0, in the marketplace) is meant to add a persistent "You are viewing X as Platform Admin" banner across every authenticated page, with a "Back to platform" button.
+The [Impersonation Notice](https://extensions.bulwarkmail.org/extension/impersonation-notice) plugin adds a persistent "You are viewing X as Platform Admin" banner across every authenticated page, with a "Back to platform" button. Bulwark tells the plugin when a session was opened through this route, and the plugin reads that from version 1.4.1 on. Older plugin versions only looked for `%` in the username, which sessions since Bulwark 1.11.1 no longer have, so update the plugin if the banner doesn't show.
 
-**In Bulwark 1.19.1 the plugin doesn't detect sessions opened through this route.** It looks for `%` in the session username, the `<target>%<master>` login of versions before 1.11.1. Since 1.11.1 the session signs in with the target mailbox's own app password, so the username has no `%` and the banner doesn't show.
+From plugin 1.5.0, on Bulwark releases after 1.21.0, the banner also has the **Return to my account** button described above. It needs the optional `auth:impersonation-return` permission: an admin install grants it, and a user is asked once. While the plugin draws the button, Bulwark leaves out its own strip.
 
 Admins can configure:
 
@@ -131,7 +131,7 @@ Admins can configure:
 - Button label
 - Actor role label (the text after the mailbox, default "as Platform Admin")
 
-The banner takes its colours from the theme, and its return button signs out. Signing out ends the session and deletes the app password at Stalwart. Closing the tab doesn't; the session then ends when the browser quits or after 8 hours.
+The banner takes its colours from the theme, and **Back to platform** signs out. Signing out ends the session and deletes the app password at Stalwart. Closing the tab doesn't; the session then ends when the browser quits or after 8 hours.
 
 ## Security
 
