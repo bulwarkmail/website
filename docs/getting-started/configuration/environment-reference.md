@@ -752,7 +752,7 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 
 - **Purpose:** with the "Remember me" box shown, a sign-in made with it unticked lasts until the browser closes instead of ending at the next reload. It survives reloads and new tabs. Its cookies have no expiry, so the browser drops them when it closes. Applies to password, two-factor, access token and SSO sign-ins.
 - **Default:** `false` (an unticked sign-in ends at the next reload or in a new tab).
-- **Accepted values:** `true` or `false`. Has no effect without `SESSION_SECRET`.
+- **Accepted values:** `true` or `false`. Has no effect without `SESSION_SECRET`. Available in Bulwark releases after 1.21.0.
 - **When to set it:** when users expect the box to work as in most webmail, where unticked means "until I close the browser". A browser set to restore the last session on start may keep session cookies.
 
 ### `DOMAIN_BRANDING`

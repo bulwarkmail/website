@@ -106,14 +106,14 @@ console.log(`https://webmail.example.com/api/auth/impersonate?token=${header}.${
 3. **Bulwark verifies** the signature, claims, mailbox sanity and `jti` (replay-rejected on second use).
 4. **Bulwark creates an app password.** It signs in to Stalwart once as `<mailbox>%<master>` with the master password and creates an app password on the target mailbox that expires after 8 hours.
 5. **Cookies are set** with that app password, encrypted with `SESSION_SECRET`, plus a `jmap_impersonation` cookie that remembers the app password so signing out can delete it, and a `jmap_impersonated` marker that lasts 60 seconds. The master password never reaches the browser. Sessions from versions before 1.11.1 that still hold a master password are refused.
-6. **The admin's own session is kept for the way back.** If the browser was signed in before the handoff, Bulwark keeps that sign-in on the server, sealed with `SESSION_SECRET`, in the shared store (or in memory without `REDIS_URL`), and the page sends its account list there before it clears it. The browser gets only a random handle in the httpOnly `jmap_impersonation_restore` cookie.
+6. **The admin's own session is kept for the way back** (releases after 1.21.0). If the browser was signed in before the handoff, Bulwark keeps that sign-in on the server, sealed with `SESSION_SECRET`, in the shared store (or in memory without `REDIS_URL`), and the page sends its account list there before it clears it. The browser gets only a random handle in the httpOnly `jmap_impersonation_restore` cookie.
 7. **303 redirect to `/?impersonated=1`**, and the webmail opens the mailbox.
 
 The cookies carry no `Max-Age`, so the browser drops them on quit, and the app password behind them expires after 8 hours, so the session ends then at the latest. Use impersonation for short support sessions, and password logins for lasting access.
 
 ## Returning to your own account
 
-When the browser was signed in before the handoff, a strip at the top of the app says which mailbox you opened through impersonation and has a **Return to my account** button. It ends the impersonation the way signing out does, deleting the app password at Stalwart, and signs you back in to the accounts you had open, with the same account list.
+In Bulwark releases after 1.21.0, when the browser was signed in before the handoff, a strip at the top of the app says which mailbox you opened through impersonation and has a **Return to my account** button. It ends the impersonation the way signing out does, deleting the app password at Stalwart, and signs you back in to the accounts you had open, with the same account list.
 
 The way back works once, in the browser that opened the handoff, while that impersonation is open, and for at most 8 hours. Signing out of the impersonation gives it up. A second handoff in the same browser keeps it, so returning still leads to the account you started from. Without a sign-in before the handoff, after a restart without a shared store, or in Bulwark Lite, there is no button, and the way back is to sign out and sign in again.
 
