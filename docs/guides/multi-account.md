@@ -62,7 +62,7 @@ You can mark one account as the default. The default account loads on initial si
 <img class="theme-light-only" src="/screenshots/light-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-unified-inbox.webp" alt="The unified inbox: mail from both accounts and the shared mailbox in one list" width="5120" height="2880" />
 
-Turn on **Unified mailbox** in Settings > Appearance > Multiple accounts to get one Inbox, Sent, Drafts and so on for the active account, its shared mailboxes and the folders shared with it. It is off by default. If your admin allows it (**Unified Mailbox: Cross-account** in the admin console, off on new installs), **Across all accounts** adds every signed-in account. Rows show the folder they come from, and **Tell accounts apart** marks each with its account's color.
+Turn on **Unified mailbox** in Settings > Account > Multiple accounts to get one Inbox, Sent, Drafts and so on for the active account, its shared mailboxes and the folders shared with it. It is off by default. If your admin allows it (**Unified Mailbox: Cross-account** in the admin console, off on new installs), **Across all accounts** adds every signed-in account. Rows show the folder they come from, and **Tell accounts apart** marks each with its account's color.
 
 ## Shared mailboxes and folders
 
