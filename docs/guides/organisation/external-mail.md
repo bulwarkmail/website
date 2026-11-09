@@ -37,6 +37,12 @@ International domain names work in either form: `bücher.de` in the list matches
 
 With several accounts signed in, each message is judged by its own account: its domain or group settings and its addresses. A message sent from another account's address is checked with that account's settings.
 
+### Invitations between your own domains
+
+The same list is used for calendar invitations, whether or not the label is on (Bulwark releases after 1.21.0). Mail that one user of your server sends to another never passes the server's checks for incoming mail, so it carries no verification result, and an invitation without one normally gets the note "This invitation does not include verified mail authentication". Bulwark leaves that note out when the sender is on one of the reader's own domains, and also when the sender is on a domain you listed under **More organisation domains**. List the other domains your server hosts there, and invitations between them read like invitations within one domain.
+
+This only applies to mail that has no verification result at all. Mail from a listed domain that came in from outside was checked by the server, and a failed or missing result there is still shown.
+
 ## What users see
 
 The chip is small and sits next to the sender's name, so it fits next to the sender check's warning and on a phone's narrow header. It shows when any From address of a message is outside the organisation, and when a From address has no domain at all (`CEO <ceo>`). It goes by the From address: a forged From with an internal address isn't labelled External. Bulwark's own sender check warns about that with **Sender check failed** or **Unverified sender**, as it does without these settings.

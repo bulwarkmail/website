@@ -212,6 +212,16 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Default:** empty.
 - **When to set it:** when you need to add provider-specific scopes (e.g., a custom audience scope) on top of the defaults.
 
+Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:scope:settings` and `urn:stalwart:oauth:scope:full`, which Account security needs on Stalwart 1.0.3 and later) are only sent to a provider that lists them in its discovery document, or together with `OAUTH_RESOURCE`. This applies to `OAUTH_SCOPES` as well.
+
+### `OAUTH_RESOURCE`
+
+- **Purpose:** the RFC 8707 resource sent with the authorization request, for providers that issue access tokens per API (Pocket ID, for example). The token's audience is then this resource.
+- **Required:** no.
+- **Default:** empty.
+- **Accepted values:** an absolute URI without a fragment, usually the mail server's URL.
+- **When to set it:** when the mail server refuses the provider's tokens because their audience isn't the mail server, or when the provider grants the mail server's scopes per API. It is not sent when a user signs in to a server entry that has its own provider. With a resource set, the Stalwart scopes you configured are sent although the provider's discovery document doesn't list them (Bulwark releases after 1.21.0): such a provider lists only its own scopes there.
+
 ## Session and security
 
 ### `SESSION_SECRET`
