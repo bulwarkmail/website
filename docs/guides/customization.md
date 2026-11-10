@@ -227,6 +227,7 @@ Settings has its pages in three groups: Account, Security, Sharing, Notification
 - **External content:** ask, block, or allow by default
 - **Forgotten attachment warning:** detect attachment-related keywords in the body and warn before send
 - **Quick reply:** show or hide the quick reply box below messages
+- **Replies under the message:** open a reply or forward under its message, or in the whole reading pane like a new message
 - **Default mail program:** register Bulwark as the system mail handler
 
 ### Notifications

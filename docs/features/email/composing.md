@@ -58,6 +58,10 @@ There are two composer modes:
 
 Turn on "Plain text only" in Settings > Composing to always write plain text, or switch one message with Options > Plain text in the composer.
 
+## Replying
+
+On desktop, a reply or forward opens under its message, which stays readable above it. Turn off **Replies under the message** in Settings > Composing > Replying to have it take the whole reading pane instead, like a new message. A reply that is already open stays where it is when you change the setting. The setting doesn't apply on phones, and Mountain View doesn't show it. Your organisation can set it for everyone, or lock it.
+
 ## Attachments
 
 - Drag and drop files onto the compose window
