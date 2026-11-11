@@ -58,7 +58,7 @@ The visual settings are applied before the page first draws, so the app doesn't 
 
 The quick panel holds the settings people need most often:
 
-- Text size, Contrast and Reduce motion
+- Text size, Font, Contrast, Underline links, Focus outline, Large targets and Reduce motion
 - Single-key shortcuts
 - The presets, with Undo
 - A link to all accessibility settings
@@ -69,7 +69,7 @@ There are three ways to open it:
 - Turn on **Accessibility button in the navigation bar** (off by default). The button sits in the side navigation rail and opens the panel from any app. The bottom bar of the phone layout doesn't have it.
 - Search for "Accessibility options" in the command palette.
 
-The sign-in page has a small **Accessibility** button in the bottom corner. Its panel offers text size, contrast and reduce motion, so you can adjust them before you sign in. The choices are stored on the device and stay in effect after you sign in. If your provider has settings sync on and your account already has saved settings, those saved settings apply instead.
+The sign-in page has a small **Accessibility** button in the bottom corner. Its panel offers text size, font, contrast, underline links, focus outline, large targets and reduce motion, so you can adjust them before you sign in. The choices are stored on the device and stay in effect after you sign in. If your provider has settings sync on and your account already has saved settings, those saved settings apply instead.
 
 ## Keyboard
 
@@ -96,8 +96,8 @@ The rest are on the [keyboard shortcuts](/docs/guides/keyboard-shortcuts) page.
 
 Related settings:
 
-- **Focus outline**: Normal, Thick or Extra thick. The outline also stays visible in Windows contrast themes.
-- **Always show focus**: shows the outline after clicks too, not only when you use the keyboard.
+- **Focus outline**: Off, Normal, Thick or Extra thick. Off is the default from 1.21.1: no outline shows around the field or button you are on. If you work with the keyboard, pick Normal or thicker; the settings in the [quick panel](#the-quick-panel) (**Alt+Shift+A**) keep their outline, so you can switch it on there. In a Windows contrast theme the outline stays unless you chose Off yourself.
+- **Always show focus**: shows the outline after clicks too, not only when you use the keyboard. It can't be turned on while the focus outline is off.
 
 Actions you can do by dragging also have a button or menu entry: tags, filter rules, apps in the navigation bar, accounts and tabs can be moved up and down, and a recipient can move between To, Cc and Bcc from the chip's menu.
 

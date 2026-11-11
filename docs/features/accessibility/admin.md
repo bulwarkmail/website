@@ -110,7 +110,7 @@ The user-facing presets (Screen reader, Low vision and so on) are not keys of th
 | Reduce motion | `reduceMotion` | `system`, `on`, `off` | `system` |
 | Pause animated images | `pauseAnimatedImages` | `system`, `on`, `off` | `system` |
 | Single-key shortcuts | `singleKeyShortcuts` | `true`, `false` | `true` |
-| Focus outline | `focusRing` | `normal`, `thick`, `extra` | `normal` |
+| Focus outline | `focusRing` | `off`, `normal`, `thick`, `extra` | `off` |
 | Always show focus | `focusAlwaysVisible` | `true`, `false` | `false` |
 | Large targets | `largeTargets` | `system`, `on`, `off` | `system` |
 | Large mouse pointer | `largeCursor` | `true`, `false` | `false` |
