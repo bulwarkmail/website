@@ -35,6 +35,8 @@ For 26 settings the admin can lock the value users get or hide the option, and e
 
 Many more settings can be preset: users start with the admin's value and can change it. The accessibility reading aids, such as text size, contrast and motion, are among them. They can be preset but never locked or hidden.
 
+The tags new users start with are preset the same way, under **Tags** in the **Defaults** section, or as `defaults.emailKeywords` in `policy.json`: a list of `{ "id", "label", "color" }`, at most 50 entries, with colours from the tag palette. It replaces the seven colour tags for users who haven't changed their tags; an empty list gives new users none. Users who had tags before this version keep theirs. The tag list can't be locked.
+
 ## Everything is one file
 
 All of it, and the User policy page, is stored in one file, `policy.json` in `ADMIN_CONFIG_DIR`. The one exception is the No third-party traffic switch on the Security page, which is a server setting in `config.json`. You can keep `policy.json` in git and mount it read-only, export it from one instance and import it on another, or put it next to a [Bulwark Lite](/docs/getting-started/lite) build, which reads the same file. See [the policy file](/docs/guides/organisation/domains-and-groups#the-policy-file). With [several instances](/docs/deployment/multi-instance) on a shared store, the policy lives in the store unless you mount the file read-only, and a saved change reaches every instance within seconds. When two admins save the policy at the same time, the one who saves second is told that someone else changed it and keeps their edits until they reload.

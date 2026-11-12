@@ -63,6 +63,8 @@ What a Stalwart administrator account is worth here is configurable, under **Aut
 
 `password` and `off` need an admin password to exist, from the wizard or `ADMIN_PASSWORD`, or the admin console would have no way in.
 
+**Additional admin accounts**, under **Authentication > Admin access**, lists mail accounts that get the same access as Stalwart admin accounts without an admin role in Stalwart, and follow the setting above. Each entry is tied to one configured mail server. The account has to match the name the mail server reports for the signed-in user; upper and lower case of ASCII letters count as the same. The list can only be set in the admin console, not in the environment. Removing an entry doesn't end an admin session that is already open.
+
 Admin sessions are protected with:
 
 - Strict session secret length validation
@@ -107,6 +109,13 @@ Which features users get, the push relays they may pick (from your list, rather 
 
 <img class="theme-light-only" src="/screenshots/light-admin-policy.webp" alt="The User policy page in the admin console, with some features switched off and settings locked to a value" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-admin-policy.webp" alt="The User policy page in the admin console, with some features switched off and settings locked to a value" width="5120" height="2880" />
+
+**Recipient directory**, on the same page (**Features and settings** in the sidebar), narrows the server accounts people see in the contacts directory, recipient suggestions, sharing, delegation, free/busy and plugins' directory lookups:
+
+- **Own domains only:** shows only accounts in the domains of the signed-in account's addresses, aliases included. Accounts whose name isn't an address are left out.
+- **Hidden accounts:** account names (the part before the @), separated by commas, hidden in every domain, such as `noreply`.
+
+In `policy.json` they are `directorySameDomainOnly` and `directoryHiddenLocalparts`. Both change what Bulwark shows, not what Stalwart answers. With directory queries on, any signed-in user can still list all accounts through Stalwart's API.
 
 ### Plugins
 
