@@ -814,7 +814,7 @@ See [Running several instances](/docs/deployment/multi-instance) for the setup.
 
 - **Purpose:** controls how the locale appears in URLs (e.g., `/en/inbox` vs `/inbox`).
 - **Allowed values:** `always` (always prefix), `as-needed` (only for non-default locales), `never` (never prefix).
-- **Default:** `never`
+- **Default:** `never`. An empty value counts as unset and gives `never`; any other value stops the build with an error.
 - **When to set it:** set to `always` when using `NEXT_PUBLIC_BASE_PATH` to avoid `next-intl` rewrite loops. Bulwark Lite always builds with `always`.
 
 ## Subpath and reverse proxy mount

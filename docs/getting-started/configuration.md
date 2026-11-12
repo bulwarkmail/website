@@ -122,7 +122,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_SHOW_REMEMBER_ME`      | No              | `false`                                   | Show the "Remember me" box instead of remembering every sign-in                          |
 | `DOMAIN_BRANDING`             | No              | empty                                     | JSON array of per-hostname branding overrides, matched on `Host`; `*.` wildcards allowed   |
 | `NEXT_PUBLIC_DEFAULT_LOCALE`  | Build-time      | `en`                                      | Fallback UI locale when `Accept-Language` matches nothing supported                        |
-| `NEXT_PUBLIC_LOCALE_PREFIX`   | Build-time      | `never`                                   | Locale URL prefix mode: `always`, `as-needed`, or `never`                                  |
+| `NEXT_PUBLIC_LOCALE_PREFIX`   | Build-time      | `never`                                   | Locale URL prefix mode: `always`, `as-needed`, or `never`. Empty means `never`; any other value stops the build |
 | `NEXT_PUBLIC_BASE_PATH`       | Build-time      | empty                                     | Mount Bulwark under a subpath (e.g. `/webmail`); read at build time by Next.js              |
 | `NEXT_PUBLIC_PUSH_RELAY_URL`  | Build-time      | `https://notifications.relay.bulwarkmail.org` | Push relay used for web push; point at your own to avoid the hosted one                |
 | `AUTO_SSO_ENABLED`            | No              | `false`                                   | Automatically start OAuth flow on login page (for embedded SSO)                            |
