@@ -81,17 +81,31 @@ Bulwark discovers the endpoints from `/.well-known/oauth-authorization-server` o
 
 ### Stalwart 1.0 as the provider
 
-When Stalwart signs users in itself, the quickest setup is **Auto-configure OAuth** on the admin **Authentication** page (see the [admin guide](/docs/guides/admin#oauth-auto-setup)). Stalwart 1.0 is stricter than 0.16 here:
+When Stalwart signs users in itself, the quickest setup is **Set up with Stalwart** on the admin **Authentication** page (see the [admin guide](/docs/guides/admin#oauth-auto-setup)). Stalwart 1.0 is stricter than 0.16 here:
 
 <img class="theme-light-only" src="/screenshots/light-admin-auth.webp" alt="The Authentication page in the admin console with OAuth / OpenID Connect turned on and the client ID and issuer filled in" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-admin-auth.webp" alt="The Authentication page in the admin console with OAuth / OpenID Connect turned on and the client ID and issuer filled in" width="5120" height="2880" />
 
 - It only accepts a client id it knows, so Bulwark's client id has to be registered before anyone signs in. 0.16 took any id.
-- Only a **first-party** client reaches the account's Stalwart settings (password, two-factor, app passwords). The auto-setup registers Bulwark that way. A client you create by hand needs `firstParty` turned on, or the scopes `mail`, `contacts`, `calendars` and `files`, in which case the account security settings stay unavailable.
-- Bulwark Mobile has its own client, `bulwark-mobile`, which the auto-setup registers too: first-party, no secret, redirect URI `org.bulwarkmail.mobile:/auth/callback`. Creating it by hand works the same way.
-- Bulwark asks for the scopes the provider lists and leaves out `email` and `profile` where Stalwart doesn't offer them, so you don't need to change `OAUTH_SCOPES` for it.
+- Not every client reaches the account's Stalwart settings (password, two-factor, app passwords). On Stalwart 1.0.3 and later the client has to allow Stalwart's `full` scope, or `security` and `settings`, and Bulwark has to ask for it. On 1.0.0 to 1.0.2 the client has to be first-party. The setup does either, depending on the server. A client with only the scopes `mail`, `contacts`, `calendars` and `files` works for mail, contacts, calendars and files, but the account security settings stay unavailable.
+- Bulwark Mobile has its own client, `bulwark-mobile`, which the setup registers too, with the same access as the webmail's client, no secret and the redirect URI `org.bulwarkmail.mobile:/auth/callback`. Creating it by hand works the same way.
+- Bulwark asks for the scopes the provider lists and leaves out `email` and `profile` where Stalwart doesn't offer them. Stalwart's own scopes are the exception: Bulwark asks for them only when they are in `OAUTH_SCOPES` or `OAUTH_EXTRA_SCOPES`, because Stalwart refuses a sign-in that asks for a scope the client may not use. The setup adds the ones it allowed to **Extra scopes**, or to **Scopes** when that is set.
 
 Sign-ins with a password and a two-factor code also run on OAuth tokens, through the same client. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0#register-bulwark-with-stalwart) covers what works before the client is registered.
+
+#### SSO with Stalwart 1.0.3 or later
+
+1. On the admin **Authentication** page, click **Set up with Stalwart**. The dialog fills in the issuer URL from Stalwart's discovery document.
+2. Stalwart 1.0.3 doesn't let the token of your webmail session manage OAuth clients, so the dialog asks for a Stalwart admin sign-in: a username with its password or app password, or an API key. With two-factor authentication on, the password alone doesn't work: create an app password in Stalwart under `/account` > Credentials, enter it, and delete it after the setup. Bulwark sends it only to your configured Stalwart server, for this setup, and doesn't store it.
+3. Everyone who is signed in has to sign in again. Until they do, the server log shows `Token refresh failed` with `invalid_grant`.
+4. Signing out of SSO returns to Bulwark's login page. The setup registers that page with Stalwart and saves it as **Post-logout redirect URI**, unless one was set already. It skips this for a webmail origin on plain HTTP.
+
+Passkeys:
+
+- A Stalwart passkey belongs to Stalwart's own address, so on the webmail it only works through **Sign in with SSO**, never in the password form.
+- Users register passkeys in Stalwart's `/account` portal. Bulwark's settings don't offer it.
+
+With **Revoke tokens on sign-out** on, Stalwart removes Bulwark's grant when a user signs out, so the next SSO sign-in shows the consent screen again. Turn it off to keep the consent (see [Signing out](#signing-out)).
 
 ### External identity providers
 
@@ -108,7 +122,7 @@ When a user who signed in through the identity provider signs out, Bulwark revok
 - **Coming back to Bulwark:** by default the provider shows its own signed-out page. To send users back, register a post-logout redirect URI with the provider (in Keycloak, the client's "Valid post logout redirect URIs") and set the same value in `OAUTH_POST_LOGOUT_REDIRECT_URI`. A URI the provider doesn't have on file makes it refuse the logout.
 - **Shared providers:** if signing out of Bulwark should not sign users out of other apps on the same provider, set `OAUTH_END_SESSION=false`. Bulwark then only revokes its own tokens.
 - **Providers without a logout endpoint:** if the provider's discovery document has no `end_session_endpoint` (Stalwart's own provider, for example), set its logout URL in `OAUTH_END_SESSION_URL`.
-- **Keeping consent:** signing out revokes the refresh token. With `OAUTH_REVOKE_ON_SIGN_OUT=false`, Bulwark only drops it, so Stalwart 1.0 doesn't ask for consent again on the next sign-in. The token then stays valid at the provider until it expires.
+- **Keeping consent:** signing out revokes the refresh token. With `OAUTH_REVOKE_ON_SIGN_OUT=false` (**Revoke tokens on sign-out** in the admin console), Bulwark only drops it, so Stalwart 1.0 doesn't ask for consent again on the next sign-in. The token then stays valid at the provider until it expires.
 - **Several accounts:** signing out of one account while others stay signed in keeps you in Bulwark and leaves the provider session alone, because the remaining accounts may use it. "Sign out of all accounts" clears every account first, then ends one provider session: the active account's, or else the first account that signed in through a provider. Accounts on the same provider share that session and are signed out with it. Accounts on other providers have their tokens revoked, but those providers' sessions stay open.
 - **Expired sessions:** when Bulwark signs a user out because the session expired or the token was rejected, it leaves the provider session alone, so signing in again stays a single click.
 - **Embedded mode:** inside an embedding portal, Bulwark leaves the provider to the portal and reports the sign-out through the iframe bridge.

@@ -52,7 +52,7 @@ Bulwark reads its configuration at runtime, so an upgrade never requires rewriti
 
 ## Moving to Stalwart 1.0
 
-Upgrade Bulwark to {{BULWARK_VERSION}} or newer before the mail server moves to Stalwart 1.0. Once the server runs 1.0, click **Set up automagically** under **OAuth / OpenID Connect** on the admin **Authentication** page, and check the server settings some features depend on there. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0) has the order, the settings and the differences.
+Upgrade Bulwark to {{BULWARK_VERSION}} or newer before the mail server moves to Stalwart 1.0. Once the server runs 1.0, click **Set up with Stalwart** under **OAuth / OpenID Connect** on the admin **Authentication** page, and check the server settings some features depend on there. [Upgrading to Stalwart 1.0](/docs/deployment/updating/stalwart-1-0) has the order, the settings and the differences.
 
 ## What survives an upgrade
 

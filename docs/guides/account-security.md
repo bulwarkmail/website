@@ -64,10 +64,10 @@ If the section is missing, see the next section.
 
 ### "Account security management is not available for this mail server"
 
-This message appears when the account doesn't get Stalwart's `urn:stalwart:jmap` capability (the server isn't Stalwart, it is older than 0.16, or on Stalwart 1.0 Bulwark isn't registered as a first-party client), or when the operator set `STALWART_JMAP_PASSTHROUGH_ENABLED=false`. To resolve:
+This message appears when the account doesn't get Stalwart's `urn:stalwart:jmap` capability (the server isn't Stalwart, it is older than 0.16, or on Stalwart 1.0 Bulwark isn't registered with Stalwart), or when the operator set `STALWART_JMAP_PASSTHROUGH_ENABLED=false`. To resolve:
 
 1. **Confirm Stalwart is on 0.16.6 or newer, or on 1.0 with Bulwark {{BULWARK_VERSION}} or newer.** Versions before 0.16 don't expose the required JMAP `x:` methods.
-2. **On Stalwart 1.0, run Auto-configure OAuth** once on the **Authentication** page of Bulwark's admin console, so Bulwark is a first-party client. Until then, users who signed in with single sign-on or a two-factor code see this message.
+2. **On Stalwart 1.0, run Set up with Stalwart** once on the **Authentication** page of Bulwark's admin console, so Bulwark's client gets access to the account settings. Until then, users who signed in with single sign-on or a two-factor code see this message.
 3. **Check that `STALWART_JMAP_PASSTHROUGH_ENABLED`** isn't set to `false`.
 
 ### Bulwark talks to the wrong endpoint

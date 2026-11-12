@@ -27,13 +27,13 @@ Then register Bulwark with Stalwart, as in the next section. Calendar and contac
 
 ## Register Bulwark with Stalwart
 
-Stalwart 1.0 only signs in OAuth clients it knows, and only a **first-party** client may manage an account's Stalwart settings. Bulwark is neither until you register it. After the move to 1.0, or on a fresh 1.0 server, do this once:
+Stalwart 1.0 only signs in OAuth clients it knows, and on 1.0.3 and later a client reaches an account's Stalwart settings only with the scopes it is allowed. Bulwark has neither until you register it. After the move to 1.0, or on a fresh 1.0 server, do this once:
 
-1. Sign in to the webmail with a Stalwart account that has admin permissions.
-2. In the same browser, open Bulwark's admin console, go to **Authentication**, and under **OAuth / OpenID Connect** click **Set up automagically**.
-3. Check the webmail origin and the Stalwart issuer URL in the **Auto-configure OAuth** dialog, and confirm.
+1. Open Bulwark's admin console, go to **Authentication**, and under **OAuth / OpenID Connect** click **Set up with Stalwart**.
+2. Check the webmail origin and the Stalwart issuer URL in the **Auto-configure OAuth** dialog. The issuer is filled in from Stalwart's discovery document. It is Stalwart's public URL, which can be another host than the JMAP URL.
+3. Enter a Stalwart admin sign-in when the dialog asks for it. It asks on Stalwart 1.0.3 and later, and whenever no mail account is signed in to the webmail in this browser. With two-factor authentication on, create an app password in Stalwart under `/account` > Credentials, use it here, and delete it after the setup. An API key works too.
 
-Bulwark then registers `bulwark-webmail` with Stalwart as a first-party client with a secret, saves the client id, secret and issuer URL in its own configuration, and turns on single sign-on. If you don't want the **Sign in with SSO** button, turn **Enabled** off again afterwards; two-factor sign-ins keep using the registered client.
+Bulwark then registers `bulwark-webmail` with a secret, saves the client id, secret and issuer URL in its own configuration, and turns on single sign-on. On 1.0.3 and later the client is allowed `mail`, `contacts`, `calendars`, `files` and `full`, or `security` and `settings` when the admin isn't a superuser, and Bulwark asks for those Stalwart scopes from then on. On 1.0.0 to 1.0.2 it is a first-party client. Everyone who is signed in has to sign in again. If you don't want the **Sign in with SSO** button, turn **Enabled** off again afterwards; two-factor sign-ins keep using the registered client.
 
 Without this step:
 
@@ -41,7 +41,12 @@ Without this step:
 - Sign-ins with a password and a two-factor code work, through a client Bulwark registers for itself. Mail, contacts, calendars and files work, but the account security settings (password, two-factor, app passwords) say they are not available.
 - Single sign-on through Stalwart doesn't work: Stalwart 1.0 doesn't let a web app register its own redirect URI, so it needs the registered client.
 
-With a read-only configuration (`ADMIN_CONFIG_READONLY`) the button is off. Create an `OAuthClient` in Stalwart by hand instead, with `firstParty` turned on and the redirect URI `https://<webmail host>/<locale>/auth/callback` for each language, and set `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` as on the [authentication](/docs/getting-started/configuration/authentication) page. If you set `OAUTH_POST_LOGOUT_REDIRECT_URI`, Stalwart 1.0 also needs it in the client's `postLogoutRedirectUris`; otherwise it shows its own signed-out page instead of sending users back.
+With a read-only configuration (`ADMIN_CONFIG_READONLY`) the button is off. Create an `OAuthClient` in Stalwart by hand instead:
+
+- Stalwart 1.0.3 and later: allow the scopes `mail`, `contacts`, `calendars` and `files`, plus `full` (superusers only) or `security` and `settings`. Add the Stalwart scopes you allowed, such as `urn:stalwart:oauth:scope:full`, to `OAUTH_EXTRA_SCOPES`. `firstParty` no longer exists.
+- Stalwart 1.0.0 to 1.0.2: turn `firstParty` on.
+
+In both cases add the redirect URI `https://<webmail host>/<locale>/auth/callback` for each language, and set `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` as on the [authentication](/docs/getting-started/configuration/authentication) page. To send users back to Bulwark after signing out, add `https://<webmail host>/login` to the client's `postLogoutRedirectUris` and set the same value in `OAUTH_POST_LOGOUT_REDIRECT_URI`. Without it, Stalwart shows its own signed-out page.
 
 ## Sharing and free/busy need directory queries
 

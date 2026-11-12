@@ -81,7 +81,7 @@ Bulwark never forwards a loopback address, because Stalwart 1.0 set to read the 
 
 ## Configuring with the setup wizard
 
-With no `JMAP_SERVER_URL` set in the environment, the first-launch web setup wizard probes the JMAP server for you. Paste the URL, and the wizard requests `/.well-known/jmap`, `/jmap/session` and `/jmap` without credentials and looks for a JMAP session in the answer. When it finds none, it asks for explicit confirmation. Once setup is done, **Auto-configure OAuth** on the admin console's Authentication page registers Bulwark with Stalwart.
+With no `JMAP_SERVER_URL` set in the environment, the first-launch web setup wizard probes the JMAP server for you. Paste the URL, and the wizard requests `/.well-known/jmap`, `/jmap/session` and `/jmap` without credentials and looks for a JMAP session in the answer. When it finds none, it asks for explicit confirmation. Once setup is done, **Set up with Stalwart** on the admin console's Authentication page registers Bulwark with Stalwart.
 
 For env-driven deployments, set `JMAP_SERVER_URL` and the wizard is skipped.
 
