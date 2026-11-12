@@ -55,7 +55,7 @@ Plugin dialogs opened with `api.ui.openDialog` look like the app's own dialogs. 
 A plugin can show up in about 50 places. There are three kinds:
 
 - **Frame:** the plugin renders a React component in its own sandboxed frame. Used for banners, panels, sections and pages.
-- **Action:** the plugin declares buttons or menu entries as data with `api.ui.setActions`, and the host draws them in its own style. A click reaches the plugin's `onAction` hook. An action can carry a `badge`, a whole number the host shows as a count on the button, or after the label in a menu; `0` shows none.
+- **Action:** the plugin declares buttons or menu entries as data with `api.ui.setActions`, and the host draws them in its own style. A click reaches the plugin's `onAction` hook. An action can carry a `badge`, a whole number the host shows as a count on the button, or after the label in a menu; `0` shows none. On a button surface, `pressed: true` or `false` draws the button as a toggle, with `aria-pressed`, for example while the plugin's filter runs. Where the button ends up in a menu (the phone header's, or a toolbar's overflow menu) it shows as a tick. Menu surfaces use `checked` instead.
 - **Data:** the plugin hands the host plain data to draw, such as labels and dots on calendar days.
 
 | Area | Surfaces | Permission |
@@ -123,7 +123,8 @@ Beyond hooks, a plugin calls into the host through `api`, which `activate` recei
 - **Composing:** `api.compose.open` opens a new message filled in, and `api.compose.reply` opens a reply to the open message with text to start from
 - **The message being written:** from the release after 1.14.2, `api.composer` reads the text or selection of the message the user is writing and replaces it. It only works in the composer that handed the plugin its id (a click on one of the plugin's composer actions or a composer slot), leaves the signature and the quoted message alone, and each change is one undo step. `api.composer.attach` adds a file through the composer's usual checks.
 - **Proofreading:** from 1.20, `api.composer.registerChecker` makes the plugin a text checker: Bulwark sends it what users write while they type and draws its answers as underlines with a popup (see [text checkers](#text-checkers))
-- **Calendar, tasks, contacts:** `api.calendar`, `api.tasks`, `api.contacts` and `api.addressBooks`
+- **Calendar, tasks, contacts:** `api.calendar`, `api.tasks`, `api.contacts` and `api.addressBooks`. `api.tasks.list({ calendarIds })` reads only the named calendars, 1 to 100 ids as `api.calendar.listCalendars` names them. Without it every calendar the user can read is listed, which can be slow with many shared calendars
+- **Search:** `api.search.run` (`email:read`) runs a mail search the way the user's own search runs, shown as a chip with the plugin's label. `api.search.clear()` (`email:read`) ends a search the plugin started: its chip goes, and filters the user added stay. It resolves `false` and changes nothing when the running search isn't the plugin's
 - **Account data:** `api.templates`, `api.identities`, `api.vacation`, `api.user` and `api.sieve`
 - **Keywords and labels:** read and set message keywords, and add or reorder the user's label definitions (see [below](#keywords-and-labels))
 - **UI:** `api.ui` opens confirm, prompt and plugin dialogs, sets actions, calendar day labels and pages, titles the plugin's sidebar section, offers files for download and opens external links in a new tab. From 1.20 `api.ui.openDialog({ fill: true })` opens a dialog as tall as the window allows, with the plugin's frame filling it, for a chat whose input stays at the bottom
@@ -234,6 +235,7 @@ await api.jmap.removeKeyword('email-id', '$label:work');  // email:write
 
 - `jmap.getKeywords()` is a narrow read-only facade, not a general JMAP request API. When the server advertises `https://bulwarkmail.com/ns/jmap/keywords`, it returns every cached keyword with exact total and unread counts and provider-label metadata, empty provider labels included. Without that capability it falls back to a bounded scan of message keywords. `keywords.discover()` keeps its original message-scan response for compatibility.
 - `jmap.setKeywords()` replaces one message's complete keyword map through `Email/set`. Omitted keywords are removed, so use `jmap.setKeyword()` and `jmap.removeKeyword()` for incremental edits. The older `email.setKeyword()` and `email.removeKeyword()` names remain as aliases.
+- A label's `color` from `keywords.list()` is a palette key or, for a tag the user gave a custom colour, a `#rrggbb` code. `keywords.add()` and `keywords.update()` take palette keys only.
 - `keywords.add()` is append-only and matches ids case-insensitively. It returns the added and skipped definitions and never overwrites the user's existing label name, colour, visibility or order.
 - `keywords.reorder()` takes a complete permutation of the existing label ids and changes only their order. Missing, unknown or duplicate ids are rejected without changing settings. Matching is case-insensitive unless you pass `{ caseSensitive: true }`. Keyword discovery reports whether its bounded scan was complete.
 
