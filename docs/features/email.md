@@ -42,7 +42,7 @@ A shared mailbox is a Stalwart group with its own address, such as `support@exam
 
 Members read, move, archive and tag mail there as in their own mailbox; the Move menus list the shared mailbox's folders first and the member's own folders after them. Stalwart keeps one read state for the whole group, so when one member opens a message, it is read for everyone.
 
-With several shared mailboxes the sidebar gets long. Turn on **Compact shared mailboxes** in Settings > Account > Multiple accounts to show each one as a single row: it opens the shared mailbox's inbox and shows its counts, and its folders hang below it, leaving out Drafts, Scheduled, Junk and Trash while they are empty. Your own mailbox stays as it is.
+With several shared mailboxes the sidebar gets long. Turn on **Compact shared mailboxes** in Settings > Account > Multiple accounts to show each one as a single row: it opens the shared mailbox's inbox and shows its counts, and its folders hang below it, leaving out Drafts, Scheduled, Junk and Trash while they are empty. Your own mailbox stays as it is. To change the order of the shared accounts, drag them in the sidebar, or use **Move up** and **Move down** in an account's menu. A newly shared account goes to the end.
 
 Replies can go out from the group's address. Stalwart lists that address among each member's identities, so pick it in **From**, or turn on "Reply from the address it was sent to" in Settings > Composing. Since Bulwark 1.19.1 such a message is sent through the group's own identity, so the server also takes the envelope sender from the group and not from one of your own addresses. A draft written as the group is saved in the group's Drafts, and the sent copy goes to the group's Sent folder.
 
@@ -112,7 +112,7 @@ Queries run across all folders except Spam and Trash by default, not just the fo
 <img class="theme-light-only" src="/screenshots/light-tag.webp" alt="The Travel tag selected in the sidebar, with the tagged messages listed" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-tag.webp" alt="The Travel tag selected in the sidebar, with the tagged messages listed" width="5120" height="2880" />
 
-Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in Settings > Folders & tags, tags can nest under a parent once "Nested tags" is on, and each one can be always shown, shown only while it has unread mail, or hidden. The tag view lists tagged mail from your account and from the shared mailboxes and shared folders you can see, leaving out Trash and Spam.
+Colored labels map onto JMAP keywords, so they follow the message into any other client that reads the same account. Names and colors are set in Settings > Folders & tags, where a tag can also take any color from a color code or the color dialog, tags can nest under a parent once "Nested tags" is on, and each one can be always shown, shown only while it has unread mail, or hidden. The tag view lists tagged mail from your account and from the shared mailboxes and shared folders you can see, leaving out Trash and Spam.
 
 ## Time zone
 

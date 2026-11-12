@@ -191,7 +191,7 @@ Calendar changes are pushed in real time over JMAP push, so you don't have to re
 
 The task list view shows tasks with due dates, priority, and completion status. Tasks created in other CalDAV clients (such as Thunderbird) show up alongside the ones made in Bulwark. Moving a task to a calendar of another account copies it there and removes the original, since JMAP has no move between accounts.
 
-Tasks are off by default. Turn on **Enable tasks** in Settings > Calendar to get the Tasks view; **Show tasks on calendar** then also puts them in the month, week and day views. An administrator can hide the switch with the Calendar Tasks policy.
+Tasks are off by default. Turn on **Enable tasks** in Settings > Calendar to get the Tasks view; **Show tasks on calendar** then also puts them in the month, week and day views. A repeating task shows on every day it is due, and you can check off a single occurrence. An administrator can hide the switch with the Calendar Tasks policy.
 
 ## Plugin integration
 

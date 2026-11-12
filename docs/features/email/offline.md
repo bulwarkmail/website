@@ -12,7 +12,9 @@ With **Keep mail on this device** turned on, Bulwark keeps your recent mail in t
 
 ## Turn it on
 
-Open **Settings > Backup & reset** and turn on **Keep mail on this device** under **Offline**. It applies to the account you're signed in with, in this browser only. Bulwark then saves the last 30 days of your Inbox and of the folders you open, up to 250 MB, and keeps it up to date while you're online. Below the switch you see how much space it uses.
+Open **Settings > Offline** and turn on **Keep mail on this device**. It applies to the account you're signed in with, in this browser only. Bulwark then saves the last 30 days of your Inbox and of the folders you open, up to 250 MB, and keeps it up to date while you're online. Below the switch you see how much space it uses.
+
+**Total size of kept attachments** sets, per account, how much the attachments of kept messages and the files you keep offline may take together: 1 or 2 GB in a browser, and in the desktop app also 5, 10 or 25 GB or **No limit**. Your organisation can set a lower maximum.
 
 Turn it on only on your own device. Anyone who can use this browser profile can read the mail it keeps. The data is encrypted, but that only helps against someone who copies the browser's files.
 

@@ -66,6 +66,7 @@ On desktop, a reply or forward opens under its message, which stays readable abo
 
 - Drag and drop files onto the compose window
 - Click the attachment button to browse
+- Rename an attachment before sending it. In the reader, you can also rename one when you save a copy
 - Your Stalwart configuration sets the maximum file size
 - Each attachment chip shows progress in bytes while it uploads, and cancelling aborts the transfer rather than just hiding the chip
 - Inline images can be pasted from the clipboard or uploaded straight into the rich text editor, and resized there
