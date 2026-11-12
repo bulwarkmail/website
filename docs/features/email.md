@@ -159,7 +159,7 @@ This needs a server that supports VacationResponse; forwarding and replying only
 <img class="theme-light-only" src="/screenshots/light-settings-templates.webp" alt="The template settings" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-settings-templates.webp" alt="The template settings" width="5120" height="2880" />
 
-Templates are reusable messages, each with a category you name yourself. Placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and your own placeholders are asked for when you insert the template.
+Templates are reusable messages, each with a category you name yourself. Placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and your own placeholders are asked for when you insert the template. Write `{{name:default}}` to start a field with a value.
 
 In the composer, press `t` (outside a text field) or use Templates > Insert template to open the picker, which searches your templates and groups them by category. Create and edit them under Settings > Composing > Email templates.
 

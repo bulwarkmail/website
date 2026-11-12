@@ -88,6 +88,7 @@ Insert reusable email templates from the compose toolbar:
 
 - Search templates, listed by favorites, recently used and category
 - Placeholders such as `{{date}}` and `{{sender_name}}` fill themselves in; `{{recipient_name}}`, `{{company}}` and custom placeholders are asked for when you insert the template
+- Give a placeholder a default with `{{name:default}}`, for example `{{checkin_time:15:00}}`: its field starts with the default, selected, so typing replaces it and Tab keeps it. A placeholder used more than once needs the default only once; if the defaults differ, the first one counts, and the subject comes before the body
 - Press `t` to open the template picker, as long as focus isn't in a text field
 - Manage templates under Settings > Composing > Email templates
 
