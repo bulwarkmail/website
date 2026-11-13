@@ -64,7 +64,7 @@ A plugin can show up in about 50 places. There are three kinds:
 | | `command-palette` | `ui:commands` |
 | | `app-page` (own page with a navigation rail entry) | `ui:app-page` |
 | | `plugin-dialog` | none (opened by the plugin) |
-| | `side-panel` (a side panel next to the mail and, from the release after 1.21.1, next to the plugin's pages) | `ui:sidebar-widget` |
+| | `side-panel` (a panel next to the mail and, from the release after 1.21.2, next to a plugin's pages; not on phones) | `ui:sidebar-widget` |
 | | `app-side-panel` (a side panel next to Calendar, Contacts, Files and Settings, from 1.20) | `ui:side-panel` |
 | Navigation | `navigation-rail-bottom` | `ui:navigation-rail` |
 | | `sidebar-widget`, `sidebar-section`, `sidebar-section-actions` | `ui:sidebar-widget` |
@@ -90,7 +90,7 @@ A plugin can show up in about 50 places. There are three kinds:
 | Settings | `settings-section`, `settings-page` | `ui:settings-section` |
 | Admin | `admin-plugin-page` | `ui:admin-page` or `admin:config` |
 
-`side-panel` is a plugin's own panel at the right of the mail, one per plugin; at most one is open, and this browser remembers which. `api.ui.setSidePanel({ title, icon, rail })` names it, and the button that opens it sits in a rail at the right edge; with `rail: false` there is no button, and the panel opens only when the plugin calls `api.ui.openPanel` or `togglePanel` (for instance from its own action or navigation rail entry). From the release after 1.21.1 the same panel also shows next to a plugin's pages (`app-page`), which narrow by its width; it stays open from the mail to a page and back.
+`side-panel` is a plugin's own panel at the end of the mail view (the right, or the left in right-to-left languages), one per plugin; at most one is open, and this browser remembers which. `api.ui.setSidePanel({ title, icon, rail })` names it, and the button that opens it sits in a rail at the edge (under Mountain View, in its side panel's rail); with `rail: false` there is no button, and the panel opens only when the plugin calls `api.ui.openPanel` or `togglePanel` (for instance from its own action or navigation rail entry). Phones have no room for it: there `openPanel` answers `null`, so the plugin can open a dialog instead. From the release after 1.21.2 the same panel also shows next to a plugin's pages (`app-page`), which narrow by its width. It stays open from the mail to a page and back, but the plugin's frame starts anew on each switch.
 
 From 1.20 the side panel that sits next to the open message (`email-detail-sidebar`) has a sibling in the other views: `app-side-panel` shows next to Calendar, Contacts, Files and Settings, under a button at the end of each view's toolbar row. The plugin learns which view it is in and what the view shows (the open event, the open contact, the selected files and folder, or the settings page), each part only with the matching read permission. Phones and Settings below 1024 px have no room for it: there the panel button asks the plugin to open a dialog instead. Plugins ask for `ui:side-panel` as an optional permission, so older webmails still install them.
 
