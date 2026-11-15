@@ -344,7 +344,7 @@ function evaluateEdition(answers: Answers): Verdict {
       options: [CLASSIC],
       caveats: [
         {
-          text: "Legacy Proxy is pre-1.0 and has had no outside security audit. It gives you mail, out-of-office replies and contacts (if your mail server has an address book), but no calendar and no files. Try it with your mail server before you move everyone over.",
+          text: "Legacy Proxy has had no outside security audit. It gives you mail, out-of-office replies and contacts (if your mail server has an address book), but no calendar and no files. Try it with your mail server before you move everyone over.",
         },
         ...(answers.login?.includes("sso")
           ? [{ text: "Single sign-on doesn't work through Legacy Proxy. People sign in with their mail server password." }]

@@ -54,8 +54,8 @@ const SHORT_ANSWER: [React.ReactNode, React.ReactNode][] = [
     "Your mail server isn't Stalwart",
     <>
       Bulwark through the{" "}
-      <a href="https://github.com/bulwarkmail/legacy-proxy" className="bw-link">Legacy Proxy</a>, which is
-      pre-1.0, or a classic webmail such as{" "}
+      <a href="https://github.com/bulwarkmail/legacy-proxy" className="bw-link">Legacy Proxy</a>, or a
+      classic webmail such as{" "}
       <a href="https://roundcube.net" className="bw-link">Roundcube</a>
     </>,
   ],

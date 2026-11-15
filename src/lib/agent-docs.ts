@@ -154,7 +154,7 @@ function about(): string {
   return [
     `# Bulwark Webmail`,
     `> ${SUMMARY}`,
-    `It ships in two editions. Bulwark is a Node.js service, usually run as the Docker image ghcr.io/bulwarkmail/webmail, with a setup wizard, an admin console and plugins. Bulwark Lite is the same client exported as static files for any web host, with no server process. Bulwark needs Stalwart 0.16.6 or newer; Stalwart 1.0 needs Bulwark ${BULWARK_VERSION} or newer. For an existing IMAP account there is the separate, pre-1.0 Legacy Proxy (${GITHUB_ORG}/legacy-proxy).`,
+    `It ships in two editions. Bulwark is a Node.js service, usually run as the Docker image ghcr.io/bulwarkmail/webmail, with a setup wizard, an admin console and plugins. Bulwark Lite is the same client exported as static files for any web host, with no server process. Bulwark needs Stalwart 0.16.6 or newer; Stalwart 1.0 needs Bulwark ${BULWARK_VERSION} or newer. For an existing IMAP account there is the separate Legacy Proxy (${GITHUB_ORG}/legacy-proxy).`,
     `Every docs page below is markdown at the URL shown. The same page as HTML is at that URL without .md. A request for a docs page with \`Accept: text/markdown\` also gets the markdown. All docs in one file: ${SITE_URL}/llms-full.txt`,
   ].join("\n\n");
 }

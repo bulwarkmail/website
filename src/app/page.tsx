@@ -384,7 +384,7 @@ function ProjectsSection() {
           <Tile
             href="https://github.com/bulwarkmail/legacy-proxy"
             title="Legacy Proxy"
-            text="Lets Bulwark read an existing IMAP account. Pre-1.0, mail and contacts only."
+            text="Lets Bulwark use an existing IMAP account: mail, out-of-office replies and contacts."
           />
           <Tile
             href="https://github.com/bulwarkmail/homeassistant-jmap"

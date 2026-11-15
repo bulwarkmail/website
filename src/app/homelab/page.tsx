@@ -120,7 +120,7 @@ export default function HomelabPage() {
           tiles={[
             { title: "Home Assistant", text: "Unread counts as sensors, automations on new mail, and sending mail from Home Assistant, for any JMAP server. Pre-1.0, a HACS custom repository.", href: "https://github.com/bulwarkmail/homeassistant-jmap" },
             { title: "WordPress plugin", text: "Sends WordPress's mail through a JMAP server.", href: "https://github.com/bulwarkmail/wordpress-jmap" },
-            { title: "Legacy Proxy", text: "Lets Bulwark read an existing IMAP account. Pre-1.0, mail and contacts only.", href: "https://github.com/bulwarkmail/legacy-proxy" },
+            { title: "Legacy Proxy", text: "Lets Bulwark use an existing IMAP account: mail, out-of-office replies and contacts.", href: "https://github.com/bulwarkmail/legacy-proxy" },
             { title: "Bulwark Mobile", text: "Mail, calendar, contacts and files on Android and iOS, as a beta.", href: "https://github.com/bulwarkmail/native" },
           ]}
         />
