@@ -131,7 +131,7 @@ Related pages: [Customization](/docs/guides/customization), [Keyboard shortcuts]
 - **Links to every screen**: messages, threads, folders, calendar days, events, contacts, file folders and settings pages each have a URL, and "Copy link" is in the message, conversation and event menus
 - **Branding**: toolbar position, favicon and login page
 - **Sidebar apps**: add your own and reorder them in Settings → Add-ons; admins can pin apps for everyone (not in Lite)
-- **Settings sync**: settings follow you to other devices, stored encrypted on the webmail server, once the admin turns it on (not in Lite)
+- **Settings sync**: settings follow you to other devices, stored encrypted on the webmail server, once the admin turns it on (not in Lite). On Stalwart 1.0 and later, the settings the mobile app has too also sync with the app, through the account
 - **Storage quota**: shown in the app
 
 ## Accessibility

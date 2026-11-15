@@ -262,6 +262,7 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Dependency:** requires `SESSION_SECRET`.
 - **Default:** `false`
 - **When to set it:** set to `true` when you want settings to follow users across browsers, devices, and accounts.
+- **Mobile app:** with it on, the settings the webmail and the Bulwark mobile app share are also kept in the account's private Inbox metadata on servers that offer it (Stalwart 1.0 and later), so they sync with the app. A user who switches settings sync off in the webmail stops both.
 
 ### `SETTINGS_DATA_DIR`
 
