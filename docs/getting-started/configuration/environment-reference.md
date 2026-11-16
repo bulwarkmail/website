@@ -551,6 +551,20 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Default:** `false` (a logo shows when only the DNS record backs it, as Yahoo does).
 - **When to set it:** set to `true` to show only logos backed by a Verified Mark or Common Mark Certificate, as Gmail and Apple Mail do.
 
+## Sender check
+
+### `TRUSTED_AUTHSERV_IDS`
+
+- **Purpose:** mail servers whose sender checks (the Authentication-Results header) Bulwark may show, besides your Stalwart's own. Same as **Trusted mail servers** in the admin dashboard under Server > Sender check, and a value saved there wins.
+- **Required:** no.
+- **Default:** empty. Only results your Stalwart wrote count; mail from any other server gets no verdict.
+- **Format:** hostnames separated by commas, exactly as each server writes them at the start of its Authentication-Results header. No wildcards: an entry that isn't a hostname trusts nothing, and the admin dashboard refuses it. Example: `mx.google.com,gateway.example.com`.
+- **When to set it:**
+  - Accounts on another JMAP server, or on Gmail or an IMAP server behind legacy-proxy: list that server's name, for Gmail `mx.google.com`.
+  - A filtering gateway in front of Stalwart: list the gateway's name. Stalwart must not add its own results to what the gateway relays, or those come first. In Stalwart, under SMTP DATA Stage, Add Headers, make Authentication-Results false for the gateway's addresses (`remote_ip`). Keep it on for everyone else, or let only the gateway reach port 25, or a sender can write the gateway's header themselves.
+- **How it's checked:** a listed server's results count only when they are the newest Authentication-Results in the message and every server that handled the message after them is your Stalwart or in the list. Mail from an imported file never gets a verdict.
+- **Lite:** reads the same list from `trustedAuthservIds` in `config.json`, as a list or a comma-separated string.
+
 ## Logging
 
 ### `LOG_FORMAT`

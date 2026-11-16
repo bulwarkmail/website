@@ -55,7 +55,7 @@ Everything happens in your browser, on the mail you opened. Bulwark doesn't cont
 
 The cards are on by default. **Admin → User policy → Features → Booking and Parcel Cards** turns them off for everyone, for example if mail content shouldn't turn into calendar entries in your organisation. The calendar button also follows the Calendar switch on the same page.
 
-The sender check relies on the Authentication-Results header your Stalwart writes on receipt, so it can only be as reliable as that header. Mail that your own users send to each other never went through that check. Mail synced in over IMAP, imported mail, and mail on other servers than Stalwart has no result Bulwark counts, so it gets no card.
+The sender check relies on the Authentication-Results header your Stalwart writes on receipt, so it can only be as reliable as that header. Mail that your own users send to each other never went through that check. Mail from other servers, such as mail synced in over IMAP, has no result Bulwark counts and gets no card, unless you list that server in [`TRUSTED_AUTHSERV_IDS`](/docs/getting-started/configuration/environment-reference#trusted_authserv_ids). Imported mail never gets one.
 
 ## Next step
 
