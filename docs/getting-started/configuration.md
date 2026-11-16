@@ -89,6 +89,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `BULWARK_UPDATE_CHECK_URL`    | No              | project release feed                      | Point the check at your own feed; an empty value disables it                                |
 | `VERSION_CHECK_DATA_DIR`      | No              | `./data/version-check`                    | Where the update check stores its state                                                     |
 | `TRUSTED_PROXY_DEPTH`         | No              | `1`                                       | Number of `X-Forwarded-For` hops to trust                                                  |
+| `REQUEST_BODY_BUDGET_MB`      | No              | `128`                                     | Megabytes of request bodies held in memory at once; over it, large requests get 503. `0` turns it off |
 | `SEARCH_ENGINE_INDEXING`      | No              | `false`                                   | Allow search engines to index the app; off emits `noindex`/`nofollow`                      |
 | `NO_THIRD_PARTY_TRAFFIC`      | No              | `false`                                   | Turn off every built-in outside host: telemetry, update check, hosted push relay, official extension directory, connector, sender favicons, MyMemory translation, map links, WKD |
 | `EXTENSION_DIRECTORY_URL`     | No              | `https://extensions.bulwarkmail.org`      | Marketplace URL for browsing and installing plugins/themes; `NO_THIRD_PARTY_TRAFFIC=true` turns the official one off |

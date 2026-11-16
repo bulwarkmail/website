@@ -350,6 +350,14 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Default:** `1`
 - **When to set it:** increase if Bulwark sits behind multiple reverse proxies (e.g., CDN -> ingress -> app).
 
+### `REQUEST_BODY_BUDGET_MB` _(next release)_
+
+- **Purpose:** how many megabytes of request bodies the server holds in memory at once. Next copies each request body, up to 10 MB, before a route sees it. Over the limit, requests with a body over 64 KB get 503 with `Retry-After: 5` until others finish. A body sent without a length counts as 10 MB.
+- **Required:** no.
+- **Default:** `128`. `0` turns it off. A value that isn't a whole number keeps the default.
+- **Not counted:** small requests, and WebDAV, WOPI saves and plugin uploads. Next doesn't copy those three; they limit their own size.
+- **When to set it:** raise it when uploads through Bulwark fail with 503 while many run at once; lower it on a server with little memory. Each server process has its own budget. A reverse proxy that buffers request bodies, as nginx does by default, also keeps half-sent bodies away from the server.
+
 ## Anonymous telemetry
 
 ### `BULWARK_TELEMETRY`

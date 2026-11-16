@@ -31,6 +31,8 @@ server {
     ssl_certificate /etc/ssl/cert.pem;
     ssl_certificate_key /etc/ssl/key.pem;
 
+    client_max_body_size 100m;
+
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
@@ -44,6 +46,8 @@ server {
     }
 }
 ```
+
+Plugin uploads to Nextcloud and saves from ONLYOFFICE or Collabora send up to 100 MB per request through Bulwark. nginx refuses bodies over 1 MB by default, hence `client_max_body_size`.
 
 ## Traefik
 
