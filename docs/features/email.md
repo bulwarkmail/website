@@ -139,7 +139,20 @@ The full write-up, including the algorithm table and what each banner means, is 
 
 Filtering happens on the server, as Sieve scripts over JMAP (RFC 9661), which means it keeps working while the browser is closed.
 
-Build rules visually (From, To, Subject, Size, Body, Attachment, and so on, most of them matching against several values) with actions to move, forward, mark read, star, discard, or reject. Reorder them by dragging. An expanded view shows every rule at once for review, and if you'd rather write Sieve directly there's a raw editor with syntax validation. Edits save themselves and roll back if the server rejects the script.
+Build rules visually (From, To, Cc, Delivered to, Subject, Size, Body, Attachment, and so on, most of them matching against several values) with actions to move, forward, mark read, star, discard, or reject. Reorder them by dragging. An expanded view shows every rule at once for review, and if you'd rather write Sieve directly there's a raw editor with syntax validation. Edits save themselves and roll back if the server rejects the script.
+
+The rule dialog reads as a sentence: "If all (or any) of these conditions apply", then a list of actions to tick. While you type the conditions, it counts the mail the rule already matches. Click the count to see the messages.
+
+A rule on your own account can also act on that mail. **Apply to** offers **New mail only**, new mail and the Inbox (or the folder of the message you made the rule from), or **New mail and all mail**. On mail that is already there:
+
+- Mail in Sent, Drafts, Trash and Spam is left out.
+- Forward and reject do nothing.
+- Discard moves the mail to Trash, after a question that says how many messages go there.
+- Rules that check the body, Delivered to or a regular expression don't run. They act on new mail only.
+
+**Delivered to** matches the address the server delivers the mail to, which the To or Cc header doesn't have to name: Bcc copies, mailing lists, aliases. Delivered mail doesn't keep that address, so these rules show no count and work on new mail only.
+
+To run a saved rule on a folder later, right-click the folder, open **Rules** and pick the rule. It works like Apply to, on that folder. Rules that can only act on new mail are greyed out.
 
 The whole section only appears when the server advertises Sieve support.
 

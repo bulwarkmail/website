@@ -84,7 +84,8 @@ Related pages: [Contacts](/docs/features/contacts).
 Related pages: [Email](/docs/features/email), [Composing](/docs/features/email/composing).
 
 - **Filters**: server-side Sieve scripts over JMAP (RFC 9661)
-- **Rule builder**: conditions on From, To, Cc, Subject, headers, size, body and attachments, and actions such as move, copy, forward, star, tag, mark read, reject or discard, with an optional date range per rule
+- **Rule builder**: conditions on From, To, Cc, Delivered to, Subject, headers, size, body and attachments, and actions such as move, copy, forward, star, tag, mark read, reject or discard, with an optional date range per rule
+- **Rules on existing mail**: the rule dialog counts and lists the mail a rule already matches and can apply it to the Inbox or all mail; a folder's **Rules** menu runs a saved rule on that folder
 - **Other clients' rules**: survive the round trip
 - **Raw Sieve editor**: with syntax checks
 - **Vacation responder**: can be scheduled to a date range
