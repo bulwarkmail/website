@@ -718,6 +718,13 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 - **Default:** unset; each language shows its own translated example.
 - **When to set it:** show users your own address format instead of a generic example domain.
 
+### `LOGIN_FORGOT_PASSWORD_URL`
+
+- **Purpose:** a "Forgot your password?" link under the password field on the login page. It opens in a new tab. Bulwark only links there: it resets no password itself.
+- **Default:** unset shows no link.
+- **Accepted values:** an http(s) URL.
+- **When to set it:** your users reset a password somewhere else, such as an account portal or your identity provider's reset page.
+
 ### `SOURCE_CODE_URL`
 
 - **Purpose:** where users get the source code of this build, linked from Settings > About.
@@ -791,7 +798,7 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 ### `DOMAIN_BRANDING`
 
 - **Purpose:** per-hostname overrides for the branding fields above when one deployment serves several hostnames. Matched on the request `Host` (or `X-Forwarded-Host`); `*.example.com` matches any subdomain. Exact matches win over wildcards.
-- **Format:** a JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`, `loginUsernamePlaceholder`, `pwaScreenshotMobileUrl`, `pwaScreenshotDesktopUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `helpUrl`, `easyReadUrl`, `signLanguageUrl`.
+- **Format:** a JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`, `loginUsernamePlaceholder`, `loginForgotPasswordUrl`, `pwaScreenshotMobileUrl`, `pwaScreenshotDesktopUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `helpUrl`, `easyReadUrl`, `signLanguageUrl`.
 - **When to set it:** stateless deployments; the admin console manages the same list.
 
 ## Several instances
