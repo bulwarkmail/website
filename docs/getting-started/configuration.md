@@ -115,6 +115,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                             |
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                    |
 | `LOGIN_USERNAME_PLACEHOLDER`  | No              | translated example                        | Placeholder of the login email field, in every language                                    |
+| `LOGIN_FORGOT_PASSWORD_URL`   | No              | empty                                     | "Forgot your password?" link on the login page, to where users reset it                    |
 | `LOGIN_LOGO_MAX_HEIGHT` / `_WIDTH` | No         | natural size                              | Cap the rendered login logo; any CSS length                                                |
 | `LOGIN_LAYOUT`                | No              | `centered`                                | `centered` (card over the background) or `split` (form in a side panel)                   |
 | `LOGIN_BACKGROUND_LIGHT_URL` / `_DARK_URL` | No | none                                     | Picture behind the login form; dark mode falls back to the light one                       |
