@@ -720,9 +720,9 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 
 ### `LOGIN_FORGOT_PASSWORD_URL`
 
-- **Purpose:** a "Forgot your password?" link under the password field on the login page. It opens in a new tab. Bulwark only links there: it resets no password itself.
-- **Default:** unset shows no link.
-- **Accepted values:** an http(s) URL.
+- **Purpose:** a "Forgot your password?" link under the password field on the login page. It opens in a new tab. Bulwark only links there: it resets no password itself. Same as **Forgot password URL** in the admin dashboard under Branding > Company information, which can also set it per domain.
+- **Default:** unset shows no link. The link also stays hidden while the login page shows no password field, such as on the single sign-on card.
+- **Accepted values:** an http(s) URL. Any other value shows no link.
 - **When to set it:** your users reset a password somewhere else, such as an account portal or your identity provider's reset page.
 
 ### `SOURCE_CODE_URL`

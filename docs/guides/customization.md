@@ -158,6 +158,8 @@ LOGIN_COMPANY_NAME=Your Company
 LOGIN_WEBSITE_URL=https://yourcompany.com
 LOGIN_IMPRINT_URL=https://yourcompany.com/imprint
 LOGIN_PRIVACY_POLICY_URL=https://yourcompany.com/privacy
+# A "Forgot your password?" link under the password field.
+LOGIN_FORGOT_PASSWORD_URL=https://account.yourcompany.com/reset
 ```
 
 ### Layout and background

@@ -31,7 +31,7 @@ JMAP_SERVER_AUTO_PICK_BY_DOMAIN=true
 
 ## Branding per web address
 
-`DOMAIN_BRANDING` gives each web address Bulwark is opened on its own name, logos, favicon, app icons and colours, company name, imprint, privacy and website links, and help and accessibility links. Fields an entry leaves out fall back to the global branding.
+`DOMAIN_BRANDING` gives each web address Bulwark is opened on its own name, logos, favicon, app icons and colours, company name, imprint, privacy and website links, a forgot password link, and help and accessibility links. Fields an entry leaves out fall back to the global branding.
 
 ```env
 DOMAIN_BRANDING=[{"host":"mail.customer-a.com","appName":"Customer A Mail","loginCompanyName":"Customer A Ltd","loginLogoLightUrl":"https://cdn.example.net/a/logo.svg"},{"host":"*.example.net","appName":"Example Mail"}]
