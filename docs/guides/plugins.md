@@ -109,6 +109,7 @@ Hooks let a plugin react to what happens in the app, and change or stop some of 
 - **`onBeforeExternalLink`:** check, rewrite or stop a link before Bulwark opens it: in mail, the reader view, calendar events, contacts, notifications, the unsubscribe link and links other plugins open with `api.ui.openExternalUrl` (a plugin's own call doesn't come back to its own handler). From 1.20 the context carries the link's text (`text`). The link arrives as the browser parses it (`new URL(href).href`) and that exact string opens. A handler that throws or times out lets the link open, so a check that must hold a link returns `false` and opens it itself. The [link check](/docs/guides/organisation/link-check) is built on it
 - **`onAvatarResolve`:** provide an avatar URL for a sender
 - **`onBeforeComposeOpenToReply`** and its siblings - change a message before it fills the composer for a reply or forward
+- **`onBeforeDraftAutoSave`:** change a draft before it is saved. Each attachment carries a `draftAttachmentId`; keep it on every attachment you return, including ones you rebuild
 - **`onBeforeBlobUpload`:** divert an attachment to external storage before it reaches the server
 - **`onRenderEmailBody`:** change how a message body is shown
 - **`onEmailListItemRender`:** add badges to message rows
@@ -250,7 +251,7 @@ await api.jmap.removeKeyword('email-id', '$label:work');  // email:write
 A plugin frame can't make requests of its own. It has three ways out, each declared in the manifest:
 
 - **`api.http.fetch`** (`http:fetch`) - requests to the origins listed in `httpOrigins`, sent from the browser without cookies. The other site has to allow the webmail's origin through CORS. The URL is checked again after redirects.
-- **`api.http.post`** (`http:post`) - requests to the webmail's own `/api/` routes listed in `apiPostPaths`, with the user's login. Admin, auth, settings, plugin and similar routes are never allowed, whatever the manifest says.
+- **`api.http.post`** (`http:post`) - requests to the webmail's own `/api/` routes listed in `apiPostPaths`, with the user's login. Admin, auth, settings, plugin and similar routes are never allowed, whatever the manifest says. `/api/translate` is open to a plugin that lists it in `apiPostPaths`. For anything else, post to your plugin's own sidecar routes.
 - **`api.proxy.fetch`** (`http:proxy`) - requests through Bulwark's server with an account or API key declared under `credentials`. The secret stays on the server and is only sent to the credential's own origin, and the plugin never sees it. A user-scope credential is an account each user connects in a dialog the host draws; an admin-scope credential is a `secret` field in the plugin's admin configuration. The proxy supports streaming, upload progress and WebDAV methods, and has per-user rate limits.
 
 The proxy only reaches public addresses. To let plugins reach a server on your own network, such as a Nextcloud on the LAN, list its origin in `PLUGIN_PROXY_PRIVATE_ORIGINS` (comma separated, for example `http://nextcloud.lan:8080`). Those origins may also be plain http.
