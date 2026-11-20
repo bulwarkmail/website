@@ -36,7 +36,7 @@ The desktop toolbar has prev/next buttons, a "Today" button, and a date label, s
 
 Click any time slot, or use the **Create event** button, to create an event:
 
-- Title and description
+- Title and description. The description field is tall, and you can drag its bottom edge to make it bigger
 - Start and end time with automatic timezone detection
 - All-day events
 - Recurrence rules: daily, weekly, monthly, yearly or a custom rule. Stalwart 0.16.20 and later expand the occurrences on the server; on older servers Bulwark expands them itself.
@@ -129,7 +129,7 @@ While you are creating or moving an event, the calendar grid and the event modal
 
 ## Hover preview
 
-Hovering an event opens a popover with its time, location, participants, and description, so you don't have to open the modal to read it. **Event hover preview** in Settings > Calendar sets the delay (instant to 2 seconds) or turns it off.
+Hovering an event opens a popover with its time, location, participants, and description, so you don't have to open the modal to read it. A long description is cut after a few lines; click **Show more** to read all of it. **Event hover preview** in Settings > Calendar sets the delay (instant to 2 seconds) or turns it off.
 
 ## CalDAV address
 

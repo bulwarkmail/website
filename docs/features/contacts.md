@@ -16,6 +16,7 @@ Contacts are stored as JMAP ContactCards (RFC 9553 and 9610), which means they l
 
 - Add, edit, and delete contacts
 - Multiple email addresses, phone numbers, and addresses per contact
+- Pick Custom… as the phone type to give a number your own label, such as Car or Holiday home. The label is saved with the contact, so phones that sync the address book show it too (Android's custom label)
 - Organization and job title fields
 - Names are stored with the RFC 9553 name components (`title`, `given`, `given2`, `surname`, `generation`); QUOTED-PRINTABLE encoded vCard fields are decoded on import
 - Gender and pronouns
