@@ -87,6 +87,8 @@ In Mountain View, `x` selects the conversation instead.
 
 Drafts save themselves two seconds after you stop typing, so there is no save-draft key to press.
 
+In To, Cc and Bcc, Tab moves to the message text when the subject is already filled, as in replies and forwards, and to the subject when it is empty. From Cc it goes to Bcc while that field is open.
+
 ## Calendar
 
 | Shortcut                | Action                                   |
