@@ -21,6 +21,10 @@ Pick one of three layouts, per user, in settings: **split** (three panes), **foc
 
 Long mailboxes are virtualised and paginate as you scroll, and the first page of message data is prefetched at login so the inbox isn't empty while you wait. Rows show their attachments, and an attachment opens straight from the row without opening the message first.
 
+A conversation where you started a reply and saved it as a draft shows a red Draft before the subject. Open the message to continue the draft. Messages marked as high priority show a red ! in the list and a High importance badge when you open them. Low priority shows a grey down arrow and a Low importance badge.
+
+On a computer, the installed app can open a message in a new window when you double-click it. Choose that under **Double-click a message** in Settings > Reading. The desktop app has its own switch in its window settings. Your organisation can set a default or lock it.
+
 The order of the list is yours to set. Presets put unread, starred or tagged mail first; or define up to three custom sort levels. The order is applied through the JMAP sort, so the whole folder obeys it rather than the page you have loaded, and it can apply to the Inbox only or to every folder.
 
 Folders can be shared with other users on the same server (`mail:share`). On Stalwart 1.0, picking whom to share with needs directory queries, which an administrator turns on with **Allow Directory Queries** under **Settings > Files & Sharing > Sharing**. When someone shares a folder with you, a toast says so and the folder appears under their account in your sidebar. Deleting a folder that still holds mail offers to delete the messages with it.
@@ -29,6 +33,7 @@ The rest is the ordinary furniture:
 
 - Archive into a single folder, into year folders, or into year/month folders
 - Empty Junk and Trash, with a confirmation first. When your organisation set it up, a line in Trash and Junk says how long mail stays there before the server deletes it ([retention notice](/docs/guides/organisation/announcements#how-long-trash-and-junk-keep-mail))
+- Right-click a folder you created and choose Empty folder… to move all its messages to the Trash, or to delete them if you turned on permanent deletion. Trash and Spam have Empty Trash and Empty Spam instead
 - Configurable hover quick-actions, and attachments shown next to the sender or below the message header
 - Answered and forwarded status icons in the list
 - Right-click a folder to manage it, to import mail into it or to export it; the context menu header elides a long path in the middle rather than truncating it
@@ -90,7 +95,7 @@ When your organisation set up [phishing reports](/docs/guides/organisation/phish
 
 Booking, shipping and order mail that carries schema.org markup gets a card above the message: route and times for flights and trains, check-in and check-out for hotels, tracking for parcels, status for orders, with an Add to calendar button where it fits. See [Booking and parcel cards](/docs/features/email/booking-cards).
 
-Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs open in the browser's PDF viewer on desktop and are drawn page by page on phones, and `.eml` attachments open like mail.
+Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs open in the browser's PDF viewer on desktop and are drawn page by page on phones, and `.eml` attachments open like mail. Images, text, Markdown, HTML files and attached messages can be printed from the preview's Print button.
 
 Your organisation can [turn some of this off](/docs/guides/organisation/device-policies). With downloads off, attachments only preview: the reader says "Downloads are turned off by your organisation", a file that can't be previewed doesn't open, and PDFs are always drawn page by page. With export or printing off, Export as .eml, View source or Print are gone from the menus, and printing the page with Ctrl+P gives a page that says printing is off. A faint watermark with your address and the date can lie over messages, previews and printouts. In a unified inbox each message follows the settings of its own account.
 

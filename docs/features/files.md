@@ -52,6 +52,8 @@ Stalwart stores files as JMAP FileNodes, and Bulwark browses them. Documents and
 - Video
 - PDF (the browser's viewer on desktop, a built-in viewer on phones)
 
+Images, text, Markdown, HTML files and attached messages can be printed from the preview's Print button, unless your organisation has turned printing off. The same preview opens attachments in mail.
+
 ## Office documents
 
 Word-processor, spreadsheet and presentation files open for editing in place when a WOPI-capable office server is configured. Collabora Online, OnlyOffice and EuroOffice are the ones the integration was written against. Set `WOPI_CLIENT_URL` to the editor's base URL (Bulwark fetches its discovery document from `<url>/hosting/discovery`) and, if the editor reaches the webmail on a different hostname than the browser does, `WOPI_HOST_URL` to the address it should use. Leave `WOPI_CLIENT_URL` empty and the feature is off. You can set the same values in the admin console under **Server > Document editing**; a value saved there overrides the environment variable. The editor has to allow this webmail as a WOPI host. **New file formats** and **Template directory** (`WOPI_NEW_FILE_FORMATS`, `WOPI_TEMPLATE_DIR`) control what **New file** offers. The demo fixtures include office documents so you can see the integration without uploading anything.

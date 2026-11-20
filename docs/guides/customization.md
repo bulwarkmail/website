@@ -191,7 +191,7 @@ Settings has its pages in three groups: Account, Security, Sharing, Notification
 - **Always show emails in light mode:** avoid dark-mode color transformation for problematic HTML mail
 - **Toolbar position:** top or below subject
 - **Interface layout:** default, or Mountain View, which arranges search, navigation and toolbars the way Gmail does
-- **Inbox type:** in Mountain View, **Unread first** shows your 25 newest unread messages in an Unread section above Everything else
+- **Inbox type:** in Mountain View, **Unread first** shows your 25 newest unread messages in an Unread section above Everything else. If you have more unread mail than fits, use the arrows next to the section's counter to see older unread messages
 - **Mail layout:** choose between split (three-pane), focused list, and reading pane at bottom
 - **Hover actions:** choose which quick-actions appear and their placement (with avatar in Focused list for compact density and above)
 - **Sidebar apps** (Add-ons) - Add your own apps and links to the navigation rail, reorder them and choose which show on phones
@@ -219,6 +219,7 @@ Settings has its pages in three groups: Account, Security, Sharing, Notification
 - **Delete action:** move to trash or permanent delete
 - **Archive mode:** direct, by year, or by year/month
 - **Attachment position:** next to sender or Below header
+- **Double-click a message** (Reading) - open the message in the reading pane or in a new window. Only shown in the installed app; the desktop app has its own switch in its window settings. Admins can set a default or lock it
 - **Composer mode:** rich text or plain text only
 - **Auto-select reply identity:** match reply identity to original recipient, by exact address or by domain
 - **Message list order:** unread, starred or tagged first, or custom sort levels, for the Inbox or every folder
