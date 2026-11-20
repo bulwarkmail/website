@@ -90,6 +90,8 @@ docker build -t bulwark .
 docker run -d --name bulwark -p 3000:3000 -e JMAP_SERVER_URL=https://mail.example.com bulwark
 ```
 
+Building the image needs about 6 GB of free memory; an 8 GB machine is enough. The build gives `next build` a 4 GB heap. Change it with `--build-arg BUILD_HEAP_MB=<MB>`, for example `docker build --build-arg BUILD_HEAP_MB=5120 .`. Below about 3 GB the build runs out of heap.
+
 ## Docker Compose
 
 For anything longer-lived than a test, run Bulwark and Stalwart from one compose file. The full file, the `env_file` variant, and the volume layout are on the [Docker Compose](/docs/deployment/docker/compose) page.
