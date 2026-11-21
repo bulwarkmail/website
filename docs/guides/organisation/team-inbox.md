@@ -8,6 +8,8 @@ editionNote: "The team inbox is a plugin, and plugins run in Bulwark (not Lite).
 
 # Team inbox
 
+From Bulwark 1.22 on, [Team mailboxes](/docs/guides/organisation/team-mailboxes) do this without a plugin, together with notes and mentions. The plugin steps back once you turn them on; this page is for older versions.
+
 The official **Team inbox** plugin lets the members of a shared mailbox (a Stalwart group with its own mailbox, such as `support@example.com`) assign a message to one of them and mark it done. Everyone in the team sees the same state.
 
 ## Set it up

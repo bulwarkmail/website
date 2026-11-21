@@ -22,8 +22,9 @@ The admin console's **Organisation** section holds the settings a company or a h
 | Devices | [No downloads, no export, no printing, no install prompt, push without sender and subject, a watermark](/docs/guides/organisation/device-policies), [offline mode](/docs/guides/organisation/offline-mode) |
 | [Proofreading](/docs/guides/organisation/proofreading) | Whether proofreading plugins check what users write: off, the users' choice, or required; per domain, group and plugin; the writing language |
 | [Mail import and export](/docs/guides/organisation/mail-import-export) | Stalwart's upload limit for migrations from mbox, PST and EML files, and turning export off |
+| [Team mailboxes](/docs/guides/organisation/team-mailboxes) | Notes beside messages, @ mentions, assigning messages and marking them done in shared group mailboxes |
 
-Assigning messages in a shared mailbox and marking them done comes from the [Team inbox plugin](/docs/guides/organisation/team-inbox), not from these pages. It isn't in the extension directory yet; you upload its ZIP under Extensions > Plugins.
+Assigning messages in a shared mailbox and marking them done is part of [Team mailboxes](/docs/guides/organisation/team-mailboxes) from Bulwark 1.22 on. Older versions get it from the [Team inbox plugin](/docs/guides/organisation/team-inbox).
 
 Two official plugins add checks an organisation sets up under **Extensions > Plugins**, not on these pages: the [link check](/docs/guides/organisation/link-check) of links when users click them (company service or Google Safe Browsing), and [send checks](/docs/guides/organisation/send-checks) for IBANs, card numbers, keywords and attachment types before mail goes out.
 

@@ -46,6 +46,7 @@ Related pages: [Email](/docs/features/email), [Composing](/docs/features/email/c
 - **Import and export**: bring in `.eml`, ZIP, mbox and Outlook `.pst` files, save a folder or the whole account as mbox or ZIP ([import and export](/docs/features/email/import-export)), and forward a message as an `.eml` attachment named by your filename template
 - **Awkward attachments**: `winmail.dat` (TNEF) is unpacked, and attached messages (`message/rfc822`) open as nested mail
 - **Folders**: icons, nesting and counts in the sidebar
+- **Team mailboxes**: notes for the team beside a message, @ mentions, assigning messages and marking them done in shared group mailboxes, when the admin turns it on ([team mailboxes](/docs/features/team-mailboxes))
 - **Print** from the viewer, and browser back and forward through mail history
 
 ## Calendar
