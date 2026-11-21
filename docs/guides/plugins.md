@@ -250,11 +250,32 @@ await api.jmap.removeKeyword('email-id', '$label:work');  // email:write
 
 A plugin frame can't make requests of its own. It has three ways out, each declared in the manifest:
 
-- **`api.http.fetch`** (`http:fetch`) - requests to the origins listed in `httpOrigins`, sent from the browser without cookies. The other site has to allow the webmail's origin through CORS. The URL is checked again after redirects.
+- **`api.http.fetch`** (`http:fetch`) - requests to the origins listed in `httpOrigins`, sent from the browser without cookies. The other site has to allow the webmail's origin through CORS. The URL is checked again after redirects. `api.http.eventSource` subscribes to Server-Sent Events from the same origins, for a plugin that should hear of something the moment it happens instead of asking again and again (see [Server-Sent Events](#server-sent-events)).
 - **`api.http.post`** (`http:post`) - requests to the webmail's own `/api/` routes listed in `apiPostPaths`, with the user's login. Admin, auth, settings, plugin and similar routes are never allowed, whatever the manifest says. `/api/translate` is open to a plugin that lists it in `apiPostPaths`. For anything else, post to your plugin's own sidecar routes.
 - **`api.proxy.fetch`** (`http:proxy`) - requests through Bulwark's server with an account or API key declared under `credentials`. The secret stays on the server and is only sent to the credential's own origin, and the plugin never sees it. A user-scope credential is an account each user connects in a dialog the host draws; an admin-scope credential is a `secret` field in the plugin's admin configuration. The proxy supports streaming, upload progress and WebDAV methods, and has per-user rate limits.
 
 The proxy only reaches public addresses. To let plugins reach a server on your own network, such as a Nextcloud on the LAN, list its origin in `PLUGIN_PROXY_PRIVATE_ORIGINS` (comma separated, for example `http://nextcloud.lan:8080`). Those origins may also be plain http.
+
+### Server-Sent Events
+
+`api.http.eventSource(url, init)` subscribes to a `text/event-stream` from one of the plugin's `httpOrigins`. The webmail holds the connection in the user's browser and hands the plugin each event as it arrives:
+
+```js
+const source = await api.http.eventSource('https://crm.example.com/calls/stream', {
+  headers: { Authorization: `Bearer ${token}` },
+  onEvent: ({ type, data, lastEventId }) => { /* type is "message" unless the server names one */ },
+  onOpen: () => { /* connected, also after each reconnect */ },
+  onError: ({ message, status, closed }) => { /* closed: true means the webmail gave up */ },
+});
+// later
+source.close();
+```
+
+- The call is refused for the same addresses as `api.http.fetch`: only `https`, only the origins in `httpOrigins`, checked again after redirects. The request carries the plugin's `headers` and no cookies; the webmail sets `Accept` and `Last-Event-ID` itself and ignores them, `Cookie` and `X-JMAP-Username` in `headers`. So the server has to allow the webmail's origin and those headers through CORS. If it sends event ids, it also has to allow the `Last-Event-ID` header, which the webmail sends when it reconnects.
+- The webmail reconnects by itself when the connection drops, when the server ends the stream, and after a 429 or 5xx answer. It waits three seconds, or the time the server names with `retry:` (at least one second, at most a minute), and longer after each failed attempt in a row, up to a minute. `onError` is called with `closed: false` each time.
+- Any other answer ends the subscription: `onError` is called with `closed: true` and the `status`. A plugin whose token ran out (401) fetches a new one and subscribes again.
+- The connection is closed when the plugin calls `close()`, when the frame that subscribed is removed and when the plugin is turned off. It is also closed, with `closed: true`, when an admin turns [third-party traffic](/docs/guides/organisation/third-party-traffic) off while it is open. Subscribe from the background script (`activate`) for a connection that lasts as long as the plugin runs. Each browser tab holds its own connection.
+- A plugin can hold four subscriptions at once, and a single event can be about 1 MB of text.
 
 Never put a secret in a plugin's user settings or `api.storage`. Both are kept unencrypted in the browser. Use a credential instead.
 
