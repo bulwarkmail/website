@@ -21,6 +21,9 @@ The note appears as a yellow card between the messages, with your name and pictu
 
 Above the message a line shows how many notes there are and the newest one. Click it to go to the notes.
 
+<img class="theme-light-only" src="/screenshots/light-team-mailbox-notes.webp" alt="A message in the Support mailbox with the team's notes under it: a grey line saying Bob assigned it to Nora, and yellow note cards from Bob and Alice. The list shows who has each message, note counts, a Done mark and the Open, Assigned to me, Mentions me and With notes filters" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-team-mailbox-notes.webp" alt="A message in the Support mailbox with the team's notes under it: a grey line saying Bob assigned it to Nora, and yellow note cards from Bob and Alice. The list shows who has each message, note counts, a Done mark and the Open, Assigned to me, Mentions me and With notes filters" width="5120" height="2880" />
+
 In the list, a speech bubble shows how many notes a conversation has. A dot next to it means there is a note you haven't seen yet.
 
 A note that couldn't be saved stays in the conversation with the reason and **Retry**. **Edit** puts its text back into the field.
@@ -30,6 +33,9 @@ To delete one of your own notes, click the bin on its card. **Undo** in the mess
 ## Mention someone
 
 Type @ in a note and pick a colleague from the list (with the arrow keys and Enter, or by tapping). They get a notification: "Mabel mentioned you in “Offer for the Mulberry project”". Nobody else is notified about the note.
+
+<img class="theme-light-only" src="/screenshots/light-team-mailbox-mention.webp" alt="A note being written with @Al typed, and Alice Johnson offered in the list above the field" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-team-mailbox-mention.webp" alt="A note being written with @Al typed, and Alice Johnson offered in the list above the field" width="5120" height="2880" />
 
 ## Assign and mark done
 
@@ -41,6 +47,9 @@ Type @ in a note and pick a colleague from the list (with the arrow keys and Ent
 You find these in the reader's toolbar, in the message's right-click menu, in the buttons that show when you point at a row, and on phones in the row menu (touch and hold a message) and the reader's **More** menu. Each change leaves a grey line in the conversation, such as "Linus assigned this to Josh".
 
 List rows show who has a message and a **Done** mark.
+
+<img class="theme-light-only" src="/screenshots/light-team-mailbox-assign.webp" alt="The right-click menu of a message in the Support mailbox, with Assign to me, Assign to… and Mark done at the bottom" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-team-mailbox-assign.webp" alt="The right-click menu of a message in the Support mailbox, with Assign to me, Assign to… and Mark done at the bottom" width="5120" height="2880" />
 
 ## Filters
 

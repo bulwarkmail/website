@@ -18,6 +18,9 @@ A team mailbox is a Stalwart group with its own mailbox. Members see it in Bulwa
 
 That is all. There is nothing to set up in Stalwart, no folder to create and nothing for users to set up.
 
+<img class="theme-light-only" src="/screenshots/light-admin-team-mailboxes.webp" alt="Admin, Organisation, Team mailboxes with the Support team scope picked and Notes and assignment in team mailboxes turned on" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-admin-team-mailboxes.webp" alt="Admin, Organisation, Team mailboxes with the Support team scope picked and Notes and assignment in team mailboxes turned on" width="5120" height="2880" />
+
 To turn it on for one team only, pick that group in the scope bar at the top of the page first. A group scope applies to that group's mailbox only: someone who is in two groups gets the feature in the group it is on for, not in the other. A domain scope applies to every team mailbox of the people in that domain.
 
 In `policy.json`:
@@ -49,6 +52,9 @@ In the folders of a team mailbox:
 - On list rows: the number of notes, a dot when there is a note the user hasn't seen, who the message is assigned to, and a **Done** mark.
 - Filters above the list: **Open**, **Assigned to me**, **Mentions me** and **With notes**.
 - Typing @ in a note offers the team's members. The person mentioned gets a notification in Bulwark and, where push notifications are set up, on their phone or computer. Nobody else is notified about a note.
+
+<img class="theme-light-only" src="/screenshots/light-team-mailbox-notes.webp" alt="A message in the Support mailbox with the team's notes under it: a grey line saying Bob assigned it to Nora, and yellow note cards from Bob and Alice. The list shows who has each message, note counts, a Done mark and the four filters" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-team-mailbox-notes.webp" alt="A message in the Support mailbox with the team's notes under it: a grey line saying Bob assigned it to Nora, and yellow note cards from Bob and Alice. The list shows who has each message, note counts, a Done mark and the four filters" width="5120" height="2880" />
 
 See [Team mailboxes](/docs/features/team-mailboxes) for the user's side.
 
