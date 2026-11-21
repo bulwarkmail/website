@@ -89,6 +89,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `BULWARK_UPDATE_CHECK_URL`    | No              | project release feed                      | Point the check at your own feed; an empty value disables it                                |
 | `VERSION_CHECK_DATA_DIR`      | No              | `./data/version-check`                    | Where the update check stores its state                                                     |
 | `TRUSTED_PROXY_DEPTH`         | No              | `1`                                       | Number of `X-Forwarded-For` hops to trust                                                  |
+| `REQUEST_BODY_BUDGET_MB`      | No              | `128`                                     | Megabytes of request bodies held in memory at once; over it, large requests get 503. `0` turns it off |
 | `SEARCH_ENGINE_INDEXING`      | No              | `false`                                   | Allow search engines to index the app; off emits `noindex`/`nofollow`                      |
 | `NO_THIRD_PARTY_TRAFFIC`      | No              | `false`                                   | Turn off every built-in outside host: telemetry, update check, hosted push relay, official extension directory, connector, sender favicons, MyMemory translation, map links, WKD |
 | `EXTENSION_DIRECTORY_URL`     | No              | `https://extensions.bulwarkmail.org`      | Marketplace URL for browsing and installing plugins/themes; `NO_THIRD_PARTY_TRAFFIC=true` turns the official one off |
@@ -114,6 +115,7 @@ JMAP_SERVER_URL=https://mail.example.com
 | `LOGIN_PRIVACY_POLICY_URL`    | No              | empty                                     | Login page privacy policy link                                                             |
 | `LOGIN_WEBSITE_URL`           | No              | empty                                     | Login page website link                                                                    |
 | `LOGIN_USERNAME_PLACEHOLDER`  | No              | translated example                        | Placeholder of the login email field, in every language                                    |
+| `LOGIN_FORGOT_PASSWORD_URL`   | No              | empty                                     | "Forgot your password?" link on the login page, to where users reset it                    |
 | `LOGIN_LOGO_MAX_HEIGHT` / `_WIDTH` | No         | natural size                              | Cap the rendered login logo; any CSS length                                                |
 | `LOGIN_LAYOUT`                | No              | `centered`                                | `centered` (card over the background) or `split` (form in a side panel)                   |
 | `LOGIN_BACKGROUND_LIGHT_URL` / `_DARK_URL` | No | none                                     | Picture behind the login form; dark mode falls back to the light one                       |

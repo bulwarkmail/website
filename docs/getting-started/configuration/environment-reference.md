@@ -350,6 +350,14 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Default:** `1`
 - **When to set it:** increase if Bulwark sits behind multiple reverse proxies (e.g., CDN -> ingress -> app).
 
+### `REQUEST_BODY_BUDGET_MB` _(next release)_
+
+- **Purpose:** how many megabytes of request bodies the server holds in memory at once. Next copies each request body, up to 10 MB, before a route sees it. Over the limit, requests with a body over 64 KB get 503 with `Retry-After: 5` until others finish. A body sent without a length counts as 10 MB.
+- **Required:** no.
+- **Default:** `128`. `0` turns it off. A value that isn't a whole number keeps the default.
+- **Not counted:** small requests, and WebDAV, WOPI saves and plugin uploads. Next doesn't copy those three; they limit their own size.
+- **When to set it:** raise it when uploads through Bulwark fail with 503 while many run at once; lower it on a server with little memory. Each server process has its own budget. A reverse proxy that buffers request bodies, as nginx does by default, also keeps half-sent bodies away from the server.
+
 ## Anonymous telemetry
 
 ### `BULWARK_TELEMETRY`
@@ -543,6 +551,20 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Default:** `false` (a logo shows when only the DNS record backs it, as Yahoo does).
 - **When to set it:** set to `true` to show only logos backed by a Verified Mark or Common Mark Certificate, as Gmail and Apple Mail do.
 
+## Sender check
+
+### `TRUSTED_AUTHSERV_IDS`
+
+- **Purpose:** mail servers whose sender checks (the Authentication-Results header) Bulwark may show, besides your Stalwart's own. Same as **Trusted mail servers** in the admin dashboard under Server > Sender check, and a value saved there wins.
+- **Required:** no.
+- **Default:** empty. Only results your Stalwart wrote count; mail from any other server gets no verdict.
+- **Format:** hostnames separated by commas, exactly as each server writes them at the start of its Authentication-Results header. No wildcards: an entry that isn't a hostname trusts nothing, and the admin dashboard refuses it. Example: `mx.google.com,gateway.example.com`.
+- **When to set it:**
+  - Accounts on another JMAP server, or on Gmail or an IMAP server behind legacy-proxy: list that server's name, for Gmail `mx.google.com`.
+  - A filtering gateway in front of Stalwart: list the gateway's name. Stalwart must not add its own results to what the gateway relays, or those come first. In Stalwart, under SMTP DATA Stage, Add Headers, make Authentication-Results false for the gateway's addresses (`remote_ip`). Keep it on for everyone else, or let only the gateway reach port 25, or a sender can write the gateway's header themselves.
+- **How it's checked:** a listed server's results count only when they are the newest Authentication-Results in the message and every server that handled the message after them is your Stalwart or in the list. Mail from an imported file never gets a verdict.
+- **Lite:** reads the same list from `trustedAuthservIds` in `config.json`, as a list or a comma-separated string.
+
 ## Logging
 
 ### `LOG_FORMAT`
@@ -696,6 +718,13 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 - **Default:** unset; each language shows its own translated example.
 - **When to set it:** show users your own address format instead of a generic example domain.
 
+### `LOGIN_FORGOT_PASSWORD_URL`
+
+- **Purpose:** a "Forgot your password?" link under the password field on the login page. It opens in a new tab. Bulwark only links there: it resets no password itself. Same as **Forgot password URL** in the admin dashboard under Branding > Company information, which can also set it per domain.
+- **Default:** unset shows no link. The link also stays hidden while the login page shows no password field, such as on the single sign-on card.
+- **Accepted values:** an http(s) URL. Any other value shows no link.
+- **When to set it:** your users reset a password somewhere else, such as an account portal or your identity provider's reset page.
+
 ### `SOURCE_CODE_URL`
 
 - **Purpose:** where users get the source code of this build, linked from Settings > About.
@@ -769,7 +798,7 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 ### `DOMAIN_BRANDING`
 
 - **Purpose:** per-hostname overrides for the branding fields above when one deployment serves several hostnames. Matched on the request `Host` (or `X-Forwarded-Host`); `*.example.com` matches any subdomain. Exact matches win over wildcards.
-- **Format:** a JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`, `loginUsernamePlaceholder`, `pwaScreenshotMobileUrl`, `pwaScreenshotDesktopUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `helpUrl`, `easyReadUrl`, `signLanguageUrl`.
+- **Format:** a JSON array of objects, each with `host` and any subset of `appName`, `appShortName`, `appDescription`, `faviconUrl`, `pwaIconUrl`, `pwaThemeColor`, `pwaBackgroundColor`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl`, `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl`, `loginUsernamePlaceholder`, `loginForgotPasswordUrl`, `pwaScreenshotMobileUrl`, `pwaScreenshotDesktopUrl`, `accessibilityStatementUrl`, `accessibilityFeedbackUrl`, `helpUrl`, `easyReadUrl`, `signLanguageUrl`.
 - **When to set it:** stateless deployments; the admin console manages the same list.
 
 ## Several instances

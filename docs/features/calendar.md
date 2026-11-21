@@ -36,13 +36,16 @@ The desktop toolbar has prev/next buttons, a "Today" button, and a date label, s
 
 Click any time slot, or use the **Create event** button, to create an event:
 
-- Title and description
+- Title and description. The description field is tall, and you can drag its bottom edge to make it bigger
 - Start and end time with automatic timezone detection
 - All-day events
 - Recurrence rules: daily, weekly, monthly, yearly or a custom rule. Stalwart 0.16.20 and later expand the occurrences on the server; on older servers Bulwark expands them itself.
 - Reminders as notifications or emails, taken from the calendar's defaults or set per event (see [Reminders](#reminders))
 - Participant scheduling with contact autocomplete
 - Virtual location input for online meetings and video calls
+- A color of its own, or **Use calendar color**
+- **Show as** Free or Busy: a new all-day event starts as Free, a timed one as Busy, until you pick one
+- A notice when the event overlaps others in the calendars you show, leaving out events shown as free, cancelled or declined; all-day events are only compared with all-day events
 
 ### Quick create
 
@@ -77,6 +80,7 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 - **Duplicate events:** clone an event with a +1 day offset for editing
 - **Recurring event editing:** choose scope: this event, this and following, or all events. On Stalwart 0.16.20 and later each occurrence is addressed by the synthetic id Stalwart gives it, so an edit to one Tuesday cannot land on another; on older servers Bulwark saves the change as an override on the recurring event
 - **Overlap layout:** events that overlap are laid out in columns rather than stacked, so none of them gets truncated
+- **Location on tiles:** month, week and day tiles show the event's location when there is room
 - **Timezone-aware formatting:** event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
 ## Sharing and invitations
@@ -125,7 +129,7 @@ While you are creating or moving an event, the calendar grid and the event modal
 
 ## Hover preview
 
-Hovering an event opens a popover with its time, location, participants, and description, so you don't have to open the modal to read it. **Event hover preview** in Settings > Calendar sets the delay (instant to 2 seconds) or turns it off.
+Hovering an event opens a popover with its time, location, participants, and description, so you don't have to open the modal to read it. A long description is cut after a few lines; click **Show more** to read all of it. **Event hover preview** in Settings > Calendar sets the delay (instant to 2 seconds) or turns it off.
 
 ## CalDAV address
 
@@ -171,6 +175,8 @@ Import `.ics` files with a preview dialog. Events are created in bulk, and large
 ## iCal and webcal subscriptions
 
 Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars appear alongside your own and refresh automatically. Subscription settings can be edited after creation, including URL, refresh interval, and display options.
+
+To keep an event from a subscription as your own, right-click it and choose **Copy to calendar…**. This works for any event you can't change or answer, and later changes to the original don't reach the copy.
 
 Bulwark's server fetches the feeds. If it has to go through a proxy to reach the internet, set [`NODE_USE_ENV_PROXY=1`](/docs/getting-started/configuration/environment-reference#node_use_env_proxy) with `HTTPS_PROXY`.
 

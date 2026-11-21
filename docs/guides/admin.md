@@ -117,6 +117,8 @@ Which features users get, the push relays they may pick (from your list, rather 
 
 In `policy.json` they are `directorySameDomainOnly` and `directoryHiddenLocalparts`. Both change what Bulwark shows, not what Stalwart answers. With directory queries on, any signed-in user can still list all accounts through Stalwart's API.
 
+**Default sidebar apps**, on the same page, can be set per domain or group. Pick the scope under **Applies to** and click **Set apps for this scope**. The scope starts with a copy of Everyone's apps, which you can change. A scope's list replaces Everyone's for its users; scopes without their own list get Everyone's. With several accounts signed in, the rail follows the active account. **Use Everyone's apps** removes the scope's list.
+
 ### Plugins
 
 <img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin console" width="2560" height="1440" />

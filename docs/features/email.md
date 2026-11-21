@@ -21,6 +21,10 @@ Pick one of three layouts, per user, in settings: **split** (three panes), **foc
 
 Long mailboxes are virtualised and paginate as you scroll, and the first page of message data is prefetched at login so the inbox isn't empty while you wait. Rows show their attachments, and an attachment opens straight from the row without opening the message first.
 
+A conversation where you started a reply and saved it as a draft shows a red Draft before the subject. Open the message to continue the draft. Messages marked as high priority show a red ! in the list and a High importance badge when you open them. Low priority shows a grey down arrow and a Low importance badge.
+
+On a computer, the installed app can open a message in a new window when you double-click it. Choose that under **Double-click a message** in Settings > Reading. The desktop app has its own switch in its window settings. Your organisation can set a default or lock it.
+
 The order of the list is yours to set. Presets put unread, starred or tagged mail first; or define up to three custom sort levels. The order is applied through the JMAP sort, so the whole folder obeys it rather than the page you have loaded, and it can apply to the Inbox only or to every folder.
 
 Folders can be shared with other users on the same server (`mail:share`). On Stalwart 1.0, picking whom to share with needs directory queries, which an administrator turns on with **Allow Directory Queries** under **Settings > Files & Sharing > Sharing**. When someone shares a folder with you, a toast says so and the folder appears under their account in your sidebar. Deleting a folder that still holds mail offers to delete the messages with it.
@@ -29,6 +33,7 @@ The rest is the ordinary furniture:
 
 - Archive into a single folder, into year folders, or into year/month folders
 - Empty Junk and Trash, with a confirmation first. When your organisation set it up, a line in Trash and Junk says how long mail stays there before the server deletes it ([retention notice](/docs/guides/organisation/announcements#how-long-trash-and-junk-keep-mail))
+- Right-click a folder you created and choose Empty folder… to move all its messages to the Trash, or to delete them if you turned on permanent deletion. Trash and Spam have Empty Trash and Empty Spam instead
 - Configurable hover quick-actions, and attachments shown next to the sender or below the message header
 - Answered and forwarded status icons in the list
 - Right-click a folder to manage it, to import mail into it or to export it; the context menu header elides a long path in the middle rather than truncating it
@@ -82,7 +87,7 @@ Press `c` in Mail to open the composer. [Composing emails](/docs/features/email/
 
 Messages render in an iframe, sanitised by DOMPurify on the way in. In dark mode the HTML is recolored by luminance so a white newsletter doesn't blind you, while emoji keep their own colors. Mail that survives this badly can be forced to light mode, either per message or globally, and any message with both parts can be flipped between its HTML and plain-text version from the viewer toolbar.
 
-External content is blocked until you trust the sender, and the banner saying so sits above the attachments rather than below them. Next to it, SPF, DKIM and DMARC results are shown with the most severe SPF outcome surfaced first; on spoofed mail the "via" badge is suppressed rather than lending the message credibility.
+External content is blocked until you trust the sender, and the banner saying so sits above the attachments rather than below them. Next to it, SPF, DKIM and DMARC results are shown with the most severe SPF outcome surfaced first; on spoofed mail the "via" badge is suppressed rather than lending the message credibility. Only the Authentication-Results your own Stalwart wrote when it received the mail count, and those of the [mail servers your administrator trusts](/docs/getting-started/configuration/environment-reference#trusted_authserv_ids), such as a filtering gateway or Gmail. Mail from any other server, such as mail synced in over IMAP, shows no verdict: no warning and no pass. Imported mail never gets one.
 
 TNEF (`winmail.dat`) bodies and attachments from Outlook are unpacked, and an embedded `message/rfc822` attachment is unwrapped and rendered as the email it is, after its HTML has been validated.
 
@@ -90,11 +95,11 @@ When your organisation set up [phishing reports](/docs/guides/organisation/phish
 
 Booking, shipping and order mail that carries schema.org markup gets a card above the message: route and times for flights and trains, check-in and check-out for hotels, tracking for parcels, status for orders, with an Add to calendar button where it fits. See [Booking and parcel cards](/docs/features/email/booking-cards).
 
-Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs open in the browser's PDF viewer on desktop and are drawn page by page on phones, and `.eml` attachments open like mail.
+Attachments can be downloaded, previewed inline, or dragged straight out to the desktop. Images preview as thumbnails, PDFs open in the browser's PDF viewer on desktop and are drawn page by page on phones, and `.eml` attachments open like mail. Images, text, Markdown, HTML files and attached messages can be printed from the preview's Print button.
 
 Your organisation can [turn some of this off](/docs/guides/organisation/device-policies). With downloads off, attachments only preview: the reader says "Downloads are turned off by your organisation", a file that can't be previewed doesn't open, and PDFs are always drawn page by page. With export or printing off, Export as .eml, View source or Print are gone from the menus, and printing the page with Ctrl+P gives a page that says printing is off. A faint watermark with your address and the date can lie over messages, previews and printouts. In a unified inbox each message follows the settings of its own account.
 
-Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. Sender avatars show the contact's photo if you have one, otherwise the sender's BIMI logo or the website icon of the sender's domain, and initials when there is none of these.
+Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. The reader shows when the mail arrived, as the message list does; the date the sender gave is under **Sent** in the details. Sender avatars show the contact's photo if you have one, otherwise the sender's BIMI logo or the website icon of the sender's domain, and initials when there is none of these.
 
 <div class="bw-note"><b>Note.</b> In Bulwark Lite, BIMI logos and website icons are off, since both are fetched by the Node.js server, which Lite doesn't have. Contact photos still show.</div>
 
@@ -139,7 +144,20 @@ The full write-up, including the algorithm table and what each banner means, is 
 
 Filtering happens on the server, as Sieve scripts over JMAP (RFC 9661), which means it keeps working while the browser is closed.
 
-Build rules visually (From, To, Subject, Size, Body, Attachment, and so on, most of them matching against several values) with actions to move, forward, mark read, star, discard, or reject. Reorder them by dragging. An expanded view shows every rule at once for review, and if you'd rather write Sieve directly there's a raw editor with syntax validation. Edits save themselves and roll back if the server rejects the script.
+Build rules visually (From, To, Cc, Delivered to, Subject, Size, Body, Attachment, and so on, most of them matching against several values) with actions to move, forward, mark read, star, discard, or reject. Reorder them by dragging. An expanded view shows every rule at once for review, and if you'd rather write Sieve directly there's a raw editor with syntax validation. Edits save themselves and roll back if the server rejects the script.
+
+The rule dialog reads as a sentence: "If all (or any) of these conditions apply", then a list of actions to tick. While you type the conditions, it counts the mail the rule already matches. Click the count to see the messages.
+
+A rule on your own account can also act on that mail. **Apply to** offers **New mail only**, new mail and the Inbox (or the folder of the message you made the rule from), or **New mail and all mail**. On mail that is already there:
+
+- Mail in Sent, Drafts, Trash and Spam is left out.
+- Forward and reject do nothing.
+- Discard moves the mail to Trash, after a question that says how many messages go there.
+- Rules that check the body, Delivered to or a regular expression don't run. They act on new mail only.
+
+**Delivered to** matches the address the server delivers the mail to, which the To or Cc header doesn't have to name: Bcc copies, mailing lists, aliases. Delivered mail doesn't keep that address, so these rules show no count and work on new mail only.
+
+To run a saved rule on a folder later, right-click the folder, open **Rules** and pick the rule. It works like Apply to, on that folder. Rules that can only act on new mail are greyed out.
 
 The whole section only appears when the server advertises Sieve support.
 

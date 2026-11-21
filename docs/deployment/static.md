@@ -45,6 +45,7 @@ The file is read by the browser at runtime, so edits take effect on the next pag
 | `faviconUrl`, `appLogoLightUrl`, `appLogoDarkUrl`, `loginLogoLightUrl`, `loginLogoDarkUrl` | Bulwark's | Branding images, as URLs or paths under the folder |
 | `loginCompanyName`, `loginImprintUrl`, `loginPrivacyPolicyUrl`, `loginWebsiteUrl` | empty | Login page footer |
 | `loginUsernamePlaceholder` | translated example | Placeholder of the login email field, in every language |
+| `loginForgotPasswordUrl` | empty | "Forgot your password?" link under the password field, to where users reset it. An http(s) URL |
 | `loginLogoMaxHeight`, `loginLogoMaxWidth` | natural size | Any CSS length |
 | `loginShowHeading`, `loginShowSubtitle`, `loginShowTotp`, `loginShowVersion` | `true` | Hide parts of the login page |
 | `loginShowTokenLogin` | `false` | Show the access token sign-in |

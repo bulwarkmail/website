@@ -64,6 +64,8 @@ You can mark one account as the default. The default account loads on initial si
 
 Turn on **Unified mailbox** in Settings > Account > Multiple accounts to get one Inbox, Sent, Drafts and so on for the active account, its shared mailboxes and the folders shared with it. It is off by default. If your admin allows it (**Unified Mailbox: Cross-account** in the admin console, off on new installs), **Across all accounts** adds every signed-in account. Rows show the folder they come from, and **Tell accounts apart** marks each with its account's color.
 
+To empty the Trash of every account the unified Trash shows, right-click it and choose **Empty trash (all accounts)**. That includes the shared and group accounts whose Trash you may delete from. The confirmation names those accounts, and the ones whose Trash stays as it is because you can't delete there.
+
 ## Shared mailboxes and folders
 
 <img class="theme-light-only" src="/screenshots/light-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
