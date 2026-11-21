@@ -46,25 +46,31 @@ or for one group:
 
 In the folders of a team mailbox:
 
-- **Note** next to Reply, Reply all and Forward (in the reader's toolbar and More menu, and on phones in the bar at the bottom). It opens a field at the end of the conversation. Enter saves the note, Shift+Enter starts a new line, Escape closes the field and keeps the text.
+- A note line above the reply box, always open, and **Note** next to Reply, Reply all and Forward (in the reader's toolbar and More menu, and on phones in the bar at the bottom), which puts the cursor in it. Enter saves the note, Shift+Enter starts a new line, Escape leaves the line and keeps the text.
 - Notes appear between the messages of the conversation, in time order, as yellow cards with the writer's name and picture. "Only your team sees this" stands above the first one. Above the message a line says how many notes there are and shows the newest.
-- **Assign to me**, **Assign to…**, **Unassign**, **Mark done** and **Reopen**, each only where it applies. Every change leaves a grey line in the conversation, such as "Linus assigned this to Josh".
+- Under the subject: who has the message (several people can), each with an × to take them off, plus **Assign** and **Done**. **Assign to me**, **Assign to…**, **Unassign me**, **Unassign**, **Mark done** and **Reopen** are in the message's menus, each only where it applies. Every change leaves a grey line in the conversation, such as "Linus assigned this to Josh".
 - On list rows: the number of notes, a dot when there is a note the user hasn't seen, who the message is assigned to, and a **Done** mark.
 - Filters above the list: **Open**, **Assigned to me**, **Mentions me** and **With notes**.
-- Typing @ in a note offers the team's members. The person mentioned gets a notification in Bulwark and, where push notifications are set up, on their phone or computer. Nobody else is notified about a note.
+- Typing @ in a note offers the team's members, then the directory where you allow directory lookups. The person mentioned is added to the message's assignees and gets a notification in Bulwark and, where push notifications are set up, on their phone or computer. Nobody else is notified about a note.
 
-<img class="theme-light-only" src="/screenshots/light-team-mailbox-notes.webp" alt="A message in the Support mailbox with the team's notes under it: a grey line saying Bob assigned it to Nora, and yellow note cards from Bob and Alice. The list shows who has each message, note counts, a Done mark and the four filters" width="5120" height="2880" />
-<img class="theme-dark-only" src="/screenshots/dark-team-mailbox-notes.webp" alt="A message in the Support mailbox with the team's notes under it: a grey line saying Bob assigned it to Nora, and yellow note cards from Bob and Alice. The list shows who has each message, note counts, a Done mark and the four filters" width="5120" height="2880" />
+<img class="theme-light-only" src="/screenshots/light-team-mailbox-notes.webp" alt="A message in the Support mailbox: under the subject who has it, Assign and Done; under the message the team's notes, a grey line saying Bob assigned it to Nora and yellow note cards from Bob and Alice; at the bottom the note line above the reply box. The list shows who has each message, note counts, a Done mark and the Open, Assigned to me, Mentions me and With notes filters" width="5120" height="2880" />
+<img class="theme-dark-only" src="/screenshots/dark-team-mailbox-notes.webp" alt="A message in the Support mailbox: under the subject who has it, Assign and Done; under the message the team's notes, a grey line saying Bob assigned it to Nora and yellow note cards from Bob and Alice; at the bottom the note line above the reply box. The list shows who has each message, note counts, a Done mark and the Open, Assigned to me, Mentions me and With notes filters" width="5120" height="2880" />
 
 See [Team mailboxes](/docs/features/team-mailboxes) for the user's side.
 
 Users can delete their own notes (with Undo) and write a new one. Notes can't be edited, and nobody can delete someone else's note in Bulwark.
 
+## Who can be picked
+
+Stalwart doesn't tell members who else is in a group, so **Assign to…** and the @ list offer the people Bulwark knows are in the team: everyone who has opened the team mailbox, written a note there or been assigned something, plus the server's directory where you allow directory lookups. A new member shows up for the others once they have opened the team mailbox.
+
+On Stalwart 1.0 that list is kept in the group Inbox's shared settings. Stalwart 0.16 has no shared settings, so there each member leaves a small "Team member" entry in the **Team notes** folder the first time they open the team mailbox.
+
 ## How notes are stored
 
 Each note is a small plain-text message in a folder called **Team notes** in the group's mailbox. Bulwark creates the folder when the first note is written and gives it the same sharing as the Inbox, so whoever can read the team mailbox can read its notes. Bulwark never lists the folder: it isn't in the sidebar, in search, in counts or in any folder picker. Mailbox export includes it, because it is part of the mailbox.
 
-Assignment is kept on the message itself, as the keywords `$assigned:<member id>` and `$done`, the same as the Team inbox plugin used, so nothing is lost when you switch from the plugin. Messages with notes also carry `$bulwark-notes`, and `$bulwark-mention-<member id>` for each person mentioned, for the filters.
+Assignment is kept on the message itself, as the keywords `$assigned:<member id>` (one per person) and `$done`, the same as the Team inbox plugin used, so nothing is lost when you switch from the plugin. The plugin kept one person per message; Bulwark keeps any number. Messages with notes also carry `$bulwark-notes`, and `$bulwark-mention-<member id>` for each person mentioned, for the filters.
 
 Good to know:
 
@@ -76,7 +82,7 @@ Good to know:
 
 ## Read-only members
 
-Someone the team mailbox is shared with read-only sees the notes and the assignment, but no Note button and no assignment buttons. Under the notes a line says "You can read notes here but not write them." They see new notes within 20 seconds; members see them within seconds.
+Someone the team mailbox is shared with read-only sees the notes and the assignment, but no note line, no Note button and no assignment buttons. Under the notes a line says "You can read notes here but not write them." They see new notes within 20 seconds; members see them within seconds.
 
 ## Push notifications for mentions
 
