@@ -141,7 +141,7 @@ Settings > Calendar > Calendar management has **Copy CalDAV URL** for each calen
 
 ## Multiple calendars
 
-Create and manage multiple calendars with different colors. Toggle visibility of individual calendars using the mini-calendar sidebar.
+Create and manage multiple calendars with different colors. Toggle visibility of individual calendars using the mini-calendar sidebar. Hidden calendars are synced with your settings, so from the release after 1.21.3 they stay hidden after signing out and in your other browsers.
 
 ## Birthday calendar
 
@@ -177,6 +177,8 @@ Import `.ics` files with a preview dialog. Events are created in bulk, and large
 ## iCal and webcal subscriptions
 
 Subscribe to external calendars via iCal or webcal URLs. Subscribed calendars appear alongside your own and refresh automatically. Subscription settings can be edited after creation, including URL, refresh interval, and display options.
+
+Subscriptions refresh at their interval whenever Bulwark is open, on any page, not only in the calendar. With several tabs open, one tab fetches each feed.
 
 To keep an event from a subscription as your own, right-click it and choose **Copy to calendar…**. This works for any event you can't change or answer, and later changes to the original don't reach the copy.
 
