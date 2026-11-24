@@ -78,6 +78,8 @@ With several proofreading plugins installed, each gets its own line: follow the 
 
 **Writing language** presets the language users write in, and can lock it. LanguageTool, and the browser's own spell check, use it.
 
+**Notice for users** (from the release after 1.21.3): write your own notice per language, for example that the text stays on your server. It replaces the notice above the composer and the text in the proofreading panel before a user turns proofreading on, so word it for both. Languages without a text keep the built-in notice. Users who already confirmed the notice don't see a new text again.
+
 ### Make it mandatory
 
 "Required" only holds while users can't turn the plugin itself off. For a mandatory setup:
