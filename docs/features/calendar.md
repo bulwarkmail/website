@@ -199,6 +199,10 @@ The task list view shows tasks with due dates, priority, and completion status. 
 
 Tasks are off by default. Turn on **Enable tasks** in Settings > Calendar to get the Tasks view; **Show tasks on calendar** then also puts them in the month, week and day views. A repeating task shows on every day it is due, and you can check off a single occurrence. An administrator can hide the switch with the Calendar Tasks policy.
 
+### Subtasks
+
+From the release after 1.21.3, a task can have subtasks. Right-click a task and choose **Add subtask…**, or open a task and click **Add subtask…** under its description. The subtask goes into the same list and shows indented under its parent. Subtasks made in other apps (tasks.org, Nextcloud Tasks, jtx Board, Thunderbird) show the same way. When a filter hides the parent, its subtasks show on their own.
+
 ## Plugin integration
 
 Plugins can add buttons to the event editor. For example, the Jitsi Meet plugin from the extension directory adds **Add Jitsi meeting**, which fills in the meeting link (it needs its small sidecar service).
