@@ -62,6 +62,14 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Example:** `https://mail.example.com`
 - **When to set it:** for env-driven deployments. A server URL already saved by the wizard or the admin console takes priority over this variable. For several servers, see `JMAP_SERVERS` below.
 
+### `JMAP_INTERNAL_SERVER_URL` _(next release)_
+
+- **Purpose:** where Bulwark's server reaches the JMAP server when the public URL doesn't work from inside its network, for example a container name. Browsers keep using `JMAP_SERVER_URL`. Bulwark's own requests to the public URL, or below it, go to this address instead. OIDC discovery still uses the public URL.
+- **Required:** no.
+- **Default:** empty, which uses `JMAP_SERVER_URL`.
+- **Example:** `http://stalwart:8080`
+- **When to set it:** in Docker or Kubernetes, when the container can't reach the public name (no NAT hairpin, a firewall or CDN in front). In the admin console it is **Internal JMAP server URL**. For an entry of `JMAP_SERVERS`, set `internalUrl` on the entry.
+
 ### `ALLOW_CUSTOM_JMAP_ENDPOINT`
 
 - **Purpose:** shows a "JMAP Server" field on the login form so users can connect to any JMAP-compatible server.
@@ -75,7 +83,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose:** offers a fixed list of JMAP servers on the login form instead of a free-text field.
 - **Required:** no.
 - **Default:** empty.
-- **Format:** a JSON array. Each entry needs `id`, `label` and `url`, and may carry `domains` (a list of email domains it serves) and its own `oauth` block.
+- **Format:** a JSON array. Each entry needs `id`, `label` and `url`, and may carry `domains` (a list of email domains it serves), its own `oauth` block and an `internalUrl` (see `JMAP_INTERNAL_SERVER_URL`).
 - **Example:** `[{"id":"eu","label":"Europe","url":"https://eu.example.com","domains":["example.com"]},{"id":"us","label":"US","url":"https://us.example.com"}]`
 - **When to set it:** deployments sharded across servers, and stateless installs that can't use the admin console, which manages the same list.
 
