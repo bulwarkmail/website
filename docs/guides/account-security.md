@@ -47,6 +47,11 @@ Users who signed in through single sign-on or with an access token don't see the
 - Users create and delete their own API keys in Settings → Security → Other apps and devices, for scripts and integrations that talk to Stalwart directly.
 - The section appears once **Show advanced settings** is on.
 
+### Masked addresses
+
+- Users create addresses in Settings → Security → **Masked addresses** to receive mail without sharing their main address, with an optional website and description. Disabling one rejects new mail to it; these addresses can't send.
+- From the release after 1.21.3, when the account has addresses on several domains, users pick the domain for a new masked address under **Domain**. **Default domain** is the one of the login.
+
 ### Encryption at rest
 
 - In Settings → Security → Encryption (shown with **Show advanced settings**), add your S/MIME or PGP public key and choose **Enable encryption** on it, with the algorithm you want. Stalwart then encrypts new mail with that key.
