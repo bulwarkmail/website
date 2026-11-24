@@ -83,7 +83,7 @@ A value saved by the setup wizard or the admin console (in `ADMIN_CONFIG_DIR/con
 - **Purpose:** offers a fixed list of JMAP servers on the login form instead of a free-text field.
 - **Required:** no.
 - **Default:** empty.
-- **Format:** a JSON array. Each entry needs `id`, `label` and `url`, and may carry `domains` (a list of email domains it serves), its own `oauth` block and an `internalUrl` (see `JMAP_INTERNAL_SERVER_URL`).
+- **Format:** a JSON array. Each entry needs `id`, `label` and `url`, and may carry `domains` (a list of email domains it serves), its own `oauth` block, an `internalUrl` (see `JMAP_INTERNAL_SERVER_URL`) and `extraAccountOnly: true` for a server users can only add as an extra account (see `LOGIN_GRANT_SECRET`).
 - **Example:** `[{"id":"eu","label":"Europe","url":"https://eu.example.com","domains":["example.com"]},{"id":"us","label":"US","url":"https://us.example.com"}]`
 - **When to set it:** deployments sharded across servers, and stateless installs that can't use the admin console, which manages the same list.
 
@@ -246,6 +246,15 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Purpose:** path to a file containing the session secret.
 - **Required:** no.
 - **When to set it:** use with Docker secrets or Kubernetes secrets. `SESSION_SECRET` takes precedence if both are set.
+
+### `LOGIN_GRANT_SECRET` / `LOGIN_GRANT_SECRET_FILE` _(next release)_
+
+- **Purpose:** a secret Bulwark shares with a legacy-proxy listed as an extra-account-only server (`extraAccountOnly` in `JMAP_SERVERS`). When one of your users adds an address there, Bulwark's server sends the proxy a short-lived grant signed with this secret, and a proxy with the same secret takes new addresses only with such a grant, so only from your users. The browser never sees the grant.
+- **Required:** no.
+- **Default:** empty, no grant is sent.
+- **Generation:** `openssl rand -base64 32`
+- **Validation:** at least 32 characters; a shorter one is logged and no grant is sent.
+- **When to set it:** set the same value here and in the legacy-proxy. `LOGIN_GRANT_SECRET_FILE` reads it from a file, for Docker or Kubernetes secrets. Not in Bulwark Lite. See [Multi-account support](/docs/guides/multi-account#a-server-for-extra-accounts-only).
 
 ### `COOKIE_SAME_SITE`
 

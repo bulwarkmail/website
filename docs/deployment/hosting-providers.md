@@ -22,6 +22,8 @@ JMAP_SERVER_AUTO_PICK_BY_DOMAIN=true
 - Each entry needs `id`, `label` and `url`. `domains` lists the mail domains that server hosts.
 - With `JMAP_SERVER_AUTO_PICK_BY_DOMAIN=true` (default `false`), the login page selects the server whose `domains` contain the domain of the typed address and locks the server menu to it. The domain has to match exactly; subdomains and wildcards don't. For an address whose domain is on no list, the user picks from the menu.
 - An entry can carry its own `oauth` block (`clientId`, `issuerUrl`, `clientSecret`, `buttonLabel`, `endSessionUrl`) for a server with its own identity provider. `JMAP_SERVERS` and `JMAP_SERVER_AUTO_PICK_BY_DOMAIN` are listed in the [environment reference](/docs/getting-started/configuration/environment-reference#jmap_servers).
+- `internalUrl` is the address Bulwark's own server uses for that server when the public `url` doesn't work from inside its network (from the release after 1.21.3).
+- `extraAccountOnly: true` leaves the entry off the login page: users can only add it as an extra account next to a sign-in to another server, such as a legacy-proxy for their external mailboxes. See [Multi-account support](/docs/guides/multi-account#a-server-for-extra-accounts-only) (from the release after 1.21.3).
 - In the admin console the list is under **Server > JMAP servers**.
 
 <img class="theme-light-only" src="/screenshots/light-login-servers.webp" alt="The login page with a server menu listing the Stalwart servers from JMAP_SERVERS" width="5120" height="2880" />

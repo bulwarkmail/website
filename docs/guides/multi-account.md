@@ -32,6 +32,12 @@ SESSION_SECRET_FILE=/run/secrets/session_secret
 3. Sign in with the new account's credentials. Both Basic Auth and OAuth are supported, and accounts can use different authentication methods.
 4. The new account is added and becomes active.
 
+### A server for extra accounts only
+
+From the release after 1.21.3, an admin can mark an entry of the server list **Only as an extra account** (`extraAccountOnly: true` in `JMAP_SERVERS`), for example a [legacy-proxy](https://github.com/bulwarkmail/legacy-proxy) for external mailboxes. It is then left off the sign-in page and can only be added next to a sign-in to your main server.
+
+Set the same `LOGIN_GRANT_SECRET` (at least 32 characters, `openssl rand -base64 32`) in Bulwark and in the legacy-proxy, so the proxy takes new addresses only from your users. `LOGIN_GRANT_SECRET_FILE` works too. Not available in Bulwark Lite.
+
 ## Switching accounts
 
 <img class="theme-light-only" src="/screenshots/light-account-switcher.webp" alt="The account switcher with two signed-in accounts" width="5120" height="2880" />
