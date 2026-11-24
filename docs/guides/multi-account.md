@@ -74,6 +74,12 @@ To empty the Trash of every account the unified Trash shows, right-click it and 
 
 With **Include group inboxes** on and two or more shared mailboxes, untick a mailbox under **Shared mailboxes in the unified mailbox** to keep it out of the unified inbox, its counts and search (from the release after 1.21.3). It stays in the sidebar. The choice is per signed-in account.
 
+## Writing from the right account
+
+From the release after 1.21.3, with more than one account signed in, the composer's From row starts with the account the message goes out from, marked with that account's color (the same one **Tell accounts apart** uses). When two accounts have the same name, it shows the address instead.
+
+When you reply from another account than the one the message came to, Bulwark asks before sending. **Change the sender** takes you back to the From field; **Send anyway** sends it as it is. Forwards aren't checked.
+
 ## Shared mailboxes and folders
 
 <img class="theme-light-only" src="/screenshots/light-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
