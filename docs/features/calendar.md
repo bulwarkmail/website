@@ -56,6 +56,10 @@ Click any time slot, or use the **Create event** button, to create an event:
 
 **Default event length** in Settings > Calendar sets how long a new event lasts when you click a time in the calendar or create one: 15 minutes to 2 hours, 1 hour by default (from the release after 1.21.3).
 
+### Create an event from a message
+
+From the release after 1.21.3, choose **Create event…** in a message's **More actions**. The editor opens with the subject, the message text, a link back to the mail and the people on it as guests. Pick a time and save.
+
 ## Reminders
 
 Each reminder fires a set time before the event starts, either as a **notification** in Bulwark or as an **email**.
@@ -98,6 +102,14 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 - Collapsible details on the invitation banner
 - ICS attachments are hidden from the attachment list when the invitation banner is shown
 - Shared calendars across accounts via JMAP sharing, with per-viewer colors so each user can recolor a shared calendar without affecting others
+
+### Invitations you haven't answered
+
+From the release after 1.21.3, the calendar sidebar lists them under **Invitations**, with Accept, Maybe and Decline. It covers the next six months of your own calendars.
+
+### Forwarding an invitation
+
+From the release after 1.21.3, use **Forward…** in an event's menu, or on the invitation card in a mail. The composer opens with the invitation attached; add who should get it. When they answer, the organizer gets their reply, and the organizer's card for that reply offers **Add _name_ to the meeting**.
 
 <img class="theme-light-only" src="/screenshots/light-calendar-availability.webp" alt="A new event with attendees added, each with their busy times shown next to the chosen slot" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-availability.webp" alt="A new event with attendees added, each with their busy times shown next to the chosen slot" width="5120" height="2880" />
