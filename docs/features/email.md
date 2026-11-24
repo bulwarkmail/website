@@ -29,6 +29,8 @@ The order of the list is yours to set. Presets put unread, starred or tagged mai
 
 Folders can be shared with other users on the same server (`mail:share`). On Stalwart 1.0, picking whom to share with needs directory queries, which an administrator turns on with **Allow Directory Queries** under **Settings > Files & Sharing > Sharing**. When someone shares a folder with you, a toast says so and the folder appears under their account in your sidebar. Deleting a folder that still holds mail offers to delete the messages with it.
 
+From the release after 1.21.3, turn on **Hide unsubscribed folders** in Settings > Folders & tags to hide folders you unsubscribed from there or in another app (Thunderbird, Roundcube). Use the eye button there, or **Hide from sidebar** in the folder's menu, to hide one. The mail stays on the server. Folders with a role and shared folders always show. The setting is off by default, because folders that older versions created through JMAP may be unsubscribed.
+
 The rest is the ordinary furniture:
 
 - Archive into a single folder, into year folders, or into year/month folders
