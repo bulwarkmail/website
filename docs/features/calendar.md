@@ -49,10 +49,12 @@ Click any time slot, or use the **Create event** button, to create an event:
 
 ### Quick create
 
-- **Click** an empty time slot to open a quick editor beside it with a one-hour event; **More options** opens the full editor
+- **Click** an empty time slot to open a quick editor beside it with an event as long as **Default event length**; **More options** opens the full editor
 - **Click and drag** over empty time to set the range (snaps to 15 minutes)
 - **Click** a day in the month view, or the all-day row, for an all-day event
 - On phones a tap opens the full editor
+
+**Default event length** in Settings > Calendar sets how long a new event lasts when you click a time in the calendar or create one: 15 minutes to 2 hours, 1 hour by default (from the release after 1.21.3).
 
 ## Reminders
 
@@ -209,7 +211,7 @@ Plugins can add buttons to the event editor. For example, the Jitsi Meet plugin 
 
 ## Settings
 
-Settings > Calendar has the default view (month, week, day or agenda), **Show time in month view**, **Light event colors**, **Show week numbers**, **Limit visible hours**, **Hide non-working days**, **Free scrolling**, **Event hover preview**, **Contact birthday calendar**, **Organize invitations as**, **Parse email invitations** and the tasks switches. Persisted view preferences are validated so the calendar always falls back to a supported view mode.
+Settings > Calendar has the default view (month, week, day or agenda), **Show time in month view**, **Light event colors**, **Show week numbers**, **Limit visible hours**, **Hide non-working days**, **Free scrolling**, **Default event length**, **Event hover preview**, **Contact birthday calendar**, **Organize invitations as**, **Parse email invitations** and the tasks switches. Persisted view preferences are validated so the calendar always falls back to a supported view mode.
 
 First day of week (Monday, Saturday or Sunday), 12- or 24-hour time, time zone and date format are in Settings > General and apply to the whole app, including calendar grids, event cards, popovers and import previews.
 
