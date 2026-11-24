@@ -350,6 +350,15 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Default:** `1`
 - **When to set it:** increase if Bulwark sits behind multiple reverse proxies (e.g., CDN -> ingress -> app).
 
+### `LOGIN_RATE_LIMIT_ALLOWLIST` _(next release)_
+
+- **Purpose:** client addresses that skip the cap of 5 failed sign-ins per address in 15 minutes. Everyone behind one NAT address (an office, a branch) shares that cap, so a few wrong passwords there would block every further sign-in from that address until the window ends.
+- **Required:** no.
+- **Default:** empty, every address is capped.
+- **Format:** comma-separated addresses and CIDR ranges. Write IPv4 networks in IPv4 notation. An entry Bulwark can't read is logged and ignored.
+- **Example:** `203.0.113.10,198.51.100.0/24,2001:db8::/48`
+- **When to set it:** only behind a proxy that sets or appends `X-Forwarded-For`. The client address is resolved as for `TRUSTED_PROXY_DEPTH`; without such a proxy any client can claim a listed address. Wrong passwords from these addresses reach the mail server unthrottled, and a mail server that doesn't trust Bulwark's `X-Forwarded-For` counts them against Bulwark's own address.
+
 ### `REQUEST_BODY_BUDGET_MB` _(next release)_
 
 - **Purpose:** how many megabytes of request bodies the server holds in memory at once. Next copies each request body, up to 10 MB, before a route sees it. Over the limit, requests with a body over 64 KB get 503 with `Retry-After: 5` until others finish. A body sent without a length counts as 10 MB.
