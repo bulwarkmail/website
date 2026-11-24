@@ -52,6 +52,10 @@ Organize contacts across multiple address books:
 
 <div class="bw-note"><b>Note.</b> On Stalwart 1.0, the list of people you can share an address book with depends on directory queries, which an administrator turns on with <b>Allow Directory Queries</b> under <b>Settings &gt; Files &amp; Sharing &gt; Sharing</b>. Address books shared as "Read &amp; write" on 0.16 show as read-only on 1.0 until the owner saves the share again.</div>
 
+## Directory
+
+**Directory** in Contacts lists the people and groups on your mail server, read-only, with **Send email** and **Add to contacts**. In the composer, **Select from directory** picks recipients from the same list. From the release after 1.21.3, **Show** with All, People or Groups narrows the list. Mailing lists aren't listed: Stalwart doesn't hand them to normal users.
+
 ## Trusted senders
 
 Trusted senders are stored in a dedicated JMAP address book separate from your personal contacts. When you allow images from a sender or otherwise trust them, Bulwark saves the entry on the server, so it syncs across devices.
