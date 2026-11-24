@@ -559,11 +559,12 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Purpose:** mail servers whose sender checks (the Authentication-Results header) Bulwark may show, besides your Stalwart's own. Same as **Trusted mail servers** in the admin dashboard under Server > Sender check, and a value saved there wins.
 - **Required:** no.
 - **Default:** empty. Only results your Stalwart wrote count; mail from any other server gets no verdict.
-- **Format:** hostnames separated by commas, exactly as each server writes them at the start of its Authentication-Results header. No wildcards: an entry that isn't a hostname trusts nothing, and the admin dashboard refuses it. Example: `mx.google.com,gateway.example.com`.
+- **Format:** hostnames separated by commas or spaces, exactly as each server writes them at the start of its Authentication-Results header. No wildcards: an entry that isn't a hostname trusts nothing, and the admin dashboard refuses it. Example: `mx.google.com,gateway.example.com`.
 - **When to set it:**
   - Accounts on another JMAP server, or on Gmail or an IMAP server behind legacy-proxy: list that server's name, for Gmail `mx.google.com`.
+  - A provider that writes its Authentication-Results above its own Received line, such as GMX: list both its name and the host after `by` in its Received line, for GMX `TRUSTED_AUTHSERV_IDS="gmx.net mx-ha.gmx.net"`.
   - A filtering gateway in front of Stalwart: list the gateway's name. Stalwart must not add its own results to what the gateway relays, or those come first. In Stalwart, under SMTP DATA Stage, Add Headers, make Authentication-Results false for the gateway's addresses (`remote_ip`). Keep it on for everyone else, or let only the gateway reach port 25, or a sender can write the gateway's header themselves.
-- **How it's checked:** a listed server's results count only when they are the newest Authentication-Results in the message and every server that handled the message after them is your Stalwart or in the list. Mail from an imported file never gets a verdict.
+- **How it's checked:** a listed server's results count only when they are the newest Authentication-Results in the message and every server that handled the message after them is your Stalwart or in the list. A server that took the message in from another one counts by the name after `by` in its Received line, so a hop such as `by localhost` has to be listed too. When no Received line sits above the results, they count only when the Received line right below them is a listed server taking the message in. Mail from an imported file never gets a verdict.
 - **Lite:** reads the same list from `trustedAuthservIds` in `config.json`, as a list or a comma-separated string.
 
 ## Logging
