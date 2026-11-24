@@ -18,6 +18,8 @@ Every replica then sees the same admin configuration, plugins, branding, user se
 
 Without `REDIS_URL` nothing changes: the same files on disk, the same behaviour.
 
+<div class="bw-note"><b>Note.</b> Every node needs the same <code>REDIS_URL</code> and the same <code>SESSION_SECRET</code>. A node without <code>REDIS_URL</code> keeps its own copy of the settings, so a user who signs in on another node gets older or default settings, such as missing signature details. A node with a different <code>SESSION_SECRET</code> can't read the settings and sessions the other nodes stored.</div>
+
 Several instances need a Bulwark release newer than 1.19.1.
 
 <div class="lite-callout">Bulwark Lite has no server and runs any number of copies without this.</div>
@@ -39,7 +41,7 @@ Bulwark needs little memory. A few hundred users take a few megabytes; plugins a
 | `REDIS_URL_FILE` | Path to a file holding the URL, for Docker or Kubernetes secrets |
 | `REDIS_KEY_PREFIX` | Prefix of every key, default `bulwark:`. Give each deployment its own when several share one server |
 
-Set `SESSION_SECRET` the same on every replica as well. Without it, the first replica creates one in the store and the others use it, which works, but losing the store then signs everyone out and makes stored settings unreadable.
+Set `SESSION_SECRET` the same on every replica as well. If you leave it out everywhere, the first replica creates one in the store and the others use it, which works, but losing the store then signs everyone out and makes stored settings unreadable. Setting it on some replicas only, or to different values, gives replicas that can't read each other's settings.
 
 ## Docker Compose
 
