@@ -80,7 +80,7 @@ To send a message again with changes, open it in Sent and choose Edit as new fro
 - Your Stalwart configuration sets the maximum file size
 - Each attachment chip shows progress in bytes while it uploads, and cancelling aborts the transfer rather than just hiding the chip
 - Inline images can be pasted from the clipboard or uploaded straight into the rich text editor, and resized there
-- **Forgotten-attachment warning:** if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send
+- **Forgotten-attachment warning:** if the body mentions "attachment", "attached", etc. but no file is attached, Bulwark warns before send. Change the words in Settings > Composing under **Trigger keywords**; admins can preset them for everyone (see [Organisation settings](/docs/guides/organisation#locking-a-setting))
 
 ## Signatures
 

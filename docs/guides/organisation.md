@@ -38,6 +38,22 @@ Many more settings can be preset: users start with the admin's value and can cha
 
 The tags new users start with are preset the same way, under **Tags** in the **Defaults** section, or as `defaults.emailKeywords` in `policy.json`: a list of `{ "id", "label", "color" }`, at most 50 entries, with colours from the tag palette. It replaces the seven colour tags for users who haven't changed their tags; an empty list gives new users none. Users who had tags before this version keep theirs. The tag list can't be locked.
 
+From the release after 1.21.3, two more lists can be preset in `policy.json` under `defaults`, at the top level or in a domain or group entry. The admin console has no field for them yet.
+
+```json
+{
+  "defaults": {
+    "attachmentReminderKeywords": ["attached", "attachment", "anbei", "im anhang", "beigefügt"],
+    "calendarWorkingDays": [1, 2, 3, 4, 5]
+  }
+}
+```
+
+- `attachmentReminderKeywords`: the words and phrases that make the composer warn about a missing attachment. Up to 50, each at most 40 characters, in any case. Your list replaces the built-in one, it doesn't add to it. A list that names the same word twice is ignored, as is one that breaks the limits; users then keep the built-in list.
+- `calendarWorkingDays`: the working days, as numbers from 0 (Sunday) to 6 (Saturday), each once and at least one. They are the days **Hide non-working days** keeps and the days **Suggest times** looks in.
+
+Both reach every user who never changed the setting, also users who signed in before you set the default. A user who saved their own list keeps it.
+
 ## Everything is one file
 
 All of it, and the User policy page, is stored in one file, `policy.json` in `ADMIN_CONFIG_DIR`. The one exception is the No third-party traffic switch on the Security page, which is a server setting in `config.json`. You can keep `policy.json` in git and mount it read-only, export it from one instance and import it on another, or put it next to a [Bulwark Lite](/docs/getting-started/lite) build, which reads the same file. See [the policy file](/docs/guides/organisation/domains-and-groups#the-policy-file). With [several instances](/docs/deployment/multi-instance) on a shared store, the policy lives in the store unless you mount the file read-only, and a saved change reaches every instance within seconds. When two admins save the policy at the same time, the one who saves second is told that someone else changed it and keeps their edits until they reload.
