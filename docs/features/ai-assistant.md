@@ -193,6 +193,8 @@ Settings > AI Assistant shows which service and model you use. There you can:
 - under **Other views and Catch me up** (from 1.20): Show in Calendar, Contacts, Files and Settings, Offer Catch me up, Look for mail waiting for a reply
 - connect your own API key, when your admin allows it. You type the key into the webmail's own dialog, so the plugin never sees it; it is stored encrypted on the server. With your own key you also set **My model can see images**.
 
+Where Bulwark syncs plugin settings (from the release after 1.21.3), these settings follow your account to your other browsers, including your own key's service, address and model. The key itself stays on the server.
+
 ## For administrators
 
 Install the plugin in the admin console under Plugins, from the [marketplace](/docs/guides/marketplace) or as `ai-assistant.zip` from the [plugins repository](https://github.com/bulwarkmail/plugins), then fill in its settings on its page. Set up one or both services.
