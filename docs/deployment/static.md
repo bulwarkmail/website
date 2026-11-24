@@ -60,6 +60,22 @@ These are the full edition's branding variables, camel-cased. Whatever the file 
 
 An optional `policy.json` next to it carries the same settings policy the admin console would write in the full edition (default settings, restrictions, theme policy). Plugins and sidebar apps stay off regardless of what it says.
 
+### Your own themes
+
+From the release after 1.21.3, Lite can offer your own themes. Add a `themes.json` next to `policy.json`:
+
+```json
+{
+  "themes": [
+    { "id": "acme", "name": "Acme", "variants": ["light", "dark"], "hasSkin": true }
+  ]
+}
+```
+
+Each theme's compiled CSS goes in `themes/<id>/theme.css`, and with `hasSkin` its skin in `themes/<id>/skin.css`. Ids are lowercase letters, digits and hyphens. `forceEnabled: true` forces one theme on, and `themePolicy.defaultThemeId` in `policy.json` picks the default. Lite reads the file on every load; add a `contentHash` to an entry when you change its CSS, so browsers fetch it again.
+
+A v1 theme package has its `theme.css` in the zip. For a v2 theme, upload it to a full Bulwark and save the CSS its admin console serves. A Lite served by Stalwart needs its own bundle for this.
+
 ### Error reporting
 
 From the next release, after 1.19.1, `policy.json` can also name an error tracker (Bugsink, GlitchTip, Sentry). Browsers then send their errors straight to it, with mail content removed first:
@@ -112,6 +128,7 @@ npm run lite:serve                       # http://localhost:4173/
 | `index.html` | Root shim: picks the visitor's locale in the browser and jumps to it |
 | `404.html` | Replays a deep link in the browser on hosts with no rewrite rules |
 | `config.json`, `policy.json` | Runtime configuration, described above |
+| `themes.json`, `themes/` | Not shipped: [your own themes](#your-own-themes), if you add them |
 | `manifest.webmanifest` | Web app manifest, so the app can be added to a home screen |
 | `_redirects`, `_headers` | Netlify and Cloudflare Pages rewrite rules and security headers |
 | `nginx.conf.example`, `Caddyfile.example` | Ready-made server blocks for the two |
@@ -277,7 +294,7 @@ docker build -f Dockerfile.lite --build-arg LITE_LOCALES=en,de -t bulwark-lite .
 
 ## Updating
 
-There is no update channel in Lite and no in-app notice. Download the new zip, keep your `config.json` (and `policy.json` if you wrote one), and upload over the old folder. `lite-build.json` tells you which version is deployed.
+There is no update channel in Lite and no in-app notice. Download the new zip, keep your `config.json` (and `policy.json`, `themes.json` and `themes/` if you added them), and upload over the old folder. `lite-build.json` tells you which version is deployed.
 
 With the [container image](#container-image), pull the new tag and recreate the container; the mounted `config.json` carries over.
 
