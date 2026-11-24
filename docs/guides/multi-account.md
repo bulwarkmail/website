@@ -72,6 +72,8 @@ Turn on **Unified mailbox** in Settings > Account > Multiple accounts to get one
 
 To empty the Trash of every account the unified Trash shows, right-click it and choose **Empty trash (all accounts)**. That includes the shared and group accounts whose Trash you may delete from. The confirmation names those accounts, and the ones whose Trash stays as it is because you can't delete there.
 
+With **Include group inboxes** on and two or more shared mailboxes, untick a mailbox under **Shared mailboxes in the unified mailbox** to keep it out of the unified inbox, its counts and search (from the release after 1.21.3). It stays in the sidebar. The choice is per signed-in account.
+
 ## Shared mailboxes and folders
 
 <img class="theme-light-only" src="/screenshots/light-shared-mailbox.webp" alt="A shared Support mailbox under its own heading in the sidebar" width="5120" height="2880" />
