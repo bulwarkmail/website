@@ -483,6 +483,7 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 
 - **Purpose:** comma-separated origins on your own network that the plugin credential proxy may reach, although they resolve to private addresses (a Nextcloud on the LAN, for example). These may also be plain `http`.
 - **Default:** empty (every other origin must be `https` and resolve to a public address).
+- **When to set it:** for a plugin's service on your own network, and when Bulwark reaches Stalwart at a private or http address (`http://stalwart:8080`) and a plugin makes an [app password for the user's account](/docs/guides/plugins#app-passwords-for-the-mail-account).
 
 ### `PLUGIN_DEV_DIR`
 

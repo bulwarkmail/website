@@ -256,6 +256,31 @@ A plugin frame can't make requests of its own. It has three ways out, each decla
 
 The proxy only reaches public addresses. To let plugins reach a server on your own network, such as a Nextcloud on the LAN, list its origin in `PLUGIN_PROXY_PRIVATE_ORIGINS` (comma separated, for example `http://nextcloud.lan:8080`). Those origins may also be plain http.
 
+### App passwords for the mail account
+
+From the release after 1.21.3, a plugin that works with the user's own Stalwart account, for example to read their calendars, doesn't need the user to make an app password and type it in. Its user-scope credential lists the Stalwart permissions it needs under `appPassword`:
+
+```json
+"credentials": {
+  "stalwart": {
+    "label": "Stalwart",
+    "scope": "user",
+    "inject": { "type": "basic" },
+    "appPassword": { "permissions": ["jmapCalendarGet", "jmapCalendarEventGet", "jmapCalendarEventQuery", "jmapPrincipalGetAvailability"] }
+  }
+}
+```
+
+When the plugin calls `api.proxy.connect("stalwart")`, the dialog has no fields. It names the app password ("Plugin: " and the plugin's name) and lists what it can do, such as "read your calendars" or "send mail in your name". When the user connects, Bulwark's server makes the app password on the mail server the user is signed in to, with sign-in and the listed permissions and nothing else, and keeps it with the user's login name. The plugin never sees it. The user finds it under Settings > Security and can delete it there.
+
+- `appPassword` needs `"scope": "user"` and `"inject": { "type": "basic" }`. The credential's origin is always the mail server the user is signed in to; a manifest that fixes another `origin` is refused.
+- The permissions are limited to the user's own data: names starting with `jmap`, `dav`, `imap`, `pop3` or `sieve`, plus `authenticateWithAlias`, `emailSend`, `calendarAlarmsSend` and `calendarSchedulingSend`, at most 128. A manifest that lists anything else is refused. That includes server administration (`sys…`), `impersonate`, and the account management permissions `jmapPrincipalCreate`, `jmapPrincipalUpdate` and `jmapPrincipalDestroy`, although they start with `jmap`.
+- Bulwark reads the app password back and deletes it again unless Stalwart limited it to the listed permissions, so a server that ignores the list never hands a plugin the account's full rights.
+- Connecting again makes a new app password and deletes the old one. Disconnecting, from the plugin or in Settings > Plugins, deletes it on the mail server.
+- Each connected plugin uses one of the account's app passwords, and they count against Stalwart's limit on app passwords per account. A user at the limit sees Stalwart's error in the dialog and has to delete an app password under Settings > Security first.
+- It needs Stalwart features on (`STALWART_FEATURES`), and it is refused in a support session opened through impersonation.
+- Bulwark's server must reach Stalwart over https at a public address. When it reaches Stalwart on your own network instead, such as `http://stalwart:8080` in Docker Compose, list that origin in `PLUGIN_PROXY_PRIVATE_ORIGINS`. Otherwise an http address gets "The mail server must be reached over https" in the dialog, and the plugin's requests to a private https address are refused.
+
 ### Server-Sent Events
 
 `api.http.eventSource(url, init)` subscribes to a `text/event-stream` from one of the plugin's `httpOrigins`. The webmail holds the connection in the user's browser and hands the plugin each event as it arrives:
