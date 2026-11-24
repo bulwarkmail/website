@@ -384,6 +384,8 @@ The [plugins repository](https://github.com/bulwarkmail/plugins) holds the offic
 
 - **Nextcloud:** attach files from Nextcloud, send large files as share links, save attachments and messages there
 - **Paperless-ngx:** send attachments and messages to Paperless and attach documents from it. **From Paperless** in the composer's Attach menu opens the document browser; **Attach** adds the picked documents to the message you are writing
+- **Immich:** **From Immich** in the composer's Attach menu picks photos and videos from your library, by search or album, and **Save to Immich** in an attachment's menu uploads a photo or video you received. The plugin never changes or deletes anything in Immich
+- **Papra:** **From Papra** in the composer's Attach menu picks documents, with Papra's search and your organizations, and **Save to Papra** saves an attachment, or the whole message as an `.eml` file, to Papra
 - **Email to task:** turn a message into a task in Bulwark, Vikunja, Todoist or a CalDAV task list
 - **AI Assistant:** a chat next to your mail, calendar, contacts and files that writes, summarises, looks things up and does small tasks, with an OpenAI-compatible service or Anthropic (see [AI assistant](/docs/features/ai-assistant))
 - **S/MIME:** sign, encrypt, verify and decrypt messages (privileged tier)
@@ -391,6 +393,13 @@ The [plugins repository](https://github.com/bulwarkmail/plugins) holds the offic
 - **Package tracking**, **Birthday reminders**, **Calendar agenda**, **Time zone helper**, **Translate**, **Quick notes**
 - **External link warning**, **Reply-all guardrail**, **Spam score**, **Impersonation notice**
 - **Gravatar** and **Libravatar** avatars (the Libravatar entry in the marketplace is a community upload, not the repository's plugin)
+
+For Immich and Papra, each user connects their own account with an API key in Settings > Immich or Settings > Papra. The key goes into Bulwark's own Connect dialog and stays on the webmail server. The admin can enter the server URL in the plugin's settings so users don't have to type it. A server on a private address (a LAN IP, a `.lan` or Docker host name) has to be listed in [`PLUGIN_PROXY_PRIVATE_ORIGINS`](/docs/getting-started/configuration/environment-reference#plugin_proxy_private_origins). A key limited to what the plugin needs takes these permissions:
+
+| Plugin | API key permissions |
+| --- | --- |
+| Immich | `user.read`, `album.read`, `asset.read`, `asset.view`, `asset.download`, and `asset.upload` for Save to Immich |
+| Papra | `organizations:read`, `documents:read`, and `documents:create` for Save to Papra |
 
 The **External mail warning** plugin is retired: Bulwark labels mail from outside the organisation and confirms external recipients itself, see [External mail](/docs/guides/organisation/external-mail).
 
