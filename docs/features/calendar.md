@@ -89,6 +89,14 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 - **Location on tiles:** month, week and day tiles show the event's location when there is room
 - **Timezone-aware formatting:** event start times display in the user's locale and timezone consistently across grids, popovers, and import previews
 
+### Attachments
+
+From the release after 1.21.3, files attached to an event show in its details, including files added in other apps such as Thunderbird or Outlook. Click a file to download it; a file that is a web address opens in a new tab.
+
+To attach a file, open the event in the editor and click **Add file**. The file is uploaded when you save the event, and invitees receive it with the invitation. Remove a file with the × next to it. Only the organizer can add or remove files.
+
+Adding files needs Stalwart 1.0 or later. On older servers you can see and remove attachments, but not add new ones.
+
 ## Sharing and invitations
 
 <img class="theme-light-only" src="/screenshots/light-invite.webp" alt="An invitation in the mail reading pane with Accept, Maybe and Decline" width="5120" height="2880" />
