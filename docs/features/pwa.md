@@ -33,6 +33,7 @@ APP_DESCRIPTION=Acme webmail       # Description in the install dialog
 
 PWA_ICON_URL=/branding/acme.svg    # Source icon (resized to 192 and 512 px PNGs on the fly)
 FAVICON_URL=/branding/acme.svg     # Browser tab icon (PWA_ICON_URL falls back to this)
+NOTIFICATION_BADGE_URL=/branding/acme-badge.png  # Android status bar mark for push notifications
 
 PWA_THEME_COLOR=#0f172a            # Browser UI chrome (Android status bar)
 PWA_BACKGROUND_COLOR=#ffffff       # Splash screen background
@@ -43,6 +44,10 @@ PWA_BACKGROUND_COLOR=#ffffff       # Splash screen background
 Bulwark serves the icon sizes the manifest needs from a single source: it resizes your icon to 192×192 and 512×512 PNGs at `/api/pwa-icon/192` and `/api/pwa-icon/512` and lists them for both regular and maskable use. Leave room around the artwork so a maskable crop doesn't clip it. Without a custom icon, the manifest uses the bundled Bulwark icons, which include light and dark maskable variants.
 
 If `PWA_ICON_URL` is not set, the app falls back to `FAVICON_URL`, then to the bundled Bulwark icons.
+
+### Notification badge
+
+From the release after 1.21.3, **Notification badge** (`NOTIFICATION_BADGE_URL`) sets the small mark Android shows in the status bar for push notifications. Android draws only the image's shape, so use a white cut-out on a transparent background (PNG or SVG, about 96×96). An opaque icon shows as a solid blob. Empty uses the Bulwark mark, not the PWA icon. It can be set per domain.
 
 ### Install screenshots
 

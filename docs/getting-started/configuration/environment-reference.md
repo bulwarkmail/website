@@ -654,6 +654,14 @@ These ship with the next release, after 1.19.1. All of them are off until set; t
 - **Accepted values:** absolute URL or path relative to `public/`.
 - **Supported formats:** SVG (recommended for best quality) or PNG (≥512×512px recommended).
 
+### `NOTIFICATION_BADGE_URL` _(next release)_
+
+- **Purpose:** the small mark Android shows in the status bar for push notifications.
+- **Required:** no.
+- **Default:** the Bulwark mark, not the PWA icon.
+- **Accepted values:** absolute URL or path relative to `public/`. Can also be set per domain in the domain branding.
+- **Supported formats:** PNG, SVG or WebP, about 96×96px. Android draws only the image's shape, so use a white cut-out on a transparent background. An opaque icon shows as a solid blob.
+
 ### `PWA_THEME_COLOR`
 
 - **Purpose:** color applied to the browser UI chrome when the app is installed as a PWA (address bar, Android status bar).
