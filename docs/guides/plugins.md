@@ -383,7 +383,7 @@ Themes use the same delivery pipeline as plugins:
 The [plugins repository](https://github.com/bulwarkmail/plugins) holds the official plugins. Most of them are in the [marketplace](/docs/guides/marketplace); the team inbox plugin isn't yet, so an admin installs it by uploading its ZIP. Among them:
 
 - **Nextcloud:** attach files from Nextcloud, send large files as share links, save attachments and messages there
-- **Paperless-ngx:** send attachments and messages to Paperless and attach documents from it
+- **Paperless-ngx:** send attachments and messages to Paperless and attach documents from it. **From Paperless** in the composer's Attach menu opens the document browser; **Attach** adds the picked documents to the message you are writing
 - **Email to task:** turn a message into a task in Bulwark, Vikunja, Todoist or a CalDAV task list
 - **AI Assistant:** a chat next to your mail, calendar, contacts and files that writes, summarises, looks things up and does small tasks, with an OpenAI-compatible service or Anthropic (see [AI assistant](/docs/features/ai-assistant))
 - **S/MIME:** sign, encrypt, verify and decrypt messages (privileged tier)
