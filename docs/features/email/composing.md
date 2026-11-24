@@ -65,6 +65,8 @@ Turn on "Plain text only" in Settings > Composing to always write plain text, or
 
 On desktop, a reply or forward opens under its message, which stays readable above it. Turn off **Replies under the message** in Settings > Composing > Replying to have it take the whole reading pane instead, like a new message. A reply that is already open stays where it is when you change the setting. The setting doesn't apply on phones, and Mountain View doesn't show it. Your organisation can set it for everyone, or lock it.
 
+**Archive after replying** in Settings > Composing archives a message in your Inbox once your reply to it, or your forward of it, is sent (from the release after 1.21.3, off by default). Nothing is archived if you undo the send, and a reply that waits in the offline outbox leaves the original in the Inbox. Replies from other folders leave the original where it is. The setting is hidden when the admin turns off Archive.
+
 **Quoted text in replies** in Settings > Composing > Replying decides how the earlier messages quoted in a reply start out. Collapsed hides them behind •••. Expanded shows them in full when you open a reply. Either way, you can still fold and unfold them with •••. Admins can preset it for everyone in `policy.json`:
 
 ```json
