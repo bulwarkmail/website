@@ -44,6 +44,10 @@ On a reply, Bulwark can pick the identity matching the address the original was 
 
 Give an identity a Reply-To address in Settings > Account > Email addresses, and replies to mail sent from it go to that address.
 
+### Addresses for replies only
+
+From the release after 1.21.3, turn off **Offer for new mail** in Settings > Account > Email addresses on an address you only want to answer from, such as a group address. It no longer appears in From for new messages, but replies to mail sent to it still go out from it. The default address is always offered.
+
 ### From-header override and catch-all auto-reply
 
 When you own a catch-all domain, replies to mail sent to an arbitrary alias (e.g. `marketing@yourdomain.com`) should come back from the same alias, even when it isn't a configured identity. With "Reply from the address it was sent to" turned on and "Received address matching" set to "Any address on my domains" (Settings > Composing > Replying), Bulwark pre-fills the alias as the From header. You can still override the From header manually before sending.
