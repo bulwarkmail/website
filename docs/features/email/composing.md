@@ -99,6 +99,8 @@ Set up multiple signatures via identity management:
 - Bulwark appends the signature of the selected identity
 - Switch identities (and signatures) using the dropdown in the composer
 
+With several addresses, pick **Same as** another address in Settings > Composing > Signatures to give an address that address's signature (from the release after 1.21.3). Edit it on that address; every change reaches the addresses that use it.
+
 ## Templates
 
 <img class="theme-light-only" src="/screenshots/light-templates.webp" alt="The Templates menu in the composer" width="5120" height="2880" />
