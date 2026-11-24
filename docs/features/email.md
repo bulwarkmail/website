@@ -36,6 +36,7 @@ The rest is the ordinary furniture:
 - Right-click a folder you created and choose Empty folder… to move all its messages to the Trash, or to delete them if you turned on permanent deletion. Trash and Spam have Empty Trash and Empty Spam instead
 - Configurable hover quick-actions, and attachments shown next to the sender or below the message header
 - Answered and forwarded status icons in the list
+- Swipe a row left or right on a touch screen for the actions set under **Swipe left action (mobile)** and **Swipe right action (mobile)** in Settings > Message list. From the release after 1.21.3 this works on any touch screen, tablets in landscape included
 - Right-click a folder to manage it, to import mail into it or to export it; the context menu header elides a long path in the middle rather than truncating it
 
 ## Shared mailboxes
