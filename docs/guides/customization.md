@@ -185,7 +185,7 @@ Settings has its pages in three groups: Account, Security, Sharing, Notification
 
 ### Appearance and layout
 
-- **Density** (Appearance) - Extra compact, Compact, Regular or Comfortable (the two compact settings hide the preview line)
+- **Density** (Appearance) - Extra compact, Compact, Regular, Regular without avatars or Comfortable. The two compact settings hide the preview line. Extra compact and Regular without avatars leave out the avatar or sender logo at the start of each row; Regular without avatars keeps Regular's spacing and preview line. In `policy.json` the new one is `regular-no-avatars` (from the release after 1.21.3)
 - **Text size** and **Reduce motion** - on the Accessibility page; text size goes from 87.5% to 200%
 - **Theme:** light, dark, or system
 - **Always show emails in light mode:** avoid dark-mode color transformation for problematic HTML mail
