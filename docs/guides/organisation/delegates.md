@@ -24,6 +24,8 @@ Bulwark applies it to every folder, calendar and address book in one batch. If t
 - **Change** opens the dialog with what the person has now. A type only starts at a choice when the person's grants match it exactly, for example every folder for "All folders" or exactly the default calendar. Anything else, such as a folder created since, one other folder, free/busy only or manager rights, starts at **Keep as it is**, and Save leaves that type alone. What the user changes on purpose replaces what the person had for that type. Shared files stay as they are.
 - **Remove access** takes the person off everything shared from the user's own account: mail, calendars, contacts and files.
 
+From the release after 1.21.3, **What you share** lists every shared folder, calendar, address book and file, with who has access and at which level. The × next to a person stops sharing that one item with them; everything else shared with them stays.
+
 If Bulwark can't read part of the user's sharing, Change and Remove access wait, with a button to try again, so they never act on half the picture.
 
 Calendars, contacts and files only take part while they are turned on for the user.
