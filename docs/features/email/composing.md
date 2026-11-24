@@ -22,7 +22,7 @@ The formatting toolbar stays pinned to the top of the editor while a long messag
 - **Bold**, _italic_, ~~strikethrough~~, and underline
 - A font-size picker and text and background colors
 - Ordered and unordered lists
-- Inline hyperlinks
+- Inline hyperlinks. From the release after 1.21.3 a link address may contain spaces; they are sent as `%20`
 - Tables (insert and edit)
 - Block quotes
 - Code blocks
