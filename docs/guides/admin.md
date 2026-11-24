@@ -121,6 +121,27 @@ In `policy.json` they are `directorySameDomainOnly` and `directoryHiddenLocalpar
 
 **Default sidebar apps**, on the same page, can be set per domain or group. Pick the scope under **Applies to** and click **Set apps for this scope**. The scope starts with a copy of Everyone's apps, which you can change. A scope's list replaces Everyone's for its users; scopes without their own list get Everyone's. With several accounts signed in, the rail follows the active account. **Use Everyone's apps** removes the scope's list.
 
+#### Inline sidebar apps
+
+A sidebar app set to open **Inline** shows inside Bulwark, in a frame. From the release after 1.21.3, Bulwark keeps up to three opened apps loaded while users move between Mail, Calendar and the other pages.
+
+An inline app can show a count on its rail icon. From inside the app, post this message to Bulwark's window, with Bulwark's origin as the target, never `"*"`:
+
+```js
+window.parent.postMessage(
+  { type: "bulwark:app-badge", version: 1, state: "ok", count: 4, mentions: 1 },
+  "https://mail.example.com"
+);
+```
+
+- `count` is unread items and `mentions` is what needs the user, both whole numbers from 0 to 99,999.
+- With `mentions`, the icon shows the number of mentions, or a dot when there are only unread items. Without `mentions`, it shows `count`.
+- Any other `state`, such as `signed-out`, clears it.
+- Bulwark only accepts the message from the app's own frame and from the origin of the app's address.
+- Counts appear once the app has been opened in that tab.
+
+In the desktop app, sign-in pop-ups of an inline app (for example single sign-on with Entra ID) open in a window of the app, so the app is signed in afterwards. Other links from the app still open in the browser.
+
 ### Plugins
 
 <img class="theme-light-only" src="/screenshots/light-admin-plugins.webp" alt="The Plugins section of the admin console" width="2560" height="1440" />
