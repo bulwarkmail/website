@@ -164,6 +164,18 @@ To run a saved rule on a folder later, right-click the folder, open **Rules** an
 
 The whole section only appears when the server advertises Sieve support.
 
+### Server rules from your mail host
+
+Only one Sieve script can be active, so a mail host with rules of its own (a block list in its admin panel, a forward set up outside the webmail) puts them into the user's filters script instead of activating a script of its own. From the release after 1.21.3, Bulwark keeps everything between these two lines of the script `filters` as it is, ahead of the out-of-office reply and the user's rules, and writes it back on every save:
+
+```sieve
+# --- Server rules (managed outside Bulwark) ---
+include :personal :optional "host-rules";
+# --- End of server rules ---
+```
+
+`host-rules` is the name of the host's own script. Users see the region under **Server rules** on the filters page, read-only.
+
 ## Vacation responder
 
 <img class="theme-light-only" src="/screenshots/light-vacation.webp" alt="Out of office settings with a date range and the auto-reply text" width="5120" height="2880" />
