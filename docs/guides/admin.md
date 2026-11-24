@@ -117,6 +117,8 @@ Which features users get, the push relays they may pick (from your list, rather 
 
 In `policy.json` they are `directorySameDomainOnly` and `directoryHiddenLocalparts`. Both change what Bulwark shows, not what Stalwart answers. With directory queries on, any signed-in user can still list all accounts through Stalwart's API.
 
+**Remote pictures through this server**, under the features on the same page (from the release after 1.21.3, off by default): when a user loads remote content, Bulwark fetches the pictures on the server and serves them from its own address, so senders see the server instead of the reader's IP address and browser, and not when each reader opens the mail. Users still decide whether remote content loads. Only pictures come through (PNG, JPEG, GIF, WebP, AVIF, BMP, ICO, up to 10 MB each). Remote fonts, video, audio and SVG pictures stay off, and so do pictures in attached messages and HTML files. It needs `SESSION_SECRET`, fetches nothing while [third-party traffic](/docs/guides/organisation/third-party-traffic) is off, and isn't in Bulwark Lite. In `policy.json` it is `remoteContentProxyEnabled` under `features`.
+
 **Default sidebar apps**, on the same page, can be set per domain or group. Pick the scope under **Applies to** and click **Set apps for this scope**. The scope starts with a copy of Everyone's apps, which you can change. A scope's list replaces Everyone's for its users; scopes without their own list get Everyone's. With several accounts signed in, the rail follows the active account. **Use Everyone's apps** removes the scope's list.
 
 ### Plugins

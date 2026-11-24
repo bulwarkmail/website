@@ -91,7 +91,7 @@ The same page lists the built-in hosts above, so you can compare.
 
 Links users click, in mail or anywhere else, open in a new tab as usual.
 
-**Remote images in mail don't load at all with the switch on.** They are the usual way senders track who opened a message. Instead of the button to load them, the message says that your organisation blocks content from other servers, and there is no option to always load them from a sender. **External content** in **Settings > Reading** shows as blocked and "Set by your organisation". The page's security policy refuses those images as well. Images attached to the message still show.
+**Remote images in mail don't load at all with the switch on.** They are the usual way senders track who opened a message. Instead of the button to load them, the message says that your organisation blocks content from other servers, and there is no option to always load them from a sender. **External content** in **Settings > Reading** shows as blocked and "Set by your organisation". The page's security policy refuses those images as well. Images attached to the message still show. **Remote pictures through this server** in the user policy fetches nothing while the switch is on.
 
 Fonts are part of the Bulwark image: they are downloaded when the image is built, never when it runs.
 
