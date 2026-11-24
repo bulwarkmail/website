@@ -27,6 +27,9 @@ The formatting toolbar stays pinned to the top of the editor while a long messag
 - Block quotes
 - Code blocks
 - Inline images you can resize (sent as inline images, so a dropped image doesn't also become an attachment)
+- A format painter
+
+The **Format painter** copies formatting from one piece of text to another, from the release after 1.21.3. Select the text whose look you want, click the format painter button in the toolbar, then select the text to change. It copies bold, italic, underline, strikethrough, text and background colour, font size and a heading's level, and formatting the first text doesn't have comes off the second. Double-click the button to paint one selection after another, and press Escape or click the button again to stop. In a narrow window the button is under **More formatting**, which stays highlighted while the painter is on.
 
 ## Identity selection
 
