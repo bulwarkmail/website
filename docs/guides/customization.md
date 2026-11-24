@@ -179,6 +179,8 @@ LOGIN_BACKGROUND_BLUR=8
 
 Dark mode uses the light picture when it has none of its own. Uploaded backgrounds can be JPEG, PNG, WebP or SVG up to 5 MB. On phones the split layout falls back to the card.
 
+For your own colours on the sign-in page, install a theme in the admin console and switch on **Always on for everyone**, or set it as **Default theme**. From the release after 1.21.3 the sign-in page shows it to every visitor, also in a browser that never signed in.
+
 ## In-app settings
 
 Settings has its pages in three groups: Account, Security, Sharing, Notifications, General, Appearance and Accessibility; then Message list, Reading, Composing, Folders & tags, Filters, Out of office and Recover deleted items for mail; then Calendar, Contacts, Files and Add-ons. Backup & reset comes last. Some pages only show when the server supports the feature or the admin turned it on, and the search box at the top finds any option. The main preferences, by topic:

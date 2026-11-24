@@ -140,6 +140,7 @@ See [Plugins](/docs/guides/plugins) for the full architecture.
 - Upload theme ZIP bundles, or install them from the marketplace, for every user. Users can upload their own themes while **Users may upload themes** is on (the default).
 - Turn installed themes on or off, or force one on for everyone.
 - Set the default theme and colour mode, lock the colour mode, and hide the themes you don't want users to pick under **Offered to users**.
+- The sign-in page shows an installed theme that is **Always on for everyone**, or else the installed theme set as **Default theme**, also in a new browser or a private window that never signed in (from the release after 1.21.3).
 - Theme API v2, with a token compiler and a skin slot.
 
 ### Audit log
