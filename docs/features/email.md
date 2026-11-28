@@ -31,6 +31,8 @@ Folders can be shared with other users on the same server (`mail:share`). On Sta
 
 From the release after 1.21.3, turn on **Hide unsubscribed folders** in Settings > Folders & tags to hide folders you unsubscribed from there or in another app (Thunderbird, Roundcube). Use the eye button there, or **Hide from sidebar** in the folder's menu, to hide one. The mail stays on the server. Folders with a role and shared folders always show. The setting is off by default, because folders that older versions created through JMAP may be unsubscribed.
 
+**Copy to**, in a message's right-click menu or the reader's **More actions** menu, puts a copy in another folder of your account or of a shared mailbox, and the original stays where it is. Within one account the message then shows in both folders; **Remove from this folder** takes it out of one. With several accounts signed in, their folders are listed below yours.
+
 The rest is the ordinary furniture:
 
 - Archive into a single folder, into year folders, or into year/month folders
@@ -102,7 +104,7 @@ Attachments can be downloaded, previewed inline, or dragged straight out to the 
 
 Your organisation can [turn some of this off](/docs/guides/organisation/device-policies). With downloads off, attachments only preview: the reader says "Downloads are turned off by your organisation", a file that can't be previewed doesn't open, and PDFs are always drawn page by page. With export or printing off, Export as .eml, View source or Print are gone from the menus, and printing the page with Ctrl+P gives a page that says printing is off. A faint watermark with your address and the date can lie over messages, previews and printouts. In a unified inbox each message follows the settings of its own account.
 
-Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. The reader shows when the mail arrived, as the message list does; the date the sender gave is under **Sent** in the details. Sender avatars show the contact's photo if you have one, otherwise the sender's BIMI logo or the website icon of the sender's domain, and initials when there is none of these.
+Around all of that: reply, reply-all and forward, a quick reply form under the message (Settings can turn it off), expandable headers with a contact sidebar, move-to-mailbox, one-click unsubscribe (RFC 2369), printing, and a bottom action bar on mobile. **Delete conversation**, in the reader's **More actions** menu, deletes every message of the open conversation shown in the list, as ticking its row and Delete do. It asks first in Trash, where it is called **Delete conversation forever**, and offers Undo otherwise. The reader shows when the mail arrived, as the message list does; the date the sender gave is under **Sent** in the details. Sender avatars show the contact's photo if you have one, otherwise the sender's BIMI logo or the website icon of the sender's domain, and initials when there is none of these.
 
 <div class="bw-note"><b>Note.</b> In Bulwark Lite, BIMI logos and website icons are off, since both are fetched by the Node.js server, which Lite doesn't have. Contact photos still show.</div>
 
