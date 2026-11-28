@@ -84,6 +84,7 @@ Reminders that the editor can't show as rows, such as ones at a fixed date and t
 - **Drag-and-drop rescheduling:** move events between time slots in week/day views or between dates in month view
 - **Resize events:** drag the top or bottom edge to change the start or the duration, in 15-minute steps
 - **Duplicate events:** clone an event with a +1 day offset for editing
+- **Status:** Confirmed, Tentative or Cancelled. Only the organizer can change it; an invitation you received keeps the organizer's status. On Stalwart 0.16, cancelling one occurrence of a recurring event removes it from the calendar
 - **Recurring event editing:** choose scope: this event, this and following, or all events. On Stalwart 0.16.20 and later each occurrence is addressed by the synthetic id Stalwart gives it, so an edit to one Tuesday cannot land on another; on older servers Bulwark saves the change as an override on the recurring event
 - **Overlap layout:** events that overlap are laid out in columns rather than stacked, so none of them gets truncated
 - **Location on tiles:** month, week and day tiles show the event's location when there is room
@@ -186,6 +187,8 @@ Settings > Calendar > Calendar management lists your calendars to rename, recolo
 ## Shared calendar grouping
 
 Calendars shared with you are grouped separately in the sidebar, below your own.
+
+To choose which of them show, turn on **Hide shared calendars you haven't subscribed to** in Settings > Calendar > Calendar management. While it's on, a calendar someone shares with you shows in Calendar only after you subscribe to it with the eye button next to it in that list (in the ⋮ menu on a phone). Unsubscribe there or from the calendar's menu in the sidebar. The subscription is stored on the server, so other apps see it too. On Stalwart 0.16 you can't subscribe to a read-only share; that works from Stalwart 1.0.
 
 <img class="theme-light-only" src="/screenshots/light-calendar-shared.webp" alt="The week view with a colleague's shared calendar listed below your own calendars in the sidebar" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-calendar-shared.webp" alt="The week view with a colleague's shared calendar listed below your own calendars in the sidebar" width="5120" height="2880" />
