@@ -205,9 +205,12 @@ Install the plugin in the admin console under Plugins, from the [marketplace](/d
 | OpenAI-compatible API address | `openaiBaseUrl` | Up to and including `/v1`, such as `https://api.openai.com/v1` or `http://ollama:11434/v1`. Empty: not offered |
 | OpenAI-compatible API key | `openaiKey` | The key; stays on the server. Ollama needs none, but the field must not be empty: enter any text |
 | OpenAI-compatible model | `openaiModel` | Such as `gpt-4o-mini`, or `qwen2.5:7b` on Ollama (default `gpt-4o-mini`). Users may pick another |
+| OpenAI-compatible: API | `openaiApi` | `auto` (default): the Responses API for api.openai.com, Chat Completions for other servers such as Ollama. `chat` always uses Chat Completions. `responses` is for a gateway in front of OpenAI that supports it; OpenAI's newer models only call tools there. Nothing is stored at OpenAI. Users' own keys always use `auto` |
+| OpenAI-compatible: extra headers | `openaiHeaders` | Optional JSON object of headers the service needs besides the key, such as `{"x-opencode-session": "{{CHAT_ID}}"}` for OpenCode Go. `{{CHAT_ID}}` becomes the conversation's id. Only sent to this service, never to a user's own key's server. Users' browsers can read it, so no secrets |
 | Anthropic API address | `anthropicBaseUrl` | `https://api.anthropic.com/v1`, or a gateway that speaks the Messages API. Empty: not offered |
 | Anthropic API key | `anthropicKey` | The key; stays on the server |
 | Anthropic model | `anthropicModel` | Such as `claude-haiku-4-5` (the default). Users may pick another |
+| Anthropic: extra headers | `anthropicHeaders` | The same for the Anthropic service |
 | Instructions for the assistant | `instructions` | Standing instructions for everyone, added to every request: house style, sign-offs, languages, things never to say. Several lines from 1.20; on older versions one line, so separate them with semicolons |
 | Actions | `actions` | The most users may choose: `off`, `manual` (ask first) or `auto` (automatic allowed, the default). Each user starts with actions off |
 | Let users connect their own API key | `allowUserKeys` | Off by default. A user's key is stored encrypted on the server and replaces yours for them |
