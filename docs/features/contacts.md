@@ -36,6 +36,7 @@ The detail view shows:
 
 - The contact's photo, which also appears when you print the contact on a sheet of its own
 - A **Duplicate** action that copies the contact
+- **Groups:** the groups the contact belongs to. Click a group to open it
 - **Contact activity:** recent mail exchanged with this person and their upcoming calendar events
 
 ## Address book directories
