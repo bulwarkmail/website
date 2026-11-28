@@ -83,7 +83,10 @@ In Mountain View, `x` selects the conversation instead.
 | `Ctrl/Cmd+Shift+Enter` | Schedule send        |
 | `Ctrl/Cmd+'`           | Next spelling or grammar issue (with a [proofreading](/docs/features/email/composing#proofreading) plugin) |
 | `Ctrl/Cmd+;`           | Previous spelling or grammar issue |
+| `Ctrl/Cmd+Shift+V`     | Paste as plain text, without formatting |
 | `Esc`                  | Close the composer   |
+
+On a Mac, `Cmd+Option+Shift+V` pastes as plain text too. With `Cmd+Shift+V`, Safari may first show a Paste button to allow it.
 
 Drafts save themselves two seconds after you stop typing, so there is no save-draft key to press.
 
