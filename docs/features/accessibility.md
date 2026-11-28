@@ -143,7 +143,7 @@ Mail comes from other people, and many messages are built with small text, fixed
 - **Plain text mail font**: the font for messages sent without formatting.
 - **Fit wide messages to the window**: shrinks messages that are wider than the reading pane instead of scrolling sideways.
 - **Pause animated images**: shows the first frame of animated GIFs with a button to play them.
-- **Reading width**: keeps lines in messages to about 80 characters.
+- **Reading width**: Comfortable shows the open message in a centred column that follows the reading pane, up to 882px wide. On a phone the message keeps the full width.
 - **Reading mask**: dims everything in a message except a few lines around the pointer, to help you keep your place.
 - **Read aloud** reads a message with your browser's speech and highlights the sentence it is reading, and the word too where the browser supports it. **Read aloud speed** sets how fast. The voices are the ones your browser and operating system provide.
 - **Reader view** opens a message full screen in your font, spacing, width and colours, with Read aloud built in.
