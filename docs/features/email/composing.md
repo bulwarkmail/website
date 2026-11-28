@@ -139,6 +139,8 @@ Proofreading is off until you turn it on under **Settings > Composing > Proofrea
 
 Next to "Request read receipt", the composer's Options menu has "Delivery notification", which asks the receiving server for a delivery status notification (DSN), and "Require encrypted delivery", which marks the message REQUIRETLS so it is never relayed over a connection without TLS. Both only show when the server supports them. Both ride on the JMAP submission; whether the far end honours them is up to that server.
 
+**Request delivery notifications by default**, under **Settings > Privacy > Read receipts**, turns on Delivery notification for every message you write, where your mail server offers it. You can still turn it off for one message in the composer's Options menu.
+
 ## Classification labels
 
 When your organisation uses [classification labels](/docs/guides/organisation/classification-labels), the subject line ends in a label chip; on a phone it sits under the subject. Click it to pick a label, or use the arrow keys and Enter. The Options menu lists the labels too. New messages start with the default label, and replies and forwards with the original's. If your organisation requires a label, **Send** asks for one and doesn't send until you pick it. A quick reply keeps the original's label; when there is none to keep and one is required, it opens the full composer.
