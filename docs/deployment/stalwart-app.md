@@ -99,6 +99,10 @@ Accounts whose directory is an external OpenID provider cannot use the password 
 
 Setting `oauthClientId` on the Application also offers SSO next to the password form for everyone. That sign-in goes through Stalwart's own login page and uses the same `.../oauth/callback` redirect URI.
 
+### Links that name the account
+
+Add `?login_hint=<address>` to any webmail link to prefill the address, for example `https://mail.example.com/webmail/?login_hint=jane@example.com`. An account whose domain signs in at an outside OpenID provider goes straight to that provider, except right after a sign-out.
+
 <div class="bw-note bw-note-warning"><b>Warning.</b> Serve Stalwart over HTTPS. On a plain <code>http://</code> address other than <code>localhost</code>, browsers withhold the Web Crypto API that the sign-in needs. The webmail then falls back to a password sign-in that lasts only as long as the tab: "Remember me" has no effect, and single sign-on does not work.</div>
 
 ## Updating
@@ -157,6 +161,16 @@ To change the app name, logos or any other [`config.json` key](/docs/deployment/
   `NEXT_PUBLIC_BASE_PATH` must stay unset for this target; the prefix comes from `urlPrefix` at runtime.
 
 Then set `resourceUrl` to your zip's URL and run "update applications". A private `http://` address works too, and so does a `file://` path the Stalwart process can read. With the Docker image that path is inside the container: put the zip on a mounted volume, because files copied into the container are lost when it is recreated. Stalwart refuses bundle downloads over 100 MB; the release zip with all 29 locales is about 19 MB, and `LITE_LOCALES` makes it smaller.
+
+## Inside a portal
+
+To show the webmail inside a portal on another site, have the reverse proxy in front of Stalwart send this header for the mount path:
+
+```text
+Content-Security-Policy: frame-ancestors 'self' https://portal.example.com
+```
+
+The browser checks every frame above the webmail against it, and the webmail starts only when that header is there. Without it, the webmail refuses to start inside another site's frame. Sign-in pages that forbid framing, such as Stalwart's own login page, still open only outside the frame.
 
 ## Security notes
 
