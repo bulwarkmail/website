@@ -56,6 +56,8 @@ With several shared mailboxes the sidebar gets long. Turn on **Compact shared ma
 
 Replies can go out from the group's address. Stalwart lists that address among each member's identities, so pick it in **From**, or turn on "Reply from the address it was sent to" in Settings > Composing. Since Bulwark 1.19.1 such a message is sent through the group's own identity, so the server also takes the envelope sender from the group and not from one of your own addresses. A draft written as the group is saved in the group's Drafts, and the sent copy goes to the group's Sent folder.
 
+Turn on **Suggest recipients from shared mailboxes** in Settings > Composing to get the group's correspondents as suggestions too. When you send from a shared mailbox's address, the recipient fields then also suggest the people that mailbox wrote to, read from each shared mailbox's Sent folder when you sign in. It is off by default.
+
 <img class="theme-light-only" src="/screenshots/light-shared-mailbox-reply.webp" alt="The composer replying to a message in the Support mailbox, sending from support@ in the From field" width="5120" height="2880" />
 <img class="theme-dark-only" src="/screenshots/dark-shared-mailbox-reply.webp" alt="The composer replying to a message in the Support mailbox, sending from support@ in the From field" width="5120" height="2880" />
 
@@ -76,6 +78,8 @@ With "Reply from the address it was sent to" turned on in Settings > Composing, 
 On a reply, the quoted original stays in an editable block that preserves its own layout, so you can trim or annotate it without the formatting collapsing.
 
 Before a message goes out, Bulwark checks the body for words like "attached" and warns you if nothing is attached. Turn on "Undo send / send delay" in Settings > Composing to hold each message for 10 to 60 seconds so you can take it back, or schedule a message for a specific time; both need a server with delayed sending. Read receipts (MDN, RFC 8098) can be requested here and are answered in the viewer. If the server supports them, the composer's Options menu can also request a delivery status notification (DSN) or mark the message REQUIRETLS, so the server refuses to hand it on over an unencrypted hop.
+
+On Stalwart, Bulwark offers send times up to 7 days ahead, Stalwart's default limit. If the server's limit is lower, the first send past it is refused with "This time is later than the server allows.", and the picker uses the real limit for the rest of the session.
 
 <div class="bw-note"><b>Note.</b> Stalwart 1.0 limits how many submission records, one per sent message, an account may keep: 500 by default. Bulwark {{BULWARK_VERSION}} and newer deletes the records of sent and cancelled messages, including those other clients left behind; a scheduled message keeps its record until it goes out. If an account still reaches the limit, an administrator can raise it with <b>Submissions</b> under <b>Settings &gt; Email &gt; Defaults</b>. Older Bulwark releases never delete their records and stop sending at the limit.</div>
 

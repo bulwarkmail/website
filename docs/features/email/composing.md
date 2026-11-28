@@ -165,6 +165,7 @@ Click a draft in the Drafts folder to resume it: content, recipients, attachment
 | `t`                    | Open template picker |
 | `Ctrl/Cmd+'`           | Next proofreading issue |
 | `Ctrl/Cmd+;`           | Previous proofreading issue |
+| `Ctrl/Cmd+Shift+V`     | Paste as plain text  |
 | `Escape`               | Close the composer (or the proofreading popup) |
 
 ## Next step
