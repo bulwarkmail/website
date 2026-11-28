@@ -547,6 +547,19 @@ Stalwart's own scopes (`urn:stalwart:oauth:scope:security`, `urn:stalwart:oauth:
 - **Required:** no.
 - **When to set it:** when a legitimate feed is larger than the built-in limit and the calendar shows the size error.
 
+### `ICAL_ALLOWED_LOCAL_ORIGINS`
+
+- **Purpose:** comma-separated list of exact origins (scheme, host and port) that calendar subscriptions may fetch even though they are on a private network. Each entry must start with `http://` or `https://` and has no path or wildcard. Entries that don't fit are ignored.
+- **Required:** no.
+- **Default:** empty (only public addresses are fetched).
+- **When to set it:** when users subscribe to calendars on an internal server, such as a NAS or an intranet calendar:
+
+  ```env
+  ICAL_ALLOWED_LOCAL_ORIGINS=http://192.168.1.20:8080,https://calendar.internal
+  ```
+
+  Every signed-in user can subscribe to a listed origin, and only answers that are calendars come back from it. For a hostname entry, Bulwark trusts whatever its DNS returns, so list only names whose DNS you control. `localhost` and `127.0.0.1` mean the Bulwark server or container itself.
+
 ## Outbound proxy
 
 ### `NODE_USE_ENV_PROXY`
