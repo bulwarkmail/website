@@ -194,7 +194,7 @@ Related pages: [Organisation settings](/docs/guides/organisation), [Roll Bulwark
 - **Announcement**: one message across the top of every app, per language, with a start and an end; users can close it unless the admin says otherwise ([announcements](/docs/guides/organisation/announcements))
 - **Out-of-office templates**: reply texts users fill in with their dates and a deputy ([out-of-office](/docs/guides/organisation/out-of-office#reply-templates))
 - **Retention notice**: a line in Trash and Junk that says how long the server keeps mail there ([announcements](/docs/guides/organisation/announcements#how-long-trash-and-junk-keep-mail))
-- **Device policies**: no downloads, no export, no printing, no install prompt, push without sender and subject, a watermark; weak protection, and the page says why ([device policies](/docs/guides/organisation/device-policies))
+- **Device policies**: no downloads, no export, no printing, no install prompt, no notification prompt, push without sender and subject, a watermark; weak protection, and the page says why ([device policies](/docs/guides/organisation/device-policies))
 
 ## Admin console
 

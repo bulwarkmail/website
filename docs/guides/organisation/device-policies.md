@@ -1,6 +1,6 @@
 ---
 title: Device policies
-description: Make copying mail out of Bulwark harder with no downloads, no export, no printing, no install prompt, push without sender and subject, and a watermark. Weak protection, and why.
+description: Make copying mail out of Bulwark harder with no downloads, no export, no printing, no install prompt, no notification prompt, push without sender and subject, and a watermark. Weak protection, and why.
 order: 19
 edition: both
 ---
@@ -26,6 +26,7 @@ To turn a switch on:
 | **No export** | No saving a message as `.eml`, no **View source**, no dragging messages out to the desktop, and no exporting a folder or the whole account (mbox, ZIP). An export that is running, or waiting to be downloaded, stops and its file is deleted when you switch this on. Importing mail stays. | The browser; in the office editor the server |
 | **No printing** | No Print buttons in mail, calendar and contacts. Ctrl+P and the browser's menu can't be stopped, so the page then prints only "Printing is turned off by your organisation." | The browser; in the office editor the server |
 | **No install prompt** | Bulwark doesn't offer to install itself as an app, and holds back the browser's own install banner. The browser's menu can still install Bulwark. | The browser |
+| **No notification prompt** | Bulwark doesn't offer to turn on browser notifications. People can still turn them on in Settings > Notifications, and push that is already on keeps working. | The browser |
 | **Push without sender and subject** | Browser notifications, on the desktop and from Bulwark installed on a phone's home screen, say only "New mail" or "3 unread messages". The Bulwark mobile app isn't covered yet: its notifications still show sender and subject. | The server |
 | **Watermark** | The user's address and the date, repeated faintly across the message, the conversation view, previews of attachments and files (pictures in the Files app too), and every printout: mail, calendar, contacts and plugin printouts. | The browser; in the office editor the server |
 
@@ -44,7 +45,7 @@ Everything else is checked in the browser only. Bulwark hides the buttons, and t
 
 Each message follows the policy of the account it belongs to. In a unified inbox with a restricted work account and an unrestricted second account, attachments of the work account's mail can't be downloaded and those of the other account can.
 
-What isn't about one message follows the strictest account signed in: the install prompt, Ctrl+P, the watermark on calendar and contacts printouts, and the Files app.
+What isn't about one message follows the strictest account signed in: the install prompt, Ctrl+P, the watermark on calendar and contacts printouts, and the Files app. The notification prompt follows the account it offers notifications for.
 
 ## Plugins
 
@@ -62,6 +63,7 @@ The switches are `organisation.devices`:
       "noExport": true,
       "noPrint": false,
       "noInstallPrompt": false,
+      "noNotificationPrompt": false,
       "pushWithoutContent": true,
       "watermark": false
     }
